@@ -1,0 +1,67 @@
+{
+  "ParentName": "root",
+  "Status": 0,
+  "Children": [
+    {
+      "ParentName": "activated-ability",
+      "Status": 0,
+      "Children": [
+        {
+          "ParentName": "cost-splitter",
+          "Status": 0,
+          "Children": [
+            {
+              "ParentName": "cost-selector",
+              "Status": 0,
+              "Children": [
+                {
+                  "ParentName": "pip-splitter",
+                  "Status": 0,
+                  "Children": [
+                    {
+                      "ParentName": "mana-pip",
+                      "Status": 0,
+                      "Children": []
+                    },
+                    {
+                      "ParentName": "mana-pip",
+                      "Status": 0,
+                      "Children": []
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "ParentName": "cost-selector",
+              "Status": 0,
+              "Children": [
+                {
+                  "ParentName": "pip-splitter",
+                  "Status": 1,
+                  "Children": [
+                    {
+                      "ParentName": "mana-pip",
+                      "Status": 1,
+                      "Children": []
+                    }
+                  ]
+                },
+                {
+                  "ParentName": "tap",
+                  "Status": 0,
+                  "Children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ParentName": "effect",
+          "Status": 0,
+          "Children": []
+        }
+      ]
+    }
+  ]
+}

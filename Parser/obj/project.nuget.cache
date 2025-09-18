@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "aZYD6/lWFjg=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\g-oichii\\code\\UMOnline\\Parser\\Parser.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\g-oichii\\.nuget\\packages\\keralua\\1.4.1\\keralua.1.4.1.nupkg.sha512",
+    "C:\\Users\\g-oichii\\.nuget\\packages\\nlua\\1.7.3\\nlua.1.7.3.nupkg.sha512",
+    "C:\\Users\\g-oichii\\.nuget\\packages\\yamldotnet\\15.3.0\\yamldotnet.15.3.0.nupkg.sha512"
+  ],
+  "logs": []
+}

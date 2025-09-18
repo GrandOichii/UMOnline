@@ -1,0 +1,3872 @@
+[
+    {
+        "name": "Feint",
+        "type": "versatile",
+        "power": "2",
+        "text": "Immediately: Cancel all effects on your opponent's card."
+    },
+    {
+        "name": "Regroup",
+        "type": "versatile",
+        "power": "1",
+        "text": "After combat: Draw 1 card. If you won the combat, draw 2 cards instead."
+    },
+    {
+        "name": "Skirmish",
+        "type": "versatile",
+        "power": "4",
+        "text": "After combat: If you won the combat, choose one of the fighters in the combat and move them up to 2 spaces."
+    },
+    {
+        "name": "Momentous Shift",
+        "type": "versatile",
+        "power": "3",
+        "text": "During combat: If your fighter started this turn in a different space, this card's value is 5 instead."
+    },
+    {
+        "name": "Wily Fighting",
+        "type": "versatile",
+        "power": "3",
+        "text": "After combat: Deal 1 damage to each opposing fighter adjacent to your fighter."
+    },
+    {
+        "name": "Commanding Impact",
+        "type": "attack",
+        "power": "5",
+        "text": "After combat: Draw 1 card."
+    },
+    {
+        "name": "Disengage",
+        "type": "attack",
+        "power": "4",
+        "text": "After combat: Choose an empty space in this fighter's zone. Place this fighter in that space."
+    },
+    {
+        "name": "Ambush",
+        "type": "attack",
+        "power": "2",
+        "text": "During combat: Your opponent discards 1 random card. Add its BOOST value to this card's attack value."
+    },
+    {
+        "name": "Swift Strike",
+        "type": "attack",
+        "power": "3",
+        "text": "After combat: Move your fighter up to 4 spaces."
+    },
+    {
+        "name": "Dash",
+        "type": "versatile",
+        "power": "3",
+        "text": "After combat: Move your fighter up to 3 spaces."
+    },
+    {
+        "name": "Leap Away",
+        "type": "versatile",
+        "power": "4",
+        "text": "After combat: If you won the combat, choose one of the fighters in the combat and move them up to 4 spaces."
+    },
+    {
+        "name": "Exploit",
+        "type": "versatile",
+        "power": "4",
+        "text": "After combat: Draw 1 card."
+    },
+    {
+        "name": "Do My Bidding",
+        "type": "defence",
+        "power": "3",
+        "text": "Immediately: Return your opponent's attack card to their hand. Look at their hand and choose an attack or versatile card for them to play. (It may be the same card.)"
+    },
+    {
+        "name": "Piercing Shot",
+        "type": "attack",
+        "power": "2",
+        "text": "After combat: Draw 2 cards."
+    },
+    {
+        "name": "Snark",
+        "type": "versatile",
+        "power": "3",
+        "text": "After combat: If your fighter is adjacent to the opposing fighter, draw 1 card."
+    },
+    {
+        "name": "Rending Shot",
+        "type": "attack",
+        "power": "3",
+        "text": "After combat: Move the opposing fighter up to 3 spaces."
+    },
+    {
+        "name": "For My Next Trick",
+        "type": "attack",
+        "power": "2",
+        "text": "After combat: Move one of your fighters up to 1 space. Draw 1 card. Gain 1 action."
+    },
+    {
+        "name": "Evade",
+        "type": "defence",
+        "power": "3",
+        "text": "After combat: Draw 1 card."
+    },
+    {
+        "name": "Terrifying Roar",
+        "type": "versatile",
+        "power": "3",
+        "text": "Immediately: Fighters cannot leave their spaces for the rest of the turn."
+    },
+    {
+        "name": "Closer Than She Appears",
+        "type": "scheme",
+        "power": "",
+        "text": "Move your fighter up to 1 space. Draw 1 card. Gain 1 action."
+    },
+    {
+        "name": "Paralyzing Fetters",
+        "type": "defence",
+        "power": "2",
+        "text": "Immediately: The value of your opponent's card is equal to its printed value and cannot be changed."
+    },
+    {
+        "name": "Gaze of Stone",
+        "type": "attack",
+        "power": "2",
+        "text": "After combat: If you won the combat, deal 8 damage to the opposing fighter."
+    },
+    {
+        "name": "A Momentary Glance",
+        "type": "scheme",
+        "power": "",
+        "text": "Deal 2 damage to any one fighter in Medusa's zone."
+    },
+    {
+        "name": "Disarming Shot",
+        "type": "attack",
+        "power": "4",
+        "text": "After combat: Draw a number of cards equal to the amount of damage dealt to the opposing fighter."
+    },
+    {
+        "name": "Bewilderment",
+        "type": "defence",
+        "power": "0",
+        "text": "During combat: Prevent all damage After combat: You may place your fighter in any space."
+    },
+    {
+        "name": "Covert Preparation",
+        "type": "versatile",
+        "power": "2",
+        "text": "After combat: Draw 1 card. Move 1 fog token up to 2 spaces, then your opponent moves a different fog token up to 2 spaces."
+    },
+    {
+        "name": "Confound",
+        "type": "versatile",
+        "power": "3",
+        "text": "After combat: Your opponent may choose to discard 1 card. If they do not, you may move each fog token to any other space."
+    },
+    {
+        "name": "Impossible to See",
+        "type": "versatile",
+        "power": "2",
+        "text": "Immediately: The value of your opponent's attack or defense is 0 and cannot be changed by card effects. (Other card effects still happen.)"
+    },
+    {
+        "name": "Surprise Attack",
+        "type": "attack",
+        "power": "5",
+        "text": "Immediately: Cancel all effects on your opponent's card. After combat: If Invisible Man is on a space with a fog token, move that fog token to another space."
+    },
+    {
+        "name": "Slip Away",
+        "type": "attack",
+        "power": "3",
+        "text": "After combat: Move 1 fog token to a space without a fighter, then place Invisible Man on that space."
+    },
+    {
+        "name": "Emerge From Mist",
+        "type": "attack",
+        "power": "3",
+        "text": "During combat: If Invisible Man started this turn on a space with a fog token, this card's value is 5 instead."
+    },
+    {
+        "name": "Lurking",
+        "type": "defence",
+        "power": "2",
+        "text": "After combat: Draw 1 card and choose 1 effect: \n- move Invisible Man to a space with a fog token\n- move 1 fog token up to 3 spaces"
+    },
+    {
+        "name": "Into Thin Air",
+        "type": "defence",
+        "power": "4",
+        "text": "After combat: Move Invisible Man up to 1 space. Your opponent then moves a fog token up to 3 spaces."
+    },
+    {
+        "name": "Coded Notes",
+        "type": "defence",
+        "power": "3",
+        "text": "After combat: Draw 3 cards, then choose 2 cards from your hand and put them on top of your deck in any order."
+    },
+    {
+        "name": "Vanish",
+        "type": "scheme",
+        "power": "",
+        "text": "Recover 1 health. Remove Invisible Man from the board. At the start of your next turn, place Invisible Man in any space. (If you played this as your first action, end your turn.)"
+    },
+    {
+        "name": "Rolling Fog",
+        "type": "scheme",
+        "power": "",
+        "text": "Move 1 fog token to another space. Gain 1 action."
+    },
+    {
+        "name": "Looking Glass",
+        "type": "defence",
+        "power": "2",
+        "text": "After combat: Choose 2 different effects:\n- draw 2 cards\n- Alice recovers 3 health\n- place Alice in any other space"
+    },
+    {
+        "name": "Snicker-Snack",
+        "type": "attack",
+        "power": "3",
+        "text": "After combat: If you won the combat, look at your opponent's hand and choose 1 card for them to discard."
+    },
+    {
+        "name": "O Frabjous Day!",
+        "type": "attack",
+        "power": "4",
+        "text": "After combat: Change size."
+    },
+    {
+        "name": "The Other Side of the Mushroom",
+        "type": "attack",
+        "power": "3",
+        "text": "After combat: Move Alice up to 3 spaces. Change size."
+    },
+    {
+        "name": "Eat Me",
+        "type": "scheme",
+        "power": "",
+        "text": "Move Alice up to 3 spaces. Change size."
+    },
+    {
+        "name": "I'm Late, I'm Late",
+        "type": "versatile",
+        "power": "2",
+        "text": "After combat: Move Alice up to 5 spaces. Change size."
+    },
+    {
+        "name": "Drink Me",
+        "type": "scheme",
+        "power": "",
+        "text": "Draw 2 cards. Change size."
+    },
+    {
+        "name": "Mad as a Hatter",
+        "type": "versatile",
+        "power": "3",
+        "text": "After combat: Move each of your fighters up to 2 spaces. Change size."
+    },
+    {
+        "name": "Manxome Foe",
+        "type": "versatile",
+        "power": "3",
+        "text": "During combat: Discard the top card of your deck. Add its BOOST value to this card's value."
+    },
+    {
+        "name": "Larger Than Life",
+        "type": "attack",
+        "power": "6",
+        "text": ""
+    },
+    {
+        "name": "Crash Through the Trees",
+        "type": "scheme",
+        "power": "",
+        "text": "Move Bigfoot up to 5 spaces. You may move Bigfoot through spaces containing opposing fighters."
+    },
+    {
+        "name": "It's Just Your Imagination",
+        "type": "defence",
+        "power": "3",
+        "text": "Immediately: Cancel all effects on your opponent's card."
+    },
+    {
+        "name": "Perfect Balance",
+        "type": "versatile",
+        "power": "4",
+        "text": "During combat: If Cloak and Dagger are both adjacent to the opposing fighter, the value of this card is 6 instead."
+    },
+    {
+        "name": "Feeding Frenzy",
+        "type": "attack",
+        "power": "2",
+        "text": "During combat: This card's value is +1 for each Sister in the same zone as the opposing fighter."
+    },
+    {
+        "name": "Beastform",
+        "type": "attack",
+        "power": "6",
+        "text": "During combat: You may discard any number of cards from your hand. This card's value is +1 for each card you discard."
+    },
+    {
+        "name": "Look Into My Eyes",
+        "type": "defence",
+        "power": "1",
+        "text": "During combat: Add the BOOST value from your opponent's attack card to the defense value of this card."
+    },
+    {
+        "name": "Mistform",
+        "type": "scheme",
+        "power": "",
+        "text": "Place Dracula in any space.\nGain 1 action."
+    },
+    {
+        "name": "Baptism of Blood",
+        "type": "scheme",
+        "power": "",
+        "text": "Recover 2 health. Return a defeated Sister (if any) to any space in Dracula's zone."
+    },
+    {
+        "name": "Thirst for Sustenance",
+        "type": "attack",
+        "power": "3",
+        "text": "After combat: If you won the combat, place Dracula in any space adjacent to the opposing fighter."
+    },
+    {
+        "name": "Little Dragon",
+        "type": "versatile",
+        "power": "2",
+        "text": "During combat: If your hand is empty, the value of this card is 6 instead. After combat: Draw 2 cards."
+    },
+    {
+        "name": "Taste of Blood",
+        "type": "defence",
+        "power": "3",
+        "text": "After combat: If Bruce Lee has 5 or less health, draw 3 cards."
+    },
+    {
+        "name": "Be Like Water",
+        "type": "defence",
+        "power": "3",
+        "text": "After combat: Choose a JEET KUNE DO card in your discard pile and add it to your hand."
+    },
+    {
+        "name": "Eat Me",
+        "type": "defence",
+        "power": "2",
+        "text": "Tee-hee! Immediately: Say \"eat me\" to your opponent. During combat: Say \"eat me\" to your opponent. After combat: If you lost combat, say \"eat me\" to your opponent."
+    },
+    {
+        "name": "Jeet Kune Do: High Straight Lead",
+        "type": "attack",
+        "power": "3",
+        "text": "During combat: If either fighter started this turn in a different space, this card's value is 5 instead. After combat: Gain 1 action."
+    },
+    {
+        "name": "Jeet Kune Do: Downward Side Kick",
+        "type": "attack",
+        "power": "3",
+        "text": "After combat: Your opponent discards 1 random card. Gain 1 action."
+    },
+    {
+        "name": "Jeet Kune Do: Wrist Lock",
+        "type": "attack",
+        "power": "3",
+        "text": "After combat: Draw 1 card. Gain 1 action."
+    },
+    {
+        "name": "Jeet Kune Do: Intercepting Fist",
+        "type": "attack",
+        "power": "3",
+        "text": "Immediately: Cancel all effects on your opponent's card. After combat: Gain 1 action."
+    },
+    {
+        "name": "Jeet Kune Do: Short Lead Hook",
+        "type": "attack",
+        "power": "3",
+        "text": "After combat: Bruce Lee may swap spaces with the opposing fighter. Gain 1 action."
+    },
+    {
+        "name": "Bring It On",
+        "type": "scheme",
+        "power": "",
+        "text": "Choose an opposing fighter in Bruce Lee's zone. Place them in any space adjacent to Bruce Lee. Gain 1 action."
+    },
+    {
+        "name": "Nunchaku",
+        "type": "scheme",
+        "power": "",
+        "text": "All of Bruce Lee's attacks this turn are +1 value. Gain 1 action."
+    },
+    {
+        "name": "Duality of Man",
+        "type": "versatile",
+        "power": "3",
+        "text": "During combat: If you are Dr. Jekyll and playing this card to defend, this card's value is 6 instead. If you are Mr. Hyde and playing this card to attack, this card's value is 6 instead."
+    },
+    {
+        "name": "Distracted Triage",
+        "type": "versatile",
+        "power": "3",
+        "text": "After combat: If you won the combat, recover 2 health."
+    },
+    {
+        "name": "Succumb to Compulsion",
+        "type": "versatile",
+        "power": "2",
+        "text": "After combat: Move up to 2 spaces. Transform to Mr. Hyde."
+    },
+    {
+        "name": "Madness Relents",
+        "type": "versatile",
+        "power": "4",
+        "text": "After combat: Transform to Dr. Jekyll."
+    },
+    {
+        "name": "Recoiling Blow",
+        "type": "attack",
+        "power": "5",
+        "text": "After combat: Place Mr. Hyde in any space in his zone. \nTransform to Dr. Jekyll."
+    },
+    {
+        "name": "Forever Hyde",
+        "type": "attack",
+        "power": "5",
+        "text": "During combat: You may discard Dr. Jekyll cards. Add 2 to this card's value for each card discarded."
+    },
+    {
+        "name": "With Haste!",
+        "type": "defence",
+        "power": "4",
+        "text": "After combat: Move Dr. Jekyll up to 4 spaces."
+    },
+    {
+        "name": "Calming Research",
+        "type": "scheme",
+        "power": "",
+        "text": "Recover 2 health. Draw up to 3 cards. Keep one and put any others on the bottom of your deck in any order."
+    },
+    {
+        "name": "Noble Sacrifice",
+        "type": "attack",
+        "power": "2",
+        "text": "During combat: You may BOOST this attack. (This is in addition to any boost from King Arthur's special ability.)"
+    },
+    {
+        "name": "Excalibur",
+        "type": "attack",
+        "power": "6",
+        "text": ""
+    },
+    {
+        "name": "The Aid of Morgana",
+        "type": "attack",
+        "power": "4",
+        "text": "After combat: Draw 2 cards."
+    },
+    {
+        "name": "Divine Intervention",
+        "type": "versatile",
+        "power": "3",
+        "text": "After combat: Move King Arthur up to 5 spaces."
+    },
+    {
+        "name": "The Holy Grail",
+        "type": "defence",
+        "power": "1",
+        "text": "After combat: If King Arthur has 4 or less health but is not defeated, set his health to 8."
+    },
+    {
+        "name": "The Lady of the Lake",
+        "type": "scheme",
+        "power": "",
+        "text": "Search your deck and discard pile for the EXCALIBUR card. Add it to your hand. If you searched your deck, shuffle it."
+    },
+    {
+        "name": "Prophecy",
+        "type": "scheme",
+        "power": "",
+        "text": "Look at the top 4 cards of your deck. Add 2 of them to your hand and put the other 2 back on top of your deck, in any order."
+    },
+    {
+        "name": "I'm Not Real",
+        "type": "attack",
+        "power": "4",
+        "text": "After combat: You may change to your next identity."
+    },
+    {
+        "name": "Hiss and Slither",
+        "type": "defence",
+        "power": "4",
+        "text": "After combat: Your opponent discards 1 card."
+    },
+    {
+        "name": "Aid the Chosen One",
+        "type": "attack",
+        "power": "4",
+        "text": "After combat: If you won the combat, draw 2 cards."
+    },
+    {
+        "name": "Command the Storms",
+        "type": "scheme",
+        "power": "",
+        "text": "Move each fighter up to 3 spaces. (This includes opposing fighters.)"
+    },
+    {
+        "name": "\"HOO! WHAAAAAA!\"",
+        "type": "scheme",
+        "power": "",
+        "text": "Choose a JEET KUNE DO card in your discard pile and add it to your hand. Gain 1 action."
+    },
+    {
+        "name": "Hoax",
+        "type": "versatile",
+        "power": "4",
+        "text": "After combat: Move your fighter up to 5 spaces. You may move that fighter through spaces containing opposing fighters."
+    },
+    {
+        "name": "That's Why I Always Win",
+        "type": "attack",
+        "power": "3",
+        "text": "During combat: You may BOOST this attack."
+    },
+    {
+        "name": "Knowledge of the Craft",
+        "type": "versatile",
+        "power": "4",
+        "text": "After combat: If you won the combat, choose a card in your discard pile and add it to your hand."
+    },
+    {
+        "name": "Resurrect",
+        "type": "scheme",
+        "power": "",
+        "text": "Choose a friendly fighter who has been defeated. Place that fighter in any space in Willow's zone and set their health to 3."
+    },
+    {
+        "name": "Wisdom of Ages",
+        "type": "attack",
+        "power": "3",
+        "text": "After combat: Draw 1 card."
+    },
+    {
+        "name": "Five by Five",
+        "type": "attack",
+        "power": "5",
+        "text": "After combat: Move Faith up to 5 spaces. She may move through opposing fighters."
+    },
+    {
+        "name": "Cursed with a Soul",
+        "type": "attack",
+        "power": "4",
+        "text": "After combat: If you lost the combat, recover 1 health."
+    },
+    {
+        "name": "Haunted by the Faces",
+        "type": "defence",
+        "power": "3",
+        "text": "After combat: If you lost the combat, you may place Angel in any space in his zone."
+    },
+    {
+        "name": "Angelus, Scourge of Europe",
+        "type": "attack",
+        "power": "5",
+        "text": ""
+    },
+    {
+        "name": "Insight",
+        "type": "scheme",
+        "power": "",
+        "text": "Choose an opponent and look at their hand. Choose 1 card in their hand for them to discard."
+    },
+    {
+        "name": "The Rush",
+        "type": "attack",
+        "power": "3",
+        "text": "During combat: If Spike or the opposing fighter is in a space with a shadow token, the value of this card is 5 instead."
+    },
+    {
+        "name": "The Sight",
+        "type": "scheme",
+        "power": "",
+        "text": "Choose an opponent and look at their hand. Choose a card for them to discard. If any of their fighters are in a space with a shadow token, choose 2 cards for them to discard instead."
+    },
+    {
+        "name": "Let's Dance",
+        "type": "versatile",
+        "power": "4",
+        "text": "During combat: If Spike or the opposing fighter is in a space with a shadow token,  you may BOOST this card."
+    },
+    {
+        "name": "Training",
+        "type": "scheme",
+        "power": "",
+        "text": "Draw 3 cards."
+    },
+    {
+        "name": "Revoke",
+        "type": "versatile",
+        "power": "3",
+        "text": "Immediately: Cancel any abilities on your opponent's card."
+    },
+    {
+        "name": "Rapid Recovery",
+        "type": "versatile",
+        "power": "3",
+        "text": "After combat: Buffy recovers 1 health."
+    },
+    {
+        "name": "Mr. Pointy",
+        "type": "attack",
+        "power": "5",
+        "text": ""
+    },
+    {
+        "name": "Flayed Alive",
+        "type": "attack",
+        "power": "4",
+        "text": "During combat: (DARK) BLIND BOOST this attack."
+    },
+    {
+        "name": "Black Magic",
+        "type": "versatile",
+        "power": "3",
+        "text": "During combat: (DARK) BLIND BOOST this card."
+    },
+    {
+        "name": "Meditation",
+        "type": "defence",
+        "power": "5",
+        "text": "After combat: (DARK) Become Willow."
+    },
+    {
+        "name": "The Hounds of Mighty Zeus",
+        "type": "versatile",
+        "power": "4",
+        "text": "After combat: Move each Harpy up to 3 spaces."
+    },
+    {
+        "name": "Clutching Claws",
+        "type": "versatile",
+        "power": "3",
+        "text": "After combat: Your opponent discards 1 card."
+    },
+    {
+        "name": "Winged Frenzy",
+        "type": "scheme",
+        "power": "",
+        "text": "Move each of your fighters up to 3 spaces. You may move them through spaces containing opposing fighters. Then, return a defeated Harpy (if any) to any space in Medusa's zone."
+    },
+    {
+        "name": "Coordinated Attack Pattern",
+        "type": "scheme",
+        "power": "",
+        "text": "Choose one of your Raptors. You may place each of your other Raptors in any space in the chosen Raptor's zone."
+    },
+    {
+        "name": "Snipe",
+        "type": "versatile",
+        "power": "3",
+        "text": "After combat: Draw 1 card."
+    },
+    {
+        "name": "Working Things Out",
+        "type": "scheme",
+        "power": "",
+        "text": "Move each of your Raptors up to 3 spaces. You may move them through spaces containing opposing fighters. Gain 1 action."
+    },
+    {
+        "name": "They Remember",
+        "type": "attack",
+        "power": "2",
+        "text": "After combat: Gain 1 action."
+    },
+    {
+        "name": "A Hunter's Eye",
+        "type": "attack",
+        "power": "5",
+        "text": ""
+    },
+    {
+        "name": "Steal From the Rich",
+        "type": "scheme",
+        "power": "",
+        "text": "Draw 1 card, then choose an opponent. They may choose to discard 1 card. If they do not, draw 1 more card."
+    },
+    {
+        "name": "Defenders of Sherwood",
+        "type": "defence",
+        "power": "3",
+        "text": "After combat: Draw 1 card. Return a defeated Outlaw (if any) to any space in Robin Hood's zone."
+    },
+    {
+        "name": "Highway Robbery",
+        "type": "attack",
+        "power": "2",
+        "text": "Immediately: Cancel all effects on your opponent's card and ignore its defense value."
+    },
+    {
+        "name": "Clever Girl",
+        "type": "attack",
+        "power": "3",
+        "text": "After combat: If one or more of your Raptors is adjacent to the opposing fighter, gain 1 action."
+    },
+    {
+        "name": "Decoy",
+        "type": "defence",
+        "power": "3",
+        "text": "Immediately: Choose one of your other undefeated Raptors. You may place her adjacent to the opposing fighter."
+    },
+    {
+        "name": "Right-hand Man",
+        "type": "versatile",
+        "power": "2",
+        "text": "During combat: if Xander is adjacent to Buffy, the value of this card is 6 instead."
+    },
+    {
+        "name": "Military Knowledge",
+        "type": "attack",
+        "power": "4",
+        "text": "After combat: Draw 1 card."
+    },
+    {
+        "name": "Seek the Shadows",
+        "type": "scheme",
+        "power": "",
+        "text": "Draw 2 cards.\nPlace a shadow token in Spike's space and each space adjacent to it."
+    },
+    {
+        "name": "Empathy",
+        "type": "versatile",
+        "power": "3",
+        "text": "After combat: Draw 1 card. If the opposing fighter is in a space with a shadow token, draw 3 cards instead."
+    },
+    {
+        "name": "Always Surprising",
+        "type": "versatile",
+        "power": "1",
+        "text": "During combat: BLIND BOOST this card. If Drusilla's space has a shadow token, double the BOOST value."
+    },
+    {
+        "name": "Arrogance",
+        "type": "attack",
+        "power": "4",
+        "text": "During combat: You may discard your hand (even if your hand is empty). If you do, the value of this card is 6 instead."
+    },
+    {
+        "name": "When Good Magic Fails",
+        "type": "attack",
+        "power": "4",
+        "text": "After combat: (DARK) Move Willow to any space in her zone. Discard the top card of your deck."
+    },
+    {
+        "name": "Eviscerate",
+        "type": "attack",
+        "power": "5",
+        "text": ""
+    },
+    {
+        "name": "Education Never Ends",
+        "type": "versatile",
+        "power": "3",
+        "text": "After combat: If you won the combat, your opponent draws 1 card. If you lost the combat, you draw 2 cards."
+    },
+    {
+        "name": "Study Methods",
+        "type": "versatile",
+        "power": "3",
+        "text": "After combat: If you won the combat, look at your opponent's hand."
+    },
+    {
+        "name": "Deduce Strategy",
+        "type": "versatile",
+        "power": "3",
+        "text": "During combat: You may change the printed value of the opponent's card to its BOOST value. (If a card does not have a BOOST value, it is treated as 0.)"
+    },
+    {
+        "name": "Fixed Point in a Changing Age",
+        "type": "versatile",
+        "power": "3",
+        "text": "After combat: If Dr. Watson is adjacent to Holmes, they each recover 1 health."
+    },
+    {
+        "name": "The Game is Afoot",
+        "type": "attack",
+        "power": "5",
+        "text": "After combat: Move Holmes up to 3 spaces."
+    },
+    {
+        "name": "Service Revolver",
+        "type": "attack",
+        "power": "5",
+        "text": ""
+    },
+    {
+        "name": "Elementary",
+        "type": "defence",
+        "power": "3",
+        "text": "Play this card face up. Predict the printed attack value of the opponent's card. During combat: If you predicted the correct value, cancel all effects on your opponent's card and ignore its attack value."
+    },
+    {
+        "name": "Eliminate the Impossible",
+        "type": "scheme",
+        "power": "",
+        "text": "Choose an opponent. Look at their hand and choose 1 card for them to discard."
+    },
+    {
+        "name": "Administer Aid",
+        "type": "scheme",
+        "power": "",
+        "text": "Place Dr. Watson in a space adjacent to Holmes. Holmes recovers 1 health. Draw 1 card."
+    },
+    {
+        "name": "Toil and Danger",
+        "type": "versatile",
+        "power": "3",
+        "text": "After combat: Move Sinbad up to 3 spaces."
+    },
+    {
+        "name": "Voyage Home",
+        "type": "attack",
+        "power": "2",
+        "text": "During combat: This card's value is +1 for each other VOYAGE card in your discard pile. After combat: Take all other VOYAGE cards from your discard pile and add them to your hand."
+    },
+    {
+        "name": "Riches Beyond Compare",
+        "type": "scheme",
+        "power": "",
+        "text": "Draw 3 cards."
+    },
+    {
+        "name": "By Fortune and Fate",
+        "type": "attack",
+        "power": "3",
+        "text": "After combat: Draw 2 cards."
+    },
+    {
+        "name": "Voyage to the Island That Was a Whale",
+        "type": "attack",
+        "power": "2",
+        "text": "During combat: This card's value is +1 for each other VOYAGE card in your discard pile. After combat: Sinbad recovers 2 health."
+    },
+    {
+        "name": "Voyage to the Valley of the Giant Snakes",
+        "type": "attack",
+        "power": "2",
+        "text": "During combat: This card's value is +1 for each other VOYAGE card in your discard pile. After combat: Look at your opponent's hand."
+    },
+    {
+        "name": "Voyage to the Creature With Eyes Like Coals of Fire",
+        "type": "attack",
+        "power": "2",
+        "text": "During combat: This card's value is +1 for each other VOYAGE card in your discard pile. After combat: Your opponent discards 1 random card."
+    },
+    {
+        "name": "Voyage to the Cannibals With the Root of Madness",
+        "type": "attack",
+        "power": "2",
+        "text": "During combat: This card's value is +1 for each other VOYAGE card in your discard pile. After combat: You may move Sinbad up to 2 spaces."
+    },
+    {
+        "name": "Voyage to the City of the King of Serendib",
+        "type": "attack",
+        "power": "2",
+        "text": "During combat: This card's value is +1 for each other VOYAGE card in your discard pile. After combat: Draw 1 card."
+    },
+    {
+        "name": "Second Shot",
+        "type": "attack",
+        "power": "3",
+        "text": "During combat: You may BOOST this attack."
+    },
+    {
+        "name": "Call for Backup",
+        "type": "scheme",
+        "power": "",
+        "text": "Choose 2 different effects:\n- place up to 3 traps\n- place all of your defeated InGen Workers (if any) in Muldoon's zone\n- draw 2 cards"
+    },
+    {
+        "name": "Second Shot",
+        "type": "attack",
+        "power": "2",
+        "text": "During combat: You may BOOST this attack."
+    },
+    {
+        "name": "Shoot Her!",
+        "type": "attack",
+        "power": "3",
+        "text": "During combat: If this is your first action this turn, this card's value is 5 instead."
+    },
+    {
+        "name": "Tactical Advance",
+        "type": "versatile",
+        "power": "3",
+        "text": "After combat: Move each of your InGen Workers up to 2 spaces."
+    },
+    {
+        "name": "I've Hunted Most Things That Can Hunt You",
+        "type": "defence",
+        "power": "4",
+        "text": "After combat: Move each of your fighters up to 5 spaces. You may move them through spaces containing opposing fighters."
+    },
+    {
+        "name": "They Should All Be Destroyed",
+        "type": "attack",
+        "power": "4",
+        "text": "During combat: +1 to this attack for each trap token adjacent to the opposing fighter."
+    },
+    {
+        "name": "Chimichanga Break!",
+        "type": "versatile",
+        "power": "2",
+        "text": "During combat: If there is food on the table, the value of this card is 5 instead."
+    },
+    {
+        "name": "One With The Land",
+        "type": "scheme",
+        "power": "",
+        "text": "Move each of your fighters up to 2 spaces. Each of your fighters recovers 1 health. Draw 1 card."
+    },
+    {
+        "name": "Gimme Gimme Chimichanga",
+        "type": "versatile",
+        "power": "3",
+        "text": "After combat: Draw a card. Recover 1 health."
+    },
+    {
+        "name": "Dumpster Divin' Deadpool",
+        "type": "scheme",
+        "power": "",
+        "text": "Shuffle 5 cards from your discard pile into your deck. Recover 1 health."
+    },
+    {
+        "name": "Non-Retinal Scan Access to Danger Room",
+        "type": "versatile",
+        "power": "3",
+        "text": "After combat: Look at your opponent's hand. Recover 1 health."
+    },
+    {
+        "name": "Time out time out time out!",
+        "type": "versatile",
+        "power": "0",
+        "text": "Immediately: Call time out. Look through your deck and pick a card you could play. Discard this card and play that one instead."
+    },
+    {
+        "name": "Counterpunch",
+        "type": "versatile",
+        "power": "3",
+        "text": "After combat: If Holmes is adjacent to the opposing fighter, deal 2 damage to that fighter."
+    },
+    {
+        "name": "The Ancient Heirloom",
+        "type": "attack",
+        "power": "3",
+        "text": "This card's effects cannot be canceled. During combat: You may spend 2 Rage to make this card's value 5 instead. You may spend 1 Rage to BOOST this card. (You may do both.)"
+    },
+    {
+        "name": "What Large Hands You Have $WOLF$",
+        "type": "attack",
+        "power": "2",
+        "text": "After combat: You may return this card to your hand.\n$ROSE$ Instead, you may return the top card of your discard pile to your hand."
+    },
+    {
+        "name": "Hacker",
+        "type": "versatile",
+        "power": "2",
+        "text": "After combat: Look at the top card of your deck, then choose to put it on the top of your deck or the bottom of your deck."
+    },
+    {
+        "name": "Excuse me while I grow some limbs.",
+        "type": "attack",
+        "power": "3",
+        "text": "After combat: Your opponent discards a card. If you won the combat, they discard two instead."
+    },
+    {
+        "name": "Super Feint",
+        "type": "versatile",
+        "power": "4",
+        "text": "This card can't be canceled! Immediately: Cancel all effects on your opponent's card. After combat: Draw 1 card."
+    },
+    {
+        "name": "Holy Mackerel!",
+        "type": "scheme",
+        "power": "",
+        "text": "Guess the name of a card in your opponent's hand. Your opponent must discard all cards with that name. Otherwise they say \"go fish\" and you draw a card."
+    },
+    {
+        "name": "Faint",
+        "type": "scheme",
+        "power": "",
+        "text": "Tip your figure over. Make a fainting noise. Recover 2 health. Reset your figure."
+    },
+    {
+        "name": "Hot for the Battle",
+        "type": "attack",
+        "power": "3",
+        "text": "After combat: Wiglaf may swap spaces with Beowulf."
+    },
+    {
+        "name": "I'm Not Wearing Pants",
+        "type": "versatile",
+        "power": "2",
+        "text": "During combat: If this card isn't sleeved, its value is 5. After combat: If you're not wearing any pants, go put some on."
+    },
+    {
+        "name": "Sweeet!",
+        "type": "scheme",
+        "power": "",
+        "text": "Move to a space in a yellow-ish zone. Then move to a different space in a yellow-ish zone."
+    },
+    {
+        "name": "Wanna bet?",
+        "type": "attack",
+        "power": "2",
+        "text": "After combat: If you won the game your opponent buys you a drink. If you lost the game, you buy them a drink."
+    },
+    {
+        "name": "Call Me",
+        "type": "versatile",
+        "power": "3",
+        "text": "During combat: If your opponent's name is on this card, its value is 4. After combat: Your opponent writes their name on this card if it's not there already."
+    },
+    {
+        "name": "Surprise Volley",
+        "type": "attack",
+        "power": "3",
+        "text": "Immediately: You may return a defeated Archer to a space in the opposing fighter's zone. If you do, that Archer is now the attacker. If not, gain 1 action."
+    },
+    {
+        "name": "Brutal Strike",
+        "type": "attack",
+        "power": "2",
+        "text": "This card's effects cannot be canceled. During combat: If your opponent's card has an IMMEDIATELY effect, ignore their card's value."
+    },
+    {
+        "name": "We're All In This Together",
+        "type": "defence",
+        "power": "3",
+        "text": "After combat: If you won the combat, draw 1 card."
+    },
+    {
+        "name": "Underrated Super Heroes",
+        "type": "attack",
+        "power": "6",
+        "text": ""
+    },
+    {
+        "name": "Backhand",
+        "type": "attack",
+        "power": "4",
+        "text": "After combat: Your opponent puts 1 random card from their hand on top of their deck. If Eredin is ENRAGED, they discard it instead."
+    },
+    {
+        "name": "What Big Ears You Have $WOLF$",
+        "type": "attack",
+        "power": "4",
+        "text": "$SWORDS$ You may play this card as a defense card."
+    },
+    {
+        "name": "What Big Eyes You Have $WOLF$",
+        "type": "versatile",
+        "power": "3",
+        "text": "Immediately: Cancel all effects on your opponent's card. \n$ROSE$ Also ignore the value of your opponent's card."
+    },
+    {
+        "name": "Foul Purpose",
+        "type": "attack",
+        "power": "3",
+        "text": "If Eredin is ENRAGED, you may play this card face-up to target a fighter in any space. After combat: You may defeat a Red Rider to return this card to your hand."
+    },
+    {
+        "name": "The Wolf's Skin $SWORDS$",
+        "type": "defence",
+        "power": "2",
+        "text": "After combat: $WOLF$ Draw 2 cards."
+    },
+    {
+        "name": "Long Have I Sought You $SWORDS$",
+        "type": "attack",
+        "power": "4",
+        "text": "During combat: If the Huntsman is adjacent to the opposing fighter, the value of this card is 6 instead."
+    },
+    {
+        "name": "A Grimm Tale $ROSE$",
+        "type": "scheme",
+        "power": "",
+        "text": "Little Red Recovers 2 health.\n$WOLF$ Little Red recovers 4 health instead."
+    },
+    {
+        "name": "Stones in the Belly $ROSE$",
+        "type": "versatile",
+        "power": "2",
+        "text": "During combat: $SWORDS$ Your opponent discards 1 random card. Add its BOOST value to this card's value."
+    },
+    {
+        "name": "Unyielding Hordes",
+        "type": "attack",
+        "power": "1",
+        "text": "Immediately: Return a defeated Red Rider to any space. During combat: Add +1 to this card's value for each other friendly fighter adjacent to the opposing fighter."
+    },
+    {
+        "name": "Into the Woods $WOLF$$ROSE$$SWORDS$",
+        "type": "scheme",
+        "power": "",
+        "text": "Move Little Red up to 3 spaces. Gain 1 action."
+    },
+    {
+        "name": "Bite of Steel",
+        "type": "attack",
+        "power": "2",
+        "text": "During combat: If there are four or more squirrels in the opposing fighter's zone, the value of this card is 5 instead."
+    },
+    {
+        "name": "Epic Poem",
+        "type": "attack",
+        "power": "2",
+        "text": "Immediately: Gain 1 Rage. During combat: This card's value is +1 for each Rage you have. (You do not spend Rage for this effect.)"
+    },
+    {
+        "name": "No Contest Expecteth",
+        "type": "attack",
+        "power": "3",
+        "text": "After combat: If you attacked a sidekick and won the combat, you may spend 3 Rage to defeat that sidekick."
+    },
+    {
+        "name": "The War-King",
+        "type": "versatile",
+        "power": "1",
+        "text": "During combat: Spend any amount of Rage. This card's value is +2 for each Rage spent."
+    },
+    {
+        "name": "Wild Hunt",
+        "type": "versatile",
+        "power": "3",
+        "text": "After combat: Deal 1 damage to each opposing fighter that is adjacent to at least one of your fighters. If Eredin is ENRAGED, deal 2 damage instead."
+    },
+    {
+        "name": "Vigor and Courage",
+        "type": "scheme",
+        "power": "",
+        "text": "Choose an opponent. They discard 1 random card. Gain rage equal to its BOOST value."
+    },
+    {
+        "name": "Golden Drinking Horn",
+        "type": "scheme",
+        "power": "",
+        "text": "Spend any amount of Rage. Choose a different effect for each Rage spent: - draw 2 cards - move Beowulf up to 4 spaces - Beowulf recovers 2 health."
+    },
+    {
+        "name": "Fatal Struggle",
+        "type": "attack",
+        "power": "4",
+        "text": "After combat: If you won the combat, draw 2 cards. If you lost the combat, your opponent draws 2 cards."
+    },
+    {
+        "name": "What's That In My Basket? 🌟",
+        "type": "versatile",
+        "power": "4",
+        "text": "(🌟 counts as any one $WOLF$$ROSE$$SWORDS$ symbol.)"
+    },
+    {
+        "name": "Transit Card",
+        "type": "defence",
+        "power": "2",
+        "text": "After combat: Move to any space in your zone."
+    },
+    {
+        "name": "Xavier Institute Faculty",
+        "type": "attack",
+        "power": "3",
+        "text": "You may play this card as a ranged attack."
+    },
+    {
+        "name": "Passwords",
+        "type": "defence",
+        "power": "5",
+        "text": "After combat: Your opponent looks at your hand and chooses a card for you to discard."
+    },
+    {
+        "name": "Shield Formation",
+        "type": "defence",
+        "power": "3",
+        "text": "Immediately: Your opponent may discard a card. If they don't, return a defeated Archer to a space in Yennenga's zone."
+    },
+    {
+        "name": "Rob's Pouch & Shoe Emporium",
+        "type": "attack",
+        "power": "4",
+        "text": "After combat: Move the opposing fighter one space. Just one."
+    },
+    {
+        "name": "That's The Part I Like",
+        "type": "versatile",
+        "power": "3",
+        "text": "After combat: If you won the combat, you may look at the top 3 cards of your opponent's deck and discard one of them. Place the other 2 back in any order."
+    },
+    {
+        "name": "Jaws of the Beast",
+        "type": "versatile",
+        "power": "3",
+        "text": "During combat: For each zone the opposing fighter is in, increase the value of this card by +1."
+    },
+    {
+        "name": "Master of the Hunt",
+        "type": "scheme",
+        "power": "",
+        "text": "Gain 2 actions."
+    },
+    {
+        "name": "Fist of Khonshu",
+        "type": "versatile",
+        "power": "3",
+        "text": "After combat: If you won the combat, move the opposing fighter up to 4 spaces."
+    },
+    {
+        "name": "Let Your Insanity Guide You",
+        "type": "versatile",
+        "power": "1",
+        "text": "After combat: Discard the top card of your deck. Draw cards equal to that card's BOOST value."
+    },
+    {
+        "name": "Past and Present Intermingle",
+        "type": "versatile",
+        "power": "2",
+        "text": "During combat: Add the BOOST value of the top card of your discard pile to this card's value."
+    },
+    {
+        "name": "Spirit Of Vengeance",
+        "type": "attack",
+        "power": "5",
+        "text": "After combat: You may spend 1 Hellfire to draw 2 cards."
+    },
+    {
+        "name": "I Brought The Devil With Me",
+        "type": "attack",
+        "power": "3",
+        "text": "After combat: You may spend 2 Hellfire to gain 1 action."
+    },
+    {
+        "name": "Deal With The Devil",
+        "type": "defence",
+        "power": "2",
+        "text": "During combat: You may spend any amount of Hellfire. Increase the value of this card by that amount."
+    },
+    {
+        "name": "I Finally Escaped Hell",
+        "type": "versatile",
+        "power": "3",
+        "text": "After combat: You may spend 1 Hellfire to move Ghost Rider up to 2 spaces."
+    },
+    {
+        "name": "Control The Demon",
+        "type": "versatile",
+        "power": "0",
+        "text": "During combat: This card's value is +1 for each Hellfire you have. (You do not spend Hellfire for this effect.)"
+    },
+    {
+        "name": "Penance Stare",
+        "type": "versatile",
+        "power": "3",
+        "text": "During combat: Add the BOOST value of the opposing fighter's card to this card's value. You may spend 2 Hellfire to do it a second time."
+    },
+    {
+        "name": "The Wicked Will Burn",
+        "type": "versatile",
+        "power": "3",
+        "text": "After combat: If Ghost Rider started this turn in a different space, gain 2 Hellfire."
+    },
+    {
+        "name": "Chains of Hellfire",
+        "type": "scheme",
+        "power": "",
+        "text": "Set your Hellfire to 5."
+    },
+    {
+        "name": "Sweet Christmas!",
+        "type": "attack",
+        "power": "6",
+        "text": ""
+    },
+    {
+        "name": "Get Paid",
+        "type": "attack",
+        "power": "4",
+        "text": "After combat: If you won the combat, draw 2 cards."
+    },
+    {
+        "name": "Hero For Hire",
+        "type": "attack",
+        "power": "3",
+        "text": "During combat: You may BOOST this attack."
+    },
+    {
+        "name": "Still Standing",
+        "type": "attack",
+        "power": "4",
+        "text": "After combat: If you won the combat, choose 2 cards in your discard pile and shuffle them into your deck."
+    },
+    {
+        "name": "Got My Back?",
+        "type": "defence",
+        "power": "1",
+        "text": "Immediately: Misty Knight may swap spaces with Luke Cage. If she does, Luke Cage is now the defender."
+    },
+    {
+        "name": "Trash Talk",
+        "type": "defence",
+        "power": "2",
+        "text": "Immediately: Cancel all effects on your opponent's card. After combat: If you won the combat, end the turn."
+    },
+    {
+        "name": "Pushback",
+        "type": "versatile",
+        "power": "2",
+        "text": "After combat: Move the opposing fighter up to 3 spaces."
+    },
+    {
+        "name": "Daughter of the Dragon",
+        "type": "versatile",
+        "power": "2",
+        "text": "During combat: If Misty Knight is adjacent to the opposing fighter, the value of this card is 6 instead."
+    },
+    {
+        "name": "Travelers of The Night",
+        "type": "scheme",
+        "power": "",
+        "text": "Move your fighter up to 4 spaces. They may move through opposing fighters.\nGain 1 action."
+    },
+    {
+        "name": "Where's My Money?",
+        "type": "scheme",
+        "power": "",
+        "text": "Place Luke Cage adjacent to the nearest opposing fighter.\nGain 1 action."
+    },
+    {
+        "name": "Hell Rides With Me",
+        "type": "scheme",
+        "power": "",
+        "text": "Move Ghost Rider and up to one adjacent fighter up to 4 spaces each.\nGain 2 Hellfire. Gain 1 action."
+    },
+    {
+        "name": "Grappling Hook",
+        "type": "versatile",
+        "power": "3",
+        "text": "After combat: Move Daredevil up to 2 spaces."
+    },
+    {
+        "name": "Breather",
+        "type": "scheme",
+        "power": "",
+        "text": "Choose an attack, defense, or versatile card from your discard pile and return it to your hand."
+    },
+    {
+        "name": "World's Greatest Assassin",
+        "type": "attack",
+        "power": "4",
+        "text": "Immediately: If you already won a combat this turn, ignore the value of your opponent's card."
+    },
+    {
+        "name": "I Planned To Be Here",
+        "type": "attack",
+        "power": "2",
+        "text": "During combat: If you started your turn in your current space, the value of this card is 5 instead."
+    },
+    {
+        "name": "I Never Miss",
+        "type": "attack",
+        "power": "3",
+        "text": "During combat: You may BOOST this attack. If you don't BOOST this attack, draw 1 card."
+    },
+    {
+        "name": "Madness Will Keep You Alive",
+        "type": "scheme",
+        "power": "",
+        "text": "Recover 2 health.\nIf you started your turn in a different space, gain 1 action."
+    },
+    {
+        "name": "Eat Nuts",
+        "type": "scheme",
+        "power": "",
+        "text": "Squirrel Girl recovers 2 health. Summon a squirrel in a space adjacent to Squirrel Girl."
+    },
+    {
+        "name": "Fuzzball Special",
+        "type": "attack",
+        "power": "3",
+        "text": "After combat: Move each squirrel up to 3 spaces."
+    },
+    {
+        "name": "Get 'Em Tippy-Toe!",
+        "type": "versatile",
+        "power": "3",
+        "text": "After combat: Summon two squirrels in any space."
+    },
+    {
+        "name": "Dreaming of Revenge",
+        "type": "versatile",
+        "power": "3",
+        "text": "After combat: If Invisible Man is on a space with a fog token, all opposing fighters on spaces with fog tokens take 1 damage."
+    },
+    {
+        "name": "Push to Teleport",
+        "type": "versatile",
+        "power": "2",
+        "text": "After combat: Draw 1 card."
+    },
+    {
+        "name": "Cha-Ching!",
+        "type": "attack",
+        "power": "1",
+        "text": "During combat: You may BOOST this card."
+    },
+    {
+        "name": "Phoenix Form",
+        "type": "scheme",
+        "power": "",
+        "text": "Sun Wukong recovers 1 health for each Clone on the board."
+    },
+    {
+        "name": "Achilles' Heel",
+        "type": "defence",
+        "power": "4",
+        "text": "After combat: If you lost the combat, your opponent gains 1 action."
+    },
+    {
+        "name": "Out Of The Mirror",
+        "type": "attack",
+        "power": "1",
+        "text": "During combat: Your opponent discards 1 random card. Add its BOOST value to this card's value. After combat: If this is your third action, draw 1 card."
+    },
+    {
+        "name": "Divide and Conquer",
+        "type": "versatile",
+        "power": "2",
+        "text": "During combat: If your fighter is not in Yennenga's zone, the value of this card is a 4 instead."
+    },
+    {
+        "name": "Ruyi Jingo Bang",
+        "type": "attack",
+        "power": "0",
+        "text": "After combat: If your opponent played a defense card, TRICKED YOU.\nTRICKED YOU: 4 ATK"
+    },
+    {
+        "name": "Infinite Strikes",
+        "type": "attack",
+        "power": "2",
+        "text": "During combat: For each other friendly fighter adjacent to the opposing fighter, increase the value of this card by +1. After combat: Gain 1 action."
+    },
+    {
+        "name": "Exploding Card!",
+        "type": "attack",
+        "power": "1",
+        "text": "During combat: If you made an exploding noise when you revealed the card the value of this card is 4."
+    },
+    {
+        "name": "3 of Hearts",
+        "type": "attack",
+        "power": "3",
+        "text": "After combat: Draw 1 card."
+    },
+    {
+        "name": "Ghostly Touch",
+        "type": "attack",
+        "power": "1",
+        "text": "During combat: You may BOOST this attack. After combat: If this is your third action this turn, recover 3 health."
+    },
+    {
+        "name": "Speak Three Times",
+        "type": "attack",
+        "power": "3",
+        "text": "During combat: If this is your third action this turn, this card's value is 7 instead."
+    },
+    {
+        "name": "Bloody Requiem",
+        "type": "attack",
+        "power": "3",
+        "text": "After combat: BLOODY REPRISE: 0 ATK\nDURING COMBAT: If your opponent played a card against BLOODY REQUIEM, this attack's value is that card's printed value."
+    },
+    {
+        "name": "Trick of the Light",
+        "type": "versatile",
+        "power": "2",
+        "text": "After combat: You may place Bloody Mary in any empty space adjacent to the opposing fighter."
+    },
+    {
+        "name": "Jump Scare",
+        "type": "versatile",
+        "power": "3",
+        "text": "During combat: If Bloody Mary shares no zones with the space she started in this turn, this card's value is 6 instead."
+    },
+    {
+        "name": "Infinity Mirror",
+        "type": "versatile",
+        "power": "4",
+        "text": "After combat: Choose one of the fighters in the combat and move them up to 4 spaces."
+    },
+    {
+        "name": "Mirror Image",
+        "type": "defence",
+        "power": "0",
+        "text": "During combat: The value of this card is equal to the printed value of your opponent's card."
+    },
+    {
+        "name": "Devil of Hell's Kitchen",
+        "type": "attack",
+        "power": "4",
+        "text": "During combat: If you have no cards in your deck, the value of this card is 8 instead. After combat: Shuffle this card and the top four cards of your discard pile into your deck."
+    },
+    {
+        "name": "Kick Butts",
+        "type": "attack",
+        "power": "1",
+        "text": "During combat: Increase the value of this card by +1 for each squirrel adjacent to the opposing fighter."
+    },
+    {
+        "name": "Test For Weakness",
+        "type": "attack",
+        "power": "1",
+        "text": "After combat: RELENTLESS ASSAULT: 3 ATK"
+    },
+    {
+        "name": "Brothers In Arms",
+        "type": "attack",
+        "power": "4",
+        "text": "After combat: If Patroclus is not defeated, gain 1 action."
+    },
+    {
+        "name": "Battle Hardened",
+        "type": "versatile",
+        "power": "2",
+        "text": "After combat: Choose a card in your discard pile and return it to your hand."
+    },
+    {
+        "name": "Blessed By Hermes",
+        "type": "versatile",
+        "power": "3",
+        "text": "After combat: Move each of your fighters up to 3 spaces. They may move through opposing fighters."
+    },
+    {
+        "name": "Under Achilles' Helm",
+        "type": "defence",
+        "power": "2",
+        "text": "Immediately: If Patroclus is not defeated, Achilles may swap spaces with him. If he does, Patroclus is now the defender."
+    },
+    {
+        "name": "Man Without Fear",
+        "type": "attack",
+        "power": "2",
+        "text": "During combat: You may BLIND BOOST this attack. (This is in addition to any BLIND BOOST from Daredevil's special ability.)"
+    },
+    {
+        "name": "Taunting Laughter",
+        "type": "attack",
+        "power": "3",
+        "text": "Immediately: Your opponent may discard 1 card from their hand. If they don't, ignore their card's value."
+    },
+    {
+        "name": "Ox Form",
+        "type": "attack",
+        "power": "7",
+        "text": "This card's effects cannot be canceled. During combat: If your opponent played a card, they may BOOST it."
+    },
+    {
+        "name": "72 Transformations",
+        "type": "versatile",
+        "power": "2",
+        "text": "After combat: Take an OX FORM, TORTOISE FORM, or PHOENIX FORM from your discard pile and return it to your hand."
+    },
+    {
+        "name": "Sly Monkey",
+        "type": "versatile",
+        "power": "2",
+        "text": "After combat: If Sun Wukong played this card, summon a Clone in Sun Wukong's space, then place Sun Wukong in a space in his zone."
+    },
+    {
+        "name": "Tortoise Form",
+        "type": "defence",
+        "power": "5",
+        "text": "During combat: Your opponent may BOOST their attack."
+    },
+    {
+        "name": "Fiery Eyes That See",
+        "type": "scheme",
+        "power": "",
+        "text": "Look at an opponent's hand and choose a card. Put that card on the bottom of their deck. You each draw 1 card."
+    },
+    {
+        "name": "Take A Knee",
+        "type": "versatile",
+        "power": "3",
+        "text": "After combat: Discard the top card of your deck. Recover health equal to its BOOST value."
+    },
+    {
+        "name": "Rain of Arrows",
+        "type": "attack",
+        "power": "3",
+        "text": "After combat: VOLLEY: 3 ATK"
+    },
+    {
+        "name": "Pin the Prey",
+        "type": "versatile",
+        "power": "1",
+        "text": "After combat: Move the opposing fighter up to 4 spaces. Your opponent discards 1 card."
+    },
+    {
+        "name": "Tactical Retreat",
+        "type": "defence",
+        "power": "3",
+        "text": "After combat: Place Bullseye in a space that shares no zones with his current space."
+    },
+    {
+        "name": "Master Strategist",
+        "type": "versatile",
+        "power": "3",
+        "text": "After combat: Move Bullseye exactly 4 spaces. You may move through opposing fighters."
+    },
+    {
+        "name": "Arrogant But Effective",
+        "type": "versatile",
+        "power": "2",
+        "text": "After combat: You are considered to have won this combat. Move Bullseye up to 2 spaces."
+    },
+    {
+        "name": "Right Between The Eyes",
+        "type": "versatile",
+        "power": "3",
+        "text": "Immediately: If you already won a combat this turn, your opponent discards 1 card."
+    },
+    {
+        "name": "I'm Better And I'll Prove It",
+        "type": "versatile",
+        "power": "2",
+        "text": "During combat: If you already won a combat this turn, the value of this card is 6 instead."
+    },
+    {
+        "name": "Study The Target",
+        "type": "scheme",
+        "power": "",
+        "text": "Draw 2 cards.If you won a combat this turn, draw 1 additional card and gain 1 action."
+    },
+    {
+        "name": "Hands of Red",
+        "type": "attack",
+        "power": "4",
+        "text": "After combat: Return a defeated Hand to a space in Elektra's zone."
+    },
+    {
+        "name": "Intercept",
+        "type": "defence",
+        "power": "3",
+        "text": "During combat: RESURRECTED: You may reveal a card named SAI from your hand. If you do, the value of this card is 5 instead."
+    },
+    {
+        "name": "Snakeroot Clan",
+        "type": "defence",
+        "power": "1",
+        "text": "Immediately: Elektra may swap spaces with a Hand. If she does, that Hand is now the defender."
+    },
+    {
+        "name": "Sai",
+        "type": "versatile",
+        "power": "4",
+        "text": ""
+    },
+    {
+        "name": "Ninjitsu",
+        "type": "versatile",
+        "power": "3",
+        "text": "After combat: Place your fighter in any space."
+    },
+    {
+        "name": "Nutwork of Spies",
+        "type": "scheme",
+        "power": "",
+        "text": "Look at an opponent's hand and choose 1 card for them to discard. If one of their fighters is adjacent to four or more squirrels, choose 2 cards instead."
+    },
+    {
+        "name": "Mesmerize",
+        "type": "scheme",
+        "power": "",
+        "text": "Choose an opponent and look at their hand. Gain 1 action.RESURRECTED: Choose 1 card for them to discard."
+    },
+    {
+        "name": "Squirgility",
+        "type": "defence",
+        "power": "3",
+        "text": "After combat: Move Squirrel Girl up to 3 spaces. She may move through sidekicks. Do not count movement for spaces containing sidekicks."
+    },
+    {
+        "name": "You Never Had Control, That's the Illusion",
+        "type": "attack",
+        "power": "2",
+        "text": "During combat: Increase the value of this card by the number of insight tokens on the board. Remove all insight tokens from the board."
+    },
+    {
+        "name": "Analyze and Adjust",
+        "type": "attack",
+        "power": "3",
+        "text": "After combat: Reveal the top card of your opponent's deck and store it in your Vibranium Suit."
+    },
+    {
+        "name": "65 Million Years of Gut Instinct",
+        "type": "scheme",
+        "power": "",
+        "text": "Choose a card in your discard pile other than \"65 Million Years of Gut Instinct\" and return it to your hand."
+    },
+    {
+        "name": "Ripples in the Water",
+        "type": "scheme",
+        "power": "",
+        "text": "Place T-Rex in any space in her zone. Then, each opponent with a fighter adjacent to T-Rex discards 1 random card."
+    },
+    {
+        "name": "Woman Inherits the Earth",
+        "type": "versatile",
+        "power": "2",
+        "text": "Immediately: Draw 1 card. Dr Sattler recovers health equal to the number of insight tokens on the board. Remove all insight tokens from the board."
+    },
+    {
+        "name": "Sexism in Survival Situations",
+        "type": "versatile",
+        "power": "1",
+        "text": "During combat: If the opposing fighter is a hero, the value of this card is 4 instead. After combat: You may move Dr. Sattler 1 space."
+    },
+    {
+        "name": "Chaotician",
+        "type": "versatile",
+        "power": "2",
+        "text": "After combat: Place an insight token in any space."
+    },
+    {
+        "name": "Life Finds a Way",
+        "type": "versatile",
+        "power": "2",
+        "text": "After combat: Your opponent discards the top card of their deck. Dr. Malcolm and Dr. Sattler recover health equal to that card's BOOST value."
+    },
+    {
+        "name": "The Future Ex-Mrs. Malcolm",
+        "type": "scheme",
+        "power": "",
+        "text": "Draw 2 cards. Place an insight token in Dr. Malcolm's space. Gain 1 action."
+    },
+    {
+        "name": "Must Go Faster",
+        "type": "versatile",
+        "power": "3",
+        "text": "After combat: If you won the combat, you may place Dr. Malcolm and Dr. Sattler in any space."
+    },
+    {
+        "name": "Hey! Hey! Hey!",
+        "type": "versatile",
+        "power": "3",
+        "text": "After combat: Move your other fighter up to 4 spaces."
+    },
+    {
+        "name": "The Concept of Attraction",
+        "type": "defence",
+        "power": "2",
+        "text": "After combat: You may place your fighter on any space with an insight token."
+    },
+    {
+        "name": "You're Just Making Her Angry",
+        "type": "defence",
+        "power": "1",
+        "text": "During combat: You may BOOST this card. After combat: If you won the combat, return this card to your hand."
+    },
+    {
+        "name": "Fangirl",
+        "type": "attack",
+        "power": "0",
+        "text": "During combat: The value of this card is equal to the number of cards in your hand."
+    },
+    {
+        "name": "Cloaked In Shadow",
+        "type": "versatile",
+        "power": "2",
+        "text": "Immediately: Cancel all effects on your opponent's card. After combat: RESURRECTED: Move Elektra up to 3 spaces."
+    },
+    {
+        "name": "An Illusion of My Own Design",
+        "type": "attack",
+        "power": "4",
+        "text": "Immediately: Your opponent may BOOST their card. During combat: You may BOOST this card."
+    },
+    {
+        "name": "Unbeatable Squirrel Girl",
+        "type": "versatile",
+        "power": "4",
+        "text": "Immediately: If there are four or more squirrels adjacent to the opposing fighter, cancel all effects on your opponent's card and ignore its value."
+    },
+    {
+        "name": "Flourish",
+        "type": "attack",
+        "power": "3",
+        "text": "BOOSTED WITH: Draw 1 card. During combat: You may BOOST this card."
+    },
+    {
+        "name": "Grand Escape",
+        "type": "defence",
+        "power": "2",
+        "text": "During combat: You may BOOST this card. After combat: If you won the combat, place your fighter in any space."
+    },
+    {
+        "name": "Claws That Catch",
+        "type": "attack",
+        "power": "3",
+        "text": "During combat: If the opposing fighter is a hero, this card's value is 5 instead."
+    },
+    {
+        "name": "Sleight of Hand",
+        "type": "attack",
+        "power": "1",
+        "text": "BOOSTED WITH: Draw 1 card. Immediately: You may return this card to your hand and choose a different card to play. Resolve all effects on that card as normal."
+    },
+    {
+        "name": "Smoke and Mirrors",
+        "type": "versatile",
+        "power": "3",
+        "text": "Immediately: Houdini and Bess may swap spaces. If they do, your other fighter is now in the combat."
+    },
+    {
+        "name": "The Big Reveal",
+        "type": "attack",
+        "power": "2",
+        "text": "During combat: You may BOOST this card twice. After combat: Return one card you boosted with to your hand."
+    },
+    {
+        "name": "Vanishing Act",
+        "type": "versatile",
+        "power": "2",
+        "text": "After combat: Choose one of the fighters in the combat and move them up to 3 spaces. They may move through their opposing fighters."
+    },
+    {
+        "name": "Back In The Lamp",
+        "type": "defence",
+        "power": "0",
+        "text": "Immediately: The Genie recovers 4 health."
+    },
+    {
+        "name": "I've Made Sultans Out of Less",
+        "type": "versatile",
+        "power": "2",
+        "text": "After combat: Look at your opponent's hand and choose a card for them to discard."
+    },
+    {
+        "name": "This is No Parlor Trick",
+        "type": "versatile",
+        "power": "1",
+        "text": "During combat: The value of your opponent's card is equal to its BOOST value."
+    },
+    {
+        "name": "Wishing For More Wishes",
+        "type": "versatile",
+        "power": "3",
+        "text": "After combat: Your opponent draws 1 card. Draw 3 cards."
+    },
+    {
+        "name": "Your Wish is My Command",
+        "type": "attack",
+        "power": "3",
+        "text": "After combat: If you won the combat, you may discard 2 cards to gain 1 action."
+    },
+    {
+        "name": "Three Wishes",
+        "type": "scheme",
+        "power": "",
+        "text": "Gain 1 action and choose one effect:\n- draw 5 cards\n- for the rest of your turn, your cards' values are 4 and cannot be changed\n- each opponent discards 2 cards"
+    },
+    {
+        "name": "A Magician Never Reveals His Secrets",
+        "type": "scheme",
+        "power": "",
+        "text": "Draw 2 cards. Gain 1 action.\nIf an effect would let an opponent look at your hand, you may reveal this card and cancel that effect."
+    },
+    {
+        "name": "Big Wind Up",
+        "type": "attack",
+        "power": "4",
+        "text": "During combat: If Ms. Marvel's space shares no zones with the opposing fighter, you may BOOST this card."
+    },
+    {
+        "name": "Ancestral Insight",
+        "type": "versatile",
+        "power": "4",
+        "text": "After combat: If you won the combat, reveal the top card of your opponent's deck and store it in your Vibranium Suit."
+    },
+    {
+        "name": "Sun and Moon",
+        "type": "attack",
+        "power": "2",
+        "text": "During combat: If the opposing fighter is flanked, ignore the value of your opponent's card."
+    },
+    {
+        "name": "Remote Detonation",
+        "type": "scheme",
+        "power": "",
+        "text": "Choose a trap in the same zone as one of your InGen Workers. Deal 1 damage to each opposing fighter adjacent to that trap. Return that trap to the box."
+    },
+    {
+        "name": "Embiggen",
+        "type": "versatile",
+        "power": "3",
+        "text": "During combat: If Ms. Marvel is in more zones than the opposing fighter, the value of this card is 6 instead."
+    },
+    {
+        "name": "Anti-Metal Claws",
+        "type": "versatile",
+        "power": "1",
+        "text": "During combat: Add the BOOST value of the opposing fighter's card to this card's value. Then, You may BOOST this card."
+    },
+    {
+        "name": "Friends and Family",
+        "type": "scheme",
+        "power": "",
+        "text": "Draw 2 cards. Then, you may spend an additional action to draw until you have 7 cards in your hand."
+    },
+    {
+        "name": "Gyro and Fries",
+        "type": "scheme",
+        "power": "",
+        "text": "Recover 2 health. Then, if you have 4 or more cards in your hand, gain 1 action."
+    },
+    {
+        "name": "I'm Not Touching You",
+        "type": "attack",
+        "power": "4",
+        "text": "After combat: If Ms. Marvel's space shares no zones with the opposing fighter, draw 2 cards."
+    },
+    {
+        "name": "Slingshot",
+        "type": "defence",
+        "power": "3",
+        "text": "After combat: Place Ms. Marvel in any space in her zone."
+    },
+    {
+        "name": "Channel the Dark",
+        "type": "attack",
+        "power": "2",
+        "text": "After combat: If Cloak played this card, place the opposing fighter adjacent to Dagger and gain 1 action."
+    },
+    {
+        "name": "Icy Guile",
+        "type": "versatile",
+        "power": "2",
+        "text": "Immediately: If Eredin is ENRAGED, cancel all effects on your opponent's card. During combat: You may defeat a Red Rider to ignore the value of your opponent's card."
+    },
+    {
+        "name": "Darkforce Dimension",
+        "type": "attack",
+        "power": "4",
+        "text": "After combat: Place the opposing fighter in any space. Your opponent discards 1 card."
+    },
+    {
+        "name": "Into Darkness",
+        "type": "versatile",
+        "power": "3",
+        "text": "After combat: Choose one of the fighters in the combat and move them up to 3 spaces."
+    },
+    {
+        "name": "Into the Void",
+        "type": "attack",
+        "power": "2",
+        "text": "During combat: You may BOOST this attack."
+    },
+    {
+        "name": "Living Shadow",
+        "type": "defence",
+        "power": "2",
+        "text": "During combat: If Dagger played this card, she swaps spaces with Cloak, Cloak is now the defender, and the value of this card is 4 instead."
+    },
+    {
+        "name": "All Part of the Show",
+        "type": "defence",
+        "power": "2",
+        "text": "This card's effect cannot be canceled.\nBOOSTED WITH: Houdini recovers 2 health. After combat: If your fighter was defeated, set their health to 4 instead and place them in any space. (This effect happens even if Houdini was defeated.)"
+    },
+    {
+        "name": "The Living Light",
+        "type": "versatile",
+        "power": "3",
+        "text": "After combat: If Cloak played this to defend, Dagger recovers 2 health. If Dagger played this to attack, Cloak recovers 2 health."
+    },
+    {
+        "name": "Traverse the Darkforce",
+        "type": "versatile",
+        "power": "2",
+        "text": "After combat: Move each of your fighters up to 2 spaces."
+    },
+    {
+        "name": "Squirmish",
+        "type": "versatile",
+        "power": "4",
+        "text": "After combat: Summon a squirrel in Squirrel Girl's space. Then, you place Squirrel Girl in any space in her zone."
+    },
+    {
+        "name": "I Think We're Back In Business",
+        "type": "versatile",
+        "power": "0",
+        "text": "During combat: The value of this card is equal to the number of cards in your hand."
+    },
+    {
+        "name": "The Budapest Gambit",
+        "type": "scheme",
+        "power": "",
+        "text": "Mission: You have 2 or fewer other cards in your hand.\nDraw 5 cards. Each opponent discards 1 random card. Acquire a new mission."
+    },
+    {
+        "name": "And the Beautiful Bess!",
+        "type": "versatile",
+        "power": "3",
+        "text": "If you discard this card as a result of an opponent's effect, draw 1 card.\nBOOSTED WITH: If it's your turn, gain 1 action."
+    },
+    {
+        "name": "Widow's Bite",
+        "type": "attack",
+        "power": "4",
+        "text": "After combat: If you won the combat, your opponent discards 1 card."
+    },
+    {
+        "name": "Microweave Mesh",
+        "type": "defence",
+        "power": "2",
+        "text": "During combat: You may BOOST this card."
+    },
+    {
+        "name": "Born in the Barracks",
+        "type": "versatile",
+        "power": "3",
+        "text": "After combat: If you won the combat, Winter Soldier recovers 2 health."
+    },
+    {
+        "name": "Lightning and Thunder",
+        "type": "attack",
+        "power": "4",
+        "text": "Immediately: If the opposing fighter is flanked, cancel all effects on your opponent's card. After combat: Move your fighter up to 2 spaces."
+    },
+    {
+        "name": "Pragmatism",
+        "type": "defence",
+        "power": "3",
+        "text": "Immediately: Cancel all effects on your opponent's card."
+    },
+    {
+        "name": "Witness My Last Battle",
+        "type": "attack",
+        "power": "7",
+        "text": "This attack can only target a fighter adjacent to Tomoe Gozen. Play it face up. After combat: End the turn."
+    },
+    {
+        "name": "Five Against Thousands",
+        "type": "attack",
+        "power": "4",
+        "text": "After combat: If Tomoe Gozen is adjacent to the opposing fighter, you may discard a card to put this card back into your hand."
+    },
+    {
+        "name": "A Warrior's Way",
+        "type": "attack",
+        "power": "2",
+        "text": "After combat: Move the opposing fighter up to 3 spaces. Then, if they are a hero, place Tomoe Gozen in a space adjacent to them."
+    },
+    {
+        "name": "Confront Any Demon or God",
+        "type": "versatile",
+        "power": "3",
+        "text": "After combat: Draw 1 card. Then, if you lost the combat, look at your opponent's hand and choose 1 card for them to discard."
+    },
+    {
+        "name": "A Worthy Opponent",
+        "type": "versatile",
+        "power": "3",
+        "text": "During combat: If the opposing fighter is a hero, this card's value is 5 instead."
+    },
+    {
+        "name": "Refuse to Retreat",
+        "type": "defence",
+        "power": "3",
+        "text": "Immediately: Tomoe Gozen cannot leave her space for the rest of the turn. After combat: If the opposing fighter is adjacent, your opponent discards 1 card."
+    },
+    {
+        "name": "Lord Kiso's Final Stand",
+        "type": "scheme",
+        "power": "",
+        "text": "Move Tomoe Gozen up to 3 spaces. She may move through sidekicks. Then, choose one:\n- Tomoe Gozen recovers 2 health\n- gain 1 action"
+    },
+    {
+        "name": "Call of the Mild",
+        "type": "versatile",
+        "power": "2",
+        "text": "During combat: If there are four or more squirrels in your fighter's zone, the value of this card is 4 instead. After combat: If you won the combat, draw 2 cards."
+    },
+    {
+        "name": "Cat-Like Reflexes",
+        "type": "versatile",
+        "power": "3",
+        "text": "After combat: If you won the combat, move one of the fighters in the combat up to 3 spaces."
+    },
+    {
+        "name": "Nanotriage Processor",
+        "type": "versatile",
+        "power": "2",
+        "text": "After combat: Shuri recovers 1 health. If Black Panther is in the same zone as Shuri, he also recovers 1 health."
+    },
+    {
+        "name": "Stalking Panther",
+        "type": "scheme",
+        "power": "",
+        "text": "Move each of your fighters up to 3 spaces. They may move through opposing fighters. Gain 1 action."
+    },
+    {
+        "name": "Tactical Remote Scanning",
+        "type": "scheme",
+        "power": "",
+        "text": "Choose an opponent. Reveal the top 2 cards of their deck and store them in your Vibranium Suit."
+    },
+    {
+        "name": "Wakanda Forever!",
+        "type": "versatile",
+        "power": "3",
+        "text": "During combat: You may BOOST this card up to two times. (Draw a card for Black Panther's special ability each time you BOOST.)"
+    },
+    {
+        "name": "Vibranium Shockwave",
+        "type": "attack",
+        "power": "2",
+        "text": "During combat: You may BOOST this card."
+    },
+    {
+        "name": "Acting Director of S.H.I.E.L.D.",
+        "type": "versatile",
+        "power": "4",
+        "text": "After combat: Move each of your fighters up to 3 spaces. They may move through opposing fighters. Then, shuffle 1 scheme from your discard pile into your deck."
+    },
+    {
+        "name": "Caught in a Web",
+        "type": "versatile",
+        "power": "3",
+        "text": "During combat: Cancel all AFTER COMBAT effects on your opponent's card."
+    },
+    {
+        "name": "Double Identity",
+        "type": "defence",
+        "power": "3",
+        "text": "Immediately: Black Widow and Maria Hill may swap spaces. If they do, your other fighter is now the defender."
+    },
+    {
+        "name": "Fake Out",
+        "type": "attack",
+        "power": "1",
+        "text": "After combat: If you lost the combat, draw 1 card and gain 1 action."
+    },
+    {
+        "name": "Life Model Decoy",
+        "type": "defence",
+        "power": "0",
+        "text": "After combat: If Maria Hill was defeated, place her adjacent to Black Widow. If you do, set Maria Hill's health to 3."
+    },
+    {
+        "name": "Step Lightly",
+        "type": "scheme",
+        "power": "",
+        "text": "Deal 1 damage to one adjacent fighter. If Invisible Man is on a space with a fog token, deal 3 damage instead. Your opponent then moves a fog token up to 2 spaces."
+    },
+    {
+        "name": "Jaws That Bite",
+        "type": "attack",
+        "power": "4",
+        "text": "After combat: Deal 2 damage to any one fighter adjacent to the Jabberwock."
+    },
+    {
+        "name": "Jackalope Horns",
+        "type": "scheme",
+        "power": "",
+        "text": "Move the Jackalope up to 5 spaces. You may move the Jackalope through spaces containing opposing fighters. Then deal 2 damage to any one fighter adjacent to the Jackalope."
+    },
+    {
+        "name": "Prey Upon",
+        "type": "scheme",
+        "power": "",
+        "text": "Deal 1 damage to all opposing fighters adjacent to Dracula. Dracula recovers 1 health for each damage dealt."
+    },
+    {
+        "name": "Ravening Seduction",
+        "type": "scheme",
+        "power": "",
+        "text": "Move any fighter up to 2 spaces. After moving, deal 1 damage to the moved fighter for each Sister adjacent to them."
+    },
+    {
+        "name": "Fire and Flames",
+        "type": "attack",
+        "power": "3",
+        "text": "During combat: If the opposing fighter is flanked, this card's value is 5 instead."
+    },
+    {
+        "name": "Battle Maneuvers",
+        "type": "versatile",
+        "power": "2",
+        "text": "After combat: Draw 1 card. Then, move each of your fighters up to 2 spaces."
+    },
+    {
+        "name": "Widow's Kiss",
+        "type": "versatile",
+        "power": "4",
+        "text": "Immediately: The opposing fighter may not leave their space for the rest of the turn."
+    },
+    {
+        "name": "Widow's Line",
+        "type": "versatile",
+        "power": "3",
+        "text": "After combat: Move the opposing fighter up to 2 spaces."
+    },
+    {
+        "name": "Widow's Sting",
+        "type": "attack",
+        "power": "5",
+        "text": "After combat: Move Black Widow up to 3 spaces."
+    },
+    {
+        "name": "Marksman",
+        "type": "attack",
+        "power": "1",
+        "text": "During combat: Add +1 to this card's value for each space between you and the opposing fighter along the shortest path."
+    },
+    {
+        "name": "Reprogram",
+        "type": "versatile",
+        "power": "2",
+        "text": "After combat: Choose 3 cards in your discard pile and shuffle them into your deck."
+    },
+    {
+        "name": "Friendly Neighborhood Spider-Man",
+        "type": "scheme",
+        "power": "",
+        "text": "Recover 3 Health. Place Spider-Man in any space in his zone."
+    },
+    {
+        "name": "Right in the Face!",
+        "type": "versatile",
+        "power": "4",
+        "text": "Immediately: Your opponent can't draw cards this turn."
+    },
+    {
+        "name": "Spider-Sense Tingling!",
+        "type": "versatile",
+        "power": "2",
+        "text": "After combat: If the value of your opponent's card is 4 or higher, draw 2 cards."
+    },
+    {
+        "name": "Thwip!",
+        "type": "attack",
+        "power": "4",
+        "text": "After combat: If you won the combat, place Spider-Man in any space in his zone."
+    },
+    {
+        "name": "Wall Crawler",
+        "type": "versatile",
+        "power": "3",
+        "text": "After combat: Place Spider-Man in any space in his zone."
+    },
+    {
+        "name": "With Great Power",
+        "type": "scheme",
+        "power": "",
+        "text": "All of Spider-Man's attacks this turn are +1 value. Draw 1 card. Gain 1 action."
+    },
+    {
+        "name": "Cloak of Levitation",
+        "type": "versatile",
+        "power": "2",
+        "text": "During combat: If Dr. Strange is adjacent to the opposing fighter, ignore the value of your opponent's card."
+    },
+    {
+        "name": "Master of Kamar-Taj",
+        "type": "versatile",
+        "power": "2",
+        "text": "During combat: If Dr. Strange and Wong are adjacent, this card's value is 4 instead."
+    },
+    {
+        "name": "Bolts of Balthakk",
+        "type": "attack",
+        "power": "2",
+        "text": "During combat: You may BLIND BOOST this card. After combat: If you won the combat, gain 1 action."
+    },
+    {
+        "name": "Seven Suns of Cinnibus",
+        "type": "versatile",
+        "power": "3",
+        "text": "If the value of this card is above 7, ignore its value. During combat: You may BLIND BOOST this card up to two times."
+    },
+    {
+        "name": "The Mists of Munnopor",
+        "type": "defence",
+        "power": "2",
+        "text": "Immediately: Discard your opponent's card. They reveal cards from their deck until they reveal an attack or versatile card they can play. They play that card and randomly put the rest of the revealed cards on the bottom of their deck."
+    },
+    {
+        "name": "The Winds of Watoomb",
+        "type": "attack",
+        "power": "4",
+        "text": "After combat: Your opponent places Dr. Strange in a starting space. Place the opposing fighter in another starting space. All players shuffle their decks."
+    },
+    {
+        "name": "Eye of Agamotto",
+        "type": "scheme",
+        "power": "",
+        "text": "Shuffle your hand into your deck. Draw 5 cards. Gain 1 action."
+    },
+    {
+        "name": "No Really, I'm a Doctor",
+        "type": "scheme",
+        "power": "",
+        "text": "Reveal a card from your hand and put it on top of your deck. Dr. Strange or a friendly fighter adjacent to him recovers health equal to that card's boost value."
+    },
+    {
+        "name": "Lady Justice",
+        "type": "defence",
+        "power": "0",
+        "text": "During combat: Discard the top card of your opponent's deck. Increase the value of this card by twice that card's boost value."
+    },
+    {
+        "name": "Cease and Desist",
+        "type": "versatile",
+        "power": "1",
+        "text": "Immediately: Cancel all effects on your opponent's card. During combat: If you are attacking, the value of this card is 4 instead."
+    },
+    {
+        "name": "Legalese",
+        "type": "versatile",
+        "power": "2",
+        "text": "After combat: If you won the combat, your opponent chooses whether you both draw a card or both discard a card. If you lost the combat, you make the choice instead (see above)."
+    },
+    {
+        "name": "Nerve Cluster Strike",
+        "type": "versatile",
+        "power": "3",
+        "text": "Immediately: If She-Hulk is adjacent to the opposing fighter, the opposing fighter may not leave their space this turn."
+    },
+    {
+        "name": "The Savage She-Hulk",
+        "type": "attack",
+        "power": "3",
+        "text": "During combat: You may spend an additional action to make this card's value 9 instead."
+    },
+    {
+        "name": "Sensational",
+        "type": "attack",
+        "power": "4",
+        "text": "After combat: If you won the combat, you may choose a card in your discard pile and shuffle it into your deck."
+    },
+    {
+        "name": "Double Jeopardy",
+        "type": "scheme",
+        "power": "",
+        "text": "Draw 2 cards and recover 2 health."
+    },
+    {
+        "name": "Jennifer Walters, Esq.",
+        "type": "scheme",
+        "power": "",
+        "text": "Place She-Hulk in a starting space. Draw 1 card. Gain 1 action."
+    },
+    {
+        "name": "The Kinshasa Directive",
+        "type": "scheme",
+        "power": "",
+        "text": "Mission: Black Widow is in your starting space.\nChoose an opponent. They discard 2 cards. Acquire a new mission."
+    },
+    {
+        "name": "Without Remorse",
+        "type": "attack",
+        "power": "6",
+        "text": "After combat: {RED ROOM} Your opponent may draw 1 card."
+    },
+    {
+        "name": "Reflex Memories",
+        "type": "versatile",
+        "power": "5",
+        "text": "After combat: {RED ROOM} Discard 2 random cards, then draw 2 cards"
+    },
+    {
+        "name": "Manipulation",
+        "type": "scheme",
+        "power": "",
+        "text": "Draw until you have 5 cards in your hand.\n{RED ROOM} Each opponent may draw until they have 5 cards in their hand."
+    },
+    {
+        "name": "Bionic Arm",
+        "type": "attack",
+        "power": "2",
+        "text": "During combat: If Winter Soldier is adjacent to the opposing fighter, the value of this card is 6 instead. After combat: {RED ROOM} Your opponent moves each of their fighters up to 5 spaces."
+    },
+    {
+        "name": "A Boy Named Bucky",
+        "type": "scheme",
+        "power": "",
+        "text": "Ignore any {RED ROOM} effects on your cards for the rest of your turn. Gain 1 action."
+    },
+    {
+        "name": "Leap Toward",
+        "type": "scheme",
+        "power": "",
+        "text": "Move She-Hulk up to 4 spaces. She may move through opposing fighters. Then, if she is adjacent to an opposing fighter, gain 1 action."
+    },
+    {
+        "name": "Captain's Orders",
+        "type": "scheme",
+        "power": "",
+        "text": "Place Annie in any space in her zone. Then, place another friendly fighter in any space in Annie's zone. Gain 1 action."
+    },
+    {
+        "name": "Keep Your Hands to Yourself",
+        "type": "versatile",
+        "power": "3",
+        "text": "After combat: Move each fighter in the combat up to 2 spaces."
+    },
+    {
+        "name": "Mississippi Queen",
+        "type": "defence",
+        "power": "2",
+        "text": "Immediately: Damage cannot reduce Annie's health below 1 this turn."
+    },
+    {
+        "name": "Better Together",
+        "type": "versatile",
+        "power": "4",
+        "text": "After combat: If your fighter is adjacent to a friendly fighter, your fighter and each friendly fighter adjacent to them recover 1 health."
+    },
+    {
+        "name": "Long Shot",
+        "type": "versatile",
+        "power": "3",
+        "text": "During combat: If the opposing fighter is not adjacent to your fighter, this card's value is 5 instead."
+    },
+    {
+        "name": "Quite a Pair",
+        "type": "versatile",
+        "power": "3",
+        "text": "Immediately: You may reveal two cards from your hand with the same name. If you do, cancel all effects on your opponent's card."
+    },
+    {
+        "name": "Slick Talker",
+        "type": "defence",
+        "power": "3",
+        "text": "Immediately: Annie and Charlie may swap spaces. If they do, your other fighter is now the defender."
+    },
+    {
+        "name": "Bottom Dealing",
+        "type": "attack",
+        "power": "3",
+        "text": "During combat: Reveal the bottom card of your deck. Increase the value of this card by the BOOST value of the revealed card, then put the revealed card on the top or the bottom of your deck."
+    },
+    {
+        "name": "The Turn and the River",
+        "type": "versatile",
+        "power": "2",
+        "text": "After combat: Draw 2 cards."
+    },
+    {
+        "name": "Alpine Fortress",
+        "type": "scheme",
+        "power": "",
+        "text": "Choose a card in your discard pile and shuffle it into your deck. Draw 2 cards. Move Golden Bat up to 4 spaces."
+    },
+    {
+        "name": "Arrive Just in Time",
+        "type": "scheme",
+        "power": "",
+        "text": "Place Golden Bat in any space."
+    },
+    {
+        "name": "He Laughs at Your Feebleness",
+        "type": "defence",
+        "power": "5",
+        "text": ""
+    },
+    {
+        "name": "Imposing Presence",
+        "type": "defence",
+        "power": "3",
+        "text": "Immediately: Cancel all effects on your opponent's card."
+    },
+    {
+        "name": "Insight of the Ancients",
+        "type": "versatile",
+        "power": "3",
+        "text": "After combat: If you won the combat, return a random card in your discard pile to your hand."
+    },
+    {
+        "name": "Like a Flash of Golden Light",
+        "type": "versatile",
+        "power": "2",
+        "text": "During combat: If Golden Bat shares no zones with the space he started this turn in, this card's value is 4 instead. After combat: Move Golden Bat up to 5 spaces."
+    },
+    {
+        "name": "Sight Beyond Sight",
+        "type": "versatile",
+        "power": "2",
+        "text": "After combat: Look at the top 3 cards of your opponent's deck. Put them back in any order."
+    },
+    {
+        "name": "Super Strength",
+        "type": "attack",
+        "power": "5",
+        "text": ""
+    },
+    {
+        "name": "Vaporizing Eyebeams",
+        "type": "attack",
+        "power": "2",
+        "text": "After combat: Your opponent discards 1 random card."
+    },
+    {
+        "name": "Hypnotist",
+        "type": "defence",
+        "power": "3",
+        "text": "Immediately: If your active gadget is Hypnoray Blaster, cancel all effects on your opponent's card."
+    },
+    {
+        "name": "Utility Belt",
+        "type": "versatile",
+        "power": "3",
+        "text": "After combat: Choose one: -Jill Trent recovers 1 health, -Move Jill Trent 1 space, -Draw 1 card"
+    },
+    {
+        "name": "Stasis Diffuser",
+        "type": "versatile",
+        "power": "3",
+        "text": "Immediately: The value of your opponent's card is equal to its printed value and cannot be changed."
+    },
+    {
+        "name": "Gyroscopic Jetpack",
+        "type": "versatile",
+        "power": "4",
+        "text": "After combat: Move your fighter up to 2 spaces. They may move through opposing fighters."
+    },
+    {
+        "name": "Insightful Deduction",
+        "type": "versatile",
+        "power": "3",
+        "text": "After combat: Reveal the top 3 cards of your opponent's deck. Put one of them on the bottom of the deck and the rest on top in any order."
+    },
+    {
+        "name": "Caught Red-Handed",
+        "type": "versatile",
+        "power": "1",
+        "text": "After combat: Your opponent discards 1 card. If you won the combat, they discard 2 cards instead."
+    },
+    {
+        "name": "Energizing Spray",
+        "type": "attack",
+        "power": "5",
+        "text": "After combat: Gain 1 action."
+    },
+    {
+        "name": "Helpful Assistant",
+        "type": "scheme",
+        "power": "",
+        "text": "Shuffle up to 3 Jill Trent cards in your discard pile back into your deck. Draw 1 card."
+    },
+    {
+        "name": "Sisters in Arms",
+        "type": "versatile",
+        "power": "3",
+        "text": "This card's effects cannot be canceled. If Daisy and Jill Trent are adjacent and Daisy is attacking, Daisy gains the effect of Jill Trent's gadget."
+    },
+    {
+        "name": "Ace Fighter",
+        "type": "versatile",
+        "power": "5",
+        "text": "After combat: Draw 1 card."
+    },
+    {
+        "name": "Patience and Strategy",
+        "type": "versatile",
+        "power": "1",
+        "text": "After combat: If the opposing fighter is flanked, your fighter recovers 2 health."
+    },
+    {
+        "name": "Fully Charged",
+        "type": "scheme",
+        "power": "",
+        "text": "Charge both coils. Gain 1 action."
+    },
+    {
+        "name": "Kinetic Induction",
+        "type": "versatile",
+        "power": "2",
+        "text": "After combat: Charge one coil. If you won the combat, charge both."
+    },
+    {
+        "name": "Remote Control",
+        "type": "scheme",
+        "power": "",
+        "text": "Move all opposing fighters up to 2 spaces. Gain 1 action."
+    },
+    {
+        "name": "The Alternating Current",
+        "type": "attack",
+        "power": "5",
+        "text": "After combat: Choose one: - Charge both coils - Discharge both coils to have Tesla recover 2 health"
+    },
+    {
+        "name": "Death Ray",
+        "type": "attack",
+        "power": "3",
+        "text": "During combat: You may discharge coils: - 1 Coil: This card's value is 5. - 2 Coils: Instead, this card's value is 7."
+    },
+    {
+        "name": "Intense Experimentation",
+        "type": "defence",
+        "power": "3",
+        "text": "After combat: Draw 1 card. You may discharge coils: - 1 Coil: Instead, draw 2 cards. - 2 Coils: Instead, draw 3 cards and Tesla recovers 1 health."
+    },
+    {
+        "name": "Polyphase Coils",
+        "type": "versatile",
+        "power": "3",
+        "text": "Immediately: You may discharge coils: - 1 Coil: Cancel all effects on your opponent's card. - 2 Coils: Also, ignore that card's value."
+    },
+    {
+        "name": "X-Ray Radiation",
+        "type": "versatile",
+        "power": "4",
+        "text": "During combat: Reveal the top card of your opponent's deck. You may discharge coils: - 1 Coil: Discard that card. - 2 Coils: Also, add its boost value to this card's value."
+    },
+    {
+        "name": "Shrink! Shrink! Shrink!",
+        "type": "versatile",
+        "power": "2",
+        "text": "After combat: Choose one effect. If Ms. Marvel's space shares no zones with the opposing fighter, do both:\n- your opponent discards 1 card\n- move the opposing fighter up to 3 spaces"
+    },
+    {
+        "name": "7 Hertz",
+        "type": "attack",
+        "power": "4",
+        "text": "After combat: You may discharge coils: - 1 Coil: Gain 1 action. - 2 Coils: Also, draw 1 card."
+    },
+    {
+        "name": "Repulsion Blast",
+        "type": "versatile",
+        "power": "2",
+        "text": "After combat: Move the opposing fighter up to 2 spaces. You may discharge coils: - 1 Coil: Also, move Tesla up to 2 spaces. - 2 Coils: Also, your opponent discards 1 random card."
+    },
+    {
+        "name": "Reinforce",
+        "type": "scheme",
+        "power": "",
+        "text": "Choose 2 different effects:\n- each friendly fighter recovers 1 health\n- draw 2 cards\n- gain 1 action"
+    },
+    {
+        "name": "Set the Stage",
+        "type": "scheme",
+        "power": "",
+        "text": "Draw 3 cards. Then, put a card in your hand on top of your deck.\nBOOSTED WITH: Look at an opponent's hand and choose a card for them to discard."
+    },
+    {
+        "name": "Portal Defense",
+        "type": "defence",
+        "power": "0",
+        "text": "Immediately: Eredin swaps spaces with an adjacent friendly fighter. That fighter is now the defender. After combat: If Eredin is ENRAGED, draw 2 cards."
+    },
+    {
+        "name": "Implacable",
+        "type": "defence",
+        "power": "3",
+        "text": "If Eredin is ENRAGED, you may play this card as an attack. During combat: You may BOOST this card."
+    },
+    {
+        "name": "Might Of The Aen Elle",
+        "type": "scheme",
+        "power": "",
+        "text": "Draw 1 card. Gain 1 action. [ONGOING]: Eredin does not take damage except combat damage or from exhaustion. Discard this card at the end of your turn if you didn't attack."
+    },
+    {
+        "name": "Close For The Kill",
+        "type": "scheme",
+        "power": "",
+        "text": "Draw 2 cards. Move each of your fighters up to 3 spaces each. They may move through opposing fighters."
+    },
+    {
+        "name": "Primeval Slam",
+        "type": "attack",
+        "power": "4",
+        "text": "After combat: Summon a Wolf in the Leshen's zone. Then move each Wolf up to 3 spaces."
+    },
+    {
+        "name": "Flock Of Birds",
+        "type": "attack",
+        "power": "5",
+        "text": "After combat: You may place the Leshen in any space."
+    },
+    {
+        "name": "Disturbing Howls",
+        "type": "attack",
+        "power": "1",
+        "text": "After combat: Move the opposing fighter up to 2 spaces. Gain 1 action."
+    },
+    {
+        "name": "Nature Abounds",
+        "type": "attack",
+        "power": "2",
+        "text": "After combat: Draw 1 card for each of your fighters adjacent to the opposing fighter."
+    },
+    {
+        "name": "Command The Forest",
+        "type": "attack",
+        "power": "4",
+        "text": "After combat: If you won the combat, your opponent discards 1 card."
+    },
+    {
+        "name": "Planted Feet",
+        "type": "versatile",
+        "power": "4",
+        "text": "After combat: If your fighter hasn't left their space this turn, draw 1 card."
+    },
+    {
+        "name": "Harrying Strike",
+        "type": "versatile",
+        "power": "2",
+        "text": "During combat: Add +2 to this card's value for each of your fighters adjacent to the opposing fighter."
+    },
+    {
+        "name": "Primeval Guardian",
+        "type": "defence",
+        "power": "5",
+        "text": "During combat: Your opponent discards the top card of their deck. Add its BOOST value to their card's value. After combat: Move each Wolf up to 3 spaces."
+    },
+    {
+        "name": "Strength Of The Pack",
+        "type": "scheme",
+        "power": "",
+        "text": "Summon a Wolf in the Leshen's zone. [ONGOING]: At the start of your turn, the Leshen recovers 1 health. Discard this card at the end of your turn if there are no Wolves in the Leshen's zone."
+    },
+    {
+        "name": "Vanish Into Murder",
+        "type": "scheme",
+        "power": "",
+        "text": "Deal 1 damage to each opposing fighter in the Leshen's zone. Remove the Leshen from the board. At the start of your next turn, place the Leshen in any space. Then, draw 1 card."
+    },
+    {
+        "name": "Lion Cub Of Cintra $PWR$",
+        "type": "attack",
+        "power": "2",
+        "text": "During combat: - 1$PWR$ This card's value is 4 instead. - 5$PWR$ This card's value is 7 instead."
+    },
+    {
+        "name": "Bane Of The Aen Elle",
+        "type": "attack",
+        "power": "4",
+        "text": "After combat: Move Ihuarraquax up to 4 spaces. He may move through opposing fighters. Then, deal 1 damage to an opposing fighter he move through."
+    },
+    {
+        "name": "Pushed To The Brink $PWR$",
+        "type": "versatile",
+        "power": "3",
+        "text": "After combat: - 2$PWR$ Deal 1 damage to the opposing fighter. - 7$PWR$ Deal 2 damage to an opposing fighter within 3 spaces of Ciri."
+    },
+    {
+        "name": "The Lady Of Space And Time $PWR$",
+        "type": "versatile",
+        "power": "2",
+        "text": "After combat: - 3$PWR$ Return a card from your discard pile to the top of your deck. - 8$PWR$ Return a card from your discard pile to your hand. Draw 1 card."
+    },
+    {
+        "name": "Zireael $PWR$",
+        "type": "versatile",
+        "power": "2",
+        "text": "During combat: - 3$PWR$ This card's value is a 4 instead. - 5$PWR$ This card's value is a 4 instead. Your opponent discards 1 random card."
+    },
+    {
+        "name": "Blink",
+        "type": "versatile",
+        "power": "4",
+        "text": "After combat: Move Ciri up to 3 spaces. She may move through opposing fighters."
+    },
+    {
+        "name": "Searching Strike",
+        "type": "versatile",
+        "power": "3",
+        "text": "After combat: If you won the combat, you may search your deck for a Source card, reveal it, and add it to your hand."
+    },
+    {
+        "name": "Parry",
+        "type": "defence",
+        "power": "3",
+        "text": "Immediately: Cancel all effects on your opponent's card."
+    },
+    {
+        "name": "Child Of The Elder Blood $PWR$",
+        "type": "scheme",
+        "power": "",
+        "text": "- 4$PWR$ Deal 1 damage to each other fighter in Ciri's zone. - 9$PWR$ Deal 3 damage to each other fighter in ciri's zone."
+    },
+    {
+        "name": "Jeet Kune Do: Corkscrew Finger Jab",
+        "type": "attack",
+        "power": "3",
+        "text": "After combat: Deal 1 damage to the opposing fighter. Gain 1 action."
+    },
+    {
+        "name": "One-Inch Punch",
+        "type": "scheme",
+        "power": "",
+        "text": "Deal 2 damage to an adjacent fighter. If this defeats that fighter, return this card to your hand instead of discarding it."
+    },
+    {
+        "name": "Scientific Method",
+        "type": "defence",
+        "power": "2",
+        "text": "After combat: Draw a number of cards equal to the damage you were dealt."
+    },
+    {
+        "name": "Unicorn Ally",
+        "type": "scheme",
+        "power": "",
+        "text": "Ciri recovers 2 health. ONGOING: After each combat your fighter is in, draw 1 card. Discard this card at the end of your turn if you have 5 or more cards in your hand."
+    },
+    {
+        "name": "Horror 2️⃣",
+        "type": "attack",
+        "power": "4",
+        "text": "LINE EFFECT: Deal 1 damage to the opposing fighter for each other card in your line. During combat: Increase the value of this card by +1 for each HORROR card in your line."
+    },
+    {
+        "name": "My Kingdom For A Horse 6️⃣",
+        "type": "attack",
+        "power": "5",
+        "text": "LINE EFFECT: Gain 2 actions."
+    },
+    {
+        "name": "All Are Punished 4️⃣",
+        "type": "attack",
+        "power": "4",
+        "text": "LINE EFFECT: Draw 1 card. After combat: Deal 1 damage to each other fighter in your zone."
+    },
+    {
+        "name": "Places, Places! 4️⃣",
+        "type": "attack",
+        "power": "3",
+        "text": "LINE EFFECT: Place Shakespeare in a zone with no Actors. After combat: Move each Actor up to 3 spaces."
+    },
+    {
+        "name": "Once More Unto The Breach 6️⃣",
+        "type": "versatile",
+        "power": "3",
+        "text": "LINE EFFECT: Return all defeated Actors to spaces in Shakespeare's zone. After combat: Return a defeated Actor to any space in Shakespeare's zone."
+    },
+    {
+        "name": "Alas 2️⃣",
+        "type": "versatile",
+        "power": "2",
+        "text": "LINE EFFECT: Draw 2 cards. Shakespeare recovers 2 health. After combat: If you lost the combat, Shakespeare recovers 1 health."
+    },
+    {
+        "name": "The Ides Of March 4️⃣",
+        "type": "versatile",
+        "power": "2",
+        "text": "LINE EFFECT: Deal 2 damage to any opposing fighter."
+    },
+    {
+        "name": "Et Tu, Brute? 4️⃣",
+        "type": "versatile",
+        "power": "3",
+        "text": "LINE EFFECT: Place each of your fighters in any space. During combat: Increase the value of this card by +1 for each of your fighters adjacent to the opposing fighter."
+    },
+    {
+        "name": "Deceive 2️⃣",
+        "type": "versatile",
+        "power": "2",
+        "text": "LINE EFFECT: Return this card to your hand. Immediately: Cancel all effects on your opponent's card."
+    },
+    {
+        "name": "Revise 2️⃣",
+        "type": "versatile",
+        "power": "1",
+        "text": "LINE EFFECT: Move each fighter up to 2 spaces. (This includes opposing fighters.) After combat: Draw 1 card. If you won the combat, draw 2 cards instead."
+    },
+    {
+        "name": "Such Sweet Sorrow 4️⃣",
+        "type": "versatile",
+        "power": "4",
+        "text": "LINE EFFECT: Draw 1 card. After combat: Move your fighter up to 2 spaces."
+    },
+    {
+        "name": "Again 2️⃣",
+        "type": "versatile",
+        "power": "3",
+        "text": "LINE EFFECT: Draw 1 card. After combat: You may return the first card in your line to your hand (before you add this to your line)."
+    },
+    {
+        "name": "Double, Double 🦎",
+        "type": "attack",
+        "power": "3",
+        "text": "During combat: Increase the value of this card by +1 for each different ingredient symbol in your cauldron."
+    },
+    {
+        "name": "All-Seeing Familiar 🦎",
+        "type": "attack",
+        "power": "4",
+        "text": "Immediately: Return a card in your discard pile to your cauldron. After combat: If you won the combat, look at the top card of your deck and put it in your hand or cauldron."
+    },
+    {
+        "name": "Hurly-Burly 🐍",
+        "type": "attack",
+        "power": "3",
+        "text": "During combat: Reveal the top card of your deck. Your opponent chooses one: - put that card in your hand - put that card in your cauldron and add its BOOST value to this card's value."
+    },
+    {
+        "name": "Fire Burn And Cauldron Bubble 🦇",
+        "type": "versatile",
+        "power": "3",
+        "text": "Immediately: Return a card in your discard pile to your cauldron."
+    },
+    {
+        "name": "The Stars Align 🦎",
+        "type": "versatile",
+        "power": "0",
+        "text": "During combat: The value of this card is equal to the number of different zones all of your fighters are in."
+    },
+    {
+        "name": "Curious Familiar 🦇",
+        "type": "versatile",
+        "power": "2",
+        "text": "After combat: Return a card in your cauldron to your hand."
+    },
+    {
+        "name": "Ward 🦇",
+        "type": "versatile",
+        "power": "3",
+        "text": "After combat: Place the opposing fighter in any space in your fighter's zone."
+    },
+    {
+        "name": "Toil And Trouble 🐍",
+        "type": "defence",
+        "power": "2",
+        "text": "During combat: Increase the value of this card by +1 for each different ingredient symbol in your cauldron."
+    },
+    {
+        "name": "Pricking Of My Thumbs 🐍",
+        "type": "defence",
+        "power": "2",
+        "text": "After combat: Deal damage to the opposing fighter equal to the amount of combat damage your fighter took."
+    },
+    {
+        "name": "Unnatural Remedy 🐍",
+        "type": "defence",
+        "power": "1",
+        "text": "Immediately: Discard up to 3 cards from your cauldron. For each one, choose a fighter to recover 1 health. (You may choose the same fighter more than once.)"
+    },
+    {
+        "name": "Something Wicked This Way Comes 🦇",
+        "type": "scheme",
+        "power": "",
+        "text": "Cast any spell. Then, cast a different spell. (Do not discard any cards from your cauldron to cast these spells.)"
+    },
+    {
+        "name": "Prophecy 🦎",
+        "type": "scheme",
+        "power": "",
+        "text": "Look at the top 4 cards of your deck. Put 2 of them in your hand and the other 2 back on top of your deck in any order."
+    },
+    {
+        "name": "Queen Of The Fairies",
+        "type": "attack",
+        "power": "2",
+        "text": "During combat: Increase the value of this card by +1 for each glamour in your glamour discard pile."
+    },
+    {
+        "name": "Met By Moonlight",
+        "type": "attack",
+        "power": "5",
+        "text": "After combat: Place Oberon in a space adjacent to Titania."
+    },
+    {
+        "name": "As Wise As Beautiful",
+        "type": "versatile",
+        "power": "2",
+        "text": "After combat: Draw 1 card. You may discard your glamour to draw 2 cards instead."
+    },
+    {
+        "name": "Whisked Away",
+        "type": "versatile",
+        "power": "4",
+        "text": "After combat: Move your fighter up to 2 spaces. You may discard your glamour. If you do, place your fighter in any space."
+    },
+    {
+        "name": "The Moon Looks Down",
+        "type": "versatile",
+        "power": "3",
+        "text": "After combat: Put a discarded glamour on the bottom of your glamour deck."
+    },
+    {
+        "name": "Fairy Song",
+        "type": "versatile",
+        "power": "3",
+        "text": "During combat: You may discard your glamour. If you do, the value of this card is 5 instead."
+    },
+    {
+        "name": "Parting Gift",
+        "type": "versatile",
+        "power": "2",
+        "text": "After combat: You may deal 2 damage to each fighter in the combat."
+    },
+    {
+        "name": "But A Dream",
+        "type": "defence",
+        "power": "0",
+        "text": "Immediately: Cancel all effects on your opponent's card, ignore its value, and return it to your opponent's hand. After combat: Draw 1 card."
+    },
+    {
+        "name": "Protection Of The Fairy Woods",
+        "type": "defence",
+        "power": "2",
+        "text": "Immediately: You may discard your glamour. If you do, cancel all effects on your opponent's card."
+    },
+    {
+        "name": "Gift Of The Fair Folk",
+        "type": "scheme",
+        "power": "",
+        "text": "Choose 2 different effects: -one fighter recovers 2 health -draw 2 cards -move two fighters up to 2 spaces each"
+    },
+    {
+        "name": "What Fools These Mortals Be",
+        "type": "scheme",
+        "power": "",
+        "text": "Choose an opponent, look at their hand, and choose a card. They shuffle that card into their deck."
+    },
+    {
+        "name": "Cruel To Be Kind",
+        "type": "attack",
+        "power": "2",
+        "text": "During combat: You may BOOST this card."
+    },
+    {
+        "name": "Uncertain Doom",
+        "type": "attack",
+        "power": "2",
+        "text": "During combat: If your opponent played a versatile card, ignore its value."
+    },
+    {
+        "name": "To Sleep, Perchance To Dream",
+        "type": "attack",
+        "power": "3",
+        "text": "After combat: If you won the combat, move the opposing fighter a number of spaces up to the amount of combat damage dealt. If you lost the combat, Hamlet recovers 1 health."
+    },
+    {
+        "name": "The Readiness Is All",
+        "type": "versatile",
+        "power": "2",
+        "text": "After combat: Place one of the fighters in the combat in any space. They cannot leave that space this turn."
+    },
+    {
+        "name": "The Play's The Thing",
+        "type": "versatile",
+        "power": "3",
+        "text": "After combat: Your opponent discards 1 random card. If you won the combat, Hamlet recovers health equal to its BOOST value."
+    },
+    {
+        "name": "Blood Will Have Blood",
+        "type": "versatile",
+        "power": "2",
+        "text": "After combat: If Hamlet took damage this turn, deal 1 damage to the opposing fighter."
+    },
+    {
+        "name": "Outrageous Fortune",
+        "type": "versatile",
+        "power": "1",
+        "text": "During combat: Discard the top card of your deck. Add its BOOST value to this card's value. After combat: If you lost the combat, return the card you discarded to your hand."
+    },
+    {
+        "name": "Maddening Insight",
+        "type": "defence",
+        "power": "0",
+        "text": "During combat: The value of this card is equal to the number of cards in your hand. After combat: If you won the combat, your opponent discards 1 card."
+    },
+    {
+        "name": "The Rest Is Silence",
+        "type": "defence",
+        "power": "2",
+        "text": "After combat: End the turn."
+    },
+    {
+        "name": "Nothing Either Good Or Bad",
+        "type": "defence",
+        "power": "2",
+        "text": "After combat: If your opponent played a versatile card, deal 2 damage to the opposing fighter."
+    },
+    {
+        "name": "Method In The Madness",
+        "type": "scheme",
+        "power": "",
+        "text": "Put any number of cards in your hand on the bottom of your deck. Then, draw up to that many cards. Gain 1 action."
+    },
+    {
+        "name": "The Ghost",
+        "type": "scheme",
+        "power": "",
+        "text": "Choose one: -Hamlet recovers 2 health -place Hamlet in any space in his zone and gain 1 action"
+    },
+    {
+        "name": "Incinerate",
+        "type": "attack",
+        "power": "7",
+        "text": "This card's effects cannot be canceled. During combat: Your opponent may discard 2 cards to ignore this card's value."
+    },
+    {
+        "name": "Portal To Anywhere",
+        "type": "attack",
+        "power": "1",
+        "text": "After combat: Place a fighter in the combat in any space. Gain 1 action."
+    },
+    {
+        "name": "Echoing Blast",
+        "type": "attack",
+        "power": "3",
+        "text": "After combat: If you won the combat, return this card to your hand."
+    },
+    {
+        "name": "Ball Lightning",
+        "type": "versatile",
+        "power": "3",
+        "text": "After combat: If you won the combat, your opponent discards 1 card. Otherwise, both players discard 1 card."
+    },
+    {
+        "name": "Telepathy",
+        "type": "versatile",
+        "power": "3",
+        "text": "Immediately: Your opponent may discard 1 card. If they don't cancel all effects on their card."
+    },
+    {
+        "name": "Quick And Ready",
+        "type": "versatile",
+        "power": "2",
+        "text": "After combat: Place your fighter in any space in their zone. Draw 1 card."
+    },
+    {
+        "name": "Magical Barrier",
+        "type": "defence",
+        "power": "4",
+        "text": "Immediately: Your fighter recovers 1 health."
+    },
+    {
+        "name": "Advisor To The King",
+        "type": "scheme",
+        "power": "",
+        "text": "Each of your fighters recovers 1 health. Draw 1 card. [ONGOING]: Your BOOST values are +1. Discard this card at the end of your turn if you didn't attack."
+    },
+    {
+        "name": "Lodge Of Sorceresses",
+        "type": "scheme",
+        "power": "",
+        "text": "Each player simultaneously reveals a card from their hand and draws card equal to their card's BOOST value. Then, the player(s) who drew the most cards deals that much damage to their hero."
+    },
+    {
+        "name": "Owlform",
+        "type": "attack",
+        "power": "3",
+        "text": "During combat: Discard any number of cards from your hand. Add +1 to this card's value for each card discarded."
+    },
+    {
+        "name": "Lightning Bolt",
+        "type": "attack",
+        "power": "3",
+        "text": "After combat: If you haven't taken a maneuver action this turn, deal 1 damage to each opposing fighter in Philippa's zone."
+    },
+    {
+        "name": "Regicide",
+        "type": "attack",
+        "power": "4",
+        "text": "During combat: If the opposing fighter is a hero, this card's value is a 6 instead."
+    },
+    {
+        "name": "Chain Lightning",
+        "type": "attack",
+        "power": "2",
+        "text": "After combat: Choose a zone Philippa is in. Deal 1 damage to each opposing fighter in that zone."
+    },
+    {
+        "name": "Spellbreaker",
+        "type": "versatile",
+        "power": "2",
+        "text": "Immediately: Cancel all effects on your opponent's card. After combat: End the turn."
+    },
+    {
+        "name": "Redanian Plot",
+        "type": "versatile",
+        "power": "2",
+        "text": "Immediately: Your opponent may discard 1 card. If they don't, ignore their card's value."
+    },
+    {
+        "name": "Strange Case",
+        "type": "scheme",
+        "power": "",
+        "text": "Reveal the top card of your deck. Deal damage equal to its BOOST value to one adjacent fighter. Put the card in your hand."
+    },
+    {
+        "name": "Pure Evil",
+        "type": "scheme",
+        "power": "",
+        "text": "Place Mr. Hyde in any space in his zone. Mr. Hyde deals 2 damage to all adjacent fighters."
+    },
+    {
+        "name": "Restless Spirits",
+        "type": "scheme",
+        "power": "",
+        "text": "Choose any space in Merlin's zone. Deal 2 damage to each opposing fighter in that space and in one adjacent space. If at least one fighter is defeated this way, draw 1 card."
+    },
+    {
+        "name": "Killer of the Dead",
+        "type": "scheme",
+        "power": "",
+        "text": "Deal 2 damage to one opposing fighter adjacent to Faith."
+    },
+    {
+        "name": "Brooding",
+        "type": "versatile",
+        "power": "3",
+        "text": "After combat: If you lost the combat, the opposing fighter takes 1 damage."
+    },
+    {
+        "name": "Love and Loss",
+        "type": "scheme",
+        "power": "",
+        "text": "Draw 2 cards.\n(DARK) Discard the top 2 cards of your deck. Deal 3 damage to a sidekick in your zone (even if it's your own)."
+    },
+    {
+        "name": "Pack Hunters",
+        "type": "attack",
+        "power": "4",
+        "text": "After combat: If you won the combat, deal 1 damage to the opposing fighter for each of your Raptors adjacent to them."
+    },
+    {
+        "name": "Eaten Alive",
+        "type": "versatile",
+        "power": "4",
+        "text": "After combat: If you won the combat, deal 1 damage to one adjacent opposing fighter."
+    },
+    {
+        "name": "Daring Strike",
+        "type": "attack",
+        "power": "4",
+        "text": "After combat: If you won the combat, draw 2 cards. Otherwise, take 1 damage."
+    },
+    {
+        "name": "Slayer's Strength",
+        "type": "versatile",
+        "power": "4",
+        "text": "After combat: You may move all fighters adjacent to Buffy to another space in their zone. Then, deal 1 damage to each fighter you moved."
+    },
+    {
+        "name": "Bloody Hell!",
+        "type": "versatile",
+        "power": "3",
+        "text": "After combat: Deal 1 damage to the opposing fighter, then deal an additional 1 damage for each space with a shadow token adjacent to them."
+    },
+    {
+        "name": "Confirm Suspicion",
+        "type": "scheme",
+        "power": "",
+        "text": "Choose an opponent and name a value. Your opponent must choose and discard one card matching that attack or defense value. Their hero takes damage equal to the BOOST value of the discarded card. If they do not have a card of the named value, they must reveal their hand instead."
+    },
+    {
+        "name": "Master of Disguise",
+        "type": "scheme",
+        "power": "",
+        "text": "Choose an opponent. Holmes swaps spaces with their hero. Deal 1 damage to that hero."
+    },
+    {
+        "name": "Voyage to the City of the Man-Eating Apes",
+        "type": "attack",
+        "power": "2",
+        "text": "During combat: This card's value is +1 for each other VOYAGE card in your discard pile. After combat: Deal 2 damage to the opposing fighter."
+    },
+    {
+        "name": "The Rogue Slayer",
+        "type": "versatile",
+        "power": "3",
+        "text": "After combat: Deal 1 damage to each opposing fighter adjacent to Faith."
+    },
+    {
+        "name": "Cartwheel Kick",
+        "type": "defence",
+        "power": "2",
+        "text": "After combat: You may move Buffy up to 3 spaces. Then, deal 1 damage to each opposing fighter adjacent to her."
+    },
+    {
+        "name": "Point Blank",
+        "type": "versatile",
+        "power": "2",
+        "text": "After combat: If the opposing fighter is adjacent to Yennenga, deal them 2 damage."
+    },
+    {
+        "name": "And For My Next Move...",
+        "type": "versatile",
+        "power": "2",
+        "text": "After combat: Deal 2 damage to the opposing fighter OR move your fighter up to 3 spaces."
+    },
+    {
+        "name": "What a Terrible Big Mouth You Have $SWORDS$",
+        "type": "defence",
+        "power": "2",
+        "text": "After combat: $WOLF$  Deal damage to the opposing fighter equal to the printed value of their card."
+    },
+    {
+        "name": "Never Leave the Path $WOLF$",
+        "type": "scheme",
+        "power": "",
+        "text": "$WOLF$  Place Little Red in any space. Gain 1 action. \n$SWORDS$ Deal 2 damage to each opposing fighter in Little Red's zone. \n$ROSE$ Draw 3 cards."
+    },
+    {
+        "name": "Once Upon a Time $ROSE$",
+        "type": "versatile",
+        "power": "2",
+        "text": "After combat: $SWORDS$ Deal 3 damage to the opposing fighter."
+    },
+    {
+        "name": "The Equal of Grendel",
+        "type": "defence",
+        "power": "3",
+        "text": "Immediately: You may spend 2 Rage to deal damage to the opposing fighter equal to the printed value of their card."
+    },
+    {
+        "name": "Remnant of Valor",
+        "type": "scheme",
+        "power": "",
+        "text": "Wiglaf deals 1 damage to each adjacent fighter. If Beowulf was dealt damage this way, gain 1 action."
+    },
+    {
+        "name": "They Have An Amazing Buffet",
+        "type": "defence",
+        "power": "3",
+        "text": "After combat: Recover 2 health. Then, if you are at full health, take 2 damage."
+    },
+    {
+        "name": "Good Enough For Us",
+        "type": "versatile",
+        "power": "4",
+        "text": "After combat: You may draw 2 cards. If you do, take 2 damage."
+    },
+    {
+        "name": "Stallion Charge",
+        "type": "versatile",
+        "power": "3",
+        "text": "After combat: Move Yennenga up to 5 spaces. She may move through opposing fighters. Then, deal 1 damage to each opposing fighter she moved through."
+    },
+    {
+        "name": "A Totally Sane Thing To Do",
+        "type": "versatile",
+        "power": "2",
+        "text": "After combat: You may deal 2 damage to both fighters in the combat."
+    },
+    {
+        "name": "Blaze of Glory",
+        "type": "attack",
+        "power": "2",
+        "text": "After combat: Spend any amount of Hellfire, Deal that much damage to each fighter in Ghost Rider's zone (including Ghost Rider)."
+    },
+    {
+        "name": "Stoke The Flames",
+        "type": "defence",
+        "power": "2",
+        "text": "After combat: If you lost the combat, gain Hellfire equal to the combat damage you took."
+    },
+    {
+        "name": "Skin Like Titanium",
+        "type": "defence",
+        "power": "0",
+        "text": "After combat: If you lost the combat, deal damage to the opposing fighter equal to the amount of combat damage you took."
+    },
+    {
+        "name": "Power Man",
+        "type": "defence",
+        "power": "2",
+        "text": "After combat: Move the opposing fighter up to 3 spaces. You may move them through other opposing fighters. Deal 1 damage to them and each opposing fighter they moved through."
+    },
+    {
+        "name": "Through Adversity",
+        "type": "scheme",
+        "power": "",
+        "text": "Move Daredevil up to 4 spaces. He may move through opposing fighters. Deal 1 damage to each opposing fighter Daredevil moves through."
+    },
+    {
+        "name": "I Always Get The Last Word",
+        "type": "versatile",
+        "power": "3",
+        "text": "After combat: If you attacked, deal 1 damage to the opposing fighter."
+    },
+    {
+        "name": "Klunkin' Heads",
+        "type": "attack",
+        "power": "4",
+        "text": "After combat: If you won the combat, deal 3 damage to each other opposing fighter adjacent to the opposing fighter."
+    },
+    {
+        "name": "Broken Glass",
+        "type": "versatile",
+        "power": "3",
+        "text": "During combat: You may increase or decrease the value of this card by 1. After combat: If the value of this card matches your opponent's card, draw 1 card and the opposing fighter takes 2 damage."
+    },
+    {
+        "name": "Deadpool™ Merc For Hire, LLC",
+        "type": "attack",
+        "power": "5",
+        "text": "After combat: Deal 1 damage to the opposing fighter if you own the Deadpool Unmatched set."
+    },
+    {
+        "name": "Horde of Squirrels",
+        "type": "scheme",
+        "power": "",
+        "text": "Choose a space with four or more squirrels adjacent to it. Deal 2 damage to a fighter in that space."
+    },
+    {
+        "name": "Stolen Memories",
+        "type": "scheme",
+        "power": "",
+        "text": "Look at an opponent's hand and choose a card. Your opponent may discard it. If they don't, their hero takes damage equal to its BOOST value."
+    },
+    {
+        "name": "The Day of Your Doom",
+        "type": "attack",
+        "power": "3",
+        "text": "During combat: You may deal 2 damage to Patroclus. If you do, the value of this attack is 5 instead."
+    },
+    {
+        "name": "Spear Throw",
+        "type": "scheme",
+        "power": "",
+        "text": "Deal 2 damage to an opposing fighter in Achilles' zone."
+    },
+    {
+        "name": "Son Of A Boxer",
+        "type": "defence",
+        "power": "3",
+        "text": "After combat: If you lost the combat, deal 2 damage to a fighter adjacent to Daredevil."
+    },
+    {
+        "name": "Golden Chain Mail",
+        "type": "defence",
+        "power": "4",
+        "text": "During combat: Any combat damage you would take is dealt to the opposing fighter instead."
+    },
+    {
+        "name": "Ricochet",
+        "type": "versatile",
+        "power": "3",
+        "text": "After combat: If the opposing fighter was not defeated, deal 1 damage to a fighter in the opposing fighter's zone."
+    },
+    {
+        "name": "Mystic Assassin",
+        "type": "attack",
+        "power": "6",
+        "text": "After combat: Elektra takes 3 damage.RESURRECTED: Elektra takes no damage instead."
+    },
+    {
+        "name": "The Fist",
+        "type": "attack",
+        "power": "3",
+        "text": "After combat: You may deal 1 damage to your attacking fighter. If you do, return this card to your hand and gain 1 action."
+    },
+    {
+        "name": "Whirlwind",
+        "type": "versatile",
+        "power": "2",
+        "text": "After combat: RESURRECTED: Deal 1 damage to each adjacent opposing fighter."
+    },
+    {
+        "name": "Battle Frenzy",
+        "type": "attack",
+        "power": "3",
+        "text": "After combat: Deal 2 damage to both fighters in the combat."
+    },
+    {
+        "name": "Savagery",
+        "type": "attack",
+        "power": "4",
+        "text": "After combat: If you won the combat, deal 1 damage to each fighter adjacent to Bigfoot."
+    },
+    {
+        "name": "Thrash",
+        "type": "versatile",
+        "power": "2",
+        "text": "During combat: You may BOOST this card. After combat: If you won the combat, deal 1 damage to each opposing fighter in T-Rex's zone."
+    },
+    {
+        "name": "Reckless Lunge",
+        "type": "attack",
+        "power": "3",
+        "text": "After combat: Deal 3 damage to the opposing fighter. Then, take 3 damage."
+    },
+    {
+        "name": "When Dinosaurs Ruled the Earth",
+        "type": "attack",
+        "power": "2",
+        "text": "During combat: You may BOOST this card. After combat: If you won the combat, draw 1 card, gain 1 action, and take 2 damage."
+    },
+    {
+        "name": "Violently, If Necessary",
+        "type": "versatile",
+        "power": "3",
+        "text": "After combat: Deal 2 damage to each opposing fighter on or adjacent to a space with an insight token."
+    },
+    {
+        "name": "Lock The Doors!",
+        "type": "defence",
+        "power": "2",
+        "text": "After combat: Deal 2 damage to the opposing fighter. Move your fighter up to 2 spaces."
+    },
+    {
+        "name": "15,000 Pounds of Muscle",
+        "type": "attack",
+        "power": "3",
+        "text": "During combat: Ignore the value of your opponent's card. After combat: Take 2 damage."
+    },
+    {
+        "name": "Misdirection",
+        "type": "versatile",
+        "power": "2",
+        "text": "BOOSTED WITH: Deal 2 damage to any fighter. Immediately: Cancel all effects on your opponent's card."
+    },
+    {
+        "name": "Careful What You Wish For",
+        "type": "attack",
+        "power": "4",
+        "text": "After combat: If you lost the combat, deal 1 damage to an adjacent opposing fighter."
+    },
+    {
+        "name": "I Am Freed",
+        "type": "attack",
+        "power": "3",
+        "text": "After combat: Place the Genie in any empty space. Then, deal 1 damage to each adjacent fighter."
+    },
+    {
+        "name": "I Grant You Death",
+        "type": "versatile",
+        "power": "2",
+        "text": "After combat: You may deal 1 damage to an adjacent fighter."
+    },
+    {
+        "name": "Imprisoned Wrath",
+        "type": "attack",
+        "power": "3",
+        "text": "After combat: You may discard 2 cards to deal 2 damage to an adjacent opposing fighter."
+    },
+    {
+        "name": "Prisoner's Torment",
+        "type": "defence",
+        "power": "1",
+        "text": "After combat: Draw cards equal to the amount of combat damage you took."
+    },
+    {
+        "name": "Easy Peasy",
+        "type": "versatile",
+        "power": "3",
+        "text": "After combat: Draw 1 card. Then, if you have 4 or more cards in your hand, deal 1 damage to an adjacent fighter."
+    },
+    {
+        "name": "Lightforce Barrage",
+        "type": "attack",
+        "power": "7",
+        "text": "This card's effects cannot be canceled. After combat: If you won the combat, your fighter takes damage equal to the amount of damage you dealt."
+    },
+    {
+        "name": "Chosen Fate",
+        "type": "scheme",
+        "power": "",
+        "text": "Deal up to 4 damage to one of your fighters. Your other fighter recovers that amount of health. Draw 2 cards"
+    },
+    {
+        "name": "Student of War",
+        "type": "attack",
+        "power": "5",
+        "text": "After combat: Draw a number of cards equal to the amount of combat damage dealt to the opposing fighter."
+    },
+    {
+        "name": "Demon King of the Sixth Heaven",
+        "type": "scheme",
+        "power": "",
+        "text": "Deal 2 damage to each opposing flanked fighter."
+    },
+    {
+        "name": "Fearsome Strength",
+        "type": "attack",
+        "power": "3",
+        "text": "Immediately: Tomoe Gozen may swap spaces with an adjacent fighter. After combat: Deal 1 damage to an adjacent fighter."
+    },
+    {
+        "name": "Flash of Steel",
+        "type": "versatile",
+        "power": "2",
+        "text": "Immediately: If the opposing fighter is a hero, cancel all effects on your opponent's card. After combat: If the opposing fighter is adjacent, deal 1 damage to them."
+    },
+    {
+        "name": "Deeds of Valor",
+        "type": "defence",
+        "power": "2",
+        "text": "During combat: Tomoe Gozen cannot take more than 2 combat damage this combat."
+    },
+    {
+        "name": "Reign of Terror",
+        "type": "scheme",
+        "power": "",
+        "text": "If Invisible Man is on a space with a fog token, deal 2 damage to any one opposing fighter."
+    },
+    {
+        "name": "Complete the Mission",
+        "type": "defence",
+        "power": "3",
+        "text": "During combat: You may BOOST this card. After combat: Deal damage to the opposing fighter equal to the amount of combat damage you took."
+    },
+    {
+        "name": "Counter-Attack",
+        "type": "defence",
+        "power": "3",
+        "text": "After combat: If the value of your opponent's card is 4 or higher, deal 2 damage to the opposing fighter."
+    },
+    {
+        "name": "Web Shooters",
+        "type": "defence",
+        "power": "3",
+        "text": "During combat: Spider-Man cannot take more than 2 combat damage this combat."
+    },
+    {
+        "name": "Swinging Kick",
+        "type": "attack",
+        "power": "6",
+        "text": "After combat: You may move the opposing fighter a number of spaces up to the amount of combat damage dealt."
+    },
+    {
+        "name": "Steadfast Disciple",
+        "type": "versatile",
+        "power": "2",
+        "text": "After combat: If Wong is adjacent to the opposing fighter, deal 1 damage to the opposing fighter and draw 1 card."
+    },
+    {
+        "name": "The Rings of Raggadorr",
+        "type": "attack",
+        "power": "4",
+        "text": "After combat: If you won the combat, your fighter and each friendly fighter adjacent to them recover health equal to the damage dealt."
+    },
+    {
+        "name": "The Defense Rests",
+        "type": "defence",
+        "power": "2",
+        "text": "After combat: Draw cards equal to the amount of combat damage you took."
+    },
+    {
+        "name": "Green Energy",
+        "type": "versatile",
+        "power": "4",
+        "text": "After combat: If you won the combat, deal 1 damage to each fighter adjacent to She-Hulk."
+    },
+    {
+        "name": "Omega-Level Threat",
+        "type": "attack",
+        "power": "5",
+        "text": "After combat: If you dealt 2 or more combat damage, your opponent discards 2 random cards."
+    },
+    {
+        "name": "The Madripoor Sanction",
+        "type": "scheme",
+        "power": "",
+        "text": "Mission: Black Widow is in an opponent's starting space. \nDeal 2 damage to each of that opponent's fighters. Acquire a new mission."
+    },
+    {
+        "name": "Programmed to Kill",
+        "type": "attack",
+        "power": "4",
+        "text": "After combat: {RED ROOM} If you won the combat, take 2 damage."
+    },
+    {
+        "name": "A Few More Pearls",
+        "type": "scheme",
+        "power": "",
+        "text": "Deal 2 damage to each opposing fighter adjacent to Annie."
+    },
+    {
+        "name": "Lagniappe",
+        "type": "attack",
+        "power": "5",
+        "text": "Immediately: Deal up to 2 damage to Annie to draw that many cards. (This may cause her special ability to apply.)"
+    },
+    {
+        "name": "Striking Beauty",
+        "type": "versatile",
+        "power": "1",
+        "text": "After combat: Deal 1 damage to the opposing fighter. If you won the combat, deal 2 damage instead."
+    },
+    {
+        "name": "A Punch to Shake the Earth",
+        "type": "attack",
+        "power": "1",
+        "text": "After combat: Deal 1 damage to each opposing fighter in Golden Bat's zone. If you won the combat, deal 2 damage instead."
+    },
+    {
+        "name": "Battle of Wits",
+        "type": "attack",
+        "power": "2",
+        "text": "After combat: Reveal the top card of your deck and your opponent's deck. If your card has a higher BOOST value, deal 3 damage to the opposing fighter."
+    },
+    {
+        "name": "Indestructible Cloth",
+        "type": "defence",
+        "power": "5",
+        "text": "Immediately: This combat, your fighter does not take damage from effects other than combat damage."
+    },
+    {
+        "name": "Laser Pen",
+        "type": "versatile",
+        "power": "2",
+        "text": "After combat: Deal 1 damage to the opposing fighter."
+    },
+    {
+        "name": "Spring the Trap",
+        "type": "defence",
+        "power": "2",
+        "text": "Immediately: Your fighter may swap spaces with an adjacent friendly fighter. If they do, the other fighter is now the defender. After combat: Deal 1 damage to the opposing fighter."
+    },
+    {
+        "name": "Lightning Storm",
+        "type": "versatile",
+        "power": "3",
+        "text": "After combat: You may discharge coils: - 1 Coil: Deal 1 damage to each opposing fighter in your zone. - 2 Coils: Instead, deal 2 damage."
+    },
+    {
+        "name": "The Moscow Protocol",
+        "type": "scheme",
+        "power": "",
+        "text": "Mission: An opposing fighter took damage this turn.\nDraw 1 card and gain 1 action. Acquire a new mission."
+    },
+    {
+        "name": "The Firenze Agenda",
+        "type": "scheme",
+        "power": "",
+        "text": "Mission: Black Widow is adjacent to an opposing hero.\nDeal 2 damage to each opposing fighter in Black Widow's zone. Acquire a new mission."
+    },
+    {
+        "name": "Cunning",
+        "type": "versatile",
+        "power": "4",
+        "text": "After combat: Your opponent may discard 1 card. If they don't deal 2 damage to the opposing fighter."
+    },
+    {
+        "name": "Blinding Dust",
+        "type": "defence",
+        "power": "2",
+        "text": "After combat: You may discard 1 card. If you do, deal damage to the opposing fighter equal to its BOOST value."
+    },
+    {
+        "name": "Polymorphy",
+        "type": "scheme",
+        "power": "",
+        "text": "Place Philippa in any space. [ONGOING]: Philippa's move value is 5. Discard this card at the end of your turn if Philippa is not in a zone with an opposing fighter."
+    },
+    {
+        "name": "Spymaster's Ruse",
+        "type": "scheme",
+        "power": "",
+        "text": "Choose an opponent. They reveal 4 cards from their hand. Choose 2 of those cards for them to discard. Then, they draw 2 cards."
+    },
+    {
+        "name": "Backup Plan",
+        "type": "scheme",
+        "power": "",
+        "text": "Choose one: -set Philippa's health to 5 -draw 3 cards"
+    },
+    {
+        "name": "Igni",
+        "type": "attack",
+        "power": "0",
+        "text": "After combat: Deal 2 damage to the opposing fighter and 1 damage to each other fighter adjacent to Geralt."
+    },
+    {
+        "name": "Yrden",
+        "type": "versatile",
+        "power": "2",
+        "text": "Immediately: The opposing fighter cannot leave their space this turn. After combat: Move Geralt up to 2 spaces."
+    },
+    {
+        "name": "Rend",
+        "type": "versatile",
+        "power": "3",
+        "text": "During combat: You may BOOST this card."
+    },
+    {
+        "name": "Disciplined Duelist",
+        "type": "versatile",
+        "power": "4",
+        "text": "After combat: If the printed value of your opponent's card is... 2: you may draw a card 3: deal 1 damage to the opposing fighter 4: your opponent discards a card"
+    },
+    {
+        "name": "Damn, You're Ugly",
+        "type": "versatile",
+        "power": "5",
+        "text": ""
+    },
+    {
+        "name": "Annoying Tune",
+        "type": "versatile",
+        "power": "3",
+        "text": "After combat: Move the opposing fighter up to 4 spaces."
+    },
+    {
+        "name": "Plot Twist",
+        "type": "versatile",
+        "power": "2",
+        "text": "After combat: Look at your opponent's hand and choose 1 card for them to discard. Draw 1 card."
+    },
+    {
+        "name": "Witcher Senses",
+        "type": "scheme",
+        "power": "",
+        "text": "Search your deck or discard pile for a GEAR card and add it to your hand. If you took it from your deck, shuffle this card back into your deck."
+    },
+    {
+        "name": "GEAR: Sword of Steel",
+        "type": "attack",
+        "power": "4",
+        "text": "After combat: Gain 1 action. If the opposing fighter has 8 or more health, gain 2 actions instead."
+    },
+    {
+        "name": "Gear: Sword of Silver",
+        "type": "attack",
+        "power": "4",
+        "text": "Immediately: If the opposing fighter's card has a printed value of 4 or more, ignore its value."
+    },
+    {
+        "name": "GEAR: Wolf Medallion",
+        "type": "defence",
+        "power": "3",
+        "text": "Immediately: Cancel all effects on your opponent's card. During combat: If the opposing fighter is not adjacent to Geralt, ignore the value of your opponent's card."
+    },
+    {
+        "name": "GEAR: Armor Of The Forgotten Wolf",
+        "type": "defence",
+        "power": "2",
+        "text": "During combat: Add +1 to this card's value for each fighter adjacent to Geralt. After combat: End the turn."
+    },
+    {
+        "name": "GEAR: Blizzard",
+        "type": "scheme",
+        "power": "",
+        "text": "Draw 1 card. Move your fighter up to 3 spaces. ONGOING: Your opponent can't gain actions. Discard this card at the end of your turn if you didn't attack."
+    },
+    {
+        "name": "GEAR: Tawny Owl",
+        "type": "scheme",
+        "power": "",
+        "text": "Draw 2 cards. Gain 1 action. ONGOING: If an effect would cause you to discard a card from your hand, you may choose to ignore it. Discard this card at the end of your turn if you didn't attack."
+    },
+    {
+        "name": "Channel The Source",
+        "type": "attack",
+        "power": "2",
+        "text": "During combat: You may discard any number of $PWR$ cards from your hand. Add +2 to this card's value for each $PWR$ card you discarded."
+    },
+    {
+        "name": "Merigold's Hailstorm",
+        "type": "attack",
+        "power": "4",
+        "text": "After combat: Your opponent chooses one: - they discard 2 cards - deal 3 damage to their hero - they discard the top 4 cards of their deck"
+    },
+    {
+        "name": "Riposte",
+        "type": "versatile",
+        "power": "2",
+        "text": "After combat: Choose One: - deal 1 damage to an adjacent fighter - Geralt swaps spaces with an adjacent fighter."
+    }
+]

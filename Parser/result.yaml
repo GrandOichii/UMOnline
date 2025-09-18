@@ -1,0 +1,44 @@
+name: root
+status: SUCCESS
+children:
+- name: afterCombat
+  status: SUCCESS
+  children:
+  - name: effectSplitter
+    status: SUCCESS
+    children:
+    - name: effectSelector
+      status: SUCCESS
+      children:
+      - name: drawCards
+        status: SUCCESS
+        children:
+        - name: numericSelector
+          status: SUCCESS
+          children:
+          - name: upToNumber
+            status: SUCCESS
+            children: []
+            text: up to 2
+          text: up to 2
+        text: Draw up to 2 cards
+      text: Draw up to 2 cards
+    - name: effectSelector
+      status: SUCCESS
+      children:
+      - name: drawCards
+        status: DIDNT_MATCH
+        children: []
+        text: Gain 1 action.
+      - name: gainActions
+        status: SUCCESS
+        children:
+        - name: staticNumber
+          status: SUCCESS
+          children: []
+          text: 1
+        text: Gain 1 action.
+      text: Gain 1 action.
+    text: Draw up to 2 cards. Gain 1 action.
+  text: 'After combat: Draw up to 2 cards. Gain 1 action.'
+text: 'After combat: Draw up to 2 cards. Gain 1 action.'
