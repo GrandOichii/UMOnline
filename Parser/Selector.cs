@@ -13,20 +13,35 @@ public class Selector : ParserBase {
         var status = ParseResultStatus.ALL_CHILDREN_FAILED;
         var children = new List<ParseResult>();
         var allDidntMatch = true;
-        foreach (var child in Children) {
+        ParseResult? closestToMatch = null;
+        foreach (var child in Children)
+        {
             var childResult = child.Parse(text);
             children.Add(childResult);
 
             if (childResult.Status == ParseResultStatus.DIDNT_MATCH) continue;
+            closestToMatch = childResult;
             allDidntMatch = false;
 
-            if (childResult.Status == ParseResultStatus.SUCCESS) {
+            if (childResult.Status == ParseResultStatus.SUCCESS)
+            {
                 status = ParseResultStatus.SUCCESS;
                 break;
             }
         }
 
-        if (status == ParseResultStatus.ALL_CHILDREN_FAILED && allDidntMatch) status = ParseResultStatus.DIDNT_MATCH;
+        if (status == ParseResultStatus.ALL_CHILDREN_FAILED && allDidntMatch)
+            status = ParseResultStatus.DIDNT_MATCH;
+
+        if (status == ParseResultStatus.ALL_CHILDREN_FAILED)
+        {
+            foreach (var child in children)
+            {
+                if (child == closestToMatch!)
+                    continue;
+                child.Status = ParseResultStatus.IGNORED;
+            }
+        }
         return new(this, status, text, children);
     }
 

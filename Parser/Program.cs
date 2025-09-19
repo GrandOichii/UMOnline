@@ -3,12 +3,7 @@ using ScriptParser;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
-var card = new Card {
-    Name = "Test card",
-    // Text = "After combat: Draw 2 cards. Gain 1 action.",
-    Text = "After combat: Recover 2 health. Draw up to 2 cards. Gain 1 action.",
-};
-
+var cards = JsonSerializer.Deserialize<List<Card>>(File.ReadAllText("../cards.json"));
 
 var todo = new Matcher()
 {
@@ -31,12 +26,20 @@ var upToNumber = new Matcher()
     Script = File.ReadAllText("../scripts/upToNumber.lua")
 };
 
+var singleNumber = new Matcher()
+{
+    Name = "singleNumber",
+    PatternString = "an?",
+    Script = "function _Create(text, children, data)return '1'end"
+};
+
 var numericSelector = new Selector()
 {
     Name = "numericSelector",
     Children = [
+        singleNumber,
+        staticNumber,
         upToNumber,
-        staticNumber
     ]
 };
 
@@ -64,10 +67,38 @@ var effectSelector = new Selector()
 {
     Name = "effectSelector",
     Children = [
+        gainActions,
         drawCards,
-        gainActions
     ]
 };
+
+var youWonCondition = new Matcher()
+{
+    Name = "youWonCondition",
+    PatternString = "you won the combat",
+    Script = "function _Create(text, children, data)return 'UM.Conditional:CombatWonBy(\\nUM.Players:EffectOwner()\\n)' end"
+};
+
+var conditionalSelector = new Selector()
+{
+    Name = "conditionalSelector",
+    Children = [
+        youWonCondition
+    ]
+};
+
+var ifMatcher = new Matcher()
+{
+    Name = "ifMatcher",
+    PatternString = "If (.+), (.+)\\.?",
+    Script = File.ReadAllText("../scripts/ifMatcher.lua"),
+    Children = [
+        conditionalSelector,
+        effectSelector,
+    ]
+};
+
+effectSelector.Children.Add(ifMatcher);
 
 var effectSplitter = new Splitter()
 {
@@ -79,7 +110,8 @@ var effectSplitter = new Splitter()
     }
 };
 
-var afterCombat = new Matcher() {
+var afterCombat = new Matcher()
+{
     Name = "afterCombat",
     PatternString = "After combat: (.+)",
     Script = File.ReadAllText("../scripts/afterCombat.lua"),
@@ -88,35 +120,66 @@ var afterCombat = new Matcher() {
     }
 };
 
-var parser = new Matcher(){
+var rootSelector = new Selector()
+{
+    Name = "rootSelector",
+    Children = [
+        afterCombat,
+    ]
+};
+
+var parser = new Matcher()
+{
     Name = "root",
     PatternString = "(.+)",
     Script = File.ReadAllText("../scripts/root.lua"),
     Children = {
-        afterCombat
+        rootSelector
     }
 };
 
+// var card = new Card {
+//     Name = "Test card",
+//     Text = "Immediately: Cancel all effects on your opponent\u0027s card.",
+//     // Text = "After combat: Recover 2 health. Draw up to 2 cards. Gain 1 action.",
+// };
 
-var result = parser.Parse(card.Text);
+var analysis = new ParseResultAnalyzer();
 
-var serializer = new SerializerBuilder()
-    .WithNamingConvention(CamelCaseNamingConvention.Instance)
-    .Build();
+var successCount = 0;
 
-try
+foreach (var card in cards!)
 {
-    var serialized = serializer.Serialize(result);
 
-    var script = result.CreateScript();
+    var result = parser.Parse(card.Text);
 
-    File.WriteAllText("result.lua", script);
+    analysis.Analyze(result);
 
-    File.WriteAllText("result.yaml", serialized);
+    var serializer = new SerializerBuilder()
+        .WithNamingConvention(CamelCaseNamingConvention.Instance)
+        .Build();
 
+    try
+    {
+        var serialized = serializer.Serialize(result);
+
+        var script = result.CreateScript();
+
+        if (result.Status == ParseResultStatus.SUCCESS)
+        {
+            File.WriteAllText($"../cards/{card.Name}.lua", script);
+            ++successCount;
+        }
+
+        File.WriteAllText($"../reports/{card.Name}.yaml", serialized);
+
+    }
+    catch (Exception e)
+    {
+        System.Console.WriteLine(e);
+        System.Console.WriteLine(e.StackTrace);
+    }
 }
-catch (Exception e)
-{
-    System.Console.WriteLine(e);
-    System.Console.WriteLine(e.StackTrace);
-}
+
+File.WriteAllText("analysis.json", analysis.ToJson());
+System.Console.WriteLine($"{successCount}/{cards.Count}");

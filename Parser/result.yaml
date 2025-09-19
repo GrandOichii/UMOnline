@@ -1,44 +1,28 @@
 name: root
-status: SUCCESS
+status: CHILD_FAILED
 children:
-- name: afterCombat
-  status: SUCCESS
+- name: rootSelector
+  status: ALL_CHILDREN_FAILED
   children:
-  - name: effectSplitter
-    status: SUCCESS
+  - name: afterCombat
+    status: CHILD_FAILED
     children:
-    - name: effectSelector
-      status: SUCCESS
+    - name: effectSplitter
+      status: ALL_CHILDREN_FAILED
       children:
-      - name: drawCards
-        status: SUCCESS
-        children:
-        - name: numericSelector
-          status: SUCCESS
-          children:
-          - name: upToNumber
-            status: SUCCESS
-            children: []
-            text: up to 2
-          text: up to 2
-        text: Draw up to 2 cards
-      text: Draw up to 2 cards
-    - name: effectSelector
-      status: SUCCESS
-      children:
-      - name: drawCards
+      - name: effectSelector
         status: DIDNT_MATCH
-        children: []
-        text: Gain 1 action.
-      - name: gainActions
-        status: SUCCESS
         children:
-        - name: staticNumber
-          status: SUCCESS
+        - name: gainActions
+          status: DIDNT_MATCH
           children: []
-          text: 1
-        text: Gain 1 action.
-      text: Gain 1 action.
-    text: Draw up to 2 cards. Gain 1 action.
-  text: 'After combat: Draw up to 2 cards. Gain 1 action.'
-text: 'After combat: Draw up to 2 cards. Gain 1 action.'
+          text: 'Choose One: - deal 1 damage to an adjacent fighter - Geralt swaps spaces with an adjacent fighter.'
+        - name: drawCards
+          status: DIDNT_MATCH
+          children: []
+          text: 'Choose One: - deal 1 damage to an adjacent fighter - Geralt swaps spaces with an adjacent fighter.'
+        text: 'Choose One: - deal 1 damage to an adjacent fighter - Geralt swaps spaces with an adjacent fighter.'
+      text: 'Choose One: - deal 1 damage to an adjacent fighter - Geralt swaps spaces with an adjacent fighter.'
+    text: 'After combat: Choose One: - deal 1 damage to an adjacent fighter - Geralt swaps spaces with an adjacent fighter.'
+  text: 'After combat: Choose One: - deal 1 damage to an adjacent fighter - Geralt swaps spaces with an adjacent fighter.'
+text: 'After combat: Choose One: - deal 1 damage to an adjacent fighter - Geralt swaps spaces with an adjacent fighter.'

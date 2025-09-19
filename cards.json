@@ -147,7 +147,7 @@
         "name": "Bewilderment",
         "type": "defence",
         "power": "0",
-        "text": "During combat: Prevent all damage After combat: You may place your fighter in any space."
+        "text": "During combat: Prevent all damage\nAfter combat: You may place your fighter in any space."
     },
     {
         "name": "Covert Preparation",
@@ -171,7 +171,7 @@
         "name": "Surprise Attack",
         "type": "attack",
         "power": "5",
-        "text": "Immediately: Cancel all effects on your opponent's card. After combat: If Invisible Man is on a space with a fog token, move that fog token to another space."
+        "text": "Immediately: Cancel all effects on your opponent's card.\nAfter combat: If Invisible Man is on a space with a fog token, move that fog token to another space."
     },
     {
         "name": "Slip Away",
@@ -333,7 +333,7 @@
         "name": "Little Dragon",
         "type": "versatile",
         "power": "2",
-        "text": "During combat: If your hand is empty, the value of this card is 6 instead. After combat: Draw 2 cards."
+        "text": "During combat: If your hand is empty, the value of this card is 6 instead.\nAfter combat: Draw 2 cards."
     },
     {
         "name": "Taste of Blood",
@@ -348,16 +348,10 @@
         "text": "After combat: Choose a JEET KUNE DO card in your discard pile and add it to your hand."
     },
     {
-        "name": "Eat Me",
-        "type": "defence",
-        "power": "2",
-        "text": "Tee-hee! Immediately: Say \"eat me\" to your opponent. During combat: Say \"eat me\" to your opponent. After combat: If you lost combat, say \"eat me\" to your opponent."
-    },
-    {
         "name": "Jeet Kune Do: High Straight Lead",
         "type": "attack",
         "power": "3",
-        "text": "During combat: If either fighter started this turn in a different space, this card's value is 5 instead. After combat: Gain 1 action."
+        "text": "During combat: If either fighter started this turn in a different space, this card's value is 5 instead.\nAfter combat: Gain 1 action."
     },
     {
         "name": "Jeet Kune Do: Downward Side Kick",
@@ -375,7 +369,7 @@
         "name": "Jeet Kune Do: Intercepting Fist",
         "type": "attack",
         "power": "3",
-        "text": "Immediately: Cancel all effects on your opponent's card. After combat: Gain 1 action."
+        "text": "Immediately: Cancel all effects on your opponent's card.\nAfter combat: Gain 1 action."
     },
     {
         "name": "Jeet Kune Do: Short Lead Hook",
@@ -801,7 +795,7 @@
         "name": "Elementary",
         "type": "defence",
         "power": "3",
-        "text": "Play this card face up. Predict the printed attack value of the opponent's card. During combat: If you predicted the correct value, cancel all effects on your opponent's card and ignore its attack value."
+        "text": "Play this card face up. Predict the printed attack value of the opponent's card.\nDuring combat: If you predicted the correct value, cancel all effects on your opponent's card and ignore its attack value."
     },
     {
         "name": "Eliminate the Impossible",
@@ -825,7 +819,7 @@
         "name": "Voyage Home",
         "type": "attack",
         "power": "2",
-        "text": "During combat: This card's value is +1 for each other VOYAGE card in your discard pile. After combat: Take all other VOYAGE cards from your discard pile and add them to your hand."
+        "text": "During combat: This card's value is +1 for each other VOYAGE card in your discard pile.\nAfter combat: Take all other VOYAGE cards from your discard pile and add them to your hand."
     },
     {
         "name": "Riches Beyond Compare",
@@ -843,31 +837,31 @@
         "name": "Voyage to the Island That Was a Whale",
         "type": "attack",
         "power": "2",
-        "text": "During combat: This card's value is +1 for each other VOYAGE card in your discard pile. After combat: Sinbad recovers 2 health."
+        "text": "During combat: This card's value is +1 for each other VOYAGE card in your discard pile.\nAfter combat: Sinbad recovers 2 health."
     },
     {
         "name": "Voyage to the Valley of the Giant Snakes",
         "type": "attack",
         "power": "2",
-        "text": "During combat: This card's value is +1 for each other VOYAGE card in your discard pile. After combat: Look at your opponent's hand."
+        "text": "During combat: This card's value is +1 for each other VOYAGE card in your discard pile.\nAfter combat: Look at your opponent's hand."
     },
     {
         "name": "Voyage to the Creature With Eyes Like Coals of Fire",
         "type": "attack",
         "power": "2",
-        "text": "During combat: This card's value is +1 for each other VOYAGE card in your discard pile. After combat: Your opponent discards 1 random card."
+        "text": "During combat: This card's value is +1 for each other VOYAGE card in your discard pile.\nAfter combat: Your opponent discards 1 random card."
     },
     {
         "name": "Voyage to the Cannibals With the Root of Madness",
         "type": "attack",
         "power": "2",
-        "text": "During combat: This card's value is +1 for each other VOYAGE card in your discard pile. After combat: You may move Sinbad up to 2 spaces."
+        "text": "During combat: This card's value is +1 for each other VOYAGE card in your discard pile.\nAfter combat: You may move Sinbad up to 2 spaces."
     },
     {
         "name": "Voyage to the City of the King of Serendib",
         "type": "attack",
         "power": "2",
-        "text": "During combat: This card's value is +1 for each other VOYAGE card in your discard pile. After combat: Draw 1 card."
+        "text": "During combat: This card's value is +1 for each other VOYAGE card in your discard pile.\nAfter combat: Draw 1 card."
     },
     {
         "name": "Second Shot",
@@ -912,12 +906,6 @@
         "text": "During combat: +1 to this attack for each trap token adjacent to the opposing fighter."
     },
     {
-        "name": "Chimichanga Break!",
-        "type": "versatile",
-        "power": "2",
-        "text": "During combat: If there is food on the table, the value of this card is 5 instead."
-    },
-    {
         "name": "One With The Land",
         "type": "scheme",
         "power": "",
@@ -957,7 +945,7 @@
         "name": "The Ancient Heirloom",
         "type": "attack",
         "power": "3",
-        "text": "This card's effects cannot be canceled. During combat: You may spend 2 Rage to make this card's value 5 instead. You may spend 1 Rage to BOOST this card. (You may do both.)"
+        "text": "This card's effects cannot be canceled.\nDuring combat: You may spend 2 Rage to make this card's value 5 instead. You may spend 1 Rage to BOOST this card. (You may do both.)"
     },
     {
         "name": "What Large Hands You Have $WOLF$",
@@ -978,52 +966,10 @@
         "text": "After combat: Your opponent discards a card. If you won the combat, they discard two instead."
     },
     {
-        "name": "Super Feint",
-        "type": "versatile",
-        "power": "4",
-        "text": "This card can't be canceled! Immediately: Cancel all effects on your opponent's card. After combat: Draw 1 card."
-    },
-    {
-        "name": "Holy Mackerel!",
-        "type": "scheme",
-        "power": "",
-        "text": "Guess the name of a card in your opponent's hand. Your opponent must discard all cards with that name. Otherwise they say \"go fish\" and you draw a card."
-    },
-    {
-        "name": "Faint",
-        "type": "scheme",
-        "power": "",
-        "text": "Tip your figure over. Make a fainting noise. Recover 2 health. Reset your figure."
-    },
-    {
         "name": "Hot for the Battle",
         "type": "attack",
         "power": "3",
         "text": "After combat: Wiglaf may swap spaces with Beowulf."
-    },
-    {
-        "name": "I'm Not Wearing Pants",
-        "type": "versatile",
-        "power": "2",
-        "text": "During combat: If this card isn't sleeved, its value is 5. After combat: If you're not wearing any pants, go put some on."
-    },
-    {
-        "name": "Sweeet!",
-        "type": "scheme",
-        "power": "",
-        "text": "Move to a space in a yellow-ish zone. Then move to a different space in a yellow-ish zone."
-    },
-    {
-        "name": "Wanna bet?",
-        "type": "attack",
-        "power": "2",
-        "text": "After combat: If you won the game your opponent buys you a drink. If you lost the game, you buy them a drink."
-    },
-    {
-        "name": "Call Me",
-        "type": "versatile",
-        "power": "3",
-        "text": "During combat: If your opponent's name is on this card, its value is 4. After combat: Your opponent writes their name on this card if it's not there already."
     },
     {
         "name": "Surprise Volley",
@@ -1035,7 +981,7 @@
         "name": "Brutal Strike",
         "type": "attack",
         "power": "2",
-        "text": "This card's effects cannot be canceled. During combat: If your opponent's card has an IMMEDIATELY effect, ignore their card's value."
+        "text": "This card's effects cannot be canceled.\nDuring combat: If your opponent's card has an IMMEDIATELY effect, ignore their card's value."
     },
     {
         "name": "We're All In This Together",
@@ -1071,7 +1017,7 @@
         "name": "Foul Purpose",
         "type": "attack",
         "power": "3",
-        "text": "If Eredin is ENRAGED, you may play this card face-up to target a fighter in any space. After combat: You may defeat a Red Rider to return this card to your hand."
+        "text": "If Eredin is ENRAGED, you may play this card face-up to target a fighter in any space.\nAfter combat: You may defeat a Red Rider to return this card to your hand."
     },
     {
         "name": "The Wolf's Skin $SWORDS$",
@@ -1101,7 +1047,7 @@
         "name": "Unyielding Hordes",
         "type": "attack",
         "power": "1",
-        "text": "Immediately: Return a defeated Red Rider to any space. During combat: Add +1 to this card's value for each other friendly fighter adjacent to the opposing fighter."
+        "text": "Immediately: Return a defeated Red Rider to any space.\nDuring combat: Add +1 to this card's value for each other friendly fighter adjacent to the opposing fighter."
     },
     {
         "name": "Into the Woods $WOLF$$ROSE$$SWORDS$",
@@ -1119,7 +1065,7 @@
         "name": "Epic Poem",
         "type": "attack",
         "power": "2",
-        "text": "Immediately: Gain 1 Rage. During combat: This card's value is +1 for each Rage you have. (You do not spend Rage for this effect.)"
+        "text": "Immediately: Gain 1 Rage.\nDuring combat: This card's value is +1 for each Rage you have. (You do not spend Rage for this effect.)"
     },
     {
         "name": "No Contest Expecteth",
@@ -1186,12 +1132,6 @@
         "type": "defence",
         "power": "3",
         "text": "Immediately: Your opponent may discard a card. If they don't, return a defeated Archer to a space in Yennenga's zone."
-    },
-    {
-        "name": "Rob's Pouch & Shoe Emporium",
-        "type": "attack",
-        "power": "4",
-        "text": "After combat: Move the opposing fighter one space. Just one."
     },
     {
         "name": "That's The Part I Like",
@@ -1311,7 +1251,7 @@
         "name": "Trash Talk",
         "type": "defence",
         "power": "2",
-        "text": "Immediately: Cancel all effects on your opponent's card. After combat: If you won the combat, end the turn."
+        "text": "Immediately: Cancel all effects on your opponent's card.\nAfter combat: If you won the combat, end the turn."
     },
     {
         "name": "Pushback",
@@ -1431,7 +1371,7 @@
         "name": "Out Of The Mirror",
         "type": "attack",
         "power": "1",
-        "text": "During combat: Your opponent discards 1 random card. Add its BOOST value to this card's value. After combat: If this is your third action, draw 1 card."
+        "text": "During combat: Your opponent discards 1 random card. Add its BOOST value to this card's value.\nAfter combat: If this is your third action, draw 1 card."
     },
     {
         "name": "Divide and Conquer",
@@ -1449,13 +1389,7 @@
         "name": "Infinite Strikes",
         "type": "attack",
         "power": "2",
-        "text": "During combat: For each other friendly fighter adjacent to the opposing fighter, increase the value of this card by +1. After combat: Gain 1 action."
-    },
-    {
-        "name": "Exploding Card!",
-        "type": "attack",
-        "power": "1",
-        "text": "During combat: If you made an exploding noise when you revealed the card the value of this card is 4."
+        "text": "During combat: For each other friendly fighter adjacent to the opposing fighter, increase the value of this card by +1.\nAfter combat: Gain 1 action."
     },
     {
         "name": "3 of Hearts",
@@ -1467,7 +1401,7 @@
         "name": "Ghostly Touch",
         "type": "attack",
         "power": "1",
-        "text": "During combat: You may BOOST this attack. After combat: If this is your third action this turn, recover 3 health."
+        "text": "During combat: You may BOOST this attack.\nAfter combat: If this is your third action this turn, recover 3 health."
     },
     {
         "name": "Speak Three Times",
@@ -1509,7 +1443,7 @@
         "name": "Devil of Hell's Kitchen",
         "type": "attack",
         "power": "4",
-        "text": "During combat: If you have no cards in your deck, the value of this card is 8 instead. After combat: Shuffle this card and the top four cards of your discard pile into your deck."
+        "text": "During combat: If you have no cards in your deck, the value of this card is 8 instead.\nAfter combat: Shuffle this card and the top four cards of your discard pile into your deck."
     },
     {
         "name": "Kick Butts",
@@ -1563,7 +1497,7 @@
         "name": "Ox Form",
         "type": "attack",
         "power": "7",
-        "text": "This card's effects cannot be canceled. During combat: If your opponent played a card, they may BOOST it."
+        "text": "This card's effects cannot be canceled.\nDuring combat: If your opponent played a card, they may BOOST it."
     },
     {
         "name": "72 Transformations",
@@ -1641,7 +1575,7 @@
         "name": "Study The Target",
         "type": "scheme",
         "power": "",
-        "text": "Draw 2 cards.If you won a combat this turn, draw 1 additional card and gain 1 action."
+        "text": "Draw 2 cards. If you won a combat this turn, draw 1 additional card and gain 1 action."
     },
     {
         "name": "Hands of Red",
@@ -1725,7 +1659,7 @@
         "name": "Sexism in Survival Situations",
         "type": "versatile",
         "power": "1",
-        "text": "During combat: If the opposing fighter is a hero, the value of this card is 4 instead. After combat: You may move Dr. Sattler 1 space."
+        "text": "During combat: If the opposing fighter is a hero, the value of this card is 4 instead.\nAfter combat: You may move Dr. Sattler 1 space."
     },
     {
         "name": "Chaotician",
@@ -1767,7 +1701,7 @@
         "name": "You're Just Making Her Angry",
         "type": "defence",
         "power": "1",
-        "text": "During combat: You may BOOST this card. After combat: If you won the combat, return this card to your hand."
+        "text": "During combat: You may BOOST this card.\nAfter combat: If you won the combat, return this card to your hand."
     },
     {
         "name": "Fangirl",
@@ -1779,13 +1713,13 @@
         "name": "Cloaked In Shadow",
         "type": "versatile",
         "power": "2",
-        "text": "Immediately: Cancel all effects on your opponent's card. After combat: RESURRECTED: Move Elektra up to 3 spaces."
+        "text": "Immediately: Cancel all effects on your opponent's card.\nAfter combat: RESURRECTED: Move Elektra up to 3 spaces."
     },
     {
         "name": "An Illusion of My Own Design",
         "type": "attack",
         "power": "4",
-        "text": "Immediately: Your opponent may BOOST their card. During combat: You may BOOST this card."
+        "text": "Immediately: Your opponent may BOOST their card.\nDuring combat: You may BOOST this card."
     },
     {
         "name": "Unbeatable Squirrel Girl",
@@ -1797,13 +1731,13 @@
         "name": "Flourish",
         "type": "attack",
         "power": "3",
-        "text": "BOOSTED WITH: Draw 1 card. During combat: You may BOOST this card."
+        "text": "BOOSTED WITH: Draw 1 card.\nDuring combat: You may BOOST this card."
     },
     {
         "name": "Grand Escape",
         "type": "defence",
         "power": "2",
-        "text": "During combat: You may BOOST this card. After combat: If you won the combat, place your fighter in any space."
+        "text": "During combat: You may BOOST this card.\nAfter combat: If you won the combat, place your fighter in any space."
     },
     {
         "name": "Claws That Catch",
@@ -1827,7 +1761,7 @@
         "name": "The Big Reveal",
         "type": "attack",
         "power": "2",
-        "text": "During combat: You may BOOST this card twice. After combat: Return one card you boosted with to your hand."
+        "text": "During combat: You may BOOST this card twice.\nAfter combat: Return one card you boosted with to your hand."
     },
     {
         "name": "Vanishing Act",
@@ -1947,7 +1881,7 @@
         "name": "Icy Guile",
         "type": "versatile",
         "power": "2",
-        "text": "Immediately: If Eredin is ENRAGED, cancel all effects on your opponent's card. During combat: You may defeat a Red Rider to ignore the value of your opponent's card."
+        "text": "Immediately: If Eredin is ENRAGED, cancel all effects on your opponent's card.\nDuring combat: You may defeat a Red Rider to ignore the value of your opponent's card."
     },
     {
         "name": "Darkforce Dimension",
@@ -1977,7 +1911,7 @@
         "name": "All Part of the Show",
         "type": "defence",
         "power": "2",
-        "text": "This card's effect cannot be canceled.\nBOOSTED WITH: Houdini recovers 2 health. After combat: If your fighter was defeated, set their health to 4 instead and place them in any space. (This effect happens even if Houdini was defeated.)"
+        "text": "This card's effect cannot be canceled.\nBOOSTED WITH: Houdini recovers 2 health.\nAfter combat: If your fighter was defeated, set their health to 4 instead and place them in any space. (This effect happens even if Houdini was defeated.)"
     },
     {
         "name": "The Living Light",
@@ -2037,7 +1971,7 @@
         "name": "Lightning and Thunder",
         "type": "attack",
         "power": "4",
-        "text": "Immediately: If the opposing fighter is flanked, cancel all effects on your opponent's card. After combat: Move your fighter up to 2 spaces."
+        "text": "Immediately: If the opposing fighter is flanked, cancel all effects on your opponent's card.\nAfter combat: Move your fighter up to 2 spaces."
     },
     {
         "name": "Pragmatism",
@@ -2049,7 +1983,7 @@
         "name": "Witness My Last Battle",
         "type": "attack",
         "power": "7",
-        "text": "This attack can only target a fighter adjacent to Tomoe Gozen. Play it face up. After combat: End the turn."
+        "text": "This attack can only target a fighter adjacent to Tomoe Gozen. Play it face up.\nAfter combat: End the turn."
     },
     {
         "name": "Five Against Thousands",
@@ -2079,7 +2013,7 @@
         "name": "Refuse to Retreat",
         "type": "defence",
         "power": "3",
-        "text": "Immediately: Tomoe Gozen cannot leave her space for the rest of the turn. After combat: If the opposing fighter is adjacent, your opponent discards 1 card."
+        "text": "Immediately: Tomoe Gozen cannot leave her space for the rest of the turn.\nAfter combat: If the opposing fighter is adjacent, your opponent discards 1 card."
     },
     {
         "name": "Lord Kiso's Final Stand",
@@ -2091,7 +2025,7 @@
         "name": "Call of the Mild",
         "type": "versatile",
         "power": "2",
-        "text": "During combat: If there are four or more squirrels in your fighter's zone, the value of this card is 4 instead. After combat: If you won the combat, draw 2 cards."
+        "text": "During combat: If there are four or more squirrels in your fighter's zone, the value of this card is 4 instead.\nAfter combat: If you won the combat, draw 2 cards."
     },
     {
         "name": "Cat-Like Reflexes",
@@ -2139,7 +2073,7 @@
         "name": "Caught in a Web",
         "type": "versatile",
         "power": "3",
-        "text": "During combat: Cancel all AFTER COMBAT effects on your opponent's card."
+        "text": "During combat: Cancel all\nAFTER COMBAT effects on your opponent's card."
     },
     {
         "name": "Double Identity",
@@ -2283,13 +2217,13 @@
         "name": "Bolts of Balthakk",
         "type": "attack",
         "power": "2",
-        "text": "During combat: You may BLIND BOOST this card. After combat: If you won the combat, gain 1 action."
+        "text": "During combat: You may BLIND BOOST this card.\nAfter combat: If you won the combat, gain 1 action."
     },
     {
         "name": "Seven Suns of Cinnibus",
         "type": "versatile",
         "power": "3",
-        "text": "If the value of this card is above 7, ignore its value. During combat: You may BLIND BOOST this card up to two times."
+        "text": "If the value of this card is above 7, ignore its value.\nDuring combat: You may BLIND BOOST this card up to two times."
     },
     {
         "name": "The Mists of Munnopor",
@@ -2325,7 +2259,7 @@
         "name": "Cease and Desist",
         "type": "versatile",
         "power": "1",
-        "text": "Immediately: Cancel all effects on your opponent's card. During combat: If you are attacking, the value of this card is 4 instead."
+        "text": "Immediately: Cancel all effects on your opponent's card.\nDuring combat: If you are attacking, the value of this card is 4 instead."
     },
     {
         "name": "Legalese",
@@ -2391,7 +2325,7 @@
         "name": "Bionic Arm",
         "type": "attack",
         "power": "2",
-        "text": "During combat: If Winter Soldier is adjacent to the opposing fighter, the value of this card is 6 instead. After combat: {RED ROOM} Your opponent moves each of their fighters up to 5 spaces."
+        "text": "During combat: If Winter Soldier is adjacent to the opposing fighter, the value of this card is 6 instead.\nAfter combat: {RED ROOM} Your opponent moves each of their fighters up to 5 spaces."
     },
     {
         "name": "A Boy Named Bucky",
@@ -2493,7 +2427,7 @@
         "name": "Like a Flash of Golden Light",
         "type": "versatile",
         "power": "2",
-        "text": "During combat: If Golden Bat shares no zones with the space he started this turn in, this card's value is 4 instead. After combat: Move Golden Bat up to 5 spaces."
+        "text": "During combat: If Golden Bat shares no zones with the space he started this turn in, this card's value is 4 instead.\nAfter combat: Move Golden Bat up to 5 spaces."
     },
     {
         "name": "Sight Beyond Sight",
@@ -2661,13 +2595,13 @@
         "name": "Portal Defense",
         "type": "defence",
         "power": "0",
-        "text": "Immediately: Eredin swaps spaces with an adjacent friendly fighter. That fighter is now the defender. After combat: If Eredin is ENRAGED, draw 2 cards."
+        "text": "Immediately: Eredin swaps spaces with an adjacent friendly fighter. That fighter is now the defender.\nAfter combat: If Eredin is ENRAGED, draw 2 cards."
     },
     {
         "name": "Implacable",
         "type": "defence",
         "power": "3",
-        "text": "If Eredin is ENRAGED, you may play this card as an attack. During combat: You may BOOST this card."
+        "text": "If Eredin is ENRAGED, you may play this card as an attack.\nDuring combat: You may BOOST this card."
     },
     {
         "name": "Might Of The Aen Elle",
@@ -2727,7 +2661,7 @@
         "name": "Primeval Guardian",
         "type": "defence",
         "power": "5",
-        "text": "During combat: Your opponent discards the top card of their deck. Add its BOOST value to their card's value. After combat: Move each Wolf up to 3 spaces."
+        "text": "During combat: Your opponent discards the top card of their deck. Add its BOOST value to their card's value.\nAfter combat: Move each Wolf up to 3 spaces."
     },
     {
         "name": "Strength Of The Pack",
@@ -2823,7 +2757,7 @@
         "name": "Horror 2️⃣",
         "type": "attack",
         "power": "4",
-        "text": "LINE EFFECT: Deal 1 damage to the opposing fighter for each other card in your line. During combat: Increase the value of this card by +1 for each HORROR card in your line."
+        "text": "LINE EFFECT: Deal 1 damage to the opposing fighter for each other card in your line.\nDuring combat: Increase the value of this card by +1 for each HORROR card in your line."
     },
     {
         "name": "My Kingdom For A Horse 6️⃣",
@@ -2835,25 +2769,25 @@
         "name": "All Are Punished 4️⃣",
         "type": "attack",
         "power": "4",
-        "text": "LINE EFFECT: Draw 1 card. After combat: Deal 1 damage to each other fighter in your zone."
+        "text": "LINE EFFECT: Draw 1 card.\nAfter combat: Deal 1 damage to each other fighter in your zone."
     },
     {
         "name": "Places, Places! 4️⃣",
         "type": "attack",
         "power": "3",
-        "text": "LINE EFFECT: Place Shakespeare in a zone with no Actors. After combat: Move each Actor up to 3 spaces."
+        "text": "LINE EFFECT: Place Shakespeare in a zone with no Actors.\nAfter combat: Move each Actor up to 3 spaces."
     },
     {
         "name": "Once More Unto The Breach 6️⃣",
         "type": "versatile",
         "power": "3",
-        "text": "LINE EFFECT: Return all defeated Actors to spaces in Shakespeare's zone. After combat: Return a defeated Actor to any space in Shakespeare's zone."
+        "text": "LINE EFFECT: Return all defeated Actors to spaces in Shakespeare's zone.\nAfter combat: Return a defeated Actor to any space in Shakespeare's zone."
     },
     {
         "name": "Alas 2️⃣",
         "type": "versatile",
         "power": "2",
-        "text": "LINE EFFECT: Draw 2 cards. Shakespeare recovers 2 health. After combat: If you lost the combat, Shakespeare recovers 1 health."
+        "text": "LINE EFFECT: Draw 2 cards. Shakespeare recovers 2 health.\nAfter combat: If you lost the combat, Shakespeare recovers 1 health."
     },
     {
         "name": "The Ides Of March 4️⃣",
@@ -2865,7 +2799,7 @@
         "name": "Et Tu, Brute? 4️⃣",
         "type": "versatile",
         "power": "3",
-        "text": "LINE EFFECT: Place each of your fighters in any space. During combat: Increase the value of this card by +1 for each of your fighters adjacent to the opposing fighter."
+        "text": "LINE EFFECT: Place each of your fighters in any space.\nDuring combat: Increase the value of this card by +1 for each of your fighters adjacent to the opposing fighter."
     },
     {
         "name": "Deceive 2️⃣",
@@ -2877,19 +2811,19 @@
         "name": "Revise 2️⃣",
         "type": "versatile",
         "power": "1",
-        "text": "LINE EFFECT: Move each fighter up to 2 spaces. (This includes opposing fighters.) After combat: Draw 1 card. If you won the combat, draw 2 cards instead."
+        "text": "LINE EFFECT: Move each fighter up to 2 spaces. (This includes opposing fighters.)\nAfter combat: Draw 1 card. If you won the combat, draw 2 cards instead."
     },
     {
         "name": "Such Sweet Sorrow 4️⃣",
         "type": "versatile",
         "power": "4",
-        "text": "LINE EFFECT: Draw 1 card. After combat: Move your fighter up to 2 spaces."
+        "text": "LINE EFFECT: Draw 1 card.\nAfter combat: Move your fighter up to 2 spaces."
     },
     {
         "name": "Again 2️⃣",
         "type": "versatile",
         "power": "3",
-        "text": "LINE EFFECT: Draw 1 card. After combat: You may return the first card in your line to your hand (before you add this to your line)."
+        "text": "LINE EFFECT: Draw 1 card.\nAfter combat: You may return the first card in your line to your hand (before you add this to your line)."
     },
     {
         "name": "Double, Double 🦎",
@@ -2901,7 +2835,7 @@
         "name": "All-Seeing Familiar 🦎",
         "type": "attack",
         "power": "4",
-        "text": "Immediately: Return a card in your discard pile to your cauldron. After combat: If you won the combat, look at the top card of your deck and put it in your hand or cauldron."
+        "text": "Immediately: Return a card in your discard pile to your cauldron.\nAfter combat: If you won the combat, look at the top card of your deck and put it in your hand or cauldron."
     },
     {
         "name": "Hurly-Burly 🐍",
@@ -3009,7 +2943,7 @@
         "name": "But A Dream",
         "type": "defence",
         "power": "0",
-        "text": "Immediately: Cancel all effects on your opponent's card, ignore its value, and return it to your opponent's hand. After combat: Draw 1 card."
+        "text": "Immediately: Cancel all effects on your opponent's card, ignore its value, and return it to your opponent's hand.\nAfter combat: Draw 1 card."
     },
     {
         "name": "Protection Of The Fairy Woods",
@@ -3069,13 +3003,13 @@
         "name": "Outrageous Fortune",
         "type": "versatile",
         "power": "1",
-        "text": "During combat: Discard the top card of your deck. Add its BOOST value to this card's value. After combat: If you lost the combat, return the card you discarded to your hand."
+        "text": "During combat: Discard the top card of your deck. Add its BOOST value to this card's value.\nAfter combat: If you lost the combat, return the card you discarded to your hand."
     },
     {
         "name": "Maddening Insight",
         "type": "defence",
         "power": "0",
-        "text": "During combat: The value of this card is equal to the number of cards in your hand. After combat: If you won the combat, your opponent discards 1 card."
+        "text": "During combat: The value of this card is equal to the number of cards in your hand.\nAfter combat: If you won the combat, your opponent discards 1 card."
     },
     {
         "name": "The Rest Is Silence",
@@ -3105,7 +3039,7 @@
         "name": "Incinerate",
         "type": "attack",
         "power": "7",
-        "text": "This card's effects cannot be canceled. During combat: Your opponent may discard 2 cards to ignore this card's value."
+        "text": "This card's effects cannot be canceled.\nDuring combat: Your opponent may discard 2 cards to ignore this card's value."
     },
     {
         "name": "Portal To Anywhere",
@@ -3183,7 +3117,7 @@
         "name": "Spellbreaker",
         "type": "versatile",
         "power": "2",
-        "text": "Immediately: Cancel all effects on your opponent's card. After combat: End the turn."
+        "text": "Immediately: Cancel all effects on your opponent's card.\nAfter combat: End the turn."
     },
     {
         "name": "Redanian Plot",
@@ -3273,7 +3207,7 @@
         "name": "Voyage to the City of the Man-Eating Apes",
         "type": "attack",
         "power": "2",
-        "text": "During combat: This card's value is +1 for each other VOYAGE card in your discard pile. After combat: Deal 2 damage to the opposing fighter."
+        "text": "During combat: This card's value is +1 for each other VOYAGE card in your discard pile.\nAfter combat: Deal 2 damage to the opposing fighter."
     },
     {
         "name": "The Rogue Slayer",
@@ -3399,7 +3333,7 @@
         "name": "Broken Glass",
         "type": "versatile",
         "power": "3",
-        "text": "During combat: You may increase or decrease the value of this card by 1. After combat: If the value of this card matches your opponent's card, draw 1 card and the opposing fighter takes 2 damage."
+        "text": "During combat: You may increase or decrease the value of this card by 1.\nAfter combat: If the value of this card matches your opponent's card, draw 1 card and the opposing fighter takes 2 damage."
     },
     {
         "name": "Deadpool™ Merc For Hire, LLC",
@@ -3483,7 +3417,7 @@
         "name": "Thrash",
         "type": "versatile",
         "power": "2",
-        "text": "During combat: You may BOOST this card. After combat: If you won the combat, deal 1 damage to each opposing fighter in T-Rex's zone."
+        "text": "During combat: You may BOOST this card.\nAfter combat: If you won the combat, deal 1 damage to each opposing fighter in T-Rex's zone."
     },
     {
         "name": "Reckless Lunge",
@@ -3495,7 +3429,7 @@
         "name": "When Dinosaurs Ruled the Earth",
         "type": "attack",
         "power": "2",
-        "text": "During combat: You may BOOST this card. After combat: If you won the combat, draw 1 card, gain 1 action, and take 2 damage."
+        "text": "During combat: You may BOOST this card.\nAfter combat: If you won the combat, draw 1 card, gain 1 action, and take 2 damage."
     },
     {
         "name": "Violently, If Necessary",
@@ -3513,7 +3447,7 @@
         "name": "15,000 Pounds of Muscle",
         "type": "attack",
         "power": "3",
-        "text": "During combat: Ignore the value of your opponent's card. After combat: Take 2 damage."
+        "text": "During combat: Ignore the value of your opponent's card.\nAfter combat: Take 2 damage."
     },
     {
         "name": "Misdirection",
@@ -3561,7 +3495,7 @@
         "name": "Lightforce Barrage",
         "type": "attack",
         "power": "7",
-        "text": "This card's effects cannot be canceled. After combat: If you won the combat, your fighter takes damage equal to the amount of damage you dealt."
+        "text": "This card's effects cannot be canceled.\nAfter combat: If you won the combat, your fighter takes damage equal to the amount of damage you dealt."
     },
     {
         "name": "Chosen Fate",
@@ -3585,13 +3519,13 @@
         "name": "Fearsome Strength",
         "type": "attack",
         "power": "3",
-        "text": "Immediately: Tomoe Gozen may swap spaces with an adjacent fighter. After combat: Deal 1 damage to an adjacent fighter."
+        "text": "Immediately: Tomoe Gozen may swap spaces with an adjacent fighter.\nAfter combat: Deal 1 damage to an adjacent fighter."
     },
     {
         "name": "Flash of Steel",
         "type": "versatile",
         "power": "2",
-        "text": "Immediately: If the opposing fighter is a hero, cancel all effects on your opponent's card. After combat: If the opposing fighter is adjacent, deal 1 damage to them."
+        "text": "Immediately: If the opposing fighter is a hero, cancel all effects on your opponent's card.\nAfter combat: If the opposing fighter is adjacent, deal 1 damage to them."
     },
     {
         "name": "Deeds of Valor",
@@ -3609,7 +3543,7 @@
         "name": "Complete the Mission",
         "type": "defence",
         "power": "3",
-        "text": "During combat: You may BOOST this card. After combat: Deal damage to the opposing fighter equal to the amount of combat damage you took."
+        "text": "During combat: You may BOOST this card.\nAfter combat: Deal damage to the opposing fighter equal to the amount of combat damage you took."
     },
     {
         "name": "Counter-Attack",
@@ -3717,7 +3651,7 @@
         "name": "Spring the Trap",
         "type": "defence",
         "power": "2",
-        "text": "Immediately: Your fighter may swap spaces with an adjacent friendly fighter. If they do, the other fighter is now the defender. After combat: Deal 1 damage to the opposing fighter."
+        "text": "Immediately: Your fighter may swap spaces with an adjacent friendly fighter. If they do, the other fighter is now the defender.\nAfter combat: Deal 1 damage to the opposing fighter."
     },
     {
         "name": "Lightning Storm",
@@ -3777,7 +3711,7 @@
         "name": "Yrden",
         "type": "versatile",
         "power": "2",
-        "text": "Immediately: The opposing fighter cannot leave their space this turn. After combat: Move Geralt up to 2 spaces."
+        "text": "Immediately: The opposing fighter cannot leave their space this turn.\nAfter combat: Move Geralt up to 2 spaces."
     },
     {
         "name": "Rend",
@@ -3831,13 +3765,13 @@
         "name": "GEAR: Wolf Medallion",
         "type": "defence",
         "power": "3",
-        "text": "Immediately: Cancel all effects on your opponent's card. During combat: If the opposing fighter is not adjacent to Geralt, ignore the value of your opponent's card."
+        "text": "Immediately: Cancel all effects on your opponent's card.\nDuring combat: If the opposing fighter is not adjacent to Geralt, ignore the value of your opponent's card."
     },
     {
         "name": "GEAR: Armor Of The Forgotten Wolf",
         "type": "defence",
         "power": "2",
-        "text": "During combat: Add +1 to this card's value for each fighter adjacent to Geralt. After combat: End the turn."
+        "text": "During combat: Add +1 to this card's value for each fighter adjacent to Geralt.\nAfter combat: End the turn."
     },
     {
         "name": "GEAR: Blizzard",

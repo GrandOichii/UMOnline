@@ -3,11 +3,13 @@ using YamlDotNet.Serialization;
 
 namespace ScriptParser;
 
-public enum ParseResultStatus {
+public enum ParseResultStatus
+{
     SUCCESS = 0,
     DIDNT_MATCH,
     CHILD_FAILED,
-    ALL_CHILDREN_FAILED
+    ALL_CHILDREN_FAILED,
+    IGNORED,
 }
 
 public class ParseResult {
@@ -16,7 +18,7 @@ public class ParseResult {
     // public readonly Parser Parent;
     [YamlMember(Alias = "name")]
     public string ParentName { get; }
-    public ParseResultStatus Status { get; }
+    public ParseResultStatus Status { get; set; }
     public List<ParseResult> Children { get; }
     public string Text { get; }
 
