@@ -1,6 +1,3 @@
-using System.Text.RegularExpressions;
-using NLua;
-
 namespace ScriptParser;
 
 public class Selector : ParserBase {
@@ -28,6 +25,7 @@ public class Selector : ParserBase {
                 status = ParseResultStatus.SUCCESS;
                 break;
             }
+            // break; // TODO dont know whether this should be here
         }
 
         if (status == ParseResultStatus.ALL_CHILDREN_FAILED && allDidntMatch)

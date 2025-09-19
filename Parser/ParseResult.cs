@@ -64,11 +64,11 @@ public class ParseResult {
             children.Add(s);
         }
         var childrenTable = LuaUtility.CreateTable(state, children);
-
-        state.DoString(Parent.Script);
-        var creationF = LuaUtility.GetGlobalF(state, "_Create");
         try
         {
+
+            state.DoString(Parent.Script);
+            var creationF = LuaUtility.GetGlobalF(state, "_Create");
             var returned = CallCreationFunc(state, creationF, Text, childrenTable);
             return LuaUtility.GetReturnAs<string>(returned);
 

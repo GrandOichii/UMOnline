@@ -8,7 +8,8 @@ public class Matcher : ParserBase {
     public string PatternString { 
         get => Pattern.ToString();
         set {
-            Pattern = new Regex("^(?i)" + value + "$", RegexOptions.Multiline);
+            // Pattern = new Regex("^(?i)" + value + "$", RegexOptions.Multiline);
+            Pattern = new Regex("^" + value + "$", RegexOptions.Multiline);
         }
     }
     public Regex Pattern { get; private set; } = null!;
@@ -21,8 +22,13 @@ public class Matcher : ParserBase {
         if (!match.Success) return new MatcherParseResult(match.Groups, this, ParseResultStatus.DIDNT_MATCH, text);
         var status = ParseResultStatus.SUCCESS;
         var children = new List<ParseResult>();
-        if (Children.Count == 0) return new MatcherParseResult(match.Groups, this, ParseResultStatus.SUCCESS, text);
-        for (int i = 1; i < match.Groups.Count; i++) {
+        if (Children.Count == 0)
+        {
+            return new MatcherParseResult(match.Groups, this, ParseResultStatus.SUCCESS, text);
+        }
+        var didntMatch = -1;
+        for (int i = 1; i < match.Groups.Count; i++)
+        {
             var child = Children[i - 1];
             var group = match.Groups[i];
             var childResult = child.Parse(group.ToString());
@@ -30,7 +36,15 @@ public class Matcher : ParserBase {
             // TODO
             if (childResult.Status != ParseResultStatus.SUCCESS)
                 status = ParseResultStatus.CHILD_FAILED;
+            if (childResult.Status == ParseResultStatus.DIDNT_MATCH)
+            {
+                if (didntMatch < 0)
+                    didntMatch = 0;
+                ++didntMatch;
+            }
         }
+        // if (didntMatch == Children.Count)
+        //     status = ParseResultStatus.DIDNT_MATCH;
         return new MatcherParseResult(match.Groups, this, status, text, children);
     }
 

@@ -3,6 +3,26 @@ using ScriptParser;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
+var TODOSCRIPT = File.ReadAllText("../scripts/todo.lua");
+var returnTextScript = File.ReadAllText("../scripts/returnText.lua");
+var FIGHTER_NAMES = new string[] {
+        "Black Widow",
+        "Alice",
+        "King Arthur",
+        "Faith",
+        "Holmes",
+        "Sinbad",
+        "Daredevil",
+        "Bullseye",
+        "Squirrel Girl",
+        "Ciri",
+        "Yennenga",
+        "Ihuarraquax",
+        "Harpy",
+        "squirrel",
+        "InGen Worker",
+    };
+
 var cards = JsonSerializer.Deserialize<List<Card>>(File.ReadAllText("../cards.json"));
 
 var todo = new Matcher()
@@ -10,6 +30,14 @@ var todo = new Matcher()
     Name = "TODO",
     PatternString = ".+",
     Script = "function _Create(text, children) return 'TODO' end"
+};
+
+var changeSize = new Matcher()
+{
+    Name = "changeSize",
+    PatternString = "[C|c]hange size\\.?",
+    Script = "function _Create(text, children) return 'UM.Effects:ChangeSize()' end",
+    Children = [],
 };
 
 var staticNumber = new Matcher()
@@ -46,7 +74,7 @@ var numericSelector = new Selector()
 var drawCards = new Matcher()
 {
     Name = "drawCards",
-    PatternString = "Draw (.+) cards?\\.?",
+    PatternString = "[D|d]raw (.+) cards?\\.?",
     Script = File.ReadAllText("../scripts/drawCards.lua"),
     Children = [
         numericSelector
@@ -56,10 +84,110 @@ var drawCards = new Matcher()
 var gainActions = new Matcher()
 {
     Name = "gainActions",
-    PatternString = "Gain ([0-9]+) actions?\\.?",
+    PatternString = "[G|g]ain ([0-9]+) actions?\\.?",
     Script = File.ReadAllText("../scripts/gainActions.lua"),
     Children = [
         staticNumber
+    ]
+};
+
+// var singleNamedFighter = new Matcher()
+// {
+//     Name = "singleNamedFighter",
+//     PatternString = string.Join("|", FIGHTER_NAMES),
+//     Script = File.ReadAllText("../scripts/singleNamedFighter.lua"),
+//     Children = []
+// };
+
+// var ownedSingleFighter = new Matcher()
+// {
+//     Name = "ownedSingleFighter",
+//     PatternString = "(.+) fighter",
+//     Script = File.ReadAllText("../scripts/ownedSingleFighter.lua"),
+//     Children = [
+//         new Selector() {
+//             Name = "ownedSingleFighterSelector",
+//             Children = [
+//                 new Matcher() {
+//                     Name = "yourFighter",
+//                     PatternString = "your",
+//                     Script = "function _Create(text, children, data) return ':OwnedBy(UM.Players:EffectOwner())' end"
+//                 },
+//                 new Matcher() {
+//                     Name = "opposingFighter",
+//                     PatternString = "the opposing",
+//                     Script = "function _Create(text, children, data) return ':OpposingTo(UM.Players:EffectOwner())' end"
+//                 },
+//                 new Matcher() {
+//                     Name = "yourOtherFighter",
+//                     PatternString = "your other",
+//                     Script = "function _Create(text, children, data) return ':OwnedBy(UM.Players:EffectOwner())\\n:Except(UM.Fighters:Source())' end"
+//                 },
+//             ]
+//         }
+//     ]
+// };
+
+// var eachNamedFighter = new Matcher()
+// {
+//     Name = "eachNamedFighter",
+//     PatternString = string.Join('|', FIGHTER_NAMES),
+//     Script = "function _Create(text, children) return ':Named(\\''..text..'\\')' end",
+//     Children = []
+// };
+
+// var eachFighter = new Matcher()
+// {
+//     Name = "eachFighter",
+//     PatternString = "each (?:of )?(.+)",
+//     Script = "function _Create(text, children) return string.format('UM.S.Fighters()\\n%s\\n:Build()', children[1])end",
+//     Children = [
+//         new Selector() {
+//             Name = "TestSelector",
+//             Children = [
+//                 eachNamedFighter,
+//                 new Matcher() {
+//                     Name = "eachYourNamedFighter",
+//                     PatternString = "your (.+)e?s", // TODO.
+//                     Script = "function _Create(text, children) print(children[1]) return string.format(':OwnedBy(UM.Players:EffectOwner())\\n%s', children[1]) end",
+//                     Children = [
+//                         eachNamedFighter
+//                     ]
+//                 }
+//             ]
+//         }
+//     ]
+// };
+
+var fighterSelector = new Selector()
+{
+    Name = "fighterSelector",
+    Children = [
+        // singleNamedFighter,
+        // ownedSingleFighter,
+        // eachFighter,
+    ]
+};
+
+var moveFighter = new Matcher()
+{
+    Name = "moveFighter",
+    PatternString = "Move (.+) (up to .+) spaces\\.?",
+    Script = File.ReadAllText("../scripts/moveFighter.lua"),
+    Children = [
+        fighterSelector,
+        numericSelector,
+    ]
+};
+
+var dealDamage = new Matcher()
+{
+    Name = "dealDamage",
+    PatternString = "Deal (.+) damage to (.+)\\.?",
+    Script = File.ReadAllText("../scripts/dealDamage.lua"),
+    Children = [
+        numericSelector,
+        fighterSelector,
     ]
 };
 
@@ -67,8 +195,11 @@ var effectSelector = new Selector()
 {
     Name = "effectSelector",
     Children = [
+        changeSize,
         gainActions,
         drawCards,
+        moveFighter,
+        dealDamage,
     ]
 };
 
@@ -79,11 +210,19 @@ var youWonCondition = new Matcher()
     Script = "function _Create(text, children, data)return 'UM.Conditional:CombatWonBy(\\nUM.Players:EffectOwner()\\n)' end"
 };
 
+var youLostCondition = new Matcher()
+{
+    Name = "youLostCondition",
+    PatternString = "you lost the combat",
+    Script = "function _Create(text, children, data)return 'UM.Conditional:CombatLostBy(\\nUM.Players:EffectOwner()\\n)' end"
+};
+
 var conditionalSelector = new Selector()
 {
     Name = "conditionalSelector",
     Children = [
-        youWonCondition
+        youWonCondition,
+        youLostCondition,
     ]
 };
 
@@ -120,11 +259,41 @@ var afterCombat = new Matcher()
     }
 };
 
+var immediately = new Matcher()
+{
+    Name = "immediately",
+    PatternString = "Immediately: (.+)",
+    Script = File.ReadAllText("../scripts/immediately.lua"),
+    Children = {
+        effectSplitter
+    }
+};
+
+var duringCombat = new Matcher()
+{
+    Name = "duringCombat",
+    PatternString = "During combat: (.+)",
+    Script = File.ReadAllText("../scripts/duringCombat.lua"),
+    Children = {
+        effectSplitter
+    }
+};
+
 var rootSelector = new Selector()
 {
     Name = "rootSelector",
     Children = [
         afterCombat,
+        immediately,
+        duringCombat,
+        new Matcher() {
+            Name = "effectMatcher",
+            PatternString = "(.+)",
+            Script = "function _Create(text, children) return string.format(':Effect(\\n%s\\n)', children[1]) end",
+            Children = [
+                effectSplitter,
+            ]
+        }
     ]
 };
 
@@ -165,13 +334,15 @@ foreach (var card in cards!)
 
         var script = result.CreateScript();
 
+        var name = card.Name.Replace('?', ' ').Replace('!', ' ').Replace('"', ' ').Trim();
         if (result.Status == ParseResultStatus.SUCCESS)
         {
-            File.WriteAllText($"../cards/{card.Name}.lua", script);
+            System.Console.WriteLine($"Generated script for {card.Name}");
+            File.WriteAllText($"../cards/{name}.lua", script);
             ++successCount;
         }
 
-        File.WriteAllText($"../reports/{card.Name}.yaml", serialized);
+        File.WriteAllText($"../reports/{name}.yaml", serialized);
 
     }
     catch (Exception e)

@@ -2754,73 +2754,73 @@
         "text": "Ciri recovers 2 health. ONGOING: After each combat your fighter is in, draw 1 card. Discard this card at the end of your turn if you have 5 or more cards in your hand."
     },
     {
-        "name": "Horror 2️⃣",
+        "name": "Horror $2$",
         "type": "attack",
         "power": "4",
         "text": "LINE EFFECT: Deal 1 damage to the opposing fighter for each other card in your line.\nDuring combat: Increase the value of this card by +1 for each HORROR card in your line."
     },
     {
-        "name": "My Kingdom For A Horse 6️⃣",
+        "name": "My Kingdom For A Horse $6$",
         "type": "attack",
         "power": "5",
         "text": "LINE EFFECT: Gain 2 actions."
     },
     {
-        "name": "All Are Punished 4️⃣",
+        "name": "All Are Punished $4$",
         "type": "attack",
         "power": "4",
         "text": "LINE EFFECT: Draw 1 card.\nAfter combat: Deal 1 damage to each other fighter in your zone."
     },
     {
-        "name": "Places, Places! 4️⃣",
+        "name": "Places, Places! $4$",
         "type": "attack",
         "power": "3",
         "text": "LINE EFFECT: Place Shakespeare in a zone with no Actors.\nAfter combat: Move each Actor up to 3 spaces."
     },
     {
-        "name": "Once More Unto The Breach 6️⃣",
+        "name": "Once More Unto The Breach $6$",
         "type": "versatile",
         "power": "3",
         "text": "LINE EFFECT: Return all defeated Actors to spaces in Shakespeare's zone.\nAfter combat: Return a defeated Actor to any space in Shakespeare's zone."
     },
     {
-        "name": "Alas 2️⃣",
+        "name": "Alas $2$",
         "type": "versatile",
         "power": "2",
         "text": "LINE EFFECT: Draw 2 cards. Shakespeare recovers 2 health.\nAfter combat: If you lost the combat, Shakespeare recovers 1 health."
     },
     {
-        "name": "The Ides Of March 4️⃣",
+        "name": "The Ides Of March $4$",
         "type": "versatile",
         "power": "2",
         "text": "LINE EFFECT: Deal 2 damage to any opposing fighter."
     },
     {
-        "name": "Et Tu, Brute? 4️⃣",
+        "name": "Et Tu, Brute? $4$",
         "type": "versatile",
         "power": "3",
         "text": "LINE EFFECT: Place each of your fighters in any space.\nDuring combat: Increase the value of this card by +1 for each of your fighters adjacent to the opposing fighter."
     },
     {
-        "name": "Deceive 2️⃣",
+        "name": "Deceive $2$",
         "type": "versatile",
         "power": "2",
         "text": "LINE EFFECT: Return this card to your hand. Immediately: Cancel all effects on your opponent's card."
     },
     {
-        "name": "Revise 2️⃣",
+        "name": "Revise $2$",
         "type": "versatile",
         "power": "1",
         "text": "LINE EFFECT: Move each fighter up to 2 spaces. (This includes opposing fighters.)\nAfter combat: Draw 1 card. If you won the combat, draw 2 cards instead."
     },
     {
-        "name": "Such Sweet Sorrow 4️⃣",
+        "name": "Such Sweet Sorrow $4$",
         "type": "versatile",
         "power": "4",
         "text": "LINE EFFECT: Draw 1 card.\nAfter combat: Move your fighter up to 2 spaces."
     },
     {
-        "name": "Again 2️⃣",
+        "name": "Again $2$",
         "type": "versatile",
         "power": "3",
         "text": "LINE EFFECT: Draw 1 card.\nAfter combat: You may return the first card in your line to your hand (before you add this to your line)."
@@ -3334,12 +3334,6 @@
         "type": "versatile",
         "power": "3",
         "text": "During combat: You may increase or decrease the value of this card by 1.\nAfter combat: If the value of this card matches your opponent's card, draw 1 card and the opposing fighter takes 2 damage."
-    },
-    {
-        "name": "Deadpool™ Merc For Hire, LLC",
-        "type": "attack",
-        "power": "5",
-        "text": "After combat: Deal 1 damage to the opposing fighter if you own the Deadpool Unmatched set."
     },
     {
         "name": "Horde of Squirrels",
