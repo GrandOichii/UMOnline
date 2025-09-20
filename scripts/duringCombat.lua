@@ -1,7 +1,7 @@
 function _Create(text, children)
     return string.format(
         ':DuringCombat(\n\'%s\',\n%s\n)',
-        text,
+        text:gsub("'", "\\'"),
         children[1]
     )
 end

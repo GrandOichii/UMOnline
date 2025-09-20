@@ -19,6 +19,12 @@ public class Matcher : ParserBase {
     public override ParseResult Parse(string text) {
         // TODO? check group count
         var match = Pattern.Match(text);
+        if (Name == "discardEffect")
+        {
+            System.Console.WriteLine(text);
+            System.Console.WriteLine(Pattern);
+            System.Console.WriteLine(match.Success);
+        }
         if (!match.Success) return new MatcherParseResult(match.Groups, this, ParseResultStatus.DIDNT_MATCH, text);
         var status = ParseResultStatus.SUCCESS;
         var children = new List<ParseResult>();

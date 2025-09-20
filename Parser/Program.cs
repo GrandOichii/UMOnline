@@ -23,8 +23,6 @@ var FIGHTER_NAMES = new string[] {
         "InGen Worker",
     };
 
-var cards = JsonSerializer.Deserialize<List<Card>>(File.ReadAllText("../cards.json"));
-
 var todo = new Matcher()
 {
     Name = "TODO",
@@ -191,6 +189,61 @@ var dealDamage = new Matcher()
     ]
 };
 
+var playerSelector = new Selector()
+{
+    Name = "playerSelector",
+    Children = [
+        new Matcher() {
+            Name = "yourOpponent",
+            PatternString = "[Y|y]our opponent ?",
+            Script = "function _Create(text, children) return 'UM.Players:Opponent()' end"
+        }
+    ]
+};
+
+var discardEffect = new Matcher()
+{
+    Name = "discardEffect",
+    PatternString = "(.+? )[D|d]iscards? (.+?)( random)? cards?\\.?",
+    Script = "function _Create(text, children) return string.format('UM.Effects:Discard(\\n%s,\\n%s,\\n%s\\n)', children[1], children[2], children[3]) end",
+    Children = [
+        playerSelector,
+        numericSelector,
+        new Selector() {
+            Name = "discardRandomCardsSelector",
+            Children = [
+                new Matcher() {
+                    Name = "discardRandomCardsSelector_false",
+                    PatternString = "",
+                    Script = "function _Create() return 'false' end"
+                },
+                new Matcher() {
+                    Name = "discardRandomCardsSelector_true",
+                    PatternString = " random",
+                    Script = "function _Create() return 'true' end"
+                }
+            ]
+        }
+    ]
+};
+
+var replaceCardValue = new Matcher()
+{
+    Name = "replaceCardValue",
+    PatternString = "(?:this card's value|the value of this card) is ([0-9]+) instead\\.?",
+    Script = "function _Create(text, children) return string.format('UM.Effects:ReplaceCardValue(\\n%s\\n)', children[1]) end",
+    Children = [
+        staticNumber,
+    ]
+};
+
+var cancelOpponentsCardEffects = new Matcher()
+{
+    Name = "cancelOpponentsCardEffects",
+    PatternString = "[C|c]ancel all effects on your opponent's card\\.?",
+    Script = "function _Create(text, children) return 'UM.Effects:CancelAllEffectsOfOpponentsCard()' end"
+};
+
 var effectSelector = new Selector()
 {
     Name = "effectSelector",
@@ -200,6 +253,9 @@ var effectSelector = new Selector()
         drawCards,
         moveFighter,
         dealDamage,
+        replaceCardValue,
+        cancelOpponentsCardEffects,
+        discardEffect,
     ]
 };
 
@@ -279,6 +335,13 @@ var duringCombat = new Matcher()
     }
 };
 
+var empty = new Matcher()
+{
+    Name = "empty",
+    PatternString = "",
+    Script = "function _Create(text, children) return 'EMPTY_STRING' end"
+};
+
 var rootSelector = new Selector()
 {
     Name = "rootSelector",
@@ -289,29 +352,31 @@ var rootSelector = new Selector()
         new Matcher() {
             Name = "effectMatcher",
             PatternString = "(.+)",
-            Script = "function _Create(text, children) return string.format(':Effect(\\n%s\\n)', children[1]) end",
+            Script = "function _Create(text, children) return string.format(':Effect(\\n\\'%s\\',\\n%s\\n)', text:gsub(\"'\", \"\\\\'\"), children[1]) end",
             Children = [
                 effectSplitter,
             ]
-        }
+        },
+        empty,
     ]
 };
 
 var parser = new Matcher()
 {
     Name = "root",
-    PatternString = "(.+)",
+    PatternString = "(.*)",
     Script = File.ReadAllText("../scripts/root.lua"),
     Children = {
         rootSelector
     }
 };
 
-// var card = new Card {
-//     Name = "Test card",
-//     Text = "Immediately: Cancel all effects on your opponent\u0027s card.",
-//     // Text = "After combat: Recover 2 health. Draw up to 2 cards. Gain 1 action.",
-// };
+// var cards = JsonSerializer.Deserialize<List<Card>>(File.ReadAllText("../cards.json"));
+List<Card> cards = [new Card {
+    Name = "Test card",
+    Text = "After combat: If you won the combat, your opponent discards 2 cards.",
+    // Text = "After combat: Draw up to 2 cards. Gain 1 action.",
+}];
 
 var analysis = new ParseResultAnalyzer();
 
@@ -334,7 +399,7 @@ foreach (var card in cards!)
 
         var script = result.CreateScript();
 
-        var name = card.Name.Replace('?', ' ').Replace('!', ' ').Replace('"', ' ').Trim();
+        var name = card.Name.Replace('?', ' ').Replace('!', ' ').Replace(':', ' ').Replace('"', ' ').Trim();
         if (result.Status == ParseResultStatus.SUCCESS)
         {
             System.Console.WriteLine($"Generated script for {card.Name}");
