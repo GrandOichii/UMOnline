@@ -15,7 +15,7 @@ public class ManoeuvreAction : IAction
     {
         await player.Draw(1); // TODO move to configuration
 
-        await player.MoveFighters(allowBoost: true);
+        await player.MoveFighters(allowBoost: true, canMoveOverFriendly: true);
     }
 
     public bool CanBeTaken(Player player)

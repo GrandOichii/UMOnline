@@ -371,12 +371,12 @@ var parser = new Matcher()
     }
 };
 
-// var cards = JsonSerializer.Deserialize<List<Card>>(File.ReadAllText("../cards.json"));
-List<Card> cards = [new Card {
-    Name = "Test card",
-    Text = "After combat: If you won the combat, your opponent discards 2 cards.",
-    // Text = "After combat: Draw up to 2 cards. Gain 1 action.",
-}];
+var cards = JsonSerializer.Deserialize<List<Card>>(File.ReadAllText("../cards.json"));
+// List<Card> cards = [new Card {
+//     Name = "Test card",
+//     Text = "After combat: If you won the combat, your opponent discards 2 cards.",
+//     // Text = "After combat: Draw up to 2 cards. Gain 1 action.",
+// }];
 
 var analysis = new ParseResultAnalyzer();
 

@@ -44,6 +44,7 @@ public class Player
         var fighter = new Fighter(this)
         {
             Hero = true,
+            Name = $"f_{LogName}",
             Position = Match.Map.Template.GetSpawnNode(Idx)
         };
         Fighters.Add(fighter);
@@ -51,9 +52,10 @@ public class Player
         // {
         //     Hero = false,
         // });
-        
 
         // TODO prompt player to place fighters
+        var spawn = Match.Map.GetSpawnLocation(Idx);
+        await spawn.PlaceFighter(fighter);
     }    
 
     public string LogName => $"{Name}[{Idx}]";
@@ -121,7 +123,7 @@ public class Player
         return 0;
     }
 
-    public async Task MoveFighters(bool allowBoost = false)
+    public async Task MoveFighters(bool allowBoost = false, bool canMoveOverFriendly = false, bool canMoveOverOpposing = false)
     {
         var boostValue = 0;
         // if (allowBoost)
@@ -133,6 +135,7 @@ public class Player
         //         boostValue = card.BoostValue();
         //     }
         // }
+        // TODO allow player to choose order
         foreach (var fighter in Fighters)
         {
             await MoveFighter(fighter, fighter.Movement() + boostValue);
@@ -141,9 +144,11 @@ public class Player
         // TODO
     }
 
-    public async Task MoveFighter(Fighter fighter, int movement)
+    public async Task MoveFighter(Fighter fighter, int movement, bool canMoveOverFriendly = false, bool canMoveOverOpposing = false)
     {
-        
+        var available = Match.Map.GetPossibleMovementResults(fighter, movement, canMoveOverFriendly, canMoveOverOpposing);
+        var result = await Controller.PromptNode(this, available, $"Choose where to move {fighter.LogName}");
+        await result.PlaceFighter(fighter);
     }
 
     public async Task<MatchCard?> ChooseBoostCard()

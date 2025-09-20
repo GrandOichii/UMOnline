@@ -8,11 +8,19 @@ public class Fighter
     public bool Hero { get; init; }
     public Player Owner { get; }
     public Match Match { get; }
+    public required string Name { get; init; }
+
+    public string LogName => $"{GetName()}({(Hero ? 'h' : 's')})";
 
     public Fighter(Player owner)
     {
         Owner = owner;
         Match = owner.Match;
+    }
+    
+    public string GetName()
+    {
+        return Name;
     }
 
     public bool IsHero()
