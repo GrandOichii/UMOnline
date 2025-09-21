@@ -164,7 +164,7 @@ public class Program
     {
         var map = GetMapTemplate();
 
-        var match = new Match(map)
+        var match = new Match(map, File.ReadAllText("../core.lua"))
         {
             Logger = LoggerFactory
                 .Create(builder => builder

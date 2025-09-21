@@ -62,7 +62,7 @@ public class SchemeAction : IAction
             throw new Exception($"Player {player.LogName} chose {chosen.LogName} to play as scheme card, when no fighter of theirs can play it"); // TODO type
         }
         var fighter = availableFighters[0];
-        if (availableFighters.Count > 0)
+        if (availableFighters.Count > 1)
         {
             fighter = await player.Controller.ChooseFighter(player, availableFighters, $"Choose a fighter to play {chosen.LogName}");
         }

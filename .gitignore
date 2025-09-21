@@ -1,4 +1,4 @@
-./cards
+card-scripts/*
 reports
 
 ## Ignore Visual Studio temporary files, build results, and

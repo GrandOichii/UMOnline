@@ -53,12 +53,14 @@ public class Player
         // create and place fighters
         {
             // TODO remove
-            var fighter = new Fighter(this)
+            var fighter = new Fighter(this, new()
             {
-                Hero = true,
+                IsHero = true,
                 Name = $"f_{LogName}",
-                Position = Match.Map.Template.GetSpawnNode(Idx)
-            };
+                Movement = 2,
+                MaxHealth = 10,
+                StartingHealth = 10
+            });
             Fighters.Add(fighter);
             // Fighters.Add(new(this)
             // {
@@ -81,31 +83,34 @@ public class Player
                     Value = 0,
                     Boost = 1,
                     Text = "Test Card Text",
-                    Script = "test script",
+                    Script = "function _Create()\nreturn UM:Card()\n:Effect(\n'Draw 3 cards.',\nUM.Effects:Draw(\nUM:Static(3)\n)\n)\n:Build()\nend",
                 }, []
             );
             Card template2 = new(
                 new()
                 {
                     Name = "Test Card 2",
-                    Type = "Versatile",
+                    // Type = "Versatile",
+                    Type = "Scheme",
                     Value = 0,
                     Boost = 3,
                     Text = "Test Card Text",
-                    Script = "test script",
+                    Script = "function _Create()\nreturn UM:Card()\n:Effect(\n'Draw 2 cards. Gain 1 action.',\nUM.Effects:Draw(\nUM:Static(2)\n),\nUM.Effects:GainActions(\nUM:Static(1)\n)\n)\n:Build()\nend",
                 }, []
             );
 
             var template1Count = 5;
             var template2Count = 5;
             await Deck.Add(
-                Enumerable.Range(0, template1Count)
-                    .Select(i => new MatchCard(this, template1))
-            );
-            await Deck.Add(
                 Enumerable.Range(0, template2Count)
                     .Select(i => new MatchCard(this, template2))
             );
+            await Deck.Add(
+                Enumerable.Range(0, template1Count)
+                    .Select(i => new MatchCard(this, template1))
+            );
+
+            // TODO shuffle deck
         }
 
         // initial draw
@@ -218,6 +223,7 @@ public class Player
     {
         // TODO update clients that a card was played
         // TODO execute card effects
+        await card.ExecuteEffects(fighter);
 
         await Hand.Discard(card);
     }

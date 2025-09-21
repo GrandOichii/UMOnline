@@ -1,3 +1,4 @@
+using System.Diagnostics.Contracts;
 using UMCore.Matches.Players;
 using UMCore.Templates;
 
@@ -5,17 +6,19 @@ namespace UMCore.Matches;
 
 public class Fighter
 {
-    public bool Hero { get; init; }
+    public FighterTemplate Template { get; }
     public Player Owner { get; }
     public Match Match { get; }
-    public required string Name { get; init; }
+    public string Name { get; private set; }
 
-    public string LogName => $"{GetName()}({(Hero ? 'h' : 's')})";
+    public string LogName => $"{GetName()}({(Template.IsHero ? 'h' : 's')})";
 
-    public Fighter(Player owner)
+    public Fighter(Player owner, FighterTemplate template)
     {
+        Template = template;
         Owner = owner;
         Match = owner.Match;
+        Name = template.Name;
     }
     
     public string GetName()
@@ -25,20 +28,17 @@ public class Fighter
 
     public bool IsHero()
     {
-        return Hero;
+        return Template.IsHero;
     }
 
     public bool IsSidekick()
     {
-        return !Hero;
+        return !Template.IsHero;
     }
-
-    public MapNodeTemplate? Position { get; set; } = null;
 
     public int Movement()
     {
-        // TODO
-        return 2;
+        return Template.Movement;
     }
 
     public bool IsOpposingTo(Player player)

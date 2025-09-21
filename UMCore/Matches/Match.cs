@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging;
+using NLua;
 using UMCore.Matches.Cards;
 using UMCore.Matches.Players;
 using UMCore.Templates;
@@ -12,11 +13,15 @@ public class Match
     public int CurPlayerIdx { get; private set; }
     public Map Map { get; }
     public List<MatchCard> Cards { get; }
+    public Lua LState { get; }
 
-    public Match(MapTemplate mapTemplate)
+    public Match(MapTemplate mapTemplate, string setupScript)
     {
         Map = new(this, mapTemplate);
         Cards = [];
+        LState = new();
+
+        LState.DoString(setupScript);
     }
 
     public async Task<Player> AddPlayer(string name, int teamIdx, IPlayerController controller)

@@ -403,7 +403,7 @@ foreach (var card in cards!)
         if (result.Status == ParseResultStatus.SUCCESS)
         {
             System.Console.WriteLine($"Generated script for {card.Name}");
-            File.WriteAllText($"../cards/{name}.lua", script);
+            File.WriteAllText($"../card-scripts/{name}.lua", script);
             ++successCount;
         }
 
