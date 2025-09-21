@@ -70,7 +70,9 @@ public class Player
                 StartingHealth = 5
             });
             Fighters.Add(hero);
+            Match.Fighters.Add(hero);
             Fighters.Add(sidekick);
+            Match.Fighters.Add(sidekick);
             // Fighters.Add(new(this)
             // {
             //     Hero = false,
@@ -95,7 +97,7 @@ public class Player
                     Value = 0,
                     Boost = 1,
                     Text = "Test Card Text",
-                    Script = "function _Create()\nreturn UM:Card()\n:Effect(\n'Draw 3 cards.',\nUM.Effects:Draw(\nUM:Static(3)\n)\n)\n:Build()\nend",
+                    Script = File.ReadAllText("../test-scripts/test3.lua"),
                 }, []
             );
             Card template2 = new(
@@ -107,7 +109,7 @@ public class Player
                     Value = 0,
                     Boost = 3,
                     Text = "Test Card Text",
-                    Script = "function _Create()\nreturn UM:Card()\n:Effect(\n'Draw 2 cards. Gain 1 action.',\nUM.Effects:Draw(\nUM:Static(2)\n),\nUM.Effects:GainActions(\nUM:Static(1)\n)\n)\n:Build()\nend",
+                    Script = File.ReadAllText("../test-scripts/test3.lua"),
                 }, []
             );
 

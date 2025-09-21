@@ -1,6 +1,8 @@
 {
     "Lua.diagnostics.globals": [
         "DrawCards",
-        "GainActions"
+        "GainActions",
+        "GetFighters",
+        "DealDamage"
     ]
 }

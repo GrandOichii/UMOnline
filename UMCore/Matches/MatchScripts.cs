@@ -1,6 +1,8 @@
 using System.Linq.Expressions;
 using System.Reflection;
 using Microsoft.VisualBasic;
+using NLua;
+using UMCore.Utility;
 
 namespace UMCore.Matches;
 
@@ -44,6 +46,19 @@ public class MatchScripts
         var player = Match.GetPlayer(playerIdx);
         player.GainActions(amount)
             .Wait();
+    }
+
+    [LuaCommand]
+    public LuaTable GetFighters()
+    {
+        return LuaUtility.CreateTable(Match.LState, Match.Fighters);
+    }
+
+    [LuaCommand]
+    public void DealDamage(Fighter fighter, int amount)
+    {
+        fighter.ProcessDamage(amount)
+        .Wait();
     }
 
 }

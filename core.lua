@@ -36,7 +36,7 @@ UM.Effects = {}
 function UM.Effects:Draw(amountFunc)
     return function (args)
         local fighter = args.fighter
-        local amount = amountFunc(fighter)
+        local amount = amountFunc(args)
         DrawCards(fighter.Owner.Idx, amount)
     end
 end
@@ -44,12 +44,41 @@ end
 function UM.Effects:GainActions(amountFunc)
     return function (args)
         local fighter = args.fighter
-        local amount = amountFunc(fighter)
+        local amount = amountFunc(args)
         GainActions(fighter.Owner.Idx, amount)
     end
 end
 
+function UM.Effects:DealDamage(selectorFunc, amountFunc)
+    return function (args)
+        local fighters = selectorFunc(args)
+        local amount = amountFunc(args)
 
+        for _, fighter in ipairs(fighters) do
+            DealDamage(fighter, amount)
+        end
+    end
+end
+
+-- entity selectors
+
+UM.S = {}
+
+function UM.S:Fighters()
+    local result = {}
+
+    function result:Build()
+        return function (args)
+            local fighters = GetFighters()
+
+            -- TODO filter using filters
+
+            return fighters
+        end
+    end
+
+    return result
+end
 
 -- -- Feint
 -- function _Create()

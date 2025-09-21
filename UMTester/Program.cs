@@ -7,13 +7,23 @@ using UMCore.Templates;
 
 public class ConsolePlayerController : IPlayerController
 {
+    private void PrintInfo(Fighter fighter)
+    {
+        System.Console.WriteLine($"\t{fighter.LogName}: {fighter.Health.Current}/{fighter.Health.Max}");
+    }
+
     private void PrintInfo(Player player)
     {
+
         foreach (var node in player.Match.Map.Nodes)
             System.Console.WriteLine($"{node.Id} -> {node.Fighter?.LogName}");
+        foreach (var fighter in player.Fighters)
+            PrintInfo(fighter);
 
         System.Console.WriteLine($"-= {player.LogName} =-");
         System.Console.WriteLine($"Hand count: {player.Hand.Count}");
+        System.Console.WriteLine($"Deck count: {player.Deck.Count}");
+        System.Console.WriteLine($"Discard count: {player.DiscardPile.Count}");
         System.Console.WriteLine($"Actions left: {player.ActionCount}");
     }
     
