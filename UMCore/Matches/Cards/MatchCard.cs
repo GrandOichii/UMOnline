@@ -10,14 +10,14 @@ namespace UMCore.Matches.Cards;
 public class MatchCard
 {
     public Player Owner { get; }
-    public Card Card { get; }
+    public CardTemplate Card { get; }
     public int Idx { get; }
 
     public EffectCollection SchemeEffect { get; }
 
     public string LogName => $"({Idx}){Card.Template.Name}[{Owner.Idx}]";
 
-    public MatchCard(Player owner, Card card)
+    public MatchCard(Player owner, CardTemplate card)
     {
         Owner = owner;
         Card = card;
@@ -60,7 +60,19 @@ public class MatchCard
 
     public bool CanBePlayedAsScheme(Fighter fighter)
     {
-        return Card.Template.Type == "Scheme" && Card.CanBePlayedBy(fighter.Name);
+        return Card.Template.Type == "Scheme" && Card.CanBePlayedBy(fighter.GetName());
+    }
+
+    public bool CanBeUsedAsAttack(Fighter fighter)
+    {
+        // TODO some effects change this
+        return (Card.Template.Type == "Attack" || Card.Template.Type == "Versatile") && Card.CanBePlayedBy(fighter.GetName());
+    }
+
+    public bool CanBeUsedAsDefence(Fighter fighter)
+    {
+        // TODO some effects change this
+        return (Card.Template.Type == "Defence" || Card.Template.Type == "Versatile") && Card.CanBePlayedBy(fighter.GetName());
     }
 
     public IEnumerable<Fighter> GetCanBePlayedBy()
@@ -76,5 +88,10 @@ public class MatchCard
         {
             { "fighter", by }
         }));
+    }
+
+    public async Task PlaceIntoDiscard()
+    {
+        await Owner.DiscardPile.Add([this]);
     }
 }

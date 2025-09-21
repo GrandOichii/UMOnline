@@ -7,4 +7,5 @@ public class FighterTemplate
     public required int StartingHealth { get; init; }
     public required bool IsHero { get; init; }
     public required int Movement { get; init; }
+    public required bool IsRanged { get; init; }
 }

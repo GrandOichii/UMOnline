@@ -1,7 +1,7 @@
 function _Create()
     return UM:Card()
         :Effect(
-            'Deal 1 damage to each fighter.',
+            'Deal 1 damage to each opposing fighter.',
             UM.Effects:DealDamage(
                 UM.S:Fighters()
                     :NotOwnedBy(UM:EffectOwner())

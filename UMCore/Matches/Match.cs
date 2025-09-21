@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Logging;
 using NLua;
+using UMCore.Matches.Attacks;
 using UMCore.Matches.Cards;
 using UMCore.Matches.Players;
 using UMCore.Templates;
@@ -15,6 +16,7 @@ public class Match
     public List<MatchCard> Cards { get; }
     public List<Fighter> Fighters { get; }
     public Lua LState { get; }
+    public Combat? Combat { get; private set; }
 
     public Match(MapTemplate mapTemplate, string setupScript)
     {
@@ -22,6 +24,7 @@ public class Match
         Cards = [];
         Fighters = [];
         LState = new();
+        Combat = null;
 
         LState.DoString(setupScript);
         new MatchScripts(this);
@@ -29,9 +32,11 @@ public class Match
 
     public Player GetPlayer(int idx) => Players[idx];
 
-    public async Task<Player> AddPlayer(string name, int teamIdx, IPlayerController controller)
+    public async Task<Player> AddPlayer(string name, int teamIdx, LoadoutTemplate loadout, IPlayerController controller)
     {
-        var player = new Player(this, Players.Count, name, teamIdx, controller);
+        // TODO check whether a player with the specified loadout already exists
+
+        var player = new Player(this, Players.Count, name, teamIdx, loadout, controller);
 
         Players.Add(player);
 
@@ -48,9 +53,9 @@ public class Match
         {
             var current = CurrentPlayer();
             await current.TakeTurn();
+            SetNextPlayer();
         }
 
-        SetNextPlayer();
     }
 
     private async Task Setup()
@@ -91,4 +96,11 @@ public class Match
         Fighters.Add(fighter);
     }
 
+    public async Task ProcessAttack(Player player, AvailableAttack attack)
+    {
+        Logger?.LogDebug("Processing attack from player {PlayerLogName}: {FighterLogName} -> {TargetLogName} [{CardLogName}]", player.LogName, attack.Fighter.LogName, attack.Target.LogName, attack.AttackCard.LogName);
+        Combat = new(this, attack);
+        
+        await Combat.Process();
+    }
 }

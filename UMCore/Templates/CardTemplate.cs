@@ -2,10 +2,12 @@ namespace UMCore.Templates;
 
 public class CardTemplate
 {
-    public required string Name { get; init; }
-    public required string Type { get; init; }
-    public required int Value { get; init; }
-    public required int Boost { get; init; }
-    public required string Text { get; init; }
-    public required string Script { get; init; }
+    public required CardBaseTemplate Template { get; init; }
+
+    public required List<string> AllowedFighters { get; init; }
+
+    public bool CanBePlayedBy(string name)
+    {
+        return AllowedFighters.Count == 0 || AllowedFighters.Contains(name);
+    }
 }

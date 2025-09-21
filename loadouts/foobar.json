@@ -1,0 +1,107 @@
+{
+    "Name": "Foo and Bar",
+    "Fighters": [
+        {
+            "Name": "Foo",
+            "IsHero": true,
+            "Movement": 2,
+            "MaxHealth": 10,
+            "StartingHealth": 10,
+            "IsRanged": false
+        }, 
+        {
+            "Name": "Bar",
+            "IsHero": false,
+            "Movement": 2,
+            "MaxHealth": 10,
+            "StartingHealth": 10,
+            "IsRanged": false
+        }
+    ],
+    "Deck": [
+        {
+            "Amount": 0,
+            "Card": {
+                "AllowedFighters": [],
+                "Template": {
+                    "Name": "Draw Scheme",
+                    "Type": "Scheme",
+                    "Value": 0,
+                    "Boost": 3,
+                    "Text": "Test Card Text",
+                    "Script":"../test-scripts/test1.lua"
+                }
+            }
+        },
+        {
+            "Amount": 0,
+            "Card": {
+                "AllowedFighters": [],
+                "Template": {
+                    "Name": "Draw and Action Scheme",
+                    "Type": "Scheme",
+                    "Value": 0,
+                    "Boost": 2,
+                    "Text": "Test Card Text",
+                    "Script":"../test-scripts/test2.lua"
+                }
+            }
+        },
+        {
+            "Amount": 0,
+            "Card": {
+                "AllowedFighters": [],
+                "Template": {
+                    "Name": "Deal damage scheme",
+                    "Type": "Scheme",
+                    "Value": 0,
+                    "Boost": 1,
+                    "Text": "Test Card Text",
+                    "Script":"../test-scripts/test3.lua"
+                }
+            }
+        },
+        {
+            "Amount": 1,
+            "Card": {
+                "AllowedFighters": [],
+                "Template": {
+                    "Name": "Attack5",
+                    "Type": "Attack",
+                    "Value": 5,
+                    "Boost": 1,
+                    "Text": "Test Card Text",
+                    "Script":"../test-scripts/empty.lua"
+                }
+            }
+        },
+        {
+            "Amount": 1,
+            "Card": {
+                "AllowedFighters": [],
+                "Template": {
+                    "Name": "Defence3",
+                    "Type": "Defence",
+                    "Value": 3,
+                    "Boost": 1,
+                    "Text": "Test Card Text",
+                    "Script":"../test-scripts/empty.lua"
+                }
+            }
+        },
+        {
+            "Amount": 1,
+            "Card": {
+                "AllowedFighters": [],
+                "Template": {
+                    "Name": "Versatile4",
+                    "Type": "Versatile",
+                    "Value": 4,
+                    "Boost": 1,
+                    "Text": "Test Card Text",
+                    "Script":"../test-scripts/empty.lua"
+                }
+            }
+        }
+    ]
+}

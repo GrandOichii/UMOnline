@@ -1,5 +1,7 @@
 using System.Diagnostics.Contracts;
+using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Logging;
+using UMCore.Matches.Attacks;
 using UMCore.Matches.Cards;
 using UMCore.Matches.Players.Cards;
 using UMCore.Templates;
@@ -31,15 +33,17 @@ public class Player
     public Hand Hand { get; }
     public Deck Deck { get; }
     public DiscardPile DiscardPile { get; }
+    public LoadoutTemplate Loadout { get; }
 
     public int ActionCount { get; set; }
 
-    public Player(Match match, int idx, string name, int teamidx, IPlayerController controller)
+    public Player(Match match, int idx, string name, int teamIdx, LoadoutTemplate loadout, IPlayerController controller)
     {
         Match = match;
         Controller = controller;
         Name = name;
         Idx = idx;
+        Loadout = loadout;
 
         Hand = new(this);
         Deck = new(this);
@@ -52,77 +56,98 @@ public class Player
     {
         // create and place fighters
         {
-            // TODO remove
-            var hero = new Fighter(this, new()
+            foreach (var template in Loadout.Fighters)
             {
-                IsHero = true,
-                Name = $"h_{LogName}",
-                Movement = 2,
-                MaxHealth = 10,
-                StartingHealth = 10
-            });
-            var sidekick = new Fighter(this, new()
-            {
-                IsHero = false,
-                Name = $"s_{LogName}",
-                Movement = 2,
-                MaxHealth = 5,
-                StartingHealth = 5
-            });
-            Fighters.Add(hero);
-            Match.Fighters.Add(hero);
-            Fighters.Add(sidekick);
-            Match.Fighters.Add(sidekick);
-            // Fighters.Add(new(this)
+                var fighter = new Fighter(this, template);
+                Fighters.Add(fighter);
+                Match.Fighters.Add(fighter);
+                var spawn = Match.Map.GetSpawnLocation(Idx + (Fighters.Count - 1) * Match.Players.Count);
+                await spawn.PlaceFighter(fighter);
+            }
+
+            // TODO check that there is exactly 1 hero
+            
+            // // TODO remove
+            // var hero = new Fighter(this, new()
             // {
-            //     Hero = false,
+            //     IsHero = true,
+            //     Name = $"h_{LogName}",
+            //     Movement = 2,
+            //     MaxHealth = 10,
+            //     StartingHealth = 10,
+            //     IsRanged = false,
             // });
+            // Fighters.Add(hero);
+            // Match.Fighters.Add(hero);
 
-            // TODO prompt player to place fighters
-            var heroSpawn = Match.Map.GetSpawnLocation(Idx);
-            await heroSpawn.PlaceFighter(hero);
+            // var sidekick = new Fighter(this, new()
+            // {
+            //     IsHero = false,
+            //     Name = $"s_{LogName}",
+            //     Movement = 2,
+            //     MaxHealth = 5,
+            //     StartingHealth = 5,
+            //     IsRanged = true,
+            // });
+            // Fighters.Add(sidekick);
+            // Match.Fighters.Add(sidekick);
+            // // Fighters.Add(new(this)
+            // // {
+            // //     Hero = false,
+            // // });
 
-            var sidekickSpawn = Match.Map.GetSpawnLocation(Idx + Match.Players.Count);
-            await sidekickSpawn.PlaceFighter(sidekick);
+            // // TODO prompt player to place fighters
+            // var heroSpawn = Match.Map.GetSpawnLocation(Idx);
+            // await heroSpawn.PlaceFighter(hero);
+
+            // var sidekickSpawn = Match.Map.GetSpawnLocation(Idx + Match.Players.Count);
+            // await sidekickSpawn.PlaceFighter(sidekick);
         }
 
         // create deck
         {
-            // TODO remove
-            Card template1 = new(
-                new()
-                {
-                    Name = "Test Card 1",
-                    Type = "Scheme",
-                    Value = 0,
-                    Boost = 1,
-                    Text = "Test Card Text",
-                    Script = File.ReadAllText("../test-scripts/test3.lua"),
-                }, []
-            );
-            Card template2 = new(
-                new()
-                {
-                    Name = "Test Card 2",
-                    // Type = "Versatile",
-                    Type = "Scheme",
-                    Value = 0,
-                    Boost = 3,
-                    Text = "Test Card Text",
-                    Script = File.ReadAllText("../test-scripts/test3.lua"),
-                }, []
-            );
+            foreach (var card in Loadout.Deck)
+            {
+                await Deck.Add(
+                    Enumerable.Range(0, card.Amount)
+                        .Select(i => new MatchCard(this, card.Card))
+                );
+            }
+            // // TODO remove
+            // CardTemplate template1 = new(
+            //     new()
+            //     {
+            //         Name = "Test Card 1",
+            //         Type = "Scheme",
+            //         Value = 0,
+            //         Boost = 1,
+            //         Text = "Test Card Text",
+            //         Script = File.ReadAllText("../test-scripts/test3.lua"),
+            //     }, []
+            // );
+            // CardTemplate template2 = new(
+            //     new()
+            //     {
+            //         Name = "Test Card 2",
+            //         // Type = "Versatile",
+            //         Type = "Scheme",
+            //         Value = 0,
+            //         Boost = 3,
+            //         Text = "Test Card Text",
+            //         Script = File.ReadAllText("../test-scripts/test3.lua"),
+            //     }, []
+            // );
 
-            var template1Count = 5;
-            var template2Count = 5;
-            await Deck.Add(
-                Enumerable.Range(0, template1Count)
-                    .Select(i => new MatchCard(this, template2))
-            );
-            await Deck.Add(
-                Enumerable.Range(0, template2Count)
-                    .Select(i => new MatchCard(this, template1))
-            );
+            // var template1Count = 5;
+            // var template2Count = 5;
+            // await Deck.Add(
+            //     Enumerable.Range(0, template1Count)
+            //         .Select(i => new MatchCard(this, template2))
+            // );
+            // await Deck.Add(
+            //     Enumerable.Range(0, template2Count)
+            //         .Select(i => new MatchCard(this, template1))
+            // );
 
             // TODO shuffle deck
         }
@@ -251,4 +276,40 @@ public class Player
 
         // TODO update clients
     }
+
+    public IEnumerable<Fighter> GetFightersThatCanAttack()
+    {
+        foreach (var fighter in GetAliveFighters())
+        {
+
+            yield return fighter;
+        }
+    }
+
+    public IEnumerable<AvailableAttack> GetAvailableAttacks()
+    {
+        foreach (var fighter in Fighters)
+        {
+            var reachable = fighter.GetReachableFighters();
+            if (!reachable.Any()) continue;
+            var cards = fighter.GetValidAttackCards();
+            if (!cards.Any()) continue;
+
+            foreach (var target in reachable)
+            {
+                foreach (var card in cards)
+                {
+                    yield return new()
+                    {
+                        Fighter = fighter,
+                        Target = target,
+                        AttackCard = card
+                    };
+                }
+            }
+
+        }
+    }
+
+    
 }

@@ -1,6 +1,8 @@
 using System.Diagnostics.Contracts;
 using Microsoft.Extensions.Logging;
+using UMCore.Matches.Cards;
 using UMCore.Matches.Players;
+using UMCore.Matches.Players.Cards;
 using UMCore.Templates;
 
 namespace UMCore.Matches;
@@ -13,7 +15,7 @@ public class Fighter
     public string Name { get; private set; }
     public Health Health { get; }
 
-    public string LogName => $"{GetName()}({(Template.IsHero ? 'h' : 's')})";
+    public string LogName => $"({Owner.Idx}){GetName()}({(Template.IsHero ? 'h' : 's')})";
 
     public Fighter(Player owner, FighterTemplate template)
     {
@@ -69,6 +71,52 @@ public class Fighter
 
         // TODO
         await Health.DealDamage(amount);
+    }
+
+    public IEnumerable<MatchCard> GetValidAttackCards()
+    {
+        return Owner.Hand.Cards.Where(c => c.CanBeUsedAsAttack(this));
+    }
+
+    public IEnumerable<MatchCard> GetValidDefenceCards()
+    {
+        return Owner.Hand.Cards.Where(c => c.CanBeUsedAsDefence(this));
+    }
+
+    public IEnumerable<Fighter> GetReachableFighters()
+    {
+        // TODO get targets within reach
+        var range = 1; // TODO some characters have increased range
+        IEnumerable<Fighter> result = [.. Match.Map.GetReachableFighters(this, range)];
+
+        if (Template.IsRanged)
+        {
+            // TODO add all fighters in zones
+        }
+
+        return result;
+    }
+
+    public async Task Defend()
+    {
+        if (Match.Combat is null)
+        {
+            throw new Exception($"Called {Defend} on fighter {LogName} while no combat is active");
+        }
+
+        var availableDefence = GetValidDefenceCards();
+        var defence = await Owner.Controller.ChooseCardInHandOrNothing(Owner, Owner.Idx, availableDefence, "Choose defence card");
+        if (defence is null)
+        {
+            Match.Logger?.LogDebug("Player {PlayerLogName} decides not to defend", Owner.LogName);
+        }
+        else
+        {
+            Match.Logger?.LogDebug("Player {PlayerLogName} places a defence card", Owner.LogName);
+            await Owner.Hand.Remove(defence);
+        }
+
+        await Match.Combat.SetDefenceCard(defence);
     }
 }
 

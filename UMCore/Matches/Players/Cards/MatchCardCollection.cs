@@ -24,5 +24,13 @@ public abstract class MatchCardCollection
         // TODO update clients
     }
 
-    
+    public async Task<bool> Remove(MatchCard card)
+    {
+        var result = Cards.Remove(card);
+
+        // TODO update clients
+        
+        return result;
+    }
+
 }

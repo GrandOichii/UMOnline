@@ -28,17 +28,16 @@ public class FightAction : IAction
 {
     public string Name() => "Fight";
 
-    public Task Execute(Player player)
+    public async Task Execute(Player player)
     {
-        // Play a card and initiate combat
-        // TODO
-        throw new NotImplementedException();
+        var available = player.GetAvailableAttacks();
+        var attack = await player.Controller.ChooseAttack(player, available);
+        await player.Match.ProcessAttack(player, attack);
     }
 
     public bool CanBeTaken(Player player)
     {
-        // TODO
-        return false;
+        return player.GetAvailableAttacks().Any();
     }
 }
 

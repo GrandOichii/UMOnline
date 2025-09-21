@@ -1,6 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using System.Text.Json;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using UMCore.Matches;
+using UMCore.Matches.Attacks;
 using UMCore.Matches.Cards;
 using UMCore.Matches.Players;
 using UMCore.Templates;
@@ -59,6 +61,18 @@ public class ConsolePlayerController : IPlayerController
         var result = Console.ReadLine()!;
         return cards[int.Parse(result)];
     }
+    
+    public async Task<MatchCard?> ChooseCardInHandOrNothing(Player player, int playerHandIdx, IEnumerable<MatchCard> options, string hint)
+    {
+        PrintInfo(player);
+        System.Console.WriteLine(hint);
+        var cards = options.ToList();
+        for (int i = 0; i < cards.Count; ++i)
+            System.Console.WriteLine($"{i}: {cards[i].LogName}");
+        var result = Console.ReadLine()!;
+        if (result == "") return null;
+        return cards[int.Parse(result)];
+    }
 
     public async Task<Fighter> ChooseFighter(Player player, IEnumerable<Fighter> options, string hint)
     {
@@ -68,8 +82,20 @@ public class ConsolePlayerController : IPlayerController
         for (int i = 0; i < fighters.Count; ++i)
             System.Console.WriteLine($"{i}: {fighters[i].LogName}");
         var result = Console.ReadLine()!;
-        return fighters[int.Parse(result)];   
+        return fighters[int.Parse(result)];
     }
+
+    public async Task<AvailableAttack> ChooseAttack(Player player, IEnumerable<AvailableAttack> options)
+    {
+        PrintInfo(player);
+        System.Console.WriteLine("Choose how to attack");
+        var attacks = options.ToList();
+        for (int i = 0; i < attacks.Count; ++i)
+            System.Console.WriteLine($"{i}: {attacks[i].Fighter.LogName} -> {attacks[i].Target.LogName} [{attacks[i].AttackCard.LogName}]");
+        var result = Console.ReadLine()!;
+        return attacks[int.Parse(result)];   
+    }
+
 }
 
 public class Program
@@ -120,7 +146,8 @@ public class Program
         var node10 = new MapNodeTemplate()
         {
             Id = 10,
-            Zones = [0, 1]
+            Zones = [0, 1],
+            SpawnNumber = 1,
         };
         //1;1
         var node11 = new MapNodeTemplate()
@@ -152,7 +179,6 @@ public class Program
         {
             Id = 22,
             Zones = [1],
-            SpawnNumber = 1,
         };
 
         return new()
@@ -176,6 +202,17 @@ public class Program
         };
     }
 
+    private static LoadoutTemplate LoadLoadout(string path)
+    {
+        var data = File.ReadAllText(path);
+        var result = JsonSerializer.Deserialize<LoadoutTemplate>(data)!;
+        foreach (var card in result.Deck)
+        {
+            card.Card.Template.Script = File.ReadAllText(card.Card.Template.Script);
+        }
+        return result;
+    }
+
     public static async Task Main(string[] args)
     {
         var map = GetMapTemplate();
@@ -192,14 +229,18 @@ public class Program
 
         var controller = new ConsolePlayerController();
 
+        var loadout = LoadLoadout("../loadouts/foobar.json");
+
         await match.AddPlayer(
             "p1",
             0,
+            loadout,
             controller
         );
         await match.AddPlayer(
             "p2",
             1,
+            loadout,
             controller
         );
 
