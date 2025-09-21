@@ -28,4 +28,9 @@ public class MatchCard
     {
         return Card.Template.Type == "Scheme" && Card.CanBePlayedBy(fighter.Name);
     }
+
+    public IEnumerable<Fighter> GetCanBePlayedBy()
+    {
+        return Owner.Fighters.Where(f => CanBePlayedAsScheme(f));
+    }
 }

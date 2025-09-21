@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using UMCore.Matches.Cards;
 
 namespace UMCore.Matches.Players.Cards;
@@ -17,13 +18,6 @@ public class Hand : MatchCardCollection
         return newCards;
     }
 
-    public override async Task Add(IEnumerable<MatchCard> cards)
-    {
-        await base.Add(cards);
-
-        // TODO update clients
-    }
-
     public IEnumerable<MatchCard> GetPlayableSchemeCards()
     {
         List<MatchCard> result = [];
@@ -32,5 +26,16 @@ public class Hand : MatchCardCollection
             result.AddRange(Cards.Where(c => c.CanBePlayedAsScheme(fighter)));
         }
         return result.ToHashSet();
+    }
+
+    public async Task Discard(MatchCard card)
+    {
+        if (!Cards.Contains(card))
+        {
+            throw new Exception($"Cannot discard card {card.LogName} from hand of {Owner.LogName} for they do not have it"); // TODO type and weird message
+        }
+
+        Cards.Remove(card);
+        await Owner.DiscardPile.Add([card]);
     }
 }

@@ -73,24 +73,28 @@ public class Player
         // create deck
         {
             // TODO remove
-            CardTemplate template1 = new()
-            {
-                Name = "Test Card 1",
-                Type = "Scheme",
-                Value = 0,
-                Boost = 1,
-                Text = "Test Card Text",
-                Script = "test script",
-            };
-            CardTemplate template2 = new()
-            {
-                Name = "Test Card 2",
-                Type = "Versatile",
-                Value = 0,
-                Boost = 3,
-                Text = "Test Card Text",
-                Script = "test script",
-            };
+            Card template1 = new(
+                new()
+                {
+                    Name = "Test Card 1",
+                    Type = "Scheme",
+                    Value = 0,
+                    Boost = 1,
+                    Text = "Test Card Text",
+                    Script = "test script",
+                }, []
+            );
+            Card template2 = new(
+                new()
+                {
+                    Name = "Test Card 2",
+                    Type = "Versatile",
+                    Value = 0,
+                    Boost = 3,
+                    Text = "Test Card Text",
+                    Script = "test script",
+                }, []
+            );
 
             var template1Count = 5;
             var template2Count = 5;
@@ -102,6 +106,11 @@ public class Player
                 Enumerable.Range(0, template2Count)
                     .Select(i => new MatchCard(this, template2))
             );
+        }
+
+        // initial draw
+        {
+            await Hand.Draw(5); // TODO get amount from configuration
         }
     }    
 
@@ -203,5 +212,13 @@ public class Player
         // TODO? any discard for boost effects (if they exist)
         // TODO
         throw new NotImplementedException();
+    }
+
+    public async Task PlayScheme(MatchCard card, Fighter fighter)
+    {
+        // TODO update clients that a card was played
+        // TODO execute card effects
+
+        await Hand.Discard(card);
     }
 }

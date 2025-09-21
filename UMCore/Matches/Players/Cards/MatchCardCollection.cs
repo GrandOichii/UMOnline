@@ -17,8 +17,10 @@ public abstract class MatchCardCollection
 
     public int Count => Cards.Count;
 
-    public virtual async Task Add(IEnumerable<MatchCard> cards)
+    public async Task Add(IEnumerable<MatchCard> cards)
     {
         Cards.AddRange(cards);
+
+        // TODO update clients
     }
 }

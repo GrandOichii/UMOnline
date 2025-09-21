@@ -51,12 +51,22 @@ public class SchemeAction : IAction
         return player.Hand.GetPlayableSchemeCards().Any();
     }
 
-    public Task Execute(Player player)
+    public async Task Execute(Player player)
     {
         var options = player.Hand.GetPlayableSchemeCards();
 
-        // TODO pick option
-        // TODO if card can be played by multiple fighters, choose which fighter plays the card
-        // TODO resolve the card's effects
+        var chosen = await player.Controller.ChooseCardInHand(player, player.Idx, options, $"Choose a scheme card to play");
+        var availableFighters = chosen.GetCanBePlayedBy().ToList();
+        if (availableFighters.Count == 0)
+        {
+            throw new Exception($"Player {player.LogName} chose {chosen.LogName} to play as scheme card, when no fighter of theirs can play it"); // TODO type
+        }
+        var fighter = availableFighters[0];
+        if (availableFighters.Count > 0)
+        {
+            fighter = await player.Controller.ChooseFighter(player, availableFighters, $"Choose a fighter to play {chosen.LogName}");
+        }
+
+        await player.PlayScheme(chosen, fighter);
     }
 }

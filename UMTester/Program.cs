@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using UMCore.Matches;
+using UMCore.Matches.Cards;
 using UMCore.Matches.Players;
 using UMCore.Templates;
 
@@ -32,6 +33,28 @@ public class ConsolePlayerController : IPlayerController
             System.Console.WriteLine($"{i}: {nodes[i].Id}");
         var result = Console.ReadLine()!;
         return nodes[int.Parse(result)];
+    }
+
+    public async Task<MatchCard> ChooseCardInHand(Player player, int playerHandIdx, IEnumerable<MatchCard> options, string hint)
+    {
+        PrintInfo(player);
+        System.Console.WriteLine(hint);
+        var cards = options.ToList();
+        for (int i = 0; i < cards.Count; ++i)
+            System.Console.WriteLine($"{i}: {cards[i].LogName}");
+        var result = Console.ReadLine()!;
+        return cards[int.Parse(result)];
+    }
+
+    public async Task<Fighter> ChooseFighter(Player player, IEnumerable<Fighter> options, string hint)
+    {
+        PrintInfo(player);
+        System.Console.WriteLine(hint);
+        var fighters = options.ToList();
+        for (int i = 0; i < fighters.Count; ++i)
+            System.Console.WriteLine($"{i}: {fighters[i].LogName}");
+        var result = Console.ReadLine()!;
+        return fighters[int.Parse(result)];   
     }
 }
 
