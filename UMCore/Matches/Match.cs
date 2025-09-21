@@ -22,7 +22,10 @@ public class Match
         LState = new();
 
         LState.DoString(setupScript);
+        new MatchScripts(this);
     }
+
+    public Player GetPlayer(int idx) => Players[idx];
 
     public async Task<Player> AddPlayer(string name, int teamIdx, IPlayerController controller)
     {

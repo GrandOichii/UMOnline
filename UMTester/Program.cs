@@ -11,6 +11,7 @@ public class ConsolePlayerController : IPlayerController
     {
         System.Console.WriteLine($"-= {player.LogName} =-");
         System.Console.WriteLine($"Hand count: {player.Hand.Count}");
+        System.Console.WriteLine($"Actions left: {player.ActionCount}");
     }
     
     public async Task<string> ChooseAction(Player player, string[] options)

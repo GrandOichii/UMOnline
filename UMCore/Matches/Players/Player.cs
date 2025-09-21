@@ -102,11 +102,11 @@ public class Player
             var template1Count = 5;
             var template2Count = 5;
             await Deck.Add(
-                Enumerable.Range(0, template2Count)
+                Enumerable.Range(0, template1Count)
                     .Select(i => new MatchCard(this, template2))
             );
             await Deck.Add(
-                Enumerable.Range(0, template1Count)
+                Enumerable.Range(0, template2Count)
                     .Select(i => new MatchCard(this, template1))
             );
 
@@ -164,8 +164,8 @@ public class Player
         while (CanTakeActions())
         {
             var action = await ChooseAction();
-            await action.Execute(this);
             --ActionCount;
+            await action.Execute(this);
         }
     }
 
@@ -226,5 +226,12 @@ public class Player
         await card.ExecuteEffects(fighter);
 
         await Hand.Discard(card);
+    }
+
+    public async Task GainActions(int amount)
+    {
+        ActionCount += amount;
+
+        // TODO update clients
     }
 }

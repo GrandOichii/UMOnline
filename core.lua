@@ -34,16 +34,18 @@ end
 UM.Effects = {}
 
 function UM.Effects:Draw(amountFunc)
-    return function (fighter)
+    return function (args)
+        local fighter = args.fighter
         local amount = amountFunc(fighter)
-        print('Draw '..amount..' cards')
+        DrawCards(fighter.Owner.Idx, amount)
     end
 end
 
 function UM.Effects:GainActions(amountFunc)
-    return function (fighter)
+    return function (args)
+        local fighter = args.fighter
         local amount = amountFunc(fighter)
-        print('Gain '..amount..' actions')
+        GainActions(fighter.Owner.Idx, amount)
     end
 end
 
