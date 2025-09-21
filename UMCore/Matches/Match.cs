@@ -13,12 +13,14 @@ public class Match
     public int CurPlayerIdx { get; private set; }
     public Map Map { get; }
     public List<MatchCard> Cards { get; }
+    public List<Fighter> Fighters { get; }
     public Lua LState { get; }
 
     public Match(MapTemplate mapTemplate, string setupScript)
     {
         Map = new(this, mapTemplate);
         Cards = [];
+        Fighters = [];
         LState = new();
 
         LState.DoString(setupScript);
@@ -41,7 +43,7 @@ public class Match
         System.Console.WriteLine(Logger);
         Logger!.LogDebug("Starting match");
         await Setup();
-        
+
         while (!IsWinnerDetermined())
         {
             var current = CurrentPlayer();
@@ -74,8 +76,7 @@ public class Match
 
     public Player CurrentPlayer()
     {
-        // TODO
-        return Players[0];
+        return Players[CurPlayerIdx];
     }
 
     public int AddCard(MatchCard card)
@@ -83,6 +84,11 @@ public class Match
         var result = Cards.Count;
         Cards.Add(card);
         return result;
+    }
+
+    public void AddFighter(Fighter fighter)
+    {
+        Fighters.Add(fighter);
     }
 
 }

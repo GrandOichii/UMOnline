@@ -21,7 +21,7 @@ public class Hand : MatchCardCollection
     public IEnumerable<MatchCard> GetPlayableSchemeCards()
     {
         List<MatchCard> result = [];
-        foreach (var fighter in Owner.Fighters)
+        foreach (var fighter in Owner.GetAliveFighters())
         {
             result.AddRange(Cards.Where(c => c.CanBePlayedAsScheme(fighter)));
         }

@@ -65,7 +65,7 @@ public class MatchCard
 
     public IEnumerable<Fighter> GetCanBePlayedBy()
     {
-        return Owner.Fighters.Where(CanBePlayedAsScheme);
+        return Owner.GetAliveFighters().Where(CanBePlayedAsScheme);
     }
 
     public async Task ExecuteEffects(Fighter by)

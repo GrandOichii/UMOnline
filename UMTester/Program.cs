@@ -9,6 +9,9 @@ public class ConsolePlayerController : IPlayerController
 {
     private void PrintInfo(Player player)
     {
+        foreach (var node in player.Match.Map.Nodes)
+            System.Console.WriteLine($"{node.Id} -> {node.Fighter?.LogName}");
+
         System.Console.WriteLine($"-= {player.LogName} =-");
         System.Console.WriteLine($"Hand count: {player.Hand.Count}");
         System.Console.WriteLine($"Actions left: {player.ActionCount}");
@@ -94,7 +97,8 @@ public class Program
         var node01 = new MapNodeTemplate()
         {
             Id = 1,
-            Zones = [0]
+            Zones = [0],
+            SpawnNumber = 2
         };
         //0;2
         var node02 = new MapNodeTemplate()
@@ -118,7 +122,8 @@ public class Program
         var node12 = new MapNodeTemplate()
         {
             Id = 12,
-            Zones = [0, 1]
+            Zones = [0, 1],
+            SpawnNumber = 3
         };
         //2;0
         var node20 = new MapNodeTemplate()
@@ -130,7 +135,7 @@ public class Program
         var node21 = new MapNodeTemplate()
         {
             Id = 21,
-            Zones = [1]
+            Zones = [1],
         };
         //2;2
         var node22 = new MapNodeTemplate()
@@ -153,10 +158,10 @@ public class Program
                 .. Bidirectional(node20, node10),
                 .. Bidirectional(node10, node00),
 
-                .. Bidirectional(node10, node11),
+                .. Bidirectional(node01, node11),
             ],
             SecretPassages = [
-                .. Bidirectional(node10, node12)
+                .. Bidirectional(node01, node21)
             ]
         };
     }

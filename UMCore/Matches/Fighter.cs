@@ -52,4 +52,10 @@ public class Fighter
         // TODO change with teams
         return Owner == player;
     }
+
+    public bool IsAlive()
+    {
+        // TODO
+        return true;
+    }
 }

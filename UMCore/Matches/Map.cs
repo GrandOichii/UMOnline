@@ -54,21 +54,16 @@ public class Map
         bool canMoveOverFriendly,
         bool canMoveOverOpposing
     ){
-        // ! replace with GetRoutesTo()
-        // then filter all routes using canMoveOverFriendly and canMoveOverOpposing
-        
         var node = GetFighterLocation(fighter)
             ?? throw new Exception($"Failed to find fighter {fighter.LogName} for {nameof(GetPossibleMovementResults)}"); // TODO type
 
         HashSet<MapNode> result = [];
-        HashSet<MapNode> processed = [];
         node.GetPossibleMovementResults(
-            fighter.Owner,
+            fighter,
             movement,
             canMoveOverFriendly,
             canMoveOverOpposing,
-            in result,
-            in processed
+            in result
         );
 
         return result;
@@ -120,44 +115,39 @@ public class MapNode
     }
 
     public void GetPossibleMovementResults(
-        Player player,
+        Fighter fighter,
         int movement,
         bool canMoveOverFriendly,
         bool canMoveOverOpposing,
-        in HashSet<MapNode> result,
-        in HashSet<MapNode> processed
+        in HashSet<MapNode> result
+        // in HashSet<MapNode> processed
     )
     {
         // TODO this requires testing
-        if (processed.Contains(this))
+        // if (processed.Contains(this))
+        // {
+        //     return;
+        // }
+
+        // processed.Add(this);
+
+        if (Fighter is not null && Fighter != fighter)
         {
-            return;
+            if (!canMoveOverOpposing && Fighter.IsOpposingTo(fighter.Owner)) return;
+            if (!canMoveOverFriendly && Fighter.IsFriendlyTo(fighter.Owner)) return;
         }
-
-        processed.Add(this);
-
-        if (Fighter is null)
+        else
         {
             result.Add(this);
-        } else
-        {
-            if (
-                (!canMoveOverOpposing && Fighter.IsOpposingTo(player)) ||
-                (!canMoveOverFriendly && Fighter.IsFriendlyTo(player))
-            )
-            {
-            } else
-            {
-                result.Add(this);
-            }
         }
-        if (
-            Fighter is null ||
-            (canMoveOverOpposing && Fighter.IsOpposingTo(player)) ||
-            (canMoveOverFriendly && Fighter.IsFriendlyTo(player))
-        ){
-            result.Add(this);
-        }
+        
+        // if (
+        //     Fighter is null ||
+        //     (canMoveOverOpposing && Fighter.IsOpposingTo(player)) ||
+        //     (canMoveOverFriendly && Fighter.IsFriendlyTo(player))
+        // ){
+        //     result.Add(this);
+        // }
 
         if (movement == 0)
         {
@@ -166,11 +156,12 @@ public class MapNode
 
         foreach (var node in Adjacent)
         {
-            node.GetPossibleMovementResults(player, movement - 1, canMoveOverFriendly, canMoveOverOpposing, result, processed);
+            node.GetPossibleMovementResults(fighter, movement - 1, canMoveOverFriendly, canMoveOverOpposing, result);
         }
         foreach (var node in SecretPassages)
         {
-            node.GetPossibleMovementResults(player, movement - 1, canMoveOverFriendly, canMoveOverOpposing, result, processed);
+            System.Console.WriteLine($"SECRET {node.Id}");
+            node.GetPossibleMovementResults(fighter, movement - 1, canMoveOverFriendly, canMoveOverOpposing, result);
         }
         // TODO add support for fog token-like effects
     }

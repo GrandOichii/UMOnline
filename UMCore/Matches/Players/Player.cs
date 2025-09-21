@@ -53,23 +53,35 @@ public class Player
         // create and place fighters
         {
             // TODO remove
-            var fighter = new Fighter(this, new()
+            var hero = new Fighter(this, new()
             {
                 IsHero = true,
-                Name = $"f_{LogName}",
+                Name = $"h_{LogName}",
                 Movement = 2,
                 MaxHealth = 10,
                 StartingHealth = 10
             });
-            Fighters.Add(fighter);
+            var sidekick = new Fighter(this, new()
+            {
+                IsHero = false,
+                Name = $"s_{LogName}",
+                Movement = 2,
+                MaxHealth = 5,
+                StartingHealth = 5
+            });
+            Fighters.Add(hero);
+            Fighters.Add(sidekick);
             // Fighters.Add(new(this)
             // {
             //     Hero = false,
             // });
 
             // TODO prompt player to place fighters
-            var spawn = Match.Map.GetSpawnLocation(Idx);
-            await spawn.PlaceFighter(fighter);
+            var heroSpawn = Match.Map.GetSpawnLocation(Idx);
+            await heroSpawn.PlaceFighter(hero);
+
+            var sidekickSpawn = Match.Map.GetSpawnLocation(Idx + Match.Players.Count);
+            await sidekickSpawn.PlaceFighter(sidekick);
         }
 
         // create deck
@@ -117,7 +129,9 @@ public class Player
         {
             await Hand.Draw(5); // TODO get amount from configuration
         }
-    }    
+    }
+
+    public IEnumerable<Fighter> GetAliveFighters() => Fighters.Where(f => f.IsAlive()); // TODO
 
     public string LogName => $"{Name}[{Idx}]";
 
@@ -190,8 +204,9 @@ public class Player
         //         boostValue = card.GetBoostValue();
         //     }
         // }
+
         // TODO allow player to choose order
-        foreach (var fighter in Fighters)
+        foreach (var fighter in GetAliveFighters())
         {
             await MoveFighter(fighter, fighter.Movement() + boostValue, canMoveOverFriendly, canMoveOverOpposing);
         }
