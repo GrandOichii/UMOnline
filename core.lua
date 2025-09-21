@@ -25,6 +25,12 @@ function UM:Card()
     return result
 end
 
+function UM:EffectOwner()
+    return function (args)
+        return args.fighter.Owner
+    end
+end
+
 function UM:Static(amount)
     return function (...)
         return amount
@@ -67,11 +73,43 @@ UM.S = {}
 function UM.S:Fighters()
     local result = {}
 
+    result.filters = {}
+
+    function result:OwnedBy(playerFunc)
+        result.filters[#result.filters+1] = function (args, fighter)
+            return fighter.Owner.Idx == playerFunc(args).Idx
+        end
+
+        return result
+    end
+
+    function result:NotOwnedBy(playerFunc)
+        result.filters[#result.filters+1] = function (args, fighter)
+            return fighter.Owner.Idx ~= playerFunc(args).Idx
+        end
+
+        return result
+    end
+
     function result:Build()
         return function (args)
-            local fighters = GetFighters()
+            local allFighters = GetFighters()
+            local fighters = {}
 
-            -- TODO filter using filters
+            local filterFunc = function (fighter)
+                for _, filter in ipairs(result.filters) do
+                    if not filter(args, fighter) then
+                        return false
+                    end
+                end
+                return true
+            end
+
+            for _, fighter in ipairs(allFighters) do
+                if filterFunc(fighter) then
+                    fighters[#fighters+1] = fighter
+                end
+            end
 
             return fighters
         end

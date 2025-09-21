@@ -10,7 +10,7 @@ namespace UMCore.Matches;
 /// Marks the method as a Lua function
 /// </summary>
 [AttributeUsage(AttributeTargets.Method)]
-internal class LuaCommand : Attribute {}
+internal class LuaCommand : Attribute { }
 
 public class MatchScripts
 {
@@ -58,7 +58,7 @@ public class MatchScripts
     public void DealDamage(Fighter fighter, int amount)
     {
         fighter.ProcessDamage(amount)
-        .Wait();
+            .Wait();
     }
 
 }
