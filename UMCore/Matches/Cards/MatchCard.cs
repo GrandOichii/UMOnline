@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Logging;
 using NLua;
+using UMCore.Matches.Attacks;
 using UMCore.Matches.Effects;
 using UMCore.Matches.Players;
 using UMCore.Templates;
@@ -14,6 +15,7 @@ public class MatchCard
     public int Idx { get; }
 
     public EffectCollection SchemeEffect { get; }
+    public Dictionary<CombatStepTrigger, EffectCollection> CombatStepEffects { get; }
 
     public string LogName => $"({Idx}){Card.Template.Name}[{Owner.Idx}]";
 
@@ -41,22 +43,36 @@ public class MatchCard
 
         try
         {
-            SchemeEffect = new(LuaUtility.TableGet<LuaTable>(data, "SchemeEffects"));
+            SchemeEffect = new(LuaUtility.TableGet<LuaTable>(data, "Scheme"));
         }
         catch (Exception e)
         {
             throw new Exception($"Failed to get scheme effects for card {card.Template.Name}", e); // TODO type
         }
 
-        // TODO scheme text
-
-        // TODO immediately, during combat and after combat
+        CombatStepEffects = [];
+        try
+        {
+            var combatStepEffectMappingRaw = LuaUtility.TableGet<LuaTable>(data, "CombatStepEffects");
+            foreach (var keyRaw in combatStepEffectMappingRaw.Keys)
+            {
+                var key = (CombatStepTrigger)Convert.ToInt32(keyRaw);
+                var table = combatStepEffectMappingRaw[keyRaw] as LuaTable;
+                // TODO check for null
+                var effects = new EffectCollection(table!);
+                CombatStepEffects.Add(key, effects);
+            }
+        }
+        catch (Exception e)
+        {
+            throw new Exception($"Failed to get combat step effects for card {card.Template.Name}", e); // TODO type
+        }
     }
 
     public int GetBoostValue()
     {
         return Card.Template.Boost;
-    }    
+    }
 
     public bool CanBePlayedAsScheme(Fighter fighter)
     {
@@ -80,7 +96,7 @@ public class MatchCard
         return Owner.GetAliveFighters().Where(CanBePlayedAsScheme);
     }
 
-    public async Task ExecuteEffects(Fighter by)
+    public async Task ExecuteSchemeEffects(Fighter by)
     {
         Owner.Match.Logger?.LogDebug("Executing scheme effects of card {CardLogName} by fighter {FighterLogName}", LogName, by.LogName);
 
@@ -88,10 +104,26 @@ public class MatchCard
         {
             { "fighter", by }
         }));
+
+        // TODO update clients about played scheme card
     }
 
     public async Task PlaceIntoDiscard()
     {
         await Owner.DiscardPile.Add([this]);
+    }
+
+    public async Task ExecuteCombatStepTrigger(CombatStepTrigger trigger, Fighter by)
+    {
+        // TODO
+        if (!CombatStepEffects.TryGetValue(trigger, out var effects))
+        {
+            return;
+        }
+
+        effects.Execute(LuaUtility.CreateTable(Owner.Match.LState, new Dictionary<string, object>()
+        {
+            { "fighter", by }
+        }));
     }
 }

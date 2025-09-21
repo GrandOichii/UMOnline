@@ -66,42 +66,6 @@ public class Player
             }
 
             // TODO check that there is exactly 1 hero
-            
-            // // TODO remove
-            // var hero = new Fighter(this, new()
-            // {
-            //     IsHero = true,
-            //     Name = $"h_{LogName}",
-            //     Movement = 2,
-            //     MaxHealth = 10,
-            //     StartingHealth = 10,
-            //     IsRanged = false,
-            // });
-            // Fighters.Add(hero);
-            // Match.Fighters.Add(hero);
-
-            // var sidekick = new Fighter(this, new()
-            // {
-            //     IsHero = false,
-            //     Name = $"s_{LogName}",
-            //     Movement = 2,
-            //     MaxHealth = 5,
-            //     StartingHealth = 5,
-            //     IsRanged = true,
-            // });
-            // Fighters.Add(sidekick);
-            // Match.Fighters.Add(sidekick);
-            // // Fighters.Add(new(this)
-            // // {
-            // //     Hero = false,
-            // // });
-
-            // // TODO prompt player to place fighters
-            // var heroSpawn = Match.Map.GetSpawnLocation(Idx);
-            // await heroSpawn.PlaceFighter(hero);
-
-            // var sidekickSpawn = Match.Map.GetSpawnLocation(Idx + Match.Players.Count);
-            // await sidekickSpawn.PlaceFighter(sidekick);
         }
 
         // create deck
@@ -113,49 +77,11 @@ public class Player
                         .Select(i => new MatchCard(this, card.Card))
                 );
             }
-            // // TODO remove
-            // CardTemplate template1 = new(
-            //     new()
-            //     {
-            //         Name = "Test Card 1",
-            //         Type = "Scheme",
-            //         Value = 0,
-            //         Boost = 1,
-            //         Text = "Test Card Text",
-            //         Script = File.ReadAllText("../test-scripts/test3.lua"),
-            //     }, []
-            // );
-            // CardTemplate template2 = new(
-            //     new()
-            //     {
-            //         Name = "Test Card 2",
-            //         // Type = "Versatile",
-            //         Type = "Scheme",
-            //         Value = 0,
-            //         Boost = 3,
-            //         Text = "Test Card Text",
-            //         Script = File.ReadAllText("../test-scripts/test3.lua"),
-            //     }, []
-            // );
-
-            // var template1Count = 5;
-            // var template2Count = 5;
-            // await Deck.Add(
-            //     Enumerable.Range(0, template1Count)
-            //         .Select(i => new MatchCard(this, template2))
-            // );
-            // await Deck.Add(
-            //     Enumerable.Range(0, template2Count)
-            //         .Select(i => new MatchCard(this, template1))
-            // );
-
             // TODO shuffle deck
         }
 
         // initial draw
-        {
-            await Hand.Draw(5); // TODO get amount from configuration
-        }
+        await Hand.Draw(5); // TODO get amount from configuration
     }
 
     public IEnumerable<Fighter> GetAliveFighters() => Fighters.Where(f => f.IsAlive()); // TODO
@@ -265,7 +191,7 @@ public class Player
     {
         // TODO update clients that a card was played
         // TODO execute card effects
-        await card.ExecuteEffects(fighter);
+        await card.ExecuteSchemeEffects(fighter);
 
         await Hand.Discard(card);
     }

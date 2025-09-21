@@ -1,24 +1,69 @@
 UM = {}
 
+UM.CombatSteps = {
+    IMMEDIATELY = 0,
+    DURING_COMBAT = 1,
+    AFTER_COMBAT = 2,
+}
+
 function UM:Card()
     local result = {}
 
-    result.schemeEffects = {}
+    result.scheme = {
+        text = '',
+        effects = {},
+    }
+
+    result.combatStepEffects = {}
 
     function result:Effect(text, ...)
-        result.schemeText = text
-        local effects = {...}
+        -- assert(result.scheme == nil, 'Already defined scheme effects ('..result.scheme.text..')')
 
-        for _, v in ipairs(effects) do
+        result.scheme.text = text
+
+        for _, v in ipairs(result.scheme.effects) do
             result.schemeEffects[#result.schemeEffects+1] = v
         end
 
         return result
     end
 
+    function result:CombatStepEffect(step, text, ...)
+        local obj = result.combatStepEffects[step]
+        -- TODO dont know is this is the best way of doing this
+        -- print(obj)
+        -- assert(obj == nil, 'Already defined effects for combat step'..step..'('..obj.text..')')
+        obj = {
+            text = '',
+            effects = {}
+        }
+        obj.text = text
+        local effects = {...}
+
+        for _, v in ipairs(effects) do
+            obj.effects[#obj.effects+1] = v
+        end
+        result.combatStepEffects[step] = obj
+
+        return result
+    end
+
+    function result:Immediately(text, ...)
+        return result:CombatStepEffect(UM.CombatSteps.IMMEDIATELY, text, ...)
+    end
+
+    function result:DuringCombat(text, ...)
+        return result:CombatStepEffect(UM.CombatSteps.DURING_COMBAT, text, ...)
+    end
+
+    function result:AfterCombat(text, ...)
+        return result:CombatStepEffect(UM.CombatSteps.AFTER_COMBAT, text, ...)
+    end
+
     function result:Build()
         return {
-            SchemeEffects = result.schemeEffects
+            Scheme = result.scheme,
+            CombatStepEffects = result.combatStepEffects,
         }
     end
 

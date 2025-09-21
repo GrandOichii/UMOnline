@@ -9,6 +9,13 @@ public class CombatCard(MatchCard card)
     public int Value = card.Card.Template.Value;
 }
 
+
+public enum CombatStepTrigger {
+    Immediately = 0,
+    DuringCombat = 1,
+    AfterCombat = 2,
+}
+
 public class Combat
 {
     public Match Match { get; }
@@ -36,6 +43,14 @@ public class Combat
 
     public Player Initiator => Attacker.Owner;
 
+    public async Task EmitTrigger(CombatStepTrigger trigger)
+    {
+        // TODO first check and execute defender, then check and execute attacker
+        await AttackCard.Card.ExecuteCombatStepTrigger(trigger, Attacker);
+        if (DefenceCard is not null)
+            await DefenceCard.Card.ExecuteCombatStepTrigger(trigger, Defender);
+    }
+
     public async Task Process()
     {
         await Initiator.Hand.Remove(AttackCard.Card);
@@ -48,9 +63,11 @@ public class Combat
 
         // TODO reveal cards
 
-        // TODO execute "immediately"
+        // execute "immediately"
+        await EmitTrigger(CombatStepTrigger.Immediately);
 
-        // TODO execute "during combat"
+        // execute "during combat"
+        await EmitTrigger(CombatStepTrigger.DuringCombat);
 
         // deal damage
         var damage = AttackCard.Value;
@@ -61,7 +78,8 @@ public class Combat
         if (damage < 0) damage = 0;
         await Defender.ProcessDamage(damage);
 
-        // TODO execute "after combat"
+        // execute "after combat"
+        await EmitTrigger(CombatStepTrigger.AfterCombat);
 
         // discard cards
         await AttackCard.Card.PlaceIntoDiscard();

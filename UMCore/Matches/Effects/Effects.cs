@@ -1,22 +1,21 @@
 using NLua;
+using UMCore.Utility;
 
 namespace UMCore.Matches.Effects;
 
 public class EffectCollection
 {
+    public string Text { get; }
     public List<Effect> Effects { get; }
-
-    public EffectCollection()
-    {
-        Effects = [];
-    }
 
     public EffectCollection(LuaTable table)
     {
-        // TODO
         Effects = [];
 
-        foreach (var e in table.Values)
+        Text = LuaUtility.TableGet<string>(table, "text");
+        var effectsRaw = LuaUtility.TableGet<LuaTable>(table, "effects");
+
+        foreach (var e in effectsRaw.Values)
         {
             var effectFunc = e as LuaFunction;
             // TODO throw exception if null

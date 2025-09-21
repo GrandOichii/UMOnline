@@ -45,7 +45,6 @@ public class Match
 
     public async Task Run()
     {
-        System.Console.WriteLine(Logger);
         Logger!.LogDebug("Starting match");
         await Setup();
 

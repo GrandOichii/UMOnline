@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using UMCore.Matches.Cards;
 
 namespace UMCore.Matches.Players.Cards;
@@ -12,9 +13,10 @@ public class Hand : MatchCardCollection
 
     public async Task<IEnumerable<MatchCard>> Draw(int amount)
     {
-        var newCards = Owner.Deck.TakeFromTop(amount);
+        var newCards = Owner.Deck.TakeFromTop(amount).ToList();
         Cards.AddRange(newCards);
 
+        Owner.Match.Logger?.LogDebug("Player {PlayerLogName} draws {Amount} cards (wanted to draw: {OriginalAmount})", Owner.LogName, newCards.Count(), amount);
         return newCards;
     }
 
