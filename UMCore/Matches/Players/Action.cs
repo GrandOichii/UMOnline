@@ -13,7 +13,7 @@ public class ManoeuvreAction : IAction
 
     public async Task Execute(Player player)
     {
-        await player.Draw(1); // TODO move to configuration
+        await player.Hand.Draw(1); // TODO move to configuration
 
         await player.MoveFighters(allowBoost: true, canMoveOverFriendly: true);
     }
@@ -48,16 +48,15 @@ public class SchemeAction : IAction
 
     public bool CanBeTaken(Player player)
     {
-        return false;
-        // TODO check whether a scheme card is in the player's hand AND can be played by alive fighters
-        // throw new NotImplementedException();
-        
+        return player.Hand.GetPlayableSchemeCards().Any();
     }
 
     public Task Execute(Player player)
     {
-        // Choose a scheme card and play it
-        // TODO
-        throw new NotImplementedException();
+        var options = player.Hand.GetPlayableSchemeCards();
+
+        // TODO pick option
+        // TODO if card can be played by multiple fighters, choose which fighter plays the card
+        // TODO resolve the card's effects
     }
 }

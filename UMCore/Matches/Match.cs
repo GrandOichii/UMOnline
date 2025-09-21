@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging;
+using UMCore.Matches.Cards;
 using UMCore.Matches.Players;
 using UMCore.Templates;
 
@@ -10,10 +11,12 @@ public class Match
     public List<Player> Players { get; } = [];
     public int CurPlayerIdx { get; private set; }
     public Map Map { get; }
+    public List<MatchCard> Cards { get; }
 
     public Match(MapTemplate mapTemplate)
     {
         Map = new(this, mapTemplate);
+        Cards = [];
     }
 
     public async Task<Player> AddPlayer(string name, int teamIdx, IPlayerController controller)
@@ -65,6 +68,13 @@ public class Match
     {
         // TODO
         return Players[0];
+    }
+
+    public int AddCard(MatchCard card)
+    {
+        var result = Cards.Count;
+        Cards.Add(card);
+        return result;
     }
 
 }

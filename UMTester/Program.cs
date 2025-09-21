@@ -6,8 +6,15 @@ using UMCore.Templates;
 
 public class ConsolePlayerController : IPlayerController
 {
+    private void PrintInfo(Player player)
+    {
+        System.Console.WriteLine($"-= {player.LogName} =-");
+        System.Console.WriteLine($"Hand count: {player.Hand.Count}");
+    }
+    
     public async Task<string> ChooseAction(Player player, string[] options)
     {
+        PrintInfo(player);
         System.Console.WriteLine($"Choose action: {string.Join(", ", options)}");
         var nodes = options.ToList();
         for (int i = 0; i < nodes.Count; ++i)
@@ -18,6 +25,7 @@ public class ConsolePlayerController : IPlayerController
 
     public async Task<MapNode> PromptNode(Player player, IEnumerable<MapNode> options, string hint)
     {
+        PrintInfo(player);
         System.Console.WriteLine(hint);
         var nodes = options.ToList();
         for (int i = 0; i < nodes.Count; ++i)

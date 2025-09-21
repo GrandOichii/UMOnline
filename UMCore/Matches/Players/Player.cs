@@ -1,6 +1,8 @@
 using System.Diagnostics.Contracts;
 using Microsoft.Extensions.Logging;
 using UMCore.Matches.Cards;
+using UMCore.Matches.Players.Cards;
+using UMCore.Templates;
 
 namespace UMCore.Matches.Players;
 
@@ -26,6 +28,9 @@ public class Player
     public int Idx { get; }
     public int TeamIdx { get; }
     public List<Fighter> Fighters { get; }
+    public Hand Hand { get; }
+    public Deck Deck { get; }
+    public DiscardPile DiscardPile { get; }
 
     public int ActionCount { get; set; }
 
@@ -36,27 +41,68 @@ public class Player
         Name = name;
         Idx = idx;
 
+        Hand = new(this);
+        Deck = new(this);
+        DiscardPile = new(this);
+
         Fighters = [];
     }
 
     public async Task Setup()
     {
-        // TODO remove
-        var fighter = new Fighter(this)
+        // create and place fighters
         {
-            Hero = true,
-            Name = $"f_{LogName}",
-            Position = Match.Map.Template.GetSpawnNode(Idx)
-        };
-        Fighters.Add(fighter);
-        // Fighters.Add(new(this)
-        // {
-        //     Hero = false,
-        // });
+            // TODO remove
+            var fighter = new Fighter(this)
+            {
+                Hero = true,
+                Name = $"f_{LogName}",
+                Position = Match.Map.Template.GetSpawnNode(Idx)
+            };
+            Fighters.Add(fighter);
+            // Fighters.Add(new(this)
+            // {
+            //     Hero = false,
+            // });
 
-        // TODO prompt player to place fighters
-        var spawn = Match.Map.GetSpawnLocation(Idx);
-        await spawn.PlaceFighter(fighter);
+            // TODO prompt player to place fighters
+            var spawn = Match.Map.GetSpawnLocation(Idx);
+            await spawn.PlaceFighter(fighter);
+        }
+
+        // create deck
+        {
+            // TODO remove
+            CardTemplate template1 = new()
+            {
+                Name = "Test Card 1",
+                Type = "Scheme",
+                Value = 0,
+                Boost = 1,
+                Text = "Test Card Text",
+                Script = "test script",
+            };
+            CardTemplate template2 = new()
+            {
+                Name = "Test Card 2",
+                Type = "Versatile",
+                Value = 0,
+                Boost = 3,
+                Text = "Test Card Text",
+                Script = "test script",
+            };
+
+            var template1Count = 5;
+            var template2Count = 5;
+            await Deck.Add(
+                Enumerable.Range(0, template1Count)
+                    .Select(i => new MatchCard(this, template1))
+            );
+            await Deck.Add(
+                Enumerable.Range(0, template2Count)
+                    .Select(i => new MatchCard(this, template2))
+            );
+        }
     }    
 
     public string LogName => $"{Name}[{Idx}]";
@@ -118,12 +164,6 @@ public class Player
         await EndTurn();
     }
 
-    public async Task<int> Draw(int amount)
-    {
-        // TODO
-        return 0;
-    }
-
     public async Task MoveFighters(bool allowBoost = false, bool canMoveOverFriendly = true, bool canMoveOverOpposing = false)
     {
         var boostValue = 0;
@@ -133,7 +173,7 @@ public class Player
         //     if (card is not null)
         //     {
         //         await DiscardCardForBoost(card);
-        //         boostValue = card.BoostValue();
+        //         boostValue = card.GetBoostValue();
         //     }
         // }
         // TODO allow player to choose order
