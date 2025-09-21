@@ -38,7 +38,7 @@ public class FightAction : IAction
     public bool CanBeTaken(Player player)
     {
         // TODO
-        throw new NotImplementedException();
+        return false;
     }
 }
 
@@ -48,8 +48,9 @@ public class SchemeAction : IAction
 
     public bool CanBeTaken(Player player)
     {
+        return false;
         // TODO check whether a scheme card is in the player's hand AND can be played by alive fighters
-        throw new NotImplementedException();
+        // throw new NotImplementedException();
         
     }
 

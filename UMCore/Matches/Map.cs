@@ -1,4 +1,6 @@
 using System.Security;
+using Microsoft.Extensions.Logging;
+using UMCore.Matches.Players;
 using UMCore.Templates;
 
 namespace UMCore.Matches;
@@ -60,7 +62,14 @@ public class Map
 
         HashSet<MapNode> result = [];
         HashSet<MapNode> processed = [];
-        node.GetPossibleMovementResults(movement, canMoveOverFriendly, canMoveOverOpposing, in result, in processed);
+        node.GetPossibleMovementResults(
+            fighter.Owner,
+            movement,
+            canMoveOverFriendly,
+            canMoveOverOpposing,
+            in result,
+            in processed
+        );
 
         return result;
     }
@@ -99,6 +108,7 @@ public class MapNode
         }
 
         Fighter = fighter;
+        Parent.Match.Logger?.LogDebug("Placed fighter {LogName} in node {NodeId}", fighter.LogName, Id);
         // TODO update players
     }
 
@@ -110,6 +120,7 @@ public class MapNode
     }
 
     public void GetPossibleMovementResults(
+        Player player,
         int movement,
         bool canMoveOverFriendly,
         bool canMoveOverOpposing,
@@ -117,24 +128,51 @@ public class MapNode
         in HashSet<MapNode> processed
     )
     {
+        // TODO this requires testing
         if (processed.Contains(this))
         {
             return;
         }
+
         processed.Add(this);
+
+        if (Fighter is null)
+        {
+            result.Add(this);
+        } else
+        {
+            if (
+                (!canMoveOverOpposing && Fighter.IsOpposingTo(player)) ||
+                (!canMoveOverFriendly && Fighter.IsFriendlyTo(player))
+            )
+            {
+            } else
+            {
+                result.Add(this);
+            }
+        }
+        if (
+            Fighter is null ||
+            (canMoveOverOpposing && Fighter.IsOpposingTo(player)) ||
+            (canMoveOverFriendly && Fighter.IsFriendlyTo(player))
+        ){
+            result.Add(this);
+        }
 
         if (movement == 0)
         {
-            if (Fighter is not null) return;
-
-            result.Add(this);
             return;
         }
 
         foreach (var node in Adjacent)
         {
-
+            node.GetPossibleMovementResults(player, movement - 1, canMoveOverFriendly, canMoveOverOpposing, result, processed);
         }
+        foreach (var node in SecretPassages)
+        {
+            node.GetPossibleMovementResults(player, movement - 1, canMoveOverFriendly, canMoveOverOpposing, result, processed);
+        }
+        // TODO add support for fog token-like effects
     }
 
 }

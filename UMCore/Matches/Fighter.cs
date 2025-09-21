@@ -40,4 +40,16 @@ public class Fighter
         // TODO
         return 2;
     }
+
+    public bool IsOpposingTo(Player player)
+    {
+        // TODO change with teams
+        return Owner != player;
+    }
+
+    public bool IsFriendlyTo(Player player)
+    {
+        // TODO change with teams
+        return Owner == player;
+    }
 }

@@ -34,6 +34,7 @@ public class Player
         Match = match;
         Controller = controller;
         Name = name;
+        Idx = idx;
 
         Fighters = [];
     }
@@ -123,7 +124,7 @@ public class Player
         return 0;
     }
 
-    public async Task MoveFighters(bool allowBoost = false, bool canMoveOverFriendly = false, bool canMoveOverOpposing = false)
+    public async Task MoveFighters(bool allowBoost = false, bool canMoveOverFriendly = true, bool canMoveOverOpposing = false)
     {
         var boostValue = 0;
         // if (allowBoost)
@@ -138,13 +139,13 @@ public class Player
         // TODO allow player to choose order
         foreach (var fighter in Fighters)
         {
-            await MoveFighter(fighter, fighter.Movement() + boostValue);
+            await MoveFighter(fighter, fighter.Movement() + boostValue, canMoveOverFriendly, canMoveOverOpposing);
         }
 
         // TODO
     }
 
-    public async Task MoveFighter(Fighter fighter, int movement, bool canMoveOverFriendly = false, bool canMoveOverOpposing = false)
+    public async Task MoveFighter(Fighter fighter, int movement, bool canMoveOverFriendly, bool canMoveOverOpposing)
     {
         var available = Match.Map.GetPossibleMovementResults(fighter, movement, canMoveOverFriendly, canMoveOverOpposing);
         var result = await Controller.PromptNode(this, available, $"Choose where to move {fighter.LogName}");

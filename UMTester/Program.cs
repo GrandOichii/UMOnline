@@ -1,11 +1,30 @@
 ﻿using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using UMCore.Matches;
 using UMCore.Matches.Players;
 using UMCore.Templates;
 
 public class ConsolePlayerController : IPlayerController
 {
-    
+    public async Task<string> ChooseAction(Player player, string[] options)
+    {
+        System.Console.WriteLine($"Choose action: {string.Join(", ", options)}");
+        var nodes = options.ToList();
+        for (int i = 0; i < nodes.Count; ++i)
+            System.Console.WriteLine($"{i}: {nodes[i]}");
+        var result = Console.ReadLine()!;
+        return nodes[int.Parse(result)];
+    }
+
+    public async Task<MapNode> PromptNode(Player player, IEnumerable<MapNode> options, string hint)
+    {
+        System.Console.WriteLine(hint);
+        var nodes = options.ToList();
+        for (int i = 0; i < nodes.Count; ++i)
+            System.Console.WriteLine($"{i}: {nodes[i].Id}");
+        var result = Console.ReadLine()!;
+        return nodes[int.Parse(result)];
+    }
 }
 
 public class Program
@@ -36,7 +55,8 @@ public class Program
         var node00 = new MapNodeTemplate()
         {
             Id = 0,
-            Zones = [0]
+            Zones = [0],
+            SpawnNumber = 0,
         };
         //0;1
         var node01 = new MapNodeTemplate()
@@ -84,12 +104,13 @@ public class Program
         var node22 = new MapNodeTemplate()
         {
             Id = 22,
-            Zones = [1]
+            Zones = [1],
+            SpawnNumber = 1,
         };
 
         return new()
         {
-            Nodes = [node00, node01, node02, node10, node11, node12, node20, node21, node21],
+            Nodes = [node00, node01, node02, node10, node11, node12, node20, node21, node22],
             Adjacent = [
                 .. Bidirectional(node00, node01),
                 .. Bidirectional(node01, node02),
@@ -114,7 +135,12 @@ public class Program
 
         var match = new Match(map)
         {
-            Logger = null,
+            Logger = LoggerFactory
+                .Create(builder => builder
+                    .AddConsole()
+                    .SetMinimumLevel(LogLevel.Debug)
+                )
+                .CreateLogger("UMTester")
         };
 
         var controller = new ConsolePlayerController();

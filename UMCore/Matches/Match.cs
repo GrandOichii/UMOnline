@@ -27,6 +27,8 @@ public class Match
 
     public async Task Run()
     {
+        System.Console.WriteLine(Logger);
+        Logger!.LogDebug("Starting match");
         await Setup();
         
         while (!IsWinnerDetermined())
@@ -62,7 +64,7 @@ public class Match
     public Player CurrentPlayer()
     {
         // TODO
-        return null!;
+        return Players[0];
     }
 
 }
