@@ -1,16 +1,12 @@
 function _Create()
     return UM:Card()
         :AfterCombat(
-            'After combat: If you won the combat, your opponent discards 1 card.',
-            UM:If(
-                UM.Conditional:CombatWonBy(
-                    UM.Players:EffectOwner()
-                ),
-                UM.Effects:Discard(
-                    UM.Players:Opponent(),
-                    UM:Static(1),
-                    false
-                )
+            'After combat: Move each of your fighters up to 2 spaces.',
+            UM.Effects:MoveFighters(
+                UM.S:Fighters()
+                :OwnedBy(UM.Players:EffectOwner())
+                :Build(),
+                UM:UpTo(2)
             )
         )
         :Build()

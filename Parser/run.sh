@@ -1,3 +1,3 @@
-rm ../cards/*
+rm ../card-scripts/*
 rm ../reports/*
 dotnet run

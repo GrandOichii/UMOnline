@@ -53,7 +53,7 @@ public class MatchScripts
     [LuaCommand]
     public LuaTable GetFighters()
     {
-        return LuaUtility.CreateTable(Match.LState, Match.Fighters);
+        return LuaUtility.CreateTable(Match.LState, Match.Fighters.Where(f => f.IsAlive()).ToList());
     }
 
     [LuaCommand]
@@ -105,5 +105,12 @@ public class MatchScripts
             .GetAwaiter().GetResult();
         return target.Hand.GetCardIdx(result);
 
+    }
+
+    [LuaCommand]
+    public void MoveFighter(Fighter fighter, int amount)
+    {
+        fighter.Owner.MoveFighter(fighter, amount, true, false)
+            .Wait();
     }
 }

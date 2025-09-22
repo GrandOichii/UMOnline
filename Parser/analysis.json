@@ -33,14 +33,6 @@
       "FullText": "During combat: Your opponent discards 1 random card. Add its BOOST value to this card\u0027s attack value."
     },
     {
-      "Text": "After combat: Move your fighter up to 4 spaces.",
-      "FullText": "After combat: Move your fighter up to 4 spaces."
-    },
-    {
-      "Text": "After combat: Move your fighter up to 3 spaces.",
-      "FullText": "After combat: Move your fighter up to 3 spaces."
-    },
-    {
       "Text": "After combat: If you won the combat, choose one of the fighters in the combat and move them up to 4 spaces.",
       "FullText": "After combat: If you won the combat, choose one of the fighters in the combat and move them up to 4 spaces."
     },
@@ -167,10 +159,6 @@
     {
       "Text": "After combat: Move Alice up to 5 spaces",
       "FullText": "After combat: Move Alice up to 5 spaces. Change size."
-    },
-    {
-      "Text": "After combat: Move each of your fighters up to 2 spaces",
-      "FullText": "After combat: Move each of your fighters up to 2 spaces. Change size."
     },
     {
       "Text": "During combat: Discard the top card of your deck",
@@ -1495,10 +1483,6 @@
     {
       "Text": "Cloak recovers 2 health.",
       "FullText": "After combat: If Cloak played this to defend, Dagger recovers 2 health. If Dagger played this to attack, Cloak recovers 2 health."
-    },
-    {
-      "Text": "After combat: Move each of your fighters up to 2 spaces.",
-      "FullText": "After combat: Move each of your fighters up to 2 spaces."
     },
     {
       "Text": "After combat: Summon a squirrel in Squirrel Girl\u0027s space",
@@ -3251,7 +3235,7 @@
       "FullText": "After combat: If the printed value of your opponent\u0027s card is... 2: you may draw a card 3: deal 1 damage to the opposing fighter 4: your opponent discards a card"
     }
   ],
-  "fighterSelector": [
+  "fighter": [
     {
       "Text": "any one fighter in Medusa\u0027s zone.",
       "FullText": "Deal 2 damage to any one fighter in Medusa\u0027s zone."
@@ -3269,44 +3253,16 @@
       "FullText": "Move Bigfoot up to 5 spaces. You may move Bigfoot through spaces containing opposing fighters."
     },
     {
-      "Text": "each fighter",
-      "FullText": "Move each fighter up to 3 spaces. (This includes opposing fighters.)"
-    },
-    {
-      "Text": "each of your fighters",
-      "FullText": "Move each of your fighters up to 3 spaces. You may move them through spaces containing opposing fighters. Then, return a defeated Harpy (if any) to any space in Medusa\u0027s zone."
-    },
-    {
-      "Text": "each of your Raptors",
-      "FullText": "Move each of your Raptors up to 3 spaces. You may move them through spaces containing opposing fighters. Gain 1 action."
-    },
-    {
-      "Text": "each of your fighters",
-      "FullText": "Move each of your fighters up to 2 spaces. Each of your fighters recovers 1 health. Draw 1 card."
-    },
-    {
       "Text": "Little Red",
       "FullText": "Move Little Red up to 3 spaces. Gain 1 action."
-    },
-    {
-      "Text": "your fighter",
-      "FullText": "Move your fighter up to 4 spaces. They may move through opposing fighters.\nGain 1 action."
     },
     {
       "Text": "Bullseye",
       "FullText": "After combat: You are considered to have won this combat. Move Bullseye up to 2 spaces."
     },
     {
-      "Text": "each opposing fighter adjacent to that trap",
-      "FullText": "Choose a trap in the same zone as one of your InGen Workers. Deal 1 damage to each opposing fighter adjacent to that trap. Return that trap to the box."
-    },
-    {
       "Text": "Tomoe Gozen",
       "FullText": "Move Tomoe Gozen up to 3 spaces. She may move through sidekicks. Then, choose one:\n- Tomoe Gozen recovers 2 health\n- gain 1 action"
-    },
-    {
-      "Text": "each of your fighters",
-      "FullText": "Move each of your fighters up to 3 spaces. They may move through opposing fighters. Gain 1 action."
     },
     {
       "Text": "one adjacent fighter",
@@ -3315,10 +3271,6 @@
     {
       "Text": "the Jackalope",
       "FullText": "Move the Jackalope up to 5 spaces. You may move the Jackalope through spaces containing opposing fighters. Then deal 2 damage to any one fighter adjacent to the Jackalope."
-    },
-    {
-      "Text": "all opposing fighters adjacent to Dracula",
-      "FullText": "Deal 1 damage to all opposing fighters adjacent to Dracula. Dracula recovers 1 health for each damage dealt."
     },
     {
       "Text": "any fighter",
@@ -3333,24 +3285,8 @@
       "FullText": "Choose a card in your discard pile and shuffle it into your deck. Draw 2 cards. Move Golden Bat up to 4 spaces."
     },
     {
-      "Text": "all opposing fighters",
-      "FullText": "Move all opposing fighters up to 2 spaces. Gain 1 action."
-    },
-    {
-      "Text": "each opposing fighter in the Leshen\u0027s zone",
-      "FullText": "Deal 1 damage to each opposing fighter in the Leshen\u0027s zone. Remove the Leshen from the board. At the start of your next turn, place the Leshen in any space. Then, draw 1 card."
-    },
-    {
       "Text": "an adjacent fighter",
       "FullText": "Deal 2 damage to an adjacent fighter. If this defeats that fighter, return this card to your hand instead of discarding it."
-    },
-    {
-      "Text": "each opposing fighter in that zone.",
-      "FullText": "After combat: Choose a zone Philippa is in. Deal 1 damage to each opposing fighter in that zone."
-    },
-    {
-      "Text": "each opposing fighter in that space and in one adjacent space",
-      "FullText": "Choose any space in Merlin\u0027s zone. Deal 2 damage to each opposing fighter in that space and in one adjacent space. If at least one fighter is defeated this way, draw 1 card."
     },
     {
       "Text": "one opposing fighter adjacent to Faith.",
@@ -3369,10 +3305,6 @@
       "FullText": "Move Daredevil up to 4 spaces. He may move through opposing fighters. Deal 1 damage to each opposing fighter Daredevil moves through."
     },
     {
-      "Text": "each opposing fighter Daredevil moves through.",
-      "FullText": "Move Daredevil up to 4 spaces. He may move through opposing fighters. Deal 1 damage to each opposing fighter Daredevil moves through."
-    },
-    {
       "Text": "a fighter in that space.",
       "FullText": "Choose a space with four or more squirrels adjacent to it. Deal 2 damage to a fighter in that space."
     },
@@ -3381,24 +3313,8 @@
       "FullText": "Deal 2 damage to an opposing fighter in Achilles\u0027 zone."
     },
     {
-      "Text": "your fighter",
-      "FullText": "After combat: Deal 2 damage to the opposing fighter. Move your fighter up to 2 spaces."
-    },
-    {
       "Text": "one of your fighters",
       "FullText": "Deal up to 4 damage to one of your fighters. Your other fighter recovers that amount of health. Draw 2 cards"
-    },
-    {
-      "Text": "each opposing flanked fighter.",
-      "FullText": "Deal 2 damage to each opposing flanked fighter."
-    },
-    {
-      "Text": "each opposing fighter adjacent to Annie.",
-      "FullText": "Deal 2 damage to each opposing fighter adjacent to Annie."
-    },
-    {
-      "Text": "your fighter",
-      "FullText": "Draw 1 card. Move your fighter up to 3 spaces. ONGOING: Your opponent can\u0027t gain actions. Discard this card at the end of your turn if you didn\u0027t attack."
     }
   ],
   "conditionalSelector": [
@@ -3627,6 +3543,48 @@
     {
       "Text": "that",
       "FullText": "During combat: Reveal the top card of your opponent\u0027s deck. You may discharge coils: - 1 Coil: Discard that card. - 2 Coils: Also, add its boost value to this card\u0027s value."
+    }
+  ],
+  "fighterSelector": [
+    {
+      "Text": "your Raptors",
+      "FullText": "Move each of your Raptors up to 3 spaces. You may move them through spaces containing opposing fighters. Gain 1 action."
+    },
+    {
+      "Text": "opposing fighter adjacent to that trap",
+      "FullText": "Choose a trap in the same zone as one of your InGen Workers. Deal 1 damage to each opposing fighter adjacent to that trap. Return that trap to the box."
+    },
+    {
+      "Text": "opposing fighters adjacent to Dracula",
+      "FullText": "Deal 1 damage to all opposing fighters adjacent to Dracula. Dracula recovers 1 health for each damage dealt."
+    },
+    {
+      "Text": "opposing fighters",
+      "FullText": "Move all opposing fighters up to 2 spaces. Gain 1 action."
+    },
+    {
+      "Text": "opposing fighter in the Leshen\u0027s zone",
+      "FullText": "Deal 1 damage to each opposing fighter in the Leshen\u0027s zone. Remove the Leshen from the board. At the start of your next turn, place the Leshen in any space. Then, draw 1 card."
+    },
+    {
+      "Text": "opposing fighter in that zone.",
+      "FullText": "After combat: Choose a zone Philippa is in. Deal 1 damage to each opposing fighter in that zone."
+    },
+    {
+      "Text": "opposing fighter in that space and in one adjacent space",
+      "FullText": "Choose any space in Merlin\u0027s zone. Deal 2 damage to each opposing fighter in that space and in one adjacent space. If at least one fighter is defeated this way, draw 1 card."
+    },
+    {
+      "Text": "opposing fighter Daredevil moves through.",
+      "FullText": "Move Daredevil up to 4 spaces. He may move through opposing fighters. Deal 1 damage to each opposing fighter Daredevil moves through."
+    },
+    {
+      "Text": "opposing flanked fighter.",
+      "FullText": "Deal 2 damage to each opposing flanked fighter."
+    },
+    {
+      "Text": "opposing fighter adjacent to Annie.",
+      "FullText": "Deal 2 damage to each opposing fighter adjacent to Annie."
     }
   ]
 }

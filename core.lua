@@ -76,6 +76,14 @@ function UM:Static(amount)
     end
 end
 
+function UM:UpTo(amount)
+    -- TODO change this
+    return function (...)
+        print('RETURN'..amount)
+        return amount
+    end
+end
+
 function UM:If(conditionFunc, effectFunc)
     return function (args)
         if not conditionFunc(args) then
@@ -132,7 +140,7 @@ end
 
 UM.Effects = {}
 
-function UM.Effects:Discard(selectorFunc, amountFunc, random)
+function UM.Effects:Discard(playerSelectorFunc, amountFunc, random)
     local discardCards = function (player, amount, cardIdxFunc)
         while amount > 0 do
             -- local 
@@ -144,7 +152,7 @@ function UM.Effects:Discard(selectorFunc, amountFunc, random)
     end
 
     return function (args)
-        local players = selectorFunc(args)
+        local players = playerSelectorFunc(args)
         local amount = amountFunc(args)
 
         for _, player in ipairs(players) do
@@ -166,6 +174,18 @@ function UM.Effects:Draw(amountFunc)
         local fighter = args.fighter
         local amount = amountFunc(args)
         DrawCards(fighter.Owner.Idx, amount)
+    end
+end
+
+function UM.Effects:MoveFighters(fighterSelectorFunc, amountFunc)
+    return function (args)
+        local fighters = fighterSelectorFunc(args)
+        local amount = amountFunc(args)
+        for _, fighter in ipairs(fighters) do
+            print(fighter)
+            print(amount)
+            MoveFighter(fighter, amount)
+        end
     end
 end
 

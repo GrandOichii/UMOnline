@@ -61,8 +61,10 @@ public class Fighter
 
     public bool IsAlive()
     {
-        // TODO
-        return true;
+        // if the fighter is not on the board they do not count as "Alive" (Invisible Man)
+        return
+            !Health.IsDead &&
+            Match.Map.GetFighterLocation(this) is not null;
     }
 
     public async Task ProcessDamage(int amount)
@@ -124,6 +126,7 @@ public class Health(Fighter fighter)
 {
     public int Current { get; private set; } = fighter.Template.StartingHealth;
     public int Max { get; private set; } = fighter.Template.MaxHealth;
+    public bool IsDead => Current == 0;
 
     public async Task DealDamage(int amount)
     {

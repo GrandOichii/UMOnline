@@ -9,6 +9,7 @@
         "DiscardCard",
         "AreOpposingPlayers",
         "GetPlayers",
-        "ChooseCardInHand"
+        "ChooseCardInHand",
+        "MoveFighter"
     ]
 }
