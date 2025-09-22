@@ -139,10 +139,11 @@ public class Fighter
     {
         // TODO get targets within reach
         var range = 1; // TODO some characters have increased range
-        IEnumerable<Fighter> result = [.. Match.Map.GetReachableFighters(this, range)];
+        List<Fighter> result = [.. Match.Map.GetReachableFighters(this, range)];
 
         if (Template.IsRanged)
         {
+            result.AddRange(Match.Map.GetRangedReachableFighters(this));
             // TODO add all fighters in zones
         }
 

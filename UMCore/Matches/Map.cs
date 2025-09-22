@@ -53,6 +53,24 @@ public class Map
         return result;
     }
 
+    public IEnumerable<Fighter> GetRangedReachableFighters(Fighter fighter)
+    {
+        var node = GetFighterLocation(fighter)
+            ?? throw new Exception($"Failed to find fighter {fighter.LogName} for {nameof(GetReachableFighters)}"); // TODO type
+
+        HashSet<Fighter> result = [];
+
+        var zones = node.GetZones();
+        foreach (var zone in zones)
+            foreach (var n in GetNodesInZone(zone))
+                if (n.Fighter != null && n.Fighter.IsOpposingTo(fighter.Owner))
+                    result.Add(n.Fighter);
+
+        return result;
+    }
+
+    public IEnumerable<MapNode> GetNodesInZone(int zone) => Nodes.Where(n => n.IsInZone([zone]));
+
     public MapNode? GetFighterLocation(Fighter fighter)
     {
         return Nodes.FirstOrDefault(node => node.Fighter == fighter);
