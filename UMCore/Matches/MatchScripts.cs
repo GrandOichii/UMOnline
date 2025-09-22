@@ -128,4 +128,10 @@ public class MatchScripts
     {
         return fighter.IsOpposingTo(player);
     }
+
+    [LuaCommand]
+    public bool IsCalled(Fighter fighter, string name)
+    {
+        return fighter.GetName() == name;
+    }
 }

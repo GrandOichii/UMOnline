@@ -223,6 +223,14 @@ function UM.S:Fighters()
         return result
     end
 
+    function result:Named(name)
+        result.filters[#result.filters+1] = function (args, fighter)
+            return IsCalled(fighter, name)
+        end
+
+        return result
+    end
+
     -- function result:NotOwnedBy(playerFunc)
     --     result.filters[#result.filters+1] = function (args, fighter)
     --         return fighter.Owner.Idx ~= playerFunc(args).Idx

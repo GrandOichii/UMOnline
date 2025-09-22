@@ -12,6 +12,7 @@
         "ChooseCardInHand",
         "MoveFighter",
         "ChooseFighter",
-        "IsOpposingTo"
+        "IsOpposingTo",
+        "IsCalled"
     ]
 }

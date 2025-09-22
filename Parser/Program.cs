@@ -89,6 +89,12 @@ var gainActions = new Matcher()
         staticNumber
     ]
 };
+var namedFighter = new Matcher()
+{
+    Name = "namedFighter",
+    PatternString = $"({string.Join('|', FIGHTER_NAMES)})\\.?",
+    Script = "function _Create(text, children, data) return string.format(':Named(\\'%s\\')', data[2]) end"
+};
 
 var fighterSelector = new Selector()
 {
@@ -109,6 +115,7 @@ var fighterSelector = new Selector()
             PatternString = "opposing fighters?\\.?",
             Script = "function _Create(text, children) return ':OpposingTo(UM.Players:EffectOwner())' end"
         },
+        namedFighter,
     ]
 };
 
@@ -344,11 +351,11 @@ var parser = new Matcher()
     }
 };
 
-var cards = JsonSerializer.Deserialize<List<Card>>(File.ReadAllText("../cards.json"));
-// List<Card> cards = [new Card {
-//     Name = "Test card",
-//     Text = "After combat: Deal 1 damage to each opposing fighter.",
-// }];
+// var cards = JsonSerializer.Deserialize<List<Card>>(File.ReadAllText("../cards.json"));
+List<Card> cards = [new Card {
+    Name = "Test card",
+    Text = "After combat: Deal 1 damage to Alice.",
+}];
 
 var analysis = new ParseResultAnalyzer();
 
