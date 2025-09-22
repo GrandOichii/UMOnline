@@ -1,12 +1,13 @@
 function _Create()
     return UM:Card()
         :AfterCombat(
-            'After combat: Move each of your fighters up to 2 spaces.',
+            'After combat: Move your fighter up to 4 spaces.',
             UM.Effects:MoveFighters(
                 UM.S:Fighters()
                 :OwnedBy(UM.Players:EffectOwner())
+                :Single()
                 :Build(),
-                UM:UpTo(2)
+                UM:UpTo(4)
             )
         )
         :Build()

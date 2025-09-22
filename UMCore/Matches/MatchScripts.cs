@@ -113,4 +113,13 @@ public class MatchScripts
         fighter.Owner.MoveFighter(fighter, amount, true, false)
             .Wait();
     }
+
+    [LuaCommand]
+    public Fighter ChooseFighter(Player player, LuaTable fighters, string hint)
+    {
+        var options = LuaUtility.ParseTable<Fighter>(fighters);
+        var result = player.Controller.ChooseFighter(player, options, hint)
+            .GetAwaiter().GetResult();
+        return result;
+    }
 }

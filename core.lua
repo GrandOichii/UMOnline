@@ -79,7 +79,6 @@ end
 function UM:UpTo(amount)
     -- TODO change this
     return function (...)
-        print('RETURN'..amount)
         return amount
     end
 end
@@ -216,6 +215,7 @@ function UM.S:Fighters()
     local result = {}
 
     result.filters = {}
+    result.single = false
 
     function result:OwnedBy(playerFunc)
         result.filters[#result.filters+1] = function (args, fighter)
@@ -230,6 +230,11 @@ function UM.S:Fighters()
             return fighter.Owner.Idx ~= playerFunc(args).Idx
         end
 
+        return result
+    end
+
+    function result:Single()
+        result.single = true
         return result
     end
 
@@ -251,6 +256,13 @@ function UM.S:Fighters()
                 if filterFunc(fighter) then
                     fighters[#fighters+1] = fighter
                 end
+            end
+
+            if result.single then
+                local single = ChooseFighter(args.fighter.Owner, fighters, 'Choose a fighter')
+                fighters = {
+                    [1] = single
+                }
             end
 
             return fighters
