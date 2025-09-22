@@ -96,6 +96,16 @@ public class ConsolePlayerController : IPlayerController
         return attacks[int.Parse(result)];   
     }
 
+    public async Task<string> ChooseString(Player player, IEnumerable<string> options, string hint)
+    {
+        PrintInfo(player);
+        System.Console.WriteLine(hint);
+        var opts = options.ToList();
+        for (int i = 0; i < opts.Count; ++i)
+            System.Console.WriteLine($"{i}: {opts[i]}");
+        var result = Console.ReadLine()!;
+        return opts[int.Parse(result)];
+    }
 }
 
 public class Program

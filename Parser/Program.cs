@@ -393,6 +393,8 @@ foreach (var card in cards!)
     {
         System.Console.WriteLine(e);
         System.Console.WriteLine(e.StackTrace);
+        System.Console.WriteLine(e.InnerException);
+        System.Console.WriteLine(e.InnerException?.StackTrace);
     }
 }
 

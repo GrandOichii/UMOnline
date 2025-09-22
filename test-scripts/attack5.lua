@@ -2,12 +2,10 @@ function _Create()
     return UM:Card()
         :AfterCombat(
             'After combat: Deal 1 damage to Foo.',
-            UM.Effects:DealDamage(
-                UM:Static(1),
+            UM.Effects:MoveFighters(
                 UM.S:Fighters()
-                :Named('Foo')
-                :Single()
-                :Build()
+                :Build(),
+                UM:UpTo(3)
             )
         )
         :Build()

@@ -72,14 +72,19 @@ end
 
 function UM:Static(amount)
     return function (...)
-        return amount
+        return {
+            [1] = amount
+        }
     end
 end
 
 function UM:UpTo(amount)
-    -- TODO change this
     return function (...)
-        return amount
+        local result = {}
+        for i = 1, amount do
+            result[#result+1] = i
+        end
+        return result
     end
 end
 
@@ -139,6 +144,16 @@ end
 
 UM.Effects = {}
 
+function NumericChoose(args, amounts, hint)
+    assert(#amounts > 0, 'Provided empty table for NumericChoose')
+    if #amounts == 1 then
+        return amounts[1]
+    end
+
+    -- TODO prompt player to choose
+    return ChooseNumber(args.fighter.Owner, amounts, hint)
+end
+
 function UM.Effects:Discard(playerSelectorFunc, amountFunc, random)
     local discardCards = function (player, amount, cardIdxFunc)
         while amount > 0 do
@@ -152,7 +167,7 @@ function UM.Effects:Discard(playerSelectorFunc, amountFunc, random)
 
     return function (args)
         local players = playerSelectorFunc(args)
-        local amount = amountFunc(args)
+        local amount = NumericChoose(args, amountFunc(args), 'Choose how many cards to discard')
 
         for _, player in ipairs(players) do
             if random then
@@ -171,7 +186,7 @@ end
 function UM.Effects:Draw(amountFunc)
     return function (args)
         local fighter = args.fighter
-        local amount = amountFunc(args)
+        local amount = NumericChoose(args, amountFunc(args), 'Choose how many cards to draw')
         DrawCards(fighter.Owner.Idx, amount)
     end
 end
@@ -179,7 +194,10 @@ end
 function UM.Effects:MoveFighters(fighterSelectorFunc, amountFunc)
     return function (args)
         local fighters = fighterSelectorFunc(args)
-        local amount = amountFunc(args)
+        -- TODO feels weird
+        local amounts = amountFunc(args)
+        local amount = amounts[#amounts]
+
         for _, fighter in ipairs(fighters) do
             MoveFighter(fighter, amount)
         end
@@ -189,7 +207,7 @@ end
 function UM.Effects:GainActions(amountFunc)
     return function (args)
         local fighter = args.fighter
-        local amount = amountFunc(args)
+        local amount = NumericChoose(args, amountFunc(args), 'Choose how many actions to gain')
         GainActions(fighter.Owner.Idx, amount)
     end
 end
@@ -197,9 +215,9 @@ end
 function UM.Effects:DealDamage(amountFunc, selectorFunc)
     return function (args)
         local fighters = selectorFunc(args)
-        local amount = amountFunc(args)
 
         for _, fighter in ipairs(fighters) do
+            local amount = NumericChoose(args, amountFunc(args), 'Choose how much damage to deal to '..fighter.Name)
             DealDamage(fighter, amount)
         end
     end

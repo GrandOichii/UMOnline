@@ -13,6 +13,7 @@
         "MoveFighter",
         "ChooseFighter",
         "IsOpposingTo",
-        "IsCalled"
+        "IsCalled",
+        "ChooseNumber"
     ]
 }

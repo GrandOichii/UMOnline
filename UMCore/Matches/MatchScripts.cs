@@ -1,5 +1,6 @@
 using System.Linq.Expressions;
 using System.Reflection;
+using Microsoft.Extensions.Options;
 using Microsoft.VisualBasic;
 using NLua;
 using UMCore.Matches.Attacks;
@@ -133,5 +134,15 @@ public class MatchScripts
     public bool IsCalled(Fighter fighter, string name)
     {
         return fighter.GetName() == name;
+    }
+
+    [LuaCommand]
+    public int ChooseNumber(Player player, LuaTable optionsRaw, string hint)
+    {
+        var options = LuaUtility.ParseTable(optionsRaw).Select(o => o.ToString()).ToList();
+        System.Console.WriteLine("OPTIOSN GOT");
+        var chosen = player.Controller.ChooseString(player, options, hint)
+            .GetAwaiter().GetResult();
+        return int.Parse(chosen);
     }
 }
