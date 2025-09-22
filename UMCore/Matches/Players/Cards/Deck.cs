@@ -8,14 +8,19 @@ public class Deck : MatchCardCollection
     {
     }
 
-    public IEnumerable<MatchCard> TakeFromTop(int amount)
+    public List<MatchCard> TakeFromTop(int amount)
     {
+        var result = new List<MatchCard>();
         while (amount-- > 0 && Count > 0)
         {
-            var result = Cards[0];
-            yield return result;
-            Cards.Remove(result);
+            var card = Cards[0];
+            result.Add(card);
+            Cards.Remove(card);
         }
-        // TODO when drawing out of an empty deck deal 2 damage to all owned fighters
+        while (amount-- > 0)
+        {
+            // TODO when drawing out of an empty deck deal 2 (1?) damage to all owned fighters
+        }
+        return result;
     }
 }

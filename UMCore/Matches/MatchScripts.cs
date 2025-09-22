@@ -207,10 +207,15 @@ public class MatchScripts
     [LuaCommand]
     public string ChooseString(Player player, LuaTable optionsRaw, string hint)
     {
-        System.Console.WriteLine(player is null);
-        System.Console.WriteLine(optionsRaw);
-        System.Console.WriteLine(hint);
         return player.Controller.ChooseString(player, LuaUtility.ParseTable<string>(optionsRaw), hint)
             .GetAwaiter().GetResult();
+    }
+
+    [LuaCommand]
+    public bool AreInSameZone(Fighter f1, Fighter f2)
+    {
+        var f2Node = Match.Map.GetFighterLocation(f2);
+        // TODO check for null
+        return f1.IsInZone(f2Node!.GetZones());
     }
 }

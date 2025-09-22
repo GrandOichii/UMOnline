@@ -199,6 +199,15 @@ function UM.Conditional:CombatLostBy(playerFunc)
     end
 end
 
+function UM.Conditional:FightersCountGte(fighterSelectorFunc, amountFunc)
+    return function (args)
+        -- TODO feels wierd
+        local amount = amountFunc(args)[1]
+        local fighters = fighterSelectorFunc(args)
+        return #fighters >= amount
+    end
+end
+
 UM.Effects = {}
 
 function NumericChoose(args, amounts, hint)
@@ -370,6 +379,14 @@ function UM.S:Fighters()
         result.filters[#result.filters+1] = function (args, fighter)
             local f = fighterFunc(args)
             return AreAdjacent(fighter, f)
+        end
+
+        return result
+    end
+
+    function result:InSameZoneAs(fighterFunc)
+        result.filters[#result.filters+1] = function (args, fighter)
+            return AreInSameZone(fighter, fighterFunc(args))
         end
 
         return result

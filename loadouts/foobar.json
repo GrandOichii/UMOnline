@@ -8,7 +8,7 @@
             "MaxHealth": 10,
             "StartingHealth": 9,
             "IsRanged": true,
-            "Script": "../fighter-scripts/foo.lua"
+            "Script": "../fighter-scripts/Medusa.lua"
         }, 
         {
             "Name": "Bar",
