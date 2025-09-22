@@ -1,14 +1,14 @@
 function _Create()
     return UM:Card()
         :AfterCombat(
-            'After combat: Place Foo in any space in her zone.',
+            'After combat: Place this fighter in any space.',
             UM.Effects:PlaceFighter(
                 UM.S:Fighters()
-                :Named('Foo')
+                :Only(UM.Fighters:Source())
                 :Single()
                 :Build(),
                 UM.S:Spaces()
-                :InSameZoneAs(UM.Fighters:Source())
+                --
                 :Build()
             )
         )

@@ -282,6 +282,14 @@ function UM.S:Fighters()
         return result
     end
 
+    function result:Only(fighterFunc)
+        result.filters[#result.filters+1] = function (args, fighter)
+            return fighter == fighterFunc(args)
+        end
+
+        return result
+    end
+
     -- function result:NotOwnedBy(playerFunc)
     --     result.filters[#result.filters+1] = function (args, fighter)
     --         return fighter.Owner.Idx ~= playerFunc(args).Idx
@@ -393,6 +401,14 @@ function UM.S.Spaces()
             local fighter = fighterFunc(args)
             local zones = GetFighterZones(fighter)
             return IsInZone(space, zones)
+        end
+        return result
+    end
+
+    function result:Empty()
+        result.filters[#result.filters+1] = function (args, space)
+            -- TODO tokens
+            return space.Fighter == nil
         end
         return result
     end

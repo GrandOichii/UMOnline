@@ -7,28 +7,77 @@ var TODOSCRIPT = File.ReadAllText("../scripts/todo.lua");
 var RETURN_EMPTY_STRING_SCRIPT = "function _Create(text, children) return '--' end";
 var returnTextScript = File.ReadAllText("../scripts/returnText.lua");
 var FIGHTER_NAMES = new string[] {
-        "Black Widow",
-        "Alice",
-        "King Arthur",
-        "Faith",
-        "Holmes",
-        "Sinbad",
-        "Daredevil",
-        "Bullseye",
-        "Squirrel Girl",
-        "Ciri",
-        "Yennenga",
-        "Ihuarraquax",
-        "Harpy",
-        "Dracula",
-        "squirrel",
-        "Bigfoot",
-        "Little Red",
-        "Tomoe Gozen",
-        "the Jackalope",
-        "She-Hulk",
-        "InGen Worker",
-    };
+    "Ms. Marvel",
+    "Daredevil",
+    "Medusa",
+    "Sinbad",
+    "Sherlock Holmes",
+    "Buffy",
+    "Hamlet",
+    "Black Widow",
+    "Angel",
+    "Spike",
+    "Alice",
+    "Dr. Sattler",
+    "Beowulf",
+    "Robin Hood",
+    "Dracula",
+    "Bigfoot",
+    "Achilles",
+    "Jekyll & Hyde",
+    "Titania",
+    "Little Red",
+    "Willow",
+    "Luke Cage",
+    "Bloody Mary",
+    "Sun Wukong",
+    "Black Panther",
+    "The Wayward Sisters",
+    "Deadpool",
+    "Invisible Man",
+    "Robert Muldoon",
+    "Yennenga",
+    "Bullseye",
+    "Moon Knight",
+    "Khonshu",
+    "Mr. Knight",
+    "Raptors",
+    "Houdini",
+    "Squirrel Girl",
+    "Squirrels",
+    "Ghost Rider",
+    "Bruce Lee",
+    "Ciri",
+    "Ancient Leshen",
+    "Eredin",
+    "Philippa",
+    "Leonardo",
+    "Raphael",
+    "Elektra",
+    "Elektra Resurrected",
+    "T. Rex",
+    "Cloak",
+    "Dagger",
+    "The Genie",
+    "Winter Soldier",
+    "Nikola Tesla",
+    "William Shakespeare",
+    "Dr. Jill Trent",
+    "Golden Bat",
+    "Annie Christmas",
+    "Spider-Man",
+    "She-Hulk",
+    "Doctor Strange",
+    "Tomoe Gozen",
+    "Oda Nobunaga",
+    "Geralt of Rivia",
+    "Yennefer",
+    "King Arthur",
+    "Shredder",
+    "Krang",
+    "Donatello",
+    "Michelangelo"
+};
 
 var todo = new Matcher()
 {
@@ -99,8 +148,8 @@ var gainActions = new Matcher()
 var namedFighter = new Matcher()
 {
     Name = "namedFighter",
-    PatternString = $"({string.Join('|', FIGHTER_NAMES)})\\.?",
-    Script = "function _Create(text, children, data) return string.format(':Named(\\'%s\\')', data[2]) end"
+    PatternString = $"({string.Join('|', FIGHTER_NAMES.Select(FormattedName))})\\.?",
+    Script = "function _Create(text, children, data) return string.format(':Named(\\'%s\\')', data[2]:gsub('{DOTSPACE}', '. ')) end"
 };
 
 var fighterSelector = new Selector()
@@ -108,10 +157,17 @@ var fighterSelector = new Selector()
     Name = "fighterSelector",
     Children = [
         new Matcher() {
+            Name = "thisFighter",
+            PatternString = "this fighter",
+            Script = "function _Create() return ':Only(UM.Fighters:Source())' end"
+        },
+        new Matcher() {
             Name = "allFighters",
             PatternString = "fighters?\\.?",
             Script = RETURN_EMPTY_STRING_SCRIPT,
         },
+
+        // TODO these two can have suffixes: "opposing fighters adjacent to Dracula"
         new Matcher() {
             Name = "yourFighter",
             PatternString = "your fighters?\\.?",
@@ -176,10 +232,15 @@ var spaceSelector = new Selector()
             Script = RETURN_EMPTY_STRING_SCRIPT,
         },
         new Matcher() {
-            Name = "anySpaceInSameZone",
-            PatternString = "any space in (?:her|his|their) zone\\.?",
-            Script = File.ReadAllText("../scripts/anySpaceInSameZone.lua")
-        }
+            Name = "anyEmptySpace",
+            PatternString = "any empty space\\.?",
+            Script = "function _Create() return :Empty() end",
+        },
+        // new Matcher() { // TODO his|her|their refers to the target, not the source
+        //     Name = "anySpaceInSameZone",
+        //     PatternString = "any space in (?:her|his|their) zone\\.?",
+        //     Script = File.ReadAllText("../scripts/anySpaceInSameZone.lua")
+        // }
     ]
 };
 
@@ -243,6 +304,7 @@ var discardEffect = new Matcher()
     ]
 };
 
+// TODO not tested
 var replaceCardValue = new Matcher()
 {
     Name = "replaceCardValue",
@@ -252,6 +314,14 @@ var replaceCardValue = new Matcher()
         staticNumber,
     ]
 };
+
+// var recoverHealth = new Matcher()
+// {
+//     Name = "recoverHealth",
+//     PatternString = "(.+? )?[R|r]ecovers? (.+) health\\.?",
+//     Script = File.ReadAllText("../scripts/recover")
+// };
+
 
 var cancelOpponentsCardEffects = new Matcher()
 {
@@ -366,14 +436,13 @@ var rootSelector = new Selector()
         afterCombat,
         immediately,
         duringCombat,
-        // new Matcher() {
-        //     Name = "effectMatcher",
-        //     PatternString = "(.+)",
-        //     Script = "function _Create(text, children) return string.format(':Effect(\\n\\'%s\\',\\n%s\\n)', text:gsub(\"'\", \"\\\\'\"), children[1]) end",
-        //     Children = [
-        //         effectSplitter,
-        //     ]
-        // },
+        new Selector() {
+            Name = "effectMatcher",
+            Script = "function _Create(text, children) return string.format(':Effect(\\n\\'%s\\',\\n%s\\n)', text:gsub(\"'\", \"\\\\'\"):gsub('{DOTSPACE}', '. '), children[1]) end",
+            Children = [
+                effectSplitter,
+            ]
+        },
         empty,
     ]
 };
@@ -388,13 +457,25 @@ var parser = new Matcher()
     }
 };
 
-// var cards = JsonSerializer.Deserialize<List<Card>>(File.ReadAllText("../cards.json"));
-List<Card> cards = [new Card {
-    Name = "Test card",
-    Text = "After combat: Place Alice in any space in her zone.",
-}];
-// any space adjacent to Bruce Lee
-// a starting space
+var cards = JsonSerializer.Deserialize<List<Card>>(File.ReadAllText("../cards.json"));
+// List<Card> cards = [new Card {
+//     Name = "Test card",
+//     Text = "After combat: Place this fighter in any space.",
+// }];
+
+string FormattedName(string name)
+{
+    return name.Replace(". ", "{DOTSPACE}");
+}
+
+string TrasnformText(string text)
+{
+    foreach (var name in FIGHTER_NAMES)
+    {
+        text = text.Replace(name, FormattedName(name));
+    }
+    return text;
+}
 
 
 var analysis = new ParseResultAnalyzer();
@@ -404,7 +485,7 @@ var successCount = 0;
 foreach (var card in cards!)
 {
 
-    var result = parser.Parse(card.Text);
+    var result = parser.Parse(TrasnformText(card.Text));
 
     analysis.Analyze(result);
 
