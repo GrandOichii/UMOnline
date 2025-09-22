@@ -218,4 +218,22 @@ public class MatchScripts
         // TODO check for null
         return f1.IsInZone(f2Node!.GetZones());
     }
+
+    [LuaCommand]
+    public bool AreOpposingInCombat(Fighter f1, Fighter f2)
+    {
+        var combat = Match.Combat;
+        if (combat is null)
+        {
+            // TODO? throw exception
+            return false;
+        }
+        if (combat.Defender is null)
+        {
+            return false;
+        }
+        return (f1 == combat.Attacker && f2 == combat.Defender) ||
+                (f2 == combat.Attacker && f1 == combat.Defender);
+
+    }
 }

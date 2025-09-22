@@ -201,6 +201,11 @@ var fighterSelector = new Selector()
             PatternString = "opposing fighters?\\.?",
             Script = "function _Create(text, children) return ':OpposingTo(UM.Players:EffectOwner())' end"
         },
+        new Matcher() {
+            Name = "theOpposingFighter",
+            PatternString = "the opposing fighter\\.?",
+            Script = "function _Create() return ':OpposingInCombatTo(UM.Fighters:Source())' end"
+        },
         namedFighter,
     ]
 };
@@ -292,7 +297,7 @@ var place = new Matcher()
 var dealDamage = new Matcher()
 {
     Name = "dealDamage",
-    PatternString = "Deal (.+) damage to (.+)\\.?",
+    PatternString = "[D|d]eal (.+) damage to (.+)\\.?",
     Script = File.ReadAllText("../scripts/dealDamage.lua"),
     Children = [
         numericSelector,
@@ -549,7 +554,7 @@ var parser = new Matcher()
 var cards = JsonSerializer.Deserialize<List<Card>>(File.ReadAllText("../cards.json"));
 // List<Card> cards = [new Card {
 //     Name = "Test card",
-//     Text = "Draw 1 card. If you won the combat, draw 2 cards instead.",
+//     Text = "After combat: If you won the combat, deal 8 damage to the opposing fighter.",
 // }];
 
 string FormattedName(string name)

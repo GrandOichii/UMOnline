@@ -392,6 +392,16 @@ function UM.S:Fighters()
         return result
     end
 
+    function result:OpposingInCombatTo(fighterFunc)
+        result.filters[#result.filters+1] = function (args, fighter)
+            local f = fighterFunc(args)
+
+            return AreOpposingInCombat(fighter, f)
+        end
+
+        return result
+    end
+
     -- function result:NotOwnedBy(playerFunc)
     --     result.filters[#result.filters+1] = function (args, fighter)
     --         return fighter.Owner.Idx ~= playerFunc(args).Idx

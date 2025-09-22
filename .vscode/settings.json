@@ -23,6 +23,7 @@
         "RecoverHealth",
         "AreAdjacent",
         "ChooseString",
-        "AreInSameZone"
+        "AreInSameZone",
+        "AreOpposingInCombat"
     ]
 }

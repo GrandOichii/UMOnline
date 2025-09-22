@@ -8,6 +8,7 @@
             "MaxHealth": 10,
             "StartingHealth": 9,
             "IsRanged": true,
+            "Text": "",
             "Script": "../fighter-scripts/Medusa.lua"
         }, 
         {
@@ -17,6 +18,7 @@
             "MaxHealth": 10,
             "StartingHealth": 9,
             "IsRanged": true,
+            "Text": "",
             "Script": "../fighter-scripts/bar.lua"
         }
     ],
@@ -84,7 +86,7 @@
                 "Template": {
                     "Name": "Defence3",
                     "Type": "Defence",
-                    "Value": 3,
+                    "Value": 13,
                     "Boost": 1,
                     "Text": "Test Card Text",
                     "Script":"../test-scripts/empty.lua"
