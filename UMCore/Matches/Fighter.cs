@@ -1,9 +1,12 @@
 using System.Diagnostics.Contracts;
 using Microsoft.Extensions.Logging;
+using NLua;
 using UMCore.Matches.Cards;
+using UMCore.Matches.Effects;
 using UMCore.Matches.Players;
 using UMCore.Matches.Players.Cards;
 using UMCore.Templates;
+using UMCore.Utility;
 
 namespace UMCore.Matches;
 
@@ -14,6 +17,7 @@ public class Fighter
     public Match Match { get; }
     public string Name { get; private set; }
     public Health Health { get; }
+    public Dictionary<TurnPhaseTrigger, EffectCollection> TurnPhaseEffects { get; }
 
     public string LogName => $"({Owner.Idx}){GetName()}({(Template.IsHero ? 'h' : 's')})";
 
@@ -25,6 +29,39 @@ public class Fighter
         Name = template.Name;
 
         Health = new(this);
+
+        // effects
+        LuaTable data;
+        try
+        {
+            Match.LState.DoString(template.Script);
+            var creationFunc = LuaUtility.GetGlobalF(Match.LState, "_Create");
+            var returned = creationFunc.Call();
+            data = LuaUtility.GetReturnAs<LuaTable>(returned);
+        }
+        catch (Exception e)
+        {
+            throw new Exception($"Failed to run fighter creation function in fighter {template.Name}", e); // TODO type
+        }
+
+        TurnPhaseEffects = [];
+        try
+        {
+            var turnPhaseEffects = LuaUtility.TableGet<LuaTable>(data, "TurnPhaseEffects");
+            foreach (var keyRaw in turnPhaseEffects.Keys)
+            {
+                var key = (TurnPhaseTrigger)Convert.ToInt32(keyRaw);
+                var table = turnPhaseEffects[keyRaw] as LuaTable;
+                // TODO check for null
+                var effects = new EffectCollection(table!);
+                TurnPhaseEffects.Add(key, effects);
+            }
+        }
+        catch (Exception e)
+        {
+            throw new Exception($"Failed to get turn step effects for fighter {template.Name}", e); // TODO type
+        }
+
     }
 
     public string GetName()
@@ -140,6 +177,13 @@ public class Fighter
         var node = Match.Map.GetFighterLocation(this);
         // TODO check for null
         return node!.IsInZone(zones);
+    }
+
+    public IEnumerable<EffectCollection> GetTurnPhaseEffects(TurnPhaseTrigger trigger)
+    {
+        if (TurnPhaseEffects.TryGetValue(trigger, out EffectCollection? value))
+            return [value];
+        return [];
     }
 }
 

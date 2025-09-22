@@ -21,6 +21,7 @@
         "PlaceFighter",
         "ChooseNode",
         "RecoverHealth",
-        "AreAdjacent"
+        "AreAdjacent",
+        "ChooseString"
     ]
 }

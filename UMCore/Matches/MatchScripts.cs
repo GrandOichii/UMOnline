@@ -143,7 +143,6 @@ public class MatchScripts
     public int ChooseNumber(Player player, LuaTable optionsRaw, string hint)
     {
         var options = LuaUtility.ParseTable(optionsRaw).Select(o => o.ToString()).ToList();
-        System.Console.WriteLine("OPTIOSN GOT");
         var chosen = player.Controller.ChooseString(player, options, hint)
             .GetAwaiter().GetResult();
         return int.Parse(chosen);
@@ -203,5 +202,15 @@ public class MatchScripts
         var node2 = Match.Map.GetFighterLocation(fighter2);
 
         return node1!.IsAdjecentTo(node2!) || node2!.IsAdjecentTo(node1!);
+    }
+
+    [LuaCommand]
+    public string ChooseString(Player player, LuaTable optionsRaw, string hint)
+    {
+        System.Console.WriteLine(player is null);
+        System.Console.WriteLine(optionsRaw);
+        System.Console.WriteLine(hint);
+        return player.Controller.ChooseString(player, LuaUtility.ParseTable<string>(optionsRaw), hint)
+            .GetAwaiter().GetResult();
     }
 }

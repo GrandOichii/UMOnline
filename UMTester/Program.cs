@@ -220,6 +220,11 @@ public class Program
         {
             card.Card.Template.Script = File.ReadAllText(card.Card.Template.Script);
         }
+
+        foreach (var fighter in result.Fighters)
+        {
+            fighter.Script = File.ReadAllText(fighter.Script);
+        }
         return result;
     }
 

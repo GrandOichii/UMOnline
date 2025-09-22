@@ -8,4 +8,5 @@ public class FighterTemplate
     public required bool IsHero { get; init; }
     public required int Movement { get; init; }
     public required bool IsRanged { get; init; }
+    public required string Script { get; set; } // TODO change to { get; init; }
 }

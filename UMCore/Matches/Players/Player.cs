@@ -1,10 +1,13 @@
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
+using System.Security.Cryptography;
 using Microsoft.Extensions.Logging;
 using UMCore.Matches.Attacks;
 using UMCore.Matches.Cards;
+using UMCore.Matches.Effects;
 using UMCore.Matches.Players.Cards;
 using UMCore.Templates;
+using UMCore.Utility;
 
 namespace UMCore.Matches.Players;
 
@@ -14,6 +17,12 @@ public class Player
         new ManoeuvreAction(),
         new FightAction(),
         new SchemeAction(),
+    ];
+
+    private static readonly List<ITurnPhase> TURN_PHASES = [
+        new StartPhase(),
+        new ActionsPhase(),
+        new EndPhase(),
     ];
 
     private static readonly Dictionary<string, IAction> ACTION_MAP = [];
@@ -138,11 +147,37 @@ public class Player
 
     public async Task TakeTurn()
     {
-        await StartTurn();
+        foreach (var phase in TURN_PHASES)
+        {
+            await phase.Execute(this);
+        }
+    }
 
-        await TakeActions();
+    public async Task EmitTurnPhaseTrigger(TurnPhaseTrigger trigger)
+    {
+        Match.Logger?.LogDebug("Emitting turn phase trigger {Trigger} from player {PlayerLogName}", trigger, LogName);
 
-        await EndTurn();
+        List<(EffectCollection, Fighter)> effects = [];
+
+        foreach (var fighter in Fighters)
+        {
+            foreach (var effect in fighter.GetTurnPhaseEffects(trigger))
+            {
+                effects.Add((effect, fighter));
+            }
+        }
+
+        // TODO order effects
+        // await OrderEffects(effects);
+
+        foreach (var (effect, fighter) in effects)
+        {
+            effect.Execute(LuaUtility.CreateTable(Match.LState, new Dictionary<string, object>()
+            {
+                { "fighter",  fighter },
+                { "owner",  this },
+            }));
+        }
     }
 
     public async Task MoveFighters(bool allowBoost = false, bool canMoveOverFriendly = true, bool canMoveOverOpposing = false)

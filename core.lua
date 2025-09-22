@@ -6,6 +6,11 @@ UM.CombatSteps = {
     AFTER_COMBAT = 2,
 }
 
+UM.TurnPhaseTriggers = {
+    START = 0,
+    END = 1,
+}
+
 function UM:Card()
     local result = {}
 
@@ -69,6 +74,41 @@ function UM:Card()
     return result
 end
 
+function UM:Fighter()
+    local result = {}
+
+    result.turnPhaseEffects = {}
+
+    function result:AddTurnPhaseEffects(step, text, ...)
+        local obj = {
+            text = '',
+            effects = {}
+        }
+        obj.text = text
+        local effects = {...}
+
+        for _, v in ipairs(effects) do
+            obj.effects[#obj.effects+1] = v
+        end
+        result.turnPhaseEffects[step] = obj
+
+        return result
+    end
+
+    function result:AtTheStartOfYourTurn(text, ...)
+        return result:AddTurnPhaseEffects(UM.TurnPhaseTriggers.START, text, ...)
+    end
+
+    function result:Build()
+        local fighter = {
+            TurnPhaseEffects = result.turnPhaseEffects
+        }
+        return fighter
+    end
+
+    return result
+end
+
 function UM:Static(amount)
     return function (...)
         return {
@@ -110,7 +150,7 @@ UM.Players = {}
 
 function UM.Players:EffectOwner()
     return function (args)
-        return args.fighter.Owner
+        return args.owner
     end
 end
 
@@ -168,7 +208,7 @@ function NumericChoose(args, amounts, hint)
     end
 
     -- TODO prompt player to choose
-    return ChooseNumber(args.fighter.Owner, amounts, hint)
+    return ChooseNumber(args.owner, amounts, hint)
 end
 
 function UM.Effects:Discard(playerSelectorFunc, amountFunc, random)
@@ -258,7 +298,7 @@ function UM.Effects:PlaceFighter(fightersFunc, placeSelectorFunc)
         end
         local node = options[1]
         if #options > 1 then
-            node = ChooseNode(args.fighter.Owner, options, 'Choose where to place '..fighter.LogName)
+            node = ChooseNode(args.owner, options, 'Choose where to place '..fighter.LogName)
         end
         PlaceFighter(fighter, node)
     end
@@ -271,6 +311,23 @@ function UM.Effects:RecoverHealth(fighterSelectorFunc, amountFunc)
         for _, fighter in ipairs(fighters) do
             local amount = NumericChoose(args, amountFunc(args), 'Choose how much damage to deal to '..fighter.Name)
             RecoverHealth(fighter, amount)
+        end
+    end
+end
+
+function UM.Effects:Optional(hint, ...)
+    local effectFuncs = {...}
+
+    return function (args)
+        local choice = ChooseString(args.owner, {
+            [1] = 'Yes',
+            [2] = 'No'
+        }, hint)
+
+        if choice == 'Yes' then
+            for _, effectFunc in ipairs(effectFuncs) do
+                effectFunc(args)
+            end
         end
     end
 end
@@ -365,7 +422,7 @@ function UM.S:Fighters()
                 local fighter = fighters[1]
 
                 if #fighters > 1 then
-                    fighter = ChooseFighter(args.fighter.Owner, fighters, 'Choose a fighter')
+                    fighter = ChooseFighter(args.owner, fighters, 'Choose a fighter')
                 end
 
                 fighters = {

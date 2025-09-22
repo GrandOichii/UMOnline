@@ -102,7 +102,8 @@ public class MatchCard
 
         SchemeEffect.Execute(LuaUtility.CreateTable(Owner.Match.LState, new Dictionary<string, object>()
         {
-            { "fighter", by }
+            { "fighter", by },
+            { "owner", by.Owner },
         }));
 
         // TODO update clients about played scheme card
@@ -123,7 +124,8 @@ public class MatchCard
 
         effects.Execute(LuaUtility.CreateTable(Owner.Match.LState, new Dictionary<string, object>()
         {
-            { "fighter", by }
+            { "fighter", by },
+            { "owner", by.Owner },
         }));
     }
 }
