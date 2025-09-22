@@ -101,9 +101,14 @@ var fighterSelector = new Selector()
         },
         new Matcher() {
             Name = "yourFighter",
-            PatternString = "your fighters?",
+            PatternString = "your fighters?\\.?",
             Script = "function _Create(text, children) return ':OwnedBy(UM.Players:EffectOwner())' end"
-        }
+        },
+        new Matcher() {
+            Name = "opposingFighter",
+            PatternString = "opposing fighters?\\.?",
+            Script = "function _Create(text, children) return ':OpposingTo(UM.Players:EffectOwner())' end"
+        },
     ]
 };
 
@@ -342,7 +347,7 @@ var parser = new Matcher()
 var cards = JsonSerializer.Deserialize<List<Card>>(File.ReadAllText("../cards.json"));
 // List<Card> cards = [new Card {
 //     Name = "Test card",
-//     Text = "After combat: Deal 1 damage to each of your fighters.",
+//     Text = "After combat: Deal 1 damage to each opposing fighter.",
 // }];
 
 var analysis = new ParseResultAnalyzer();

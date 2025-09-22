@@ -1,13 +1,12 @@
 function _Create()
     return UM:Card()
         :AfterCombat(
-            'After combat: Move your fighter up to 4 spaces.',
-            UM.Effects:MoveFighters(
+            'After combat: Deal 1 damage to each opposing fighter.',
+            UM.Effects:DealDamage(
+                UM:Static(1),
                 UM.S:Fighters()
-                :OwnedBy(UM.Players:EffectOwner())
-                :Single()
-                :Build(),
-                UM:UpTo(4)
+                :OpposingTo(UM.Players:EffectOwner())
+                :Build()
             )
         )
         :Build()

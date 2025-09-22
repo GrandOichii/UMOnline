@@ -122,4 +122,10 @@ public class MatchScripts
             .GetAwaiter().GetResult();
         return result;
     }
+
+    [LuaCommand]
+    public bool IsOpposingTo(Fighter fighter, Player player)
+    {
+        return fighter.IsOpposingTo(player);
+    }
 }

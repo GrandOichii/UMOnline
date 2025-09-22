@@ -3,10 +3,10 @@ function _Create()
         :Effect(
             'Deal 1 damage to each opposing fighter.',
             UM.Effects:DealDamage(
+                UM:Static(1),
                 UM.S:Fighters()
                     :NotOwnedBy(UM:EffectOwner())
-                    :Build(),
-                UM:Static(1)
+                    :Build()
             )
         )
         :Build()

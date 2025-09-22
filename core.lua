@@ -181,8 +181,6 @@ function UM.Effects:MoveFighters(fighterSelectorFunc, amountFunc)
         local fighters = fighterSelectorFunc(args)
         local amount = amountFunc(args)
         for _, fighter in ipairs(fighters) do
-            print(fighter)
-            print(amount)
             MoveFighter(fighter, amount)
         end
     end
@@ -196,7 +194,7 @@ function UM.Effects:GainActions(amountFunc)
     end
 end
 
-function UM.Effects:DealDamage(selectorFunc, amountFunc)
+function UM.Effects:DealDamage(amountFunc, selectorFunc)
     return function (args)
         local fighters = selectorFunc(args)
         local amount = amountFunc(args)
@@ -225,9 +223,17 @@ function UM.S:Fighters()
         return result
     end
 
-    function result:NotOwnedBy(playerFunc)
+    -- function result:NotOwnedBy(playerFunc)
+    --     result.filters[#result.filters+1] = function (args, fighter)
+    --         return fighter.Owner.Idx ~= playerFunc(args).Idx
+    --     end
+
+    --     return result
+    -- end
+
+    function result:OpposingTo(playerFunc)
         result.filters[#result.filters+1] = function (args, fighter)
-            return fighter.Owner.Idx ~= playerFunc(args).Idx
+            return IsOpposingTo(fighter, playerFunc(args))
         end
 
         return result

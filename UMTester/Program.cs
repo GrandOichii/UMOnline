@@ -244,6 +244,14 @@ public class Program
             controller
         );
 
-        await match.Run();
+        try
+        {
+            await match.Run();
+        }
+        catch (Exception e)
+        {
+            System.Console.WriteLine(e);
+            System.Console.WriteLine(e.StackTrace);
+        }
     }
 }

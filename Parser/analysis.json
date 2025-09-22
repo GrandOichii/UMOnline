@@ -3559,10 +3559,6 @@
       "FullText": "Deal 1 damage to all opposing fighters adjacent to Dracula. Dracula recovers 1 health for each damage dealt."
     },
     {
-      "Text": "opposing fighters",
-      "FullText": "Move all opposing fighters up to 2 spaces. Gain 1 action."
-    },
-    {
       "Text": "opposing fighter in the Leshen\u0027s zone",
       "FullText": "Deal 1 damage to each opposing fighter in the Leshen\u0027s zone. Remove the Leshen from the board. At the start of your next turn, place the Leshen in any space. Then, draw 1 card."
     },
