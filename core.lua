@@ -31,7 +31,6 @@ function UM:Card()
     function result:CombatStepEffect(step, text, ...)
         local obj = result.combatStepEffects[step]
         -- TODO dont know is this is the best way of doing this
-        -- print(obj)
         -- assert(obj == nil, 'Already defined effects for combat step'..step..'('..obj.text..')')
         obj = {
             text = '',
@@ -94,6 +93,16 @@ function UM:If(conditionFunc, effectFunc)
             return
         end
         effectFunc(args)
+    end
+end
+
+function UM:IfInstead(conditionFunc, ifTrueEffectFunc, ifFalseEffectFunc)
+    return function (args)
+        if not conditionFunc(args) then
+            ifFalseEffectFunc(args)
+            return
+        end
+        ifTrueEffectFunc(args)
     end
 end
 
@@ -220,9 +229,9 @@ function UM.Effects:GainActions(amountFunc)
     end
 end
 
-function UM.Effects:DealDamage(amountFunc, selectorFunc)
+function UM.Effects:DealDamage(amountFunc, fighterSelectorFunc)
     return function (args)
-        local fighters = selectorFunc(args)
+        local fighters = fighterSelectorFunc(args)
 
         for _, fighter in ipairs(fighters) do
             local amount = NumericChoose(args, amountFunc(args), 'Choose how much damage to deal to '..fighter.Name)
@@ -251,8 +260,18 @@ function UM.Effects:PlaceFighter(fightersFunc, placeSelectorFunc)
         if #options > 1 then
             node = ChooseNode(args.fighter.Owner, options, 'Choose where to place '..fighter.LogName)
         end
-        print(fighter, node)
         PlaceFighter(fighter, node)
+    end
+end
+
+function UM.Effects:RecoverHealth(fighterSelectorFunc, amountFunc)
+    return function (args)
+        local fighters = fighterSelectorFunc(args)
+
+        for _, fighter in ipairs(fighters) do
+            local amount = NumericChoose(args, amountFunc(args), 'Choose how much damage to deal to '..fighter.Name)
+            RecoverHealth(fighter, amount)
+        end
     end
 end
 
@@ -285,6 +304,15 @@ function UM.S:Fighters()
     function result:Only(fighterFunc)
         result.filters[#result.filters+1] = function (args, fighter)
             return fighter == fighterFunc(args)
+        end
+
+        return result
+    end
+
+    function result:AdjacentTo(fighterFunc)
+        result.filters[#result.filters+1] = function (args, fighter)
+            local f = fighterFunc(args)
+            return AreAdjacent(fighter, f)
         end
 
         return result

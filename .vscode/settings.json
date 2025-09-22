@@ -19,6 +19,8 @@
         "IsInZone",
         "GetNodes",
         "PlaceFighter",
-        "ChooseNode"
+        "ChooseNode",
+        "RecoverHealth",
+        "AreAdjacent"
     ]
 }

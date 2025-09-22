@@ -6,7 +6,7 @@
             "IsHero": true,
             "Movement": 2,
             "MaxHealth": 10,
-            "StartingHealth": 10,
+            "StartingHealth": 9,
             "IsRanged": false
         }, 
         {
@@ -14,7 +14,7 @@
             "IsHero": false,
             "Movement": 2,
             "MaxHealth": 10,
-            "StartingHealth": 10,
+            "StartingHealth": 9,
             "IsRanged": false
         }
     ],

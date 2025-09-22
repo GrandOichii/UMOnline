@@ -1,15 +1,17 @@
 function _Create()
     return UM:Card()
         :AfterCombat(
-            'After combat: Place this fighter in any space.',
-            UM.Effects:PlaceFighter(
-                UM.S:Fighters()
-                :Only(UM.Fighters:Source())
-                :Single()
-                :Build(),
-                UM.S:Spaces()
-                --
-                :Build()
+            'Draw 1 card. If you won the combat, draw 2 cards instead.',
+            UM:IfInstead(
+                UM.Conditional:CombatWonBy(
+                    UM.Players:EffectOwner()
+                ),
+                UM.Effects:Draw(
+                    UM:Static(2)
+                ),
+                UM.Effects:Draw(
+                    UM:Static(1)
+                )
             )
         )
         :Build()

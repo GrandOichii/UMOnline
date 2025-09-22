@@ -67,12 +67,25 @@ public class Fighter
             Match.Map.GetFighterLocation(this) is not null;
     }
 
-    public async Task ProcessDamage(int amount)
+    public async Task<int> ProcessDamage(int amount)
     {
-        Match.Logger?.LogDebug("{FighterLogName} processes {Amount} damage", LogName, amount);
+        var dealt = Health.DealDamage(amount);
+        Match.Logger?.LogDebug("{FighterLogName} is dealt {Amount} damage (original amount: {OriginalAmount})", LogName, dealt, amount);
 
-        // TODO
-        await Health.DealDamage(amount);
+        // TODO check for death
+        // TODO update clients
+
+        return dealt;
+    }
+
+    public async Task<int> RecoverHealth(int amount)
+    {
+        var recovered = Health.Recover(amount);
+        Match.Logger?.LogDebug("{FighterLogName} recovers {Amount} damage (original amount: {OriginalAmount})", LogName, recovered, amount);
+
+        // TODO update clients
+
+        return recovered;
     }
 
     public IEnumerable<MatchCard> GetValidAttackCards()
@@ -136,15 +149,23 @@ public class Health(Fighter fighter)
     public int Max { get; private set; } = fighter.Template.MaxHealth;
     public bool IsDead => Current == 0;
 
-    public async Task DealDamage(int amount)
+    public int DealDamage(int amount)
     {
+        var old = Current;
         Current -= amount;
         if (Current < 0)
         {
-            // TODO death
             Current = 0;
         }
+        return old - Current;
+    }
 
-        // TODO update clients
+    public int Recover(int amount)
+    {
+        var old = Current;
+        Current += amount;
+        if (Current > Max) Current = Max;
+
+        return Current - old;
     }
 }

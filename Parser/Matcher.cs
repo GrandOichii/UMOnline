@@ -36,12 +36,12 @@ public class Matcher : ParserBase {
             // TODO
             if (childResult.Status != ParseResultStatus.SUCCESS)
                 status = ParseResultStatus.CHILD_FAILED;
-            if (childResult.Status == ParseResultStatus.DIDNT_MATCH)
-            {
-                if (didntMatch < 0)
-                    didntMatch = 0;
-                ++didntMatch;
-            }
+            // if (childResult.Status == ParseResultStatus.DIDNT_MATCH)
+            // {
+            //     if (didntMatch < 0)
+            //         didntMatch = 0;
+            //     ++didntMatch;
+            // }
         }
         // if (didntMatch == Children.Count)
         //     status = ParseResultStatus.DIDNT_MATCH;

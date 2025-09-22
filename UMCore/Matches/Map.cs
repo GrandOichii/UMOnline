@@ -193,4 +193,9 @@ public class MapNode
         return GetZones().Intersect(zones).Any();
     }
 
+    public bool IsAdjecentTo(MapNode other)
+    {
+        return other.Adjacent.Contains(this);
+    }
+
 }

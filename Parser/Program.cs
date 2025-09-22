@@ -3,12 +3,23 @@ using ScriptParser;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
+Selector TestSelector(string name)
+{
+    return new Selector()
+    {
+        Name = name,
+        Children = []
+    };
+}
+
 var TODOSCRIPT = File.ReadAllText("../scripts/todo.lua");
 var RETURN_EMPTY_STRING_SCRIPT = "function _Create(text, children) return '--' end";
 var returnTextScript = File.ReadAllText("../scripts/returnText.lua");
 var FIGHTER_NAMES = new string[] {
     "Ms. Marvel",
     "Daredevil",
+    "Annie",
+    "Foo", // TODO remove
     "Medusa",
     "Sinbad",
     "Sherlock Holmes",
@@ -22,7 +33,11 @@ var FIGHTER_NAMES = new string[] {
     "Beowulf",
     "Robin Hood",
     "Dracula",
+    "Holmes",
     "Bigfoot",
+    "Shuri",
+    "the Jackalope",
+    "T-Rex",
     "Achilles",
     "Jekyll & Hyde",
     "Titania",
@@ -33,6 +48,7 @@ var FIGHTER_NAMES = new string[] {
     "Sun Wukong",
     "Black Panther",
     "The Wayward Sisters",
+    "Dr. Malcolm",
     "Deadpool",
     "Invisible Man",
     "Robert Muldoon",
@@ -84,6 +100,13 @@ var todo = new Matcher()
     Name = "TODO",
     PatternString = ".+",
     Script = "function _Create(text, children) return 'TODO' end"
+};
+
+var empty = new Matcher()
+{
+    Name = "empty",
+    PatternString = "",
+    Script = RETURN_EMPTY_STRING_SCRIPT
 };
 
 var changeSize = new Matcher()
@@ -170,7 +193,7 @@ var fighterSelector = new Selector()
         // TODO these two can have suffixes: "opposing fighters adjacent to Dracula"
         new Matcher() {
             Name = "yourFighter",
-            PatternString = "your fighters?\\.?",
+            PatternString = "[Y|y]our fighters?\\.?",
             Script = "function _Create(text, children) return ':OwnedBy(UM.Players:EffectOwner())' end"
         },
         new Matcher() {
@@ -204,6 +227,17 @@ var fighter = new Selector()
     Children = [
         eachFighter,
         singleFighter,
+        new Matcher() {
+            Name = "anyFighter",
+            PatternString = "[A|a]ny fighter\\.?",
+            Script = "function _Create() return ':Single()' end"
+        },
+        // new Matcher() { // TODO finish this
+        //     Name = "adjacentFighter",
+        //     PatternString = "an adjacent fighter\\.?",
+        //     Script = "function _Create() return ':AdjacentTo(UM.Fighters:Source()):Single()' end"
+        //     // TODO could be wrong about effects like "Your fighter deals 1 damage to an adjacent fighter"
+        // }
         // singleNamedFighter,
         // ownedSingleFighter,
         // eachFighter,
@@ -213,7 +247,7 @@ var fighter = new Selector()
 var moveFighter = new Matcher()
 {
     Name = "moveFighter",
-    PatternString = "Move (.+) (up to .+) spaces\\.?",
+    PatternString = "[M|m]ove (.+) (up to .+) spaces?\\.?",
     Script = File.ReadAllText("../scripts/moveFighter.lua"),
     Children = [
         fighter,
@@ -315,13 +349,52 @@ var replaceCardValue = new Matcher()
     ]
 };
 
-// var recoverHealth = new Matcher()
-// {
-//     Name = "recoverHealth",
-//     PatternString = "(.+? )?[R|r]ecovers? (.+) health\\.?",
-//     Script = File.ReadAllText("../scripts/recover")
-// };
+var recoverHealth = new Matcher()
+{
+    Name = "recoverHealth",
+    PatternString = "(.+? )?[R|r]ecovers? (.+) health\\.?",
+    Script = File.ReadAllText("../scripts/recoverHealth.lua"),
+    Children = [
+        new Selector() {
+            Name = "recoverHealthTargetSelector",
+            Children = [
+                new Matcher() {
+                    Name = "recoverEmptyTarget",
+                    PatternString = "",
+                    Script = "function _Create(text, children) return 'UM.S:Fighters():OwnedBy(UM.Players:EffectOwner()):Single():Build()' end"
+                },
+                new Matcher() {
+                    Name = "recoverFighterTarget",
+                    PatternString = "(.+) ",
+                    Script = "function _Create(text, children) return children[1] end",
+                    Children = [
+                        fighter
+                    ]
+                }
+            ]
+        },
+        numericSelector
+    ]
+};
 
+// TODO finish this
+// var returnEffect = new Matcher()
+// {
+//     Name = "returnEffect",
+//     PatternString = "[R|r]eturn a defeated (.+) \\(if any\\) to (.+) in (.+)\\.?",
+//     Script = TODOSCRIPT,
+//     Children = [
+//         new Selector() {
+//             Name = "TestSelector1",
+//             Children = []
+//         },
+//         spaceSelector,
+//         new Selector() {
+//             Name = "TestSelector3",
+//             Children = []
+//         },
+//     ]
+// };
 
 var cancelOpponentsCardEffects = new Matcher()
 {
@@ -338,6 +411,8 @@ var effectSelector = new Selector()
         gainActions,
         drawCards,
         moveFighter,
+        recoverHealth,
+        // returnEffect,
         place,
         dealDamage,
         replaceCardValue,
@@ -392,13 +467,35 @@ var effectSplitter = new Splitter()
     }
 };
 
+var ifInstead = new Matcher()
+{
+    Name = "ifInstead",
+    PatternString = "(.+)\\. If (.+), (.+) instead\\.",
+    Script = File.ReadAllText("../scripts/ifInstead.lua"),
+    Children = [
+        effectSelector,
+        conditionalSelector,
+        effectSelector,
+    ]
+};
+
+var effects = new Selector()
+{
+    Name = "effects",
+    Children = [
+        empty,
+        ifInstead,
+        effectSplitter
+    ]
+};
+
 var afterCombat = new Matcher()
 {
     Name = "afterCombat",
     PatternString = "After combat: (.+)",
     Script = File.ReadAllText("../scripts/afterCombat.lua"),
     Children = {
-        effectSplitter
+        effects
     }
 };
 
@@ -408,7 +505,7 @@ var immediately = new Matcher()
     PatternString = "Immediately: (.+)",
     Script = File.ReadAllText("../scripts/immediately.lua"),
     Children = {
-        effectSplitter
+        effects
     }
 };
 
@@ -418,15 +515,8 @@ var duringCombat = new Matcher()
     PatternString = "During combat: (.+)",
     Script = File.ReadAllText("../scripts/duringCombat.lua"),
     Children = {
-        effectSplitter
+        effects
     }
-};
-
-var empty = new Matcher()
-{
-    Name = "empty",
-    PatternString = "",
-    Script = RETURN_EMPTY_STRING_SCRIPT
 };
 
 var rootSelector = new Selector()
@@ -440,10 +530,9 @@ var rootSelector = new Selector()
             Name = "effectMatcher",
             Script = "function _Create(text, children) return string.format(':Effect(\\n\\'%s\\',\\n%s\\n)', text:gsub(\"'\", \"\\\\'\"):gsub('{DOTSPACE}', '. '), children[1]) end",
             Children = [
-                effectSplitter,
+                effects,
             ]
         },
-        empty,
     ]
 };
 
@@ -460,7 +549,7 @@ var parser = new Matcher()
 var cards = JsonSerializer.Deserialize<List<Card>>(File.ReadAllText("../cards.json"));
 // List<Card> cards = [new Card {
 //     Name = "Test card",
-//     Text = "After combat: Place this fighter in any space.",
+//     Text = "Draw 1 card. If you won the combat, draw 2 cards instead.",
 // }];
 
 string FormattedName(string name)
@@ -484,7 +573,6 @@ var successCount = 0;
 
 foreach (var card in cards!)
 {
-
     var result = parser.Parse(TrasnformText(card.Text));
 
     analysis.Analyze(result);
@@ -516,6 +604,8 @@ foreach (var card in cards!)
         System.Console.WriteLine(e.StackTrace);
         System.Console.WriteLine(e.InnerException);
         System.Console.WriteLine(e.InnerException?.StackTrace);
+        System.Console.WriteLine(card.Name);
+        return;
     }
 }
 

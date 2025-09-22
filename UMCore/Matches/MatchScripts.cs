@@ -59,10 +59,12 @@ public class MatchScripts
     }
 
     [LuaCommand]
-    public void DealDamage(Fighter fighter, int amount)
+    public int DealDamage(Fighter fighter, int amount)
     {
-        fighter.ProcessDamage(amount)
-            .Wait();
+        var result = fighter.ProcessDamage(amount)
+            .GetAwaiter().GetResult();
+
+        return result;
     }
 
     [LuaCommand]
@@ -183,5 +185,23 @@ public class MatchScripts
         var result = player.Controller.ChooseNode(player, options, hint)
             .GetAwaiter().GetResult();
         return result;
+    }
+
+    [LuaCommand]
+    public int RecoverHealth(Fighter fighter, int amount)
+    {
+        var result = fighter.RecoverHealth(amount)
+            .GetAwaiter().GetResult();
+        return result;
+    }
+
+    [LuaCommand]
+    public bool AreAdjacent(Fighter fighter1, Fighter fighter2)
+    {
+        var node1 = Match.Map.GetFighterLocation(fighter1);
+        // TODO check for null
+        var node2 = Match.Map.GetFighterLocation(fighter2);
+
+        return node1!.IsAdjecentTo(node2!) || node2!.IsAdjecentTo(node1!);
     }
 }
