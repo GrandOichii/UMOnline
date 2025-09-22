@@ -70,19 +70,96 @@ function UM:Card()
     return result
 end
 
-function UM:EffectOwner()
-    return function (args)
-        return args.fighter.Owner
-    end
-end
-
 function UM:Static(amount)
     return function (...)
         return amount
     end
 end
 
+function UM:If(conditionFunc, effectFunc)
+    return function (args)
+        if not conditionFunc(args) then
+            return
+        end
+        effectFunc(args)
+    end
+end
+
+UM.Players = {}
+
+function UM.Players:EffectOwner()
+    return function (args)
+        return args.fighter.Owner
+    end
+end
+
+function UM.Players:Opponent()
+    return function (args)
+        local players = UM.S:Players()
+            :OpposingTo(UM.Players:EffectOwner())
+            :Build()(args)
+        assert(#players > 0, 'No opposing players found')
+        local result = players[1]
+        if #players > 0 then
+            -- TODO choose player
+        end
+        return {
+            [1] = result
+        }
+    end
+end
+
+UM.Conditional = {}
+
+function UM.Conditional:CombatWonBy(playerFunc)
+    return function (args)
+        local combat = GetCombat()
+        -- TODO assert that combat is not null
+        -- TODO assert that combat winner is not null
+        return combat.Winner == playerFunc(args)
+    end
+end
+
+function UM.Conditional:CombatLostBy(playerFunc)
+    return function (args)
+        local combat = GetCombat()
+        -- TODO assert that combat is not null
+        -- TODO assert that combat winner is not null
+        -- TODO what about other players
+        return combat.Winner ~= playerFunc(args)
+    end
+end
+
 UM.Effects = {}
+
+function UM.Effects:Discard(selectorFunc, amountFunc, random)
+    local discardCards = function (player, amount, cardIdxFunc)
+        while amount > 0 do
+            -- local 
+            local hand = player.Hand.Cards
+            local idx = cardIdxFunc()
+            DiscardCard(player, idx)
+            amount = amount - 1
+        end
+    end
+
+    return function (args)
+        local players = selectorFunc(args)
+        local amount = amountFunc(args)
+
+        for _, player in ipairs(players) do
+            if random then
+                discardCards(player, amount, function ()
+                    return Rnd(player.hand.Count)
+                end)
+            else
+                discardCards(player, amount, function ()
+                    return ChooseCardInHand(player, player, 'Choose a card to discard')
+                end)
+            end
+        end
+    end
+end
 
 function UM.Effects:Draw(amountFunc)
     return function (args)
@@ -163,212 +240,41 @@ function UM.S:Fighters()
     return result
 end
 
--- -- Feint
--- function _Create()
---     return UM.Versatile('Feint', 2)
---         :Immediately(
---             UM.Effects:CancelAllEffectsOfOpponentCard(),
---             'Cancel all effects on your opponent\'s card.'
---         )
---         :Build()
--- end
+function UM.S.Players()
+    local result = {}
 
--- -- Commanding Impact
--- function _Create()
---     return UM.Attack('Regroup', 5)
---         :AfterCombat(
---             UM.Effects:Draw(
---                 UM:Static(1),
---                 UM.Players:EffectOwner()
---             ),
---             'Draw 1 card'
---         )
---         :Build()
--- end
+    result.filters = {}
 
--- -- Piercing Shot
--- function _Create()
---     return UM.Attack('Piercing Shot', 2)
---         :AfterCombat(
---             UM.Effects:Draw(
---                 UM:Static(2),
---                 UM.Players:EffectOwner()
---             ),
---             'Draw 2 card'
---         )
---         :Build()
--- end
+    function result:OpposingTo(playerFunc)
+        result.filters[#result.filters+1] = function (args, player)
+            return AreOpposingPlayers(player, playerFunc(args))
+        end
+        return result
+    end
 
--- -- Willy Fighting
--- function _Create()
---     return UM.Versatile('Willy Fighting', 3)
---         :AfterCombat(
---             UM.Effects:DealDamage(
---                 UM:Static(1),
---                 UM.S.Fighters()
---                     :Opposing(UM.Players:EffectOwner())
---                     :Adjacent(UM.Fighters:Current())
---                     :Build()
---             ),
---             'Deal 1 damage to each opposing fighter adjacent to your fighter.'
---         )
---         :Build()
--- end
+    function result:Build()
+        return function (args)
+            local allPlayers = GetPlayers()
+            local players = {}
 
--- -- Swift strike
--- function _Create()
---     return UM.Attack('Swift Strike', 3)
---         :AfterCombat(
---             UM.Effects:MoveFighter(
---                 UM.UpTo(4),
---                 UM.Fighters:Current()
---             ),
---             'Move your fighter up to 4 spaces. '
---         )
---         :Build()
--- end
+            local filterFunc = function (player)
+                for _, filter in ipairs(result.filters) do
+                    if not filter(args, player) then
+                        return false
+                    end
+                end
+                return true
+            end
 
--- -- Snark
--- function _Create()
---     return UM.Versatile('Snark', 3)
---         :AfterCombat(
---             UM.If(
---                 UM.Conditional:FightersAdjacent(
---                     UM.Figthers():Current(),
---                     UM.Fighters():Opposing()
---                 ),
---                 UM.Effects.Draw(
---                     UM:Static(1)
---                     -- , UM.Players:EffectOwner() -- default is the effect owner
---                 )
---             ),
---             'If your fighter is adjacent to the opposing fighter, draw 1 card.'
---         )
---         :Build()
--- end
+            for _, player in ipairs(allPlayers) do
+                if filterFunc(player) then
+                    players[#players+1] = player
+                end
+            end
 
--- -- Rending Shot
--- function _Create()
---     return UM.Attack('Rending Shot', 3)
---         :AfterCombat(
---             UM.Effects:MoveFighter(
---                 UM.UpTo(3),
---                 UM.Fighters:Opposing()
---             ),
---             'Move the opposing fighter up to 3 spaces.'
---         )
---         :Build()
--- end
+            return players
+        end
+    end
 
--- -- For My Next Trick
--- function _Create()
---     return UM.Attack('For My Next Trick', 2)
---         :AfterCombat(
---             UM.Effects:MoveFighter(
---                 UM.UpTo(1),
---                 UM.S.Fighters()
---                     :OwnedBy(UM.Players:EffectOwner())
---                     :Build()
---             ),
---             'Move one of your fighters up to 1 space.'
---         )
---         :AfterCombat(
---             UM.Effects.Draw(
---                 UM:Static(1)
---             ),
---             'Draw 1 card.'
---         )
---         :AfterCombat(
---             UM.Effects.GainAction(
---                 UM:Static(1)
---             ),
---             'Gain 1 action.'
---         )
---         :Build()
--- end
-
--- -- Evade
--- function _Create()
---     return UM.Defence('Evade', 3)
---         :AfterCombat(
---             UM.Effects.Draw(
---                 UM:Static(1)
---             ),
---             'Draw 1 card.'
---         )
---         :Build()
--- end
-
--- -- Closer Than She Appears
--- function _Create()
---     return UM.Scheme('Closer Than She Appears')
---         :Effect(
---             UM.Effects:MoveFighter(
---                 UM.UpTo(1),
---                 UM.S.Fighters()
---                     :OwnedBy(UM.Players:EffectOwner())
---                     :Build()
---             ),
---             'Move your fighter up to 1 space.'
---         )
---         :Effect(
---             UM.Effects.Draw(
---                 UM:Static(1)
---             ),
---             'Draw 1 card.'
---         )
---         :Effect(
---             UM.Effects.GainAction(
---                 UM:Static(1)
---             ),
---             'Gain 1 action.'
---         )
---         :Build()
--- end
-
--- -- Gaze of Stone
--- function _Create()
---     return UM.Attack('Gaze of Stone', 2)
---         :AfterCombat(
---             UM.If(
---                 UM.Conditional:CombatWonBy(
---                     UM.Players:EffectOwner()
---                 ),
---                 UM.Effects:DealDamage(
---                     UM:Static(8),
---                     UM.Figthers:Opposing()
---                 )
---             ),
---             'If you won the combat, deal 8 damage to the opposing fighter.'
---         )
---         :Build()
--- end
-
--- -- Gaze of Stone
--- function _Create()
---     return UM.Scheme('A Momentary Glance')
---         :Effect(
---             UM.Effects:DealDamage(
---                 UM:Static(2),
---                 UM.S.Fighters()
---                     .InZone:WithNamedFighter('Medusa')
---                     :Build()
---             ),
---             'Deal 2 damage to any one fighter in Medusa\'s zone.'
---         )
---         :Build()
--- end
-
--- -- Disarming Shot
--- function _Create()
---     return UM.Attack('Disarming Shot', 4)
---         :AfterCombat(
---             UM.Effects.Draw(
---                 UM:AmountOfDamageDealtTo(
---                     UM.Fighters:Opposing()
---                 )
---             ),
---             'Draw a number of cards equal to the amount of damage dealt to the opposing fighter.'
---         )
---         :Build()
--- end
+    return result
+end

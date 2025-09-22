@@ -17,6 +17,7 @@ public class Match
     public List<Fighter> Fighters { get; }
     public Lua LState { get; }
     public Combat? Combat { get; private set; }
+    public Random Random { get; }
 
     public Match(MapTemplate mapTemplate, string setupScript)
     {
@@ -25,6 +26,7 @@ public class Match
         Fighters = [];
         LState = new();
         Combat = null;
+        Random = new();
 
         LState.DoString(setupScript);
         new MatchScripts(this);

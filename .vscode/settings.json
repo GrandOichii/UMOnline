@@ -3,6 +3,12 @@
         "DrawCards",
         "GainActions",
         "GetFighters",
-        "DealDamage"
+        "DealDamage",
+        "GetCombat",
+        "Rnd",
+        "DiscardCard",
+        "AreOpposingPlayers",
+        "GetPlayers",
+        "ChooseCardInHand"
     ]
 }

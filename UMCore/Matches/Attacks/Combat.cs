@@ -26,6 +26,8 @@ public class Combat
     public CombatCard AttackCard { get; private set; }
     public CombatCard? DefenceCard { get; private set; }
 
+    public Player? Winner { get; private set; }
+
     public Combat(Match match, AvailableAttack original)
     {
         Match = match;
@@ -77,6 +79,9 @@ public class Combat
         }
         if (damage < 0) damage = 0;
         await Defender.ProcessDamage(damage);
+        Winner = damage > 0
+            ? Attacker.Owner
+            : Defender.Owner;
 
         // execute "after combat"
         await EmitTrigger(CombatStepTrigger.AfterCombat);

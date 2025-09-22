@@ -37,6 +37,8 @@ public class Hand : MatchCardCollection
             throw new Exception($"Cannot discard card {card.LogName} from hand of {Owner.LogName} for they do not have it"); // TODO type and weird message
         }
 
+        Owner.Match.Logger?.LogDebug("Player {PlayerLogName} discards {CardLogName} from their hand", Owner.LogName, card.LogName);
+
         Cards.Remove(card);
         await Owner.DiscardPile.Add([card]);
     }

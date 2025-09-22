@@ -62,7 +62,7 @@
             }
         },
         {
-            "Amount": 5,
+            "Amount": 2,
             "Card": {
                 "AllowedFighters": [],
                 "Template": {
@@ -76,7 +76,7 @@
             }
         },
         {
-            "Amount": 5,
+            "Amount": 2,
             "Card": {
                 "AllowedFighters": [],
                 "Template": {
@@ -90,7 +90,7 @@
             }
         },
         {
-            "Amount": 5,
+            "Amount": 2,
             "Card": {
                 "AllowedFighters": [],
                 "Template": {

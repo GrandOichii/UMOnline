@@ -33,4 +33,14 @@ public abstract class MatchCardCollection
         return result;
     }
 
+    public int GetCardIdx(MatchCard card)
+    {
+        var result = Cards.FindIndex(c => c == card);
+        if (result < 0)
+        {
+            // TODO throw
+        }
+        return result;
+    }
+
 }

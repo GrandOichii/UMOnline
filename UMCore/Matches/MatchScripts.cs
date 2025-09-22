@@ -2,6 +2,8 @@ using System.Linq.Expressions;
 using System.Reflection;
 using Microsoft.VisualBasic;
 using NLua;
+using UMCore.Matches.Attacks;
+using UMCore.Matches.Players;
 using UMCore.Utility;
 
 namespace UMCore.Matches;
@@ -61,4 +63,47 @@ public class MatchScripts
             .Wait();
     }
 
+    [LuaCommand]
+    public Combat? GetCombat()
+    {
+        return Match.Combat;
+    }
+
+    [LuaCommand]
+    public int Rnd(int max)
+    {
+        return Match.Random.Next(max);
+    }
+
+    [LuaCommand]
+    public void DiscardCard(Player player, int idx)
+    {
+        System.Console.WriteLine($"DISCARD {player.LogName} CARD {idx}");
+
+        var card = player.Hand.Cards[idx];
+        player.Hand.Discard(card)
+            .Wait();
+    }
+
+    [LuaCommand]
+    public bool AreOpposingPlayers(Player p1, Player p2)
+    {
+        // TODO teams
+        return p1.Idx != p2.Idx;
+    }
+
+    [LuaCommand]
+    public LuaTable GetPlayers()
+    {
+        return LuaUtility.CreateTable(Match.LState, Match.Players);
+    }
+
+    [LuaCommand]
+    public int ChooseCardInHand(Player player, Player target, string hint)
+    {
+        var result = player.Controller.ChooseCardInHand(player, target.Idx, target.Hand.Cards, hint)
+            .GetAwaiter().GetResult();
+        return target.Hand.GetCardIdx(result);
+
+    }
 }
