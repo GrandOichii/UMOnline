@@ -120,6 +120,14 @@ public class Fighter
 
         await Match.Combat.SetDefenceCard(defence);
     }
+
+    public bool IsInZone(IEnumerable<int> zones)
+    {
+        if (!IsAlive()) return false;
+        var node = Match.Map.GetFighterLocation(this);
+        // TODO check for null
+        return node!.IsInZone(zones);
+    }
 }
 
 public class Health(Fighter fighter)

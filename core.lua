@@ -121,6 +121,14 @@ function UM.Players:Opponent()
     end
 end
 
+UM.Fighters = {}
+
+function UM.Fighters:Source()
+    return function (args)
+        return args.fighter
+    end
+end
+
 UM.Conditional = {}
 
 function UM.Conditional:CombatWonBy(playerFunc)
@@ -223,6 +231,31 @@ function UM.Effects:DealDamage(amountFunc, selectorFunc)
     end
 end
 
+function UM.Effects:PlaceFighter(fightersFunc, placeSelectorFunc)
+    return function (args)
+        local fighters = fightersFunc(args)
+        assert(#fighters == 1, 'TODO fix this - provided more than 1 fighter for PlaceFighter')
+        local fighter = fighters[1]
+
+        local nodes = placeSelectorFunc(args)
+        local options = {}
+        for _, node in ipairs(nodes) do
+            if node.Fighter == nil or node.Fighter == fighter then
+                options[#options+1] = node
+            end
+        end
+        if #options == 0 then
+            return
+        end
+        local node = options[1]
+        if #options > 1 then
+            node = ChooseNode(args.fighter.Owner, options, 'Choose where to place '..fighter.LogName)
+        end
+        print(fighter, node)
+        PlaceFighter(fighter, node)
+    end
+end
+
 -- entity selectors
 
 UM.S = {}
@@ -290,11 +323,19 @@ function UM.S:Fighters()
                 end
             end
 
+            -- TODO check for 0
+
             if result.single then
-                local single = ChooseFighter(args.fighter.Owner, fighters, 'Choose a fighter')
+                local fighter = fighters[1]
+
+                if #fighters > 1 then
+                    fighter = ChooseFighter(args.fighter.Owner, fighters, 'Choose a fighter')
+                end
+
                 fighters = {
-                    [1] = single
+                    [1] = fighter
                 }
+
             end
 
             return fighters
@@ -337,6 +378,46 @@ function UM.S.Players()
             end
 
             return players
+        end
+    end
+
+    return result
+end
+
+function UM.S.Spaces()
+    local result = {}
+    result.filters = {}
+
+    function result:InSameZoneAs(fighterFunc)
+        result.filters[#result.filters+1] = function (args, space)
+            local fighter = fighterFunc(args)
+            local zones = GetFighterZones(fighter)
+            return IsInZone(space, zones)
+        end
+        return result
+    end
+
+    function result:Build()
+        return function (args)
+            local allNodes = GetNodes()
+            local nodes = {}
+
+            local filterFunc = function (node)
+                for _, filter in ipairs(result.filters) do
+                    if not filter(args, node) then
+                        return false
+                    end
+                end
+                return true
+            end
+
+            for _, node in ipairs(allNodes) do
+                if filterFunc(node) then
+                    nodes[#nodes+1] = node
+                end
+            end
+
+            return nodes
         end
     end
 

@@ -170,7 +170,7 @@ public class Player
     public async Task MoveFighter(Fighter fighter, int movement, bool canMoveOverFriendly, bool canMoveOverOpposing)
     {
         var available = Match.Map.GetPossibleMovementResults(fighter, movement, canMoveOverFriendly, canMoveOverOpposing);
-        var result = await Controller.PromptNode(this, available, $"Choose where to move {fighter.LogName}");
+        var result = await Controller.ChooseNode(this, available, $"Choose where to move {fighter.LogName}");
         await result.PlaceFighter(fighter);
     }
 

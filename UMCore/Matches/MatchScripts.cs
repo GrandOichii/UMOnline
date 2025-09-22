@@ -1,5 +1,6 @@
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using Microsoft.VisualBasic;
 using NLua;
@@ -144,5 +145,43 @@ public class MatchScripts
         var chosen = player.Controller.ChooseString(player, options, hint)
             .GetAwaiter().GetResult();
         return int.Parse(chosen);
+    }
+
+    [LuaCommand]
+    public LuaTable GetFighterZones(Fighter fighter)
+    {
+        var node = Match.Map.GetFighterLocation(fighter);
+        // TODO check for null
+        return LuaUtility.CreateTable(Match.LState, node!.GetZones().ToList());
+
+    }
+
+    [LuaCommand]
+    public bool IsInZone(MapNode node, LuaTable zonesRaw)
+    {
+        var zones = LuaUtility.ParseTable(zonesRaw);
+        return node.IsInZone(zones);
+    }
+
+    [LuaCommand]
+    public LuaTable GetNodes()
+    {
+        return LuaUtility.CreateTable(Match.LState, Match.Map.Nodes);
+    }
+
+    [LuaCommand]
+    public void PlaceFighter(Fighter fighter, MapNode node)
+    {
+        node.PlaceFighter(fighter)
+            .Wait();
+    }
+
+    [LuaCommand]
+    public MapNode ChooseNode(Player player, LuaTable nodes, string hint)
+    {
+        var options = LuaUtility.ParseTable<MapNode>(nodes);
+        var result = player.Controller.ChooseNode(player, options, hint)
+            .GetAwaiter().GetResult();
+        return result;
     }
 }

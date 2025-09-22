@@ -20,7 +20,13 @@ var FIGHTER_NAMES = new string[] {
         "Yennenga",
         "Ihuarraquax",
         "Harpy",
+        "Dracula",
         "squirrel",
+        "Bigfoot",
+        "Little Red",
+        "Tomoe Gozen",
+        "the Jackalope",
+        "She-Hulk",
         "InGen Worker",
     };
 
@@ -89,6 +95,7 @@ var gainActions = new Matcher()
         staticNumber
     ]
 };
+
 var namedFighter = new Matcher()
 {
     Name = "namedFighter",
@@ -155,6 +162,35 @@ var moveFighter = new Matcher()
     Children = [
         fighter,
         numericSelector,
+    ]
+};
+
+var spaceSelector = new Selector()
+{
+    Name = "spaceSelector",
+    Script = File.ReadAllText("../scripts/spaceSelector.lua"),
+    Children = [
+        new Matcher() {
+            Name = "anySpace",
+            PatternString = "any space\\.?",
+            Script = RETURN_EMPTY_STRING_SCRIPT,
+        },
+        new Matcher() {
+            Name = "anySpaceInSameZone",
+            PatternString = "any space in (?:her|his|their) zone\\.?",
+            Script = File.ReadAllText("../scripts/anySpaceInSameZone.lua")
+        }
+    ]
+};
+
+var place = new Matcher()
+{
+    Name = "place",
+    PatternString = "Place (.+?) in (.+)",
+    Script = File.ReadAllText("../scripts/place.lua"),
+    Children = [
+        fighter,
+        spaceSelector,
     ]
 };
 
@@ -232,6 +268,7 @@ var effectSelector = new Selector()
         gainActions,
         drawCards,
         moveFighter,
+        place,
         dealDamage,
         replaceCardValue,
         cancelOpponentsCardEffects,
@@ -329,14 +366,14 @@ var rootSelector = new Selector()
         afterCombat,
         immediately,
         duringCombat,
-        new Matcher() {
-            Name = "effectMatcher",
-            PatternString = "(.+)",
-            Script = "function _Create(text, children) return string.format(':Effect(\\n\\'%s\\',\\n%s\\n)', text:gsub(\"'\", \"\\\\'\"), children[1]) end",
-            Children = [
-                effectSplitter,
-            ]
-        },
+        // new Matcher() {
+        //     Name = "effectMatcher",
+        //     PatternString = "(.+)",
+        //     Script = "function _Create(text, children) return string.format(':Effect(\\n\\'%s\\',\\n%s\\n)', text:gsub(\"'\", \"\\\\'\"), children[1]) end",
+        //     Children = [
+        //         effectSplitter,
+        //     ]
+        // },
         empty,
     ]
 };
@@ -354,8 +391,11 @@ var parser = new Matcher()
 // var cards = JsonSerializer.Deserialize<List<Card>>(File.ReadAllText("../cards.json"));
 List<Card> cards = [new Card {
     Name = "Test card",
-    Text = "After combat: Deal 1 damage to Alice.",
+    Text = "After combat: Place Alice in any space in her zone.",
 }];
+// any space adjacent to Bruce Lee
+// a starting space
+
 
 var analysis = new ParseResultAnalyzer();
 

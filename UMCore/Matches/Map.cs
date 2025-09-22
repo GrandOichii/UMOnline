@@ -108,6 +108,8 @@ public class MapNode
         SecretPassages = [];
     }
 
+    public IEnumerable<int> GetZones() => Template.Zones;
+
     public void GetReachableFighters(
         Fighter fighter,
         int range,
@@ -184,6 +186,11 @@ public class MapNode
             node.GetPossibleMovementResults(fighter, movement - 1, canMoveOverFriendly, canMoveOverOpposing, result);
         }
         // TODO add support for fog token-like effects
+    }
+
+    public bool IsInZone(IEnumerable<int> zones)
+    {
+        return GetZones().Intersect(zones).Any();
     }
 
 }

@@ -40,7 +40,7 @@ public class ConsolePlayerController : IPlayerController
         return nodes[int.Parse(result)];
     }
 
-    public async Task<MapNode> PromptNode(Player player, IEnumerable<MapNode> options, string hint)
+    public async Task<MapNode> ChooseNode(Player player, IEnumerable<MapNode> options, string hint)
     {
         PrintInfo(player);
         System.Console.WriteLine(hint);
