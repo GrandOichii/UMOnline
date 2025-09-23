@@ -1,7 +1,7 @@
 ### Match
-<!-- - CurPlayerIdx: int -->
++ CurPlayerIdx: int
 - Map: Map
-<!-- - Players: Player[] -->
++ Players: Player[]
 - NewEvents: Event[]
 - NewLogs: Log[]
 - Combat: Combat?
@@ -33,22 +33,23 @@
     - Event: CombatEvent
 
     ### Player
-    <!-- - Idx: int -->
-    <!-- - Deck: CardCollection -->
-    <!-- - Hand: CardCollection -->
-    <!-- - Discard: CardCollection -->
-    - Fighters: Fighter[]
+    + Idx: int
+    + Actions: int
+    + Deck: CardCollection
+    + Hand: CardCollection
+    + Discard: CardCollection
+    + Fighters: Fighter[]
 
-        <!-- ### CardCollection -->
-        <!-- - Cards: string?[] -->
-        <!-- - Count: int -->
+        ### CardCollection
+        + Cards: string?[]
+        + Count: int
 
         ### Fighter
-        - Id: int
-        - Name: string
-        - IsDead: bool
-        - CurHealth: int
-        - MaxHealth: int
+        + Id: int
+        + Name: string
+        + IsAlive: bool
+        + CurHealth: int
+        + MaxHealth: int
 
     ### Map
     - Nodes: Node[]

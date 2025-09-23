@@ -11,18 +11,18 @@ namespace UMCore.Matches.Cards;
 public class MatchCard : IHasData<string>
 {
     public Player Owner { get; }
-    public CardTemplate Card { get; }
+    public CardTemplate Template { get; }
     public int Idx { get; }
 
     public EffectCollection SchemeEffect { get; }
     public Dictionary<CombatStepTrigger, EffectCollection> CombatStepEffects { get; }
 
-    public string LogName => $"({Idx}){Card.Template.Name}[{Owner.Idx}]";
+    public string LogName => $"({Idx}){Template.Key}[{Owner.Idx}]";
 
     public MatchCard(Player owner, CardTemplate card)
     {
         Owner = owner;
-        Card = card;
+        Template = card;
 
         var match = owner.Match;
         Idx = match.AddCard(this);
@@ -31,14 +31,14 @@ public class MatchCard : IHasData<string>
         LuaTable data;
         try
         {
-            match.LState.DoString(card.Template.Script);
+            match.LState.DoString(card.Script);
             var creationFunc = LuaUtility.GetGlobalF(match.LState, "_Create");
             var returned = creationFunc.Call();
             data = LuaUtility.GetReturnAs<LuaTable>(returned);
         }
         catch (Exception e)
         {
-            throw new Exception($"Failed to run card creation function in card {Card.Template.Name}", e); // TODO type
+            throw new Exception($"Failed to run card creation function in card {Template.Name}", e); // TODO type
         }
 
         try
@@ -47,7 +47,7 @@ public class MatchCard : IHasData<string>
         }
         catch (Exception e)
         {
-            throw new Exception($"Failed to get scheme effects for card {card.Template.Name}", e); // TODO type
+            throw new Exception($"Failed to get scheme effects for card {card.Name}", e); // TODO type
         }
 
         CombatStepEffects = [];
@@ -65,30 +65,30 @@ public class MatchCard : IHasData<string>
         }
         catch (Exception e)
         {
-            throw new Exception($"Failed to get combat step effects for card {card.Template.Name}", e); // TODO type
+            throw new Exception($"Failed to get combat step effects for card {card.Name}", e); // TODO type
         }
     }
 
     public int GetBoostValue()
     {
-        return Card.Template.Boost;
+        return Template.Boost;
     }
 
     public bool CanBePlayedAsScheme(Fighter fighter)
     {
-        return Card.Template.Type == "Scheme" && Card.CanBePlayedBy(fighter.GetName());
+        return Template.Type == "Scheme" && Template.CanBePlayedBy(fighter.GetName());
     }
 
     public bool CanBeUsedAsAttack(Fighter fighter)
     {
         // TODO some effects change this
-        return (Card.Template.Type == "Attack" || Card.Template.Type == "Versatile") && Card.CanBePlayedBy(fighter.GetName());
+        return (Template.Type == "Attack" || Template.Type == "Versatile") && Template.CanBePlayedBy(fighter.GetName());
     }
 
     public bool CanBeUsedAsDefence(Fighter fighter)
     {
         // TODO some effects change this
-        return (Card.Template.Type == "Defence" || Card.Template.Type == "Versatile") && Card.CanBePlayedBy(fighter.GetName());
+        return (Template.Type == "Defence" || Template.Type == "Versatile") && Template.CanBePlayedBy(fighter.GetName());
     }
 
     public IEnumerable<Fighter> GetCanBePlayedBy()
@@ -130,6 +130,6 @@ public class MatchCard : IHasData<string>
 
     public string GetData(Player player)
     {
-        throw new NotImplementedException();
+        return Template.Key;
     }
 }

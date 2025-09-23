@@ -5,6 +5,7 @@ namespace UMCore.Matches.Players;
 
 public interface IPlayerController
 {
+    Task Update(Player player);
     Task<string> ChooseAction(Player player, string[] options);
     Task<MapNode> ChooseNode(Player player, IEnumerable<MapNode> options, string hint);
     Task<MatchCard> ChooseCardInHand(Player player, int playerHandIdx, IEnumerable<MatchCard> options, string hint);

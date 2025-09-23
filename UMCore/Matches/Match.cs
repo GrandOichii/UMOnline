@@ -47,7 +47,7 @@ public class Match : IHasData<Match.Data>
 
     public async Task Run()
     {
-        Logger!.LogDebug("Starting match");
+        Logger?.LogDebug("Starting match");
         await Setup();
 
         while (!IsWinnerDetermined())
@@ -116,6 +116,15 @@ public class Match : IHasData<Match.Data>
             CurPlayerIdx = CurPlayerIdx,
             Players = [.. Players.Select(p => p.GetData(p))]
         };
+    }
+
+    public async Task UpdateClients()
+    {
+        foreach (var player in Players)
+        {
+            await player.Controller.Update(player);
+        }
+        // TODO
     }
 
     public class Data

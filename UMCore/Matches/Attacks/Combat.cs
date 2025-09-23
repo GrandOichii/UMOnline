@@ -8,7 +8,7 @@ namespace UMCore.Matches.Attacks;
 public class CombatCard(MatchCard card)
 {
     public MatchCard Card { get; } = card;
-    public int Value { get; set; } = card.Card.Template.Value;
+    public int Value { get; set; } = card.Template.Value;
     public bool EffectsCancelled { get; private set; } = false;
     public List<MatchCard> Boosts { get; } = [];
 
@@ -42,7 +42,7 @@ public class CombatCard(MatchCard card)
     public async Task AddBoost(MatchCard card)
     {
         Boosts.Add(card);
-        // TODO update clients
+        await card.Owner.Match.UpdateClients();
     }
 }
 
@@ -77,7 +77,7 @@ public class Combat
     {
         DefenceCard = defence is null ? null : new(defence);
 
-        // TODO update clients
+        await Match.UpdateClients();
     }
 
     public Player Initiator => Attacker.Owner;
@@ -90,18 +90,17 @@ public class Combat
             if (card is null) continue;
             if (card.EffectsCancelled) continue;
             await card.Card.ExecuteCombatStepTrigger(trigger, fighter);
+            await Match.UpdateClients();
         }
     }
 
     public async Task Process()
     {
         await Initiator.Hand.Remove(AttackCard.Card);
-
-        // TODO update clients
+        await Match.UpdateClients();
 
         await Defender.Defend();
-
-        // TODO update clients
+        await Match.UpdateClients();
 
         // TODO reveal cards
 
@@ -141,7 +140,8 @@ public class Combat
             if (!DefenceCard.CanBeCancelled()) return;
             DefenceCard.CancelEffects();
             Match.Logger?.LogDebug("Effects of defence card {CardLogName} of player {PlayerLogName} were cancelled", DefenceCard.Card.LogName, Defender.Owner.LogName);
-            // TODO update clients
+            await Match.UpdateClients();
+
             return;
         }
 
@@ -152,7 +152,8 @@ public class Combat
         AttackCard.CancelEffects();
         Match.Logger?.LogDebug("Effects of attack card {CardLogName} of player {PlayerLogName} were cancelled", AttackCard.Card.LogName, Attacker.Owner.LogName);
 
-        // TODO update clients
+        await Match.UpdateClients();
+
     }
 
     public (CombatCard?, Fighter) GetCombatPart(Player player) {

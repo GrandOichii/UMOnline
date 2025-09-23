@@ -106,6 +106,11 @@ public class ConsolePlayerController : IPlayerController
         var result = Console.ReadLine()!;
         return opts[int.Parse(result)];
     }
+
+    public Task Update(Player player)
+    {
+        throw new NotImplementedException();
+    }
 }
 
 public class Program
@@ -218,7 +223,7 @@ public class Program
         var result = JsonSerializer.Deserialize<LoadoutTemplate>(data)!;
         foreach (var card in result.Deck)
         {
-            card.Card.Template.Script = File.ReadAllText(card.Card.Template.Script);
+            card.Card.Script = File.ReadAllText(card.Card.Script);
         }
 
         foreach (var fighter in result.Fighters)
@@ -269,4 +274,5 @@ public class Program
             System.Console.WriteLine(e.StackTrace);
         }
     }
+
 }

@@ -10,6 +10,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_80ivx")
+hand_card_scene = ExtResource("1_42mhx")
 
 [node name="Main" type="VBoxContainer" parent="."]
 unique_name_in_owner = true
@@ -55,9 +56,11 @@ text = "Discard"
 horizontal_alignment = 1
 
 [node name="Discard" parent="Main/Fighters/DeckDiscard/DiscardContainer" instance=ExtResource("1_42mhx")]
+unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Label2" type="Label" parent="Main/Fighters/DeckDiscard/DiscardContainer"]
+[node name="DiscardCount" type="Label" parent="Main/Fighters/DeckDiscard/DiscardContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "20"
 horizontal_alignment = 1
@@ -72,9 +75,11 @@ text = "Deck"
 horizontal_alignment = 1
 
 [node name="Deck" parent="Main/Fighters/DeckDiscard/DeckContainer" instance=ExtResource("1_42mhx")]
+unique_name_in_owner = true
 layout_mode = 2
 
 [node name="DeckCount" type="Label" parent="Main/Fighters/DeckDiscard/DeckContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "10"
 horizontal_alignment = 1
@@ -83,44 +88,44 @@ horizontal_alignment = 1
 layout_mode = 2
 vertical_scroll_mode = 0
 
-[node name="Cards" type="HBoxContainer" parent="Main/ScrollContainer"]
+[node name="Hand" type="HBoxContainer" parent="Main/ScrollContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="CardImageDisplay4" parent="Main/ScrollContainer/Cards" instance=ExtResource("1_42mhx")]
+[node name="CardImageDisplay4" parent="Main/ScrollContainer/Hand" instance=ExtResource("1_42mhx")]
 layout_mode = 2
 
-[node name="CardImageDisplay3" parent="Main/ScrollContainer/Cards" instance=ExtResource("1_42mhx")]
+[node name="CardImageDisplay3" parent="Main/ScrollContainer/Hand" instance=ExtResource("1_42mhx")]
 layout_mode = 2
 
-[node name="CardImageDisplay" parent="Main/ScrollContainer/Cards" instance=ExtResource("1_42mhx")]
+[node name="CardImageDisplay" parent="Main/ScrollContainer/Hand" instance=ExtResource("1_42mhx")]
 layout_mode = 2
 
-[node name="CardImageDisplay2" parent="Main/ScrollContainer/Cards" instance=ExtResource("1_42mhx")]
+[node name="CardImageDisplay2" parent="Main/ScrollContainer/Hand" instance=ExtResource("1_42mhx")]
 layout_mode = 2
 
-[node name="CardImageDisplay5" parent="Main/ScrollContainer/Cards" instance=ExtResource("1_42mhx")]
+[node name="CardImageDisplay5" parent="Main/ScrollContainer/Hand" instance=ExtResource("1_42mhx")]
 layout_mode = 2
 
-[node name="CardImageDisplay6" parent="Main/ScrollContainer/Cards" instance=ExtResource("1_42mhx")]
+[node name="CardImageDisplay6" parent="Main/ScrollContainer/Hand" instance=ExtResource("1_42mhx")]
 layout_mode = 2
 
-[node name="CardImageDisplay7" parent="Main/ScrollContainer/Cards" instance=ExtResource("1_42mhx")]
+[node name="CardImageDisplay7" parent="Main/ScrollContainer/Hand" instance=ExtResource("1_42mhx")]
 layout_mode = 2
 
-[node name="CardImageDisplay8" parent="Main/ScrollContainer/Cards" instance=ExtResource("1_42mhx")]
+[node name="CardImageDisplay8" parent="Main/ScrollContainer/Hand" instance=ExtResource("1_42mhx")]
 layout_mode = 2
 
-[node name="CardImageDisplay9" parent="Main/ScrollContainer/Cards" instance=ExtResource("1_42mhx")]
+[node name="CardImageDisplay9" parent="Main/ScrollContainer/Hand" instance=ExtResource("1_42mhx")]
 layout_mode = 2
 
-[node name="CardImageDisplay10" parent="Main/ScrollContainer/Cards" instance=ExtResource("1_42mhx")]
+[node name="CardImageDisplay10" parent="Main/ScrollContainer/Hand" instance=ExtResource("1_42mhx")]
 layout_mode = 2
 
-[node name="CardImageDisplay11" parent="Main/ScrollContainer/Cards" instance=ExtResource("1_42mhx")]
+[node name="CardImageDisplay11" parent="Main/ScrollContainer/Hand" instance=ExtResource("1_42mhx")]
 layout_mode = 2
 
-[node name="CardImageDisplay12" parent="Main/ScrollContainer/Cards" instance=ExtResource("1_42mhx")]
+[node name="CardImageDisplay12" parent="Main/ScrollContainer/Hand" instance=ExtResource("1_42mhx")]
 layout_mode = 2

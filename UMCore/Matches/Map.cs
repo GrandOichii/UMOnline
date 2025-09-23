@@ -161,14 +161,15 @@ public class MapNode
 
         Fighter = fighter;
         Parent.Match.Logger?.LogDebug("Placed fighter {LogName} in node {NodeId}", fighter.LogName, Id);
-        // TODO update players
+        await Parent.Match.UpdateClients();
     }
 
     public async Task RemoveFighter(bool updateClients = false)
     {
         Fighter = null;
         if (!updateClients) return;
-        // TODO update clients
+
+        await Parent.Match.UpdateClients();
     }
 
     public void GetPossibleMovementResults(

@@ -275,17 +275,21 @@ public class Player : IHasData<Player.Data>
         return new()
         {
             Idx = Idx,
+            Actions = ActionCount,
             Deck = Deck.GetData(player),
             Hand = Hand.GetData(player),
             DiscardPile = DiscardPile.GetData(player),
+            Fighters = [.. Fighters.Select(f => f.GetData(player))],
         };
     }
 
     public class Data
     {
         public required int Idx { get; init; }
+        public required int Actions { get; init; }
         public required MatchCardCollection.Data Deck { get; init; }
         public required MatchCardCollection.Data Hand { get; init; }
         public required MatchCardCollection.Data DiscardPile { get; init; }
+        public required Fighter.Data[] Fighters { get; init; }
     }    
 }

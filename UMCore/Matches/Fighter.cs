@@ -10,7 +10,7 @@ using UMCore.Utility;
 
 namespace UMCore.Matches;
 
-public class Fighter
+public class Fighter : IHasData<Fighter.Data>
 {
     public int Id { get; }
     public FighterTemplate Template { get; }
@@ -113,7 +113,7 @@ public class Fighter
         Match.Logger?.LogDebug("{FighterLogName} is dealt {Amount} damage (original amount: {OriginalAmount})", LogName, dealt, amount);
 
         // TODO check for death
-        // TODO update clients
+        await Match.UpdateClients();
 
         return dealt;
     }
@@ -123,7 +123,7 @@ public class Fighter
         var recovered = Health.Recover(amount);
         Match.Logger?.LogDebug("{FighterLogName} recovers {Amount} damage (original amount: {OriginalAmount})", LogName, recovered, amount);
 
-        // TODO update clients
+        await Match.UpdateClients();
 
         return recovered;
     }
@@ -188,6 +188,27 @@ public class Fighter
         if (TurnPhaseEffects.TryGetValue(trigger, out EffectCollection? value))
             return [value];
         return [];
+    }
+
+    public Data GetData(Player player)
+    {
+        return new()
+        {
+            Id = Id,
+            Name = GetName(),
+            IsAlive = IsAlive(),
+            CurHealth = Health.Current,
+            MaxHealth = Health.Max,
+        };
+    }
+
+    public class Data
+    {
+        public required int Id { get; init; }
+        public required string Name { get; init; }
+        public required bool IsAlive { get; init; }
+        public required int CurHealth { get; init; }
+        public required int MaxHealth { get; init; }
     }
 }
 

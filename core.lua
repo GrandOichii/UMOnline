@@ -363,7 +363,6 @@ function UM.Effects:AllowOptionalBoost(amountFunc)
                     ChooseCardInHand(player, player, 'Choose a card to boost your card')
                 )
 
-                print(player, card)
                 BoostCardInCombat(player, card)
             end
         end
