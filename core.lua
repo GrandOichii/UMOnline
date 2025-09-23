@@ -157,17 +157,17 @@ end
 
 function UM.Players:Opponent()
     return function (args)
-        local players = UM.S:Players()
+        return UM.S:Players()
             :OpposingTo(UM.Players:EffectOwner())
-            :Build()(args)
-        assert(#players > 0, 'No opposing players found')
-        local result = players[1]
-        if #players > 0 then
-            -- TODO choose player
-        end
-        return {
-            [1] = result
-        }
+            :BuildOne()(args)
+        -- assert(#players > 0, 'No opposing players found')
+        -- local result = players[1]
+        -- if #players > 1 then
+        --     -- TODO choose player
+        -- end
+        -- return {
+        --     [1] = result
+        -- }
     end
 end
 
@@ -250,7 +250,7 @@ function UM.Effects:Discard(playerSelectorFunc, amountFunc, random)
     end
 end
 
-function UM.Effects:Draw(amountFunc)
+function UM.Effects:Draw(amountFunc, playerFunc)
     return function (args)
         local fighter = args.fighter
         local amount = NumericChoose(args, amountFunc(args), 'Choose how many cards to draw')
@@ -522,27 +522,43 @@ function UM.S.Players()
         return result
     end
 
+    function result:_Select(args)
+        local allPlayers = GetPlayers()
+        local players = {}
+
+        local filterFunc = function (player)
+            for _, filter in ipairs(result.filters) do
+                if not filter(args, player) then
+                    return false
+                end
+            end
+            return true
+        end
+
+        for _, player in ipairs(allPlayers) do
+            if filterFunc(player) then
+                players[#players+1] = player
+            end
+        end
+
+        return players
+    end
+
+    function result:BuildOne()
+        return function (args)
+            -- TODO is this the right way
+            local options = result:_Select(args)
+            local player = options[1]
+            -- if #options > 1 then
+            --     fighter = ChooseFighter(args.owner, options, 'Choose a single fighter')
+            -- end
+            return player
+        end
+    end
+
     function result:Build()
         return function (args)
-            local allPlayers = GetPlayers()
-            local players = {}
-
-            local filterFunc = function (player)
-                for _, filter in ipairs(result.filters) do
-                    if not filter(args, player) then
-                        return false
-                    end
-                end
-                return true
-            end
-
-            for _, player in ipairs(allPlayers) do
-                if filterFunc(player) then
-                    players[#players+1] = player
-                end
-            end
-
-            return players
+            return result:_Select(args)
         end
     end
 

@@ -1,4 +1,5 @@
 using System.Text.Json;
+using System.Text.RegularExpressions;
 using ScriptParser;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
@@ -40,6 +41,8 @@ var FIGHTER_NAMES = new string[] {
     "T-Rex",
     "Achilles",
     "Jekyll & Hyde",
+    "Dr. Jekyll",
+    "Mr. Hyde",
     "Titania",
     "Little Red",
     "Willow",
@@ -149,11 +152,21 @@ var numericSelector = new Selector()
     ]
 };
 
-var drawCards = new Matcher()
+var youDrawCards = new Matcher()
 {
-    Name = "drawCards",
-    PatternString = "[D|d]raw (.+) cards?\\.?",
-    Script = File.ReadAllText("../scripts/drawCards.lua"),
+    Name = "youDrawCards",
+    PatternString = "(?:[Y|y]ou )?[D|d]raw (.+) cards?\\.?",
+    Script = File.ReadAllText("../scripts/youDrawCards.lua"),
+    Children = [
+        numericSelector
+    ]
+};
+
+var yourOpponentDrawCards = new Matcher()
+{
+    Name = "yourOpponentDrawCards",
+    PatternString = "[Y|y]our opponent draws? (.+) cards?\\.?",
+    Script = File.ReadAllText("../scripts/yourOpponentDrawCards.lua"),
     Children = [
         numericSelector
     ]
@@ -322,7 +335,7 @@ var playerSelector = new Selector()
         new Matcher() {
             Name = "yourOpponent",
             PatternString = "[Y|y]our opponent ?",
-            Script = "function _Create(text, children) return 'UM.Players:Opponent()' end"
+            Script = "function _Create(text, children) return 'UM.S:Players():OpposingTo(UM.Players:EffectOwner()):Single():Build()' end"
         }
     ]
 };
@@ -451,7 +464,8 @@ var effectSelector = new Selector()
     Children = [
         changeSize,
         gainActions,
-        drawCards,
+        youDrawCards,
+        yourOpponentDrawCards,
         moveFighter,
         recoverHealth,
         // returnEffect,
@@ -526,7 +540,6 @@ var effects = new Selector()
 {
     Name = "effects",
     Children = [
-        empty,
         ifInstead,
         effectSplitter
     ]
@@ -566,6 +579,7 @@ var rootSelector = new Selector()
 {
     Name = "rootSelector",
     Children = [
+        empty,
         afterCombat,
         immediately,
         duringCombat,
@@ -617,7 +631,7 @@ string TrasnformText(string text)
         ("seven", 7),
         ("eight", 8),
         ("nine", 9),
-    }) text = text.Replace(numS, num.ToString());
+    }) text = Regex.Replace(text, $"\\s{numS}\\s", $" {num} ");
     
     foreach (var (find, replace) in new List<(string, string)>{
         ("twice", "2 times"),
