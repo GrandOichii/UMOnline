@@ -11,7 +11,7 @@ using UMCore.Utility;
 
 namespace UMCore.Matches.Players;
 
-public class Player
+public class Player : IHasData<Player.Data>
 {
     private static readonly List<IAction> ACTIONS = [
         new ManoeuvreAction(),
@@ -69,7 +69,6 @@ public class Player
             {
                 var fighter = new Fighter(this, template);
                 Fighters.Add(fighter);
-                Match.Fighters.Add(fighter);
                 var spawn = Match.Map.GetSpawnLocation(Idx + (Fighters.Count - 1) * Match.Players.Count);
                 await spawn.PlaceFighter(fighter);
             }
@@ -193,13 +192,13 @@ public class Player
             }
         }
 
-        // TODO allow player to choose order
-        foreach (var fighter in GetAliveFighters())
+        var fighters = GetAliveFighters().ToList();
+        while (fighters.Count > 0)
         {
+            var fighter = await Controller.ChooseFighter(this, fighters, "Choose which fighter to move");
+            fighters.Remove(fighter);
             await MoveFighter(fighter, fighter.Movement() + boostValue, canMoveOverFriendly, canMoveOverOpposing);
         }
-
-        // TODO
     }
 
     public async Task MoveFighter(Fighter fighter, int movement, bool canMoveOverFriendly, bool canMoveOverOpposing)
@@ -271,5 +270,22 @@ public class Player
         }
     }
 
-    
+    public Data GetData(Player player)
+    {
+        return new()
+        {
+            Idx = Idx,
+            Deck = Deck.GetData(player),
+            Hand = Hand.GetData(player),
+            DiscardPile = DiscardPile.GetData(player),
+        };
+    }
+
+    public class Data
+    {
+        public required int Idx { get; init; }
+        public required MatchCardCollection.Data Deck { get; init; }
+        public required MatchCardCollection.Data Hand { get; init; }
+        public required MatchCardCollection.Data DiscardPile { get; init; }
+    }    
 }

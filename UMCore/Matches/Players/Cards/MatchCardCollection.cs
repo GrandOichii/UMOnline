@@ -2,7 +2,7 @@ using UMCore.Matches.Cards;
 
 namespace UMCore.Matches.Players.Cards;
 
-public abstract class MatchCardCollection
+public abstract class MatchCardCollection : IHasData<MatchCardCollection.Data>
 {
     public Player Owner { get; }
     public List<MatchCard> Cards { get; }
@@ -29,7 +29,7 @@ public abstract class MatchCardCollection
         var result = Cards.Remove(card);
 
         // TODO update clients
-        
+
         return result;
     }
 
@@ -43,4 +43,24 @@ public abstract class MatchCardCollection
         return result;
     }
 
+    public bool IsPublicFor(Player player) {
+        return ContentsVisibleTo.Contains(player.Idx);
+    }
+
+    public virtual Data GetData(Player player)
+    {
+        return new()
+        {
+            Count = Cards.Count,
+            Cards = IsPublicFor(player)
+                ? Cards.Select(c => c.GetData(player)).ToArray()
+                : Cards.Select<MatchCard, string?>(_ => null).ToArray(),
+        };
+    }
+
+    public class Data
+    {
+        public required string?[] Cards { get; init; }
+        public required int Count { get; init; }
+    }
 }

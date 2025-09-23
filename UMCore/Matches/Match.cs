@@ -7,7 +7,7 @@ using UMCore.Templates;
 
 namespace UMCore.Matches;
 
-public class Match
+public class Match : IHasData<Match.Data>
 {
     public required ILogger? Logger { get; init; }
     public List<Player> Players { get; } = [];
@@ -92,9 +92,11 @@ public class Match
         return result;
     }
 
-    public void AddFighter(Fighter fighter)
+    public int AddFighter(Fighter fighter)
     {
+        var result = Fighters.Count;
         Fighters.Add(fighter);
+        return result;
     }
 
     public async Task ProcessAttack(Player player, AvailableAttack attack)
@@ -105,5 +107,20 @@ public class Match
         await Combat.Process();
 
         Combat = null;
+    }
+
+    public Data GetData(Player player)
+    {
+        return new()
+        {
+            CurPlayerIdx = CurPlayerIdx,
+            Players = [.. Players.Select(p => p.GetData(p))]
+        };
+    }
+
+    public class Data
+    {
+        public required int CurPlayerIdx { get; init; }
+        public required Player.Data[] Players { get; init; }
     }
 }

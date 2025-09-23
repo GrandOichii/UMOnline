@@ -12,6 +12,7 @@ namespace UMCore.Matches;
 
 public class Fighter
 {
+    public int Id { get; }
     public FighterTemplate Template { get; }
     public Player Owner { get; }
     public Match Match { get; }
@@ -27,6 +28,8 @@ public class Fighter
         Owner = owner;
         Match = owner.Match;
         Name = template.Name;
+
+        Id = Match.AddFighter(this);
 
         Health = new(this);
 

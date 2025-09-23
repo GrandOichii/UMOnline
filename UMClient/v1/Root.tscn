@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://drerpkhxcngii"]
+
+[ext_resource type="PackedScene" uid="uid://dh54pmbtdvbjt" path="res://v1/Matches/MatchDisplay.tscn" id="1_j7ana"]
+
+[node name="Root" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Match" parent="." instance=ExtResource("1_j7ana")]
+layout_mode = 1

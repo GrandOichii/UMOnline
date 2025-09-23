@@ -8,7 +8,7 @@ using UMCore.Utility;
 
 namespace UMCore.Matches.Cards;
 
-public class MatchCard
+public class MatchCard : IHasData<string>
 {
     public Player Owner { get; }
     public CardTemplate Card { get; }
@@ -126,5 +126,10 @@ public class MatchCard
             { "fighter", by },
             { "owner", by.Owner },
         }));
+    }
+
+    public string GetData(Player player)
+    {
+        throw new NotImplementedException();
     }
 }

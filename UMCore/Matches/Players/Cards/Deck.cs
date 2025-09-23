@@ -23,4 +23,13 @@ public class Deck : MatchCardCollection
         }
         return result;
     }
+
+    public override Data GetData(Player player)
+    {
+        return new()
+        {
+            Cards = [],
+            Count = Cards.Count,
+        };
+    }
 }
