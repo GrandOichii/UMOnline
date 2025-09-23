@@ -99,7 +99,6 @@ public class MatchCard
     public async Task ExecuteSchemeEffects(Fighter by)
     {
         Owner.Match.Logger?.LogDebug("Executing scheme effects of card {CardLogName} by fighter {FighterLogName}", LogName, by.LogName);
-
         SchemeEffect.Execute(LuaUtility.CreateTable(Owner.Match.LState, new Dictionary<string, object>()
         {
             { "fighter", by },

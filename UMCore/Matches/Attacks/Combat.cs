@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Logging;
 using UMCore.Matches.Cards;
 using UMCore.Matches.Players;
 
@@ -6,7 +7,20 @@ namespace UMCore.Matches.Attacks;
 public class CombatCard(MatchCard card)
 {
     public MatchCard Card { get; } = card;
-    public int Value = card.Card.Template.Value;
+    public int Value { get; set; } = card.Card.Template.Value;
+    public bool EffectsCancelled { get; private set; } = false;
+
+    public void CancelEffects()
+    {
+        EffectsCancelled = true;
+    }
+
+    public bool CanBeCancelled()
+    {
+        // TODO check if can be cancelled
+
+        return true;        
+    }
 }
 
 
@@ -47,10 +61,13 @@ public class Combat
 
     public async Task EmitTrigger(CombatStepTrigger trigger)
     {
-        // TODO first check and execute defender, then check and execute attacker
-        await AttackCard.Card.ExecuteCombatStepTrigger(trigger, Attacker);
-        if (DefenceCard is not null)
-            await DefenceCard.Card.ExecuteCombatStepTrigger(trigger, Defender);
+        List<(CombatCard?, Fighter)> cards = [(DefenceCard, Defender), (AttackCard, Attacker)];
+        foreach (var (card, fighter) in cards)
+        {
+            if (card is null) continue;
+            if (card.EffectsCancelled) continue;
+            await card.Card.ExecuteCombatStepTrigger(trigger, fighter);
+        }
     }
 
     public async Task Process()
@@ -90,5 +107,27 @@ public class Combat
         await AttackCard.Card.PlaceIntoDiscard();
         if (DefenceCard is not null)
             await DefenceCard.Card.PlaceIntoDiscard();
+    }
+
+    public async Task CancelEffectsOfOpponent(Player player)
+    {
+        if (Attacker.Owner == player)
+        {
+            if (DefenceCard is null) return;
+            if (!DefenceCard.CanBeCancelled()) return;
+            DefenceCard.CancelEffects();
+            Match.Logger?.LogDebug("Effects of defence card {CardLogName} of player {PlayerLogName} were cancelled", DefenceCard.Card.LogName, Defender.Owner.LogName);
+            // TODO update clients
+            return;
+        }
+
+        // TODO assert that Defender.Owner == player
+        // is defender
+        if (!AttackCard.CanBeCancelled()) return;
+
+        AttackCard.CancelEffects();
+        Match.Logger?.LogDebug("Effects of attack card {CardLogName} of player {PlayerLogName} were cancelled", AttackCard.Card.LogName, Attacker.Owner.LogName);
+
+        // TODO update clients
     }
 }

@@ -90,6 +90,7 @@ var FIGHTER_NAMES = new string[] {
     "Yennefer",
     "King Arthur",
     "Shredder",
+    "Harpy",
     "Krang",
     "Donatello",
     "Michelangelo"
@@ -205,6 +206,15 @@ var fighterSelector = new Selector()
             Name = "theOpposingFighter",
             PatternString = "the opposing fighter\\.?",
             Script = "function _Create() return ':OpposingInCombatTo(UM.Fighters:Source())' end"
+        },
+        new Matcher() {
+            Name = "anyFighterInNamedFighterZone",
+            PatternString = "any one fighter in (.+?)(?:\'s)? zone\\.?",
+            Script = "function _Create(text, children) return string.format(':InSameZoneAs(UM.S:Fighters()%s:BuildOne())', children[1]) end",
+            // Script = TODOSCRIPT,
+            Children = [
+                namedFighter
+            ]
         },
         namedFighter,
     ]
@@ -554,7 +564,7 @@ var parser = new Matcher()
 var cards = JsonSerializer.Deserialize<List<Card>>(File.ReadAllText("../cards.json"));
 // List<Card> cards = [new Card {
 //     Name = "Test card",
-//     Text = "After combat: If you won the combat, deal 8 damage to the opposing fighter.",
+//     Text = "After combat: Move each Harpy up to 3 spaces.",
 // }];
 
 string FormattedName(string name)

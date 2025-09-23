@@ -101,7 +101,9 @@ public class Match
     {
         Logger?.LogDebug("Processing attack from player {PlayerLogName}: {FighterLogName} -> {TargetLogName} [{CardLogName}]", player.LogName, attack.Fighter.LogName, attack.Target.LogName, attack.AttackCard.LogName);
         Combat = new(this, attack);
-        
+
         await Combat.Process();
+
+        Combat = null;
     }
 }

@@ -24,48 +24,6 @@
     ],
     "Deck": [
         {
-            "Amount": 0,
-            "Card": {
-                "AllowedFighters": [],
-                "Template": {
-                    "Name": "Draw Scheme",
-                    "Type": "Scheme",
-                    "Value": 0,
-                    "Boost": 3,
-                    "Text": "Test Card Text",
-                    "Script":"../test-scripts/test1.lua"
-                }
-            }
-        },
-        {
-            "Amount": 0,
-            "Card": {
-                "AllowedFighters": [],
-                "Template": {
-                    "Name": "Draw and Action Scheme",
-                    "Type": "Scheme",
-                    "Value": 0,
-                    "Boost": 2,
-                    "Text": "Test Card Text",
-                    "Script":"../test-scripts/test2.lua"
-                }
-            }
-        },
-        {
-            "Amount": 0,
-            "Card": {
-                "AllowedFighters": [],
-                "Template": {
-                    "Name": "Deal damage scheme",
-                    "Type": "Scheme",
-                    "Value": 0,
-                    "Boost": 1,
-                    "Text": "Test Card Text",
-                    "Script":"../test-scripts/test3.lua"
-                }
-            }
-        },
-        {
             "Amount": 1,
             "Card": {
                 "AllowedFighters": [],
@@ -89,7 +47,7 @@
                     "Value": 13,
                     "Boost": 1,
                     "Text": "Test Card Text",
-                    "Script":"../test-scripts/empty.lua"
+                    "Script":"../test-scripts/defence3.lua"
                 }
             }
         },
@@ -104,6 +62,20 @@
                     "Boost": 1,
                     "Text": "Test Card Text",
                     "Script":"../test-scripts/empty.lua"
+                }
+            }
+        },
+        {
+            "Amount": 1,
+            "Card": {
+                "AllowedFighters": ["Foo"],
+                "Template": {
+                    "Name": "Scheme",
+                    "Type": "Scheme",
+                    "Value": 0,
+                    "Boost": 3,
+                    "Text": "Test Card Text",
+                    "Script":"../test-scripts/scheme.lua"
                 }
             }
         }

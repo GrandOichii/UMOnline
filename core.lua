@@ -23,11 +23,12 @@ function UM:Card()
 
     function result:Effect(text, ...)
         -- assert(result.scheme == nil, 'Already defined scheme effects ('..result.scheme.text..')')
+        local effects = {...}
 
         result.scheme.text = text
 
-        for _, v in ipairs(result.scheme.effects) do
-            result.schemeEffects[#result.schemeEffects+1] = v
+        for _, v in ipairs(effects) do
+            result.scheme.effects[#result.scheme.effects+1] = v
         end
 
         return result
@@ -216,7 +217,6 @@ function NumericChoose(args, amounts, hint)
         return amounts[1]
     end
 
-    -- TODO prompt player to choose
     return ChooseNumber(args.owner, amounts, hint)
 end
 
@@ -341,6 +341,13 @@ function UM.Effects:Optional(hint, ...)
     end
 end
 
+function UM.Effects:CancelAllEffectsOfOpponentsCard()
+    return function (args)
+        local player = UM.Players:EffectOwner()(args)
+        CancelCombatEffectsOfOpponent(player)
+    end
+end
+
 -- entity selectors
 
 UM.S = {}
@@ -423,42 +430,58 @@ function UM.S:Fighters()
         return result
     end
 
+    function result:_Select(args)
+        local allFighters = GetFighters()
+        local fighters = {}
+
+        local filterFunc = function (fighter)
+            for _, filter in ipairs(result.filters) do
+                if not filter(args, fighter) then
+                    return false
+                end
+            end
+            return true
+        end
+
+        for _, fighter in ipairs(allFighters) do
+            if filterFunc(fighter) then
+                fighters[#fighters+1] = fighter
+            end
+        end
+
+        -- TODO check for 0
+
+        if result.single then
+            local fighter = fighters[1]
+
+            if #fighters > 1 then
+                fighter = ChooseFighter(args.owner, fighters, 'Choose a fighter')
+            end
+
+            fighters = {
+                [1] = fighter
+            }
+
+        end
+
+        return fighters
+    end
+
     function result:Build()
         return function (args)
-            local allFighters = GetFighters()
-            local fighters = {}
+            return result:_Select(args)
+        end
+    end
 
-            local filterFunc = function (fighter)
-                for _, filter in ipairs(result.filters) do
-                    if not filter(args, fighter) then
-                        return false
-                    end
-                end
-                return true
-            end
-
-            for _, fighter in ipairs(allFighters) do
-                if filterFunc(fighter) then
-                    fighters[#fighters+1] = fighter
-                end
-            end
-
-            -- TODO check for 0
-
-            if result.single then
-                local fighter = fighters[1]
-
-                if #fighters > 1 then
-                    fighter = ChooseFighter(args.owner, fighters, 'Choose a fighter')
-                end
-
-                fighters = {
-                    [1] = fighter
-                }
-
-            end
-
-            return fighters
+    function result:BuildOne()
+        return function (args)
+            -- TODO is this the right way
+            local options = result:_Select(args)
+            local fighter = options[1]
+            -- if #options > 1 then
+            --     fighter = ChooseFighter(args.owner, options, 'Choose a single fighter')
+            -- end
+            return fighter
         end
     end
 

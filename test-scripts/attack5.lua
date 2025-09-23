@@ -1,18 +1,9 @@
 function _Create()
     return UM:Card()
         :AfterCombat(
-            'After combat: If you won the combat, deal 8 damage to the opposing fighter.',
-            UM:If(
-                UM.Conditional:CombatWonBy(
-                    UM.Players:EffectOwner()
-                ),
-                UM.Effects:DealDamage(
-                    UM:Static(8),
-                    UM.S:Fighters()
-                    :OpposingInCombatTo(UM.Fighters:Source())
-                    :Single()
-                    :Build()
-                )
+            'After combat: Draw 1 card.',
+            UM.Effects:Draw(
+                UM:Static(1)
             )
         )
         :Build()

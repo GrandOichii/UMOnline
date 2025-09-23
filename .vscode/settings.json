@@ -24,6 +24,7 @@
         "AreAdjacent",
         "ChooseString",
         "AreInSameZone",
-        "AreOpposingInCombat"
+        "AreOpposingInCombat",
+        "CancelCombatEffectsOfOpponent"
     ]
 }

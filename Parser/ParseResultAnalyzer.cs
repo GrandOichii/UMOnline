@@ -41,7 +41,6 @@ public class ParseResultAnalyzer
         if (parseResult.Status == ParseResultStatus.DIDNT_MATCH)
         {
             AddUnparsed(parseResult.Parent, parseResult.Text, originalText);
-            // System.Console.WriteLine($"Didn't match - {parseResult.ParentName}: \"{parseResult.Text}\"");
             return;
         }
 

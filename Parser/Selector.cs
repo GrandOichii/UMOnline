@@ -36,14 +36,15 @@ public class Selector : ParserBase {
             status = ParseResultStatus.DIDNT_MATCH;
 
         // if (status == ParseResultStatus.ALL_CHILDREN_FAILED)
-        // {
+        if (closestToMatch != null)
+        {
             foreach (var child in children)
             {
                 if (child == closestToMatch!)
                     continue;
                 child.Status = ParseResultStatus.IGNORED;
             }
-        // }
+        }
         return new(this, status, text, children);
     }
 

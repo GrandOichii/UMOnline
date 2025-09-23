@@ -82,8 +82,6 @@ public class MatchScripts
     [LuaCommand]
     public void DiscardCard(Player player, int idx)
     {
-        System.Console.WriteLine($"DISCARD {player.LogName} CARD {idx}");
-
         var card = player.Hand.Cards[idx];
         player.Hand.Discard(card)
             .Wait();
@@ -235,5 +233,12 @@ public class MatchScripts
         return (f1 == combat.Attacker && f2 == combat.Defender) ||
                 (f2 == combat.Attacker && f1 == combat.Defender);
 
+    }
+
+    [LuaCommand]
+    public void CancelCombatEffectsOfOpponent(Player player)
+    {
+        Match.Combat!.CancelEffectsOfOpponent(player)
+            .Wait();
     }
 }

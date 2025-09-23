@@ -43,8 +43,8 @@ public class Matcher : ParserBase {
                 ++didntMatch;
             }
         }
-        if (didntMatch == Children.Count)
-            status = ParseResultStatus.DIDNT_MATCH;
+        // if (didntMatch == Children.Count)
+        //     status = ParseResultStatus.DIDNT_MATCH;
         return new MatcherParseResult(match.Groups, this, status, text, children);
     }
 
