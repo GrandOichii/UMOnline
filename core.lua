@@ -211,13 +211,14 @@ end
 
 UM.Effects = {}
 
-function NumericChoose(args, amounts, hint)
+function NumericChoose(args, amounts, hint, player)
+    player = player or args.owner
     assert(#amounts > 0, 'Provided empty table for NumericChoose')
     if #amounts == 1 then
         return amounts[1]
     end
 
-    return ChooseNumber(args.owner, amounts, hint)
+    return ChooseNumber(player, amounts, hint)
 end
 
 function UM.Effects:Discard(playerSelectorFunc, amountFunc, random)
@@ -346,6 +347,26 @@ function UM.Effects:CancelAllEffectsOfOpponentsCard()
         local player = UM.Players:EffectOwner()(args)
         CancelCombatEffectsOfOpponent(player)
     end
+end
+
+function UM.Effects:AllowOptionalBoost(amountFunc)
+    return UM.Effects:Optional(
+        'Boost your card?',
+        function (args)
+            local player = args.owner
+            local amount = NumericChoose(args, amountFunc(args), 'Choose how many times to boost')
+            for i = 1, amount do
+                -- TODO check hand size
+                local card = GetCardInHand(
+                    player,
+                    ChooseCardInHand(player, player, 'Choose a card to boost your card')
+                )
+
+                print(player, card)
+                BoostCardInCombat(player, card)
+            end
+        end
+    )
 end
 
 -- entity selectors

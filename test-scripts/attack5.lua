@@ -1,8 +1,8 @@
 function _Create()
     return UM:Card()
-        :AfterCombat(
-            'After combat: Draw 1 card.',
-            UM.Effects:Draw(
+        :DuringCombat(
+            'You may BOOST this attack.',
+            UM.Effects:AllowOptionalBoost(
                 UM:Static(1)
             )
         )

@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.Logging;
 using UMCore.Matches.Cards;
 using UMCore.Matches.Players;
@@ -9,6 +10,15 @@ public class CombatCard(MatchCard card)
     public MatchCard Card { get; } = card;
     public int Value { get; set; } = card.Card.Template.Value;
     public bool EffectsCancelled { get; private set; } = false;
+    public List<MatchCard> Boosts { get; } = [];
+
+    public int GetValue()
+    {
+        var result = Value;
+        foreach (var boost in Boosts)
+            result += boost.GetBoostValue();
+        return result;
+    }
 
     public void CancelEffects()
     {
@@ -20,6 +30,19 @@ public class CombatCard(MatchCard card)
         // TODO check if can be cancelled
 
         return true;        
+    }
+
+    public async Task Discard()
+    {
+        await Card.PlaceIntoDiscard();
+        foreach (var boost in Boosts)
+            await boost.PlaceIntoDiscard();
+    }
+
+    public async Task AddBoost(MatchCard card)
+    {
+        Boosts.Add(card);
+        // TODO update clients
     }
 }
 
@@ -89,10 +112,10 @@ public class Combat
         await EmitTrigger(CombatStepTrigger.DuringCombat);
 
         // deal damage
-        var damage = AttackCard.Value;
+        var damage = AttackCard.GetValue();
         if (DefenceCard is not null)
         {
-            damage -= DefenceCard.Value;
+            damage -= DefenceCard.GetValue();
         }
         if (damage < 0) damage = 0;
         await Defender.ProcessDamage(damage);
@@ -104,9 +127,10 @@ public class Combat
         await EmitTrigger(CombatStepTrigger.AfterCombat);
 
         // discard cards
-        await AttackCard.Card.PlaceIntoDiscard();
+        await AttackCard.Discard();
+
         if (DefenceCard is not null)
-            await DefenceCard.Card.PlaceIntoDiscard();
+            await DefenceCard.Discard();
     }
 
     public async Task CancelEffectsOfOpponent(Player player)
@@ -129,5 +153,30 @@ public class Combat
         Match.Logger?.LogDebug("Effects of attack card {CardLogName} of player {PlayerLogName} were cancelled", AttackCard.Card.LogName, Attacker.Owner.LogName);
 
         // TODO update clients
+    }
+
+    public (CombatCard?, Fighter) GetCombatPart(Player player) {
+        if (Defender.Owner == player)
+        {
+            return (DefenceCard, Defender);
+        }
+        if (Attacker.Owner == player)
+        {
+            return (AttackCard, Attacker);
+        }
+
+        // TODO throw exception
+        throw new Exception();
+    }
+
+    public async Task AddBoostToPlayer(Player player, MatchCard boostCard)
+    {
+        var (card, fighter) = GetCombatPart(player);
+        if (card is null)
+        {
+            // TODO throw exception
+            return;
+        }
+        await card.AddBoost(boostCard);
     }
 }

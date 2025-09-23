@@ -209,7 +209,7 @@ var fighterSelector = new Selector()
         },
         new Matcher() {
             Name = "anyFighterInNamedFighterZone",
-            PatternString = "any one fighter in (.+?)(?:\'s)? zone\\.?",
+            PatternString = "any 1 fighter in (.+?)(?:\'s)? zone\\.?",
             Script = "function _Create(text, children) return string.format(':InSameZoneAs(UM.S:Fighters()%s:BuildOne())', children[1]) end",
             // Script = TODOSCRIPT,
             Children = [
@@ -418,6 +418,33 @@ var cancelOpponentsCardEffects = new Matcher()
     Script = "function _Create(text, children) return 'UM.Effects:CancelAllEffectsOfOpponentsCard()' end"
 };
 
+var boostCard = new Matcher()
+{
+    Name = "boostCard",
+    PatternString = "[Y|y]ou may BOOST this (?:card|attack)( .+ times)?\\.?",
+    Script = "function _Create(text, children) return string.format('UM.Effects:AllowOptionalBoost(\\n%s\\n)', children[1]) end",
+    Children = [
+        new Selector() {
+            Name = "boostCardOptionalTimes",
+            Children = [
+                new Matcher() {
+                    Name = "boostCard1Time",
+                    PatternString = "",
+                    Script = "function _Create() return 'UM:Static(1)' end"
+                },
+                new Matcher() {
+                    Name = "boostCardTimes",
+                    PatternString = " (.+) times",
+                    Script = "function _Create(text, children) return children[1] end",
+                    Children = [
+                        numericSelector
+                    ]
+                },
+            ]
+        }
+    ]
+};
+
 var effectSelector = new Selector()
 {
     Name = "effectSelector",
@@ -431,6 +458,7 @@ var effectSelector = new Selector()
         place,
         dealDamage,
         replaceCardValue,
+        boostCard,
         cancelOpponentsCardEffects,
         discardEffect,
     ]
@@ -561,11 +589,11 @@ var parser = new Matcher()
     }
 };
 
-var cards = JsonSerializer.Deserialize<List<Card>>(File.ReadAllText("../cards.json"));
-// List<Card> cards = [new Card {
-//     Name = "Test card",
-//     Text = "After combat: Move each Harpy up to 3 spaces.",
-// }];
+// var cards = JsonSerializer.Deserialize<List<Card>>(File.ReadAllText("../cards.json"));
+List<Card> cards = [new Card {
+    Name = "Test card",
+    Text = "You may BOOST this attack 2 times.",
+}];
 
 string FormattedName(string name)
 {
@@ -578,6 +606,24 @@ string TrasnformText(string text)
     {
         text = text.Replace(name, FormattedName(name));
     }
+
+    foreach (var (numS, num) in new List<(string, int)>{
+        ("one", 1),
+        ("two", 2),
+        ("three", 3),
+        ("four", 4),
+        ("five", 5),
+        ("six", 6),
+        ("seven", 7),
+        ("eight", 8),
+        ("nine", 9),
+    }) text = text.Replace(numS, num.ToString());
+    
+    foreach (var (find, replace) in new List<(string, string)>{
+        ("twice", "2 times"),
+    }) text = text.Replace(find, replace);
+
+
     return text;
 }
 

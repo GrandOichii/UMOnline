@@ -25,6 +25,8 @@
         "ChooseString",
         "AreInSameZone",
         "AreOpposingInCombat",
-        "CancelCombatEffectsOfOpponent"
+        "CancelCombatEffectsOfOpponent",
+        "BoostCardInCombat",
+        "GetCardInHand"
     ]
 }

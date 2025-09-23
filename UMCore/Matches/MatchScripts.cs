@@ -5,6 +5,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.VisualBasic;
 using NLua;
 using UMCore.Matches.Attacks;
+using UMCore.Matches.Cards;
 using UMCore.Matches.Players;
 using UMCore.Utility;
 
@@ -240,5 +241,21 @@ public class MatchScripts
     {
         Match.Combat!.CancelEffectsOfOpponent(player)
             .Wait();
+    }
+
+    [LuaCommand]
+    public void BoostCardInCombat(Player player, MatchCard card)
+    {
+        // TODO check combat for null
+        player.Hand.Remove(card)
+            .Wait();
+        player.Match.Combat!.AddBoostToPlayer(player, card)
+            .Wait();
+    }
+
+    [LuaCommand]
+    public MatchCard GetCardInHand(Player player, int idx)
+    {
+        return player.Hand.Cards[idx];
     }
 }
