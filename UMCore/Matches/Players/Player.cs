@@ -183,15 +183,15 @@ public class Player
     public async Task MoveFighters(bool allowBoost = false, bool canMoveOverFriendly = true, bool canMoveOverOpposing = false)
     {
         var boostValue = 0;
-        // if (allowBoost)
-        // {
-        //     var card = await ChooseBoostCard();
-        //     if (card is not null)
-        //     {
-        //         await DiscardCardForBoost(card);
-        //         boostValue = card.GetBoostValue();
-        //     }
-        // }
+        if (allowBoost)
+        {
+            var card = await ChooseBoostCard();
+            if (card is not null)
+            {
+                await DiscardCardForBoost(card);
+                boostValue = card.GetBoostValue();
+            }
+        }
 
         // TODO allow player to choose order
         foreach (var fighter in GetAliveFighters())
@@ -211,15 +211,14 @@ public class Player
 
     public async Task<MatchCard?> ChooseBoostCard()
     {
-        // TODO
-        throw new NotImplementedException();
+        var card = await Controller.ChooseCardInHandOrNothing(this, Idx, Hand.Cards, "Choose a card to boost your movement");
+        return card;
     }
 
     public async Task DiscardCardForBoost(MatchCard card)
     {
         // TODO? any discard for boost effects (if they exist)
-        // TODO
-        throw new NotImplementedException();
+        await card.PlaceIntoDiscard();
     }
 
     public async Task PlayScheme(MatchCard card, Fighter fighter)
