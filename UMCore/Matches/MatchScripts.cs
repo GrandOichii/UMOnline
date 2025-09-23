@@ -111,9 +111,9 @@ public class MatchScripts
     }
 
     [LuaCommand]
-    public void MoveFighter(Fighter fighter, int amount)
+    public void MoveFighter(Fighter fighter, int amount, bool canMoveOverOpposing)
     {
-        fighter.Owner.MoveFighter(fighter, amount, true, false)
+        fighter.Owner.MoveFighter(fighter, amount, true, canMoveOverOpposing)
             .Wait();
     }
 

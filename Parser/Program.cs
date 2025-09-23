@@ -589,11 +589,11 @@ var parser = new Matcher()
     }
 };
 
-// var cards = JsonSerializer.Deserialize<List<Card>>(File.ReadAllText("../cards.json"));
-List<Card> cards = [new Card {
-    Name = "Test card",
-    Text = "You may BOOST this attack 2 times.",
-}];
+var cards = JsonSerializer.Deserialize<List<Card>>(File.ReadAllText("../cards.json"));
+// List<Card> cards = [new Card {
+//     Name = "Test card",
+//     Text = "You may BOOST this attack 2 times.",
+// }];
 
 string FormattedName(string name)
 {

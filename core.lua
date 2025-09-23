@@ -258,7 +258,8 @@ function UM.Effects:Draw(amountFunc)
     end
 end
 
-function UM.Effects:MoveFighters(fighterSelectorFunc, amountFunc)
+function UM.Effects:MoveFighters(fighterSelectorFunc, amountFunc, canMoveOverOpposing)
+    canMoveOverOpposing = canMoveOverOpposing or false
     return function (args)
         local fighters = fighterSelectorFunc(args)
         -- TODO feels weird
@@ -266,7 +267,7 @@ function UM.Effects:MoveFighters(fighterSelectorFunc, amountFunc)
         local amount = amounts[#amounts]
 
         for _, fighter in ipairs(fighters) do
-            MoveFighter(fighter, amount)
+            MoveFighter(fighter, amount, canMoveOverOpposing)
         end
     end
 end
