@@ -1,0 +1,171 @@
+{
+    "Name": "Medusa & Harpies",
+    "Key": "medusa & harpies",
+    "Fighters": [
+        {
+            "Name": "Medusa",
+            "IsHero": true,
+            "Movement": 3,
+            "MaxHealth": 16,
+            "StartingHealth": 16,
+            "IsRanged": true,
+            "Text": "At the start of your turn, you may deal 1 damage to an opposing fighter in Medusa's zone.",
+            "Script": "../fighter-scripts/Medusa.lua"
+        }, 
+        {
+            "Name": "Harpy",
+            "IsHero": false,
+            "Movement": 3,
+            "MaxHealth": 1,
+            "StartingHealth": 1,
+            "IsRanged": false,
+            "Text": "",
+            "Script": "../fighter-scripts/Basic.lua"
+        }
+    ],
+    "Deck": [
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Dash",
+                "Key": "medusa & harpies_dash",
+                "Type": "Versatile",
+                "Value": 3,
+                "Boost": 1,
+                "Text": "After combat: Move your fighter up to 3 spaces.",
+                "Script":"../Medusa/Dash.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": ["Medusa"],
+                "Name": "Gaze of Stone",
+                "Key": "medusa & harpies_gaze of stone",
+                "Type": "Attack",
+                "Value": 2,
+                "Boost": 4,
+                "Text": "After combat: If you won the combat, deal 8 damage to the opposing fighter.",
+                "Script":"../Medusa/Gaze of Stone.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": ["Medusa"],
+                "Name": "A Momentary Gaze",
+                "Key": "medusa & harpies_a momentary gaze",
+                "Type": "Scheme",
+                "Value": 0,
+                "Boost": 4,
+                "Text": "After combat: If you won the combat, deal 8 damage to the opposing fighter.",
+                "Script":"../Medusa/A Momentary Gaze.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": ["Medusa"],
+                "Name": "Hiss and Slither",
+                "Key": "medusa & harpies_hiss and slither",
+                "Type": "Scheme",
+                "Value": 4,
+                "Boost": 3,
+                "Text": "After combat: Your opponent discards 1 card.",
+                "Script":"../Medusa/Hiss and Slither.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": ["Harpy"],
+                "Name": "The Hounds of Mighty Zeus",
+                "Key": "medusa & harpies_the hounds of mighty zeus",
+                "Type": "Versatile",
+                "Value": 4,
+                "Boost": 3,
+                "Text": "After combat: Move each Harpy up to 3 spaces.",
+                "Script":"../Medusa/The Hounds of Mighty Zeus.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": ["Harpy"],
+                "Name": "Clutching Claws",
+                "Key": "medusa & harpies_clutching claws",
+                "Type": "Versatile",
+                "Value": 3,
+                "Boost": 2,
+                "Text": "After combat: Your opponent discards 1 card.",
+                "Script":"../Medusa/Clutching Claws.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Winged Frenzy",
+                "Key": "medusa & harpies_winged frenzy",
+                "Type": "Scheme",
+                "Value": 0,
+                "Boost": 2,
+                "Text": "Move each of your fighters up to 3 spaces. You may move them through spaces containing opposing fighters. Then, return a defeated Harpy (if any) to any space in Medusa's zone.",
+                "Script":"../Medusa/Winged Frenzy.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": ["Medusa"],
+                "Name": "Second Shot",
+                "Key": "medusa & harpies_second shot",
+                "Type": "Attack",
+                "Value": 3,
+                "Boost": 3,
+                "Text": "During combat: You may BOOST this attack.",
+                "Script":"../Medusa/Second Shot.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Snipe",
+                "Key": "medusa & harpies_snipe",
+                "Type": "Versatile",
+                "Value": 3,
+                "Boost": 1,
+                "Text": "After combat: Draw 1 card.",
+                "Script":"../Medusa/Snipe.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Feint",
+                "Key": "medusa & harpies_feint",
+                "Type": "Versatile",
+                "Value": 2,
+                "Boost": 2,
+                "Text": "Immediately: Cancel all effects on your opponent's card.",
+                "Script":"../Medusa/Feint.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Regroup",
+                "Key": "medusa & harpies_regroup",
+                "Type": "Versatile",
+                "Value": 1,
+                "Boost": 2,
+                "Text": "After combat: Draw 1 card. If you won the combat, draw 2 cards instead.",
+                "Script":"../Medusa/Regroup.lua"
+            }
+        }
+    ]
+}

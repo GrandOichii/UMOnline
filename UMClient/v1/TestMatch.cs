@@ -5,6 +5,7 @@ using System.IO;
 using System.Text.Json;
 using System.Threading.Tasks;
 using UMClient.v1.Matches;
+using UMCore;
 using UMCore.Matches;
 using UMCore.Templates;
 
@@ -129,12 +130,17 @@ public partial class TestMatch : Control
 	}
 
 	// Called when the node enters the scene tree for the first time.
+	public Node ConnectedMatchNode { get; private set; }
+
+	
 	public override void _Ready()
 	{
-		_ = RunMatch();
+		ConnectedMatchNode = GetNode<Node>("%Match");
+		
+		Task.Run(RunMatch);
 	}
 
-	private LocalPlayerController _controller;
+	private LocalMatchIOHandler _handler;
 
 	public async Task RunMatch()
 	{
@@ -147,21 +153,23 @@ public partial class TestMatch : Control
 				Logger = null
 			};
 
-			_controller = new LocalPlayerController(this);
+			_handler = new LocalMatchIOHandler(this);
+			var controller = new IOPlayerController(_handler);
 
-			var loadout = LoadLoadout("../loadouts/foobar.json");
+			var loadout1 = LoadLoadout("../loadouts/Medusa & Harpies.json");
+			var loadout2 = LoadLoadout("../loadouts/foobar.json");
 
 			await match.AddPlayer(
 				"p1",
 				0,
-				loadout,
-				_controller
+				loadout1,
+				controller
 			);
 			await match.AddPlayer(
 				"p2",
 				1,
-				loadout,
-				_controller
+				loadout2,
+				controller
 			);
 
 			await match.Run();
@@ -174,13 +182,22 @@ public partial class TestMatch : Control
 
 	public void OnAttackButtonPressed()
 	{
-		_controller.SetChooseActionResult("amogus");
+		_handler.SetReadTaskResult("amogus");
 	}
 
-	public void Load(Match.Data data)
+	public void Load(Godot.Collections.Dictionary data)
 	{
-		var node = GetNode<Node>("%Match");
-		node.Call("load", data.ToVariant());
-	}
+		// var node = GetNode<Node>("%Match");
+		GD.Print("AMOGUS");
+		GetNode<Node>("%Connection").EmitSignal("match_info_updated", data);
 
+		// EmitSignal(SignalName.MatchInfoUpdated, data);
+		// node.Call("load", data["Data"]);
+		// node.CallDeferred("load", Json.ParseString(JsonSerializer.Serialize(data.Data)));
+	}
+	
+	public void OnLocalMatchCollectionResponded(string response) {
+		GD.Print($"Response: {response}");
+		_handler.SetReadTaskResult(response);
+	}
 }
