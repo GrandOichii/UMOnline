@@ -8,16 +8,16 @@ using UMCore.Utility;
 
 namespace UMCore.Matches.Cards;
 
-public class MatchCard : IHasData<string>
+public class MatchCard : IHasData<MatchCard.Data>
 {
     public Player Owner { get; }
     public CardTemplate Template { get; }
-    public int Idx { get; }
+    public int Id { get; }
 
     public EffectCollection SchemeEffect { get; }
     public Dictionary<CombatStepTrigger, EffectCollection> CombatStepEffects { get; }
 
-    public string LogName => $"({Idx}){Template.Key}[{Owner.Idx}]";
+    public string LogName => $"({Id}){Template.Key}[{Owner.Idx}]";
 
     public MatchCard(Player owner, CardTemplate card)
     {
@@ -25,7 +25,7 @@ public class MatchCard : IHasData<string>
         Template = card;
 
         var match = owner.Match;
-        Idx = match.AddCard(this);
+        Id = match.AddCard(this);
 
         // effects
         LuaTable data;
@@ -128,8 +128,18 @@ public class MatchCard : IHasData<string>
         }));
     }
 
-    public string GetData(Player player)
+    public Data GetData(Player player)
     {
-        return Template.Key;
+        return new()
+        {
+            Id = Id,
+            Key = Template.Key
+        };
+    }
+
+    public class Data
+    { 
+        public required string Key { get; init; }
+        public required int Id { get; init; }
     }
 }

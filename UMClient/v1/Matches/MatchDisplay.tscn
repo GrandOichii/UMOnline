@@ -34,9 +34,10 @@ layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 2.0
 
-[node name="ZoomedCard" parent="VBoxContainer/Center" instance=ExtResource("2_23jxg")]
+[node name="ZoomedCard" parent="VBoxContainer/Center" node_paths=PackedStringArray("ImageLoader") instance=ExtResource("2_23jxg")]
 unique_name_in_owner = true
 layout_mode = 2
+ImageLoader = NodePath("../../../CardImageLoader")
 
 [node name="Map" parent="VBoxContainer/Center" instance=ExtResource("2_6n8ov")]
 unique_name_in_owner = true
@@ -51,28 +52,32 @@ layout_mode = 2
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="P1" parent="VBoxContainer/BottomPlayers" node_paths=PackedStringArray("image_loader") instance=ExtResource("1_uuhjp")]
+[node name="P1" parent="VBoxContainer/BottomPlayers" node_paths=PackedStringArray("image_loader", "ZoomedCardImage") instance=ExtResource("1_uuhjp")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 image_loader = NodePath("../../../CardImageLoader")
+ZoomedCardImage = NodePath("../../Center/ZoomedCard")
 
-[node name="P2" parent="VBoxContainer/BottomPlayers" node_paths=PackedStringArray("image_loader") instance=ExtResource("1_uuhjp")]
+[node name="P2" parent="VBoxContainer/BottomPlayers" node_paths=PackedStringArray("image_loader", "ZoomedCardImage") instance=ExtResource("1_uuhjp")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 image_loader = NodePath("../../../CardImageLoader")
+ZoomedCardImage = NodePath("../../Center/ZoomedCard")
 
-[node name="P3" parent="VBoxContainer/BottomPlayers" node_paths=PackedStringArray("image_loader") instance=ExtResource("1_uuhjp")]
+[node name="P3" parent="VBoxContainer/BottomPlayers" node_paths=PackedStringArray("image_loader", "ZoomedCardImage") instance=ExtResource("1_uuhjp")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 image_loader = NodePath("../../../CardImageLoader")
+ZoomedCardImage = NodePath("../../Center/ZoomedCard")
 
-[node name="P4" parent="VBoxContainer/BottomPlayers" node_paths=PackedStringArray("image_loader") instance=ExtResource("1_uuhjp")]
+[node name="P4" parent="VBoxContainer/BottomPlayers" node_paths=PackedStringArray("image_loader", "ZoomedCardImage") instance=ExtResource("1_uuhjp")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 image_loader = NodePath("../../../CardImageLoader")
+ZoomedCardImage = NodePath("../../Center/ZoomedCard")
 
 [node name="CardImageLoader" parent="." instance=ExtResource("6_62j6u")]

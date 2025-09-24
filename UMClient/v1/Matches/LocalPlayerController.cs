@@ -42,8 +42,6 @@ public class LocalMatchIOHandler(TestMatch match) : IIOHandler
 
     public async Task Write(UpdateInfo info)
     {
-        GD.Print(info.Request);
-
         // match.CallDeferred("Load", info.ToVariant());
         match.CallDeferred("Load", Json.ParseString(JsonSerializer.Serialize(info)));
     }

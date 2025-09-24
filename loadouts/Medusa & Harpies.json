@@ -54,13 +54,13 @@
             "Amount": 2,
             "Card": {
                 "AllowedFighters": ["Medusa"],
-                "Name": "A Momentary Gaze",
-                "Key": "medusa & harpies_a momentary gaze",
+                "Name": "A Momentary Glance",
+                "Key": "medusa & harpies_a momentary glance",
                 "Type": "Scheme",
                 "Value": 0,
                 "Boost": 4,
                 "Text": "After combat: If you won the combat, deal 8 damage to the opposing fighter.",
-                "Script":"../Medusa/A Momentary Gaze.lua"
+                "Script":"../Medusa/A Momentary Glance.lua"
             }
         },
         {

@@ -13,8 +13,7 @@ func _ready() -> void:
 	Connection.match_info_updated.connect(_on_match_info_updated)
 	
 func _on_match_info_updated(data):
-	Display.load(data.Match)
-	print(data.PlayerIdx)
+	Display.load_match(data.Match)
 
 	HintLabel.text = data.Hint
 	RequestLabel.text = data.Request

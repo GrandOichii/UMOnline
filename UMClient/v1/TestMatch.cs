@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using UMClient.v1.Matches;
 using UMCore;
 using UMCore.Matches;
+using UMCore.Matches.Players;
 using UMCore.Templates;
 
 public partial class TestMatch : Control
@@ -157,7 +158,7 @@ public partial class TestMatch : Control
 			var controller = new IOPlayerController(_handler);
 
 			var loadout1 = LoadLoadout("../loadouts/Medusa & Harpies.json");
-			var loadout2 = LoadLoadout("../loadouts/foobar.json");
+			var loadout2 = LoadLoadout("../loadouts/Dracula & The Sisters.json");
 
 			await match.AddPlayer(
 				"p1",
@@ -169,7 +170,7 @@ public partial class TestMatch : Control
 				"p2",
 				1,
 				loadout2,
-				controller
+				new RandomPlayerController(0)
 			);
 
 			await match.Run();
@@ -187,17 +188,10 @@ public partial class TestMatch : Control
 
 	public void Load(Godot.Collections.Dictionary data)
 	{
-		// var node = GetNode<Node>("%Match");
-		GD.Print("AMOGUS");
 		GetNode<Node>("%Connection").EmitSignal("match_info_updated", data);
-
-		// EmitSignal(SignalName.MatchInfoUpdated, data);
-		// node.Call("load", data["Data"]);
-		// node.CallDeferred("load", Json.ParseString(JsonSerializer.Serialize(data.Data)));
 	}
 	
 	public void OnLocalMatchCollectionResponded(string response) {
-		GD.Print($"Response: {response}");
 		_handler.SetReadTaskResult(response);
 	}
 }

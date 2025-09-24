@@ -107,9 +107,12 @@ public class ConsolePlayerController : IPlayerController
         return opts[int.Parse(result)];
     }
 
-    public Task Update(Player player)
+    public async Task Update(Player player)
     {
-        throw new NotImplementedException();
+    }
+
+    public async Task Setup(Player player)
+    {
     }
 }
 
@@ -254,7 +257,7 @@ public class Program
         await match.AddPlayer(
             "p1",
             0,
-            loadout,
+            LoadLoadout("../loadouts/Dracula & The Sisters.json"),
             controller
         );
         await match.AddPlayer(

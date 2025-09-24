@@ -85,7 +85,7 @@ public class Player : IHasData<Player.Data>
                         .Select(i => new MatchCard(this, card.Card))
                 );
             }
-            // TODO shuffle deck
+            Deck.Shuffle();
         }
 
         // initial draw
@@ -105,6 +105,7 @@ public class Player : IHasData<Player.Data>
     public async Task EndTurn()
     {
         Match.Logger?.LogDebug("Player {LogName} ends their turn", LogName);
+        // TODO discard down to 7 cards
         ActionCount = 0;
     }
 
@@ -275,6 +276,7 @@ public class Player : IHasData<Player.Data>
         return new()
         {
             Idx = Idx,
+            Name = Name,
             Actions = ActionCount,
             Deck = Deck.GetData(player),
             Hand = Hand.GetData(player),
@@ -286,6 +288,7 @@ public class Player : IHasData<Player.Data>
     public class Data
     {
         public required int Idx { get; init; }
+        public required string Name { get; init; }
         public required int Actions { get; init; }
         public required MatchCardCollection.Data Deck { get; init; }
         public required MatchCardCollection.Data Hand { get; init; }

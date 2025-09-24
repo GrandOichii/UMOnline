@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://ce06sx3gdlscm"]
+[gd_scene load_steps=58 format=3 uid="uid://ce06sx3gdlscm"]
 
 [ext_resource type="Script" path="res://v1/CardImageLoader.gd" id="1_8ac0r"]
 [ext_resource type="Script" path="res://v1/CardImage.gd" id="2_1e04s"]
@@ -15,6 +15,20 @@
 [ext_resource type="Texture2D" uid="uid://ctjdvwq530pr5" path="res://assets/decks/medusa & harpies/cards/medusa & harpies_snipe.png" id="11_4wn3w"]
 [ext_resource type="Texture2D" uid="uid://bxop8wgues3sr" path="res://assets/decks/medusa & harpies/cards/medusa & harpies_the hounds of mighty zeus.png" id="12_rlstl"]
 [ext_resource type="Texture2D" uid="uid://dysictnbmg267" path="res://assets/decks/medusa & harpies/cards/medusa & harpies_winged frenzy.png" id="13_kf13h"]
+[ext_resource type="Texture2D" uid="uid://cwcmmoii4401c" path="res://assets/decks/Dracula & The Sisters/cards/Dracula & The Sisters_Ambush.webp" id="14_x5ule"]
+[ext_resource type="Texture2D" uid="uid://d0f8w6fpeny0p" path="res://assets/decks/Dracula & The Sisters/cards/Dracula & The Sisters_Baptism of Blood.webp" id="15_jc8ao"]
+[ext_resource type="Texture2D" uid="uid://c5tian25qu0gb" path="res://assets/decks/Dracula & The Sisters/back.png" id="16_ovbyc"]
+[ext_resource type="Texture2D" uid="uid://birwpqdtv1drl" path="res://assets/decks/Dracula & The Sisters/cards/Dracula & The Sisters_Beastform.webp" id="16_vs76n"]
+[ext_resource type="Texture2D" uid="uid://cb5ny6pwbvk8d" path="res://assets/decks/Dracula & The Sisters/cards/Dracula & The Sisters_Dash.webp" id="17_mvy63"]
+[ext_resource type="Texture2D" uid="uid://bos2h6x0sr1wu" path="res://assets/decks/Dracula & The Sisters/cards/Dracula & The Sisters_Do My Bidding.webp" id="18_s41i2"]
+[ext_resource type="Texture2D" uid="uid://kig43quvav54" path="res://assets/decks/Dracula & The Sisters/cards/Dracula & The Sisters_Exploit.webp" id="19_4ojbn"]
+[ext_resource type="Texture2D" uid="uid://drb1cw6d7xw0e" path="res://assets/decks/Dracula & The Sisters/cards/Dracula & The Sisters_Feeding Frenzy.webp" id="20_qkld4"]
+[ext_resource type="Texture2D" uid="uid://bcv0e3je3hx4m" path="res://assets/decks/Dracula & The Sisters/cards/Dracula & The Sisters_Feint.webp" id="21_kv6wo"]
+[ext_resource type="Texture2D" uid="uid://t6wc3tieyl0w" path="res://assets/decks/Dracula & The Sisters/cards/Dracula & The Sisters_Look Into My Eyes.webp" id="22_etgia"]
+[ext_resource type="Texture2D" uid="uid://8nx2q87fm0pv" path="res://assets/decks/Dracula & The Sisters/cards/Dracula & The Sisters_Mistform.webp" id="23_0teux"]
+[ext_resource type="Texture2D" uid="uid://2hnqusbbxm4s" path="res://assets/decks/Dracula & The Sisters/cards/Dracula & The Sisters_Prey Upon.webp" id="24_ihcyd"]
+[ext_resource type="Texture2D" uid="uid://bmy7flvb1ox2v" path="res://assets/decks/Dracula & The Sisters/cards/Dracula & The Sisters_Ravening Seduction.webp" id="25_vvcjh"]
+[ext_resource type="Texture2D" uid="uid://bwpoxo6xa838g" path="res://assets/decks/Dracula & The Sisters/cards/Dracula & The Sisters_Thirst for Sustenance.webp" id="26_c0ios"]
 
 [sub_resource type="Resource" id="Resource_5vaqf"]
 script = ExtResource("2_1e04s")
@@ -71,18 +85,88 @@ script = ExtResource("2_1e04s")
 card_key = "medusa & harpies_winged frenzy"
 image = ExtResource("13_kf13h")
 
+[sub_resource type="Resource" id="Resource_eix6r"]
+script = ExtResource("2_1e04s")
+card_key = "Dracula & The Sisters_Ambush"
+image = ExtResource("14_x5ule")
+
+[sub_resource type="Resource" id="Resource_06b5p"]
+script = ExtResource("2_1e04s")
+card_key = "Dracula & The Sisters_Baptism of Blood"
+image = ExtResource("15_jc8ao")
+
+[sub_resource type="Resource" id="Resource_255qv"]
+script = ExtResource("2_1e04s")
+card_key = "Dracula & The Sisters_Beastform"
+image = ExtResource("16_vs76n")
+
+[sub_resource type="Resource" id="Resource_m5t2e"]
+script = ExtResource("2_1e04s")
+card_key = "Dracula & The Sisters_Dash"
+image = ExtResource("17_mvy63")
+
+[sub_resource type="Resource" id="Resource_cdxvb"]
+script = ExtResource("2_1e04s")
+card_key = "Dracula & The Sisters_Do My Bidding"
+image = ExtResource("18_s41i2")
+
+[sub_resource type="Resource" id="Resource_60tjs"]
+script = ExtResource("2_1e04s")
+card_key = "Dracula & The Sisters_Exploit"
+image = ExtResource("19_4ojbn")
+
+[sub_resource type="Resource" id="Resource_ongam"]
+script = ExtResource("2_1e04s")
+card_key = "Dracula & The Sisters_Feeding Frenzy"
+image = ExtResource("20_qkld4")
+
+[sub_resource type="Resource" id="Resource_ggb60"]
+script = ExtResource("2_1e04s")
+card_key = "Dracula & The Sisters_Feint"
+image = ExtResource("21_kv6wo")
+
+[sub_resource type="Resource" id="Resource_7i75j"]
+script = ExtResource("2_1e04s")
+card_key = "Dracula & The Sisters_Look Into My Eyes"
+image = ExtResource("22_etgia")
+
+[sub_resource type="Resource" id="Resource_83l4d"]
+script = ExtResource("2_1e04s")
+card_key = "Dracula & The Sisters_Mistform"
+image = ExtResource("23_0teux")
+
+[sub_resource type="Resource" id="Resource_uk5tn"]
+script = ExtResource("2_1e04s")
+card_key = "Dracula & The Sisters_Prey Upon"
+image = ExtResource("24_ihcyd")
+
+[sub_resource type="Resource" id="Resource_twbui"]
+script = ExtResource("2_1e04s")
+card_key = "Dracula & The Sisters_Ravening Seduction"
+image = ExtResource("25_vvcjh")
+
+[sub_resource type="Resource" id="Resource_xqklg"]
+script = ExtResource("2_1e04s")
+card_key = "Dracula & The Sisters_Thirst for Sustenance"
+image = ExtResource("26_c0ios")
+
 [sub_resource type="Resource" id="Resource_scq06"]
 script = ExtResource("7_p6ijo")
-Images = Array[ExtResource("2_1e04s")]([SubResource("Resource_5vaqf"), SubResource("Resource_asjt2"), SubResource("Resource_cmyoc"), SubResource("Resource_bivio"), SubResource("Resource_7uqtn"), SubResource("Resource_i2gup"), SubResource("Resource_end7w"), SubResource("Resource_ny877"), SubResource("Resource_c6kbl"), SubResource("Resource_hlutv"), SubResource("Resource_jesxb")])
+Images = Array[ExtResource("2_1e04s")]([SubResource("Resource_5vaqf"), SubResource("Resource_asjt2"), SubResource("Resource_cmyoc"), SubResource("Resource_bivio"), SubResource("Resource_7uqtn"), SubResource("Resource_i2gup"), SubResource("Resource_end7w"), SubResource("Resource_ny877"), SubResource("Resource_c6kbl"), SubResource("Resource_hlutv"), SubResource("Resource_jesxb"), SubResource("Resource_eix6r"), SubResource("Resource_06b5p"), SubResource("Resource_255qv"), SubResource("Resource_m5t2e"), SubResource("Resource_cdxvb"), SubResource("Resource_60tjs"), SubResource("Resource_ongam"), SubResource("Resource_ggb60"), SubResource("Resource_7i75j"), SubResource("Resource_83l4d"), SubResource("Resource_uk5tn"), SubResource("Resource_twbui"), SubResource("Resource_xqklg")])
 
 [sub_resource type="Resource" id="Resource_e78e3"]
 script = ExtResource("2_1e04s")
 card_key = "medusa & harpies"
 image = ExtResource("4_n1orx")
 
+[sub_resource type="Resource" id="Resource_g2n7c"]
+script = ExtResource("2_1e04s")
+card_key = "Dracula & The Sisters"
+image = ExtResource("16_ovbyc")
+
 [sub_resource type="Resource" id="Resource_vbtht"]
 script = ExtResource("7_p6ijo")
-Images = Array[ExtResource("2_1e04s")]([SubResource("Resource_e78e3")])
+Images = Array[ExtResource("2_1e04s")]([SubResource("Resource_e78e3"), SubResource("Resource_g2n7c")])
 
 [node name="CardImageLoader" type="Node"]
 script = ExtResource("1_8ac0r")

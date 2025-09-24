@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://balgj857rblso"]
+[gd_scene load_steps=3 format=3 uid="uid://balgj857rblso"]
 
 [ext_resource type="PackedScene" uid="uid://cxs25778q1en6" path="res://v1/Matches/Cards/CardImageDisplay.tscn" id="1_5545a"]
+[ext_resource type="Script" path="res://v1/Matches/Cards/ZoomedCard.gd" id="1_s2nnc"]
 
 [node name="ZoomedCard" type="PanelContainer"]
 custom_minimum_size = Vector2(200, 0)
@@ -10,6 +11,7 @@ anchor_bottom = 1.0
 offset_right = -952.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_s2nnc")
 
 [node name="Card" parent="." instance=ExtResource("1_5545a")]
 unique_name_in_owner = true

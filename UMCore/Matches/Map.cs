@@ -5,7 +5,7 @@ using UMCore.Templates;
 
 namespace UMCore.Matches;
 
-public class Map
+public class Map : IHasData<Map.Data>
 {
     public Match Match { get; }
     public MapTemplate Template { get; }
@@ -102,9 +102,22 @@ public class Map
 
         return result;
     }
+
+    public Data GetData(Player player)
+    {
+        return new()
+        {
+            Nodes = [.. Nodes.Select(n => n.GetData(player))]
+        };
+    }
+
+    public class Data
+    {
+        public required MapNode.Data[] Nodes { get; init; }
+    }
 }
 
-public class MapNode
+public class MapNode : IHasData<MapNode.Data>
 {
     public MapNodeTemplate Template { get; }
     public int Id { get; }
@@ -217,4 +230,16 @@ public class MapNode
         return other.Adjacent.Contains(this);
     }
 
+    public Data GetData(Player player)
+    {
+        return new()
+        {
+
+        };
+    }
+
+    public class Data
+    {
+        
+    }
 }

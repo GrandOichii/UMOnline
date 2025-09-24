@@ -1,0 +1,145 @@
+{
+    "Name": "Dracula & The Sisters",
+    "Key": "Dracula & The Sisters",
+    "Fighters": [
+        {
+            "Name": "Dracula",
+            "IsHero": true,
+            "Movement": 2,
+            "MaxHealth": 13,
+            "StartingHealth": 13,
+            "IsRanged": false,
+            "Text": "TODO",
+            "Script": "../fighter-scripts/Dracula.lua"
+        }, 
+        {
+            "Name": "Sister",
+            "IsHero": false,
+            "Movement": 2,
+            "MaxHealth": 1,
+            "StartingHealth": 1,
+            "IsRanged": false,
+            "Text": "",
+            "Script": "../fighter-scripts/Basic.lua"
+        }
+    ],
+    "Deck": [
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Ambush",
+                "Key": "Dracula & The Sisters_Ambush",
+                "Type": "Attack",
+                "Value": 2,
+                "Boost": 3,
+                "Text": "During combat: Your opponent discards 1 random card. Add its BOOST value to this card's attack value.",
+                "Script":"../Dracula/Ambush.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": ["Dracula"],
+                "Name": "Feeding Frenzy",
+                "Key": "Dracula & The Sisters_Feeding Frenzy",
+                "Type": "Attack",
+                "Value": 2,
+                "Boost": 3,
+                "Text": "During combat: This card's value is +1 for each Sister in the same zone as the opposing fighter.",
+                "Script":"../Dracula/Feeding Frenzy.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": ["Dracula"],
+                "Name": "Beastform",
+                "Key": "Dracula & The Sisters_Beastform",
+                "Type": "Attack",
+                "Value": 6,
+                "Boost": 4,
+                "Text": "During combat: You may discard any number of cards from your hand. This card's value is +1 for each card you discard.",
+                "Script":"../Dracula/Beastform.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": ["Dracula"],
+                "Name": "Do My Bidding",
+                "Key": "Dracula & The Sisters_Do My Bidding",
+                "Type": "Defence",
+                "Value": 3,
+                "Boost": 3,
+                "Text": "Immediately: Return your opponent's attack card to their hand. Look at their hand and choose an attack or versatile card for them to play. (It may be the same card.)",
+                "Script":"../Dracula/Do My Bidding.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": ["Dracula"],
+                "Name": "Look Into My Eyes",
+                "Key": "Dracula & The Sisters_Look Into My Eyes",
+                "Type": "Defence",
+                "Value": 1,
+                "Boost": 2,
+                "Text": "During combat: Add the BOOST value from your opponent's attack card to the defense value of this card.",
+                "Script":"../Dracula/Look Into My Eyes.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": ["Dracula"],
+                "Name": "Prey Upon",
+                "Key": "Dracula & The Sisters_Prey Upon",
+                "Type": "Scheme",
+                "Value": 0,
+                "Boost": 4,
+                "Text": "Deal 1 damage to all opposing fighters adjacent to Dracula. Dracula recovers 1 health for each damage dealt.",
+                "Script":"../Dracula/Prey Upon.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": ["Dracula"],
+                "Name": "Baptism of Blood",
+                "Key": "Dracula & The Sisters_Baptism of Blood",
+                "Type": "Scheme",
+                "Value": 0,
+                "Boost": 2,
+                "Text": "Move each of your fighters up to 3 spaces. You may move them through spaces containing opposing fighters. Then, return a defeated Harpy (if any) to any space in Dracula's zone.",
+                "Script":"../Dracula/Baptism of Blood.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": ["Sister"],
+                "Name": "Thirst for Sustenance",
+                "Key": "Dracula & The Sisters_Thirst for Sustenance",
+                "Type": "Attack",
+                "Value": 3,
+                "Boost": 3,
+                "Text": "After combat: If you won the combat, place Dracula in any space adjacent to the opposing fighter.",
+                "Script":"../Dracula/Thirst for Sustenance.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": ["Sister"],
+                "Name": "Ravening Seduction",
+                "Key": "Dracula & The Sisters_Ravening Seduction",
+                "Type": "Scheme",
+                "Value": 0,
+                "Boost": 2,
+                "Text": "Move any fighter up to 2 spaces. After moving, deal 1 damage to the moved fighter for each Sister adjacent to them.",
+                "Script":"../Dracula/Ravening Seduction.lua"
+            }
+        }
+    ]
+}

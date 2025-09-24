@@ -6,8 +6,6 @@ using UMCore.Matches.Players;
 
 namespace UMCore;
 
-
-
 /// <summary>
 /// Player input and output handler
 /// </summary>
@@ -93,33 +91,93 @@ public class IOPlayerController : IPlayerController
             Args = ToArgs(options),
         });
 
-        return await _handler.Read();
+        var idx = int.Parse(await _handler.Read());
+
+        return options.ToList()[idx];
     }
 
     public async Task<MapNode> ChooseNode(Player player, IEnumerable<MapNode> options, string hint)
     {
-        
-        throw new NotImplementedException();
+        await WriteData(new() {
+            PlayerIdx = player.Idx,
+            Match = player.Match.GetData(player),
+            Request = "ChooseNode",
+            Hint = hint,
+            Args = ToArgs(options.Select(n => n.Id)),
+        });
+
+        var idx = int.Parse(await _handler.Read());
+
+        return options.ToList()[idx];
     }
 
     public async Task<MatchCard> ChooseCardInHand(Player player, int playerHandIdx, IEnumerable<MatchCard> options, string hint)
     {
-        throw new NotImplementedException();
+        // TODO use playerHandIdx
+        await WriteData(new()
+        {
+            PlayerIdx = player.Idx,
+            Match = player.Match.GetData(player),
+            Request = "ChooseCardInHand",
+            Hint = hint,
+            Args = ToArgs(options.Select(c => c.Id)),
+        });
+
+        var idx = int.Parse(await _handler.Read());
+
+        return options.ToList()[idx];
     }
 
     public async Task<MatchCard?> ChooseCardInHandOrNothing(Player player, int playerHandIdx, IEnumerable<MatchCard> options, string hint)
     {
-        throw new NotImplementedException();
+        await WriteData(new() {
+            PlayerIdx = player.Idx,
+            Match = player.Match.GetData(player),
+            Request = "ChooseCardInHandOrNothing",
+            Hint = hint,
+            Args = ToArgs(options.Select(c => c.Id)),
+        });
+
+        var read = await _handler.Read();
+        if (read.Length == 0) return null;
+
+        return options.ToList()[int.Parse(read)];
     }
 
     public async Task<Fighter> ChooseFighter(Player player, IEnumerable<Fighter> options, string hint)
     {
-        throw new NotImplementedException();
+        await WriteData(new() {
+            PlayerIdx = player.Idx,
+            Match = player.Match.GetData(player),
+            Request = "ChooseFighter",
+            Hint = hint,
+            Args = ToArgs(options.Select(n => n.Id)),
+        });
+
+        var idx = int.Parse(await _handler.Read());
+
+        return options.ToList()[idx];
     }
 
     public async Task<AvailableAttack> ChooseAttack(Player player, IEnumerable<AvailableAttack> options)
     {
-        throw new NotImplementedException();
+        await WriteData(new() {
+            PlayerIdx = player.Idx,
+            Match = player.Match.GetData(player),
+            Request = "ChooseAttack",
+            Hint = "Choose attack",
+            Args = ToArgs(options.Select(n =>
+            new
+            {
+                Card = n.AttackCard.Id,
+                Fighter = n.Fighter.Id,
+                Target = n.Target.Id,
+            })),
+        });
+
+        var idx = int.Parse(await _handler.Read());
+
+        return options.ToList()[idx];
     }
 
     public async Task<string> ChooseString(Player player, IEnumerable<string> options, string hint)
@@ -133,5 +191,20 @@ public class IOPlayerController : IPlayerController
         });
 
         return await _handler.Read();
+    }
+
+    public async Task Setup(Player player)
+    {
+        await WriteData(new()
+        {
+            PlayerIdx = player.Idx,
+            Match = player.Match.GetData(player),
+            Request = "Setup",
+            Hint = "",
+            Args = new()
+            {
+            }
+        });
+        throw new NotImplementedException();
     }
 }
