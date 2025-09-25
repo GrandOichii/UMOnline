@@ -13,8 +13,9 @@ offset_bottom = 48.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
 script = ExtResource("1_ug0gy")
-DefaultBorderColor = Color(0, 0, 0, 0)
-PickableBorderColor = Color(1, 0, 0, 1)
+DefaultColor = Color(1, 1, 1, 0.313726)
+PickableColor = Color(1, 0, 0, 0.313726)
+HoverColor = Color(0, 1, 0, 0.313726)
 
 [node name="ID" type="Label" parent="."]
 unique_name_in_owner = true
@@ -44,6 +45,7 @@ expand_mode = 1
 stretch_mode = 5
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -63,5 +65,6 @@ texture = ExtResource("2_lqtnf")
 expand_mode = 1
 stretch_mode = 5
 
+[connection signal="gui_input" from="." to="." method="_on_gui_input"]
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

@@ -6,7 +6,6 @@
 [ext_resource type="Texture2D" uid="uid://ctj1sumxmapmq" path="res://assets/maps/testmap.webp" id="3_xg07d"]
 
 [node name="MapDisplay" type="PanelContainer"]
-custom_minimum_size = Vector2(450, 292)
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -17,11 +16,12 @@ grow_vertical = 2
 script = ExtResource("1_vy4u3")
 FighterScene = ExtResource("2_x1sco")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="HBoxContainer" type="CenterContainer" parent="."]
 layout_mode = 2
 
 [node name="Bg" type="TextureRect" parent="HBoxContainer"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(450, 292)
 layout_mode = 2
 size_flags_horizontal = 3
 texture = ExtResource("3_xg07d")

@@ -27,6 +27,8 @@ func set_connection(connection: MatchConnection):
 	for pn in PlayerNodes:
 		pn.set_essentials(_connection)
 	# TODO
+	
+	MapNode.set_essentials(connection)
 
 func load_setup(setup_data):
 	for i in range(len(setup_data.Players)):
@@ -48,6 +50,8 @@ func load_connected_match(update_info):
 	# controls
 	_hide_controls()
 	if update_info.Request not in _controls_map:
+		if update_info.Request == 'ChooseCardInHandOrNothing':
+			%ChooseNothingInHandButton.show()
 		return
 
 	var control = _controls_map[update_info.Request]
@@ -65,3 +69,6 @@ func load_connected_match(update_info):
 
 func send_response_from_controls(resp: String):
 	_connection.respond(resp)
+
+func _on_choose_nothing_in_hand_button_pressed() -> void:
+	_connection.respond('')

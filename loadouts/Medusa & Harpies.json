@@ -17,7 +17,7 @@
         {
             "Name": "Harpy",
             "Key": "Harpy",
-            "Amount": 3,
+            "Amount": 0,
             "IsHero": false,
             "Movement": 3,
             "MaxHealth": 1,

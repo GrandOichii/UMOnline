@@ -13,6 +13,10 @@ var fighter_nodes = []
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	_update_node_map()
+	
+func set_essentials(connection: MatchConnection):
+	for child: MapNodeDisplay in NodesNode.get_children():
+		child.set_essentials(connection)
 
 func _update_node_map():
 	for child in NodesNode.get_children():

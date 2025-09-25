@@ -30,3 +30,4 @@ theme_override_constants/margin_bottom = 6
 
 [node name="FighterImageDisplay" parent="MarginContainer" instance=ExtResource("2_v22go")]
 layout_mode = 2
+mouse_filter = 1

@@ -27,6 +27,20 @@ func can_pick_card_in_hand(id):
 func pick_card_in_hand(id):
 	respond(str(id))
 
-# TODO ChooseNode
+func can_pick_node(node_id):
+	if cur_data.Request != 'ChooseNode':
+		return false 
+	for key in cur_data.Args:
+		if cur_data.Args[key] == node_id:
+			return true
+	return false
+
+func pick_node(node_id):
+	for key in cur_data.Args:
+		if cur_data.Args[key] == node_id:
+			respond(key)
+			return
+	# TODO throw error
+
 # TODO ChooseFighter
 # TODO ChooseAttack

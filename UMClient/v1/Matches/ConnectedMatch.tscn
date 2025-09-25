@@ -20,7 +20,7 @@ layout_mode = 1
 
 [node name="ManualResponseWindow" type="Window" parent="Windows"]
 unique_name_in_owner = true
-initial_position = 2
+position = Vector2i(326, 124)
 size = Vector2i(500, 400)
 always_on_top = true
 

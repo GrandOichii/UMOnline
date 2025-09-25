@@ -221,7 +221,7 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
         while (fighters.Count > 0)
         {
             var fighter = fighters[0];
-            if (fighters.Count > 0)
+            if (fighters.Count > 1)
             {
                 fighter = await Controller.ChooseFighter(this, fighters, "Choose which fighter to move");
             }

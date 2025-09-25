@@ -44,7 +44,7 @@ public abstract class MatchCardCollection : IHasData<MatchCardCollection.Data>
     }
 
     public bool IsPublicFor(Player player) {
-        return ContentsVisibleTo.Contains(player.Idx);
+        return ContentsVisibleTo.Contains(-1) || ContentsVisibleTo.Contains(player.Idx);
     }
 
     public void Shuffle()

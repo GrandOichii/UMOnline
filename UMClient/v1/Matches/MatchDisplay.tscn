@@ -31,7 +31,6 @@ size_flags_vertical = 3
 
 [node name="Center" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
-size_flags_vertical = 3
 size_flags_stretch_ratio = 2.0
 
 [node name="ZoomedCard" parent="VBoxContainer/Center" node_paths=PackedStringArray("ImageLoader") instance=ExtResource("2_23jxg")]
@@ -52,9 +51,11 @@ size_flags_horizontal = 3
 [node name="ConnectionControls" type="HBoxContainer" parent="VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_vertical = 3
 
 [node name="ChooseStringControls" type="HBoxContainer" parent="VBoxContainer/ConnectionControls"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 
@@ -70,6 +71,7 @@ size_flags_horizontal = 3
 
 [node name="ChooseActionControls" type="HBoxContainer" parent="VBoxContainer/ConnectionControls"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 
@@ -83,9 +85,14 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 
+[node name="ChooseNothingInHandButton" type="Button" parent="VBoxContainer/ConnectionControls"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Don't pick any card"
+
 [node name="BottomPlayers" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
-size_flags_vertical = 3
 
 [node name="P1" parent="VBoxContainer/BottomPlayers" node_paths=PackedStringArray("image_loader", "ZoomedCardImage") instance=ExtResource("1_uuhjp")]
 unique_name_in_owner = true
@@ -116,3 +123,5 @@ image_loader = NodePath("../../../CardImageLoader")
 ZoomedCardImage = NodePath("../../Center/ZoomedCard")
 
 [node name="CardImageLoader" parent="." instance=ExtResource("6_62j6u")]
+
+[connection signal="pressed" from="VBoxContainer/ConnectionControls/ChooseNothingInHandButton" to="." method="_on_choose_nothing_in_hand_button_pressed"]
