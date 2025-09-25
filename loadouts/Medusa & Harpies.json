@@ -4,6 +4,8 @@
     "Fighters": [
         {
             "Name": "Medusa",
+            "Key": "Medusa",
+            "Amount": 1,
             "IsHero": true,
             "Movement": 3,
             "MaxHealth": 16,
@@ -14,6 +16,8 @@
         }, 
         {
             "Name": "Harpy",
+            "Key": "Harpy",
+            "Amount": 3,
             "IsHero": false,
             "Movement": 3,
             "MaxHealth": 1,
@@ -69,7 +73,7 @@
                 "AllowedFighters": ["Medusa"],
                 "Name": "Hiss and Slither",
                 "Key": "medusa & harpies_hiss and slither",
-                "Type": "Scheme",
+                "Type": "Defence",
                 "Value": 4,
                 "Boost": 3,
                 "Text": "After combat: Your opponent discards 1 card.",

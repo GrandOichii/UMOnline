@@ -21,14 +21,14 @@ public abstract class MatchCardCollection : IHasData<MatchCardCollection.Data>
     {
         Cards.AddRange(cards);
 
-        // TODO update clients
+        await Owner.Match.UpdateClients();
     }
 
     public async Task<bool> Remove(MatchCard card)
     {
         var result = Cards.Remove(card);
 
-        // TODO update clients
+        await Owner.Match.UpdateClients();
 
         return result;
     }

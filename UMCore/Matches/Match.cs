@@ -7,7 +7,7 @@ using UMCore.Templates;
 
 namespace UMCore.Matches;
 
-public class Match : IHasData<Match.Data>
+public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
 {
     public required ILogger? Logger { get; init; }
     public List<Player> Players { get; } = [];
@@ -49,6 +49,11 @@ public class Match : IHasData<Match.Data>
     {
         Logger?.LogDebug("Starting match");
         await Setup();
+        // TODO order players
+        foreach (var player in Players)
+        {
+            await player.InitialPlaceFighters();
+        }
 
         while (!IsWinnerDetermined())
         {
@@ -62,10 +67,15 @@ public class Match : IHasData<Match.Data>
     private async Task Setup()
     {
         // TODO
-
         foreach (var player in Players)
         {
             await player.Setup();
+        }
+        
+        var setupData = GetSetupData();
+        foreach (var player in Players)
+        {
+            await player.Controller.Setup(player, setupData);
         }
     }
 
@@ -107,6 +117,8 @@ public class Match : IHasData<Match.Data>
         await Combat.Process();
 
         Combat = null;
+
+        // TODO add combat event
     }
 
     public Data GetData(Player player)
@@ -114,7 +126,8 @@ public class Match : IHasData<Match.Data>
         return new()
         {
             CurPlayerIdx = CurPlayerIdx,
-            Players = [.. Players.Select(p => p.GetData(p))]
+            Players = [.. Players.Select(p => p.GetData(player))],
+            Map = Map.GetData(player),
         };
     }
 
@@ -124,12 +137,26 @@ public class Match : IHasData<Match.Data>
         {
             await player.Controller.Update(player);
         }
-        // TODO
+    }
+
+    public SetupData GetSetupData()
+    {
+        return new()
+        {
+            Players = [.. Players.Select(p => p.GetSetupData())]
+        };
     }
 
     public class Data
     {
         public required int CurPlayerIdx { get; init; }
         public required Player.Data[] Players { get; init; }
+        public required Map.Data Map { get; init; }
+    }
+
+    public class SetupData
+    {
+        public required Player.SetupData[] Players { get; init; }
+        // TODO configuration
     }
 }

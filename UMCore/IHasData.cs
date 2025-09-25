@@ -6,3 +6,8 @@ public interface IHasData<T>
 {
     public T GetData(Player player);
 }
+
+public interface IHasSetupData<T>
+{
+    public T GetSetupData();
+}

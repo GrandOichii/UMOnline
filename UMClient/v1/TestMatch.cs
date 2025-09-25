@@ -181,11 +181,6 @@ public partial class TestMatch : Control
 		}
 	}
 
-	public void OnAttackButtonPressed()
-	{
-		_handler.SetReadTaskResult("amogus");
-	}
-
 	public void Load(Godot.Collections.Dictionary data)
 	{
 		GetNode<Node>("%Connection").EmitSignal("match_info_updated", data);

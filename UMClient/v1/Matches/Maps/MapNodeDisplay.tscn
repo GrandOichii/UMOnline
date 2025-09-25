@@ -1,0 +1,67 @@
+[gd_scene load_steps=4 format=3 uid="uid://cobbn5fcos4sj"]
+
+[ext_resource type="Script" path="res://v1/Matches/Maps/MapNodeDisplay.gd" id="1_ug0gy"]
+[ext_resource type="Texture2D" uid="uid://0iftvfje3q4r" path="res://assets/node/fill.png" id="2_lqtnf"]
+[ext_resource type="Texture2D" uid="uid://lnxceqy07rdl" path="res://assets/node/border-big.png" id="3_b8071"]
+
+[node name="MapNodeDisplay" type="Control"]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 48.0
+offset_bottom = 48.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+script = ExtResource("1_ug0gy")
+DefaultBorderColor = Color(0, 0, 0, 0)
+PickableBorderColor = Color(1, 0, 0, 1)
+
+[node name="ID" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+offset_left = 15.0
+offset_top = 12.0
+offset_right = 32.0
+offset_bottom = 35.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "ID"
+horizontal_alignment = 1
+
+[node name="Border" type="TextureRect" parent="."]
+unique_name_in_owner = true
+modulate = Color(1, 0, 1, 0.313726)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_b8071")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 3
+
+[node name="Fill" type="TextureRect" parent="MarginContainer"]
+unique_name_in_owner = true
+modulate = Color(0, 1, 1, 0.313726)
+layout_mode = 2
+texture = ExtResource("2_lqtnf")
+expand_mode = 1
+stretch_mode = 5
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

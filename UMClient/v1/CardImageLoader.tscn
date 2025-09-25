@@ -156,7 +156,7 @@ Images = Array[ExtResource("2_1e04s")]([SubResource("Resource_5vaqf"), SubResour
 
 [sub_resource type="Resource" id="Resource_e78e3"]
 script = ExtResource("2_1e04s")
-card_key = "medusa & harpies"
+card_key = "Medusa & Harpies"
 image = ExtResource("4_n1orx")
 
 [sub_resource type="Resource" id="Resource_g2n7c"]

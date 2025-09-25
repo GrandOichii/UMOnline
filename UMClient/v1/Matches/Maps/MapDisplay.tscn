@@ -1,93 +1,114 @@
-[gd_scene load_steps=4 format=3 uid="uid://cpc3ofe4utau1"]
+[gd_scene load_steps=5 format=3 uid="uid://cpc3ofe4utau1"]
 
 [ext_resource type="Script" path="res://v1/Matches/Maps/MapDisplay.gd" id="1_vy4u3"]
-[ext_resource type="PackedScene" uid="uid://cobbn5fcos4sj" path="res://v1/Matches/Maps/MapNode.tscn" id="2_aukae"]
-[ext_resource type="PackedScene" uid="uid://dr5q1fb5amb1p" path="res://v1/Matches/Maps/FighterFigure.tscn" id="2_x1sco"]
+[ext_resource type="PackedScene" uid="uid://cobbn5fcos4sj" path="res://v1/Matches/Maps/MapNodeDisplay.tscn" id="2_aukae"]
+[ext_resource type="PackedScene" uid="uid://dr5q1fb5amb1p" path="res://v1/Matches/Maps/FighterFigureDisplay.tscn" id="2_x1sco"]
+[ext_resource type="Texture2D" uid="uid://ctj1sumxmapmq" path="res://assets/maps/testmap.webp" id="3_xg07d"]
 
 [node name="MapDisplay" type="PanelContainer"]
+custom_minimum_size = Vector2(450, 292)
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_right = -702.0
+offset_bottom = -356.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_vy4u3")
 FighterScene = ExtResource("2_x1sco")
 
-[node name="Nodes" type="Control" parent="."]
-unique_name_in_owner = true
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 2
 
-[node name="Node0" parent="Nodes" instance=ExtResource("2_aukae")]
-layout_mode = 1
-offset_left = 379.0
-offset_top = 206.0
-offset_right = -713.0
-offset_bottom = -382.0
-
-[node name="Node1" parent="Nodes" instance=ExtResource("2_aukae")]
-layout_mode = 1
-offset_left = 467.0
-offset_top = 203.0
-offset_right = -625.0
-offset_bottom = -385.0
-Id = 1
-
-[node name="Node2" parent="Nodes" instance=ExtResource("2_aukae")]
-layout_mode = 1
-offset_left = 561.0
-offset_top = 199.0
-offset_right = -531.0
-offset_bottom = -389.0
-Id = 2
-
-[node name="Node10" parent="Nodes" instance=ExtResource("2_aukae")]
-layout_mode = 1
-offset_left = 374.0
-offset_top = 280.0
-offset_right = -718.0
-offset_bottom = -308.0
-Id = 10
-
-[node name="Node11" parent="Nodes" instance=ExtResource("2_aukae")]
-layout_mode = 1
-offset_left = 470.0
-offset_top = 278.0
-offset_right = -622.0
-offset_bottom = -310.0
-Id = 11
-
-[node name="Node12" parent="Nodes" instance=ExtResource("2_aukae")]
-layout_mode = 1
-offset_left = 573.0
-offset_top = 292.0
-offset_right = -519.0
-offset_bottom = -296.0
-Id = 12
-
-[node name="Node20" parent="Nodes" instance=ExtResource("2_aukae")]
-layout_mode = 1
-offset_left = 374.0
-offset_top = 360.0
-offset_right = -718.0
-offset_bottom = -228.0
-Id = 20
-
-[node name="Node21" parent="Nodes" instance=ExtResource("2_aukae")]
-layout_mode = 1
-offset_left = 468.0
-offset_top = 362.0
-offset_right = -624.0
-offset_bottom = -226.0
-Id = 21
-
-[node name="Node22" parent="Nodes" instance=ExtResource("2_aukae")]
-layout_mode = 1
-offset_left = 563.0
-offset_top = 362.0
-offset_right = -529.0
-offset_bottom = -226.0
-Id = 22
-
-[node name="Fighters" type="Control" parent="."]
+[node name="Bg" type="TextureRect" parent="HBoxContainer"]
 unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+texture = ExtResource("3_xg07d")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Nodes" type="Control" parent="HBoxContainer/Bg"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Node0" parent="HBoxContainer/Bg/Nodes" instance=ExtResource("2_aukae")]
+layout_mode = 1
+offset_left = 71.0
+offset_top = 128.0
+offset_right = 119.0
+offset_bottom = 176.0
+
+[node name="Node1" parent="HBoxContainer/Bg/Nodes" instance=ExtResource("2_aukae")]
+layout_mode = 1
+offset_left = 104.0
+offset_top = 52.0
+offset_right = 152.0
+offset_bottom = 100.0
+NodeId = 1
+
+[node name="Node2" parent="HBoxContainer/Bg/Nodes" instance=ExtResource("2_aukae")]
+layout_mode = 1
+offset_left = 237.0
+offset_top = 12.0
+offset_right = 285.0
+offset_bottom = 60.0
+NodeId = 2
+
+[node name="Node10" parent="HBoxContainer/Bg/Nodes" instance=ExtResource("2_aukae")]
+layout_mode = 1
+offset_left = 58.0
+offset_top = 73.0
+offset_right = 106.0
+offset_bottom = 121.0
+NodeId = 10
+
+[node name="Node11" parent="HBoxContainer/Bg/Nodes" instance=ExtResource("2_aukae")]
+layout_mode = 1
+offset_left = 120.0
+offset_top = 108.0
+offset_right = 168.0
+offset_bottom = 156.0
+NodeId = 11
+
+[node name="Node12" parent="HBoxContainer/Bg/Nodes" instance=ExtResource("2_aukae")]
+layout_mode = 1
+offset_left = 207.0
+offset_top = 51.0
+offset_right = 255.0
+offset_bottom = 99.0
+NodeId = 12
+
+[node name="Node20" parent="HBoxContainer/Bg/Nodes" instance=ExtResource("2_aukae")]
+layout_mode = 1
+offset_left = 182.0
+offset_top = 145.0
+offset_right = 230.0
+offset_bottom = 193.0
+NodeId = 20
+
+[node name="Node21" parent="HBoxContainer/Bg/Nodes" instance=ExtResource("2_aukae")]
+layout_mode = 1
+offset_left = 150.0
+offset_top = 11.0
+offset_right = 198.0
+offset_bottom = 59.0
+NodeId = 21
+
+[node name="Node22" parent="HBoxContainer/Bg/Nodes" instance=ExtResource("2_aukae")]
+layout_mode = 1
+offset_left = 227.0
+offset_top = 118.0
+offset_right = 275.0
+offset_bottom = 166.0
+NodeId = 22
+
+[node name="HiddenFighters" type="Control" parent="."]
+unique_name_in_owner = true
+visible = false
 layout_mode = 2

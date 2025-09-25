@@ -1,0 +1,38 @@
+[gd_scene load_steps=3 format=3 uid="uid://cp5mng8egqssa"]
+
+[ext_resource type="Script" path="res://v1/Matches/Players/HandCardDisplay.gd" id="1_wb4ht"]
+[ext_resource type="PackedScene" uid="uid://cxs25778q1en6" path="res://v1/Matches/Cards/CardImageDisplay.tscn" id="2_aekyo"]
+
+[node name="HandCardDisplay" type="MarginContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1072.0
+offset_bottom = -537.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_wb4ht")
+DefaultBorderColor = Color(0, 0, 0, 0)
+PickableBorderColor = Color(0.976471, 0, 0, 1)
+
+[node name="Border" type="ColorRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 1
+color = Color(0.776471, 0, 0.2, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 2
+
+[node name="Card" parent="MarginContainer" instance=ExtResource("2_aekyo")]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 1
+
+[connection signal="gui_input" from="MarginContainer/Card" to="." method="_on_card_gui_input"]
+[connection signal="mouse_entered" from="MarginContainer/Card" to="." method="_on_card_mouse_entered"]
+[connection signal="mouse_exited" from="MarginContainer/Card" to="." method="_on_card_mouse_exited"]

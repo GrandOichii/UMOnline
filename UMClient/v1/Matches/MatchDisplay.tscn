@@ -42,11 +42,46 @@ ImageLoader = NodePath("../../../CardImageLoader")
 [node name="Map" parent="VBoxContainer/Center" instance=ExtResource("2_6n8ov")]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 3
+size_flags_horizontal = 4
 
 [node name="Events" parent="VBoxContainer/Center" instance=ExtResource("4_n5mcn")]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ConnectionControls" type="HBoxContainer" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="ChooseStringControls" type="HBoxContainer" parent="VBoxContainer/ConnectionControls"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ChooseStringText" type="Label" parent="VBoxContainer/ConnectionControls/ChooseStringControls"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Choose string:"
+
+[node name="ChooseStringOptions" type="HBoxContainer" parent="VBoxContainer/ConnectionControls/ChooseStringControls"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ChooseActionControls" type="HBoxContainer" parent="VBoxContainer/ConnectionControls"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ChooseActionText" type="Label" parent="VBoxContainer/ConnectionControls/ChooseActionControls"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Choose string:"
+
+[node name="ChooseActionOptions" type="HBoxContainer" parent="VBoxContainer/ConnectionControls/ChooseActionControls"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
 
 [node name="BottomPlayers" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2

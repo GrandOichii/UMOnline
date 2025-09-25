@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://bfos7kwpjhcsu"]
+[gd_scene load_steps=5 format=3 uid="uid://bfos7kwpjhcsu"]
 
 [ext_resource type="PackedScene" uid="uid://cxs25778q1en6" path="res://v1/Matches/Cards/CardImageDisplay.tscn" id="1_42mhx"]
 [ext_resource type="Script" path="res://v1/Matches/Players/PlayerDisplay.gd" id="1_80ivx"]
+[ext_resource type="PackedScene" uid="uid://cp5mng8egqssa" path="res://v1/Matches/Players/HandCardDisplay.tscn" id="2_g56st"]
+[ext_resource type="PackedScene" uid="uid://bkwcncqk4nj5k" path="res://v1/Matches/Fighters/FighterDisplay.tscn" id="3_ayafp"]
 
 [node name="PlayerDisplay" type="PanelContainer"]
 anchors_preset = 15
@@ -10,8 +12,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_80ivx")
-inverted = null
-hand_card_scene = ExtResource("1_42mhx")
+hand_card_scene = ExtResource("2_g56st")
 
 [node name="Main" type="VBoxContainer" parent="."]
 unique_name_in_owner = true
@@ -43,103 +44,121 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "2"
 
-[node name="Fighters" type="HBoxContainer" parent="Main"]
-unique_name_in_owner = true
+[node name="Center" type="HBoxContainer" parent="Main"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Fighters" type="HBoxContainer" parent="Main/Fighters"]
+[node name="ScrollContainer" type="ScrollContainer" parent="Main/Center"]
+layout_mode = 2
+size_flags_horizontal = 3
+vertical_scroll_mode = 0
+
+[node name="Fighters" type="HBoxContainer" parent="Main/Center/ScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="FighterDisplay" parent="Main/Center/ScrollContainer/Fighters" instance=ExtResource("3_ayafp")]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="FighterDisplay2" parent="Main/Center/ScrollContainer/Fighters" instance=ExtResource("3_ayafp")]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="FighterDisplay3" parent="Main/Center/ScrollContainer/Fighters" instance=ExtResource("3_ayafp")]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="FighterDisplay4" parent="Main/Center/ScrollContainer/Fighters" instance=ExtResource("3_ayafp")]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="Main"]
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Main/HBoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 3
+vertical_scroll_mode = 0
+
+[node name="Hand" type="HBoxContainer" parent="Main/HBoxContainer3/ScrollContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="Main/Fighters/Fighters"]
-layout_mode = 2
-text = "FIGHTER HERE"
-
-[node name="DeckDiscard" type="HBoxContainer" parent="Main/Fighters"]
+[node name="HandCardDisplay" parent="Main/HBoxContainer3/ScrollContainer/Hand" instance=ExtResource("2_g56st")]
 layout_mode = 2
 
-[node name="DiscardContainer" type="VBoxContainer" parent="Main/Fighters/DeckDiscard"]
+[node name="HandCardDisplay2" parent="Main/HBoxContainer3/ScrollContainer/Hand" instance=ExtResource("2_g56st")]
+layout_mode = 2
+
+[node name="HandCardDisplay3" parent="Main/HBoxContainer3/ScrollContainer/Hand" instance=ExtResource("2_g56st")]
+layout_mode = 2
+
+[node name="HandCardDisplay4" parent="Main/HBoxContainer3/ScrollContainer/Hand" instance=ExtResource("2_g56st")]
+layout_mode = 2
+
+[node name="HandCardDisplay5" parent="Main/HBoxContainer3/ScrollContainer/Hand" instance=ExtResource("2_g56st")]
+layout_mode = 2
+
+[node name="HandCardDisplay6" parent="Main/HBoxContainer3/ScrollContainer/Hand" instance=ExtResource("2_g56st")]
+layout_mode = 2
+
+[node name="HandCardDisplay7" parent="Main/HBoxContainer3/ScrollContainer/Hand" instance=ExtResource("2_g56st")]
+layout_mode = 2
+
+[node name="HandCardDisplay8" parent="Main/HBoxContainer3/ScrollContainer/Hand" instance=ExtResource("2_g56st")]
+layout_mode = 2
+
+[node name="HandCardDisplay9" parent="Main/HBoxContainer3/ScrollContainer/Hand" instance=ExtResource("2_g56st")]
+layout_mode = 2
+
+[node name="HandCardDisplay10" parent="Main/HBoxContainer3/ScrollContainer/Hand" instance=ExtResource("2_g56st")]
+layout_mode = 2
+
+[node name="HandCardDisplay11" parent="Main/HBoxContainer3/ScrollContainer/Hand" instance=ExtResource("2_g56st")]
+layout_mode = 2
+
+[node name="DeckDiscard" type="HBoxContainer" parent="Main/HBoxContainer3"]
+layout_mode = 2
+
+[node name="DiscardContainer" type="VBoxContainer" parent="Main/HBoxContainer3/DeckDiscard"]
 unique_name_in_owner = true
 layout_mode = 2
 alignment = 1
 
-[node name="Label" type="Label" parent="Main/Fighters/DeckDiscard/DiscardContainer"]
+[node name="Label" type="Label" parent="Main/HBoxContainer3/DeckDiscard/DiscardContainer"]
 layout_mode = 2
 text = "Discard"
 horizontal_alignment = 1
 
-[node name="Discard" parent="Main/Fighters/DeckDiscard/DiscardContainer" instance=ExtResource("1_42mhx")]
+[node name="Discard" parent="Main/HBoxContainer3/DeckDiscard/DiscardContainer" instance=ExtResource("1_42mhx")]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="DiscardCount" type="Label" parent="Main/Fighters/DeckDiscard/DiscardContainer"]
+[node name="DiscardCount" type="Label" parent="Main/HBoxContainer3/DeckDiscard/DiscardContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "20"
 horizontal_alignment = 1
 
-[node name="DeckContainer" type="VBoxContainer" parent="Main/Fighters/DeckDiscard"]
+[node name="DeckContainer" type="VBoxContainer" parent="Main/HBoxContainer3/DeckDiscard"]
 layout_mode = 2
 alignment = 1
 
-[node name="Label" type="Label" parent="Main/Fighters/DeckDiscard/DeckContainer"]
+[node name="Label" type="Label" parent="Main/HBoxContainer3/DeckDiscard/DeckContainer"]
 layout_mode = 2
 text = "Deck"
 horizontal_alignment = 1
 
-[node name="Deck" parent="Main/Fighters/DeckDiscard/DeckContainer" instance=ExtResource("1_42mhx")]
+[node name="Deck" parent="Main/HBoxContainer3/DeckDiscard/DeckContainer" instance=ExtResource("1_42mhx")]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="DeckCount" type="Label" parent="Main/Fighters/DeckDiscard/DeckContainer"]
+[node name="DeckCount" type="Label" parent="Main/HBoxContainer3/DeckDiscard/DeckContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "10"
 horizontal_alignment = 1
-
-[node name="ScrollContainer" type="ScrollContainer" parent="Main"]
-layout_mode = 2
-vertical_scroll_mode = 0
-
-[node name="Hand" type="HBoxContainer" parent="Main/ScrollContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="CardImageDisplay4" parent="Main/ScrollContainer/Hand" instance=ExtResource("1_42mhx")]
-layout_mode = 2
-
-[node name="CardImageDisplay3" parent="Main/ScrollContainer/Hand" instance=ExtResource("1_42mhx")]
-layout_mode = 2
-
-[node name="CardImageDisplay" parent="Main/ScrollContainer/Hand" instance=ExtResource("1_42mhx")]
-layout_mode = 2
-
-[node name="CardImageDisplay2" parent="Main/ScrollContainer/Hand" instance=ExtResource("1_42mhx")]
-layout_mode = 2
-
-[node name="CardImageDisplay5" parent="Main/ScrollContainer/Hand" instance=ExtResource("1_42mhx")]
-layout_mode = 2
-
-[node name="CardImageDisplay6" parent="Main/ScrollContainer/Hand" instance=ExtResource("1_42mhx")]
-layout_mode = 2
-
-[node name="CardImageDisplay7" parent="Main/ScrollContainer/Hand" instance=ExtResource("1_42mhx")]
-layout_mode = 2
-
-[node name="CardImageDisplay8" parent="Main/ScrollContainer/Hand" instance=ExtResource("1_42mhx")]
-layout_mode = 2
-
-[node name="CardImageDisplay9" parent="Main/ScrollContainer/Hand" instance=ExtResource("1_42mhx")]
-layout_mode = 2
-
-[node name="CardImageDisplay10" parent="Main/ScrollContainer/Hand" instance=ExtResource("1_42mhx")]
-layout_mode = 2
-
-[node name="CardImageDisplay11" parent="Main/ScrollContainer/Hand" instance=ExtResource("1_42mhx")]
-layout_mode = 2
-
-[node name="CardImageDisplay12" parent="Main/ScrollContainer/Hand" instance=ExtResource("1_42mhx")]
-layout_mode = 2

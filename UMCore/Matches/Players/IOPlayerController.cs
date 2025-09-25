@@ -25,6 +25,7 @@ public interface IIOHandler
 
 public class UpdateInfo
 {
+    public Match.SetupData? Setup { get; init; } = null;
     public required Match.Data Match { get; init; }
     public required int PlayerIdx { get; init; }
     public required string Request { get; init; }
@@ -91,9 +92,10 @@ public class IOPlayerController : IPlayerController
             Args = ToArgs(options),
         });
 
-        var idx = int.Parse(await _handler.Read());
+        return await _handler.Read();
+        // var idx = int.Parse(await _handler.Read());
 
-        return options.ToList()[idx];
+        // return options.ToList()[idx];
     }
 
     public async Task<MapNode> ChooseNode(Player player, IEnumerable<MapNode> options, string hint)
@@ -201,10 +203,20 @@ public class IOPlayerController : IPlayerController
             Match = player.Match.GetData(player),
             Request = "Setup",
             Hint = "",
-            Args = new()
-            {
-            }
+            Args = []
         });
-        throw new NotImplementedException();
+    }
+
+    public async Task Setup(Player player, Match.SetupData setupData)
+    {
+        await WriteData(new()
+        {
+            PlayerIdx = player.Idx,
+            Match = player.Match.GetData(player),
+            Request = "Setup",
+            Hint = "",
+            Setup = setupData,
+            Args = []
+        });
     }
 }

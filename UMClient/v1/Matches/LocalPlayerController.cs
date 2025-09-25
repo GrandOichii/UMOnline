@@ -20,52 +20,52 @@ namespace UMClient.v1.Matches;
 
 public class LocalMatchIOHandler(TestMatch match) : IIOHandler
 {
-    private TaskCompletionSource<string> _readTask = null;
-    public void SetReadTaskResult(string result)
-    {
-        _readTask.SetResult(result);
-    }
+	private TaskCompletionSource<string> _readTask = null;
+	public void SetReadTaskResult(string result)
+	{
+		_readTask.SetResult(result);
+	}
 
-    public Task Close()
-    {
-        // TODO
-        return Task.CompletedTask;
-    }
+	public Task Close()
+	{
+		// TODO
+		return Task.CompletedTask;
+	}
 
-    public Task<string> Read()
-    {
-        _readTask = new();
-        // throw new NotImplementedException();
+	public Task<string> Read()
+	{
+		_readTask = new();
+		// throw new NotImplementedException();
 
-        return _readTask.Task;
-    }
+		return _readTask.Task;
+	}
 
-    public async Task Write(UpdateInfo info)
-    {
-        // match.CallDeferred("Load", info.ToVariant());
-        match.CallDeferred("Load", Json.ParseString(JsonSerializer.Serialize(info)));
-    }
+	public async Task Write(UpdateInfo info)
+	{
+		// match.CallDeferred("Load", info.ToVariant());
+		match.CallDeferred("Load", Json.ParseString(JsonSerializer.Serialize(info)));
+	}
 }
 
 // public class LocalPlayerController(TestMatch match) : IOPlayerController
 // {
-    // #region Choose Action
+	// #region Choose Action
 
-    // public void SetChooseActionResult(string result)
-    // {
-    //     _chooseActionTask!.SetResult(result);
-    // }
+	// public void SetChooseActionResult(string result)
+	// {
+	//     _chooseActionTask!.SetResult(result);
+	// }
 
-    // private TaskCompletionSource<string> _chooseActionTask = null;
-    // public Task<string> ChooseAction(Player player, string[] options)
-    // {
-    //     _chooseActionTask = new();
-    //     // handler.ChangeToChooseAction(player, options);
-    //     // TODO
-    //     return _chooseActionTask.Task;
-    // }
+	// private TaskCompletionSource<string> _chooseActionTask = null;
+	// public Task<string> ChooseAction(Player player, string[] options)
+	// {
+	//     _chooseActionTask = new();
+	//     // handler.ChangeToChooseAction(player, options);
+	//     // TODO
+	//     return _chooseActionTask.Task;
+	// }
 
-    // #endregion
+	// #endregion
 
 // }
 

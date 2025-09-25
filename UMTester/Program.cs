@@ -16,7 +16,6 @@ public class ConsolePlayerController : IPlayerController
 
     private void PrintInfo(Player player)
     {
-
         foreach (var node in player.Match.Map.Nodes)
             System.Console.WriteLine($"{node.Id} -> {node.Fighter?.LogName}");
         foreach (var fighter in player.Fighters)

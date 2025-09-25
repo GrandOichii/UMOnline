@@ -4,6 +4,8 @@
     "Fighters": [
         {
             "Name": "Dracula",
+            "Key": "Dracula",
+            "Amount": 1,
             "IsHero": true,
             "Movement": 2,
             "MaxHealth": 13,
@@ -14,6 +16,8 @@
         }, 
         {
             "Name": "Sister",
+            "Key": "Sister",
+            "Amount": 3,
             "IsHero": false,
             "Movement": 2,
             "MaxHealth": 1,

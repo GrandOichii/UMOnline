@@ -6,7 +6,7 @@ namespace UMCore.Matches.Players;
 
 public interface IPlayerController
 {
-    Task Setup(Player player);
+    Task Setup(Player player, Match.SetupData setupData);
     Task Update(Player player);
     Task<string> ChooseAction(Player player, string[] options);
     Task<MapNode> ChooseNode(Player player, IEnumerable<MapNode> options, string hint);
@@ -40,8 +40,15 @@ public class RandomPlayerController(int seed) : IPlayerController
 
     public async Task<MatchCard?> ChooseCardInHandOrNothing(Player player, int playerHandIdx, IEnumerable<MatchCard> options, string hint)
     {
+        // TODO this threw an exception
         var opts = options.ToList();
         return opts[_rnd.Next(opts.Count)];
+
+        // var opts = options.ToList();
+        // var result = _rnd.Next(opts.Count + 1);
+        // if (result == 0)
+        //     return null;
+        // return opts[result - 1];
     }
 
     public async Task<Fighter> ChooseFighter(Player player, IEnumerable<Fighter> options, string hint)
@@ -62,11 +69,18 @@ public class RandomPlayerController(int seed) : IPlayerController
         return opts[_rnd.Next(opts.Count)];
     }
 
-    public async Task Setup(Player player)
+    public Task Setup(Player player)
     {
+        return Task.CompletedTask;
     }
 
-    public async Task Update(Player player)
+    public Task Setup(Player player, Match.SetupData setupData)
     {
+        return Task.CompletedTask;
+    }
+
+    public Task Update(Player player)
+    {
+        return Task.CompletedTask;
     }
 }

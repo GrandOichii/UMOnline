@@ -105,7 +105,8 @@ public class MatchCard : IHasData<MatchCard.Data>
             { "owner", by.Owner },
         }));
 
-        // TODO update clients about played scheme card
+        // TODO? update clients about played scheme card
+        await Owner.Match.UpdateClients();        
     }
 
     public async Task PlaceIntoDiscard()

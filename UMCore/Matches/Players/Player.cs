@@ -11,7 +11,7 @@ using UMCore.Utility;
 
 namespace UMCore.Matches.Players;
 
-public class Player : IHasData<Player.Data>
+public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
 {
     private static readonly List<IAction> ACTIONS = [
         new ManoeuvreAction(),
@@ -61,16 +61,38 @@ public class Player : IHasData<Player.Data>
         Fighters = [];
     }
 
+    public async Task InitialPlaceFighters()
+    {
+        // TODO order by heroes first, then sidekicks
+        foreach (var fighter in Fighters)
+        {
+            await InitialPlaceFighter(fighter);
+        }
+    }
+
+    public async Task InitialPlaceFighter(Fighter fighter)
+    {
+        // TODO place in spawn location
+        // TODO if spawn location is taken, choose a node clearest to first hero or (if all are surrounded) to sidekick 
+        // var spawn = Match.Map.GetSpawnLocation(Idx + (Fighters.Count - 1) * Match.Players.Count);
+        // await spawn.PlaceFighter(fighter);
+
+        var nodes = Match.Map.Nodes;
+        var node = nodes.First(n => n.Fighter is null);
+        await node.PlaceFighter(fighter);
+    }
+
     public async Task Setup()
     {
         // create and place fighters
         {
             foreach (var template in Loadout.Fighters)
             {
-                var fighter = new Fighter(this, template);
-                Fighters.Add(fighter);
-                var spawn = Match.Map.GetSpawnLocation(Idx + (Fighters.Count - 1) * Match.Players.Count);
-                await spawn.PlaceFighter(fighter);
+                for (int i = 0; i < template.Amount; ++i)
+                {
+                    var fighter = new Fighter(this, template);
+                    Fighters.Add(fighter);
+                }
             }
 
             // TODO check that there is exactly 1 hero
@@ -92,7 +114,7 @@ public class Player : IHasData<Player.Data>
         await Hand.Draw(5); // TODO get amount from configuration
     }
 
-    public IEnumerable<Fighter> GetAliveFighters() => Fighters.Where(f => f.IsAlive()); // TODO
+    public IEnumerable<Fighter> GetAliveFighters() => Fighters.Where(f => f.IsAlive());
 
     public string LogName => $"{Name}[{Idx}]";
 
@@ -178,6 +200,8 @@ public class Player : IHasData<Player.Data>
                 { "owner",  this },
             }));
         }
+
+        await Match.UpdateClients();
     }
 
     public async Task MoveFighters(bool allowBoost = false, bool canMoveOverFriendly = true, bool canMoveOverOpposing = false)
@@ -196,7 +220,11 @@ public class Player : IHasData<Player.Data>
         var fighters = GetAliveFighters().ToList();
         while (fighters.Count > 0)
         {
-            var fighter = await Controller.ChooseFighter(this, fighters, "Choose which fighter to move");
+            var fighter = fighters[0];
+            if (fighters.Count > 0)
+            {
+                fighter = await Controller.ChooseFighter(this, fighters, "Choose which fighter to move");
+            }
             fighters.Remove(fighter);
             await MoveFighter(fighter, fighter.Movement() + boostValue, canMoveOverFriendly, canMoveOverOpposing);
         }
@@ -218,13 +246,15 @@ public class Player : IHasData<Player.Data>
     public async Task DiscardCardForBoost(MatchCard card)
     {
         // TODO? any discard for boost effects (if they exist)
+        await Hand.Remove(card);
         await card.PlaceIntoDiscard();
     }
 
     public async Task PlayScheme(MatchCard card, Fighter fighter)
     {
-        // TODO update clients that a card was played
-        // TODO execute card effects
+        // TODO add scheme event
+        await Match.UpdateClients();        
+
         await card.ExecuteSchemeEffects(fighter);
 
         await Hand.Discard(card);
@@ -234,7 +264,7 @@ public class Player : IHasData<Player.Data>
     {
         ActionCount += amount;
 
-        // TODO update clients
+        await Match.UpdateClients();
     }
 
     public IEnumerable<Fighter> GetFightersThatCanAttack()
@@ -276,7 +306,6 @@ public class Player : IHasData<Player.Data>
         return new()
         {
             Idx = Idx,
-            Name = Name,
             Actions = ActionCount,
             Deck = Deck.GetData(player),
             Hand = Hand.GetData(player),
@@ -285,14 +314,32 @@ public class Player : IHasData<Player.Data>
         };
     }
 
+    public SetupData GetSetupData()
+    {
+        return new()
+        {
+            DeckName = Loadout.Name,
+            Idx = Idx,
+            Name = Name,
+            Fighters = [.. Fighters.Select(f => f.GetSetupData())],
+        };
+    }
+
     public class Data
     {
         public required int Idx { get; init; }
-        public required string Name { get; init; }
         public required int Actions { get; init; }
         public required MatchCardCollection.Data Deck { get; init; }
         public required MatchCardCollection.Data Hand { get; init; }
         public required MatchCardCollection.Data DiscardPile { get; init; }
         public required Fighter.Data[] Fighters { get; init; }
-    }    
+    }
+
+    public class SetupData
+    {
+        public required int Idx { get; init; }
+        public required string Name { get; init; }
+        public required string DeckName { get; init; }
+        public required Fighter.SetupData[] Fighters { get; init; }
+    }
 }

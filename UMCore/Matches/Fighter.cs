@@ -10,7 +10,7 @@ using UMCore.Utility;
 
 namespace UMCore.Matches;
 
-public class Fighter : IHasData<Fighter.Data>
+public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
 {
     public int Id { get; }
     public FighterTemplate Template { get; }
@@ -202,6 +202,14 @@ public class Fighter : IHasData<Fighter.Data>
         };
     }
 
+    public SetupData GetSetupData()
+    {
+        return new()
+        {
+            Key = Template.Key
+        };
+    }
+
     public class Data
     {
         public required int Id { get; init; }
@@ -209,6 +217,11 @@ public class Fighter : IHasData<Fighter.Data>
         public required bool IsAlive { get; init; }
         public required int CurHealth { get; init; }
         public required int MaxHealth { get; init; }
+    }
+
+    public class SetupData
+    {
+        public required string Key { get; init; }
     }
 }
 
