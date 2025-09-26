@@ -18,6 +18,7 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
     public Lua LState { get; }
     public Combat? Combat { get; private set; }
     public Random Random { get; }
+    public LogsManager Logs { get; }
 
     public Match(MapTemplate mapTemplate, string setupScript)
     {
@@ -26,8 +27,9 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
         Fighters = [];
         LState = new();
         Combat = null;
-        // Random = new();
-        Random = new(1);
+        Random = new();
+        Logs = new(this);
+        // Random = new(1);
 
         LState.DoString(setupScript);
         new MatchScripts(this);
@@ -56,6 +58,8 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
             await player.InitialPlaceFighters();
         }
 
+        Logs.Public("Match started!");
+
         while (!IsWinnerDetermined())
         {
             var current = CurrentPlayer();
@@ -63,6 +67,7 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
             SetNextPlayer();
         }
 
+        Logs.Public($"Match ended! Winner is: TODO");
     }
 
     private async Task Setup()
@@ -114,6 +119,7 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
     {
         Logger?.LogDebug("Processing attack from player {PlayerLogName}: {FighterLogName} -> {TargetLogName} [{CardLogName}]", player.LogName, attack.Fighter.LogName, attack.Target.LogName, attack.AttackCard.LogName);
         Combat = new(this, attack);
+        Logs.Public($"{player.FormattedLogName} attacks {attack.Fighter.FormattedLogName}");
 
         await Combat.Process();
 

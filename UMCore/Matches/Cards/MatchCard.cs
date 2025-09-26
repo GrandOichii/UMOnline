@@ -19,6 +19,8 @@ public class MatchCard : IHasData<MatchCard.Data>
 
     public string LogName => $"({Id}){Template.Key}[{Owner.Idx}]";
 
+    public string FormattedLogName => $"{Template.Name}"; // TODO
+
     public MatchCard(Player owner, CardTemplate card)
     {
         Owner = owner;
@@ -99,6 +101,7 @@ public class MatchCard : IHasData<MatchCard.Data>
     public async Task ExecuteSchemeEffects(Fighter by)
     {
         Owner.Match.Logger?.LogDebug("Executing scheme effects of card {CardLogName} by fighter {FighterLogName}", LogName, by.LogName);
+        Owner.Match.Logs.Public($"Player {by.Owner.FormattedLogName} played Scheme card {FormattedLogName}");
         SchemeEffect.Execute(LuaUtility.CreateTable(Owner.Match.LState, new Dictionary<string, object>()
         {
             { "fighter", by },

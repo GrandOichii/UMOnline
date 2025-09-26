@@ -30,6 +30,7 @@ public class UpdateInfo
     public required int PlayerIdx { get; init; }
     public required string Request { get; init; }
     public required string Hint { get; init; }
+    public required Log[] NewLogs { get; init; }
     public required Dictionary<string, object> Args { get; set; }
 }
 
@@ -77,6 +78,7 @@ public class IOPlayerController : IPlayerController
             PlayerIdx = player.Idx,
             Match = player.Match.GetData(player),
             Request = "Update",
+            NewLogs = player.PopLogs(),
             Hint = "",
             Args = [],
         });
@@ -89,6 +91,7 @@ public class IOPlayerController : IPlayerController
             Match = player.Match.GetData(player),
             Request = "ChooseAction",
             Hint = "Choose action to execute",
+            NewLogs = player.PopLogs(),
             Args = ToArgs(options),
         });
 
@@ -104,6 +107,7 @@ public class IOPlayerController : IPlayerController
             PlayerIdx = player.Idx,
             Match = player.Match.GetData(player),
             Request = "ChooseNode",
+            NewLogs = player.PopLogs(),
             Hint = hint,
             Args = ToArgs(options.Select(n => n.Id).ToArray()),
         });
@@ -121,6 +125,7 @@ public class IOPlayerController : IPlayerController
             PlayerIdx = player.Idx,
             Match = player.Match.GetData(player),
             Request = "ChooseCardInHand",
+            NewLogs = player.PopLogs(),
             Hint = hint,
             Args = ToArgs(options.Select(c => c.Id).ToArray()),
         });
@@ -136,6 +141,7 @@ public class IOPlayerController : IPlayerController
             PlayerIdx = player.Idx,
             Match = player.Match.GetData(player),
             Request = "ChooseCardInHandOrNothing",
+            NewLogs = player.PopLogs(),
             Hint = hint,
             Args = ToArgs(options.Select(c => c.Id).ToArray()),
         });
@@ -152,6 +158,7 @@ public class IOPlayerController : IPlayerController
             PlayerIdx = player.Idx,
             Match = player.Match.GetData(player),
             Request = "ChooseFighter",
+            NewLogs = player.PopLogs(),
             Hint = hint,
             Args = ToArgs(options.Select(n => n.Id).ToArray()),
         });
@@ -198,24 +205,13 @@ public class IOPlayerController : IPlayerController
         await WriteData(new() {
             PlayerIdx = player.Idx,
             Match = player.Match.GetData(player),
+            NewLogs = player.PopLogs(),
             Request = "ChooseString",
             Hint = hint,
             Args = ToArgs(options),
         });
 
         return await _handler.Read();
-    }
-
-    public async Task Setup(Player player)
-    {
-        await WriteData(new()
-        {
-            PlayerIdx = player.Idx,
-            Match = player.Match.GetData(player),
-            Request = "Setup",
-            Hint = "",
-            Args = []
-        });
     }
 
     public async Task Setup(Player player, Match.SetupData setupData)
@@ -226,6 +222,7 @@ public class IOPlayerController : IPlayerController
             Match = player.Match.GetData(player),
             Request = "Setup",
             Hint = "",
+            NewLogs = player.PopLogs(),
             Setup = setupData,
             Args = []
         });

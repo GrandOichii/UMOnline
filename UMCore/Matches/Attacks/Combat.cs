@@ -23,6 +23,7 @@ public class CombatCard(Combat parent, MatchCard card) : IHasData<CombatCard.Dat
     public void CancelEffects()
     {
         EffectsCancelled = true;
+        parent.Match.Logs.Public($"Effects of card {Card.FormattedLogName} are cancelled");
     }
 
     public bool CanBeCancelled()
@@ -132,6 +133,11 @@ public class Combat : IHasData<Combat.Data>
         await Match.UpdateClients();
 
         // TODO reveal cards
+        var logMsg = $"Combat cards are revealed! Attacker {Attacker.Owner.FormattedLogName} played {AttackCard.Card.FormattedLogName}";
+        logMsg += DefenceCard is null
+            ? ""
+            : $", {Defender.Owner} played {DefenceCard.Card.FormattedLogName}";
+        Match.Logs.Public(logMsg);
 
         // execute "immediately"
         await EmitTrigger(CombatStepTrigger.Immediately);
@@ -146,7 +152,7 @@ public class Combat : IHasData<Combat.Data>
             damage -= DefenceCard.GetValue();
         }
         if (damage < 0) damage = 0;
-        await Defender.ProcessDamage(damage);
+        await Defender.ProcessDamage(damage, true);
         Winner = damage > 0
             ? Attacker.Owner
             : Defender.Owner;
@@ -156,6 +162,7 @@ public class Combat : IHasData<Combat.Data>
 
         // discard cards
         Match.Logger?.LogDebug("Discarding combat cards");
+        Match.Logs.Public("Discarding combat cards");
         await AttackCard.Discard();
 
         if (DefenceCard is not null)

@@ -265,6 +265,7 @@ function UM.Effects:MoveFighters(fighterSelectorFunc, amountFunc, canMoveOverOpp
         -- TODO feels weird
         local amounts = amountFunc(args)
         local amount = amounts[#amounts]
+        -- TODO give the player to move the fighters
 
         for _, fighter in ipairs(fighters) do
             MoveFighter(fighter, amount, canMoveOverOpposing)

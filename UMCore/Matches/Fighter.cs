@@ -22,6 +22,8 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
 
     public string LogName => $"({Owner.Idx}){GetName()}({(Template.IsHero ? 'h' : 's')})";
 
+    public string FormattedLogName => $"{GetName()}"; // TODO
+
     public Fighter(Player owner, FighterTemplate template)
     {
         Template = template;
@@ -118,14 +120,16 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
         return FighterStatus.Alive;
     }
 
-    public async Task<int> ProcessDamage(int amount)
+    public async Task<int> ProcessDamage(int amount, bool isCombatDamage = false)
     {
         var dealt = Health.DealDamage(amount);
         Match.Logger?.LogDebug("{FighterLogName} is dealt {Amount} damage (original amount: {OriginalAmount})", LogName, dealt, amount);
+        Match.Logs.Public($"Fighter {FormattedLogName} is dealt {amount} damage");
 
         // TODO check for death
         if (!IsAlive())
         {
+            Match.Logs.Public($"Fighter {FormattedLogName} dies!");
             Match.Logger?.LogDebug("Fighter {FighterLogName} dies", LogName);
             if (!Owner.GetAliveFighters().Select(f => f.IsHero()).Any())
             {
@@ -142,6 +146,7 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
     {
         var recovered = Health.Recover(amount);
         Match.Logger?.LogDebug("{FighterLogName} recovers {Amount} damage (original amount: {OriginalAmount})", LogName, recovered, amount);
+        Match.Logs.Public($"Fighter {FormattedLogName} recovers {recovered} health");
 
         await Match.UpdateClients();
 
@@ -185,10 +190,16 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
         if (defence is null)
         {
             Match.Logger?.LogDebug("Player {PlayerLogName} decides not to defend", Owner.LogName);
+            Match.Logs.Public($"Player {Owner.FormattedLogName} decides not to defend");
+
         }
         else
         {
-            Match.Logger?.LogDebug("Player {PlayerLogName} places a defence card", Owner.LogName);
+            Match.Logs.Private(
+                Owner,
+                $"You use {defence.FormattedLogName} as defence",
+                $"Player {Owner.FormattedLogName} places a defend card");
+
             await Owner.Hand.Remove(defence);
         }
 

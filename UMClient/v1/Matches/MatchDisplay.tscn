@@ -67,16 +67,6 @@ image_loader = NodePath("../../../../CardImageLoader")
 FighterImageLoaderNode = NodePath("../../../../FighterImageLoader")
 ZoomedCardImage = NodePath("../../../VBoxContainer/ZoomedCard")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 0
-
-[node name="ZoomedCard" parent="VBoxContainer/VBoxContainer" node_paths=PackedStringArray("ImageLoader") instance=ExtResource("2_23jxg")]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_vertical = 3
-ImageLoader = NodePath("../../../CardImageLoader")
-
 [node name="Center" type="VBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_stretch_ratio = 2.0
@@ -135,6 +125,40 @@ layout_mode = 2
 size_flags_vertical = 3
 CardImageLoaderNode = NodePath("../../../CardImageLoader")
 FighterImageLoaderNode = NodePath("../../../FighterImageLoader")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="ZoomedCard" parent="VBoxContainer/VBoxContainer" node_paths=PackedStringArray("ImageLoader") instance=ExtResource("2_23jxg")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+ImageLoader = NodePath("../../../CardImageLoader")
+
+[node name="TabContainer" type="TabContainer" parent="VBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+current_tab = 0
+
+[node name="Logs" type="Control" parent="VBoxContainer/VBoxContainer/TabContainer"]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="Logs" type="RichTextLabel" parent="VBoxContainer/VBoxContainer/TabContainer/Logs"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+bbcode_enabled = true
+text = "LOGS HERE"
+
+[node name="Events" type="Control" parent="VBoxContainer/VBoxContainer/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
 
 [node name="CardImageLoader" parent="." instance=ExtResource("6_62j6u")]
 

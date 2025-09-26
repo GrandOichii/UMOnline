@@ -3,13 +3,13 @@ extends Control
 @onready var PlayerNodes = [%P1, %P2, %P3, %P4]
 @onready var MapNode = %Map
 @onready var CombatNode = %Combat
+@onready var LogsNode = %Logs
 
 @onready var ConnectionControlsNode = %ConnectionControls
 
 @onready var _controls_map = {
 	'ChooseString': [ %ChooseStringControls, %ChooseStringText, %ChooseStringOptions ],
 	'ChooseAction': [ %ChooseActionControls, %ChooseActionText, %ChooseActionOptions ],
-	
 }
 
 var _connection: MatchConnection = null
@@ -18,6 +18,7 @@ var _connection: MatchConnection = null
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	ConnectionControlsNode.hide()
+	LogsNode.clear()
 	
 func _hide_controls():
 	for child in ConnectionControlsNode.get_children():
@@ -52,6 +53,11 @@ func load_match(data):
 
 func load_connected_match(update_info):
 	load_match(update_info.Match)
+
+	# logs
+	for log in update_info.NewLogs:
+		LogsNode.append_text('- ' + log.Message + '\n')
+		LogsNode.scroll_to_line(LogsNode.get_line_count()-1)
 
 	# controls
 	_hide_controls()

@@ -45,6 +45,7 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
     public LoadoutTemplate Loadout { get; }
 
     public int ActionCount { get; set; }
+    public List<Log> NewLogs { get; }
 
     public Player(Match match, int idx, string name, int teamIdx, LoadoutTemplate loadout, IPlayerController controller)
     {
@@ -59,6 +60,14 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
         DiscardPile = new(this);
 
         Fighters = [];
+        NewLogs = [];
+    }
+
+    public Log[] PopLogs()
+    {
+        Log[] result = [.. NewLogs];
+        NewLogs.Clear();
+        return result;
     }
 
     public async Task InitialPlaceFighters()
@@ -68,6 +77,8 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
         {
             await InitialPlaceFighter(fighter);
         }
+
+        Match.Logs.Public($"Player {FormattedLogName} placed all of their fighters");
     }
 
     public async Task InitialPlaceFighter(Fighter fighter)
@@ -80,6 +91,8 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
         var nodes = Match.Map.Nodes;
         var node = nodes.First(n => n.Fighter is null);
         await node.PlaceFighter(fighter);
+
+        Match.Logs.Public($"Player {FormattedLogName} placed {fighter.FormattedLogName}");
     }
 
     public async Task Setup()
@@ -94,8 +107,6 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
                     Fighters.Add(fighter);
                 }
             }
-
-            // TODO check that there is exactly 1 hero
         }
 
         // create deck
@@ -111,24 +122,33 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
         }
 
         // initial draw
-        await Hand.Draw(5); // TODO get amount from configuration
+        var amount = 5;
+        await Hand.Draw(amount); // TODO get amount from configuration
+
+        // Match.Logs.Public($"Player {FormattedLogName} drew their initial hand of {amount} cards");
     }
 
     public IEnumerable<Fighter> GetAliveFighters() => Fighters.Where(f => f.IsAlive());
 
     public string LogName => $"{Name}[{Idx}]";
 
+    public string FormattedLogName => $"{Name}"; // TODO
+
     public async Task StartTurn()
     {
+        Match.Logs.Private(this, "You start your turn", $"Player {FormattedLogName} starts their turn");
         Match.Logger?.LogDebug("Player {LogName} starts their turn", LogName);
         ActionCount = 2; // TODO move to configuration
     }
 
     public async Task EndTurn()
     {
-        Match.Logger?.LogDebug("Player {LogName} ends their turn", LogName);
         // TODO discard down to 7 cards
         ActionCount = 0;
+
+        Match.Logs.Private(this, "You end your turn", $"Player {FormattedLogName} ends their turn");
+
+        Match.Logger?.LogDebug("Player {LogName} ends their turn", LogName);
     }
 
     public bool CanTakeActions()
@@ -214,6 +234,8 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
             {
                 await DiscardCardForBoost(card);
                 boostValue = card.GetBoostValue();
+
+                Match.Logs.Public($"Player {FormattedLogName} boosts their movement with {card.FormattedLogName}");
             }
         }
 
@@ -236,6 +258,8 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
         var available = Match.Map.GetPossibleMovementResults(fighter, movement, canMoveOverFriendly, canMoveOverOpposing);
         var result = await Controller.ChooseNode(this, [..available], $"Choose where to move {fighter.LogName}");
         await result.PlaceFighter(fighter);
+
+        Match.Logs.Public($"Player {FormattedLogName} moves {fighter.FormattedLogName}");
     }
 
     public async Task<MatchCard?> ChooseBoostCard()

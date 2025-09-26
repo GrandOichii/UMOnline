@@ -20,8 +20,8 @@ public interface IPlayerController
 
 public class RandomPlayerController(int seed) : IPlayerController
 {
-    private readonly Random _rnd = new(seed);
-    // private readonly Random _rnd = new();
+    // private readonly Random _rnd = new(seed);
+    private readonly Random _rnd = new();
 
     public async Task<string> ChooseAction(Player player, string[] options)
     {
