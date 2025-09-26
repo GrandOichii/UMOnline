@@ -1,4 +1,5 @@
 using Godot;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -163,6 +164,7 @@ public partial class TestMatch : Control
 			Nodes = nodes,
 			Adjacent = [
 				.. Bidirectional(nodes[0], nodes[1]),
+				.. Bidirectional(nodes[4], nodes[1]),
 				.. Bidirectional(nodes[0], nodes[2]),
 				.. Bidirectional(nodes[3], nodes[2]),
 				.. Bidirectional(nodes[3], nodes[5]),
@@ -313,11 +315,11 @@ public partial class TestMatch : Control
 	// Called when the node enters the scene tree for the first time.
 	public Node ConnectedMatchNode { get; private set; }
 
-	
+
 	public override void _Ready()
 	{
 		ConnectedMatchNode = GetNode<Node>("%Match");
-		
+
 		Task.Run(RunMatch);
 	}
 
@@ -331,7 +333,7 @@ public partial class TestMatch : Control
 
 			var match = new Match(map, File.ReadAllText("../core.lua"))
 			{
-				Logger = null
+				Logger = new GDLogger()
 			};
 
 			_handler = new LocalMatchIOHandler(this);
@@ -365,8 +367,35 @@ public partial class TestMatch : Control
 	{
 		GetNode<Node>("%Connection").EmitSignal("match_info_updated", data);
 	}
-	
-	public void OnLocalMatchCollectionResponded(string response) {
+
+	public void OnLocalMatchCollectionResponded(string response)
+	{
 		_handler.SetReadTaskResult(response);
+	}
+}
+
+public class GDLogger : ILogger
+{
+	public IDisposable BeginScope<TState>(TState state) where TState : notnull
+	{
+		return new NoopDisposable();
+	}
+
+	public bool IsEnabled(LogLevel logLevel)
+	{
+		return true;
+	}
+
+	public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
+	{
+		var msg = formatter(state, exception);
+		GD.Print(msg);
+	}
+
+	private class NoopDisposable : IDisposable
+	{
+		public void Dispose()
+		{
+		}
 	}
 }

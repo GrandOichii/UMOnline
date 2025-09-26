@@ -103,6 +103,13 @@ public class Map : IHasData<Map.Data>
         return result;
     }
 
+    public async Task RemoveFighterFromBoard(Fighter fighter)
+    {
+        var node = GetFighterLocation(fighter);
+        // TODO check for null
+        await node!.RemoveFighter(true);
+    }
+
     public Data GetData(Player player)
     {
         return new()

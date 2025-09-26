@@ -30,8 +30,8 @@ public class FightAction : IAction
 
     public async Task Execute(Player player)
     {
-        var available = player.GetAvailableAttacks();
-        var attack = await player.Controller.ChooseAttack(player, available);
+        var available = player.GetAvailableAttacks().ToList();
+        var attack = await player.Controller.ChooseAttack(player, [.. available]);
         await player.Match.ProcessAttack(player, attack);
     }
 
@@ -54,7 +54,7 @@ public class SchemeAction : IAction
     {
         var options = player.Hand.GetPlayableSchemeCards();
 
-        var chosen = await player.Controller.ChooseCardInHand(player, player.Idx, options, $"Choose a scheme card to play");
+        var chosen = await player.Controller.ChooseCardInHand(player, player.Idx, [.. options], $"Choose a scheme card to play");
         var availableFighters = chosen.GetCanBePlayedBy().ToList();
         if (availableFighters.Count == 0)
         {
@@ -63,7 +63,7 @@ public class SchemeAction : IAction
         var fighter = availableFighters[0];
         if (availableFighters.Count > 1)
         {
-            fighter = await player.Controller.ChooseFighter(player, availableFighters, $"Choose a fighter to play {chosen.LogName}");
+            fighter = await player.Controller.ChooseFighter(player, [.. availableFighters], $"Choose a fighter to play {chosen.LogName}");
         }
 
         await player.PlayScheme(chosen, fighter);

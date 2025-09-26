@@ -9,12 +9,12 @@ public interface IPlayerController
     Task Setup(Player player, Match.SetupData setupData);
     Task Update(Player player);
     Task<string> ChooseAction(Player player, string[] options);
-    Task<MapNode> ChooseNode(Player player, IEnumerable<MapNode> options, string hint);
-    Task<MatchCard> ChooseCardInHand(Player player, int playerHandIdx, IEnumerable<MatchCard> options, string hint);
-    Task<MatchCard?> ChooseCardInHandOrNothing(Player player, int playerHandIdx, IEnumerable<MatchCard> options, string hint);
-    Task<Fighter> ChooseFighter(Player player, IEnumerable<Fighter> options, string hint);
-    Task<AvailableAttack> ChooseAttack(Player player, IEnumerable<AvailableAttack> options);
-    Task<string> ChooseString(Player player, IEnumerable<string> options, string hint);
+    Task<MapNode> ChooseNode(Player player, MapNode[] options, string hint);
+    Task<MatchCard> ChooseCardInHand(Player player, int playerHandIdx, MatchCard[] options, string hint);
+    Task<MatchCard?> ChooseCardInHandOrNothing(Player player, int playerHandIdx, MatchCard[] options, string hint);
+    Task<Fighter> ChooseFighter(Player player, Fighter[] options, string hint);
+    Task<AvailableAttack> ChooseAttack(Player player, AvailableAttack[] options);
+    Task<string> ChooseString(Player player, string[] options, string hint);
 }
 
 public class RandomPlayerController(int seed) : IPlayerController
@@ -26,19 +26,19 @@ public class RandomPlayerController(int seed) : IPlayerController
         return options[_rnd.Next(options.Length)];
     }
 
-    public async Task<AvailableAttack> ChooseAttack(Player player, IEnumerable<AvailableAttack> options)
+    public async Task<AvailableAttack> ChooseAttack(Player player, AvailableAttack[] options)
     {
         var opts = options.ToList();
         return opts[_rnd.Next(opts.Count)];
     }
 
-    public async Task<MatchCard> ChooseCardInHand(Player player, int playerHandIdx, IEnumerable<MatchCard> options, string hint)
+    public async Task<MatchCard> ChooseCardInHand(Player player, int playerHandIdx, MatchCard[] options, string hint)
     {
         var opts = options.ToList();
         return opts[_rnd.Next(opts.Count)];
     }
 
-    public async Task<MatchCard?> ChooseCardInHandOrNothing(Player player, int playerHandIdx, IEnumerable<MatchCard> options, string hint)
+    public async Task<MatchCard?> ChooseCardInHandOrNothing(Player player, int playerHandIdx, MatchCard[] options, string hint)
     {
         // TODO this threw an exception
         var opts = options.ToList();
@@ -51,19 +51,19 @@ public class RandomPlayerController(int seed) : IPlayerController
         // return opts[result - 1];
     }
 
-    public async Task<Fighter> ChooseFighter(Player player, IEnumerable<Fighter> options, string hint)
+    public async Task<Fighter> ChooseFighter(Player player, Fighter[] options, string hint)
     {
         var opts = options.ToList();
         return opts[_rnd.Next(opts.Count)];
     }
 
-    public async Task<MapNode> ChooseNode(Player player, IEnumerable<MapNode> options, string hint)
+    public async Task<MapNode> ChooseNode(Player player, MapNode[] options, string hint)
     {
         var opts = options.ToList();
         return opts[_rnd.Next(opts.Count)];
     }
 
-    public async Task<string> ChooseString(Player player, IEnumerable<string> options, string hint)
+    public async Task<string> ChooseString(Player player, string[] options, string hint)
     {
         var opts = options.ToList();
         return opts[_rnd.Next(opts.Count)];

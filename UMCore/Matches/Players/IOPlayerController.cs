@@ -60,7 +60,7 @@ public class IOPlayerController : IPlayerController
     /// </summary>
     /// <param name="list">List of values</param>
     /// <returns>Args value</returns>
-    private static Dictionary<string, object> ToArgs<T>(IEnumerable<T> options) where T : notnull
+    private static Dictionary<string, object> ToArgs<T>(T[] options) where T : notnull
     {
         return options.Select(
             (o, i) => new { o, i }
@@ -98,14 +98,14 @@ public class IOPlayerController : IPlayerController
         // return options.ToList()[idx];
     }
 
-    public async Task<MapNode> ChooseNode(Player player, IEnumerable<MapNode> options, string hint)
+    public async Task<MapNode> ChooseNode(Player player, MapNode[] options, string hint)
     {
         await WriteData(new() {
             PlayerIdx = player.Idx,
             Match = player.Match.GetData(player),
             Request = "ChooseNode",
             Hint = hint,
-            Args = ToArgs(options.Select(n => n.Id)),
+            Args = ToArgs(options.Select(n => n.Id).ToArray()),
         });
 
         var idx = int.Parse(await _handler.Read());
@@ -113,7 +113,7 @@ public class IOPlayerController : IPlayerController
         return options.ToList()[idx];
     }
 
-    public async Task<MatchCard> ChooseCardInHand(Player player, int playerHandIdx, IEnumerable<MatchCard> options, string hint)
+    public async Task<MatchCard> ChooseCardInHand(Player player, int playerHandIdx, MatchCard[] options, string hint)
     {
         // TODO use playerHandIdx
         await WriteData(new()
@@ -122,7 +122,7 @@ public class IOPlayerController : IPlayerController
             Match = player.Match.GetData(player),
             Request = "ChooseCardInHand",
             Hint = hint,
-            Args = ToArgs(options.Select(c => c.Id)),
+            Args = ToArgs(options.Select(c => c.Id).ToArray()),
         });
 
         var idx = int.Parse(await _handler.Read());
@@ -130,14 +130,14 @@ public class IOPlayerController : IPlayerController
         return options.ToList()[idx];
     }
 
-    public async Task<MatchCard?> ChooseCardInHandOrNothing(Player player, int playerHandIdx, IEnumerable<MatchCard> options, string hint)
+    public async Task<MatchCard?> ChooseCardInHandOrNothing(Player player, int playerHandIdx, MatchCard[] options, string hint)
     {
         await WriteData(new() {
             PlayerIdx = player.Idx,
             Match = player.Match.GetData(player),
             Request = "ChooseCardInHandOrNothing",
             Hint = hint,
-            Args = ToArgs(options.Select(c => c.Id)),
+            Args = ToArgs(options.Select(c => c.Id).ToArray()),
         });
 
         var read = await _handler.Read();
@@ -146,14 +146,14 @@ public class IOPlayerController : IPlayerController
         return options.ToList()[int.Parse(read)];
     }
 
-    public async Task<Fighter> ChooseFighter(Player player, IEnumerable<Fighter> options, string hint)
+    public async Task<Fighter> ChooseFighter(Player player, Fighter[] options, string hint)
     {
         await WriteData(new() {
             PlayerIdx = player.Idx,
             Match = player.Match.GetData(player),
             Request = "ChooseFighter",
             Hint = hint,
-            Args = ToArgs(options.Select(n => n.Id)),
+            Args = ToArgs(options.Select(n => n.Id).ToArray()),
         });
 
         var idx = int.Parse(await _handler.Read());
@@ -161,28 +161,39 @@ public class IOPlayerController : IPlayerController
         return options.ToList()[idx];
     }
 
-    public async Task<AvailableAttack> ChooseAttack(Player player, IEnumerable<AvailableAttack> options)
+    public async Task<AvailableAttack> ChooseAttack(Player player, AvailableAttack[] options)
     {
-        await WriteData(new() {
-            PlayerIdx = player.Idx,
-            Match = player.Match.GetData(player),
-            Request = "ChooseAttack",
-            Hint = "Choose attack",
-            Args = ToArgs(options.Select(n =>
-            new
-            {
-                Card = n.AttackCard.Id,
-                Fighter = n.Fighter.Id,
-                Target = n.Target.Id,
-            })),
-        });
+        var attacker = await ChooseFighter(player, [.. options.Select(a => a.Fighter)], "Choose attacker");
+        options = [.. options.Where(o => o.Fighter == attacker)];
+        var defender = await ChooseFighter(player, [.. options.Select(a => a.Target)], "Choose attacked fighter");
+        options = [.. options.Where(o => o.Target == defender)];
+        var card = await ChooseCardInHand(player, player.Idx, [.. options.Select(a => a.AttackCard)], "Choose attack card");
+        var option = options.Single(a => a.AttackCard == card);
+        return option;
+        
+        // TODO replace
 
-        var idx = int.Parse(await _handler.Read());
+        // await WriteData(new()
+        // {
+        //     PlayerIdx = player.Idx,
+        //     Match = player.Match.GetData(player),
+        //     Request = "ChooseAttack",
+        //     Hint = "Choose attack",
+        //     Args = ToArgs(options.Select(n =>
+        //     new
+        //     {
+        //         Card = n.AttackCard.Id,
+        //         Fighter = n.Fighter.Id,
+        //         Target = n.Target.Id,
+        //     })),
+        // });
 
-        return options.ToList()[idx];
+        // var idx = int.Parse(await _handler.Read());
+
+        // return options.ToList()[idx];
     }
 
-    public async Task<string> ChooseString(Player player, IEnumerable<string> options, string hint)
+    public async Task<string> ChooseString(Player player, string[] options, string hint)
     {
         await WriteData(new() {
             PlayerIdx = player.Idx,

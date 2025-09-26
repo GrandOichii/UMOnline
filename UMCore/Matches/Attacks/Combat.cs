@@ -126,6 +126,7 @@ public class Combat
         await EmitTrigger(CombatStepTrigger.AfterCombat);
 
         // discard cards
+        Match.Logger?.LogDebug("Discarding combat cards");
         await AttackCard.Discard();
 
         if (DefenceCard is not null)

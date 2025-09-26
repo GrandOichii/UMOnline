@@ -12,7 +12,7 @@ extends Control
 }
 
 var _connection: MatchConnection = null
-var _fighter_image_loader = null
+#var _fighter_image_loader = null
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

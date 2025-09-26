@@ -223,7 +223,7 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
             var fighter = fighters[0];
             if (fighters.Count > 1)
             {
-                fighter = await Controller.ChooseFighter(this, fighters, "Choose which fighter to move");
+                fighter = await Controller.ChooseFighter(this, [..fighters], "Choose which fighter to move");
             }
             fighters.Remove(fighter);
             await MoveFighter(fighter, fighter.Movement() + boostValue, canMoveOverFriendly, canMoveOverOpposing);
@@ -233,13 +233,13 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
     public async Task MoveFighter(Fighter fighter, int movement, bool canMoveOverFriendly, bool canMoveOverOpposing)
     {
         var available = Match.Map.GetPossibleMovementResults(fighter, movement, canMoveOverFriendly, canMoveOverOpposing);
-        var result = await Controller.ChooseNode(this, available, $"Choose where to move {fighter.LogName}");
+        var result = await Controller.ChooseNode(this, [..available], $"Choose where to move {fighter.LogName}");
         await result.PlaceFighter(fighter);
     }
 
     public async Task<MatchCard?> ChooseBoostCard()
     {
-        var card = await Controller.ChooseCardInHandOrNothing(this, Idx, Hand.Cards, "Choose a card to boost your movement");
+        var card = await Controller.ChooseCardInHandOrNothing(this, Idx, [..Hand.Cards], "Choose a card to boost your movement");
         return card;
     }
 
@@ -278,7 +278,7 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
 
     public IEnumerable<AvailableAttack> GetAvailableAttacks()
     {
-        foreach (var fighter in Fighters)
+        foreach (var fighter in GetAliveFighters())
         {
             var reachable = fighter.GetReachableFighters();
             if (!reachable.Any()) continue;

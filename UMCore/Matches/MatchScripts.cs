@@ -104,7 +104,7 @@ public class MatchScripts
     [LuaCommand]
     public int ChooseCardInHand(Player player, Player target, string hint)
     {
-        var result = player.Controller.ChooseCardInHand(player, target.Idx, target.Hand.Cards, hint)
+        var result = player.Controller.ChooseCardInHand(player, target.Idx, [.. target.Hand.Cards], hint)
             .GetAwaiter().GetResult();
         return target.Hand.GetCardIdx(result);
 
@@ -121,7 +121,7 @@ public class MatchScripts
     public Fighter ChooseFighter(Player player, LuaTable fighters, string hint)
     {
         var options = LuaUtility.ParseTable<Fighter>(fighters);
-        var result = player.Controller.ChooseFighter(player, options, hint)
+        var result = player.Controller.ChooseFighter(player, [.. options], hint)
             .GetAwaiter().GetResult();
         return result;
     }
@@ -142,7 +142,7 @@ public class MatchScripts
     public int ChooseNumber(Player player, LuaTable optionsRaw, string hint)
     {
         var options = LuaUtility.ParseTable(optionsRaw).Select(o => o.ToString()).ToList();
-        var chosen = player.Controller.ChooseString(player, options, hint)
+        var chosen = player.Controller.ChooseString(player, [.. options], hint)
             .GetAwaiter().GetResult();
         return int.Parse(chosen);
     }
@@ -180,7 +180,7 @@ public class MatchScripts
     public MapNode ChooseNode(Player player, LuaTable nodes, string hint)
     {
         var options = LuaUtility.ParseTable<MapNode>(nodes);
-        var result = player.Controller.ChooseNode(player, options, hint)
+        var result = player.Controller.ChooseNode(player, [..options], hint)
             .GetAwaiter().GetResult();
         return result;
     }
@@ -206,7 +206,7 @@ public class MatchScripts
     [LuaCommand]
     public string ChooseString(Player player, LuaTable optionsRaw, string hint)
     {
-        return player.Controller.ChooseString(player, LuaUtility.ParseTable<string>(optionsRaw), hint)
+        return player.Controller.ChooseString(player, [..LuaUtility.ParseTable<string>(optionsRaw)], hint)
             .GetAwaiter().GetResult();
     }
 

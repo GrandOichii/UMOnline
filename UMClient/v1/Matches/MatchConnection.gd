@@ -24,8 +24,12 @@ func can_pick_card_in_hand(id):
 			return true
 	return false
 
-func pick_card_in_hand(id):
-	respond(str(id))
+func pick_card_in_hand(card_id):
+	for key in cur_data.Args:
+		if cur_data.Args[key] == card_id:
+			respond(key)
+			return
+	# TODO throw error
 
 func can_pick_node(node_id):
 	if cur_data == null: return false
@@ -41,6 +45,7 @@ func pick_node(node_id):
 		if cur_data.Args[key] == node_id:
 			respond(key)
 			return
+	# TODO throw error
 
 func can_pick_fighter(fighter_id):
 	if cur_data == null: return false

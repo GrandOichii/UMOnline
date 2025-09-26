@@ -102,9 +102,20 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
     public bool IsAlive()
     {
         // if the fighter is not on the board they do not count as "Alive" (Invisible Man)
-        return
-            !Health.IsDead &&
-            Match.Map.GetFighterLocation(this) is not null;
+        return GetStatus() == FighterStatus.Alive;
+    }
+
+    public FighterStatus GetStatus()
+    {
+        if (Health.IsDead)
+        {
+            return FighterStatus.Dead;
+        }
+        if (Match.Map.GetFighterLocation(this) is null)
+        {
+            return FighterStatus.OffBoard;
+        }
+        return FighterStatus.Alive;
     }
 
     public async Task<int> ProcessDamage(int amount)
@@ -113,6 +124,11 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
         Match.Logger?.LogDebug("{FighterLogName} is dealt {Amount} damage (original amount: {OriginalAmount})", LogName, dealt, amount);
 
         // TODO check for death
+        if (!IsAlive())
+        {
+            Match.Logger?.LogDebug("Fighter {FighterLogName} dies", LogName);
+            await Match.Map.RemoveFighterFromBoard(this);
+        }
         await Match.UpdateClients();
 
         return dealt;
@@ -161,7 +177,7 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
         }
 
         var availableDefence = GetValidDefenceCards();
-        var defence = await Owner.Controller.ChooseCardInHandOrNothing(Owner, Owner.Idx, availableDefence, "Choose defence card");
+        var defence = await Owner.Controller.ChooseCardInHandOrNothing(Owner, Owner.Idx, [.. availableDefence], "Choose defence card");
         if (defence is null)
         {
             Match.Logger?.LogDebug("Player {PlayerLogName} decides not to defend", Owner.LogName);
@@ -252,4 +268,11 @@ public class Health(Fighter fighter)
 
         return Current - old;
     }
+}
+
+public enum FighterStatus
+{
+    Alive = 0,
+    Dead = 1,
+    OffBoard = 2,
 }

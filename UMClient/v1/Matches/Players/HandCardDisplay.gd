@@ -44,6 +44,6 @@ func reset_border_color():
 
 func _on_card_gui_input(event: InputEvent) -> void:
 	if event.is_action_pressed("pick_card") and can_pick():
-		_connection.pick_card_in_hand(_idx)
+		_connection.pick_card_in_hand(_cur_data.Id)
 		reset_border_color()
 		return
