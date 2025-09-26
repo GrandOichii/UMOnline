@@ -20,11 +20,12 @@ public interface IPlayerController
 
 public class RandomPlayerController(int seed) : IPlayerController
 {
-    // private readonly Random _rnd = new(seed);
-    private readonly Random _rnd = new();
+    private readonly Random _rnd = new(seed);
+    // private readonly Random _rnd = new();
 
     public async Task<string> ChooseAction(Player player, string[] options)
     {
+        if (options.Contains("Fight")) return "Fight";
         return options[_rnd.Next(options.Length)];
     }
 
@@ -42,19 +43,9 @@ public class RandomPlayerController(int seed) : IPlayerController
 
     public async Task<MatchCard?> ChooseCardInHandOrNothing(Player player, int playerHandIdx, MatchCard[] options, string hint)
     {
-        // TODO this threw an exception
-        if (options.Length == 0)
-        {
-            return null;
-        }
-        var result = _rnd.Next(options.Length);
-        return options[result];
-
-        // var opts = options.ToList();
-        // var result = _rnd.Next(opts.Count + 1);
-        // if (result == 0)
-        //     return null;
-        // return opts[result - 1];
+        if (options.Length == 0) return null;
+        if (_rnd.Next(2) == 0) return null;
+        return await ChooseCardInHand(player, playerHandIdx, options, hint);
     }
 
     public async Task<Fighter> ChooseFighter(Player player, Fighter[] options, string hint)

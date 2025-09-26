@@ -43,3 +43,6 @@ func set_essentials(image_loader: CardImageLoader, deck_name: String, on_mouseov
 	
 	if on_mouseover != null:
 		Mouseover.connect(on_mouseover)
+
+func set_deck_name(deck_name: String):
+	_deck_name = deck_name

@@ -4,11 +4,12 @@
 [ext_resource type="Script" path="res://v1/Matches/Cards/ZoomedCard.gd" id="1_s2nnc"]
 
 [node name="ZoomedCard" type="PanelContainer"]
-custom_minimum_size = Vector2(200, 0)
+custom_minimum_size = Vector2(200, 281)
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_right = -952.0
+offset_bottom = -367.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_s2nnc")

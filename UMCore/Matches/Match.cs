@@ -26,8 +26,8 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
         Fighters = [];
         LState = new();
         Combat = null;
-        Random = new();
-        // Random = new(1);
+        // Random = new();
+        Random = new(1);
 
         LState.DoString(setupScript);
         new MatchScripts(this);
@@ -129,6 +129,7 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
             CurPlayerIdx = CurPlayerIdx,
             Players = [.. Players.Select(p => p.GetData(player))],
             Map = Map.GetData(player),
+            Combat = Combat?.GetData(player),
         };
     }
 
@@ -153,6 +154,7 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
         public required int CurPlayerIdx { get; init; }
         public required Player.Data[] Players { get; init; }
         public required Map.Data Map { get; init; }
+        public required Combat.Data? Combat { get; init; }
     }
 
     public class SetupData

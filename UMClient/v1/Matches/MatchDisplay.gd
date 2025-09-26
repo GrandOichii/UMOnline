@@ -2,6 +2,7 @@ extends Control
 
 @onready var PlayerNodes = [%P1, %P2, %P3, %P4]
 @onready var MapNode = %Map
+@onready var CombatNode = %Combat
 
 @onready var ConnectionControlsNode = %ConnectionControls
 
@@ -17,7 +18,7 @@ var _connection: MatchConnection = null
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	ConnectionControlsNode.hide()
-
+	
 func _hide_controls():
 	for child in ConnectionControlsNode.get_children():
 		child.hide()
@@ -43,8 +44,11 @@ func load_match(data):
 	for i in range(len(data.Players), len(PlayerNodes)):
 		PlayerNodes[i].visible = false
 		
-	# players
+	# map
 	MapNode.load_map(data)
+	
+	# combat
+	CombatNode.load_match(data)
 
 func load_connected_match(update_info):
 	load_match(update_info.Match)

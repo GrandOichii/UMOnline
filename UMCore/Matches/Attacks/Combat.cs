@@ -5,7 +5,7 @@ using UMCore.Matches.Players;
 
 namespace UMCore.Matches.Attacks;
 
-public class CombatCard(MatchCard card)
+public class CombatCard(Combat parent, MatchCard card) : IHasData<CombatCard.Data>
 {
     public MatchCard Card { get; } = card;
     public int Value { get; set; } = card.Template.Value;
@@ -29,7 +29,7 @@ public class CombatCard(MatchCard card)
     {
         // TODO check if can be cancelled
 
-        return true;        
+        return true;
     }
 
     public async Task Discard()
@@ -44,6 +44,35 @@ public class CombatCard(MatchCard card)
         Boosts.Add(card);
         await card.Owner.Match.UpdateClients();
     }
+
+    public Data GetData(Player player)
+    {
+        var visible = Card.Owner == player || parent.Winner is not null;
+        if (visible) {
+            return new()
+            {
+                Value = Value,
+                DeckName = Card.Owner.Loadout.Name,
+                Card = Card.GetData(player),
+                Boosts = [.. Boosts.Select(b => b.GetData(player))],
+            };
+        }
+        return new()
+        {
+            Value = null,
+            Card = null,
+            DeckName = Card.Owner.Loadout.Name,
+            Boosts = [.. Boosts.Select<MatchCard, MatchCard.Data?>(b => null)],
+        };
+    }
+
+    public class Data
+    {
+        public required int? Value { get; init; }
+        public required MatchCard.Data? Card { get; init; }
+        public required MatchCard.Data?[] Boosts { get; init; }
+        public required string DeckName { get; init; }
+    }
 }
 
 
@@ -53,7 +82,7 @@ public enum CombatStepTrigger {
     AfterCombat = 2,
 }
 
-public class Combat
+public class Combat : IHasData<Combat.Data>
 {
     public Match Match { get; }
 
@@ -70,12 +99,12 @@ public class Combat
         Match = match;
         Attacker = original.Fighter;
         Defender = original.Target;
-        AttackCard = new(original.AttackCard);
+        AttackCard = new(this, original.AttackCard);
     }
 
     public async Task SetDefenceCard(MatchCard? defence)
     {
-        DefenceCard = defence is null ? null : new(defence);
+        DefenceCard = defence is null ? null : new(this, defence);
 
         await Match.UpdateClients();
     }
@@ -180,5 +209,28 @@ public class Combat
             return;
         }
         await card.AddBoost(boostCard);
+    }
+
+    public Data GetData(Player player)
+    {
+        return new()
+        {
+            Attacker = Attacker.GetData(player),
+            AttackCard = AttackCard.GetData(player),
+            Defender = Defender.GetData(player),
+            DefenceCard = DefenceCard?.GetData(player),
+            WinnerIdx = Winner?.Idx,
+        };
+    }
+
+    public class Data
+    {
+        public required Fighter.Data Attacker { get; init; }
+        public required CombatCard.Data AttackCard { get; init; }
+
+        public required Fighter.Data Defender { get; init; }
+        public required CombatCard.Data? DefenceCard { get; init; }
+
+        public required int? WinnerIdx { get; init; }
     }
 }

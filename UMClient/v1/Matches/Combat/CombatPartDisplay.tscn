@@ -1,0 +1,82 @@
+[gd_scene load_steps=6 format=3 uid="uid://c8qgglrmpnbh2"]
+
+[ext_resource type="Script" path="res://v1/Matches/Combat/CombatPartDisplay.gd" id="1_7wyh1"]
+[ext_resource type="PackedScene" uid="uid://cxs25778q1en6" path="res://v1/Matches/Cards/CardImageDisplay.tscn" id="1_kouk2"]
+[ext_resource type="Texture2D" uid="uid://bhb7dedjno8r" path="res://assets/combat/defence.png" id="2_id46t"]
+[ext_resource type="PackedScene" uid="uid://bkwcncqk4nj5k" path="res://v1/Matches/Fighters/FighterDisplay.tscn" id="2_max60"]
+[ext_resource type="Texture2D" uid="uid://dgdrrwpi8sbs4" path="res://assets/combat/attack.png" id="3_4w1nl"]
+
+[node name="CombatPartDisplay" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 426.0
+offset_bottom = 224.0
+size_flags_horizontal = 3
+script = ExtResource("1_7wyh1")
+DefenderIcon = ExtResource("2_id46t")
+
+[node name="Top" type="HBoxContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+alignment = 2
+
+[node name="Boosts" type="PanelContainer" parent="Top"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Boost" type="VBoxContainer" parent="Top/Boosts"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Top/Boosts/Boost"]
+layout_mode = 2
+text = "Boosts"
+horizontal_alignment = 1
+
+[node name="BoostCards" type="HBoxContainer" parent="Top/Boosts/Boost"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="CardImageDisplay" parent="Top/Boosts/Boost/BoostCards" instance=ExtResource("1_kouk2")]
+layout_mode = 2
+
+[node name="CardImageDisplay2" parent="Top/Boosts/Boost/BoostCards" instance=ExtResource("1_kouk2")]
+layout_mode = 2
+
+[node name="Card" parent="Top" instance=ExtResource("1_kouk2")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Top"]
+layout_mode = 2
+alignment = 1
+
+[node name="Fighter" parent="Top/VBoxContainer" instance=ExtResource("2_max60")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Bottom" type="HBoxContainer" parent="Top/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+alignment = 2
+
+[node name="PartIcon" type="TextureRect" parent="Top/VBoxContainer/Bottom"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(25, 0)
+layout_mode = 2
+texture = ExtResource("3_4w1nl")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Power" type="Label" parent="Top/VBoxContainer/Bottom"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "2"
