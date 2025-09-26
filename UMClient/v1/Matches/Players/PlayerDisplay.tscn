@@ -13,6 +13,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_80ivx")
 hand_card_scene = ExtResource("2_g56st")
+FighterScene = ExtResource("3_ayafp")
 
 [node name="Main" type="VBoxContainer" parent="."]
 unique_name_in_owner = true

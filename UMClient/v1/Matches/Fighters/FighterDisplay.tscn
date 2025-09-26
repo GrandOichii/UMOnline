@@ -29,7 +29,8 @@ layout_mode = 2
 text = "Name"
 horizontal_alignment = 1
 
-[node name="FighterImageDisplay" parent="MarginContainer/VBoxContainer" instance=ExtResource("2_7nvlx")]
+[node name="Image" parent="MarginContainer/VBoxContainer" instance=ExtResource("2_7nvlx")]
+unique_name_in_owner = true
 layout_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]

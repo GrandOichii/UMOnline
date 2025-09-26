@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://hoavyem0add4"]
 
 [ext_resource type="Script" path="res://v1/Matches/Fighters/FighterImageDisplay.gd" id="1_xm7ml"]
-[ext_resource type="Texture2D" uid="uid://cahyen84owg7v" path="res://assets/decks/medusa & harpies/heroes/medusa & harpies_harpies_1.webp" id="2_uyhxp"]
+[ext_resource type="Texture2D" uid="uid://cahyen84owg7v" path="res://assets/decks/medusa & harpies/sidekicks/medusa & harpies_harpies_1.webp" id="2_uyhxp"]
 
 [node name="FighterImageDisplay" type="Control"]
 custom_minimum_size = Vector2(40, 40)

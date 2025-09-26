@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://dh54pmbtdvbjt"]
+[gd_scene load_steps=8 format=3 uid="uid://dh54pmbtdvbjt"]
 
 [ext_resource type="Script" path="res://v1/Matches/MatchDisplay.gd" id="1_e571j"]
 [ext_resource type="PackedScene" uid="uid://bfos7kwpjhcsu" path="res://v1/Matches/Players/PlayerDisplay.tscn" id="1_uuhjp"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://balgj857rblso" path="res://v1/Matches/Cards/ZoomedCard.tscn" id="2_23jxg"]
 [ext_resource type="PackedScene" uid="uid://box5pj4njtqw0" path="res://v1/Matches/Events/EventListDisplay.tscn" id="4_n5mcn"]
 [ext_resource type="PackedScene" uid="uid://ce06sx3gdlscm" path="res://v1/CardImageLoader.tscn" id="6_62j6u"]
+[ext_resource type="PackedScene" uid="uid://bdtj470fa7xnp" path="res://v1/FighterImageLoader.tscn" id="7_i8bsg"]
 
 [node name="MatchDisplay" type="Control"]
 layout_mode = 3
@@ -38,10 +39,11 @@ unique_name_in_owner = true
 layout_mode = 2
 ImageLoader = NodePath("../../../CardImageLoader")
 
-[node name="Map" parent="VBoxContainer/Center" instance=ExtResource("2_6n8ov")]
+[node name="Map" parent="VBoxContainer/Center" node_paths=PackedStringArray("FighterImageLoaderNode") instance=ExtResource("2_6n8ov")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
+FighterImageLoaderNode = NodePath("../../../FighterImageLoader")
 
 [node name="Events" parent="VBoxContainer/Center" instance=ExtResource("4_n5mcn")]
 unique_name_in_owner = true
@@ -94,34 +96,40 @@ text = "Don't pick any card"
 [node name="BottomPlayers" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
 
-[node name="P1" parent="VBoxContainer/BottomPlayers" node_paths=PackedStringArray("image_loader", "ZoomedCardImage") instance=ExtResource("1_uuhjp")]
+[node name="P1" parent="VBoxContainer/BottomPlayers" node_paths=PackedStringArray("image_loader", "FighterImageLoaderNode", "ZoomedCardImage") instance=ExtResource("1_uuhjp")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 image_loader = NodePath("../../../CardImageLoader")
+FighterImageLoaderNode = NodePath("../../../FighterImageLoader")
 ZoomedCardImage = NodePath("../../Center/ZoomedCard")
 
-[node name="P2" parent="VBoxContainer/BottomPlayers" node_paths=PackedStringArray("image_loader", "ZoomedCardImage") instance=ExtResource("1_uuhjp")]
+[node name="P2" parent="VBoxContainer/BottomPlayers" node_paths=PackedStringArray("image_loader", "FighterImageLoaderNode", "ZoomedCardImage") instance=ExtResource("1_uuhjp")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 image_loader = NodePath("../../../CardImageLoader")
+FighterImageLoaderNode = NodePath("../../../FighterImageLoader")
 ZoomedCardImage = NodePath("../../Center/ZoomedCard")
 
-[node name="P3" parent="VBoxContainer/BottomPlayers" node_paths=PackedStringArray("image_loader", "ZoomedCardImage") instance=ExtResource("1_uuhjp")]
+[node name="P3" parent="VBoxContainer/BottomPlayers" node_paths=PackedStringArray("image_loader", "FighterImageLoaderNode", "ZoomedCardImage") instance=ExtResource("1_uuhjp")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 image_loader = NodePath("../../../CardImageLoader")
+FighterImageLoaderNode = NodePath("../../../FighterImageLoader")
 ZoomedCardImage = NodePath("../../Center/ZoomedCard")
 
-[node name="P4" parent="VBoxContainer/BottomPlayers" node_paths=PackedStringArray("image_loader", "ZoomedCardImage") instance=ExtResource("1_uuhjp")]
+[node name="P4" parent="VBoxContainer/BottomPlayers" node_paths=PackedStringArray("image_loader", "FighterImageLoaderNode", "ZoomedCardImage") instance=ExtResource("1_uuhjp")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 image_loader = NodePath("../../../CardImageLoader")
+FighterImageLoaderNode = NodePath("../../../FighterImageLoader")
 ZoomedCardImage = NodePath("../../Center/ZoomedCard")
 
 [node name="CardImageLoader" parent="." instance=ExtResource("6_62j6u")]
+
+[node name="FighterImageLoader" parent="." instance=ExtResource("7_i8bsg")]
 
 [connection signal="pressed" from="VBoxContainer/ConnectionControls/ChooseNothingInHandButton" to="." method="_on_choose_nothing_in_hand_button_pressed"]

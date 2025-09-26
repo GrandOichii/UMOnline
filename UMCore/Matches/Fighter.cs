@@ -206,6 +206,7 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
     {
         return new()
         {
+            Id = Id,
             Key = Template.Key
         };
     }
@@ -221,6 +222,7 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
 
     public class SetupData
     {
+        public required int Id { get; init; }
         public required string Key { get; init; }
     }
 }

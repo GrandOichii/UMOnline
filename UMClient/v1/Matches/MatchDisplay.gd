@@ -12,6 +12,7 @@ extends Control
 }
 
 var _connection: MatchConnection = null
+var _fighter_image_loader = null
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -31,6 +32,7 @@ func set_connection(connection: MatchConnection):
 	MapNode.set_essentials(connection)
 
 func load_setup(setup_data):
+	MapNode.load_setup(setup_data)
 	for i in range(len(setup_data.Players)):
 		PlayerNodes[i].load_setup(setup_data.Players[i])
 

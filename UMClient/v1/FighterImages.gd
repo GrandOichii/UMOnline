@@ -4,14 +4,19 @@ class_name FighterImages
 @export var Images: Array[FighterImage]
 
 var _index = {}
+var _fighter_idx = {}
 
-func get_image_for(card_key: String):
-	if not card_key in _index:
+func get_image_for(fighter_key: String):
+	if not fighter_key in _index:
 		for pair in Images:
-			if pair.card_key == card_key:
-				_index[card_key] = pair.image
+			if pair.fighter_key == fighter_key:
+				_fighter_idx[fighter_key] = 0
+				_index[fighter_key] = pair.images
 				break
-	if not card_key in _index:
-		push_warning('Image for card key ' + card_key + ' not found!')
+	if not fighter_key in _index:
+		push_warning('Image for fighter key ' + fighter_key + ' not found!')
 		return null
-	return _index[card_key]
+	
+	var idx = _fighter_idx[fighter_key]
+	_fighter_idx[fighter_key] = (idx + 1) % len(_index[fighter_key])
+	return _index[fighter_key][idx]

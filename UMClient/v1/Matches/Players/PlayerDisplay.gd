@@ -5,6 +5,7 @@ class_name PlayerDisplay
 @export var hand_card_scene: PackedScene
 @export var FighterScene: PackedScene
 @export var image_loader: CardImageLoader
+@export var FighterImageLoaderNode: FighterImageLoader
 @export var ZoomedCardImage: ZoomedCard
 
 @onready var MainContainer = %Main
@@ -19,6 +20,12 @@ var _deck_name = 'medusa & harpies' # TODO remove
 func _ready() -> void:
 	DeckNode.set_essentials(image_loader, _deck_name, null)
 	%Discard.set_essentials(image_loader, _deck_name, null)
+	
+	while FightersNode.get_child_count() > 0:
+		FightersNode.remove_child(FightersNode.get_child(0))
+	while %Hand.get_child_count() > 0:
+		%Hand.remove_child(%Hand.get_child(0))
+
 
 	if inverted:
 		var count = MainContainer.get_child_count()
@@ -43,9 +50,9 @@ func load_setup(player_setup):
 		var child = FighterScene.instantiate()
 		FightersNode.add_child(child)
 		
-		var _display = child as FighterDisplay
+		var display = child as FighterDisplay
 		# TODO
-		# display.set_essentials(idx, _connection, image_loader, _deck_name, ZoomedCardImage.load_card)
+		display.set_essentials(FighterImageLoaderNode)
 
 
 func load_player(match_data, idx):
@@ -89,7 +96,9 @@ func load_player(match_data, idx):
 	# fighters
 	var fi = 0
 	for fighter in data.Fighters:
-		FightersNode.get_child(fi).load_fighter(fighter)
+		if FightersNode.get_child_count() >= fi: break # TODO fix
+		var node = FightersNode.get_child(fi)
+		node.load_fighter(fighter)
 		fi += 1
 
 	
