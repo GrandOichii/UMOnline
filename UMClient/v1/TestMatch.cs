@@ -26,6 +26,186 @@ public partial class TestMatch : Control
 		];
 	}
 
+	public static MapTemplate GetBaskervilleTemplate()
+	{
+		List<MapNodeTemplate> nodes = [
+			new() {
+				Id = 0,
+				Zones = [0],
+			},
+			new() {
+				Id = 1,
+				Zones = [0],
+			},
+			new() {
+				Id = 2,
+				Zones = [0],
+			},
+			new() {
+				Id = 3,
+				Zones = [0],
+			},
+			new() {
+				Id = 4,
+				Zones = [0, 1],
+			},
+			new() {
+				Id = 5,
+				Zones = [0, 6],
+			},
+			new() {
+				Id = 6,
+				Zones = [1],
+			},
+			new() {
+				Id = 7,
+				Zones = [1],
+			},
+			new() {
+				Id = 8,
+				Zones = [1],
+			},
+			new() {
+				Id = 9,
+				Zones = [1, 2, 3],
+			},
+			new() {
+				Id = 10,
+				Zones = [2],
+			},
+			new() {
+				Id = 11,
+				Zones = [2],
+			},
+			new() {
+				Id = 12,
+				Zones = [2],
+			},
+			new() {
+				Id = 13,
+				Zones = [3, 4],
+			},
+			new() {
+				Id = 14,
+				Zones = [4],
+			},
+			new() {
+				Id = 15,
+				Zones = [4],
+			},
+			new() {
+				Id = 16,
+				Zones = [4],
+			},
+			new() {
+				Id = 17,
+				Zones = [3],
+			},
+			new() {
+				Id = 18,
+				Zones = [3],
+			},
+			new() {
+				Id = 19,
+				Zones = [3, 5],
+			},
+			new() {
+				Id = 20,
+				Zones = [5],
+			},
+			new() {
+				Id = 21,
+				Zones = [5],
+			},
+			new() {
+				Id = 22,
+				Zones = [4, 5],
+			},
+			new() {
+				Id = 23,
+				Zones = [5],
+			},
+			new() {
+				Id = 24,
+				Zones = [5],
+			},
+			new() {
+				Id = 25,
+				Zones = [5],
+			},
+			new() {
+				Id = 26,
+				Zones = [5],
+			},
+			new() {
+				Id = 27,
+				Zones = [5],
+			},
+			new() {
+				Id = 28,
+				Zones = [5, 6],
+			},
+			new() {
+				Id = 29,
+				Zones = [3, 6],
+			},
+			new() {
+				Id = 30,
+				Zones = [6],
+			},
+			new() {
+				Id = 31,
+				Zones = [6],
+			},
+		];
+		return new()
+		{
+			Nodes = nodes,
+			Adjacent = [
+				.. Bidirectional(nodes[0], nodes[1]),
+				.. Bidirectional(nodes[0], nodes[2]),
+				.. Bidirectional(nodes[3], nodes[2]),
+				.. Bidirectional(nodes[3], nodes[5]),
+				.. Bidirectional(nodes[4], nodes[6]),
+				.. Bidirectional(nodes[4], nodes[5]),
+				.. Bidirectional(nodes[8], nodes[6]),
+				.. Bidirectional(nodes[8], nodes[7]),
+				.. Bidirectional(nodes[6], nodes[7]),
+				.. Bidirectional(nodes[9], nodes[7]),
+				.. Bidirectional(nodes[9], nodes[10]),
+				.. Bidirectional(nodes[11], nodes[10]),
+				.. Bidirectional(nodes[11], nodes[12]),
+				.. Bidirectional(nodes[9], nodes[13]),
+				.. Bidirectional(nodes[14], nodes[13]),
+				.. Bidirectional(nodes[14], nodes[15]),
+				.. Bidirectional(nodes[16], nodes[15]),
+				.. Bidirectional(nodes[13], nodes[17]),
+				.. Bidirectional(nodes[18], nodes[17]),
+				.. Bidirectional(nodes[18], nodes[19]),
+				.. Bidirectional(nodes[20], nodes[19]),
+				.. Bidirectional(nodes[20], nodes[24]),
+				.. Bidirectional(nodes[20], nodes[21]),
+				.. Bidirectional(nodes[22], nodes[21]),
+				.. Bidirectional(nodes[22], nodes[23]),
+				.. Bidirectional(nodes[22], nodes[15]),
+				.. Bidirectional(nodes[19], nodes[25]),
+				.. Bidirectional(nodes[25], nodes[24]),
+				.. Bidirectional(nodes[25], nodes[26]),
+				.. Bidirectional(nodes[27], nodes[26]),
+				.. Bidirectional(nodes[27], nodes[28]),
+				.. Bidirectional(nodes[29], nodes[28]),
+				.. Bidirectional(nodes[29], nodes[18]),
+				.. Bidirectional(nodes[28], nodes[30]),
+				.. Bidirectional(nodes[31], nodes[30]),
+				.. Bidirectional(nodes[2], nodes[30]),
+				.. Bidirectional(nodes[31], nodes[5]),
+			],
+			SecretPassages = [
+				// TODO
+			]
+		};
+	}
+
 	public static MapTemplate GetMapTemplate()
 	{
 		// o-0-o
@@ -147,7 +327,7 @@ public partial class TestMatch : Control
 	{
 		try
 		{
-			var map = GetMapTemplate();
+			var map = GetBaskervilleTemplate();
 
 			var match = new Match(map, File.ReadAllText("../core.lua"))
 			{

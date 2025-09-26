@@ -28,6 +28,7 @@ func pick_card_in_hand(id):
 	respond(str(id))
 
 func can_pick_node(node_id):
+	if cur_data == null: return false
 	if cur_data.Request != 'ChooseNode':
 		return false 
 	for key in cur_data.Args:
