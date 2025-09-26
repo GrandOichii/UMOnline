@@ -121,6 +121,7 @@ public class Combat : IHasData<Combat.Data>
             if (card.EffectsCancelled) continue;
             await card.Card.ExecuteCombatStepTrigger(trigger, fighter);
             await Match.UpdateClients();
+            if (Match.IsWinnerDetermined()) return;
         }
     }
 
@@ -141,9 +142,11 @@ public class Combat : IHasData<Combat.Data>
 
         // execute "immediately"
         await EmitTrigger(CombatStepTrigger.Immediately);
+        if (Match.IsWinnerDetermined()) return;
 
         // execute "during combat"
         await EmitTrigger(CombatStepTrigger.DuringCombat);
+        if (Match.IsWinnerDetermined()) return;
 
         // deal damage
         var damage = AttackCard.GetValue();
@@ -153,12 +156,14 @@ public class Combat : IHasData<Combat.Data>
         }
         if (damage < 0) damage = 0;
         await Defender.ProcessDamage(damage, true);
+        if (Match.IsWinnerDetermined()) return;
         Winner = damage > 0
             ? Attacker.Owner
             : Defender.Owner;
 
         // execute "after combat"
         await EmitTrigger(CombatStepTrigger.AfterCombat);
+        if (Match.IsWinnerDetermined()) return;
 
         // discard cards
         Match.Logger?.LogDebug("Discarding combat cards");
@@ -171,26 +176,12 @@ public class Combat : IHasData<Combat.Data>
 
     public async Task CancelEffectsOfOpponent(Player player)
     {
-        if (Attacker.Owner == player)
-        {
-            if (DefenceCard is null) return;
-            if (!DefenceCard.CanBeCancelled()) return;
-            DefenceCard.CancelEffects();
-            Match.Logger?.LogDebug("Effects of defence card {CardLogName} of player {PlayerLogName} were cancelled", DefenceCard.Card.LogName, Defender.Owner.LogName);
-            await Match.UpdateClients();
-
-            return;
-        }
-
-        // TODO assert that Defender.Owner == player
-        // is defender
-        if (!AttackCard.CanBeCancelled()) return;
-
-        AttackCard.CancelEffects();
-        Match.Logger?.LogDebug("Effects of attack card {CardLogName} of player {PlayerLogName} were cancelled", AttackCard.Card.LogName, Attacker.Owner.LogName);
-
+        var (card, fighter) = GetCombatPart(player);
+        if (card is null) return;
+        if (!card.CanBeCancelled()) return;
+        card.CancelEffects();
+        Match.Logger?.LogDebug("Effects of card {CardLogName} of player {PlayerLogName} were cancelled", card.Card.LogName, fighter.Owner.LogName);
         await Match.UpdateClients();
-
     }
 
     public (CombatCard?, Fighter) GetCombatPart(Player player) {
@@ -203,8 +194,7 @@ public class Combat : IHasData<Combat.Data>
             return (AttackCard, Attacker);
         }
 
-        // TODO throw exception
-        throw new Exception();
+        throw new Exception($"Failed to find combat part for player {player.LogName}"); // TODO type
     }
 
     public async Task AddBoostToPlayer(Player player, MatchCard boostCard)
@@ -212,8 +202,7 @@ public class Combat : IHasData<Combat.Data>
         var (card, fighter) = GetCombatPart(player);
         if (card is null)
         {
-            // TODO throw exception
-            return;
+            throw new Exception($"Cannot boost empty card"); // TODO type
         }
         await card.AddBoost(boostCard);
     }

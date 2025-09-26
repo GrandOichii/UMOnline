@@ -84,13 +84,15 @@ public class MatchCard : IHasData<MatchCard.Data>
     public bool CanBeUsedAsAttack(Fighter fighter)
     {
         // TODO some effects change this
-        return (Template.Type == "Attack" || Template.Type == "Versatile") && Template.CanBePlayedBy(fighter.GetName());
+        return (Template.Type == "Attack" || Template.Type == "Versatile") &&
+                Template.CanBePlayedBy(fighter.GetName());
     }
 
     public bool CanBeUsedAsDefence(Fighter fighter)
     {
         // TODO some effects change this
-        return (Template.Type == "Defence" || Template.Type == "Versatile") && Template.CanBePlayedBy(fighter.GetName());
+        return (Template.Type == "Defence" || Template.Type == "Versatile") &&
+                Template.CanBePlayedBy(fighter.GetName());
     }
 
     public IEnumerable<Fighter> GetCanBePlayedBy()
@@ -108,7 +110,6 @@ public class MatchCard : IHasData<MatchCard.Data>
             { "owner", by.Owner },
         }));
 
-        // TODO? update clients about played scheme card
         await Owner.Match.UpdateClients();        
     }
 
@@ -119,7 +120,6 @@ public class MatchCard : IHasData<MatchCard.Data>
 
     public async Task ExecuteCombatStepTrigger(CombatStepTrigger trigger, Fighter by)
     {
-        // TODO
         if (!CombatStepEffects.TryGetValue(trigger, out var effects))
         {
             return;

@@ -39,8 +39,7 @@ public class Map : IHasData<Map.Data>
 
     public IEnumerable<Fighter> GetReachableFighters(Fighter fighter, int range)
     {
-        var node = GetFighterLocation(fighter)
-            ?? throw new Exception($"Failed to find fighter {fighter.LogName} for {nameof(GetReachableFighters)}"); // TODO type
+        var node = GetFighterLocation(fighter);
 
         HashSet<Fighter> result = [];
         node.GetReachableFighters(
@@ -54,8 +53,7 @@ public class Map : IHasData<Map.Data>
 
     public IEnumerable<Fighter> GetRangedReachableFighters(Fighter fighter)
     {
-        var node = GetFighterLocation(fighter)
-            ?? throw new Exception($"Failed to find fighter {fighter.LogName} for {nameof(GetReachableFighters)}"); // TODO type
+        var node = GetFighterLocation(fighter);
 
         HashSet<Fighter> result = [];
 
@@ -70,7 +68,14 @@ public class Map : IHasData<Map.Data>
 
     public IEnumerable<MapNode> GetNodesInZone(int zone) => Nodes.Where(n => n.IsInZone([zone]));
 
-    public MapNode? GetFighterLocation(Fighter fighter)
+    public MapNode GetFighterLocation(Fighter fighter)
+    {
+        var result = GetFighterLocationOrDefault(fighter)
+            ?? throw new Exception($"Failed to find fighter {fighter.LogName}");
+        return result;
+    }
+
+    public MapNode? GetFighterLocationOrDefault(Fighter fighter)
     {
         return Nodes.FirstOrDefault(node => node.Fighter == fighter);
     }
@@ -87,8 +92,7 @@ public class Map : IHasData<Map.Data>
         bool canMoveOverOpposing
     )
     {
-        var node = GetFighterLocation(fighter)
-            ?? throw new Exception($"Failed to find fighter {fighter.LogName} for {nameof(GetPossibleMovementResults)}"); // TODO type
+        var node = GetFighterLocation(fighter);
 
         HashSet<MapNode> result = [];
         node.GetPossibleMovementResults(
@@ -105,8 +109,7 @@ public class Map : IHasData<Map.Data>
     public async Task RemoveFighterFromBoard(Fighter fighter)
     {
         var node = GetFighterLocation(fighter);
-        // TODO check for null
-        await node!.RemoveFighter(true);
+        await node.RemoveFighter(true);
     }
 
     public Data GetData(Player player)
@@ -169,10 +172,9 @@ public class MapNode : IHasData<MapNode.Data>
 
     public async Task PlaceFighter(Fighter fighter)
     {
-        var existing = Parent.GetFighterLocation(fighter);
+        var existing = Parent.GetFighterLocationOrDefault(fighter);
         if (existing is not null)
         {
-            // TODO
             await existing.RemoveFighter();
         }
 

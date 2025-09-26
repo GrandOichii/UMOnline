@@ -67,7 +67,7 @@ public class IOPlayerController : IPlayerController
             (o, i) => new { o, i }
         ).ToDictionary(
             e => e.i.ToString(),
-            e => (object)e.o // TODO? this looks bad
+            e => (object)e.o
         );
     }
 

@@ -13,7 +13,7 @@ public class Hand : MatchCardCollection
 
     public async Task<IEnumerable<MatchCard>> Draw(int amount)
     {
-        var newCards = Owner.Deck.TakeFromTop(amount).ToList();
+        var newCards = await Owner.Deck.TakeFromTop(amount);
         Cards.AddRange(newCards);
 
         Owner.Match.Logger?.LogDebug("Player {PlayerLogName} draws {Amount} cards (wanted to draw: {OriginalAmount})", Owner.LogName, newCards.Count(), amount);

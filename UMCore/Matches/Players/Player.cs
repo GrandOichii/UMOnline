@@ -72,7 +72,18 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
 
     public async Task InitialPlaceFighters()
     {
-        // TODO order by heroes first, then sidekicks
+        var heroes = Fighters.Where(f => f.IsHero()).ToList();
+        foreach (var f in heroes)
+            await InitialPlaceFighter(f);
+
+        if (Loadout.StartsWithSidekicks)
+        {
+            var sidekicks = Fighters.Where(f => f.IsSidekick()).ToList();
+            foreach (var f in sidekicks)
+                await InitialPlaceFighter(f);
+        }
+
+
         foreach (var fighter in Fighters)
         {
             await InitialPlaceFighter(fighter);
@@ -130,6 +141,8 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
 
     public IEnumerable<Fighter> GetAliveFighters() => Fighters.Where(f => f.IsAlive());
 
+    public IEnumerable<Fighter> GetAliveHeroes() => GetAliveFighters().Where(f => f.IsHero());
+
     public string LogName => $"{Name}[{Idx}]";
 
     public string FormattedLogName => $"{Name}"; // TODO
@@ -143,8 +156,13 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
 
     public async Task EndTurn()
     {
-        // TODO discard down to 7 cards
         ActionCount = 0;
+
+        while (Hand.Count > Match.Config.MaxHandSize)
+        {
+            var card = await Controller.ChooseCardInHand(this, Idx, [.. Hand.Cards], $"Discard down to {Match.Config.MaxHandSize} cards");
+            await Hand.Discard(card);
+        }
 
         Match.Logs.Private(this, "You end your turn", $"Player {FormattedLogName} ends their turn");
 
@@ -154,7 +172,7 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
     public bool CanTakeActions()
     {
         // TODO some cards disable taking actions until the end of turn
-        return ActionCount > 0;
+        return ActionCount > 0 && !Match.IsWinnerDetermined();
     }
 
     public IEnumerable<IAction> AvailableActions()
@@ -169,7 +187,7 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
 
         if (!available.Contains(chosen))
         {
-            // TODO
+            // TODO add strict mode
         }
 
         var result = ACTION_MAP[chosen];
@@ -192,6 +210,7 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
         foreach (var phase in TURN_PHASES)
         {
             await phase.Execute(this);
+            if (Match.IsWinnerDetermined()) return;
         }
     }
 
@@ -210,7 +229,7 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
         }
 
         // TODO order effects
-        // await OrderEffects(effects);
+        // await OrderEffects(in effects);
 
         foreach (var (effect, fighter) in effects)
         {
@@ -270,15 +289,25 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
 
     public async Task DiscardCardForBoost(MatchCard card)
     {
-        // TODO? any discard for boost effects (if they exist)
+        // TODO discard for boost effects
         await Hand.Remove(card);
         await card.PlaceIntoDiscard();
+    }
+
+    public async Task Exhaust(int times)
+    {
+        Match.Logs.Public($"Fighters of player {FormattedLogName} are exhausted {times} times!");
+
+        foreach (var fighter in GetAliveFighters())
+        {
+            await fighter.ProcessDamage(Match.Config.ExhaustDamage);
+        }
     }
 
     public async Task PlayScheme(MatchCard card, Fighter fighter)
     {
         // TODO add scheme event
-        await Match.UpdateClients();        
+        await Match.UpdateClients();
 
         await card.ExecuteSchemeEffects(fighter);
 

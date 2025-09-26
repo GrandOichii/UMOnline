@@ -6,12 +6,18 @@ public class MatchConfig
     public required int ActionsPerTurn { get; init; }
     public required int MaxHandSize { get; init; }
     public required int ManoeuvreDrawAmount { get; init; }
+    public required bool RandomFirstPlayer { get; init; }
+    public required int FirstPlayerIdx { get; init; }
+    public required int ExhaustDamage { get; init; }
 
     public static readonly MatchConfig Default = new()
     {
         ActionsPerTurn = 2,
         InitialHandSize = 5,
         ManoeuvreDrawAmount = 1,
-        MaxHandSize = 7
+        MaxHandSize = 7,
+        FirstPlayerIdx = -1,
+        RandomFirstPlayer = true,
+        ExhaustDamage = 2,
     };
 }

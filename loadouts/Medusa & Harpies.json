@@ -1,6 +1,7 @@
 {
     "Name": "Medusa & Harpies",
     "Key": "Medusa & Harpies",
+    "StartsWithSidekicks": true,
     "Fighters": [
         {
             "Name": "Medusa",

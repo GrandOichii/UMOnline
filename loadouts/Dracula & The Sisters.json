@@ -1,6 +1,7 @@
 {
     "Name": "Dracula & The Sisters",
     "Key": "Dracula & The Sisters",
+    "StartsWithSidekicks": true,
     "Fighters": [
         {
             "Name": "Dracula",

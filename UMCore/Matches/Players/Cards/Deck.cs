@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using UMCore.Matches.Cards;
 
 namespace UMCore.Matches.Players.Cards;
@@ -8,7 +9,7 @@ public class Deck : MatchCardCollection
     {
     }
 
-    public List<MatchCard> TakeFromTop(int amount)
+    public async Task<List<MatchCard>> TakeFromTop(int amount)
     {
         var result = new List<MatchCard>();
         while (amount-- > 0 && Count > 0)
@@ -17,9 +18,9 @@ public class Deck : MatchCardCollection
             result.Add(card);
             Cards.Remove(card);
         }
-        while (amount-- > 0)
+        if (amount > 0)
         {
-            // TODO when drawing out of an empty deck deal 2 (1?) damage to all owned fighters
+            await Owner.Exhaust(amount);
         }
         return result;
     }

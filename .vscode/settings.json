@@ -27,6 +27,7 @@
         "AreOpposingInCombat",
         "CancelCombatEffectsOfOpponent",
         "BoostCardInCombat",
-        "GetCardInHand"
+        "GetCardInHand",
+        "IsAlive"
     ]
 }

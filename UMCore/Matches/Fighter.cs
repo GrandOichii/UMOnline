@@ -113,7 +113,7 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
         {
             return FighterStatus.Dead;
         }
-        if (Match.Map.GetFighterLocation(this) is null)
+        if (Match.Map.GetFighterLocationOrDefault(this) is null)
         {
             return FighterStatus.OffBoard;
         }
@@ -124,17 +124,13 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
     {
         var dealt = Health.DealDamage(amount);
         Match.Logger?.LogDebug("{FighterLogName} is dealt {Amount} damage (original amount: {OriginalAmount})", LogName, dealt, amount);
-        Match.Logs.Public($"Fighter {FormattedLogName} is dealt {amount} damage");
+        Match.Logs.Public($"Fighter {FormattedLogName} is dealt {amount}{(isCombatDamage ? " combat" : "")} damage");
 
-        // TODO check for death
         if (!IsAlive())
         {
             Match.Logs.Public($"Fighter {FormattedLogName} dies!");
             Match.Logger?.LogDebug("Fighter {FighterLogName} dies", LogName);
-            if (!Owner.GetAliveFighters().Select(f => f.IsHero()).Any())
-            {
-                throw new Exception("MATCH ENDED");
-            }
+            Match.CheckForWinners();
             await Match.Map.RemoveFighterFromBoard(this);
         }
         await Match.UpdateClients();
@@ -163,16 +159,19 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
         return Owner.Hand.Cards.Where(c => c.CanBeUsedAsDefence(this));
     }
 
+    public int GetMeleeRange()
+    {
+        return Template.MeleeRange;
+    }
+
     public IEnumerable<Fighter> GetReachableFighters()
     {
-        // TODO get targets within reach
-        var range = 1; // TODO some characters have increased range
+        var range = GetMeleeRange();
         List<Fighter> result = [.. Match.Map.GetReachableFighters(this, range)];
 
         if (Template.IsRanged)
         {
             result.AddRange(Match.Map.GetRangedReachableFighters(this));
-            // TODO add all fighters in zones
         }
 
         return result;
@@ -210,8 +209,7 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
     {
         if (!IsAlive()) return false;
         var node = Match.Map.GetFighterLocation(this);
-        // TODO check for null
-        return node!.IsInZone(zones);
+        return node.IsInZone(zones);
     }
 
     public IEnumerable<EffectCollection> GetTurnPhaseEffects(TurnPhaseTrigger trigger)

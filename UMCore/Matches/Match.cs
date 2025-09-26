@@ -20,6 +20,7 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
     public Combat? Combat { get; private set; }
     public Random Random { get; }
     public LogsManager Logs { get; }
+    public Player? Winner { get; private set; }
 
     public Match(MatchConfig config, MapTemplate mapTemplate, string setupScript)
     {
@@ -31,32 +32,53 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
         Combat = null;
         Random = new();
         Logs = new(this);
+        Winner = null;
         // Random = new(1);
 
         LState.DoString(setupScript);
         new MatchScripts(this);
     }
 
+    public bool CheckForWinners()
+    {
+        var activePlayers = Players.Where(p => p.GetAliveHeroes().Any()).ToList();
+        if (activePlayers.Count > 1) return false;
+
+        Winner = activePlayers[0];
+        return IsWinnerDetermined();
+    }
+
     public Player GetPlayer(int idx) => Players[idx];
 
-    public async Task<Player> AddPlayer(string name, int teamIdx, LoadoutTemplate loadout, IPlayerController controller)
+    public async Task<bool> AddPlayer(string name, int teamIdx, LoadoutTemplate loadout, IPlayerController controller)
     {
-        // TODO check whether a player with the specified loadout already exists
+        foreach (var p in Players)
+        {
+            if (p.Loadout.Name == loadout.Name)
+            {
+                return false;
+            }
+        }
 
         var player = new Player(this, Players.Count, name, teamIdx, loadout, controller);
 
         Players.Add(player);
 
-        return player;
+        return true;
     }
 
     public async Task Run()
     {
         Logger?.LogDebug("Starting match");
         await Setup();
-        // TODO order players
-        foreach (var player in Players)
+
+        var pIdx = Config.FirstPlayerIdx;
+        if (Config.RandomFirstPlayer)
+            pIdx = Random.Next(Players.Count);
+
+        for (int i = 0; i < Players.Count; ++i)
         {
+            var player = Players[(pIdx + i) % Players.Count];
             await player.InitialPlaceFighters();
         }
 
@@ -69,12 +91,11 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
             SetNextPlayer();
         }
 
-        Logs.Public($"Match ended! Winner is: TODO");
+        Logs.Public($"Match ended! Winner is: {Winner!.FormattedLogName}");
     }
 
     private async Task Setup()
     {
-        // TODO
         foreach (var player in Players)
         {
             await player.Setup();
@@ -94,8 +115,7 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
 
     public bool IsWinnerDetermined()
     {
-        //TODO
-        return false;
+        return Winner is not null;
     }
 
     public Player CurrentPlayer()
@@ -124,6 +144,7 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
         Logs.Public($"{player.FormattedLogName} attacks {attack.Fighter.FormattedLogName}");
 
         await Combat.Process();
+        if (IsWinnerDetermined()) return;
 
         Combat = null;
 

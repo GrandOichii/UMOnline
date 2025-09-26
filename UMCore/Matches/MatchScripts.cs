@@ -151,8 +151,7 @@ public class MatchScripts
     public LuaTable GetFighterZones(Fighter fighter)
     {
         var node = Match.Map.GetFighterLocation(fighter);
-        // TODO check for null
-        return LuaUtility.CreateTable(Match.LState, node!.GetZones().ToList());
+        return LuaUtility.CreateTable(Match.LState, node.GetZones().ToList());
 
     }
 
@@ -197,10 +196,9 @@ public class MatchScripts
     public bool AreAdjacent(Fighter fighter1, Fighter fighter2)
     {
         var node1 = Match.Map.GetFighterLocation(fighter1);
-        // TODO check for null
         var node2 = Match.Map.GetFighterLocation(fighter2);
 
-        return node1!.IsAdjecentTo(node2!) || node2!.IsAdjecentTo(node1!);
+        return node1.IsAdjecentTo(node2) || node2.IsAdjecentTo(node1);
     }
 
     [LuaCommand]
@@ -214,8 +212,7 @@ public class MatchScripts
     public bool AreInSameZone(Fighter f1, Fighter f2)
     {
         var f2Node = Match.Map.GetFighterLocation(f2);
-        // TODO check for null
-        return f1.IsInZone(f2Node!.GetZones());
+        return f1.IsInZone(f2Node.GetZones());
     }
 
     [LuaCommand]
@@ -246,7 +243,6 @@ public class MatchScripts
     [LuaCommand]
     public void BoostCardInCombat(Player player, MatchCard card)
     {
-        // TODO check combat for null
         player.Hand.Remove(card)
             .Wait();
         player.Match.Combat!.AddBoostToPlayer(player, card)
@@ -257,5 +253,11 @@ public class MatchScripts
     public MatchCard GetCardInHand(Player player, int idx)
     {
         return player.Hand.Cards[idx];
+    }
+
+    [LuaCommand]
+    public bool IsAlive(Fighter fighter)
+    {
+        return fighter.IsAlive();
     }
 }

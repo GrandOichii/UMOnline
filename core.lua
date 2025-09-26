@@ -398,7 +398,11 @@ function UM.S:Fighters()
 
     function result:Only(fighterFunc)
         result.filters[#result.filters+1] = function (args, fighter)
-            return fighter == fighterFunc(args)
+            local f = fighterFunc(args)
+            if not IsAlive(f) then
+                return false
+            end
+            return fighter == f
         end
 
         return result
@@ -407,6 +411,9 @@ function UM.S:Fighters()
     function result:AdjacentTo(fighterFunc)
         result.filters[#result.filters+1] = function (args, fighter)
             local f = fighterFunc(args)
+            if not IsAlive(f) then
+                return false
+            end
             return AreAdjacent(fighter, f)
         end
 
@@ -415,7 +422,11 @@ function UM.S:Fighters()
 
     function result:InSameZoneAs(fighterFunc)
         result.filters[#result.filters+1] = function (args, fighter)
-            return AreInSameZone(fighter, fighterFunc(args))
+            local f = fighterFunc(args)
+            if not IsAlive(f) then
+                return false
+            end
+            return AreInSameZone(fighter, f)
         end
 
         return result
@@ -424,7 +435,9 @@ function UM.S:Fighters()
     function result:OpposingInCombatTo(fighterFunc)
         result.filters[#result.filters+1] = function (args, fighter)
             local f = fighterFunc(args)
-
+            if not IsAlive(f) then
+                return false
+            end
             return AreOpposingInCombat(fighter, f)
         end
 
@@ -572,6 +585,9 @@ function UM.S.Spaces()
     function result:InSameZoneAs(fighterFunc)
         result.filters[#result.filters+1] = function (args, space)
             local fighter = fighterFunc(args)
+            if not IsAlive(fighter) then
+                return false
+            end
             local zones = GetFighterZones(fighter)
             return IsInZone(space, zones)
         end
