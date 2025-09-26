@@ -168,7 +168,7 @@ public class IOPlayerController : IPlayerController
         var defender = await ChooseFighter(player, [.. options.Select(a => a.Target)], "Choose attacked fighter");
         options = [.. options.Where(o => o.Target == defender)];
         var card = await ChooseCardInHand(player, player.Idx, [.. options.Select(a => a.AttackCard)], "Choose attack card");
-        var option = options.Single(a => a.AttackCard == card);
+        var option = options.First(a => a.AttackCard == card);
         return option;
         
         // TODO replace

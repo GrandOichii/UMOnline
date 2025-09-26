@@ -1,4 +1,5 @@
 using System.Text.Json;
+using Microsoft.Extensions.Logging;
 using UMCore.Matches.Attacks;
 using UMCore.Matches.Cards;
 
@@ -19,7 +20,8 @@ public interface IPlayerController
 
 public class RandomPlayerController(int seed) : IPlayerController
 {
-    private readonly Random _rnd = new(seed);
+    // private readonly Random _rnd = new(seed);
+    private readonly Random _rnd = new();
 
     public async Task<string> ChooseAction(Player player, string[] options)
     {
@@ -41,8 +43,12 @@ public class RandomPlayerController(int seed) : IPlayerController
     public async Task<MatchCard?> ChooseCardInHandOrNothing(Player player, int playerHandIdx, MatchCard[] options, string hint)
     {
         // TODO this threw an exception
-        var opts = options.ToList();
-        return opts[_rnd.Next(opts.Count)];
+        if (options.Length == 0)
+        {
+            return null;
+        }
+        var result = _rnd.Next(options.Length);
+        return options[result];
 
         // var opts = options.ToList();
         // var result = _rnd.Next(opts.Count + 1);
@@ -82,5 +88,61 @@ public class RandomPlayerController(int seed) : IPlayerController
     public Task Update(Player player)
     {
         return Task.CompletedTask;
+    }
+}
+
+public class DelayedControllerWrapper(TimeSpan delay, IPlayerController controller) : IPlayerController
+{
+    public async Task<string> ChooseAction(Player player, string[] options)
+    {
+        await Task.Delay(delay);
+        return await controller.ChooseAction(player, options);
+    }
+
+    public async Task<AvailableAttack> ChooseAttack(Player player, AvailableAttack[] options)
+    {
+        await Task.Delay(delay);
+        return await controller.ChooseAttack(player, options);
+    }
+
+    public async Task<MatchCard> ChooseCardInHand(Player player, int playerHandIdx, MatchCard[] options, string hint)
+    {
+        await Task.Delay(delay);
+        return await controller.ChooseCardInHand(player, playerHandIdx, options, hint);
+    }
+
+    public async Task<MatchCard?> ChooseCardInHandOrNothing(Player player, int playerHandIdx, MatchCard[] options, string hint)
+    {
+        await Task.Delay(delay);
+        return await controller.ChooseCardInHandOrNothing(player, playerHandIdx, options, hint);
+    }
+
+    public async Task<Fighter> ChooseFighter(Player player, Fighter[] options, string hint)
+    {
+        await Task.Delay(delay);
+        return await controller.ChooseFighter(player, options, hint);
+    }
+
+    public async Task<MapNode> ChooseNode(Player player, MapNode[] options, string hint)
+    {
+        await Task.Delay(delay);
+        return await controller.ChooseNode(player, options, hint);
+    }
+
+    public async Task<string> ChooseString(Player player, string[] options, string hint)
+    {
+        await Task.Delay(delay);
+        return await controller.ChooseString(player, options, hint);
+    }
+
+    public async Task Setup(Player player, Match.SetupData setupData)
+    {
+        await controller.Setup(player, setupData);
+    }
+
+    public async Task Update(Player player)
+    {
+        await Task.Delay(delay);
+        await controller.Update(player);
     }
 }

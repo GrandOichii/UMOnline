@@ -1,0 +1,54 @@
+[gd_scene load_steps=3 format=3 uid="uid://dyheeka37fidr"]
+
+[ext_resource type="PackedScene" uid="uid://bkwcncqk4nj5k" path="res://v1/Matches/Fighters/FighterDisplay.tscn" id="1_fkhwy"]
+[ext_resource type="PackedScene" uid="uid://cxs25778q1en6" path="res://v1/Matches/Cards/CardImageDisplay.tscn" id="1_mx2d5"]
+
+[node name="CombatDisplay" type="HBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -552.0
+offset_bottom = -429.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 2
+
+[node name="Attacker" parent="VBoxContainer/HBoxContainer" instance=ExtResource("1_fkhwy")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="AttackCard" parent="VBoxContainer/HBoxContainer" instance=ExtResource("1_mx2d5")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+alignment = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "Power: "
+
+[node name="AttackerPower" type="Label" parent="VBoxContainer/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "2"
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+text = "VS"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3

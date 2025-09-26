@@ -127,6 +127,10 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
         if (!IsAlive())
         {
             Match.Logger?.LogDebug("Fighter {FighterLogName} dies", LogName);
+            if (!Owner.GetAliveFighters().Select(f => f.IsHero()).Any())
+            {
+                throw new Exception("MATCH ENDED");
+            }
             await Match.Map.RemoveFighterFromBoard(this);
         }
         await Match.UpdateClients();

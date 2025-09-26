@@ -26,7 +26,8 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
         Fighters = [];
         LState = new();
         Combat = null;
-        Random = new(1);
+        Random = new();
+        // Random = new(1);
 
         LState.DoString(setupScript);
         new MatchScripts(this);

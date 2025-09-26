@@ -19,62 +19,107 @@ FighterScene = ExtResource("3_ayafp")
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="Main"]
+[node name="HBoxContainer4" type="HBoxContainer" parent="Main"]
 layout_mode = 2
 
-[node name="Name" type="Label" parent="Main/HBoxContainer2"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Main/HBoxContainer4"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Main/HBoxContainer4/VBoxContainer"]
+layout_mode = 2
+
+[node name="Name" type="Label" parent="Main/HBoxContainer4/VBoxContainer/HBoxContainer2"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "PLAYER NAME HERE"
 
-[node name="Idx" type="Label" parent="Main/HBoxContainer2"]
+[node name="Idx" type="Label" parent="Main/HBoxContainer4/VBoxContainer/HBoxContainer2"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 text = "[PIDX]"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Main"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Main/HBoxContainer4/VBoxContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Main/HBoxContainer"]
+[node name="Label" type="Label" parent="Main/HBoxContainer4/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "Actions left: "
 
-[node name="Actions" type="Label" parent="Main/HBoxContainer"]
+[node name="Actions" type="Label" parent="Main/HBoxContainer4/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "2"
 
-[node name="Center" type="HBoxContainer" parent="Main"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="ScrollContainer" type="ScrollContainer" parent="Main/Center"]
+[node name="ScrollContainer" type="ScrollContainer" parent="Main/HBoxContainer4/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 vertical_scroll_mode = 0
 
-[node name="Fighters" type="HBoxContainer" parent="Main/Center/ScrollContainer"]
+[node name="Fighters" type="HBoxContainer" parent="Main/HBoxContainer4/VBoxContainer/ScrollContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="FighterDisplay" parent="Main/Center/ScrollContainer/Fighters" instance=ExtResource("3_ayafp")]
+[node name="FighterDisplay" parent="Main/HBoxContainer4/VBoxContainer/ScrollContainer/Fighters" instance=ExtResource("3_ayafp")]
 layout_mode = 2
 size_flags_vertical = 0
 
-[node name="FighterDisplay2" parent="Main/Center/ScrollContainer/Fighters" instance=ExtResource("3_ayafp")]
+[node name="FighterDisplay2" parent="Main/HBoxContainer4/VBoxContainer/ScrollContainer/Fighters" instance=ExtResource("3_ayafp")]
 layout_mode = 2
 size_flags_vertical = 0
 
-[node name="FighterDisplay3" parent="Main/Center/ScrollContainer/Fighters" instance=ExtResource("3_ayafp")]
+[node name="FighterDisplay3" parent="Main/HBoxContainer4/VBoxContainer/ScrollContainer/Fighters" instance=ExtResource("3_ayafp")]
 layout_mode = 2
 size_flags_vertical = 0
 
-[node name="FighterDisplay4" parent="Main/Center/ScrollContainer/Fighters" instance=ExtResource("3_ayafp")]
+[node name="FighterDisplay4" parent="Main/HBoxContainer4/VBoxContainer/ScrollContainer/Fighters" instance=ExtResource("3_ayafp")]
 layout_mode = 2
 size_flags_vertical = 0
+
+[node name="DeckDiscard" type="HBoxContainer" parent="Main/HBoxContainer4"]
+layout_mode = 2
+
+[node name="DiscardContainer" type="VBoxContainer" parent="Main/HBoxContainer4/DeckDiscard"]
+unique_name_in_owner = true
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="Main/HBoxContainer4/DeckDiscard/DiscardContainer"]
+layout_mode = 2
+text = "Discard"
+horizontal_alignment = 1
+
+[node name="Discard" parent="Main/HBoxContainer4/DeckDiscard/DiscardContainer" instance=ExtResource("1_42mhx")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="DiscardCount" type="Label" parent="Main/HBoxContainer4/DeckDiscard/DiscardContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "20"
+horizontal_alignment = 1
+
+[node name="DeckContainer" type="VBoxContainer" parent="Main/HBoxContainer4/DeckDiscard"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="Main/HBoxContainer4/DeckDiscard/DeckContainer"]
+layout_mode = 2
+text = "Deck"
+horizontal_alignment = 1
+
+[node name="Deck" parent="Main/HBoxContainer4/DeckDiscard/DeckContainer" instance=ExtResource("1_42mhx")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="DeckCount" type="Label" parent="Main/HBoxContainer4/DeckDiscard/DeckContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "10"
+horizontal_alignment = 1
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="Main"]
 layout_mode = 2
@@ -121,45 +166,3 @@ layout_mode = 2
 
 [node name="HandCardDisplay11" parent="Main/HBoxContainer3/ScrollContainer/Hand" instance=ExtResource("2_g56st")]
 layout_mode = 2
-
-[node name="DeckDiscard" type="HBoxContainer" parent="Main/HBoxContainer3"]
-layout_mode = 2
-
-[node name="DiscardContainer" type="VBoxContainer" parent="Main/HBoxContainer3/DeckDiscard"]
-unique_name_in_owner = true
-layout_mode = 2
-alignment = 1
-
-[node name="Label" type="Label" parent="Main/HBoxContainer3/DeckDiscard/DiscardContainer"]
-layout_mode = 2
-text = "Discard"
-horizontal_alignment = 1
-
-[node name="Discard" parent="Main/HBoxContainer3/DeckDiscard/DiscardContainer" instance=ExtResource("1_42mhx")]
-unique_name_in_owner = true
-layout_mode = 2
-
-[node name="DiscardCount" type="Label" parent="Main/HBoxContainer3/DeckDiscard/DiscardContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-text = "20"
-horizontal_alignment = 1
-
-[node name="DeckContainer" type="VBoxContainer" parent="Main/HBoxContainer3/DeckDiscard"]
-layout_mode = 2
-alignment = 1
-
-[node name="Label" type="Label" parent="Main/HBoxContainer3/DeckDiscard/DeckContainer"]
-layout_mode = 2
-text = "Deck"
-horizontal_alignment = 1
-
-[node name="Deck" parent="Main/HBoxContainer3/DeckDiscard/DeckContainer" instance=ExtResource("1_42mhx")]
-unique_name_in_owner = true
-layout_mode = 2
-
-[node name="DeckCount" type="Label" parent="Main/HBoxContainer3/DeckDiscard/DeckContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-text = "10"
-horizontal_alignment = 1

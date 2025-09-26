@@ -74,8 +74,8 @@ func _load_fighters(match_data):
 		var node_id = pair[1]
 		var map_node = _get_node(node_id)
 		var fighter_node = _fighter_map[_fighter_id] as FighterFigureDisplay
-		# TODO load fighter data
 		fighter_node.reparent(map_node.FighterContainerNode, false)
+		#fighter_node.create_tween().tween_property(fighter_node, 'global_position', map_node.global_position, .5)
 		fighter_node.position.x = 0
 		fighter_node.position.y = 0
 		

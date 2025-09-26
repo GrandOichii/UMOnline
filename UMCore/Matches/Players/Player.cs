@@ -220,11 +220,12 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
         var fighters = GetAliveFighters().ToList();
         while (fighters.Count > 0)
         {
-            var fighter = fighters[0];
-            if (fighters.Count > 1)
-            {
-                fighter = await Controller.ChooseFighter(this, [..fighters], "Choose which fighter to move");
-            }
+            // var fighter = fighters[0];
+            // if (fighters.Count > 1)
+            // {
+            //     fighter = await Controller.ChooseFighter(this, [..fighters], "Choose which fighter to move");
+            // }
+            var fighter = await Controller.ChooseFighter(this, [..fighters], "Choose which fighter to move");
             fighters.Remove(fighter);
             await MoveFighter(fighter, fighter.Movement() + boostValue, canMoveOverFriendly, canMoveOverOpposing);
         }

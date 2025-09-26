@@ -352,7 +352,7 @@ public partial class TestMatch : Control
 				"p2",
 				1,
 				loadout2,
-				new RandomPlayerController(0)
+				new DelayedControllerWrapper(TimeSpan.FromMilliseconds(0), new RandomPlayerController(0))
 			);
 
 			await match.Run();

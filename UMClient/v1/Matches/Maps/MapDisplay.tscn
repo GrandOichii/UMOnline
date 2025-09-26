@@ -21,7 +21,7 @@ layout_mode = 2
 
 [node name="Bg" type="TextureRect" parent="HBoxContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(450, 292)
+custom_minimum_size = Vector2(600, 390)
 layout_mode = 2
 size_flags_horizontal = 3
 texture = ExtResource("3_xg07d")
@@ -39,257 +39,257 @@ grow_vertical = 2
 
 [node name="Node0" parent="HBoxContainer/Bg/Nodes" instance=ExtResource("2_aukae")]
 layout_mode = 1
-offset_left = 11.0
-offset_top = 17.0
-offset_right = 59.0
-offset_bottom = 65.0
+offset_left = 15.0
+offset_top = 22.0
+offset_right = 78.0
+offset_bottom = 85.0
 
 [node name="Node1" parent="HBoxContainer/Bg/Nodes" instance=ExtResource("2_aukae")]
 layout_mode = 1
-offset_left = 70.0
+offset_left = 94.0
 offset_top = 2.0
-offset_right = 118.0
-offset_bottom = 50.0
+offset_right = 157.0
+offset_bottom = 65.0
 NodeId = 1
 
 [node name="Node2" parent="HBoxContainer/Bg/Nodes" instance=ExtResource("2_aukae")]
 layout_mode = 1
-offset_left = 5.0
-offset_top = 69.0
-offset_right = 53.0
-offset_bottom = 117.0
+offset_left = 7.0
+offset_top = 93.0
+offset_right = 70.0
+offset_bottom = 156.0
 NodeId = 2
 
 [node name="Node3" parent="HBoxContainer/Bg/Nodes" instance=ExtResource("2_aukae")]
 layout_mode = 1
-offset_left = 57.0
-offset_top = 73.0
-offset_right = 105.0
-offset_bottom = 121.0
+offset_left = 78.0
+offset_top = 99.0
+offset_right = 141.0
+offset_bottom = 162.0
 NodeId = 3
 
 [node name="Node4" parent="HBoxContainer/Bg/Nodes" instance=ExtResource("2_aukae")]
 layout_mode = 1
-offset_left = 104.0
-offset_top = 53.0
-offset_right = 152.0
-offset_bottom = 101.0
+offset_left = 140.0
+offset_top = 71.0
+offset_right = 203.0
+offset_bottom = 134.0
 NodeId = 4
 
 [node name="Node5" parent="HBoxContainer/Bg/Nodes" instance=ExtResource("2_aukae")]
 layout_mode = 1
-offset_left = 121.0
-offset_top = 109.0
-offset_right = 169.0
-offset_bottom = 157.0
+offset_left = 161.0
+offset_top = 144.0
+offset_right = 224.0
+offset_bottom = 207.0
 NodeId = 5
 
 [node name="Node6" parent="HBoxContainer/Bg/Nodes" instance=ExtResource("2_aukae")]
 layout_mode = 1
-offset_left = 150.0
-offset_top = 12.0
-offset_right = 198.0
-offset_bottom = 60.0
+offset_left = 201.0
+offset_top = 16.0
+offset_right = 264.0
+offset_bottom = 79.0
 NodeId = 6
 
 [node name="Node7" parent="HBoxContainer/Bg/Nodes" instance=ExtResource("2_aukae")]
 layout_mode = 1
-offset_left = 237.0
-offset_top = 13.0
-offset_right = 285.0
-offset_bottom = 61.0
+offset_left = 316.0
+offset_top = 18.0
+offset_right = 379.0
+offset_bottom = 81.0
 NodeId = 7
 
 [node name="Node8" parent="HBoxContainer/Bg/Nodes" instance=ExtResource("2_aukae")]
 layout_mode = 1
-offset_left = 207.0
-offset_top = 51.0
-offset_right = 255.0
-offset_bottom = 99.0
+offset_left = 275.0
+offset_top = 70.0
+offset_right = 338.0
+offset_bottom = 133.0
 NodeId = 8
 
 [node name="Node9" parent="HBoxContainer/Bg/Nodes" instance=ExtResource("2_aukae")]
 layout_mode = 1
-offset_left = 287.0
-offset_top = 51.0
-offset_right = 335.0
-offset_bottom = 99.0
+offset_left = 383.0
+offset_top = 69.0
+offset_right = 446.0
+offset_bottom = 132.0
 NodeId = 9
 
 [node name="Node10" parent="HBoxContainer/Bg/Nodes" instance=ExtResource("2_aukae")]
 layout_mode = 1
-offset_left = 335.0
-offset_top = 16.0
-offset_right = 383.0
-offset_bottom = 64.0
+offset_left = 446.0
+offset_top = 21.0
+offset_right = 509.0
+offset_bottom = 84.0
 NodeId = 10
 
 [node name="Node11" parent="HBoxContainer/Bg/Nodes" instance=ExtResource("2_aukae")]
 layout_mode = 1
-offset_left = 363.0
-offset_top = 52.0
-offset_right = 411.0
-offset_bottom = 100.0
+offset_left = 483.0
+offset_top = 71.0
+offset_right = 546.0
+offset_bottom = 134.0
 NodeId = 11
 
 [node name="Node12" parent="HBoxContainer/Bg/Nodes" instance=ExtResource("2_aukae")]
 layout_mode = 1
-offset_left = 393.0
-offset_top = 16.0
-offset_right = 441.0
-offset_bottom = 64.0
+offset_left = 526.0
+offset_top = 23.0
+offset_right = 589.0
+offset_bottom = 86.0
 NodeId = 12
 
 [node name="Node13" parent="HBoxContainer/Bg/Nodes" instance=ExtResource("2_aukae")]
 layout_mode = 1
-offset_left = 286.0
-offset_top = 143.0
-offset_right = 334.0
-offset_bottom = 191.0
+offset_left = 381.0
+offset_top = 191.0
+offset_right = 444.0
+offset_bottom = 254.0
 NodeId = 13
 
 [node name="Node14" parent="HBoxContainer/Bg/Nodes" instance=ExtResource("2_aukae")]
 layout_mode = 1
-offset_left = 358.0
-offset_top = 109.0
-offset_right = 406.0
-offset_bottom = 157.0
+offset_left = 478.0
+offset_top = 146.0
+offset_right = 541.0
+offset_bottom = 209.0
 NodeId = 14
 
 [node name="Node15" parent="HBoxContainer/Bg/Nodes" instance=ExtResource("2_aukae")]
 layout_mode = 1
-offset_left = 390.0
-offset_top = 145.0
-offset_right = 438.0
-offset_bottom = 193.0
+offset_left = 522.0
+offset_top = 194.0
+offset_right = 585.0
+offset_bottom = 257.0
 NodeId = 15
 
 [node name="Node16" parent="HBoxContainer/Bg/Nodes" instance=ExtResource("2_aukae")]
 layout_mode = 1
-offset_left = 335.0
-offset_top = 157.0
-offset_right = 383.0
-offset_bottom = 205.0
+offset_left = 447.0
+offset_top = 208.0
+offset_right = 510.0
+offset_bottom = 271.0
 NodeId = 16
 
 [node name="Node17" parent="HBoxContainer/Bg/Nodes" instance=ExtResource("2_aukae")]
 layout_mode = 1
-offset_left = 227.0
-offset_top = 119.0
-offset_right = 275.0
-offset_bottom = 167.0
+offset_left = 303.0
+offset_top = 158.0
+offset_right = 366.0
+offset_bottom = 221.0
 NodeId = 17
 
 [node name="Node18" parent="HBoxContainer/Bg/Nodes" instance=ExtResource("2_aukae")]
 layout_mode = 1
-offset_left = 182.0
-offset_top = 145.0
-offset_right = 230.0
-offset_bottom = 193.0
+offset_left = 243.0
+offset_top = 194.0
+offset_right = 306.0
+offset_bottom = 257.0
 NodeId = 18
 
 [node name="Node19" parent="HBoxContainer/Bg/Nodes" instance=ExtResource("2_aukae")]
 layout_mode = 1
-offset_left = 201.0
-offset_top = 201.0
-offset_right = 249.0
-offset_bottom = 249.0
+offset_left = 268.0
+offset_top = 268.0
+offset_right = 331.0
+offset_bottom = 331.0
 NodeId = 19
 
 [node name="Node20" parent="HBoxContainer/Bg/Nodes" instance=ExtResource("2_aukae")]
 layout_mode = 1
-offset_left = 260.0
-offset_top = 212.0
-offset_right = 308.0
-offset_bottom = 260.0
+offset_left = 348.0
+offset_top = 282.0
+offset_right = 411.0
+offset_bottom = 345.0
 NodeId = 20
 
 [node name="Node21" parent="HBoxContainer/Bg/Nodes" instance=ExtResource("2_aukae")]
 layout_mode = 1
-offset_left = 320.0
-offset_top = 214.0
-offset_right = 368.0
-offset_bottom = 262.0
+offset_left = 427.0
+offset_top = 286.0
+offset_right = 490.0
+offset_bottom = 349.0
 NodeId = 21
 
 [node name="Node22" parent="HBoxContainer/Bg/Nodes" instance=ExtResource("2_aukae")]
 layout_mode = 1
-offset_left = 397.0
-offset_top = 208.0
-offset_right = 445.0
-offset_bottom = 256.0
+offset_left = 530.0
+offset_top = 276.0
+offset_right = 593.0
+offset_bottom = 339.0
 NodeId = 22
 
 [node name="Node23" parent="HBoxContainer/Bg/Nodes" instance=ExtResource("2_aukae")]
 layout_mode = 1
-offset_left = 363.0
-offset_top = 243.0
-offset_right = 411.0
-offset_bottom = 291.0
+offset_left = 485.0
+offset_top = 325.0
+offset_right = 548.0
+offset_bottom = 388.0
 NodeId = 23
 
 [node name="Node24" parent="HBoxContainer/Bg/Nodes" instance=ExtResource("2_aukae")]
 layout_mode = 1
-offset_left = 222.0
-offset_top = 244.0
-offset_right = 270.0
-offset_bottom = 292.0
+offset_left = 296.0
+offset_top = 324.0
+offset_right = 359.0
+offset_bottom = 387.0
 NodeId = 24
 
 [node name="Node25" parent="HBoxContainer/Bg/Nodes" instance=ExtResource("2_aukae")]
 layout_mode = 1
-offset_left = 168.0
-offset_top = 240.0
-offset_right = 216.0
-offset_bottom = 288.0
+offset_left = 225.0
+offset_top = 320.0
+offset_right = 288.0
+offset_bottom = 383.0
 NodeId = 25
 
 [node name="Node26" parent="HBoxContainer/Bg/Nodes" instance=ExtResource("2_aukae")]
 layout_mode = 1
-offset_left = 119.0
-offset_top = 232.0
-offset_right = 167.0
-offset_bottom = 280.0
+offset_left = 160.0
+offset_top = 309.0
+offset_right = 223.0
+offset_bottom = 372.0
 NodeId = 26
 
 [node name="Node27" parent="HBoxContainer/Bg/Nodes" instance=ExtResource("2_aukae")]
 layout_mode = 1
-offset_left = 72.0
-offset_top = 244.0
-offset_right = 120.0
-offset_bottom = 292.0
+offset_left = 97.0
+offset_top = 325.0
+offset_right = 160.0
+offset_bottom = 388.0
 NodeId = 27
 
 [node name="Node28" parent="HBoxContainer/Bg/Nodes" instance=ExtResource("2_aukae")]
 layout_mode = 1
-offset_left = 47.0
-offset_top = 203.0
-offset_right = 95.0
-offset_bottom = 251.0
+offset_left = 63.0
+offset_top = 270.0
+offset_right = 126.0
+offset_bottom = 333.0
 NodeId = 28
 
 [node name="Node29" parent="HBoxContainer/Bg/Nodes" instance=ExtResource("2_aukae")]
 layout_mode = 1
-offset_left = 122.0
-offset_top = 177.0
-offset_right = 170.0
-offset_bottom = 225.0
+offset_left = 163.0
+offset_top = 236.0
+offset_right = 226.0
+offset_bottom = 299.0
 NodeId = 29
 
 [node name="Node30" parent="HBoxContainer/Bg/Nodes" instance=ExtResource("2_aukae")]
 layout_mode = 1
-offset_left = 18.0
-offset_top = 141.0
-offset_right = 66.0
-offset_bottom = 189.0
+offset_left = 25.0
+offset_top = 189.0
+offset_right = 88.0
+offset_bottom = 252.0
 NodeId = 30
 
 [node name="Node31" parent="HBoxContainer/Bg/Nodes" instance=ExtResource("2_aukae")]
 layout_mode = 1
-offset_left = 70.0
-offset_top = 129.0
-offset_right = 118.0
-offset_bottom = 177.0
+offset_left = 94.0
+offset_top = 172.0
+offset_right = 157.0
+offset_bottom = 235.0
 NodeId = 31
 
 [node name="HiddenFighters" type="Control" parent="."]

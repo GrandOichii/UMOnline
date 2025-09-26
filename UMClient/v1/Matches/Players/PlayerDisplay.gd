@@ -8,7 +8,7 @@ class_name PlayerDisplay
 @export var FighterImageLoaderNode: FighterImageLoader
 @export var ZoomedCardImage: ZoomedCard
 
-@onready var MainContainer = %Main
+#@onready var MainContainer = %Main
 @onready var DeckNode = %Deck
 @onready var FightersNode = %Fighters
 
@@ -26,12 +26,11 @@ func _ready() -> void:
 	while %Hand.get_child_count() > 0:
 		%Hand.remove_child(%Hand.get_child(0))
 
-
-	if inverted:
-		var count = MainContainer.get_child_count()
-		while count > 0:
-			MainContainer.move_child(MainContainer.get_child(0), count - 1)
-			count -= 1
+	#if inverted:
+		#var count = MainContainer.get_child_count()
+		#while count > 0:
+			#MainContainer.move_child(MainContainer.get_child(0), count - 1)
+			#count -= 1
 
 func set_essentials(connection: MatchConnection):
 	_connection = connection

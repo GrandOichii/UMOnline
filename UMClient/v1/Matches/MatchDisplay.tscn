@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://bfos7kwpjhcsu" path="res://v1/Matches/Players/PlayerDisplay.tscn" id="1_uuhjp"]
 [ext_resource type="PackedScene" uid="uid://cpc3ofe4utau1" path="res://v1/Matches/Maps/MapDisplay.tscn" id="2_6n8ov"]
 [ext_resource type="PackedScene" uid="uid://balgj857rblso" path="res://v1/Matches/Cards/ZoomedCard.tscn" id="2_23jxg"]
-[ext_resource type="PackedScene" uid="uid://box5pj4njtqw0" path="res://v1/Matches/Events/EventListDisplay.tscn" id="4_n5mcn"]
+[ext_resource type="PackedScene" uid="uid://dyheeka37fidr" path="res://v1/Matches/Combat/CombatDisplay.tscn" id="4_mcdo3"]
 [ext_resource type="PackedScene" uid="uid://ce06sx3gdlscm" path="res://v1/CardImageLoader.tscn" id="6_62j6u"]
 [ext_resource type="PackedScene" uid="uid://bdtj470fa7xnp" path="res://v1/FighterImageLoader.tscn" id="7_i8bsg"]
 
@@ -17,7 +17,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_e571j")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -25,19 +25,104 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="TopPlayers" type="HBoxContainer" parent="VBoxContainer"]
-visible = false
+[node name="Players" type="ScrollContainer" parent="VBoxContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
+horizontal_scroll_mode = 0
+
+[node name="Players" type="VBoxContainer" parent="VBoxContainer/Players"]
+layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Center" type="HBoxContainer" parent="VBoxContainer"]
+[node name="P1" parent="VBoxContainer/Players/Players" node_paths=PackedStringArray("image_loader", "FighterImageLoaderNode", "ZoomedCardImage") instance=ExtResource("1_uuhjp")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+image_loader = NodePath("../../../../CardImageLoader")
+FighterImageLoaderNode = NodePath("../../../../FighterImageLoader")
+ZoomedCardImage = NodePath("../../../ZoomedCard")
+
+[node name="P2" parent="VBoxContainer/Players/Players" node_paths=PackedStringArray("image_loader", "FighterImageLoaderNode", "ZoomedCardImage") instance=ExtResource("1_uuhjp")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+image_loader = NodePath("../../../../CardImageLoader")
+FighterImageLoaderNode = NodePath("../../../../FighterImageLoader")
+ZoomedCardImage = NodePath("../../../ZoomedCard")
+
+[node name="P3" parent="VBoxContainer/Players/Players" node_paths=PackedStringArray("image_loader", "FighterImageLoaderNode", "ZoomedCardImage") instance=ExtResource("1_uuhjp")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+image_loader = NodePath("../../../../CardImageLoader")
+FighterImageLoaderNode = NodePath("../../../../FighterImageLoader")
+ZoomedCardImage = NodePath("../../../ZoomedCard")
+
+[node name="P4" parent="VBoxContainer/Players/Players" node_paths=PackedStringArray("image_loader", "FighterImageLoaderNode", "ZoomedCardImage") instance=ExtResource("1_uuhjp")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+image_loader = NodePath("../../../../CardImageLoader")
+FighterImageLoaderNode = NodePath("../../../../FighterImageLoader")
+ZoomedCardImage = NodePath("../../../ZoomedCard")
+
+[node name="ZoomedCard" parent="VBoxContainer" node_paths=PackedStringArray("ImageLoader") instance=ExtResource("2_23jxg")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+ImageLoader = NodePath("../../CardImageLoader")
+
+[node name="Center" type="VBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_stretch_ratio = 2.0
 
-[node name="ZoomedCard" parent="VBoxContainer/Center" node_paths=PackedStringArray("ImageLoader") instance=ExtResource("2_23jxg")]
+[node name="Combat" parent="VBoxContainer/Center" instance=ExtResource("4_mcdo3")]
 unique_name_in_owner = true
 layout_mode = 2
-ImageLoader = NodePath("../../../CardImageLoader")
+size_flags_vertical = 3
+
+[node name="ConnectionControls" type="HBoxContainer" parent="VBoxContainer/Center"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="ChooseStringControls" type="HBoxContainer" parent="VBoxContainer/Center/ConnectionControls"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ChooseStringText" type="Label" parent="VBoxContainer/Center/ConnectionControls/ChooseStringControls"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Choose string:"
+
+[node name="ChooseStringOptions" type="HBoxContainer" parent="VBoxContainer/Center/ConnectionControls/ChooseStringControls"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ChooseActionControls" type="HBoxContainer" parent="VBoxContainer/Center/ConnectionControls"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ChooseActionText" type="Label" parent="VBoxContainer/Center/ConnectionControls/ChooseActionControls"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Choose string:"
+
+[node name="ChooseActionOptions" type="HBoxContainer" parent="VBoxContainer/Center/ConnectionControls/ChooseActionControls"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ChooseNothingInHandButton" type="Button" parent="VBoxContainer/Center/ConnectionControls"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Don't pick any card"
 
 [node name="Map" parent="VBoxContainer/Center" node_paths=PackedStringArray("FighterImageLoaderNode") instance=ExtResource("2_6n8ov")]
 unique_name_in_owner = true
@@ -45,91 +130,8 @@ layout_mode = 2
 size_flags_horizontal = 4
 FighterImageLoaderNode = NodePath("../../../FighterImageLoader")
 
-[node name="Events" parent="VBoxContainer/Center" instance=ExtResource("4_n5mcn")]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="ConnectionControls" type="HBoxContainer" parent="VBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="ChooseStringControls" type="HBoxContainer" parent="VBoxContainer/ConnectionControls"]
-unique_name_in_owner = true
-visible = false
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="ChooseStringText" type="Label" parent="VBoxContainer/ConnectionControls/ChooseStringControls"]
-unique_name_in_owner = true
-layout_mode = 2
-text = "Choose string:"
-
-[node name="ChooseStringOptions" type="HBoxContainer" parent="VBoxContainer/ConnectionControls/ChooseStringControls"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="ChooseActionControls" type="HBoxContainer" parent="VBoxContainer/ConnectionControls"]
-unique_name_in_owner = true
-visible = false
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="ChooseActionText" type="Label" parent="VBoxContainer/ConnectionControls/ChooseActionControls"]
-unique_name_in_owner = true
-layout_mode = 2
-text = "Choose string:"
-
-[node name="ChooseActionOptions" type="HBoxContainer" parent="VBoxContainer/ConnectionControls/ChooseActionControls"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="ChooseNothingInHandButton" type="Button" parent="VBoxContainer/ConnectionControls"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Don't pick any card"
-
-[node name="BottomPlayers" type="HBoxContainer" parent="VBoxContainer"]
-layout_mode = 2
-
-[node name="P1" parent="VBoxContainer/BottomPlayers" node_paths=PackedStringArray("image_loader", "FighterImageLoaderNode", "ZoomedCardImage") instance=ExtResource("1_uuhjp")]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-image_loader = NodePath("../../../CardImageLoader")
-FighterImageLoaderNode = NodePath("../../../FighterImageLoader")
-ZoomedCardImage = NodePath("../../Center/ZoomedCard")
-
-[node name="P2" parent="VBoxContainer/BottomPlayers" node_paths=PackedStringArray("image_loader", "FighterImageLoaderNode", "ZoomedCardImage") instance=ExtResource("1_uuhjp")]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-image_loader = NodePath("../../../CardImageLoader")
-FighterImageLoaderNode = NodePath("../../../FighterImageLoader")
-ZoomedCardImage = NodePath("../../Center/ZoomedCard")
-
-[node name="P3" parent="VBoxContainer/BottomPlayers" node_paths=PackedStringArray("image_loader", "FighterImageLoaderNode", "ZoomedCardImage") instance=ExtResource("1_uuhjp")]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-image_loader = NodePath("../../../CardImageLoader")
-FighterImageLoaderNode = NodePath("../../../FighterImageLoader")
-ZoomedCardImage = NodePath("../../Center/ZoomedCard")
-
-[node name="P4" parent="VBoxContainer/BottomPlayers" node_paths=PackedStringArray("image_loader", "FighterImageLoaderNode", "ZoomedCardImage") instance=ExtResource("1_uuhjp")]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-image_loader = NodePath("../../../CardImageLoader")
-FighterImageLoaderNode = NodePath("../../../FighterImageLoader")
-ZoomedCardImage = NodePath("../../Center/ZoomedCard")
-
 [node name="CardImageLoader" parent="." instance=ExtResource("6_62j6u")]
 
 [node name="FighterImageLoader" parent="." instance=ExtResource("7_i8bsg")]
 
-[connection signal="pressed" from="VBoxContainer/ConnectionControls/ChooseNothingInHandButton" to="." method="_on_choose_nothing_in_hand_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/Center/ConnectionControls/ChooseNothingInHandButton" to="." method="_on_choose_nothing_in_hand_button_pressed"]
