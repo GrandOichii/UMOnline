@@ -77,11 +77,13 @@ func load_player(match_data, idx):
 		%Hand.add_child(child)
 		
 		var display = child as HandCardDisplay
-		display.set_essentials(idx, _connection, image_loader, _deck_name, ZoomedCardImage.load_card)
+		display.set_essentials(_connection, image_loader, _deck_name, ZoomedCardImage.load_card)
+		display.set_idx(%Hand.get_child_count()-1)
 
 	var hi = 0
 	for display: HandCardDisplay in %Hand.get_children():
 		display.load_card(data.Hand.Cards[hi])
+		display.set_idx(hi)
 		hi += 1
 
 	# fighters

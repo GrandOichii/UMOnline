@@ -13,14 +13,19 @@ var _connection: MatchConnection
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	reset_border_color()
-
-func set_essentials(idx, connection, image_loader, deck_name, on_load_card):
+	
+func set_idx(idx):
 	_idx = idx
+	%IDX.text = str(idx)
+	
+func set_essentials(connection, image_loader, deck_name, on_load_card):
 	_connection = connection
 	CardNode.set_essentials(image_loader, deck_name, on_load_card)
 	
 func load_card(data):
 	_cur_data = data
+	if data != null:
+		%ID.text = str(data.Id)
 	CardNode.load_hand_card(data)
 	
 func can_pick():
