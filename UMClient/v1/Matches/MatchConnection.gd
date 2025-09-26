@@ -41,7 +41,21 @@ func pick_node(node_id):
 		if cur_data.Args[key] == node_id:
 			respond(key)
 			return
+
+func can_pick_fighter(fighter_id):
+	if cur_data == null: return false
+	if cur_data.Request != 'ChooseFighter':
+		return false 
+	for key in cur_data.Args:
+		if cur_data.Args[key] == fighter_id:
+			return true
+	return false
+
+func pick_fighter(fighter_id):
+	for key in cur_data.Args:
+		if cur_data.Args[key] == fighter_id:
+			respond(key)
+			return
 	# TODO throw error
 
-# TODO ChooseFighter
 # TODO ChooseAttack

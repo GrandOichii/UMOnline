@@ -14,7 +14,7 @@ class_name PlayerDisplay
 
 var _connection
 
-var _deck_name = 'medusa & harpies' # TODO remove
+var _deck_name = 'Medusa & Harpies' # TODO remove
 
 # Called when the node enters the scene tree for the first time
 func _ready() -> void:
@@ -96,7 +96,7 @@ func load_player(match_data, idx):
 	# fighters
 	var fi = 0
 	for fighter in data.Fighters:
-		if FightersNode.get_child_count() >= fi: break # TODO fix
+		if FightersNode.get_child_count() <= fi: break # TODO fix
 		var node = FightersNode.get_child(fi)
 		node.load_fighter(fighter)
 		fi += 1

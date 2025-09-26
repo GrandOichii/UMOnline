@@ -31,7 +31,7 @@ func set_essentials(connection: MatchConnection):
 		child.set_essentials(connection)
 	for key in _fighter_map:
 		var node = _fighter_map[key]
-		_fighter_map[key].set_essentials(connection, FighterImageLoaderNode)
+		node.set_essentials(connection, FighterImageLoaderNode)
 
 func _update_node_map():
 	for child in NodesNode.get_children():
@@ -75,7 +75,7 @@ func _load_fighters(match_data):
 		var map_node = _get_node(node_id)
 		var fighter_node = _fighter_map[_fighter_id] as FighterFigureDisplay
 		# TODO load fighter data
-		fighter_node.reparent(map_node, false)
+		fighter_node.reparent(map_node.FighterContainerNode, false)
 		fighter_node.position.x = 0
 		fighter_node.position.y = 0
 		

@@ -9,6 +9,8 @@ class_name MapNodeDisplay
 @onready var BorderNode = %Border
 # @onready var BorderNode = %Border
 
+@onready var FighterContainerNode = %FighterContainer
+
 var _connection: MatchConnection
 
 func _ready() -> void:
