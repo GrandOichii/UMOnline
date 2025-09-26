@@ -11,7 +11,7 @@
             "MaxHealth": 13,
             "StartingHealth": 13,
             "IsRanged": false,
-            "Text": "TODO",
+            "Text": "At the start of your turn, you may deal 1 damage to a fighter adjacent to Dracula. If you do, draw a card.",
             "Script": "../fighter-scripts/Dracula.lua"
         }, 
         {

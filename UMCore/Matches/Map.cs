@@ -10,31 +10,30 @@ public class Map : IHasData<Map.Data>
     public Match Match { get; }
     public MapTemplate Template { get; }
     public List<MapNode> Nodes { get; }
+    public List<MapNode> SecretPassageNodes { get; }
 
     public Map(Match match, MapTemplate template)
     {
         Match = match;
         Template = template;
 
+        SecretPassageNodes = [];
         Nodes = [];
+
         Dictionary<MapNodeTemplate, MapNode> mapping = [];
         foreach (var nodeTemplate in template.Nodes)
         {
             var node = new MapNode(this, nodeTemplate);
             mapping.Add(nodeTemplate, node);
             Nodes.Add(node);
+            if (nodeTemplate.HasSecretPassage)
+                SecretPassageNodes.Add(node);
         }
 
         // adjacent nodes
         foreach (var pair in template.Adjacent)
         {
             mapping[pair.First].Adjacent.Add(mapping[pair.Second]);
-        }
-
-        // secret passages
-        foreach (var pair in template.SecretPassages)
-        {
-            mapping[pair.First].SecretPassages.Add(mapping[pair.Second]);
         }
     }
 
@@ -129,7 +128,6 @@ public class MapNode : IHasData<MapNode.Data>
     public MapNodeTemplate Template { get; }
     public int Id { get; }
     public List<MapNode> Adjacent { get; }
-    public List<MapNode> SecretPassages { get; }
 
     public Fighter? Fighter { get; private set; }
     // public List<Token> Tokens { get; } // TODO
@@ -143,7 +141,6 @@ public class MapNode : IHasData<MapNode.Data>
         Fighter = null;
 
         Adjacent = [];
-        SecretPassages = [];
     }
 
     public IEnumerable<int> GetZones() => Template.Zones;
@@ -199,8 +196,6 @@ public class MapNode : IHasData<MapNode.Data>
         bool canMoveOverOpposing,
         in HashSet<MapNode> result)
     {
-        // TODO this requires testing
-
         if (Fighter is not null && Fighter != fighter)
         {
             if (!canMoveOverOpposing && Fighter.IsOpposingTo(fighter.Owner)) return;
@@ -220,8 +215,9 @@ public class MapNode : IHasData<MapNode.Data>
         {
             node.GetPossibleMovementResults(fighter, movement - 1, canMoveOverFriendly, canMoveOverOpposing, result);
         }
-        foreach (var node in SecretPassages)
+        foreach (var node in Parent.SecretPassageNodes)
         {
+            if (node == this) continue;
             node.GetPossibleMovementResults(fighter, movement - 1, canMoveOverFriendly, canMoveOverOpposing, result);
         }
         // TODO add support for fog token-like effects

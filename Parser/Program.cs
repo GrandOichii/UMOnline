@@ -20,7 +20,6 @@ var FIGHTER_NAMES = new string[] {
     "Ms. Marvel",
     "Daredevil",
     "Annie",
-    "Foo", // TODO remove
     "Medusa",
     "Sinbad",
     "Sherlock Holmes",
@@ -224,7 +223,6 @@ var fighterSelector = new Selector()
             Name = "anyFighterInNamedFighterZone",
             PatternString = "any 1 fighter in (.+?)(?:\'s)? zone\\.?",
             Script = "function _Create(text, children) return string.format(':InSameZoneAs(UM.S:Fighters()%s:BuildOne())', children[1]) end",
-            // Script = TODOSCRIPT,
             Children = [
                 namedFighter
             ]

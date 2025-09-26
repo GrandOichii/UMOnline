@@ -33,6 +33,7 @@ public partial class TestMatch : Control
 			new() {
 				Id = 0,
 				Zones = [0],
+				HasSecretPassage = true,
 			},
 			new() {
 				Id = 1,
@@ -81,6 +82,7 @@ public partial class TestMatch : Control
 			new() {
 				Id = 12,
 				Zones = [2],
+				HasSecretPassage = true,
 			},
 			new() {
 				Id = 13,
@@ -101,6 +103,7 @@ public partial class TestMatch : Control
 			new() {
 				Id = 17,
 				Zones = [3],
+				HasSecretPassage = true,
 			},
 			new() {
 				Id = 18,
@@ -141,6 +144,7 @@ public partial class TestMatch : Control
 			new() {
 				Id = 27,
 				Zones = [5],
+				HasSecretPassage = true,
 			},
 			new() {
 				Id = 28,
@@ -201,9 +205,6 @@ public partial class TestMatch : Control
 				.. Bidirectional(nodes[31], nodes[30]),
 				.. Bidirectional(nodes[2], nodes[30]),
 				.. Bidirectional(nodes[31], nodes[5]),
-			],
-			SecretPassages = [
-				// TODO
 			]
 		};
 	}
@@ -228,6 +229,7 @@ public partial class TestMatch : Control
 		{
 			Id = 1,
 			Zones = [0],
+			HasSecretPassage = true,
 			SpawnNumber = 2
 		};
 		//0;2
@@ -267,6 +269,7 @@ public partial class TestMatch : Control
 		{
 			Id = 21,
 			Zones = [1],
+			HasSecretPassage = true,
 		};
 		//2;2
 		var node22 = new MapNodeTemplate()
@@ -290,9 +293,6 @@ public partial class TestMatch : Control
 
 				.. Bidirectional(node01, node11),
 			],
-			SecretPassages = [
-				.. Bidirectional(node01, node21)
-			]
 		};
 	}
 
@@ -343,13 +343,13 @@ public partial class TestMatch : Control
 			var loadout2 = LoadLoadout("../loadouts/Dracula & The Sisters.json");
 
 			await match.AddPlayer(
-				"p1",
+				"RealPlayer",
 				0,
 				loadout1,
 				controller
 			);
 			await match.AddPlayer(
-				"p2",
+				"Random",
 				1,
 				loadout2,
 				new DelayedControllerWrapper(TimeSpan.FromMilliseconds(0), new RandomPlayerController(0))

@@ -17,7 +17,6 @@ public class Matcher : ParserBase {
     public int GroupCount => Pattern.GetGroupNames().Length - 1;
 
     public override ParseResult Parse(string text) {
-        // TODO? check group count
         var match = Pattern.Match(text);
         if (!match.Success) return new MatcherParseResult(match.Groups, this, ParseResultStatus.DIDNT_MATCH, text);
         var status = ParseResultStatus.SUCCESS;
