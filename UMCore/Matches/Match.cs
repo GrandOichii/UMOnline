@@ -9,6 +9,7 @@ namespace UMCore.Matches;
 
 public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
 {
+    public MatchConfig Config { get; }
     public required ILogger? Logger { get; init; }
     public List<Player> Players { get; } = [];
     public int CurPlayerIdx { get; private set; }
@@ -20,8 +21,9 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
     public Random Random { get; }
     public LogsManager Logs { get; }
 
-    public Match(MapTemplate mapTemplate, string setupScript)
+    public Match(MatchConfig config, MapTemplate mapTemplate, string setupScript)
     {
+        Config = config;
         Map = new(this, mapTemplate);
         Cards = [];
         Fighters = [];
@@ -151,7 +153,8 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
     {
         return new()
         {
-            Players = [.. Players.Select(p => p.GetSetupData())]
+            Config = Config,
+            Players = [.. Players.Select(p => p.GetSetupData())],
         };
     }
 
@@ -166,6 +169,6 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
     public class SetupData
     {
         public required Player.SetupData[] Players { get; init; }
-        // TODO configuration
+        public required MatchConfig Config { get; init; }
     }
 }

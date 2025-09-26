@@ -331,7 +331,7 @@ public partial class TestMatch : Control
 		{
 			var map = GetBaskervilleTemplate();
 
-			var match = new Match(map, File.ReadAllText("../core.lua"))
+			var match = new Match(MatchConfig.Default, map, File.ReadAllText("../core.lua"))
 			{
 				Logger = new GDLogger()
 			};

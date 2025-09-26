@@ -122,8 +122,8 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
         }
 
         // initial draw
-        var amount = 5;
-        await Hand.Draw(amount); // TODO get amount from configuration
+        var amount = Match.Config.InitialHandSize;
+        await Hand.Draw(amount);
 
         // Match.Logs.Public($"Player {FormattedLogName} drew their initial hand of {amount} cards");
     }
@@ -138,7 +138,7 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
     {
         Match.Logs.Private(this, "You start your turn", $"Player {FormattedLogName} starts their turn");
         Match.Logger?.LogDebug("Player {LogName} starts their turn", LogName);
-        ActionCount = 2; // TODO move to configuration
+        ActionCount = Match.Config.ActionsPerTurn;
     }
 
     public async Task EndTurn()

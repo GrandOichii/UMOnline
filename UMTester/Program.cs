@@ -39,7 +39,7 @@ public class ConsolePlayerController : IPlayerController
         return nodes[int.Parse(result)];
     }
 
-    public async Task<MapNode> ChooseNode(Player player, IEnumerable<MapNode> options, string hint)
+    public async Task<MapNode> ChooseNode(Player player, MapNode[] options, string hint)
     {
         PrintInfo(player);
         System.Console.WriteLine(hint);
@@ -50,7 +50,7 @@ public class ConsolePlayerController : IPlayerController
         return nodes[int.Parse(result)];
     }
 
-    public async Task<MatchCard> ChooseCardInHand(Player player, int playerHandIdx, IEnumerable<MatchCard> options, string hint)
+    public async Task<MatchCard> ChooseCardInHand(Player player, int playerHandIdx, MatchCard[] options, string hint)
     {
         PrintInfo(player);
         System.Console.WriteLine(hint);
@@ -61,7 +61,7 @@ public class ConsolePlayerController : IPlayerController
         return cards[int.Parse(result)];
     }
     
-    public async Task<MatchCard?> ChooseCardInHandOrNothing(Player player, int playerHandIdx, IEnumerable<MatchCard> options, string hint)
+    public async Task<MatchCard?> ChooseCardInHandOrNothing(Player player, int playerHandIdx, MatchCard[] options, string hint)
     {
         PrintInfo(player);
         System.Console.WriteLine(hint);
@@ -73,7 +73,7 @@ public class ConsolePlayerController : IPlayerController
         return cards[int.Parse(result)];
     }
 
-    public async Task<Fighter> ChooseFighter(Player player, IEnumerable<Fighter> options, string hint)
+    public async Task<Fighter> ChooseFighter(Player player, Fighter[] options, string hint)
     {
         PrintInfo(player);
         System.Console.WriteLine(hint);
@@ -84,7 +84,7 @@ public class ConsolePlayerController : IPlayerController
         return fighters[int.Parse(result)];
     }
 
-    public async Task<AvailableAttack> ChooseAttack(Player player, IEnumerable<AvailableAttack> options)
+    public async Task<AvailableAttack> ChooseAttack(Player player, AvailableAttack[] options)
     {
         PrintInfo(player);
         System.Console.WriteLine("Choose how to attack");
@@ -95,7 +95,7 @@ public class ConsolePlayerController : IPlayerController
         return attacks[int.Parse(result)];   
     }
 
-    public async Task<string> ChooseString(Player player, IEnumerable<string> options, string hint)
+    public async Task<string> ChooseString(Player player, string[] options, string hint)
     {
         PrintInfo(player);
         System.Console.WriteLine(hint);
@@ -110,14 +110,14 @@ public class ConsolePlayerController : IPlayerController
     {
     }
 
-    public async Task Setup(Player player)
+    public async Task Setup(Player player, Match.SetupData setupData)
     {
     }
 }
 
 public class Program
 {
-    public static IEnumerable<MapNodeLinkTemplate> Bidirectional(MapNodeTemplate n1, MapNodeTemplate n2)
+    public static MapNodeLinkTemplate[] Bidirectional(MapNodeTemplate n1, MapNodeTemplate n2)
     {
         return [
             new() {
@@ -239,7 +239,7 @@ public class Program
     {
         var map = GetMapTemplate();
 
-        var match = new Match(map, File.ReadAllText("../core.lua"))
+        var match = new Match(MatchConfig.Default, map, File.ReadAllText("../core.lua"))
         {
             Logger = LoggerFactory
                 .Create(builder => builder

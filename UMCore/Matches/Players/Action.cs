@@ -13,7 +13,7 @@ public class ManoeuvreAction : IAction
 
     public async Task Execute(Player player)
     {
-        await player.Hand.Draw(1); // TODO move to configuration
+        await player.Hand.Draw(player.Match.Config.ManoeuvreDrawAmount);
 
         await player.MoveFighters(allowBoost: true, canMoveOverFriendly: true);
     }
