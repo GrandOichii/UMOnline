@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://dh54pmbtdvbjt"]
+[gd_scene load_steps=9 format=3 uid="uid://dh54pmbtdvbjt"]
 
 [ext_resource type="Script" path="res://v1/Matches/MatchDisplay.gd" id="1_e571j"]
 [ext_resource type="PackedScene" uid="uid://bfos7kwpjhcsu" path="res://v1/Matches/Players/PlayerDisplay.tscn" id="1_uuhjp"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://balgj857rblso" path="res://v1/Matches/Cards/ZoomedCard.tscn" id="2_23jxg"]
 [ext_resource type="PackedScene" uid="uid://dyheeka37fidr" path="res://v1/Matches/Combat/CombatDisplay.tscn" id="4_mcdo3"]
 [ext_resource type="PackedScene" uid="uid://ce06sx3gdlscm" path="res://v1/CardImageLoader.tscn" id="6_62j6u"]
+[ext_resource type="PackedScene" uid="uid://box5pj4njtqw0" path="res://v1/Matches/Events/EventListDisplay.tscn" id="6_gt66n"]
 [ext_resource type="PackedScene" uid="uid://bdtj470fa7xnp" path="res://v1/FighterImageLoader.tscn" id="7_i8bsg"]
 
 [node name="MatchDisplay" type="Control"]
@@ -138,9 +139,10 @@ ImageLoader = NodePath("../../../CardImageLoader")
 [node name="TabContainer" type="TabContainer" parent="VBoxContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-current_tab = 0
+current_tab = 1
 
 [node name="Logs" type="Control" parent="VBoxContainer/VBoxContainer/TabContainer"]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 0
 
@@ -156,9 +158,18 @@ bbcode_enabled = true
 text = "LOGS HERE"
 
 [node name="Events" type="Control" parent="VBoxContainer/VBoxContainer/TabContainer"]
-visible = false
 layout_mode = 2
 metadata/_tab_index = 1
+
+[node name="Events" parent="VBoxContainer/VBoxContainer/TabContainer/Events" node_paths=PackedStringArray("CardImageLoaderNode", "FighterImageLoaderNode", "ZoomedCardNode") instance=ExtResource("6_gt66n")]
+unique_name_in_owner = true
+layout_mode = 1
+offset_right = 0.0
+offset_bottom = 0.0
+MaxDisplayed = 5
+CardImageLoaderNode = NodePath("../../../../../CardImageLoader")
+FighterImageLoaderNode = NodePath("../../../../../FighterImageLoader")
+ZoomedCardNode = NodePath("../../../ZoomedCard")
 
 [node name="CardImageLoader" parent="." instance=ExtResource("6_62j6u")]
 

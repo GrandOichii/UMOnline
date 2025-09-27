@@ -45,7 +45,9 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
     public LoadoutTemplate Loadout { get; }
 
     public int ActionCount { get; set; }
+    // TODO these should be stored in controller
     public List<Log> NewLogs { get; }
+    public List<Event> NewEvents { get; }
 
     public Player(Match match, int idx, string name, int teamIdx, LoadoutTemplate loadout, IPlayerController controller)
     {
@@ -61,12 +63,20 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
 
         Fighters = [];
         NewLogs = [];
+        NewEvents = [];
     }
 
     public Log[] PopLogs()
     {
         Log[] result = [.. NewLogs];
         NewLogs.Clear();
+        return result;
+    }
+
+    public Event[] PopEvents()
+    {
+        Event[] result = [.. NewEvents];
+        NewEvents.Clear();
         return result;
     }
 
@@ -146,6 +156,11 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
     public string LogName => $"{Name}[{Idx}]";
 
     public string FormattedLogName => $"{Name}"; // TODO
+
+    public void AddEvent(Event e)
+    {
+        NewEvents.Add(e);
+    }
 
     public async Task StartTurn()
     {
@@ -306,7 +321,8 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
 
     public async Task PlayScheme(MatchCard card, Fighter fighter)
     {
-        // TODO add scheme event
+        Match.Events.SchemePlayed(card, fighter);
+
         await Match.UpdateClients();
 
         await card.ExecuteSchemeEffects(fighter);

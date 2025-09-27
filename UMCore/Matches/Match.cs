@@ -20,6 +20,7 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
     public Combat? Combat { get; private set; }
     public Random Random { get; }
     public LogsManager Logs { get; }
+    public EventsManager Events { get; }
     public Player? Winner { get; private set; }
 
     public Match(MatchConfig config, MapTemplate mapTemplate, string setupScript)
@@ -30,10 +31,12 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
         Fighters = [];
         LState = new();
         Combat = null;
-        Random = new();
         Logs = new(this);
+        Events = new(this);
         Winner = null;
-        // Random = new(1);
+
+        // Random = new();
+        Random = new(0);
 
         LState.DoString(setupScript);
         new MatchScripts(this);

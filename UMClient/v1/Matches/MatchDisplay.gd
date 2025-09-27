@@ -65,10 +65,13 @@ func load_match(data):
 
 func load_connected_match(update_info):
 	load_match(update_info.Match)
+	
+	# events
+	%Events.load_new_events(update_info)
 
 	# logs
-	for log in update_info.NewLogs:
-		LogsNode.append_text('- ' + log.Message + '\n')
+	for newLog in update_info.NewLogs:
+		LogsNode.append_text('- ' + newLog.Message + '\n')
 		LogsNode.scroll_to_line(LogsNode.get_line_count()-1)
 
 	# controls

@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://bkwcncqk4nj5k"]
 
 [ext_resource type="Script" path="res://v1/Matches/Fighters/FighterDisplay.gd" id="1_3bm43"]
-[ext_resource type="PackedScene" uid="uid://hoavyem0add4" path="res://v1/Matches/Fighters/FighterImageDisplay.tscn" id="2_7nvlx"]
+[ext_resource type="PackedScene" uid="uid://hoavyem0add4" path="res://v1/Matches/Cards/FighterImageDisplay.tscn" id="2_7nvlx"]
 
 [node name="FighterDisplay" type="PanelContainer"]
 anchors_preset = 15

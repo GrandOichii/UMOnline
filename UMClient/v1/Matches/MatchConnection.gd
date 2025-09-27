@@ -14,7 +14,6 @@ func respond(_resp: String):
 func on_match_info_updated(data):
 	cur_data = data
 	# if cur_data.Request != 'Setup': return
-	# print(len(cur_data.Setup.Players))
 
 func can_pick_card_in_hand(id):
 	if cur_data.Request != 'ChooseCardInHand' and cur_data.Request != 'ChooseCardInHandOrNothing':

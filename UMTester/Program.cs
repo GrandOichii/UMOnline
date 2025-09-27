@@ -212,9 +212,6 @@ public class Program
                 .. Bidirectional(node10, node00),
 
                 .. Bidirectional(node01, node11),
-            ],
-            SecretPassages = [
-                .. Bidirectional(node01, node21)
             ]
         };
     }

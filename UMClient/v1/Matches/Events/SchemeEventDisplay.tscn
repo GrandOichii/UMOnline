@@ -1,0 +1,48 @@
+[gd_scene load_steps=4 format=3 uid="uid://bhxu1fbud7mue"]
+
+[ext_resource type="Script" path="res://v1/Matches/Events/SchemeEventDisplay.gd" id="1_45mnt"]
+[ext_resource type="PackedScene" uid="uid://cxs25778q1en6" path="res://v1/Matches/Cards/CardImageDisplay.tscn" id="1_kqoke"]
+[ext_resource type="PackedScene" uid="uid://hoavyem0add4" path="res://v1/Matches/Cards/FighterImageDisplay.tscn" id="1_wurqe"]
+
+[node name="SchemeEventDisplay" type="PanelContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1011.0
+offset_bottom = -487.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_45mnt")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Scheme played"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Fighter" parent="VBoxContainer/HBoxContainer" instance=ExtResource("1_wurqe")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Card" parent="VBoxContainer/HBoxContainer" instance=ExtResource("1_kqoke")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "By: "
+
+[node name="Player" type="Label" parent="VBoxContainer/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "PLAYER NAME"

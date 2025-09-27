@@ -56,7 +56,7 @@
             }
         },
         {
-            "Amount": 2,
+            "Amount": 200,
             "Card": {
                 "AllowedFighters": ["Medusa"],
                 "Name": "A Momentary Glance",

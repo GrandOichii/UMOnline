@@ -31,6 +31,7 @@ public class UpdateInfo
     public required string Request { get; init; }
     public required string Hint { get; init; }
     public required Log[] NewLogs { get; init; }
+    public required object[] NewEvents { get; init; }
     public required Dictionary<string, object> Args { get; set; }
 }
 
@@ -79,6 +80,7 @@ public class IOPlayerController : IPlayerController
             Match = player.Match.GetData(player),
             Request = "Update",
             NewLogs = player.PopLogs(),
+            NewEvents = player.PopEvents(),
             Hint = "",
             Args = [],
         });
@@ -92,6 +94,7 @@ public class IOPlayerController : IPlayerController
             Request = "ChooseAction",
             Hint = "Choose action to execute",
             NewLogs = player.PopLogs(),
+            NewEvents = player.PopEvents(),
             Args = ToArgs(options),
         });
 
@@ -108,6 +111,7 @@ public class IOPlayerController : IPlayerController
             Match = player.Match.GetData(player),
             Request = "ChooseNode",
             NewLogs = player.PopLogs(),
+            NewEvents = player.PopEvents(),
             Hint = hint,
             Args = ToArgs(options.Select(n => n.Id).ToArray()),
         });
@@ -126,6 +130,7 @@ public class IOPlayerController : IPlayerController
             Match = player.Match.GetData(player),
             Request = "ChooseCardInHand",
             NewLogs = player.PopLogs(),
+            NewEvents = [.. player.PopEvents().Select<Event, object>(e => e)],
             Hint = hint,
             Args = ToArgs(options.Select(c => c.Id).ToArray()),
         });
@@ -142,6 +147,7 @@ public class IOPlayerController : IPlayerController
             Match = player.Match.GetData(player),
             Request = "ChooseCardInHandOrNothing",
             NewLogs = player.PopLogs(),
+            NewEvents = player.PopEvents(),
             Hint = hint,
             Args = ToArgs(options.Select(c => c.Id).ToArray()),
         });
@@ -159,6 +165,7 @@ public class IOPlayerController : IPlayerController
             Match = player.Match.GetData(player),
             Request = "ChooseFighter",
             NewLogs = player.PopLogs(),
+            NewEvents = player.PopEvents(),
             Hint = hint,
             Args = ToArgs(options.Select(n => n.Id).ToArray()),
         });
@@ -206,6 +213,7 @@ public class IOPlayerController : IPlayerController
             PlayerIdx = player.Idx,
             Match = player.Match.GetData(player),
             NewLogs = player.PopLogs(),
+            NewEvents = player.PopEvents(),
             Request = "ChooseString",
             Hint = hint,
             Args = ToArgs(options),
@@ -223,6 +231,7 @@ public class IOPlayerController : IPlayerController
             Request = "Setup",
             Hint = "",
             NewLogs = player.PopLogs(),
+            NewEvents = player.PopEvents(),
             Setup = setupData,
             Args = []
         });

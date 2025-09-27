@@ -1,8 +1,46 @@
-[gd_scene format=3 uid="uid://box5pj4njtqw0"]
+[gd_scene load_steps=3 format=3 uid="uid://box5pj4njtqw0"]
+
+[ext_resource type="PackedScene" uid="uid://bhxu1fbud7mue" path="res://v1/Matches/Events/SchemeEventDisplay.tscn" id="1_acjsd"]
+[ext_resource type="Script" path="res://v1/Matches/Events/EventListDisplay.gd" id="1_xwfbx"]
 
 [node name="EventListDisplay" type="PanelContainer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_right = -1003.0
+offset_bottom = -36.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_xwfbx")
+EventToSceneMapping = {
+"scheme": ExtResource("1_acjsd")
+}
+
+[node name="Scroll" type="ScrollContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="Events" type="VBoxContainer" parent="Scroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="SchemeEventDisplay" parent="Scroll/Events" instance=ExtResource("1_acjsd")]
+layout_mode = 2
+
+[node name="SchemeEventDisplay2" parent="Scroll/Events" instance=ExtResource("1_acjsd")]
+layout_mode = 2
+
+[node name="SchemeEventDisplay3" parent="Scroll/Events" instance=ExtResource("1_acjsd")]
+layout_mode = 2
+
+[node name="SchemeEventDisplay4" parent="Scroll/Events" instance=ExtResource("1_acjsd")]
+layout_mode = 2
+
+[node name="SchemeEventDisplay5" parent="Scroll/Events" instance=ExtResource("1_acjsd")]
+layout_mode = 2
+
+[node name="SchemeEventDisplay6" parent="Scroll/Events" instance=ExtResource("1_acjsd")]
+layout_mode = 2
