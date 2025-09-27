@@ -1,6 +1,3 @@
-using System.Diagnostics.Contracts;
-using System.Runtime.CompilerServices;
-using System.Security.Cryptography;
 using Microsoft.Extensions.Logging;
 using UMCore.Matches.Attacks;
 using UMCore.Matches.Cards;
@@ -45,9 +42,6 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
     public LoadoutTemplate Loadout { get; }
 
     public int ActionCount { get; set; }
-    // TODO these should be stored in controller
-    public List<Log> NewLogs { get; }
-    public List<Event> NewEvents { get; }
 
     public Player(Match match, int idx, string name, int teamIdx, LoadoutTemplate loadout, IPlayerController controller)
     {
@@ -62,22 +56,6 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
         DiscardPile = new(this);
 
         Fighters = [];
-        NewLogs = [];
-        NewEvents = [];
-    }
-
-    public Log[] PopLogs()
-    {
-        Log[] result = [.. NewLogs];
-        NewLogs.Clear();
-        return result;
-    }
-
-    public Event[] PopEvents()
-    {
-        Event[] result = [.. NewEvents];
-        NewEvents.Clear();
-        return result;
     }
 
     public async Task InitialPlaceFighters()
@@ -159,7 +137,12 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
 
     public void AddEvent(Event e)
     {
-        NewEvents.Add(e);
+        Controller.AddEvent(e);
+    }
+
+    public void AddLog(Log l)
+    {
+        Controller.AddLog(l);
     }
 
     public async Task StartTurn()

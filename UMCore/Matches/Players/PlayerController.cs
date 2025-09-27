@@ -7,6 +7,9 @@ namespace UMCore.Matches.Players;
 
 public interface IPlayerController
 {
+    void AddEvent(Event e);
+    void AddLog(Log l);
+    
     Task Setup(Player player, Match.SetupData setupData);
     Task Update(Player player);
     Task<string> ChooseAction(Player player, string[] options);
@@ -21,6 +24,15 @@ public interface IPlayerController
 public class RandomPlayerController(int seed) : IPlayerController
 {
     private readonly Random _rnd = new(seed);
+
+    public void AddEvent(Event e)
+    {
+    }
+
+    public void AddLog(Log l)
+    {
+    }
+
     // private readonly Random _rnd = new();
 
     public async Task<string> ChooseAction(Player player, string[] options)
@@ -84,6 +96,14 @@ public class RandomPlayerController(int seed) : IPlayerController
 
 public class DelayedControllerWrapper(TimeSpan delay, IPlayerController controller) : IPlayerController
 {
+    public void AddEvent(Event e)
+    {
+    }
+
+    public void AddLog(Log l)
+    {
+    }
+
     public async Task<string> ChooseAction(Player player, string[] options)
     {
         await Task.Delay(delay);

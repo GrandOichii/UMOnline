@@ -99,7 +99,7 @@ func _replace_card_names(msg: String) -> String:
 	for m in matches:
 		var orig = m.strings[0]
 		var key = m.strings[1]
-		var idx = m.strings[2]
+		# var idx = m.strings[2]
 		var card_name = m.strings[3]
 		var color = LogCardColor
 		msg = msg.replace(orig, '[color=' + color.to_html() + '][url=' + key + ']' + card_name + '[/url][/color]')

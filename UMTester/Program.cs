@@ -113,6 +113,14 @@ public class ConsolePlayerController : IPlayerController
     public async Task Setup(Player player, Match.SetupData setupData)
     {
     }
+
+    public void AddEvent(Event e)
+    {
+    }
+
+    public void AddLog(Log l)
+    {
+    }
 }
 
 public class Program

@@ -8,7 +8,7 @@ public class LogsManager(Match match)
     {
         foreach (var p in match.Players)
         {
-            p.NewLogs.Add(new()
+            p.AddLog(new()
             {
                 Message = msg,
                 IsPrivate = false,
@@ -22,14 +22,14 @@ public class LogsManager(Match match)
         {
             if (p == player)
             {
-                p.NewLogs.Add(new()
+                p.AddLog(new()
                 {
                     Message = privateMsg,
                     IsPrivate = true,
                 });
                 continue;
             }
-            p.NewLogs.Add(new()
+            p.AddLog(new()
             {
                 Message = publicMsg,
                 IsPrivate = false,
