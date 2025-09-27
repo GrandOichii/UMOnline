@@ -63,4 +63,8 @@ func pick_fighter(fighter_id):
 			return
 	# TODO throw error
 
+func can_pick_action():
+	return cur_data != null and cur_data.Request == 'ChooseAction'
+
 # TODO ChooseAttack
+# TODO ChoosePlayer

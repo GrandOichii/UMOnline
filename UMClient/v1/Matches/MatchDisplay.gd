@@ -19,7 +19,19 @@ var _connection: MatchConnection = null
 func _ready() -> void:
 	ConnectionControlsNode.hide()
 	LogsNode.clear()
-	
+
+func _input(e: InputEvent) -> void:
+	if _connection.can_pick_action():
+		if e.is_action_pressed("fight"):
+			_connection.respond('Fight')
+			return
+		if e.is_action_pressed("manoeuvre"):
+			_connection.respond('Manoeuvre')
+			return
+		if e.is_action_pressed("scheme"):
+			_connection.respond('Scheme')
+			return
+
 func _hide_controls():
 	for child in ConnectionControlsNode.get_children():
 		child.hide()
