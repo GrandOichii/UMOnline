@@ -19,7 +19,7 @@ public class MatchCard : IHasData<MatchCard.Data>
 
     public string LogName => $"({Id}){Template.Key}[{Owner.Idx}]";
 
-    public string FormattedLogName => $"{Template.Name}"; // TODO
+    public string FormattedLogName => $"{{{Template.Key}:{Id}:{Template.Name}}}"; // TODO
 
     public MatchCard(Player owner, CardTemplate card)
     {

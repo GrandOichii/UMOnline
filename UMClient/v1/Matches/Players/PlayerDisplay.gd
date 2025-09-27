@@ -7,6 +7,7 @@ class_name PlayerDisplay
 @export var image_loader: CardImageLoader
 @export var FighterImageLoaderNode: FighterImageLoader
 @export var ZoomedCardImage: ZoomedCard
+@export var ColorManagerNode: ColorManager
 
 #@onready var MainContainer = %Main
 @onready var DeckNode = %Deck
@@ -37,6 +38,7 @@ func set_essentials(connection: MatchConnection):
 
 func load_setup(player_setup):
 	%Name.text = player_setup.Name
+	%Name.add_theme_color_override("font_color", ColorManagerNode.get_player_color(player_setup.Idx))
 	_deck_name = player_setup.DeckName
 	DeckNode.set_essentials(image_loader, _deck_name, null)
 	%Discard.set_essentials(image_loader, _deck_name, null)
@@ -51,7 +53,7 @@ func load_setup(player_setup):
 		
 		var display = child as FighterDisplay
 		# TODO
-		display.set_essentials(FighterImageLoaderNode)
+		display.set_essentials(FighterImageLoaderNode, ColorManagerNode)
 
 
 func load_player(match_data, idx):

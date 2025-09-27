@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://dh54pmbtdvbjt"]
+[gd_scene load_steps=10 format=3 uid="uid://dh54pmbtdvbjt"]
 
 [ext_resource type="Script" path="res://v1/Matches/MatchDisplay.gd" id="1_e571j"]
 [ext_resource type="PackedScene" uid="uid://bfos7kwpjhcsu" path="res://v1/Matches/Players/PlayerDisplay.tscn" id="1_uuhjp"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://ce06sx3gdlscm" path="res://v1/CardImageLoader.tscn" id="6_62j6u"]
 [ext_resource type="PackedScene" uid="uid://box5pj4njtqw0" path="res://v1/Matches/Events/EventListDisplay.tscn" id="6_gt66n"]
 [ext_resource type="PackedScene" uid="uid://bdtj470fa7xnp" path="res://v1/FighterImageLoader.tscn" id="7_i8bsg"]
+[ext_resource type="PackedScene" uid="uid://byiey8bmhipfu" path="res://v1/Matches/ColorManager.tscn" id="9_u1edk"]
 
 [node name="MatchDisplay" type="Control"]
 layout_mode = 3
@@ -17,6 +18,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_e571j")
+LogCardColor = Color(0.690123, 0.306667, 0.0695931, 1)
 
 [node name="VBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 1
@@ -36,37 +38,41 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="P1" parent="VBoxContainer/Players/Players" node_paths=PackedStringArray("image_loader", "FighterImageLoaderNode", "ZoomedCardImage") instance=ExtResource("1_uuhjp")]
+[node name="P1" parent="VBoxContainer/Players/Players" node_paths=PackedStringArray("image_loader", "FighterImageLoaderNode", "ZoomedCardImage", "ColorManagerNode") instance=ExtResource("1_uuhjp")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 image_loader = NodePath("../../../../CardImageLoader")
 FighterImageLoaderNode = NodePath("../../../../FighterImageLoader")
 ZoomedCardImage = NodePath("../../../VBoxContainer/ZoomedCard")
+ColorManagerNode = NodePath("../../../../Colors")
 
-[node name="P2" parent="VBoxContainer/Players/Players" node_paths=PackedStringArray("image_loader", "FighterImageLoaderNode", "ZoomedCardImage") instance=ExtResource("1_uuhjp")]
+[node name="P2" parent="VBoxContainer/Players/Players" node_paths=PackedStringArray("image_loader", "FighterImageLoaderNode", "ZoomedCardImage", "ColorManagerNode") instance=ExtResource("1_uuhjp")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 image_loader = NodePath("../../../../CardImageLoader")
 FighterImageLoaderNode = NodePath("../../../../FighterImageLoader")
 ZoomedCardImage = NodePath("../../../VBoxContainer/ZoomedCard")
+ColorManagerNode = NodePath("../../../../Colors")
 
-[node name="P3" parent="VBoxContainer/Players/Players" node_paths=PackedStringArray("image_loader", "FighterImageLoaderNode", "ZoomedCardImage") instance=ExtResource("1_uuhjp")]
+[node name="P3" parent="VBoxContainer/Players/Players" node_paths=PackedStringArray("image_loader", "FighterImageLoaderNode", "ZoomedCardImage", "ColorManagerNode") instance=ExtResource("1_uuhjp")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 image_loader = NodePath("../../../../CardImageLoader")
 FighterImageLoaderNode = NodePath("../../../../FighterImageLoader")
 ZoomedCardImage = NodePath("../../../VBoxContainer/ZoomedCard")
+ColorManagerNode = NodePath("../../../../Colors")
 
-[node name="P4" parent="VBoxContainer/Players/Players" node_paths=PackedStringArray("image_loader", "FighterImageLoaderNode", "ZoomedCardImage") instance=ExtResource("1_uuhjp")]
+[node name="P4" parent="VBoxContainer/Players/Players" node_paths=PackedStringArray("image_loader", "FighterImageLoaderNode", "ZoomedCardImage", "ColorManagerNode") instance=ExtResource("1_uuhjp")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 image_loader = NodePath("../../../../CardImageLoader")
 FighterImageLoaderNode = NodePath("../../../../FighterImageLoader")
 ZoomedCardImage = NodePath("../../../VBoxContainer/ZoomedCard")
+ColorManagerNode = NodePath("../../../../Colors")
 
 [node name="Center" type="VBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
@@ -120,12 +126,13 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "Don't pick any card"
 
-[node name="Combat" parent="VBoxContainer/Center" node_paths=PackedStringArray("CardImageLoaderNode", "FighterImageLoaderNode") instance=ExtResource("4_mcdo3")]
+[node name="Combat" parent="VBoxContainer/Center" node_paths=PackedStringArray("CardImageLoaderNode", "FighterImageLoaderNode", "ColorManagerNode") instance=ExtResource("4_mcdo3")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 CardImageLoaderNode = NodePath("../../../CardImageLoader")
 FighterImageLoaderNode = NodePath("../../../FighterImageLoader")
+ColorManagerNode = NodePath("../../../Colors")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
@@ -139,10 +146,9 @@ ImageLoader = NodePath("../../../CardImageLoader")
 [node name="TabContainer" type="TabContainer" parent="VBoxContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-current_tab = 1
+current_tab = 0
 
 [node name="Logs" type="Control" parent="VBoxContainer/VBoxContainer/TabContainer"]
-visible = false
 layout_mode = 2
 metadata/_tab_index = 0
 
@@ -158,6 +164,7 @@ bbcode_enabled = true
 text = "LOGS HERE"
 
 [node name="Events" type="Control" parent="VBoxContainer/VBoxContainer/TabContainer"]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 1
 
@@ -175,4 +182,8 @@ ZoomedCardNode = NodePath("../../../ZoomedCard")
 
 [node name="FighterImageLoader" parent="." instance=ExtResource("7_i8bsg")]
 
+[node name="Colors" parent="." instance=ExtResource("9_u1edk")]
+unique_name_in_owner = true
+
 [connection signal="pressed" from="VBoxContainer/Center/ConnectionControls/ChooseNothingInHandButton" to="." method="_on_choose_nothing_in_hand_button_pressed"]
+[connection signal="meta_hover_started" from="VBoxContainer/VBoxContainer/TabContainer/Logs/Logs" to="." method="_on_logs_meta_hover_started"]

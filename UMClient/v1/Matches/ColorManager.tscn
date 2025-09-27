@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://byiey8bmhipfu"]
+
+[ext_resource type="Script" path="res://v1/Matches/ColorManager.gd" id="1_q5n2w"]
+[ext_resource type="Resource" uid="uid://0r366endf36k" path="res://v1/Decks/DeckColorsAll.tres" id="2_qldde"]
+
+[node name="ColorManager" type="Node"]
+script = ExtResource("1_q5n2w")
+Decks = ExtResource("2_qldde")

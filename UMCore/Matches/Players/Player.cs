@@ -155,7 +155,7 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
 
     public string LogName => $"{Name}[{Idx}]";
 
-    public string FormattedLogName => $"{Name}"; // TODO
+    public string FormattedLogName => $"({Idx}:{Name})"; // TODO
 
     public void AddEvent(Event e)
     {

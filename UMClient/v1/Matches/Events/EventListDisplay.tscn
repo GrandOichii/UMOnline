@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://box5pj4njtqw0"]
+[gd_scene load_steps=4 format=3 uid="uid://box5pj4njtqw0"]
 
 [ext_resource type="PackedScene" uid="uid://bhxu1fbud7mue" path="res://v1/Matches/Events/SchemeEventDisplay.tscn" id="1_acjsd"]
 [ext_resource type="Script" path="res://v1/Matches/Events/EventListDisplay.gd" id="1_xwfbx"]
+[ext_resource type="PackedScene" uid="uid://r6p1q67s50v6" path="res://v1/Matches/Events/CombatEventDisplay.tscn" id="3_2aydt"]
 
 [node name="EventListDisplay" type="PanelContainer"]
 anchors_preset = 15
@@ -27,20 +28,20 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="SchemeEventDisplay" parent="Scroll/Events" instance=ExtResource("1_acjsd")]
+[node name="CombatEventDisplay" parent="Scroll/Events" instance=ExtResource("3_2aydt")]
 layout_mode = 2
 
-[node name="SchemeEventDisplay2" parent="Scroll/Events" instance=ExtResource("1_acjsd")]
+[node name="CombatEventDisplay2" parent="Scroll/Events" instance=ExtResource("3_2aydt")]
 layout_mode = 2
 
-[node name="SchemeEventDisplay3" parent="Scroll/Events" instance=ExtResource("1_acjsd")]
+[node name="CombatEventDisplay3" parent="Scroll/Events" instance=ExtResource("3_2aydt")]
 layout_mode = 2
 
-[node name="SchemeEventDisplay4" parent="Scroll/Events" instance=ExtResource("1_acjsd")]
+[node name="CombatEventDisplay4" parent="Scroll/Events" instance=ExtResource("3_2aydt")]
 layout_mode = 2
 
-[node name="SchemeEventDisplay5" parent="Scroll/Events" instance=ExtResource("1_acjsd")]
+[node name="CombatEventDisplay5" parent="Scroll/Events" instance=ExtResource("3_2aydt")]
 layout_mode = 2
 
-[node name="SchemeEventDisplay6" parent="Scroll/Events" instance=ExtResource("1_acjsd")]
+[node name="CombatEventDisplay6" parent="Scroll/Events" instance=ExtResource("3_2aydt")]
 layout_mode = 2

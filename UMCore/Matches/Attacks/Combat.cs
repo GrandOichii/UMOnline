@@ -48,7 +48,7 @@ public class CombatCard(Combat parent, MatchCard card) : IHasData<CombatCard.Dat
 
     public Data GetData(Player player)
     {
-        var visible = Card.Owner == player || parent.Winner is not null;
+        var visible = Card.Owner == player || parent.CardsAreRevealed;
         if (visible) {
             return new()
             {
@@ -94,6 +94,7 @@ public class Combat : IHasData<Combat.Data>
     public CombatCard? DefenceCard { get; private set; }
 
     public Player? Winner { get; private set; }
+    public bool CardsAreRevealed { get; private set; } = false;
 
     public Combat(Match match, AvailableAttack original)
     {
@@ -134,10 +135,11 @@ public class Combat : IHasData<Combat.Data>
         await Match.UpdateClients();
 
         // TODO reveal cards
+        CardsAreRevealed = true;
         var logMsg = $"Combat cards are revealed! Attacker {Attacker.Owner.FormattedLogName} played {AttackCard.Card.FormattedLogName}";
         logMsg += DefenceCard is null
             ? ""
-            : $", {Defender.Owner} played {DefenceCard.Card.FormattedLogName}";
+            : $", {Defender.Owner.FormattedLogName} played {DefenceCard.Card.FormattedLogName}";
         Match.Logs.Public(logMsg);
 
         // execute "immediately"

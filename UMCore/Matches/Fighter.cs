@@ -22,7 +22,7 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
 
     public string LogName => $"({Owner.Idx}){GetName()}({(Template.IsHero ? 'h' : 's')})";
 
-    public string FormattedLogName => $"{GetName()}"; // TODO
+    public string FormattedLogName => $"[{Id}:{GetName()}]"; // TODO
 
     public Fighter(Player owner, FighterTemplate template)
     {

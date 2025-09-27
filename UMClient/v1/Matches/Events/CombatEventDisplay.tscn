@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://r6p1q67s50v6"]
+
+[ext_resource type="Script" path="res://v1/Matches/Events/CombatEventDisplay.gd" id="1_do8qg"]
+[ext_resource type="PackedScene" uid="uid://dyheeka37fidr" path="res://v1/Matches/Combat/CombatDisplay.tscn" id="2_74hvv"]
+
+[node name="CombatEventDisplay" type="PanelContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -531.0
+offset_bottom = -514.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_do8qg")
+
+[node name="Combat" parent="." instance=ExtResource("2_74hvv")]
+unique_name_in_owner = true
+layout_mode = 2

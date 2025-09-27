@@ -144,7 +144,7 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
     {
         Logger?.LogDebug("Processing attack from player {PlayerLogName}: {FighterLogName} -> {TargetLogName} [{CardLogName}]", player.LogName, attack.Fighter.LogName, attack.Target.LogName, attack.AttackCard.LogName);
         Combat = new(this, attack);
-        Logs.Public($"{player.FormattedLogName} attacks {attack.Fighter.FormattedLogName}");
+        Logs.Public($"Player {player.FormattedLogName} attacks {attack.Target.FormattedLogName} with {attack.Fighter.FormattedLogName}");
 
         await Combat.Process();
         if (IsWinnerDetermined()) return;
