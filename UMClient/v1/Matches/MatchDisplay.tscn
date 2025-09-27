@@ -129,7 +129,6 @@ text = "Don't pick any card"
 [node name="Combat" parent="VBoxContainer/Center" node_paths=PackedStringArray("CardImageLoaderNode", "FighterImageLoaderNode", "ColorManagerNode", "ZoomedCardNode") instance=ExtResource("4_mcdo3")]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_vertical = 3
 CardImageLoaderNode = NodePath("../../../CardImageLoader")
 FighterImageLoaderNode = NodePath("../../../FighterImageLoader")
 ColorManagerNode = NodePath("../../../Colors")

@@ -310,7 +310,7 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
 
         await card.ExecuteSchemeEffects(fighter);
 
-        await Hand.Discard(card);
+        await Hand.Discard(card, false);
     }
 
     public async Task GainActions(int amount)

@@ -121,6 +121,11 @@ public class ConsolePlayerController : IPlayerController
     public void AddLog(Log l)
     {
     }
+
+    public Task<Player> ChoosePlayer(Player player, Player[] options, string hint)
+    {
+        throw new NotImplementedException();
+    }
 }
 
 public class Program

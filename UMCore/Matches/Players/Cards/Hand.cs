@@ -35,7 +35,7 @@ public class Hand : MatchCardCollection
         return result.ToHashSet();
     }
 
-    public async Task Discard(MatchCard card)
+    public async Task Discard(MatchCard card, bool log=true)
     {
         if (!Cards.Contains(card))
         {
@@ -43,7 +43,10 @@ public class Hand : MatchCardCollection
         }
 
         Owner.Match.Logger?.LogDebug("Player {PlayerLogName} discards {CardLogName} from their hand", Owner.LogName, card.LogName);
-        Owner.Match.Logs.Public($"Player {Owner.FormattedLogName} discards {card.FormattedLogName} from their hand");
+        if (log)
+        {
+            Owner.Match.Logs.Public($"Player {Owner.FormattedLogName} discards {card.FormattedLogName} from their hand");
+        }
 
         Cards.Remove(card);
         await Owner.DiscardPile.Add([card]);

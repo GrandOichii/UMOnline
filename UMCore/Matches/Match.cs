@@ -36,7 +36,7 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
         Winner = null;
 
         // Random = new();
-        Random = new(0);
+        Random = new(1);
 
         LState.DoString(setupScript);
         new MatchScripts(this);

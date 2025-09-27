@@ -527,6 +527,7 @@ function UM.S.Players()
     local result = {}
 
     result.filters = {}
+    result.single = false
 
     function result:OpposingTo(playerFunc)
         result.filters[#result.filters+1] = function (args, player)
@@ -554,6 +555,19 @@ function UM.S.Players()
             end
         end
 
+        if result.single then
+            local player = players[1]
+
+            if #players > 1 then
+                player = ChoosePlayer(args.owner, players, 'Choose a player')
+            end
+
+            players = {
+                [1] = player
+            }
+
+        end
+
         return players
     end
 
@@ -567,6 +581,11 @@ function UM.S.Players()
             -- end
             return player
         end
+    end
+
+    function result:Single()
+        result.single = true
+        return result
     end
 
     function result:Build()

@@ -260,4 +260,11 @@ public class MatchScripts
     {
         return fighter.IsAlive();
     }
+
+    [LuaCommand]
+    public Player ChoosePlayer(Player player, LuaTable players, string hint)
+    {
+        return player.Controller.ChoosePlayer(player, [.. LuaUtility.ParseTable<Player>(players)], hint)
+            .GetAwaiter().GetResult();
+    }
 }

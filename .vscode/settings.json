@@ -28,6 +28,7 @@
         "CancelCombatEffectsOfOpponent",
         "BoostCardInCombat",
         "GetCardInHand",
-        "IsAlive"
+        "IsAlive",
+        "ChoosePlayer"
     ]
 }

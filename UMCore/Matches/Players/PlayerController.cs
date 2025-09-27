@@ -19,6 +19,7 @@ public interface IPlayerController
     Task<Fighter> ChooseFighter(Player player, Fighter[] options, string hint);
     Task<AvailableAttack> ChooseAttack(Player player, AvailableAttack[] options);
     Task<string> ChooseString(Player player, string[] options, string hint);
+    Task<Player> ChoosePlayer(Player player, Player[] options, string hint);
 }
 
 public class RandomPlayerController(int seed) : IPlayerController
@@ -67,6 +68,12 @@ public class RandomPlayerController(int seed) : IPlayerController
     }
 
     public async Task<MapNode> ChooseNode(Player player, MapNode[] options, string hint)
+    {
+        var opts = options.ToList();
+        return opts[_rnd.Next(opts.Count)];
+    }
+
+    public async Task<Player> ChoosePlayer(Player player, Player[] options, string hint)
     {
         var opts = options.ToList();
         return opts[_rnd.Next(opts.Count)];
@@ -138,6 +145,12 @@ public class DelayedControllerWrapper(TimeSpan delay, IPlayerController controll
     {
         await Task.Delay(delay);
         return await controller.ChooseNode(player, options, hint);
+    }
+
+    public async Task<Player> ChoosePlayer(Player player, Player[] options, string hint)
+    {
+        await Task.Delay(delay);
+        return await controller.ChoosePlayer(player, options, hint);
     }
 
     public async Task<string> ChooseString(Player player, string[] options, string hint)

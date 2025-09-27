@@ -266,4 +266,21 @@ public class IOPlayerController : IPlayerController
     {
         NewLogs.Add(l);
     }
+
+    public async Task<Player> ChoosePlayer(Player player, Player[] options, string hint)
+    {
+        await WriteData(new() {
+            PlayerIdx = player.Idx,
+            Match = player.Match.GetData(player),
+            NewLogs = PopLogs(),
+            NewEvents = PopEvents(),
+            Request = "ChoosePlayer",
+            Hint = hint,
+            Args = ToArgs(options),
+        });
+
+        var idx = int.Parse(await _handler.Read());
+
+        return options.ToList()[idx];
+    }
 }
