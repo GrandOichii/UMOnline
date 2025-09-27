@@ -126,13 +126,14 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "Don't pick any card"
 
-[node name="Combat" parent="VBoxContainer/Center" node_paths=PackedStringArray("CardImageLoaderNode", "FighterImageLoaderNode", "ColorManagerNode") instance=ExtResource("4_mcdo3")]
+[node name="Combat" parent="VBoxContainer/Center" node_paths=PackedStringArray("CardImageLoaderNode", "FighterImageLoaderNode", "ColorManagerNode", "ZoomedCardNode") instance=ExtResource("4_mcdo3")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 CardImageLoaderNode = NodePath("../../../CardImageLoader")
 FighterImageLoaderNode = NodePath("../../../FighterImageLoader")
 ColorManagerNode = NodePath("../../../Colors")
+ZoomedCardNode = NodePath("../../VBoxContainer/ZoomedCard")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
@@ -140,7 +141,6 @@ layout_mode = 2
 [node name="ZoomedCard" parent="VBoxContainer/VBoxContainer" node_paths=PackedStringArray("ImageLoader") instance=ExtResource("2_23jxg")]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_vertical = 3
 ImageLoader = NodePath("../../../CardImageLoader")
 
 [node name="TabContainer" type="TabContainer" parent="VBoxContainer/VBoxContainer"]

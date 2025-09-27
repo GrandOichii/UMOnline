@@ -26,12 +26,12 @@ func _ready() -> void:
 			TopContainer.move_child(TopContainer.get_child(0), tcount - 1)
 			tcount -= 1
 
-func set_essentials(card_image_loader: CardImageLoader, fighter_image_loader: FighterImageLoader, color_manager: ColorManager):
+func set_essentials(card_image_loader: CardImageLoader, fighter_image_loader: FighterImageLoader, color_manager: ColorManager, on_load_card):
 	_card_image_loader = card_image_loader
 	_fighter_image_loader = fighter_image_loader
 	_color_manager = color_manager
 	
-	%Card.set_essentials(card_image_loader, '', null) # TODO
+	%Card.set_essentials(card_image_loader, '', on_load_card)
 	%Fighter.set_essentials(fighter_image_loader, _color_manager)
 
 func load_combat(match_data):
