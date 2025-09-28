@@ -50,6 +50,7 @@ public partial class TestMatch : Control
 			new() {
 				Id = 4,
 				Zones = [0, 1],
+				SpawnNumber = 2,
 			},
 			new() {
 				Id = 5,
@@ -99,6 +100,7 @@ public partial class TestMatch : Control
 			new() {
 				Id = 16,
 				Zones = [4],
+				SpawnNumber = 1,
 			},
 			new() {
 				Id = 17,
@@ -112,6 +114,7 @@ public partial class TestMatch : Control
 			new() {
 				Id = 19,
 				Zones = [3, 5],
+				SpawnNumber = 3,
 			},
 			new() {
 				Id = 20,
@@ -161,6 +164,7 @@ public partial class TestMatch : Control
 			new() {
 				Id = 31,
 				Zones = [6],
+				SpawnNumber = 4,
 			},
 		];
 		return new()
@@ -186,6 +190,9 @@ public partial class TestMatch : Control
 				.. Bidirectional(nodes[14], nodes[15]),
 				.. Bidirectional(nodes[16], nodes[15]),
 				.. Bidirectional(nodes[13], nodes[17]),
+				.. Bidirectional(nodes[13], nodes[16]),
+				.. Bidirectional(nodes[13], nodes[20]),
+				.. Bidirectional(nodes[13], nodes[21]),
 				.. Bidirectional(nodes[18], nodes[17]),
 				.. Bidirectional(nodes[18], nodes[19]),
 				.. Bidirectional(nodes[20], nodes[19]),

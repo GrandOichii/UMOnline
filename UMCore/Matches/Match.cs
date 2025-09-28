@@ -82,7 +82,7 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
         for (int i = 0; i < Players.Count; ++i)
         {
             var player = Players[(pIdx + i) % Players.Count];
-            await player.InitialPlaceFighters();
+            await player.InitialPlaceFighters(i + 1);
         }
 
         Logs.Public("Match started!");

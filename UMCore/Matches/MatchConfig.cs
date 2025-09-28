@@ -16,8 +16,8 @@ public class MatchConfig
         InitialHandSize = 5,
         ManoeuvreDrawAmount = 1,
         MaxHandSize = 7,
-        FirstPlayerIdx = -1,
-        RandomFirstPlayer = true,
+        FirstPlayerIdx = 1, // -1
+        RandomFirstPlayer = false, // true
         ExhaustDamage = 2,
     };
 }

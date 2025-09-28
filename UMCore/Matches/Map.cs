@@ -146,6 +146,8 @@ public class MapNode : IHasData<MapNode.Data>
         Adjacent = [];
     }
 
+    public List<MapNode> GetAdjacentEmptyNodes() => [.. Adjacent.Where(n => n.Fighter == null)];
+
     public IEnumerable<int> GetZones() => Template.Zones;
 
     public void GetReachableFighters(
