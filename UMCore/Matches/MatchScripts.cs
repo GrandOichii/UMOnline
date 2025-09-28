@@ -118,6 +118,21 @@ public class MatchScripts
     }
 
     [LuaCommand]
+    public void MoveFighters(Player player, LuaTable fightersRaw, int amount, bool canMoveOverOpposing)
+    {
+        var fighters = LuaUtility.ParseTable<Fighter>(fightersRaw);
+        while (fighters.Count > 0)
+        {
+            var fighter = player.Controller.ChooseFighter(player, [.. fighters], "Choose which fighter to move")
+                .GetAwaiter().GetResult();
+            fighters.Remove(fighter);
+            
+            player.MoveFighter(fighter, amount, true, canMoveOverOpposing)
+                .Wait();
+        }
+    }
+
+    [LuaCommand]
     public Fighter ChooseFighter(Player player, LuaTable fighters, string hint)
     {
         var options = LuaUtility.ParseTable<Fighter>(fighters);

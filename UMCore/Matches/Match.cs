@@ -35,8 +35,11 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
         Events = new(this);
         Winner = null;
 
-        // Random = new();
-        Random = new(1);
+        Random = new();
+        if (!Config.RandomMatch)
+        {
+            Random = new(Config.Seed);
+        }
 
         LState.DoString(setupScript);
         new MatchScripts(this);

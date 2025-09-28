@@ -2,6 +2,8 @@ namespace UMCore.Matches;
 
 public class MatchConfig
 {
+    public required bool RandomMatch { get; init; }
+    public required int Seed { get; init; }
     public required int InitialHandSize { get; init; }
     public required int ActionsPerTurn { get; init; }
     public required int MaxHandSize { get; init; }
@@ -12,6 +14,8 @@ public class MatchConfig
 
     public static readonly MatchConfig Default = new()
     {
+        RandomMatch = true,
+        Seed = 0,
         ActionsPerTurn = 2,
         InitialHandSize = 5,
         ManoeuvreDrawAmount = 1,

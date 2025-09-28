@@ -29,6 +29,7 @@
         "BoostCardInCombat",
         "GetCardInHand",
         "IsAlive",
-        "ChoosePlayer"
+        "ChoosePlayer",
+        "MoveFighters"
     ]
 }
