@@ -206,8 +206,8 @@ var fighterSelector = new Selector()
         // TODO these two can have suffixes: "opposing fighters adjacent to Dracula"
         new Matcher() {
             Name = "yourFighter",
-            PatternString = "[Y|y]our fighters?\\.?",
-            Script = "function _Create(text, children) return ':OwnedBy(UM.Players:EffectOwner())' end"
+            PatternString = "[Y|y]our fighter\\.?",
+            Script = "function _Create(text, children) return ':Only(UM.Fighters:Source())' end"
         },
         new Matcher() {
             Name = "opposingFighter",

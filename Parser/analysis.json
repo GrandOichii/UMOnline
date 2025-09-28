@@ -2665,12 +2665,28 @@
       "FullText": "After combat: Deal 1 damage to each opposing fighter adjacent to your fighter."
     },
     {
+      "Text": "your fighters",
+      "FullText": "After combat: Move each of your fighters up to 2 spaces. Change size."
+    },
+    {
+      "Text": "your fighters",
+      "FullText": "Move each of your fighters up to 3 spaces. You may move them through spaces containing opposing fighters. Then, return a defeated Harpy (if any) to any space in Medusa\u0027s zone."
+    },
+    {
       "Text": "your Raptors",
       "FullText": "Move each of your Raptors up to 3 spaces. You may move them through spaces containing opposing fighters. Gain 1 action."
     },
     {
       "Text": "your InGen Workers",
       "FullText": "After combat: Move each of your InGen Workers up to 2 spaces."
+    },
+    {
+      "Text": "your fighters",
+      "FullText": "After combat: Move each of your fighters up to 5 spaces. You may move them through spaces containing opposing fighters."
+    },
+    {
+      "Text": "your fighters",
+      "FullText": "Move each of your fighters up to 2 spaces. Each of your fighters recovers 1 health. Draw 1 card."
     },
     {
       "Text": "opposing fighter that is adjacent to at least 1 of your fighters",
@@ -2681,8 +2697,24 @@
       "FullText": "After combat: Move each squirrel up to 3 spaces."
     },
     {
+      "Text": "your fighters",
+      "FullText": "After combat: Move each of your fighters up to 3 spaces. They may move through opposing fighters."
+    },
+    {
       "Text": "opposing fighter adjacent to that trap",
       "FullText": "Choose a trap in the same zone as 1 of your InGen Workers. Deal 1 damage to each opposing fighter adjacent to that trap. Return that trap to the box."
+    },
+    {
+      "Text": "your fighters",
+      "FullText": "After combat: Move each of your fighters up to 2 spaces."
+    },
+    {
+      "Text": "your fighters",
+      "FullText": "Move each of your fighters up to 3 spaces. They may move through opposing fighters. Gain 1 action."
+    },
+    {
+      "Text": "your fighters",
+      "FullText": "After combat: Move each of your fighters up to 3 spaces. They may move through opposing fighters. Then, shuffle 1 scheme from your discard pile into your deck."
     },
     {
       "Text": "opposing fighters adjacent to Dracula",

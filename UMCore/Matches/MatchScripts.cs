@@ -123,8 +123,12 @@ public class MatchScripts
         var fighters = LuaUtility.ParseTable<Fighter>(fightersRaw);
         while (fighters.Count > 0)
         {
-            var fighter = player.Controller.ChooseFighter(player, [.. fighters], "Choose which fighter to move")
-                .GetAwaiter().GetResult();
+            var fighter = fighters[0];
+            if (fighters.Count > 1)
+            {
+                fighter = player.Controller.ChooseFighter(player, [.. fighters], "Choose which fighter to move")
+                    .GetAwaiter().GetResult();
+            }
             fighters.Remove(fighter);
             
             player.MoveFighter(fighter, amount, true, canMoveOverOpposing)

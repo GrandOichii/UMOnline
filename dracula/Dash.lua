@@ -4,7 +4,7 @@ return UM:Card()
 'After combat: Move your fighter up to 3 spaces.',
 UM.Effects:MoveFighters(
 UM.S:Fighters()
-:OwnedBy(UM.Players:EffectOwner())
+:Only(UM.Fighters:Source())
 :Single()
 :Build(),
 UM:UpTo(3)

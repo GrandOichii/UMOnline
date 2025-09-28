@@ -219,10 +219,13 @@ public class MapNode : IHasData<MapNode.Data>
         {
             node.GetPossibleMovementResults(fighter, movement - 1, canMoveOverFriendly, canMoveOverOpposing, result);
         }
-        foreach (var node in Parent.SecretPassageNodes)
+        if (Template.HasSecretPassage)
         {
-            if (node == this) continue;
-            node.GetPossibleMovementResults(fighter, movement - 1, canMoveOverFriendly, canMoveOverOpposing, result);
+            foreach (var node in Parent.SecretPassageNodes)
+            {
+                if (node == this) continue;
+                node.GetPossibleMovementResults(fighter, movement - 1, canMoveOverFriendly, canMoveOverOpposing, result);
+            }
         }
         // TODO add support for fog token-like effects
     }

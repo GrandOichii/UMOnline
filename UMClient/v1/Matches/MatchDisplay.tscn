@@ -84,43 +84,32 @@ layout_mode = 2
 size_flags_horizontal = 4
 FighterImageLoaderNode = NodePath("../../../FighterImageLoader")
 
-[node name="ConnectionControls" type="HBoxContainer" parent="VBoxContainer/Center"]
-unique_name_in_owner = true
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Center"]
 layout_mode = 2
 
-[node name="ChooseStringControls" type="HBoxContainer" parent="VBoxContainer/Center/ConnectionControls"]
+[node name="HintText" type="Label" parent="VBoxContainer/Center/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Choose string:"
+
+[node name="ConnectionControls" type="HBoxContainer" parent="VBoxContainer/Center/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ChooseStringControls" type="HBoxContainer" parent="VBoxContainer/Center/HBoxContainer/ConnectionControls"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="ChooseStringText" type="Label" parent="VBoxContainer/Center/ConnectionControls/ChooseStringControls"]
-unique_name_in_owner = true
-layout_mode = 2
-text = "Choose string:"
-
-[node name="ChooseStringOptions" type="HBoxContainer" parent="VBoxContainer/Center/ConnectionControls/ChooseStringControls"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="ChooseActionControls" type="HBoxContainer" parent="VBoxContainer/Center/ConnectionControls"]
+[node name="ChooseActionControls" type="HBoxContainer" parent="VBoxContainer/Center/HBoxContainer/ConnectionControls"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="ChooseActionText" type="Label" parent="VBoxContainer/Center/ConnectionControls/ChooseActionControls"]
-unique_name_in_owner = true
-layout_mode = 2
-text = "Choose string:"
-
-[node name="ChooseActionOptions" type="HBoxContainer" parent="VBoxContainer/Center/ConnectionControls/ChooseActionControls"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="ChooseNothingInHandButton" type="Button" parent="VBoxContainer/Center/ConnectionControls"]
+[node name="ChooseNothingInHandButton" type="Button" parent="VBoxContainer/Center/HBoxContainer/ConnectionControls"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -185,5 +174,5 @@ ZoomedCardNode = NodePath("../../../ZoomedCard")
 [node name="Colors" parent="." instance=ExtResource("9_u1edk")]
 unique_name_in_owner = true
 
-[connection signal="pressed" from="VBoxContainer/Center/ConnectionControls/ChooseNothingInHandButton" to="." method="_on_choose_nothing_in_hand_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/Center/HBoxContainer/ConnectionControls/ChooseNothingInHandButton" to="." method="_on_choose_nothing_in_hand_button_pressed"]
 [connection signal="meta_hover_started" from="VBoxContainer/VBoxContainer/TabContainer/Logs/Logs" to="." method="_on_logs_meta_hover_started"]

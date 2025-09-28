@@ -10,8 +10,8 @@ extends Control
 @onready var ConnectionControlsNode = %ConnectionControls
 
 @onready var _controls_map = {
-	'ChooseString': [ %ChooseStringControls, %ChooseStringText, %ChooseStringOptions ],
-	'ChooseAction': [ %ChooseActionControls, %ChooseActionText, %ChooseActionOptions ],
+	'ChooseString': %ChooseStringControls,
+	'ChooseAction': %ChooseActionControls,
 }
 
 var _player_name_pattern = RegEx.new()
@@ -131,23 +131,24 @@ func load_connected_match(update_info):
 	
 	# controls
 	_hide_controls()
+	%HintText.text = update_info.Hint
+	
 	if update_info.Request not in _controls_map:
 		if update_info.Request == 'ChooseCardInHandOrNothing':
 			%ChooseNothingInHandButton.show()
 		return
 
 	var control = _controls_map[update_info.Request]
-	control[0].show()
-	control[1].text = update_info.Hint
-	while control[2].get_child_count() > 0:
-		control[2].remove_child(control[2].get_child(0))
+	control.show()
+	while control.get_child_count() > 0:
+		control.remove_child(control.get_child(0))
 	for key in update_info.Args:
 		var node = Button.new()
 		node.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		node.text = update_info.Args[key]
 		node.pressed.connect(func():
 			send_response_from_controls(update_info.Args[key]))
-		control[2].add_child(node)
+		control.add_child(node)
 
 func send_response_from_controls(resp: String):
 	_connection.respond(resp)

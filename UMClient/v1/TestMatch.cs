@@ -180,11 +180,11 @@ public partial class TestMatch : Control
 				.. Bidirectional(nodes[4], nodes[5]),
 				.. Bidirectional(nodes[8], nodes[6]),
 				.. Bidirectional(nodes[8], nodes[7]),
+				.. Bidirectional(nodes[8], nodes[9]),
 				.. Bidirectional(nodes[6], nodes[7]),
 				.. Bidirectional(nodes[9], nodes[7]),
 				.. Bidirectional(nodes[9], nodes[10]),
 				.. Bidirectional(nodes[11], nodes[10]),
-				.. Bidirectional(nodes[11], nodes[12]),
 				.. Bidirectional(nodes[9], nodes[13]),
 				.. Bidirectional(nodes[14], nodes[13]),
 				.. Bidirectional(nodes[14], nodes[15]),
@@ -354,12 +354,13 @@ public partial class TestMatch : Control
 				0,
 				loadout1,
 				controller
+				// new DelayedControllerWrapper(TimeSpan.FromMilliseconds(10), new RandomPlayerController(0))
 			);
 			await match.AddPlayer(
 				"Random",
 				1,
 				loadout2,
-				new DelayedControllerWrapper(TimeSpan.FromMilliseconds(0), new RandomPlayerController(0))
+				new DelayedControllerWrapper(TimeSpan.FromMilliseconds(10), new RandomPlayerController(0))
 			);
 
 			await match.Run();

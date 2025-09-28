@@ -97,7 +97,9 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
             SetNextPlayer();
         }
 
+        Logger?.LogDebug("Match ended, winner: {PlayerLogName}", Winner!.LogName);
         Logs.Public($"Match ended! Winner is: {Winner!.FormattedLogName}");
+        await UpdateClients();
     }
 
     private async Task Setup()

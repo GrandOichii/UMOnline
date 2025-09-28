@@ -56,9 +56,9 @@ public class RandomPlayerController(int seed) : IPlayerController
 
     public async Task<MatchCard?> ChooseCardInHandOrNothing(Player player, int playerHandIdx, MatchCard[] options, string hint)
     {
-        if (options.Length == 0) return null;
-        if (_rnd.Next(2) == 0) return null;
-        return await ChooseCardInHand(player, playerHandIdx, options, hint);
+        var idx = _rnd.Next(options.Length + 1);
+        if (idx == 0) return null;
+        return options[idx - 1];
     }
 
     public async Task<Fighter> ChooseFighter(Player player, Fighter[] options, string hint)
