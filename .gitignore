@@ -1,3 +1,8 @@
+loadouts-generated
+.generated-reports
+.generated-scripts
+.cards.json
+
 card-scripts/*
 reports
 

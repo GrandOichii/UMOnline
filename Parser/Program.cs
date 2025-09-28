@@ -650,7 +650,7 @@ var parser = new Matcher()
     }
 };
 
-var cards = JsonSerializer.Deserialize<List<Card>>(File.ReadAllText("../cards.json"));
+var cards = JsonSerializer.Deserialize<List<Card>>(File.ReadAllText(args[0]));
 // List<Card> cards = [new Card {
 //     Name = "Test card",
 //     Text = "After combat: If you won the combat, deal 1 damage to each fighter adjacent to Bigfoot.",
