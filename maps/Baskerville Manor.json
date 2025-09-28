@@ -1,0 +1,187 @@
+{
+    "Nodes": [
+        {
+            "Id": 0,
+            "Zones": [0],
+            "HasSecretPassage": true
+        },
+        {
+            "Id": 1,
+            "Zones": [0]
+        },
+        {
+            "Id": 2,
+            "Zones": [0]
+        },
+        {
+            "Id": 3,
+            "Zones": [0]
+        },
+        {
+            "Id": 4,
+            "Zones": [0, 1],
+            "SpawnNumber": 2
+        },
+        {
+            "Id": 5,
+            "Zones": [0, 6]
+        },
+        {
+            "Id": 6,
+            "Zones": [1]
+        },
+        {
+            "Id": 7,
+            "Zones": [1]
+        },
+        {
+            "Id": 8,
+            "Zones": [1]
+        },
+        {
+            "Id": 9,
+            "Zones": [1, 2, 3]
+        },
+        {
+            "Id": 10,
+            "Zones": [2]
+        },
+        {
+            "Id": 11,
+            "Zones": [2]
+        },
+        {
+            "Id": 12,
+            "Zones": [2],
+            "HasSecretPassage": true
+        },
+        {
+            "Id": 13,
+            "Zones": [3, 4]
+        },
+        {
+            "Id": 14,
+            "Zones": [4]
+        },
+        {
+            "Id": 15,
+            "Zones": [4]
+        },
+        {
+            "Id": 16,
+            "Zones": [4],
+            "SpawnNumber": 1
+        },
+        {
+            "Id": 17,
+            "Zones": [3],
+            "HasSecretPassage": true
+        },
+        {
+            "Id": 18,
+            "Zones": [3]
+        },
+        {
+            "Id": 19,
+            "Zones": [3, 5],
+            "SpawnNumber": 3
+        },
+        {
+            "Id": 20,
+            "Zones": [5]
+        },
+        {
+            "Id": 21,
+            "Zones": [5]
+        },
+        {
+            "Id": 22,
+            "Zones": [4, 5]
+        },
+        {
+            "Id": 23,
+            "Zones": [5]
+        },
+        {
+            "Id": 24,
+            "Zones": [5]
+        },
+        {
+            "Id": 25,
+            "Zones": [5]
+        },
+        {
+            "Id": 26,
+            "Zones": [5]
+        },
+        {
+            "Id": 27,
+            "Zones": [5],
+            "HasSecretPassage": true
+        },
+        {
+            "Id": 28,
+            "Zones": [5, 6]
+        },
+        {
+            "Id": 29,
+            "Zones": [3, 6]
+        },
+        {
+            "Id": 30,
+            "Zones": [6]
+        },
+        {
+            "Id": 31,
+            "Zones": [6],
+            "SpawnNumber": 4
+        }
+    ],
+    "Adjacent": [
+        { "First": 0, "Second": 2 },
+        { "First": 0, "Second": 1 },
+        { "First": 4, "Second": 1 },
+        { "First": 4, "Second": 5 },
+        { "First": 4, "Second": 6 },
+        { "First": 7, "Second": 6 },
+        { "First": 7, "Second": 8 },
+        { "First": 7, "Second": 9 },
+        { "First": 8, "Second": 9 },
+        { "First": 10, "Second": 9 },
+        { "First": 11, "Second": 9 },
+        { "First": 13, "Second": 9 },
+        { "First": 13, "Second": 14 },
+        { "First": 15, "Second": 14 },
+        { "First": 15, "Second": 16 },
+        { "First": 13, "Second": 16 },
+        { "First": 13, "Second": 17 },
+        { "First": 13, "Second": 21 },
+        { "First": 22, "Second": 21 },
+        { "First": 22, "Second": 23 },
+        { "First": 22, "Second": 15 },
+        { "First": 21, "Second": 23 },
+        { "First": 18, "Second": 17 },
+        { "First": 11, "Second": 10 },
+        { "First": 12, "Second": 10 },
+        { "First": 13, "Second": 20 },
+        { "First": 21, "Second": 20 },
+        { "First": 19, "Second": 20 },
+        { "First": 19, "Second": 24 },
+        { "First": 19, "Second": 18 },
+        { "First": 29, "Second": 18 },
+        { "First": 29, "Second": 28 },
+        { "First": 27, "Second": 28 },
+        { "First": 27, "Second": 26 },
+        { "First": 25, "Second": 26 },
+        { "First": 25, "Second": 19 },
+        { "First": 25, "Second": 24 },
+        { "First": 28, "Second": 30 },
+        { "First": 31, "Second": 30 },
+        { "First": 2, "Second": 30 },
+        { "First": 31, "Second": 5 },
+        { "First": 24, "Second": 20 },
+        { "First": 6, "Second": 8 },
+        { "First": 3, "Second": 5 },
+        { "First": 3, "Second": 2 }
+    ]
+}

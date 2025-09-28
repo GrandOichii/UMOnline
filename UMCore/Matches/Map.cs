@@ -33,7 +33,13 @@ public class Map : IHasData<Map.Data>
         // adjacent nodes
         foreach (var pair in template.Adjacent)
         {
-            mapping[pair.First].Adjacent.Add(mapping[pair.Second]);
+            var n1 = Template.GetNode(pair.First);
+            var n2 = Template.GetNode(pair.Second);
+            mapping[n1].Adjacent.Add(mapping[n2]);
+            if (pair.Bidirectional)
+            {
+                mapping[n2].Adjacent.Add(mapping[n1]);
+            }
         }
     }
 

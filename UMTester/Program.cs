@@ -134,13 +134,9 @@ public class Program
     {
         return [
             new() {
-                First = n1,
-                Second = n2,
+                First = n1.Id,
+                Second = n2.Id,
             },
-            new() {
-                First = n2,
-                Second = n1,
-            }
         ];
     }
 

@@ -22,7 +22,6 @@ public class PlayerInitialFighterPlacer
 
         await PlaceRemaining(player, heroQueue, heroAvailableNodes, sidekickAvailableNodes);
         await PlaceRemaining(player, sidekickQueue, heroAvailableNodes, sidekickAvailableNodes);
-        // TODO log
 
         player.Match.Logs.Public($"Player {player.FormattedLogName} placed all of their fighters");
     }

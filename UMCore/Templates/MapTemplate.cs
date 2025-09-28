@@ -6,12 +6,14 @@ public class MapNodeTemplate
     public required List<int> Zones { get; init; }
     public int SpawnNumber { get; init; } = 0;
     public bool HasSecretPassage { get; init; } = false;
+
 }
 
 public class MapNodeLinkTemplate
 {
-    public required MapNodeTemplate First { get; init; }
-    public required MapNodeTemplate Second { get; init; }
+    public required int First { get; init; }
+    public required int Second { get; init; }
+    public bool Bidirectional { get; init; } = true;
 }
 
 public class MapTemplate
@@ -23,4 +25,6 @@ public class MapTemplate
     {
         return Nodes.First(node => node.SpawnNumber == spawnNumber);
     }
+
+    public MapNodeTemplate GetNode(int id) => Nodes.Single(n => n.Id == id);
 }

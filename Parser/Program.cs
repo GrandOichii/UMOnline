@@ -82,6 +82,7 @@ var FIGHTER_NAMES = new string[] {
     "William Shakespeare",
     "Dr. Jill Trent",
     "Golden Bat",
+    "Squirrel",
     "Annie Christmas",
     "Spider-Man",
     "She-Hulk",
@@ -91,9 +92,14 @@ var FIGHTER_NAMES = new string[] {
     "Geralt of Rivia",
     "Yennefer",
     "King Arthur",
+    "Shakespeare",
+    "Oberon",
+    "the Genie",
     "Shredder",
     "Harpy",
     "Krang",
+    "Ihuarraquax",
+    "Faith",
     "Donatello",
     "Michelangelo"
 };
@@ -193,6 +199,14 @@ var fighterSelector = new Selector()
     Name = "fighterSelector",
     Children = [
         new Matcher() {
+            Name = "adjacentToNamed",
+            PatternString = "fighter adjacent to (.+?)\\.?",
+            Script = "function _Create(text, children) return string.format(':AdjacentTo(\\nUM.S:Fighters()\\n%s\\n:BuildOne()\\n)', children[1]) end",
+            Children = [
+                namedFighter
+            ]
+        },
+        new Matcher() {
             Name = "thisFighter",
             PatternString = "this fighter",
             Script = "function _Create() return ':Only(UM.Fighters:Source())' end"
@@ -208,6 +222,11 @@ var fighterSelector = new Selector()
             Name = "yourFighter",
             PatternString = "[Y|y]our fighter\\.?",
             Script = "function _Create(text, children) return ':Only(UM.Fighters:Source())' end"
+        },
+        new Matcher() {
+            Name = "yourFighter",
+            PatternString = "[Y|y]our fighters\\.?",
+            Script = "function _Create(text, children) return ':OwnedBy(UM.Players:EffectOwner())' end"
         },
         new Matcher() {
             Name = "opposingFighter",
@@ -296,11 +315,11 @@ var spaceSelector = new Selector()
             PatternString = "any empty space\\.?",
             Script = "function _Create() return :Empty() end",
         },
-        // new Matcher() { // TODO his|her|their refers to the target, not the source
-        //     Name = "anySpaceInSameZone",
-        //     PatternString = "any space in (?:her|his|their) zone\\.?",
-        //     Script = File.ReadAllText("../scripts/anySpaceInSameZone.lua")
-        // }
+        new Matcher() { //? his|her|their refers to the target, not the source - isn't an issue I hope
+            Name = "anySpaceInSameZone",
+            PatternString = "any space in (?:her|his|their) zone\\.?",
+            Script = File.ReadAllText("../scripts/anySpaceInSameZone.lua")
+        }
     ]
 };
 
@@ -515,7 +534,7 @@ effectSelector.Children.Add(ifMatcher);
 var effectSplitter = new Splitter()
 {
     Name = "effectSplitter",
-    PatternString = "\\. ",
+    PatternString = @"\. |[T|t]hen, |, [T|t]hen ",
     // Script = File.ReadAllText("../scripts/effectSplitter.lua"),
     Children = {
         effectSelector
@@ -534,11 +553,24 @@ var ifInstead = new Matcher()
     ]
 };
 
+var mayIf = new Matcher()
+{
+    Name = "mayIf",
+    PatternString = @"(.+?) may (.+?)\. If .+? do( not)?, (.+)",
+    Script = TODOSCRIPT,
+    Children = [
+        TestSelector("s1"),
+        TestSelector("s2"),
+        TestSelector("s3"),
+        TestSelector("s4"),
+    ]
+};
+
 var moveCanMoveThroughOpponents = new Matcher()
 {
     // Move Bigfoot up to 5 spaces. You may move
     Name = "moveCanMoveThroughOpponents",
-    PatternString = "[M|m]ove (.+) (up to .+) spaces?\\. You may move .+ through spaces containing opposing fighters\\.",
+    PatternString = "[M|m]ove (.+) (up to .+) spaces?\\. .+ may move .+ through spaces containing opposing fighters\\.",
     
     Script = File.ReadAllText("../scripts/moveFighterCanMoveThroughOpponents.lua"),
     // Script = TODOSCRIPT,
@@ -553,6 +585,7 @@ var effects = new Selector()
 {
     Name = "effects",
     Children = [
+        mayIf,
         ifInstead,
         moveCanMoveThroughOpponents,
         effectSplitter
@@ -620,7 +653,7 @@ var parser = new Matcher()
 var cards = JsonSerializer.Deserialize<List<Card>>(File.ReadAllText("../cards.json"));
 // List<Card> cards = [new Card {
 //     Name = "Test card",
-//     Text = "You may BOOST this attack 2 times.",
+//     Text = "After combat: If you won the combat, deal 1 damage to each fighter adjacent to Bigfoot.",
 // }];
 
 string FormattedName(string name)
