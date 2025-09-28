@@ -1,0 +1,226 @@
+{
+    "Name": "Squirrel Girl",
+    "Key": "Squirrel Girl",
+    "StartsWithSidekicks": true,
+    "Fighters": [
+        {
+            "Name": "Squirrel Girl",
+            "Key": "Squirrel Girl",
+            "Amount": 1,
+            "IsHero": true,
+            "MaxHealth": 13,
+            "StartingHealth": 13,
+            "IsRanged": false,
+            "Text": "GO NUTS!\r\nAt the start of your turn, summon a squirrel in a space adjacent to Squirrel Girl.\r\nSquirrels are small fighters. Do not start with any squirrels on the board.",
+            "Movement": 2,
+            "Script": "../fighter-scripts/Squirrel Girl.lua"
+        },
+        {
+            "Name": "Squirrels",
+            "Key": "Squirrels",
+            "Amount": 8,
+            "IsHero": true,
+            "MaxHealth": 1,
+            "StartingHealth": 1,
+            "IsRanged": false,
+            "Text": "GO NUTS!\r\nAt the start of your turn, summon a squirrel in a space adjacent to Squirrel Girl.\r\nSquirrels are small fighters. Do not start with any squirrels on the board.",
+            "Movement": 2,
+            "Script": "../fighter-scripts/Squirrels.lua"
+        }
+    ],
+    "Deck": [
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "Squirrel"
+                ],
+                "Name": "Bite of Steel",
+                "Key": "Squirrel Girl_Bite of Steel",
+                "Type": "Attack",
+                "Value": 2,
+                "Boost": 2,
+                "Text": "During combat: If there are four or more squirrels in the opposing fighter's zone, the value of this card is 5 instead.",
+                "Script": "../Squirrel Girl/Bite of Steel.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Call of the Mild",
+                "Key": "Squirrel Girl_Call of the Mild",
+                "Type": "Versatile",
+                "Value": 2,
+                "Boost": 2,
+                "Text": "During combat: If there are four or more squirrels in your fighter's zone, the value of this card is 4 instead.\nAfter combat: If you won the combat, draw 2 cards.",
+                "Script": "../Squirrel Girl/Call of the Mild.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Squirrel girl"
+                ],
+                "Name": "Eat Nuts",
+                "Key": "Squirrel Girl_Eat Nuts",
+                "Type": "Scheme",
+                "Value": null,
+                "Boost": 2,
+                "Text": "Squirrel Girl recovers 2 health. Summon a squirrel in a space adjacent to Squirrel Girl.",
+                "Script": "../Squirrel Girl/Eat Nuts.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Squirrel girl"
+                ],
+                "Name": "Fuzzball Special",
+                "Key": "Squirrel Girl_Fuzzball Special",
+                "Type": "Attack",
+                "Value": 3,
+                "Boost": 1,
+                "Text": "After combat: Move each squirrel up to 3 spaces.",
+                "Script": "../Squirrel Girl/Fuzzball Special.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "Squirrel girl"
+                ],
+                "Name": "Get 'Em Tippy-Toe!",
+                "Key": "Squirrel Girl_Get 'Em Tippy-Toe!",
+                "Type": "Versatile",
+                "Value": 3,
+                "Boost": 1,
+                "Text": "After combat: Summon two squirrels in any space.",
+                "Script": "../Squirrel Girl/Get 'Em Tippy-Toe!.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Squirrel girl"
+                ],
+                "Name": "Horde of Squirrels",
+                "Key": "Squirrel Girl_Horde of Squirrels",
+                "Type": "Scheme",
+                "Value": null,
+                "Boost": 2,
+                "Text": "Choose a space with four or more squirrels adjacent to it. Deal 2 damage to a fighter in that space.",
+                "Script": "../Squirrel Girl/Horde of Squirrels.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "Squirrel girl"
+                ],
+                "Name": "Kick Butts",
+                "Key": "Squirrel Girl_Kick Butts",
+                "Type": "Attack",
+                "Value": 1,
+                "Boost": 1,
+                "Text": "During combat: Increase the value of this card by +1 for each squirrel adjacent to the opposing fighter.",
+                "Script": "../Squirrel Girl/Kick Butts.lua"
+            }
+        },
+        {
+            "Amount": 1,
+            "Card": {
+                "AllowedFighters": [
+                    "Squirrel girl"
+                ],
+                "Name": "Nutwork of Spies",
+                "Key": "Squirrel Girl_Nutwork of Spies",
+                "Type": "Scheme",
+                "Value": null,
+                "Boost": 2,
+                "Text": "Look at an opponent's hand and choose 1 card for them to discard. If one of their fighters is adjacent to four or more squirrels, choose 2 cards instead.",
+                "Script": "../Squirrel Girl/Nutwork of Spies.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "Squirrel girl"
+                ],
+                "Name": "Squirgility",
+                "Key": "Squirrel Girl_Squirgility",
+                "Type": "Defense",
+                "Value": 3,
+                "Boost": 2,
+                "Text": "After combat: Move Squirrel Girl up to 3 spaces. She may move through sidekicks. Do not count movement for spaces containing sidekicks.",
+                "Script": "../Squirrel Girl/Squirgility.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Squirrel girl"
+                ],
+                "Name": "Unbeatable Squirrel Girl",
+                "Key": "Squirrel Girl_Unbeatable Squirrel Girl",
+                "Type": "Versatile",
+                "Value": 4,
+                "Boost": 1,
+                "Text": "Immediately: If there are four or more squirrels adjacent to the opposing fighter, cancel all effects on your opponent's card and ignore its value.",
+                "Script": "../Squirrel Girl/Unbeatable Squirrel Girl.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Squirrel girl"
+                ],
+                "Name": "Squirmish",
+                "Key": "Squirrel Girl_Squirmish",
+                "Type": "Versatile",
+                "Value": 4,
+                "Boost": 1,
+                "Text": "After combat: Summon a squirrel in Squirrel Girl's space. Then, you place Squirrel Girl in any space in her zone.",
+                "Script": "../Squirrel Girl/Squirmish.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Squirrel girl"
+                ],
+                "Name": "Feint",
+                "Key": "Squirrel Girl_Feint",
+                "Type": "Versatile",
+                "Value": 2,
+                "Boost": 1,
+                "Text": "Immediately: Cancel all effects on your opponent's card.",
+                "Script": "../Squirrel Girl/Feint.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Squirrel girl"
+                ],
+                "Name": "Dash",
+                "Key": "Squirrel Girl_Dash",
+                "Type": "Versatile",
+                "Value": 3,
+                "Boost": 2,
+                "Text": "After combat: Move your fighter up to 3 spaces.",
+                "Script": "../Squirrel Girl/Dash.lua"
+            }
+        }
+    ]
+}

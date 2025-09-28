@@ -1,0 +1,205 @@
+{
+    "Name": "Angel",
+    "Key": "Angel",
+    "StartsWithSidekicks": true,
+    "Fighters": [
+        {
+            "Name": "Angel",
+            "Key": "Angel",
+            "Amount": 1,
+            "IsHero": true,
+            "MaxHealth": 16,
+            "StartingHealth": 16,
+            "IsRanged": false,
+            "Text": "After Angel or Faith attacks, if you lost the combat, draw 1 card.",
+            "Movement": 2,
+            "Script": "../fighter-scripts/Angel.lua"
+        },
+        {
+            "Name": "Faith",
+            "Key": "Faith",
+            "Amount": 1,
+            "IsHero": false,
+            "MaxHealth": 8,
+            "StartingHealth": 8,
+            "IsRanged": false,
+            "Text": "After Angel or Faith attacks, if you lost the combat, draw 1 card.",
+            "Movement": 2,
+            "Script": "../fighter-scripts/Basic.lua"
+        }
+    ],
+    "Deck": [
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Feint",
+                "Key": "Angel_Feint",
+                "Type": "Versatile",
+                "Value": 2,
+                "Boost": 2,
+                "Text": "Immediately: Cancel all effects on your opponent's card.",
+                "Script": "../Angel/Feint.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Angel"
+                ],
+                "Name": "Wisdom of Ages",
+                "Key": "Angel_Wisdom of Ages",
+                "Type": "Attack",
+                "Value": 3,
+                "Boost": 2,
+                "Text": "After combat: Draw 1 card.",
+                "Script": "../Angel/Wisdom of Ages.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Faith"
+                ],
+                "Name": "Five by Five",
+                "Key": "Angel_Five by Five",
+                "Type": "Attack",
+                "Value": 5,
+                "Boost": 3,
+                "Text": "After combat: Move Faith up to 5 spaces. She may move through opposing fighters.",
+                "Script": "../Angel/Five by Five.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "Faith"
+                ],
+                "Name": "Killer of the Dead",
+                "Key": "Angel_Killer of the Dead",
+                "Type": "Scheme",
+                "Value": null,
+                "Boost": 3,
+                "Text": "Deal 2 damage to one opposing fighter adjacent to Faith.",
+                "Script": "../Angel/Killer of the Dead.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Angel"
+                ],
+                "Name": "Cursed with a Soul",
+                "Key": "Angel_Cursed with a Soul",
+                "Type": "Attack",
+                "Value": 4,
+                "Boost": 3,
+                "Text": "After combat: If you lost the combat, recover 1 health.",
+                "Script": "../Angel/Cursed with a Soul.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Angel"
+                ],
+                "Name": "Haunted by the Faces",
+                "Key": "Angel_Haunted by the Faces",
+                "Type": "Defense",
+                "Value": 3,
+                "Boost": 2,
+                "Text": "After combat: If you lost the combat, you may place Angel in any space in his zone.",
+                "Script": "../Angel/Haunted by the Faces.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Angel"
+                ],
+                "Name": "Brooding",
+                "Key": "Angel_Brooding",
+                "Type": "Versatile",
+                "Value": 3,
+                "Boost": 2,
+                "Text": "After combat: If you lost the combat, the opposing fighter takes 1 damage.",
+                "Script": "../Angel/Brooding.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Regroup",
+                "Key": "Angel_Regroup",
+                "Type": "Versatile",
+                "Value": 1,
+                "Boost": 1,
+                "Text": "After combat: Draw 1 card. If you won the combat, draw 2 cards instead.",
+                "Script": "../Angel/Regroup.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Momentous Shift",
+                "Key": "Angel_Momentous Shift",
+                "Type": "Versatile",
+                "Value": 3,
+                "Boost": 1,
+                "Text": "During combat: If your fighter started this turn in a different space, this card's value is 5 instead.",
+                "Script": "../Angel/Momentous Shift.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "Angel"
+                ],
+                "Name": "Angelus, Scourge of Europe",
+                "Key": "Angel_Angelus, Scourge of Europe",
+                "Type": "Attack",
+                "Value": 5,
+                "Boost": 3,
+                "Text": "",
+                "Script": "../Angel/Angelus, Scourge of Europe.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Disengage",
+                "Key": "Angel_Disengage",
+                "Type": "Attack",
+                "Value": 4,
+                "Boost": 2,
+                "Text": "After combat: Choose an empty space in this fighter's zone. Place this fighter in that space.",
+                "Script": "../Angel/Disengage.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Faith"
+                ],
+                "Name": "The Rogue Slayer",
+                "Key": "Angel_The Rogue Slayer",
+                "Type": "Versatile",
+                "Value": 3,
+                "Boost": 3,
+                "Text": "After combat: Deal 1 damage to each opposing fighter adjacent to Faith.",
+                "Script": "../Angel/The Rogue Slayer.lua"
+            }
+        }
+    ]
+}

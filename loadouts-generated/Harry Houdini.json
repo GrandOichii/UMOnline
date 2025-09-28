@@ -1,0 +1,216 @@
+{
+    "Name": "Harry Houdini",
+    "Key": "Harry Houdini",
+    "StartsWithSidekicks": true,
+    "Fighters": [
+        {
+            "Name": "Houdini",
+            "Key": "Houdini",
+            "Amount": 1,
+            "IsHero": true,
+            "MaxHealth": 14,
+            "StartingHealth": 14,
+            "IsRanged": false,
+            "Text": "ESCAPE ARTIST\r\nWhen you take the maneuver action and BOOST, you may place Houdini in any space instead of moving. (Bess moves as normal.)",
+            "Movement": 2,
+            "Script": "../fighter-scripts/Houdini.lua"
+        },
+        {
+            "Name": "Bess",
+            "Key": "Bess",
+            "Amount": 1,
+            "IsHero": false,
+            "MaxHealth": 5,
+            "StartingHealth": 5,
+            "IsRanged": false,
+            "Text": "ESCAPE ARTIST\r\nWhen you take the maneuver action and BOOST, you may place Houdini in any space instead of moving. (Bess moves as normal.)",
+            "Movement": 2,
+            "Script": "../fighter-scripts/Basic.lua"
+        }
+    ],
+    "Deck": [
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "Houdini"
+                ],
+                "Name": "Vanishing Act",
+                "Key": "Harry Houdini_Vanishing Act",
+                "Type": "Versatile",
+                "Value": 2,
+                "Boost": 2,
+                "Text": "After combat: Choose one of the fighters in the combat and move them up to 3 spaces. They may move through their opposing fighters.",
+                "Script": "../Harry Houdini/Vanishing Act.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Houdini"
+                ],
+                "Name": "The Big Reveal",
+                "Key": "Harry Houdini_The Big Reveal",
+                "Type": "Attack",
+                "Value": 2,
+                "Boost": 3,
+                "Text": "During combat: You may BOOST this card twice.\nAfter combat: Return one card you boosted with to your hand.",
+                "Script": "../Harry Houdini/The Big Reveal.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Smoke and Mirrors",
+                "Key": "Harry Houdini_Smoke and Mirrors",
+                "Type": "Versatile",
+                "Value": 3,
+                "Boost": 1,
+                "Text": "Immediately: Houdini and Bess may swap spaces. If they do, your other fighter is now in the combat.",
+                "Script": "../Harry Houdini/Smoke and Mirrors.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Sleight of Hand",
+                "Key": "Harry Houdini_Sleight of Hand",
+                "Type": "Attack",
+                "Value": 1,
+                "Boost": 3,
+                "Text": "BOOSTED WITH: Draw 1 card.\nImmediately: You may return this card to your hand and choose a different card to play. Resolve all effects on that card as normal.",
+                "Script": "../Harry Houdini/Sleight of Hand.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Bess"
+                ],
+                "Name": "Set the Stage",
+                "Key": "Harry Houdini_Set the Stage",
+                "Type": "Scheme",
+                "Value": null,
+                "Boost": 2,
+                "Text": "Draw 3 cards. Then, put a card in your hand on top of your deck.\r\nBOOSTED WITH: Look at an opponent's hand and choose a card for them to discard.",
+                "Script": "../Harry Houdini/Set the Stage.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Misdirection",
+                "Key": "Harry Houdini_Misdirection",
+                "Type": "Versatile",
+                "Value": 2,
+                "Boost": 1,
+                "Text": "BOOSTED WITH: Deal 2 damage to any fighter.\nImmediately: Cancel all effects on your opponent's card.",
+                "Script": "../Harry Houdini/Misdirection.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "Houdini"
+                ],
+                "Name": "Grand Escape",
+                "Key": "Harry Houdini_Grand Escape",
+                "Type": "Defense",
+                "Value": 2,
+                "Boost": 3,
+                "Text": "During combat: You may BOOST this card.\nAfter combat: If you won the combat, place your fighter in any space.",
+                "Script": "../Harry Houdini/Grand Escape.lua"
+            }
+        },
+        {
+            "Amount": 4,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Flourish",
+                "Key": "Harry Houdini_Flourish",
+                "Type": "Attack",
+                "Value": 3,
+                "Boost": 2,
+                "Text": "BOOSTED WITH: Draw 1 card.\nDuring combat: You may BOOST this card.",
+                "Script": "../Harry Houdini/Flourish.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Houdini"
+                ],
+                "Name": "An Illusion of My Own Design",
+                "Key": "Harry Houdini_An Illusion of My Own Design",
+                "Type": "Attack",
+                "Value": 4,
+                "Boost": 1,
+                "Text": "Immediately: Your opponent may BOOST their card.\nDuring combat: You may BOOST this card.",
+                "Script": "../Harry Houdini/An Illusion of My Own Design.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "All Part of the Show",
+                "Key": "Harry Houdini_All Part of the Show",
+                "Type": "Defense",
+                "Value": 2,
+                "Boost": 2,
+                "Text": "This card's effect cannot be canceled.\r\nBOOSTED WITH: Houdini recovers 2 health.\nAfter combat: If your fighter was defeated, set their health to 4 instead and place them in any space. (This effect happens even if Houdini was defeated.)",
+                "Script": "../Harry Houdini/All Part of the Show.lua"
+            }
+        },
+        {
+            "Amount": 1,
+            "Card": {
+                "AllowedFighters": [
+                    "Houdini"
+                ],
+                "Name": "A Magician Never Reveals His Secrets",
+                "Key": "Harry Houdini_A Magician Never Reveals His Secrets",
+                "Type": "Scheme",
+                "Value": null,
+                "Boost": 4,
+                "Text": "Draw 2 cards. Gain 1 action.\r\nIf an effect would let an opponent look at your hand, you may reveal this card and cancel that effect.",
+                "Script": "../Harry Houdini/A Magician Never Reveals His Secrets.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "For My Next Trick",
+                "Key": "Harry Houdini_For My Next Trick",
+                "Type": "Attack",
+                "Value": 2,
+                "Boost": 2,
+                "Text": "After combat: Move one of your fighters up to 1 space. Draw 1 card. Gain 1 action.",
+                "Script": "../Harry Houdini/For My Next Trick.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Bess"
+                ],
+                "Name": "And the Beautiful Bess!",
+                "Key": "Harry Houdini_And the Beautiful Bess!",
+                "Type": "Versatile",
+                "Value": 3,
+                "Boost": 1,
+                "Text": "If you discard this card as a result of an opponent's effect, draw 1 card.\nBOOSTED WITH: If it's your turn, gain 1 action.",
+                "Script": "../Harry Houdini/And the Beautiful Bess!.lua"
+            }
+        }
+    ]
+}

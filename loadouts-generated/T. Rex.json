@@ -1,0 +1,186 @@
+{
+    "Name": "T. Rex",
+    "Key": "T. Rex",
+    "StartsWithSidekicks": true,
+    "Fighters": [
+        {
+            "Name": "T. Rex",
+            "Key": "T. Rex",
+            "Amount": 1,
+            "IsHero": true,
+            "MaxHealth": 27,
+            "StartingHealth": 27,
+            "IsRanged": false,
+            "Text": "T-Rex is a large fighter. (She can attack up to 2 spaces away.) At the end of your turn, draw a card.",
+            "Movement": 1,
+            "Script": "../fighter-scripts/T. Rex.lua"
+        }
+    ],
+    "Deck": [
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "T-rex"
+                ],
+                "Name": "Closer Than She Appears",
+                "Key": "T. Rex_Closer Than She Appears",
+                "Type": "Scheme",
+                "Value": null,
+                "Boost": 2,
+                "Text": "Move your fighter up to 1 space. Draw 1 card. Gain 1 action.",
+                "Script": "../T. Rex/Closer Than She Appears.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "T-rex"
+                ],
+                "Name": "Thrash",
+                "Key": "T. Rex_Thrash",
+                "Type": "Versatile",
+                "Value": 2,
+                "Boost": 2,
+                "Text": "During combat: You may BOOST this card.\nAfter combat: If you won the combat, deal 1 damage to each opposing fighter in T-Rex's zone.",
+                "Script": "../T. Rex/Thrash.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "T-rex"
+                ],
+                "Name": "Reckless Lunge",
+                "Key": "T. Rex_Reckless Lunge",
+                "Type": "Attack",
+                "Value": 3,
+                "Boost": 4,
+                "Text": "After combat: Deal 3 damage to the opposing fighter. Then, take 3 damage.",
+                "Script": "../T. Rex/Reckless Lunge.lua"
+            }
+        },
+        {
+            "Amount": 4,
+            "Card": {
+                "AllowedFighters": [
+                    "T-rex"
+                ],
+                "Name": "When Dinosaurs Ruled the Earth",
+                "Key": "T. Rex_When Dinosaurs Ruled the Earth",
+                "Type": "Attack",
+                "Value": 2,
+                "Boost": 3,
+                "Text": "During combat: You may BOOST this card.\nAfter combat: If you won the combat, draw 1 card, gain 1 action, and take 2 damage.",
+                "Script": "../T. Rex/When Dinosaurs Ruled the Earth.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "T-rex"
+                ],
+                "Name": "65 Million Years of Gut Instinct",
+                "Key": "T. Rex_65 Million Years of Gut Instinct",
+                "Type": "Scheme",
+                "Value": null,
+                "Boost": 3,
+                "Text": "Choose a card in your discard pile other than \"65 Million Years of Gut Instinct\" and return it to your hand.",
+                "Script": "../T. Rex/65 Million Years of Gut Instinct.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "T-rex"
+                ],
+                "Name": "15,000 Pounds of Muscle",
+                "Key": "T. Rex_15,000 Pounds of Muscle",
+                "Type": "Attack",
+                "Value": 3,
+                "Boost": 3,
+                "Text": "During combat: Ignore the value of your opponent's card.\nAfter combat: Take 2 damage.",
+                "Script": "../T. Rex/15,000 Pounds of Muscle.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "T-rex"
+                ],
+                "Name": "Terrifying Roar",
+                "Key": "T. Rex_Terrifying Roar",
+                "Type": "Versatile",
+                "Value": 3,
+                "Boost": 3,
+                "Text": "Immediately: Fighters cannot leave their spaces for the rest of the turn.",
+                "Script": "../T. Rex/Terrifying Roar.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "T-rex"
+                ],
+                "Name": "Ripples in the Water",
+                "Key": "T. Rex_Ripples in the Water",
+                "Type": "Scheme",
+                "Value": null,
+                "Boost": 2,
+                "Text": "Place T-Rex in any space in her zone. Then, each opponent with a fighter adjacent to T-Rex discards 1 random card.",
+                "Script": "../T. Rex/Ripples in the Water.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "T-rex"
+                ],
+                "Name": "Commanding Impact",
+                "Key": "T. Rex_Commanding Impact",
+                "Type": "Attack",
+                "Value": 5,
+                "Boost": 2,
+                "Text": "After combat: Draw 1 card.",
+                "Script": "../T. Rex/Commanding Impact.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "T-rex"
+                ],
+                "Name": "Momentous Shift",
+                "Key": "T. Rex_Momentous Shift",
+                "Type": "Versatile",
+                "Value": 3,
+                "Boost": 2,
+                "Text": "During combat: If your fighter started this turn in a different space, this card's value is 5 instead.",
+                "Script": "../T. Rex/Momentous Shift.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "T-rex"
+                ],
+                "Name": "You're Just Making Her Angry",
+                "Key": "T. Rex_You're Just Making Her Angry",
+                "Type": "Defense",
+                "Value": 1,
+                "Boost": 1,
+                "Text": "During combat: You may BOOST this card.\nAfter combat: If you won the combat, return this card to your hand.",
+                "Script": "../T. Rex/You're Just Making Her Angry.lua"
+            }
+        }
+    ]
+}

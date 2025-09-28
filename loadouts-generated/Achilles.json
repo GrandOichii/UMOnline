@@ -1,0 +1,199 @@
+{
+    "Name": "Achilles",
+    "Key": "Achilles",
+    "StartsWithSidekicks": true,
+    "Fighters": [
+        {
+            "Name": "Achilles",
+            "Key": "Achilles",
+            "Amount": 1,
+            "IsHero": true,
+            "MaxHealth": 18,
+            "StartingHealth": 18,
+            "IsRanged": false,
+            "Text": "When Patroclus is defeated, discard 2 random cards.\r\nWhile Patroclus is defeated:\r\n> Add +2 to the value of all Achilles' attacks.\r\n> If Achilles wins combat, draw 1 card.",
+            "Movement": 2,
+            "Script": "../fighter-scripts/Achilles.lua"
+        },
+        {
+            "Name": "Patroclus",
+            "Key": "Patroclus",
+            "Amount": 1,
+            "IsHero": false,
+            "MaxHealth": 6,
+            "StartingHealth": 6,
+            "IsRanged": false,
+            "Text": "When Patroclus is defeated, discard 2 random cards.\r\nWhile Patroclus is defeated:\r\n> Add +2 to the value of all Achilles' attacks.\r\n> If Achilles wins combat, draw 1 card.",
+            "Movement": 2,
+            "Script": "../fighter-scripts/Basic.lua"
+        }
+    ],
+    "Deck": [
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Patroclus"
+                ],
+                "Name": "Battle Frenzy",
+                "Key": "Achilles_Battle Frenzy",
+                "Type": "Attack",
+                "Value": 3,
+                "Boost": 2,
+                "Text": "After combat: Deal 2 damage to both fighters in the combat.",
+                "Script": "../Achilles/Battle Frenzy.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Test For Weakness",
+                "Key": "Achilles_Test For Weakness",
+                "Type": "Attack",
+                "Value": 1,
+                "Boost": 3,
+                "Text": "After combat: RELENTLESS ASSAULT: 3 ATK",
+                "Script": "../Achilles/Test For Weakness.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Patroclus"
+                ],
+                "Name": "The Day of Your Doom",
+                "Key": "Achilles_The Day of Your Doom",
+                "Type": "Attack",
+                "Value": 3,
+                "Boost": 2,
+                "Text": "During combat: You may deal 2 damage to Patroclus. If you do, the value of this attack is 5 instead.\nAfter combat: ",
+                "Script": "../Achilles/The Day of Your Doom.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Brothers In Arms",
+                "Key": "Achilles_Brothers In Arms",
+                "Type": "Attack",
+                "Value": 4,
+                "Boost": 2,
+                "Text": "After combat: If Patroclus is not defeated, gain 1 action.",
+                "Script": "../Achilles/Brothers In Arms.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Feint",
+                "Key": "Achilles_Feint",
+                "Type": "Versatile",
+                "Value": 2,
+                "Boost": 1,
+                "Text": "Immediately: Cancel all effects on your opponent's card.",
+                "Script": "../Achilles/Feint.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Battle Hardened",
+                "Key": "Achilles_Battle Hardened",
+                "Type": "Versatile",
+                "Value": 2,
+                "Boost": 2,
+                "Text": "After combat: Choose a card in your discard pile and return it to your hand.",
+                "Script": "../Achilles/Battle Hardened.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Wily Fighting",
+                "Key": "Achilles_Wily Fighting",
+                "Type": "Versatile",
+                "Value": 3,
+                "Boost": 1,
+                "Text": "After combat: Deal 1 damage to each opposing fighter adjacent to your fighter.",
+                "Script": "../Achilles/Wily Fighting.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Blessed By Hermes",
+                "Key": "Achilles_Blessed By Hermes",
+                "Type": "Versatile",
+                "Value": 3,
+                "Boost": 1,
+                "Text": "After combat: Move each of your fighters up to 3 spaces. They may move through opposing fighters.",
+                "Script": "../Achilles/Blessed By Hermes.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Skirmish",
+                "Key": "Achilles_Skirmish",
+                "Type": "Versatile",
+                "Value": 4,
+                "Boost": 1,
+                "Text": "After combat: If you won the combat, choose one of the fighters in the combat and move them up to 2 spaces.",
+                "Script": "../Achilles/Skirmish.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "Achilles"
+                ],
+                "Name": "Under Achilles' Helm",
+                "Key": "Achilles_Under Achilles' Helm",
+                "Type": "Defense",
+                "Value": 2,
+                "Boost": 4,
+                "Text": "Immediately: If Patroclus is not defeated, Achilles may swap spaces with him. If he does, Patroclus is now the defender.",
+                "Script": "../Achilles/Under Achilles' Helm.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "Achilles"
+                ],
+                "Name": "Achilles' Heel",
+                "Key": "Achilles_Achilles' Heel",
+                "Type": "Defense",
+                "Value": 4,
+                "Boost": 2,
+                "Text": "After combat: If you lost the combat, your opponent gains 1 action.",
+                "Script": "../Achilles/Achilles' Heel.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Achilles"
+                ],
+                "Name": "Spear Throw",
+                "Key": "Achilles_Spear Throw",
+                "Type": "Scheme",
+                "Value": null,
+                "Boost": 1,
+                "Text": "Deal 2 damage to an opposing fighter in Achilles' zone.",
+                "Script": "../Achilles/Spear Throw.lua"
+            }
+        }
+    ]
+}

@@ -1,0 +1,190 @@
+{
+    "Name": "Ancient Leshen",
+    "Key": "Ancient Leshen",
+    "StartsWithSidekicks": true,
+    "Fighters": [
+        {
+            "Name": "Ancient Leshen",
+            "Key": "Ancient Leshen",
+            "Amount": 1,
+            "IsHero": true,
+            "MaxHealth": 13,
+            "StartingHealth": 13,
+            "IsRanged": true,
+            "Text": "Heart of the Forest\r\nAdd +3 to the value of the Leshen's attacks if it already attacked this turn.\r\n\r\nYour Wolves have a move value of 3.",
+            "Movement": 1,
+            "Script": "../fighter-scripts/Ancient Leshen.lua"
+        },
+        {
+            "Name": "Wolf",
+            "Key": "Wolf",
+            "Amount": 2,
+            "IsHero": false,
+            "MaxHealth": 1,
+            "StartingHealth": 1,
+            "IsRanged": false,
+            "Text": "Heart of the Forest\r\nAdd +3 to the value of the Leshen's attacks if it already attacked this turn.\r\n\r\nYour Wolves have a move value of 3.",
+            "Movement": 1,
+            "Script": "../fighter-scripts/Basic.lua"
+        }
+    ],
+    "Deck": [
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "Leshen"
+                ],
+                "Name": "Primeval Slam",
+                "Key": "Ancient Leshen_Primeval Slam",
+                "Type": "Attack",
+                "Value": 4,
+                "Boost": 3,
+                "Text": "After combat: Summon a Wolf in the Leshen's zone. Then move each Wolf up to 3 spaces.",
+                "Script": "../Ancient Leshen/Primeval Slam.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Leshen"
+                ],
+                "Name": "Flock Of Birds",
+                "Key": "Ancient Leshen_Flock Of Birds",
+                "Type": "Attack",
+                "Value": 5,
+                "Boost": 1,
+                "Text": "After combat: You may place the Leshen in any space.",
+                "Script": "../Ancient Leshen/Flock Of Birds.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "Wolf"
+                ],
+                "Name": "Disturbing Howls",
+                "Key": "Ancient Leshen_Disturbing Howls",
+                "Type": "Attack",
+                "Value": 1,
+                "Boost": 1,
+                "Text": "After combat: Move the opposing fighter up to 2 spaces. Gain 1 action.",
+                "Script": "../Ancient Leshen/Disturbing Howls.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Nature Abounds",
+                "Key": "Ancient Leshen_Nature Abounds",
+                "Type": "Attack",
+                "Value": 2,
+                "Boost": 2,
+                "Text": "After combat: Draw 1 card for each of your fighters adjacent to the opposing fighter.",
+                "Script": "../Ancient Leshen/Nature Abounds.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Command The Forest",
+                "Key": "Ancient Leshen_Command The Forest",
+                "Type": "Attack",
+                "Value": 4,
+                "Boost": 2,
+                "Text": "After combat: If you won the combat, your opponent discards 1 card.",
+                "Script": "../Ancient Leshen/Command The Forest.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Wily Fighting",
+                "Key": "Ancient Leshen_Wily Fighting",
+                "Type": "Versatile",
+                "Value": 3,
+                "Boost": 1,
+                "Text": "After combat: Deal 1 damage to each opposing fighter adjacent to your fighter.",
+                "Script": "../Ancient Leshen/Wily Fighting.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Planted Feet",
+                "Key": "Ancient Leshen_Planted Feet",
+                "Type": "Versatile",
+                "Value": 4,
+                "Boost": 3,
+                "Text": "After combat: If your fighter hasn't left their space this turn, draw 1 card.",
+                "Script": "../Ancient Leshen/Planted Feet.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "Wolf"
+                ],
+                "Name": "Harrying Strike",
+                "Key": "Ancient Leshen_Harrying Strike",
+                "Type": "Versatile",
+                "Value": 2,
+                "Boost": 2,
+                "Text": "During combat: Add +2 to this card's value for each of your fighters adjacent to the opposing fighter.",
+                "Script": "../Ancient Leshen/Harrying Strike.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "Leshen"
+                ],
+                "Name": "Primeval Guardian",
+                "Key": "Ancient Leshen_Primeval Guardian",
+                "Type": "Defense",
+                "Value": 5,
+                "Boost": 2,
+                "Text": "During combat: Your opponent discards the top card of their deck. Add its BOOST value to their card's value.\nAfter combat: Move each Wolf up to 3 spaces.",
+                "Script": "../Ancient Leshen/Primeval Guardian.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "Leshen"
+                ],
+                "Name": "Strength Of The Pack",
+                "Key": "Ancient Leshen_Strength Of The Pack",
+                "Type": "Scheme",
+                "Value": null,
+                "Boost": 1,
+                "Text": "Summon a Wolf in the Leshen's zone. [ONGOING]: At the start of your turn, the Leshen recovers 1 health. Discard this card at the end of your turn if there are no Wolves in the Leshen's zone.",
+                "Script": "../Ancient Leshen/Strength Of The Pack.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Leshen"
+                ],
+                "Name": "Vanish Into Murder",
+                "Key": "Ancient Leshen_Vanish Into Murder",
+                "Type": "Scheme",
+                "Value": null,
+                "Boost": 3,
+                "Text": "Deal 1 damage to each opposing fighter in the Leshen's zone. Remove the Leshen from the board. At the start of your next turn, place the Leshen in any space. Then, draw 1 card.",
+                "Script": "../Ancient Leshen/Vanish Into Murder.lua"
+            }
+        }
+    ]
+}

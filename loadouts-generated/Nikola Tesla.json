@@ -1,0 +1,186 @@
+{
+    "Name": "Nikola Tesla",
+    "Key": "Nikola Tesla",
+    "StartsWithSidekicks": true,
+    "Fighters": [
+        {
+            "Name": "Nikola Tesla",
+            "Key": "Nikola Tesla",
+            "Amount": 1,
+            "IsHero": true,
+            "MaxHealth": 14,
+            "StartingHealth": 14,
+            "IsRanged": true,
+            "Text": "ELECTRICAL OVERFLOW\r\nStart the game with 1 coil charged.\r\nAt the end of your turn, charge 1 coil.\r\nAt the start of your turn, if both coils are charged, deal 1 damage to each opposing fighter adjacent to Tesla and move them up to 1 space.",
+            "Movement": 2,
+            "Script": "../fighter-scripts/Nikola Tesla.lua"
+        }
+    ],
+    "Deck": [
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "Tesla"
+                ],
+                "Name": "7 Hertz",
+                "Key": "Nikola Tesla_7 Hertz",
+                "Type": "Attack",
+                "Value": 4,
+                "Boost": 3,
+                "Text": "After combat: You may discharge coils: - 1 Coil: Gain 1 action. - 2 Coils: Also, draw 1 card.",
+                "Script": "../Nikola Tesla/7 Hertz.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Tesla"
+                ],
+                "Name": "The Alternating Current",
+                "Key": "Nikola Tesla_The Alternating Current",
+                "Type": "Attack",
+                "Value": 5,
+                "Boost": 3,
+                "Text": "After combat: Choose one: - Charge both coils - Discharge both coils to have Tesla recover 2 health",
+                "Script": "../Nikola Tesla/The Alternating Current.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "Tesla"
+                ],
+                "Name": "Death Ray",
+                "Key": "Nikola Tesla_Death Ray",
+                "Type": "Attack",
+                "Value": 3,
+                "Boost": 4,
+                "Text": "During combat: You may discharge coils: - 1 Coil: This card's value is 5. - 2 Coils: Instead, this card's value is 7.",
+                "Script": "../Nikola Tesla/Death Ray.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Tesla"
+                ],
+                "Name": "Fully Charged",
+                "Key": "Nikola Tesla_Fully Charged",
+                "Type": "Scheme",
+                "Value": null,
+                "Boost": 1,
+                "Text": "Charge both coils. Gain 1 action.",
+                "Script": "../Nikola Tesla/Fully Charged.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "Tesla"
+                ],
+                "Name": "Intense Experimentation",
+                "Key": "Nikola Tesla_Intense Experimentation",
+                "Type": "Defense",
+                "Value": 3,
+                "Boost": 2,
+                "Text": "After combat: Draw 1 card. You may discharge coils: - 1 Coil: Instead, draw 2 cards. - 2 Coils: Instead, draw 3 cards and Tesla recovers 1 health.",
+                "Script": "../Nikola Tesla/Intense Experimentation.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "Tesla"
+                ],
+                "Name": "Kinetic Induction",
+                "Key": "Nikola Tesla_Kinetic Induction",
+                "Type": "Versatile",
+                "Value": 2,
+                "Boost": 1,
+                "Text": "After combat: Charge one coil. If you won the combat, charge both.",
+                "Script": "../Nikola Tesla/Kinetic Induction.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "Tesla"
+                ],
+                "Name": "Lightning Storm",
+                "Key": "Nikola Tesla_Lightning Storm",
+                "Type": "Versatile",
+                "Value": 3,
+                "Boost": 1,
+                "Text": "After combat: You may discharge coils: - 1 Coil: Deal 1 damage to each opposing fighter in your zone. - 2 Coils: Instead, deal 2 damage.",
+                "Script": "../Nikola Tesla/Lightning Storm.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "Tesla"
+                ],
+                "Name": "Polyphase Coils",
+                "Key": "Nikola Tesla_Polyphase Coils",
+                "Type": "Versatile",
+                "Value": 3,
+                "Boost": 1,
+                "Text": "Immediately: You may discharge coils: - 1 Coil: Cancel all effects on your opponent's card. - 2 Coils: Also, ignore that card's value.",
+                "Script": "../Nikola Tesla/Polyphase Coils.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Tesla"
+                ],
+                "Name": "Remote Control",
+                "Key": "Nikola Tesla_Remote Control",
+                "Type": "Scheme",
+                "Value": null,
+                "Boost": 3,
+                "Text": "Move all opposing fighters up to 2 spaces. Gain 1 action.",
+                "Script": "../Nikola Tesla/Remote Control.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "Tesla"
+                ],
+                "Name": "Repulsion Blast",
+                "Key": "Nikola Tesla_Repulsion Blast",
+                "Type": "Versatile",
+                "Value": 2,
+                "Boost": 2,
+                "Text": "After combat: Move the opposing fighter up to 2 spaces. You may discharge coils: - 1 Coil: Also, move Tesla up to 2 spaces. - 2 Coils: Also, your opponent discards 1 random card.",
+                "Script": "../Nikola Tesla/Repulsion Blast.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "Tesla"
+                ],
+                "Name": "X-Ray Radiation",
+                "Key": "Nikola Tesla_X-Ray Radiation",
+                "Type": "Versatile",
+                "Value": 4,
+                "Boost": 1,
+                "Text": "During combat: Reveal the top card of your opponent's deck. You may discharge coils: - 1 Coil: Discard that card. - 2 Coils: Also, add its boost value to this card's value.",
+                "Script": "../Nikola Tesla/X-Ray Radiation.lua"
+            }
+        }
+    ]
+}

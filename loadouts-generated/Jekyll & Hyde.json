@@ -1,0 +1,210 @@
+{
+    "Name": "Jekyll & Hyde",
+    "Key": "Jekyll & Hyde",
+    "StartsWithSidekicks": true,
+    "Fighters": [
+        {
+            "Name": "Jekyll & Hyde",
+            "Key": "Jekyll & Hyde",
+            "Amount": 1,
+            "IsHero": true,
+            "MaxHealth": 16,
+            "StartingHealth": 16,
+            "IsRanged": false,
+            "Text": "THE SERUM\r\nStart the game as Dr. Jekyll. At the start of your turn, you may transform into Dr. Jekyll or Mr. Hyde.\r\nWhile Mr. Hyde: After you Maneuver, take 1 damage.\r\nUse the transformation token to indicate what he currently is.",
+            "Movement": 2,
+            "Script": "../fighter-scripts/Jekyll & Hyde.lua"
+        }
+    ],
+    "Deck": [
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Feint",
+                "Key": "Jekyll & Hyde_Feint",
+                "Type": "Versatile",
+                "Value": 2,
+                "Boost": 2,
+                "Text": "Immediately: Cancel all effects on your opponent's card.",
+                "Script": "../Jekyll & Hyde/Feint.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Skirmish",
+                "Key": "Jekyll & Hyde_Skirmish",
+                "Type": "Versatile",
+                "Value": 4,
+                "Boost": 1,
+                "Text": "After combat: If you won the combat, choose one of the fighters in the combat and move them up to 2 spaces.",
+                "Script": "../Jekyll & Hyde/Skirmish.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Duality of Man",
+                "Key": "Jekyll & Hyde_Duality of Man",
+                "Type": "Versatile",
+                "Value": 3,
+                "Boost": 1,
+                "Text": "During combat: If you are Dr. Jekyll and playing this card to defend, this card's value is 6 instead. If you are Mr. Hyde and playing this card to attack, this card's value is 6 instead.",
+                "Script": "../Jekyll & Hyde/Duality of Man.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Dr. jekyll"
+                ],
+                "Name": "Distracted Triage",
+                "Key": "Jekyll & Hyde_Distracted Triage",
+                "Type": "Versatile",
+                "Value": 3,
+                "Boost": 3,
+                "Text": "After combat: If you won the combat, recover 2 health.",
+                "Script": "../Jekyll & Hyde/Distracted Triage.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "Dr. jekyll"
+                ],
+                "Name": "Succumb to Compulsion",
+                "Key": "Jekyll & Hyde_Succumb to Compulsion",
+                "Type": "Versatile",
+                "Value": 2,
+                "Boost": 2,
+                "Text": "After combat: Move up to 2 spaces. Transform to Mr. Hyde.",
+                "Script": "../Jekyll & Hyde/Succumb to Compulsion.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Mr. hyde"
+                ],
+                "Name": "Madness Relents",
+                "Key": "Jekyll & Hyde_Madness Relents",
+                "Type": "Versatile",
+                "Value": 4,
+                "Boost": 2,
+                "Text": "After combat: Transform to Dr. Jekyll.",
+                "Script": "../Jekyll & Hyde/Madness Relents.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Mr. hyde"
+                ],
+                "Name": "Recoiling Blow",
+                "Key": "Jekyll & Hyde_Recoiling Blow",
+                "Type": "Attack",
+                "Value": 5,
+                "Boost": 2,
+                "Text": "After combat: Place Mr. Hyde in any space in his zone. \nTransform to Dr. Jekyll.",
+                "Script": "../Jekyll & Hyde/Recoiling Blow.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Mr. hyde"
+                ],
+                "Name": "Forever Hyde",
+                "Key": "Jekyll & Hyde_Forever Hyde",
+                "Type": "Attack",
+                "Value": 5,
+                "Boost": 2,
+                "Text": "During combat: You may discard Dr. Jekyll cards. Add 2 to this card's value for each card discarded.",
+                "Script": "../Jekyll & Hyde/Forever Hyde.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Dr. jekyll"
+                ],
+                "Name": "With Haste!",
+                "Key": "Jekyll & Hyde_With Haste!",
+                "Type": "Defense",
+                "Value": 4,
+                "Boost": 3,
+                "Text": "After combat: Move Dr. Jekyll up to 4 spaces.",
+                "Script": "../Jekyll & Hyde/With Haste!.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Dr. jekyll"
+                ],
+                "Name": "Scientific Method",
+                "Key": "Jekyll & Hyde_Scientific Method",
+                "Type": "Defense",
+                "Value": 2,
+                "Boost": 2,
+                "Text": "After combat: Draw a number of cards equal to the damage you were dealt.",
+                "Script": "../Jekyll & Hyde/Scientific Method.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Dr. jekyll"
+                ],
+                "Name": "Calming Research",
+                "Key": "Jekyll & Hyde_Calming Research",
+                "Type": "Scheme",
+                "Value": 1,
+                "Boost": 3,
+                "Text": "Recover 2 health. Draw up to 3 cards. Keep one and put any others on the bottom of your deck in any order.",
+                "Script": "../Jekyll & Hyde/Calming Research.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "Mr. hyde"
+                ],
+                "Name": "Pure Evil",
+                "Key": "Jekyll & Hyde_Pure Evil",
+                "Type": "Scheme",
+                "Value": 1,
+                "Boost": 3,
+                "Text": "Place Mr. Hyde in any space in his zone. Mr. Hyde deals 2 damage to all adjacent fighters.",
+                "Script": "../Jekyll & Hyde/Pure Evil.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Mr. hyde"
+                ],
+                "Name": "Strange Case",
+                "Key": "Jekyll & Hyde_Strange Case",
+                "Type": "Scheme",
+                "Value": 1,
+                "Boost": 2,
+                "Text": "Reveal the top card of your deck. Deal damage equal to its BOOST value to one adjacent fighter. Put the card in your hand.",
+                "Script": "../Jekyll & Hyde/Strange Case.lua"
+            }
+        }
+    ]
+}

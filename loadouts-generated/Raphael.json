@@ -1,0 +1,32 @@
+{
+    "Name": "Raphael",
+    "Key": "Raphael",
+    "StartsWithSidekicks": true,
+    "Fighters": [
+        {
+            "Name": "Raphael",
+            "Key": "Raphael",
+            "Amount": 1,
+            "IsHero": true,
+            "MaxHealth": 17,
+            "StartingHealth": 17,
+            "IsRanged": false,
+            "Text": "Anger Issues\r\nOn each of your turns, the first time you lose combat, gain 1 action.",
+            "Movement": 2,
+            "Script": "../fighter-scripts/Raphael.lua"
+        },
+        {
+            "Name": "Casey Jones",
+            "Key": "Casey Jones",
+            "Amount": 1,
+            "IsHero": false,
+            "MaxHealth": 8,
+            "StartingHealth": 8,
+            "IsRanged": true,
+            "Text": "Anger Issues\r\nOn each of your turns, the first time you lose combat, gain 1 action.",
+            "Movement": 2,
+            "Script": "../fighter-scripts/Basic.lua"
+        }
+    ],
+    "Deck": []
+}

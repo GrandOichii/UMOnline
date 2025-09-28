@@ -1,0 +1,222 @@
+{
+    "Name": "Sherlock Holmes",
+    "Key": "Sherlock Holmes",
+    "StartsWithSidekicks": true,
+    "Fighters": [
+        {
+            "Name": "Sherlock Holmes",
+            "Key": "Sherlock Holmes",
+            "Amount": 1,
+            "IsHero": true,
+            "MaxHealth": 16,
+            "StartingHealth": 16,
+            "IsRanged": false,
+            "Text": "Effects on HOLMES and DR. WATSON cards cannot be cancelled by an opponent. \n(Effects on ANY cards can be cancelled.)",
+            "Movement": 2,
+            "Script": "../fighter-scripts/Sherlock Holmes.lua"
+        },
+        {
+            "Name": "Dr. Watson",
+            "Key": "Dr. Watson",
+            "Amount": 1,
+            "IsHero": false,
+            "MaxHealth": 8,
+            "StartingHealth": 8,
+            "IsRanged": true,
+            "Text": "Effects on HOLMES and DR. WATSON cards cannot be cancelled by an opponent. \n(Effects on ANY cards can be cancelled.)",
+            "Movement": 2,
+            "Script": "../fighter-scripts/Basic.lua"
+        }
+    ],
+    "Deck": [
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Feint",
+                "Key": "Sherlock Holmes_Feint",
+                "Type": "Versatile",
+                "Value": 2,
+                "Boost": 1,
+                "Text": "Immediately: Cancel all effects on your opponent's card.",
+                "Script": "../Sherlock Holmes/Feint.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Education Never Ends",
+                "Key": "Sherlock Holmes_Education Never Ends",
+                "Type": "Versatile",
+                "Value": 3,
+                "Boost": 1,
+                "Text": "After combat: If you won the combat, your opponent draws 1 card. If you lost the combat, you draw 2 cards.",
+                "Script": "../Sherlock Holmes/Education Never Ends.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Study Methods",
+                "Key": "Sherlock Holmes_Study Methods",
+                "Type": "Versatile",
+                "Value": 3,
+                "Boost": 2,
+                "Text": "After combat: If you won the combat, look at your opponent's hand.",
+                "Script": "../Sherlock Holmes/Study Methods.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "Holmes"
+                ],
+                "Name": "Deduce Strategy",
+                "Key": "Sherlock Holmes_Deduce Strategy",
+                "Type": "Versatile",
+                "Value": 3,
+                "Boost": 1,
+                "Text": "During combat: You may change the printed value of the opponent's card to its BOOST value. (If a card does not have a BOOST value, it is treated as 0.)",
+                "Script": "../Sherlock Holmes/Deduce Strategy.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "Holmes"
+                ],
+                "Name": "Counterpunch",
+                "Key": "Sherlock Holmes_Counterpunch",
+                "Type": "Versatile",
+                "Value": 3,
+                "Boost": 1,
+                "Text": "After combat: If Holmes is adjacent to the opposing fighter, deal 2 damage to that fighter.",
+                "Script": "../Sherlock Holmes/Counterpunch.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Dr. watson"
+                ],
+                "Name": "Fixed Point in a Changing Age",
+                "Key": "Sherlock Holmes_Fixed Point in a Changing Age",
+                "Type": "Versatile",
+                "Value": 3,
+                "Boost": 1,
+                "Text": "After combat: If Dr. Watson is adjacent to Holmes, they each recover 1 health.",
+                "Script": "../Sherlock Holmes/Fixed Point in a Changing Age.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Holmes"
+                ],
+                "Name": "The Game is Afoot",
+                "Key": "Sherlock Holmes_The Game is Afoot",
+                "Type": "Attack",
+                "Value": 5,
+                "Boost": 2,
+                "Text": "After combat: Move Holmes up to 3 spaces.",
+                "Script": "../Sherlock Holmes/The Game is Afoot.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Dr. watson"
+                ],
+                "Name": "Service Revolver",
+                "Key": "Sherlock Holmes_Service Revolver",
+                "Type": "Attack",
+                "Value": 5,
+                "Boost": 3,
+                "Text": "",
+                "Script": "../Sherlock Holmes/Service Revolver.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Holmes"
+                ],
+                "Name": "Elementary",
+                "Key": "Sherlock Holmes_Elementary",
+                "Type": "Defense",
+                "Value": 3,
+                "Boost": 3,
+                "Text": "Play this card face up. Predict the printed attack value of the opponent's card.\nDuring combat: If you predicted the correct value, cancel all effects on your opponent's card and ignore its attack value.",
+                "Script": "../Sherlock Holmes/Elementary.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "Holmes"
+                ],
+                "Name": "Confirm Suspicion",
+                "Key": "Sherlock Holmes_Confirm Suspicion",
+                "Type": "Scheme",
+                "Value": 1,
+                "Boost": 1,
+                "Text": "Choose an opponent and name a value. Your opponent must choose and discard one card matching that attack or defense value. Their hero takes damage equal to the BOOST value of the discarded card. If they do not have a card of the named value, they must reveal their hand instead.",
+                "Script": "../Sherlock Holmes/Confirm Suspicion.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Holmes"
+                ],
+                "Name": "Eliminate the Impossible",
+                "Key": "Sherlock Holmes_Eliminate the Impossible",
+                "Type": "Scheme",
+                "Value": 1,
+                "Boost": 2,
+                "Text": "Choose an opponent. Look at their hand and choose 1 card for them to discard.",
+                "Script": "../Sherlock Holmes/Eliminate the Impossible.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Holmes"
+                ],
+                "Name": "Master of Disguise",
+                "Key": "Sherlock Holmes_Master of Disguise",
+                "Type": "Scheme",
+                "Value": 1,
+                "Boost": 2,
+                "Text": "Choose an opponent. Holmes swaps spaces with their hero. Deal 1 damage to that hero.",
+                "Script": "../Sherlock Holmes/Master of Disguise.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Dr. watson"
+                ],
+                "Name": "Administer Aid",
+                "Key": "Sherlock Holmes_Administer Aid",
+                "Type": "Scheme",
+                "Value": 1,
+                "Boost": 2,
+                "Text": "Place Dr. Watson in a space adjacent to Holmes. Holmes recovers 1 health. Draw 1 card.",
+                "Script": "../Sherlock Holmes/Administer Aid.lua"
+            }
+        }
+    ]
+}

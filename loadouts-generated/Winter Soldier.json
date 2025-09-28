@@ -1,0 +1,201 @@
+{
+    "Name": "Winter Soldier",
+    "Key": "Winter Soldier",
+    "StartsWithSidekicks": true,
+    "Fighters": [
+        {
+            "Name": "Winter Soldier",
+            "Key": "Winter Soldier",
+            "Amount": 1,
+            "IsHero": true,
+            "MaxHealth": 15,
+            "StartingHealth": 15,
+            "IsRanged": true,
+            "Text": "BRAINWASHED\r\nEffects on Winter Soldier's cards cannot be canceled.",
+            "Movement": 2,
+            "Script": "../fighter-scripts/Winter Soldier.lua"
+        }
+    ],
+    "Deck": [
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Winter soldier"
+                ],
+                "Name": "A Boy Named Bucky",
+                "Key": "Winter Soldier_A Boy Named Bucky",
+                "Type": "Scheme",
+                "Value": null,
+                "Boost": 3,
+                "Text": "Ignore any {RED ROOM} effects on your cards for the rest of your turn. Gain 1 action.",
+                "Script": "../Winter Soldier/A Boy Named Bucky.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "Winter soldier"
+                ],
+                "Name": "Bionic Arm",
+                "Key": "Winter Soldier_Bionic Arm",
+                "Type": "Attack",
+                "Value": 2,
+                "Boost": 1,
+                "Text": "During combat: If Winter Soldier is adjacent to the opposing fighter, the value of this card is 6 instead.\nAfter combat: {RED ROOM} Your opponent moves each of their fighters up to 5 spaces.",
+                "Script": "../Winter Soldier/Bionic Arm.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "Winter soldier"
+                ],
+                "Name": "Complete the Mission",
+                "Key": "Winter Soldier_Complete the Mission",
+                "Type": "Defense",
+                "Value": 3,
+                "Boost": 2,
+                "Text": "During combat: You may BOOST this card.\nAfter combat: Deal damage to the opposing fighter equal to the amount of combat damage you took.",
+                "Script": "../Winter Soldier/Complete the Mission.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "Winter soldier"
+                ],
+                "Name": "Feint",
+                "Key": "Winter Soldier_Feint",
+                "Type": "Versatile",
+                "Value": 2,
+                "Boost": 2,
+                "Text": "Immediately: Cancel all effects on your opponent's card.",
+                "Script": "../Winter Soldier/Feint.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Winter soldier"
+                ],
+                "Name": "Manipulation",
+                "Key": "Winter Soldier_Manipulation",
+                "Type": "Scheme",
+                "Value": null,
+                "Boost": 3,
+                "Text": "Draw until you have 5 cards in your hand.\r\n{RED ROOM} Each opponent may draw until they have 5 cards in their hand.",
+                "Script": "../Winter Soldier/Manipulation.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "Winter soldier"
+                ],
+                "Name": "Marksman",
+                "Key": "Winter Soldier_Marksman",
+                "Type": "Attack",
+                "Value": 1,
+                "Boost": 1,
+                "Text": "During combat: Add +1 to this card's value for each space between you and the opposing fighter along the shortest path.",
+                "Script": "../Winter Soldier/Marksman.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Winter soldier"
+                ],
+                "Name": "Programmed to Kill",
+                "Key": "Winter Soldier_Programmed to Kill",
+                "Type": "Attack",
+                "Value": 4,
+                "Boost": 2,
+                "Text": "After combat: {RED ROOM} If you won the combat, take 2 damage.",
+                "Script": "../Winter Soldier/Programmed to Kill.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Winter soldier"
+                ],
+                "Name": "Reflex Memories",
+                "Key": "Winter Soldier_Reflex Memories",
+                "Type": "Versatile",
+                "Value": 5,
+                "Boost": 2,
+                "Text": "After combat: {RED ROOM} Discard 2 random cards, then draw 2 cards",
+                "Script": "../Winter Soldier/Reflex Memories.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "Winter soldier"
+                ],
+                "Name": "Reprogram",
+                "Key": "Winter Soldier_Reprogram",
+                "Type": "Versatile",
+                "Value": 2,
+                "Boost": 2,
+                "Text": "After combat: Choose 3 cards in your discard pile and shuffle them into your deck.",
+                "Script": "../Winter Soldier/Reprogram.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Winter soldier"
+                ],
+                "Name": "Wily Fighting",
+                "Key": "Winter Soldier_Wily Fighting",
+                "Type": "Versatile",
+                "Value": 3,
+                "Boost": 1,
+                "Text": "After combat: Deal 1 damage to each opposing fighter adjacent to your fighter.",
+                "Script": "../Winter Soldier/Wily Fighting.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "Winter soldier"
+                ],
+                "Name": "Without Remorse",
+                "Key": "Winter Soldier_Without Remorse",
+                "Type": "Attack",
+                "Value": 6,
+                "Boost": 2,
+                "Text": "After combat: {RED ROOM} Your opponent may draw 1 card.",
+                "Script": "../Winter Soldier/Without Remorse.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Winter soldier"
+                ],
+                "Name": "Born in the Barracks",
+                "Key": "Winter Soldier_Born in the Barracks",
+                "Type": "Versatile",
+                "Value": 3,
+                "Boost": 2,
+                "Text": "After combat: If you won the combat, Winter Soldier recovers 2 health.",
+                "Script": "../Winter Soldier/Born in the Barracks.lua"
+            }
+        }
+    ]
+}

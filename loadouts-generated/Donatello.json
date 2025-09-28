@@ -1,0 +1,32 @@
+{
+    "Name": "Donatello",
+    "Key": "Donatello",
+    "StartsWithSidekicks": true,
+    "Fighters": [
+        {
+            "Name": "Donatello",
+            "Key": "Donatello",
+            "Amount": 1,
+            "IsHero": true,
+            "MaxHealth": 14,
+            "StartingHealth": 14,
+            "IsRanged": false,
+            "Text": "Inventive\r\nWhen you maneuver, you may draw 2 cards instead of 1. If you do, put a card in your hand on the bottom of your deck.\r\n\r\nAfter you play an invention, tuck it under this card. For the rest of the game, its invention bonus applies.",
+            "Movement": 2,
+            "Script": "../fighter-scripts/Donatello.lua"
+        },
+        {
+            "Name": "Metalhead",
+            "Key": "Metalhead",
+            "Amount": 1,
+            "IsHero": false,
+            "MaxHealth": 7,
+            "StartingHealth": 7,
+            "IsRanged": false,
+            "Text": "Inventive\r\nWhen you maneuver, you may draw 2 cards instead of 1. If you do, put a card in your hand on the bottom of your deck.\r\n\r\nAfter you play an invention, tuck it under this card. For the rest of the game, its invention bonus applies.",
+            "Movement": 2,
+            "Script": "../fighter-scripts/Basic.lua"
+        }
+    ],
+    "Deck": []
+}

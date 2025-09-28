@@ -3,6 +3,8 @@ import json
 DECKS_FILE = 'decks.json'
 FIGHTER_SCRIPTS_DIR_FORMAT = '../fighter-scripts/{}.lua'
 CARD_SCRIPT_DIR_FORMAT = '../{}/{}.lua'
+TARGET_DIR_FORMAT = 'loadouts-generated/{}.json'
+
 
 data = json.loads(open(DECKS_FILE, 'r').read())
 
@@ -29,7 +31,48 @@ def get_text(card):
 
 def get_sidekick_name(plural):
     return {
-        'Harpies': 'Harpy'
+        'Harpies': 'Harpy',
+        'Faith': 'Faith',
+        'Drusilla': 'Drusilla',
+        'Patroclus': 'Patroclus',
+        'Oberon': 'Oberon',
+        'Tara': 'Tara',
+        'Shuri': 'Shuri',
+        'Daisy': 'Daisy',
+        'Charlie': 'Charlie',
+        'Wong': 'Wong',
+        'Dandelion': 'Dandelion',
+        'Triss': 'Triss',
+        'April O\'Neil': 'April O\'Neil',
+        'Metalhead': 'Metalhead',
+        'Merlin': 'Merlin',
+        'Bebop & Rocksteady': 'Bebop & Rocksteady',
+        'Honor Guard': 'Honor Guard',
+        'Actors': 'Actor',
+        'The Hand': 'The Hand',
+        'Casey Jones': 'Casey Jones',
+        'Splinter': 'Splinter',
+        'Dijkstra': 'Dijkstra',
+        'Bess': 'Bess',
+        'Red Riders': 'Red Rider',
+        'Wolves': 'Wolf',
+        'Ihuarraquax': 'Ihuarraquax',
+        'Archers': 'Archer',
+        'Ingen Workers': 'Ingen Worker',
+        'Clones': 'Clone',
+        'Misty Knight': 'Misty Knight',
+        'Huntsman': 'Huntsman',
+        'The Jackalope': 'The Jackalope',
+        'Wiglaf': 'Wiglaf',
+        'The Sisters': 'Sisters',
+        'Outlaws': 'Outlaw',
+        'Dr. Malcolm': 'Dr. Malcolm',
+        'The Jabberwock': 'The Jabberwock',
+        'Maria Hill': 'Maria Hill',
+        'Dr. Watson': 'Dr. Watson',
+        'Giles or Xander': 'GilesXander',
+        'Rosencrantz & Guildenstern': 'Rosencrantz & Guildenstern',
+        'The Porter': 'The Porter',
     }[plural]
 
 for deck in data['decks']:
@@ -49,6 +92,7 @@ for deck in data['decks']:
             'StartingHealth': fighter['hp'],
             'IsRanged': fighter['attack_type'] == 'ranged',
             'Text': deck['special'],
+            'Movement': deck['movement'],
             'Script': FIGHTER_SCRIPTS_DIR_FORMAT.format(fighter['name'])
         }]
     for fighter in deck['sidekicks']:
@@ -56,11 +100,12 @@ for deck in data['decks']:
             'Name': get_sidekick_name(fighter['name']),
             'Key': get_sidekick_name(fighter['name']),
             'Amount': fighter['quantity'],
-            'IsHero': True,
+            'IsHero': False,
             'MaxHealth': fighter['hp'],
             'StartingHealth': fighter['hp'],
             'IsRanged': fighter['attack_type'] == 'ranged',
             'Text': deck['special'],
+            'Movement': deck['movement'],
             'Script': FIGHTER_SCRIPTS_DIR_FORMAT.format('Basic')
         }]
     for card in deck['cards']:
@@ -85,5 +130,5 @@ for deck in data['decks']:
         'Fighters': fighters,
         'Deck': cards
     }
-    print(json.dumps(loadout, indent=4))
-    break
+
+    open(TARGET_DIR_FORMAT.format(deck_name), 'w').write(json.dumps(loadout, indent=4))

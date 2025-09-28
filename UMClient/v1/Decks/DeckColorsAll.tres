@@ -10,7 +10,7 @@ DeckColor = Color(0, 0, 0, 1)
 
 [sub_resource type="Resource" id="Resource_4u1yo"]
 script = ExtResource("1_388kc")
-DeckName = "Medusa & Harpies"
+DeckName = "Medusa"
 DeckColor = Color(0, 0.427451, 0, 1)
 
 [resource]

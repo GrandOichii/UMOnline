@@ -1,0 +1,177 @@
+{
+    "Name": "The Wayward Sisters",
+    "Key": "The Wayward Sisters",
+    "StartsWithSidekicks": true,
+    "Fighters": [
+        {
+            "Name": "The Wayward Sisters",
+            "Key": "The Wayward Sisters",
+            "Amount": 3,
+            "IsHero": true,
+            "MaxHealth": 6,
+            "StartingHealth": 6,
+            "IsRanged": false,
+            "Text": "BUBBLING BREW\r\nYour cards go into your cauldron instead of your discard pile.\r\nAfter you attack, you may cast one spell that you have the ingredients for. If you do, discard all the cards in your cauldron.",
+            "Movement": 2,
+            "Script": "../fighter-scripts/The Wayward Sisters.lua"
+        }
+    ],
+    "Deck": [
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Double, Double \ud83e\udd8e",
+                "Key": "The Wayward Sisters_Double, Double \ud83e\udd8e",
+                "Type": "Attack",
+                "Value": 3,
+                "Boost": 2,
+                "Text": "During combat: Increase the value of this card by +1 for each different ingredient symbol in your cauldron.",
+                "Script": "../The Wayward Sisters/Double, Double \ud83e\udd8e.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "All-Seeing Familiar \ud83e\udd8e",
+                "Key": "The Wayward Sisters_All-Seeing Familiar \ud83e\udd8e",
+                "Type": "Attack",
+                "Value": 4,
+                "Boost": 2,
+                "Text": "Immediately: Return a card in your discard pile to your cauldron.\nAfter combat: If you won the combat, look at the top card of your deck and put it in your hand or cauldron.",
+                "Script": "../The Wayward Sisters/All-Seeing Familiar \ud83e\udd8e.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Hurly-Burly \ud83d\udc0d",
+                "Key": "The Wayward Sisters_Hurly-Burly \ud83d\udc0d",
+                "Type": "Attack",
+                "Value": 3,
+                "Boost": 1,
+                "Text": "During combat: Reveal the top card of your deck. Your opponent chooses one: - put that card in your hand - put that card in your cauldron and add its BOOST value to this card's value.",
+                "Script": "../The Wayward Sisters/Hurly-Burly \ud83d\udc0d.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Fire Burn And Cauldron Bubble \ud83e\udd87",
+                "Key": "The Wayward Sisters_Fire Burn And Cauldron Bubble \ud83e\udd87",
+                "Type": "Versatile",
+                "Value": 3,
+                "Boost": 2,
+                "Text": "Immediately: Return a card in your discard pile to your cauldron.",
+                "Script": "../The Wayward Sisters/Fire Burn And Cauldron Bubble \ud83e\udd87.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "The Stars Align \ud83e\udd8e",
+                "Key": "The Wayward Sisters_The Stars Align \ud83e\udd8e",
+                "Type": "Versatile",
+                "Value": 0,
+                "Boost": 1,
+                "Text": "During combat: The value of this card is equal to the number of different zones all of your fighters are in.",
+                "Script": "../The Wayward Sisters/The Stars Align \ud83e\udd8e.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Curious Familiar \ud83e\udd87",
+                "Key": "The Wayward Sisters_Curious Familiar \ud83e\udd87",
+                "Type": "Versatile",
+                "Value": 2,
+                "Boost": 3,
+                "Text": "After combat: Return a card in your cauldron to your hand.",
+                "Script": "../The Wayward Sisters/Curious Familiar \ud83e\udd87.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Ward \ud83e\udd87",
+                "Key": "The Wayward Sisters_Ward \ud83e\udd87",
+                "Type": "Versatile",
+                "Value": 3,
+                "Boost": 2,
+                "Text": "After combat: Place the opposing fighter in any space in your fighter's zone.",
+                "Script": "../The Wayward Sisters/Ward \ud83e\udd87.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Toil And Trouble \ud83d\udc0d",
+                "Key": "The Wayward Sisters_Toil And Trouble \ud83d\udc0d",
+                "Type": "Defense",
+                "Value": 2,
+                "Boost": 3,
+                "Text": "During combat: Increase the value of this card by +1 for each different ingredient symbol in your cauldron.",
+                "Script": "../The Wayward Sisters/Toil And Trouble \ud83d\udc0d.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Pricking Of My Thumbs \ud83d\udc0d",
+                "Key": "The Wayward Sisters_Pricking Of My Thumbs \ud83d\udc0d",
+                "Type": "Defense",
+                "Value": 2,
+                "Boost": 1,
+                "Text": "After combat: Deal damage to the opposing fighter equal to the amount of combat damage your fighter took.",
+                "Script": "../The Wayward Sisters/Pricking Of My Thumbs \ud83d\udc0d.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Unnatural Remedy \ud83d\udc0d",
+                "Key": "The Wayward Sisters_Unnatural Remedy \ud83d\udc0d",
+                "Type": "Defense",
+                "Value": 1,
+                "Boost": 2,
+                "Text": "Immediately: Discard up to 3 cards from your cauldron. For each one, choose a fighter to recover 1 health. (You may choose the same fighter more than once.)",
+                "Script": "../The Wayward Sisters/Unnatural Remedy \ud83d\udc0d.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Something Wicked This Way Comes \ud83e\udd87",
+                "Key": "The Wayward Sisters_Something Wicked This Way Comes \ud83e\udd87",
+                "Type": "Scheme",
+                "Value": null,
+                "Boost": 3,
+                "Text": " Cast any spell. Then, cast a different spell. (Do not discard any cards from your cauldron to cast these spells.)",
+                "Script": "../The Wayward Sisters/Something Wicked This Way Comes \ud83e\udd87.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Prophecy \ud83e\udd8e",
+                "Key": "The Wayward Sisters_Prophecy \ud83e\udd8e",
+                "Type": "Scheme",
+                "Value": null,
+                "Boost": 2,
+                "Text": " Look at the top 4 cards of your deck. Put 2 of them in your hand and the other 2 back on top of your deck in any order.",
+                "Script": "../The Wayward Sisters/Prophecy \ud83e\udd8e.lua"
+            }
+        }
+    ]
+}

@@ -1,0 +1,218 @@
+{
+    "Name": "Buffy",
+    "Key": "Buffy",
+    "StartsWithSidekicks": true,
+    "Fighters": [
+        {
+            "Name": "Buffy",
+            "Key": "Buffy",
+            "Amount": 1,
+            "IsHero": true,
+            "MaxHealth": 14,
+            "StartingHealth": 14,
+            "IsRanged": false,
+            "Text": "Buffy may move through spaces containing opposing fighters (including when she is moved by effects).",
+            "Movement": 3,
+            "Script": "../fighter-scripts/Buffy.lua"
+        },
+        {
+            "Name": "GilesXander",
+            "Key": "GilesXander",
+            "Amount": 1,
+            "IsHero": false,
+            "MaxHealth": 6,
+            "StartingHealth": 6,
+            "IsRanged": false,
+            "Text": "Buffy may move through spaces containing opposing fighters (including when she is moved by effects).",
+            "Movement": 3,
+            "Script": "../fighter-scripts/Basic.lua"
+        }
+    ],
+    "Deck": [
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Skirmish",
+                "Key": "Buffy_Skirmish",
+                "Type": "Versatile",
+                "Value": 4,
+                "Boost": 3,
+                "Text": "After combat: If you won the combat, choose one of the fighters in the combat and move them up to 2 spaces.",
+                "Script": "../Buffy/Skirmish.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "Giles"
+                ],
+                "Name": "Insight",
+                "Key": "Buffy_Insight",
+                "Type": "Scheme",
+                "Value": null,
+                "Boost": 3,
+                "Text": "Choose an opponent and look at their hand. Choose 1 card in their hand for them to discard.",
+                "Script": "../Buffy/Insight.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Giles"
+                ],
+                "Name": "Training",
+                "Key": "Buffy_Training",
+                "Type": "Scheme",
+                "Value": null,
+                "Boost": 3,
+                "Text": "Draw 3 cards.",
+                "Script": "../Buffy/Training.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Xander"
+                ],
+                "Name": "Right-hand Man",
+                "Key": "Buffy_Right-hand Man",
+                "Type": "Versatile",
+                "Value": 2,
+                "Boost": 3,
+                "Text": "During combat: if Xander is adjacent to Buffy, the value of this card is 6 instead.",
+                "Script": "../Buffy/Right-hand Man.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "Xander"
+                ],
+                "Name": "Military Knowledge",
+                "Key": "Buffy_Military Knowledge",
+                "Type": "Attack",
+                "Value": 4,
+                "Boost": 3,
+                "Text": "After combat: Draw 1 card.",
+                "Script": "../Buffy/Military Knowledge.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Daring Strike",
+                "Key": "Buffy_Daring Strike",
+                "Type": "Attack",
+                "Value": 4,
+                "Boost": 3,
+                "Text": "After combat: If you won the combat, draw 2 cards. Otherwise, take 1 damage.",
+                "Script": "../Buffy/Daring Strike.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Buffy"
+                ],
+                "Name": "Cartwheel Kick",
+                "Key": "Buffy_Cartwheel Kick",
+                "Type": "Defense",
+                "Value": 2,
+                "Boost": 2,
+                "Text": "After combat: You may move Buffy up to 3 spaces. Then, deal 1 damage to each opposing fighter adjacent to her.",
+                "Script": "../Buffy/Cartwheel Kick.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "Buffy"
+                ],
+                "Name": "Rapid Recovery",
+                "Key": "Buffy_Rapid Recovery",
+                "Type": "Versatile",
+                "Value": 3,
+                "Boost": 3,
+                "Text": "After combat: Buffy recovers 1 health.",
+                "Script": "../Buffy/Rapid Recovery.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Regroup",
+                "Key": "Buffy_Regroup",
+                "Type": "Versatile",
+                "Value": 1,
+                "Boost": 1,
+                "Text": "After combat: Draw 1 card. If you won the combat, draw 2 cards instead.",
+                "Script": "../Buffy/Regroup.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Buffy"
+                ],
+                "Name": "Mr. Pointy",
+                "Key": "Buffy_Mr. Pointy",
+                "Type": "Attack",
+                "Value": 5,
+                "Boost": 4,
+                "Text": "",
+                "Script": "../Buffy/Mr. Pointy.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "Buffy"
+                ],
+                "Name": "Slayer's Strength",
+                "Key": "Buffy_Slayer's Strength",
+                "Type": "Versatile",
+                "Value": 4,
+                "Boost": 3,
+                "Text": "After combat: You may move all fighters adjacent to Buffy to another space in their zone. Then, deal 1 damage to each fighter you moved.",
+                "Script": "../Buffy/Slayer's Strength.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Feint",
+                "Key": "Buffy_Feint",
+                "Type": "Versatile",
+                "Value": 2,
+                "Boost": 2,
+                "Text": "Immediately: Cancel all effects on your opponent's card.",
+                "Script": "../Buffy/Feint.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Swift Strike",
+                "Key": "Buffy_Swift Strike",
+                "Type": "Attack",
+                "Value": 3,
+                "Boost": 2,
+                "Text": "After combat: Move your fighter up to 4 spaces.",
+                "Script": "../Buffy/Swift Strike.lua"
+            }
+        }
+    ]
+}

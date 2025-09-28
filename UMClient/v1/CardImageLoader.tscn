@@ -32,57 +32,57 @@
 
 [sub_resource type="Resource" id="Resource_5vaqf"]
 script = ExtResource("2_1e04s")
-card_key = "medusa & harpies_a momentary glance"
+card_key = "Medusa_A Momentary Glance"
 image = ExtResource("3_dylcv")
 
 [sub_resource type="Resource" id="Resource_asjt2"]
 script = ExtResource("2_1e04s")
-card_key = "medusa & harpies_clutching claws"
+card_key = "Medusa_Clutching Claws"
 image = ExtResource("4_eaeg5")
 
 [sub_resource type="Resource" id="Resource_cmyoc"]
 script = ExtResource("2_1e04s")
-card_key = "medusa & harpies_dash"
+card_key = "Medusa_Dash"
 image = ExtResource("5_uxbl8")
 
 [sub_resource type="Resource" id="Resource_bivio"]
 script = ExtResource("2_1e04s")
-card_key = "medusa & harpies_feint"
+card_key = "Medusa_Feint"
 image = ExtResource("6_esa8t")
 
 [sub_resource type="Resource" id="Resource_7uqtn"]
 script = ExtResource("2_1e04s")
-card_key = "medusa & harpies_gaze of stone"
+card_key = "Medusa_Gaze of Stone"
 image = ExtResource("7_o1y4r")
 
 [sub_resource type="Resource" id="Resource_i2gup"]
 script = ExtResource("2_1e04s")
-card_key = "medusa & harpies_hiss and slither"
+card_key = "Medusa_Hiss and Slither"
 image = ExtResource("8_377gt")
 
 [sub_resource type="Resource" id="Resource_end7w"]
 script = ExtResource("2_1e04s")
-card_key = "medusa & harpies_regroup"
+card_key = "Medusa_Regroup"
 image = ExtResource("9_xwxmp")
 
 [sub_resource type="Resource" id="Resource_ny877"]
 script = ExtResource("2_1e04s")
-card_key = "medusa & harpies_second shot"
+card_key = "Medusa_Second Shot"
 image = ExtResource("10_xcnkc")
 
 [sub_resource type="Resource" id="Resource_c6kbl"]
 script = ExtResource("2_1e04s")
-card_key = "medusa & harpies_snipe"
+card_key = "Medusa_Snipe"
 image = ExtResource("11_4wn3w")
 
 [sub_resource type="Resource" id="Resource_hlutv"]
 script = ExtResource("2_1e04s")
-card_key = "medusa & harpies_the hounds of mighty zeus"
+card_key = "Medusa_The Hounds of Mighty Zeus"
 image = ExtResource("12_rlstl")
 
 [sub_resource type="Resource" id="Resource_jesxb"]
 script = ExtResource("2_1e04s")
-card_key = "medusa & harpies_winged frenzy"
+card_key = "Medusa_Winged Frenzy"
 image = ExtResource("13_kf13h")
 
 [sub_resource type="Resource" id="Resource_eix6r"]
@@ -156,7 +156,7 @@ Images = Array[ExtResource("2_1e04s")]([SubResource("Resource_5vaqf"), SubResour
 
 [sub_resource type="Resource" id="Resource_e78e3"]
 script = ExtResource("2_1e04s")
-card_key = "Medusa & Harpies"
+card_key = "Medusa"
 image = ExtResource("4_n1orx")
 
 [sub_resource type="Resource" id="Resource_g2n7c"]

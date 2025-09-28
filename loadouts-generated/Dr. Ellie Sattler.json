@@ -1,0 +1,231 @@
+{
+    "Name": "Dr. Ellie Sattler",
+    "Key": "Dr. Ellie Sattler",
+    "StartsWithSidekicks": true,
+    "Fighters": [
+        {
+            "Name": "Dr. Sattler",
+            "Key": "Dr. Sattler",
+            "Amount": 1,
+            "IsHero": true,
+            "MaxHealth": 13,
+            "StartingHealth": 13,
+            "IsRanged": false,
+            "Text": "After Dr. Sattler or Dr. Malcolm move, place an insight token in their new space. You have 5 insight tokens.",
+            "Movement": 2,
+            "Script": "../fighter-scripts/Dr. Sattler.lua"
+        },
+        {
+            "Name": "Dr. Malcolm",
+            "Key": "Dr. Malcolm",
+            "Amount": 1,
+            "IsHero": false,
+            "MaxHealth": 7,
+            "StartingHealth": 7,
+            "IsRanged": false,
+            "Text": "After Dr. Sattler or Dr. Malcolm move, place an insight token in their new space. You have 5 insight tokens.",
+            "Movement": 2,
+            "Script": "../fighter-scripts/Basic.lua"
+        }
+    ],
+    "Deck": [
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "Dr. sattler"
+                ],
+                "Name": "Woman Inherits the Earth",
+                "Key": "Dr. Ellie Sattler_Woman Inherits the Earth",
+                "Type": "Versatile",
+                "Value": 2,
+                "Boost": 3,
+                "Text": "Immediately: Draw 1 card. Dr Sattler recovers health equal to the number of insight tokens on the board. Remove all insight tokens from the board.",
+                "Script": "../Dr. Ellie Sattler/Woman Inherits the Earth.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "Dr. sattler"
+                ],
+                "Name": "Violently, If Necessary",
+                "Key": "Dr. Ellie Sattler_Violently, If Necessary",
+                "Type": "Versatile",
+                "Value": 3,
+                "Boost": 3,
+                "Text": "After combat: Deal 2 damage to each opposing fighter on or adjacent to a space with an insight token.",
+                "Script": "../Dr. Ellie Sattler/Violently, If Necessary.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Dr. sattler"
+                ],
+                "Name": "Sexism in Survival Situations",
+                "Key": "Dr. Ellie Sattler_Sexism in Survival Situations",
+                "Type": "Versatile",
+                "Value": 1,
+                "Boost": 2,
+                "Text": "During combat: If the opposing fighter is a hero, the value of this card is 4 instead.\nAfter combat: You may move Dr. Sattler 1 space.",
+                "Script": "../Dr. Ellie Sattler/Sexism in Survival Situations.lua"
+            }
+        },
+        {
+            "Amount": 1,
+            "Card": {
+                "AllowedFighters": [
+                    "Dr. malcolm"
+                ],
+                "Name": "Chaotician",
+                "Key": "Dr. Ellie Sattler_Chaotician",
+                "Type": "Versatile",
+                "Value": 2,
+                "Boost": 3,
+                "Text": "After combat: Place an insight token in any space.",
+                "Script": "../Dr. Ellie Sattler/Chaotician.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Dr. malcolm"
+                ],
+                "Name": "Life Finds a Way",
+                "Key": "Dr. Ellie Sattler_Life Finds a Way",
+                "Type": "Versatile",
+                "Value": 2,
+                "Boost": 3,
+                "Text": "After combat: Your opponent discards the top card of their deck. Dr. Malcolm and Dr. Sattler recover health equal to that card's BOOST value.",
+                "Script": "../Dr. Ellie Sattler/Life Finds a Way.lua"
+            }
+        },
+        {
+            "Amount": 1,
+            "Card": {
+                "AllowedFighters": [
+                    "Dr. malcolm"
+                ],
+                "Name": "The Future Ex-Mrs. Malcolm",
+                "Key": "Dr. Ellie Sattler_The Future Ex-Mrs. Malcolm",
+                "Type": "Scheme",
+                "Value": null,
+                "Boost": 2,
+                "Text": "Draw 2 cards. Place an insight token in Dr. Malcolm's space. Gain 1 action.",
+                "Script": "../Dr. Ellie Sattler/The Future Ex-Mrs. Malcolm.lua"
+            }
+        },
+        {
+            "Amount": 1,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Must Go Faster",
+                "Key": "Dr. Ellie Sattler_Must Go Faster",
+                "Type": "Versatile",
+                "Value": 3,
+                "Boost": 2,
+                "Text": "After combat: If you won the combat, you may place Dr. Malcolm and Dr. Sattler in any space.",
+                "Script": "../Dr. Ellie Sattler/Must Go Faster.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "Dr. sattler"
+                ],
+                "Name": "I Think We're Back In Business",
+                "Key": "Dr. Ellie Sattler_I Think We're Back In Business",
+                "Type": "Versatile",
+                "Value": 0,
+                "Boost": 3,
+                "Text": "During combat: The value of this card is equal to the number of cards in your hand.",
+                "Script": "../Dr. Ellie Sattler/I Think We're Back In Business.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Lock The Doors!",
+                "Key": "Dr. Ellie Sattler_Lock The Doors!",
+                "Type": "Defense",
+                "Value": 2,
+                "Boost": 2,
+                "Text": "After combat: Deal 2 damage to the opposing fighter. Move your fighter up to 2 spaces.",
+                "Script": "../Dr. Ellie Sattler/Lock The Doors!.lua"
+            }
+        },
+        {
+            "Amount": 1,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Hey! Hey! Hey!",
+                "Key": "Dr. Ellie Sattler_Hey! Hey! Hey!",
+                "Type": "Versatile",
+                "Value": 3,
+                "Boost": 3,
+                "Text": "After combat: Move your other fighter up to 4 spaces.",
+                "Script": "../Dr. Ellie Sattler/Hey! Hey! Hey!.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "The Concept of Attraction",
+                "Key": "Dr. Ellie Sattler_The Concept of Attraction",
+                "Type": "Defense",
+                "Value": 2,
+                "Boost": 2,
+                "Text": "After combat: You may place your fighter on any space with an insight token.",
+                "Script": "../Dr. Ellie Sattler/The Concept of Attraction.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Feint",
+                "Key": "Dr. Ellie Sattler_Feint",
+                "Type": "Versatile",
+                "Value": 2,
+                "Boost": 1,
+                "Text": "Immediately: Cancel all effects on your opponent's card.",
+                "Script": "../Dr. Ellie Sattler/Feint.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Regroup",
+                "Key": "Dr. Ellie Sattler_Regroup",
+                "Type": "Versatile",
+                "Value": 1,
+                "Boost": 1,
+                "Text": "After combat: Draw 1 card. If you won the combat, draw 2 cards instead.",
+                "Script": "../Dr. Ellie Sattler/Regroup.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "Dr. sattler"
+                ],
+                "Name": "You Never Had Control, That's the Illusion",
+                "Key": "Dr. Ellie Sattler_You Never Had Control, That's the Illusion",
+                "Type": "Attack",
+                "Value": 2,
+                "Boost": 2,
+                "Text": "During combat: Increase the value of this card by the number of insight tokens on the board. Remove all insight tokens from the board.",
+                "Script": "../Dr. Ellie Sattler/You Never Had Control, That's the Illusion.lua"
+            }
+        }
+    ]
+}

@@ -1,0 +1,32 @@
+{
+    "Name": "Michelangelo",
+    "Key": "Michelangelo",
+    "StartsWithSidekicks": true,
+    "Fighters": [
+        {
+            "Name": "Michelangelo",
+            "Key": "Michelangelo",
+            "Amount": 1,
+            "IsHero": true,
+            "MaxHealth": 14,
+            "StartingHealth": 14,
+            "IsRanged": false,
+            "Text": "Pizza Party\r\nAfter your attack or scheme, draw 1 card.\r\n\r\nYour starting and maximum hand size is 3.",
+            "Movement": 3,
+            "Script": "../fighter-scripts/Michelangelo.lua"
+        },
+        {
+            "Name": "April O'Neil",
+            "Key": "April O'Neil",
+            "Amount": 1,
+            "IsHero": false,
+            "MaxHealth": 6,
+            "StartingHealth": 6,
+            "IsRanged": true,
+            "Text": "Pizza Party\r\nAfter your attack or scheme, draw 1 card.\r\n\r\nYour starting and maximum hand size is 3.",
+            "Movement": 3,
+            "Script": "../fighter-scripts/Basic.lua"
+        }
+    ],
+    "Deck": []
+}

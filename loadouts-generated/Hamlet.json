@@ -1,0 +1,201 @@
+{
+    "Name": "Hamlet",
+    "Key": "Hamlet",
+    "StartsWithSidekicks": true,
+    "Fighters": [
+        {
+            "Name": "Hamlet",
+            "Key": "Hamlet",
+            "Amount": 1,
+            "IsHero": true,
+            "MaxHealth": 15,
+            "StartingHealth": 15,
+            "IsRanged": false,
+            "Text": "THE QUESTION\r\nAt the start of your turn, choose TO BE or NOT TO BE. If you choose NOT TO BE, deal 2 damage to one of your fighters.\r\nTO BE: When you maneuver, draw 1 additional card.\r\nNOT TO BE: Add +2 to the value of Hamlet's attacks.",
+            "Movement": 2,
+            "Script": "../fighter-scripts/Hamlet.lua"
+        },
+        {
+            "Name": "Rosencrantz & Guildenstern",
+            "Key": "Rosencrantz & Guildenstern",
+            "Amount": 1,
+            "IsHero": false,
+            "MaxHealth": 6,
+            "StartingHealth": 6,
+            "IsRanged": false,
+            "Text": "THE QUESTION\r\nAt the start of your turn, choose TO BE or NOT TO BE. If you choose NOT TO BE, deal 2 damage to one of your fighters.\r\nTO BE: When you maneuver, draw 1 additional card.\r\nNOT TO BE: Add +2 to the value of Hamlet's attacks.",
+            "Movement": 2,
+            "Script": "../fighter-scripts/Basic.lua"
+        }
+    ],
+    "Deck": [
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Hamlet"
+                ],
+                "Name": "Cruel To Be Kind",
+                "Key": "Hamlet_Cruel To Be Kind",
+                "Type": "Attack",
+                "Value": 2,
+                "Boost": 4,
+                "Text": "During combat: You may BOOST this card.",
+                "Script": "../Hamlet/Cruel To Be Kind.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Uncertain Doom",
+                "Key": "Hamlet_Uncertain Doom",
+                "Type": "Attack",
+                "Value": 2,
+                "Boost": 3,
+                "Text": "During combat: If your opponent played a versatile card, ignore its value.",
+                "Script": "../Hamlet/Uncertain Doom.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "To Sleep, Perchance To Dream",
+                "Key": "Hamlet_To Sleep, Perchance To Dream",
+                "Type": "Attack",
+                "Value": 3,
+                "Boost": 2,
+                "Text": "After combat: If you won the combat, move the opposing fighter a number of spaces up to the amount of combat damage dealt. If you lost the combat, Hamlet recovers 1 health.",
+                "Script": "../Hamlet/To Sleep, Perchance To Dream.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "The Readiness Is All",
+                "Key": "Hamlet_The Readiness Is All",
+                "Type": "Versatile",
+                "Value": 2,
+                "Boost": 2,
+                "Text": "After combat: Place one of the fighters in the combat in any space. They cannot leave that space this turn.",
+                "Script": "../Hamlet/The Readiness Is All.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "The Play's The Thing",
+                "Key": "Hamlet_The Play's The Thing",
+                "Type": "Versatile",
+                "Value": 3,
+                "Boost": 2,
+                "Text": "After combat: Your opponent discards 1 random card. If you won the combat, Hamlet recovers health equal to its BOOST value.",
+                "Script": "../Hamlet/The Play's The Thing.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "Hamlet"
+                ],
+                "Name": "Blood Will Have Blood",
+                "Key": "Hamlet_Blood Will Have Blood",
+                "Type": "Versatile",
+                "Value": 2,
+                "Boost": 1,
+                "Text": "After combat: If Hamlet took damage this turn, deal 1 damage to the opposing fighter.",
+                "Script": "../Hamlet/Blood Will Have Blood.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Hamlet"
+                ],
+                "Name": "Outrageous Fortune",
+                "Key": "Hamlet_Outrageous Fortune",
+                "Type": "Versatile",
+                "Value": 1,
+                "Boost": 2,
+                "Text": "During combat: Discard the top card of your deck. Add its BOOST value to this card's value.\nAfter combat: If you lost the combat, return the card you discarded to your hand.",
+                "Script": "../Hamlet/Outrageous Fortune.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Maddening Insight",
+                "Key": "Hamlet_Maddening Insight",
+                "Type": "Defense",
+                "Value": 0,
+                "Boost": 1,
+                "Text": "During combat: The value of this card is equal to the number of cards in your hand.\nAfter combat: If you won the combat, your opponent discards 1 card.",
+                "Script": "../Hamlet/Maddening Insight.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Hamlet"
+                ],
+                "Name": "The Rest Is Silence",
+                "Key": "Hamlet_The Rest Is Silence",
+                "Type": "Defense",
+                "Value": 2,
+                "Boost": 3,
+                "Text": "After combat: End the turn.",
+                "Script": "../Hamlet/The Rest Is Silence.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Nothing Either Good Or Bad",
+                "Key": "Hamlet_Nothing Either Good Or Bad",
+                "Type": "Defense",
+                "Value": 2,
+                "Boost": 1,
+                "Text": "After combat: If your opponent played a versatile card, deal 2 damage to the opposing fighter.",
+                "Script": "../Hamlet/Nothing Either Good Or Bad.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "Hamlet"
+                ],
+                "Name": "Method In The Madness",
+                "Key": "Hamlet_Method In The Madness",
+                "Type": "Scheme",
+                "Value": null,
+                "Boost": 3,
+                "Text": "Put any number of cards in your hand on the bottom of your deck. Then, draw up to that many cards. Gain 1 action.",
+                "Script": "../Hamlet/Method In The Madness.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Hamlet"
+                ],
+                "Name": "The Ghost",
+                "Key": "Hamlet_The Ghost",
+                "Type": "Scheme",
+                "Value": null,
+                "Boost": 1,
+                "Text": "Choose one: -Hamlet recovers 2 health -place Hamlet in any space in his zone and gain 1 action",
+                "Script": "../Hamlet/The Ghost.lua"
+            }
+        }
+    ]
+}

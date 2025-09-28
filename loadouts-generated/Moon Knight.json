@@ -1,0 +1,201 @@
+{
+    "Name": "Moon Knight",
+    "Key": "Moon Knight",
+    "StartsWithSidekicks": true,
+    "Fighters": [
+        {
+            "Name": "Moon Knight",
+            "Key": "Moon Knight",
+            "Amount": 1,
+            "IsHero": true,
+            "MaxHealth": 16,
+            "StartingHealth": 16,
+            "IsRanged": false,
+            "Text": "##### Moon Knight\nAt the start of your turn, move up to 2 spaces.\n\n##### Khonshu\nKhonshu adds +2 to the value of his attack cards. He does not take damage from effects other than combat damage.\n\n##### Mr. Knight\nMr. Knight adds +1 to all his defense values.\n\nAt the end of your turn, change to your next identity (In order, Moon Knight -> Khonshu -> Mr. Knight, repeating).",
+            "Movement": 3,
+            "Script": "../fighter-scripts/Moon Knight.lua"
+        },
+        {
+            "Name": "Khonshu",
+            "Key": "Khonshu",
+            "Amount": 1,
+            "IsHero": true,
+            "MaxHealth": 16,
+            "StartingHealth": 16,
+            "IsRanged": false,
+            "Text": "##### Moon Knight\nAt the start of your turn, move up to 2 spaces.\n\n##### Khonshu\nKhonshu adds +2 to the value of his attack cards. He does not take damage from effects other than combat damage.\n\n##### Mr. Knight\nMr. Knight adds +1 to all his defense values.\n\nAt the end of your turn, change to your next identity (In order, Moon Knight -> Khonshu -> Mr. Knight, repeating).",
+            "Movement": 3,
+            "Script": "../fighter-scripts/Khonshu.lua"
+        },
+        {
+            "Name": "Mr. Knight",
+            "Key": "Mr. Knight",
+            "Amount": 1,
+            "IsHero": true,
+            "MaxHealth": 16,
+            "StartingHealth": 16,
+            "IsRanged": false,
+            "Text": "##### Moon Knight\nAt the start of your turn, move up to 2 spaces.\n\n##### Khonshu\nKhonshu adds +2 to the value of his attack cards. He does not take damage from effects other than combat damage.\n\n##### Mr. Knight\nMr. Knight adds +1 to all his defense values.\n\nAt the end of your turn, change to your next identity (In order, Moon Knight -> Khonshu -> Mr. Knight, repeating).",
+            "Movement": 3,
+            "Script": "../fighter-scripts/Mr. Knight.lua"
+        }
+    ],
+    "Deck": [
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "I'm Not Real",
+                "Key": "Moon Knight_I'm Not Real",
+                "Type": "Attack",
+                "Value": 4,
+                "Boost": 2,
+                "Text": "After combat: You may change to your next identity.",
+                "Script": "../Moon Knight/I'm Not Real.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "That's Why I Always Win",
+                "Key": "Moon Knight_That's Why I Always Win",
+                "Type": "Attack",
+                "Value": 3,
+                "Boost": 2,
+                "Text": "During combat: You may BOOST this attack.",
+                "Script": "../Moon Knight/That's Why I Always Win.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "We're All In This Together",
+                "Key": "Moon Knight_We're All In This Together",
+                "Type": "Defense",
+                "Value": 3,
+                "Boost": 2,
+                "Text": "After combat: If you won the combat, draw 1 card.",
+                "Script": "../Moon Knight/We're All In This Together.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Good Enough For Us",
+                "Key": "Moon Knight_Good Enough For Us",
+                "Type": "Versatile",
+                "Value": 4,
+                "Boost": 1,
+                "Text": "After combat: You may draw 2 cards. If you do, take 2 damage.",
+                "Script": "../Moon Knight/Good Enough For Us.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "That's The Part I Like",
+                "Key": "Moon Knight_That's The Part I Like",
+                "Type": "Versatile",
+                "Value": 3,
+                "Boost": 2,
+                "Text": "After combat: If you won the combat, you may look at the top 3 cards of your opponent's deck and discard one of them. Place the other 2 back in any order.",
+                "Script": "../Moon Knight/That's The Part I Like.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Fist of Khonshu",
+                "Key": "Moon Knight_Fist of Khonshu",
+                "Type": "Versatile",
+                "Value": 3,
+                "Boost": 2,
+                "Text": "After combat: If you won the combat, move the opposing fighter up to 4 spaces.",
+                "Script": "../Moon Knight/Fist of Khonshu.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Let Your Insanity Guide You",
+                "Key": "Moon Knight_Let Your Insanity Guide You",
+                "Type": "Versatile",
+                "Value": 1,
+                "Boost": 2,
+                "Text": "After combat: Discard the top card of your deck. Draw cards equal to that card's BOOST value.",
+                "Script": "../Moon Knight/Let Your Insanity Guide You.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Past and Present Intermingle",
+                "Key": "Moon Knight_Past and Present Intermingle",
+                "Type": "Versatile",
+                "Value": 2,
+                "Boost": 2,
+                "Text": "During combat: Add the BOOST value of the top card of your discard pile to this card's value.",
+                "Script": "../Moon Knight/Past and Present Intermingle.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "A Totally Sane Thing To Do",
+                "Key": "Moon Knight_A Totally Sane Thing To Do",
+                "Type": "Versatile",
+                "Value": 2,
+                "Boost": 1,
+                "Text": "After combat: You may deal 2 damage to both fighters in the combat.",
+                "Script": "../Moon Knight/A Totally Sane Thing To Do.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Feint",
+                "Key": "Moon Knight_Feint",
+                "Type": "Versatile",
+                "Value": 2,
+                "Boost": 1,
+                "Text": "Immediately: Cancel all effects on your opponent's card.",
+                "Script": "../Moon Knight/Feint.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Madness Will Keep You Alive",
+                "Key": "Moon Knight_Madness Will Keep You Alive",
+                "Type": "Scheme",
+                "Value": null,
+                "Boost": 3,
+                "Text": "Recover 2 health.\r\nIf you started your turn in a different space, gain 1 action.",
+                "Script": "../Moon Knight/Madness Will Keep You Alive.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Travelers of The Night",
+                "Key": "Moon Knight_Travelers of The Night",
+                "Type": "Scheme",
+                "Value": null,
+                "Boost": 3,
+                "Text": "Move your fighter up to 4 spaces. They may move through opposing fighters.\r\nGain 1 action.",
+                "Script": "../Moon Knight/Travelers of The Night.lua"
+            }
+        }
+    ]
+}

@@ -346,7 +346,7 @@ public partial class TestMatch : Control
 			_handler = new LocalMatchIOHandler(this);
 			var controller = new IOPlayerController(_handler);
 
-			var loadout1 = LoadLoadout("../loadouts/Medusa & Harpies.json");
+			var loadout1 = LoadLoadout("../loadouts-generated/Medusa.json");
 			var loadout2 = LoadLoadout("../loadouts/Dracula & The Sisters.json");
 
 			await match.AddPlayer(

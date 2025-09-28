@@ -1,0 +1,193 @@
+{
+    "Name": "Cloak and Dagger",
+    "Key": "Cloak and Dagger",
+    "StartsWithSidekicks": true,
+    "Fighters": [
+        {
+            "Name": "Cloak",
+            "Key": "Cloak",
+            "Amount": 1,
+            "IsHero": true,
+            "MaxHealth": 8,
+            "StartingHealth": 8,
+            "IsRanged": false,
+            "Text": "UMBRA\r\nAfter you attack, if Cloak dealt at least 2 combat damage, your opponent discards 1 card.\r\n\r\nREFRACTION\r\nAfter you attack, if Dagger dealt at least 2 combat damage, gain 1 action.",
+            "Movement": 2,
+            "Script": "../fighter-scripts/Cloak.lua"
+        },
+        {
+            "Name": "Dagger",
+            "Key": "Dagger",
+            "Amount": 1,
+            "IsHero": true,
+            "MaxHealth": 8,
+            "StartingHealth": 8,
+            "IsRanged": false,
+            "Text": "UMBRA\r\nAfter you attack, if Cloak dealt at least 2 combat damage, your opponent discards 1 card.\r\n\r\nREFRACTION\r\nAfter you attack, if Dagger dealt at least 2 combat damage, gain 1 action.",
+            "Movement": 2,
+            "Script": "../fighter-scripts/Dagger.lua"
+        }
+    ],
+    "Deck": [
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Channel the Dark",
+                "Key": "Cloak and Dagger_Channel the Dark",
+                "Type": "Attack",
+                "Value": 2,
+                "Boost": 2,
+                "Text": "After combat: If Cloak played this card, place the opposing fighter adjacent to Dagger and gain 1 action.",
+                "Script": "../Cloak and Dagger/Channel the Dark.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Chosen Fate",
+                "Key": "Cloak and Dagger_Chosen Fate",
+                "Type": "Scheme",
+                "Value": null,
+                "Boost": 1,
+                "Text": "Deal up to 4 damage to one of your fighters. Your other fighter recovers that amount of health. Draw 2 cards",
+                "Script": "../Cloak and Dagger/Chosen Fate.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Cloak"
+                ],
+                "Name": "Darkforce Dimension",
+                "Key": "Cloak and Dagger_Darkforce Dimension",
+                "Type": "Attack",
+                "Value": 4,
+                "Boost": 3,
+                "Text": "After combat: Place the opposing fighter in any space. Your opponent discards 1 card.",
+                "Script": "../Cloak and Dagger/Darkforce Dimension.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Into Darkness",
+                "Key": "Cloak and Dagger_Into Darkness",
+                "Type": "Versatile",
+                "Value": 3,
+                "Boost": 2,
+                "Text": "After combat: Choose one of the fighters in the combat and move them up to 3 spaces.",
+                "Script": "../Cloak and Dagger/Into Darkness.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Into the Void",
+                "Key": "Cloak and Dagger_Into the Void",
+                "Type": "Attack",
+                "Value": 2,
+                "Boost": 1,
+                "Text": "During combat: You may BOOST this attack.",
+                "Script": "../Cloak and Dagger/Into the Void.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Dagger"
+                ],
+                "Name": "Lightforce Barrage",
+                "Key": "Cloak and Dagger_Lightforce Barrage",
+                "Type": "Attack",
+                "Value": 7,
+                "Boost": 3,
+                "Text": "This card's effects cannot be canceled.\nAfter combat: If you won the combat, your fighter takes damage equal to the amount of damage you dealt.",
+                "Script": "../Cloak and Dagger/Lightforce Barrage.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Living Shadow",
+                "Key": "Cloak and Dagger_Living Shadow",
+                "Type": "Defense",
+                "Value": 2,
+                "Boost": 2,
+                "Text": "During combat: If Dagger played this card, she swaps spaces with Cloak, Cloak is now the defender, and the value of this card is 4 instead.",
+                "Script": "../Cloak and Dagger/Living Shadow.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Perfect Balance",
+                "Key": "Cloak and Dagger_Perfect Balance",
+                "Type": "Versatile",
+                "Value": 4,
+                "Boost": 2,
+                "Text": "During combat: If Cloak and Dagger are both adjacent to the opposing fighter, the value of this card is 6 instead.",
+                "Script": "../Cloak and Dagger/Perfect Balance.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "The Living Light",
+                "Key": "Cloak and Dagger_The Living Light",
+                "Type": "Versatile",
+                "Value": 3,
+                "Boost": 2,
+                "Text": "After combat: If Cloak played this to defend, Dagger recovers 2 health. If Dagger played this to attack, Cloak recovers 2 health.",
+                "Script": "../Cloak and Dagger/The Living Light.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Traverse the Darkforce",
+                "Key": "Cloak and Dagger_Traverse the Darkforce",
+                "Type": "Versatile",
+                "Value": 2,
+                "Boost": 1,
+                "Text": "After combat: Move each of your fighters up to 2 spaces.",
+                "Script": "../Cloak and Dagger/Traverse the Darkforce.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Feint",
+                "Key": "Cloak and Dagger_Feint",
+                "Type": "Versatile",
+                "Value": 2,
+                "Boost": 1,
+                "Text": "Immediately: Cancel all effects on your opponent's card.",
+                "Script": "../Cloak and Dagger/Feint.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Commanding Impact",
+                "Key": "Cloak and Dagger_Commanding Impact",
+                "Type": "Attack",
+                "Value": 5,
+                "Boost": 2,
+                "Text": "After combat: Draw 1 card.",
+                "Script": "../Cloak and Dagger/Commanding Impact.lua"
+            }
+        }
+    ]
+}

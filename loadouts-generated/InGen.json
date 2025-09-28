@@ -1,0 +1,186 @@
+{
+    "Name": "InGen",
+    "Key": "InGen",
+    "StartsWithSidekicks": true,
+    "Fighters": [
+        {
+            "Name": "Robert Muldoon",
+            "Key": "Robert Muldoon",
+            "Amount": 1,
+            "IsHero": true,
+            "MaxHealth": 14,
+            "StartingHealth": 14,
+            "IsRanged": true,
+            "Text": "At the start of your turn, you may place a trap.\nWhenever one of your traps is returned to the box, draw a card.\nMuldoon starts with 8 traps.",
+            "Movement": 3,
+            "Script": "../fighter-scripts/Robert Muldoon.lua"
+        },
+        {
+            "Name": "Ingen Worker",
+            "Key": "Ingen Worker",
+            "Amount": 3,
+            "IsHero": false,
+            "MaxHealth": 1,
+            "StartingHealth": 1,
+            "IsRanged": true,
+            "Text": "At the start of your turn, you may place a trap.\nWhenever one of your traps is returned to the box, draw a card.\nMuldoon starts with 8 traps.",
+            "Movement": 3,
+            "Script": "../fighter-scripts/Basic.lua"
+        }
+    ],
+    "Deck": [
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Leap Away",
+                "Key": "InGen_Leap Away",
+                "Type": "Versatile",
+                "Value": 4,
+                "Boost": 2,
+                "Text": "After combat: If you won the combat, choose one of the fighters in the combat and move them up to 4 spaces.",
+                "Script": "../InGen/Leap Away.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "Muldoon"
+                ],
+                "Name": "They Should All Be Destroyed",
+                "Key": "InGen_They Should All Be Destroyed",
+                "Type": "Attack",
+                "Value": 4,
+                "Boost": 3,
+                "Text": "During combat: +1 to this attack for each trap token adjacent to the opposing fighter.",
+                "Script": "../InGen/They Should All Be Destroyed.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Muldoon"
+                ],
+                "Name": "Shoot Her!",
+                "Key": "InGen_Shoot Her!",
+                "Type": "Attack",
+                "Value": 3,
+                "Boost": 1,
+                "Text": "During combat: If this is your first action this turn, this card's value is 5 instead.",
+                "Script": "../InGen/Shoot Her!.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Muldoon"
+                ],
+                "Name": "I've Hunted Most Things That Can Hunt You",
+                "Key": "InGen_I've Hunted Most Things That Can Hunt You",
+                "Type": "Defense",
+                "Value": 4,
+                "Boost": 1,
+                "Text": "After combat: Move each of your fighters up to 5 spaces. You may move them through spaces containing opposing fighters.",
+                "Script": "../InGen/I've Hunted Most Things That Can Hunt You.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Muldoon"
+                ],
+                "Name": "Call for Backup",
+                "Key": "InGen_Call for Backup",
+                "Type": "Scheme",
+                "Value": 5,
+                "Boost": 3,
+                "Text": "Choose 2 different effects:\n- place up to 3 traps\n- place all of your defeated InGen Workers (if any) in Muldoon's zone\n- draw 2 cards",
+                "Script": "../InGen/Call for Backup.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "Ingen worker"
+                ],
+                "Name": "Tactical Advance",
+                "Key": "InGen_Tactical Advance",
+                "Type": "Versatile",
+                "Value": 3,
+                "Boost": 3,
+                "Text": "After combat: Move each of your InGen Workers up to 2 spaces.",
+                "Script": "../InGen/Tactical Advance.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Remote Detonation",
+                "Key": "InGen_Remote Detonation",
+                "Type": "Scheme",
+                "Value": 2,
+                "Boost": 2,
+                "Text": "Choose a trap in the same zone as one of your InGen Workers. Deal 1 damage to each opposing fighter adjacent to that trap. Return that trap to the box.",
+                "Script": "../InGen/Remote Detonation.lua"
+            }
+        },
+        {
+            "Amount": 4,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Rending Shot",
+                "Key": "InGen_Rending Shot",
+                "Type": "Attack",
+                "Value": 3,
+                "Boost": 1,
+                "Text": "After combat: Move the opposing fighter up to 3 spaces.",
+                "Script": "../InGen/Rending Shot.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Feint",
+                "Key": "InGen_Feint",
+                "Type": "Versatile",
+                "Value": 2,
+                "Boost": 1,
+                "Text": "Immediately: Cancel all effects on your opponent's card.",
+                "Script": "../InGen/Feint.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Regroup",
+                "Key": "InGen_Regroup",
+                "Type": "Versatile",
+                "Value": 1,
+                "Boost": 1,
+                "Text": "After combat: Draw 1 card. If you won the combat, draw 2 cards instead.",
+                "Script": "../InGen/Regroup.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Second Shot",
+                "Key": "InGen_Second Shot",
+                "Type": "Attack",
+                "Value": 2,
+                "Boost": 3,
+                "Text": "During combat: You may BOOST this attack.",
+                "Script": "../InGen/Second Shot.lua"
+            }
+        }
+    ]
+}

@@ -1,0 +1,201 @@
+{
+    "Name": "Ghost Rider",
+    "Key": "Ghost Rider",
+    "StartsWithSidekicks": true,
+    "Fighters": [
+        {
+            "Name": "Ghost Rider",
+            "Key": "Ghost Rider",
+            "Amount": 1,
+            "IsHero": true,
+            "MaxHealth": 17,
+            "StartingHealth": 17,
+            "IsRanged": false,
+            "Text": "Ghost Rider starts the game with 5 Hellfire. When you maneuver you may spend 1 Hellfire. If you do, increase Ghost Rider's move value to 4, and he may move through opposing fighters. Then deal 1 damage to each opposing fighter he moved through.",
+            "Movement": 2,
+            "Script": "../fighter-scripts/Ghost Rider.lua"
+        }
+    ],
+    "Deck": [
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "Ghost rider"
+                ],
+                "Name": "I Finally Escaped Hell",
+                "Key": "Ghost Rider_I Finally Escaped Hell",
+                "Type": "Versatile",
+                "Value": 3,
+                "Boost": 1,
+                "Text": "After combat: You may spend 1 Hellfire to move Ghost Rider up to 2 spaces.",
+                "Script": "../Ghost Rider/I Finally Escaped Hell.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "Ghost rider"
+                ],
+                "Name": "Spirit Of Vengeance",
+                "Key": "Ghost Rider_Spirit Of Vengeance",
+                "Type": "Attack",
+                "Value": 5,
+                "Boost": 2,
+                "Text": "After combat: You may spend 1 Hellfire to draw 2 cards.",
+                "Script": "../Ghost Rider/Spirit Of Vengeance.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "Ghost rider"
+                ],
+                "Name": "I Brought The Devil With Me",
+                "Key": "Ghost Rider_I Brought The Devil With Me",
+                "Type": "Attack",
+                "Value": 3,
+                "Boost": 2,
+                "Text": "After combat: You may spend 2 Hellfire to gain 1 action.",
+                "Script": "../Ghost Rider/I Brought The Devil With Me.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Ghost rider"
+                ],
+                "Name": "Blaze of Glory",
+                "Key": "Ghost Rider_Blaze of Glory",
+                "Type": "Attack",
+                "Value": 2,
+                "Boost": 3,
+                "Text": "After combat: Spend any amount of Hellfire, Deal that much damage to each fighter in Ghost Rider's zone (including Ghost Rider).",
+                "Script": "../Ghost Rider/Blaze of Glory.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "Ghost rider"
+                ],
+                "Name": "Stoke The Flames",
+                "Key": "Ghost Rider_Stoke The Flames",
+                "Type": "Defense",
+                "Value": 2,
+                "Boost": 2,
+                "Text": "After combat: If you lost the combat, gain Hellfire equal to the combat damage you took.",
+                "Script": "../Ghost Rider/Stoke The Flames.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Ghost rider"
+                ],
+                "Name": "Deal With The Devil",
+                "Key": "Ghost Rider_Deal With The Devil",
+                "Type": "Defense",
+                "Value": 2,
+                "Boost": 1,
+                "Text": "During combat: You may spend any amount of Hellfire. Increase the value of this card by that amount.",
+                "Script": "../Ghost Rider/Deal With The Devil.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Ghost rider"
+                ],
+                "Name": "Feint",
+                "Key": "Ghost Rider_Feint",
+                "Type": "Versatile",
+                "Value": 2,
+                "Boost": 1,
+                "Text": "Immediately: Cancel all effects on your opponent's card.",
+                "Script": "../Ghost Rider/Feint.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "Ghost rider"
+                ],
+                "Name": "Control The Demon",
+                "Key": "Ghost Rider_Control The Demon",
+                "Type": "Versatile",
+                "Value": 0,
+                "Boost": 1,
+                "Text": "During combat: This card's value is +1 for each Hellfire you have. (You do not spend Hellfire for this effect.)",
+                "Script": "../Ghost Rider/Control The Demon.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Ghost rider"
+                ],
+                "Name": "Penance Stare",
+                "Key": "Ghost Rider_Penance Stare",
+                "Type": "Versatile",
+                "Value": 3,
+                "Boost": 2,
+                "Text": "During combat: Add the BOOST value of the opposing fighter's card to this card's value. You may spend 2 Hellfire to do it a second time.",
+                "Script": "../Ghost Rider/Penance Stare.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "Ghost rider"
+                ],
+                "Name": "The Wicked Will Burn",
+                "Key": "Ghost Rider_The Wicked Will Burn",
+                "Type": "Versatile",
+                "Value": 3,
+                "Boost": 2,
+                "Text": "After combat: If Ghost Rider started this turn in a different space, gain 2 Hellfire.",
+                "Script": "../Ghost Rider/The Wicked Will Burn.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Ghost rider"
+                ],
+                "Name": "Hell Rides With Me",
+                "Key": "Ghost Rider_Hell Rides With Me",
+                "Type": "Scheme",
+                "Value": null,
+                "Boost": 3,
+                "Text": "Move Ghost Rider and up to one adjacent fighter up to 4 spaces each.\r\nGain 2 Hellfire. Gain 1 action.",
+                "Script": "../Ghost Rider/Hell Rides With Me.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Ghost rider"
+                ],
+                "Name": "Chains of Hellfire",
+                "Key": "Ghost Rider_Chains of Hellfire",
+                "Type": "Scheme",
+                "Value": null,
+                "Boost": 2,
+                "Text": "Set your Hellfire to 5.",
+                "Script": "../Ghost Rider/Chains of Hellfire.lua"
+            }
+        }
+    ]
+}

@@ -1,0 +1,207 @@
+{
+    "Name": "Little Red Riding Hood",
+    "Key": "Little Red Riding Hood",
+    "StartsWithSidekicks": true,
+    "Fighters": [
+        {
+            "Name": "Little Red",
+            "Key": "Little Red",
+            "Amount": 1,
+            "IsHero": true,
+            "MaxHealth": 14,
+            "StartingHealth": 14,
+            "IsRanged": false,
+            "Text": "Resolve an effect on a card you play if the symbol next to the effect matches the item in your basket. At the start of the game, place LITTLE RED's BASKET in your discard pile.\nLittle Red's Basket: This starts in your discard pile. It does not count as a card.",
+            "Movement": 2,
+            "Script": "../fighter-scripts/Little Red.lua"
+        },
+        {
+            "Name": "Huntsman",
+            "Key": "Huntsman",
+            "Amount": 1,
+            "IsHero": false,
+            "MaxHealth": 9,
+            "StartingHealth": 9,
+            "IsRanged": true,
+            "Text": "Resolve an effect on a card you play if the symbol next to the effect matches the item in your basket. At the start of the game, place LITTLE RED's BASKET in your discard pile.\nLittle Red's Basket: This starts in your discard pile. It does not count as a card.",
+            "Movement": 2,
+            "Script": "../fighter-scripts/Basic.lua"
+        }
+    ],
+    "Deck": [
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Little red"
+                ],
+                "Name": "What Large Hands You Have \ud83d\udc3a",
+                "Key": "Little Red Riding Hood_What Large Hands You Have \ud83d\udc3a",
+                "Type": "Attack",
+                "Value": 2,
+                "Boost": 3,
+                "Text": "After combat: You may return this card to your hand.\r\n\ud83c\udf39 Instead, you may return the top card of your discard pile to your hand.",
+                "Script": "../Little Red Riding Hood/What Large Hands You Have \ud83d\udc3a.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "The Wolf's Skin \u2694\ufe0f",
+                "Key": "Little Red Riding Hood_The Wolf's Skin \u2694\ufe0f",
+                "Type": "Defense",
+                "Value": 2,
+                "Boost": 2,
+                "Text": "After combat: \ud83d\udc3a Draw 2 cards.",
+                "Script": "../Little Red Riding Hood/The Wolf's Skin \u2694\ufe0f.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Little red"
+                ],
+                "Name": "What a Terrible Big Mouth You Have \u2694\ufe0f",
+                "Key": "Little Red Riding Hood_What a Terrible Big Mouth You Have \u2694\ufe0f",
+                "Type": "Defense",
+                "Value": 2,
+                "Boost": 2,
+                "Text": "After combat: \ud83d\udc3a  Deal damage to the opposing fighter equal to the printed value of their card.",
+                "Script": "../Little Red Riding Hood/What a Terrible Big Mouth You Have \u2694\ufe0f.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Little red"
+                ],
+                "Name": "What Big Ears You Have \ud83d\udc3a",
+                "Key": "Little Red Riding Hood_What Big Ears You Have \ud83d\udc3a",
+                "Type": "Attack",
+                "Value": 4,
+                "Boost": 2,
+                "Text": "\u2694\ufe0f You may play this card as a defense card.",
+                "Script": "../Little Red Riding Hood/What Big Ears You Have \ud83d\udc3a.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Little red"
+                ],
+                "Name": "What Big Eyes You Have \ud83d\udc3a",
+                "Key": "Little Red Riding Hood_What Big Eyes You Have \ud83d\udc3a",
+                "Type": "Versatile",
+                "Value": 3,
+                "Boost": 2,
+                "Text": "Immediately: Cancel all effects on your opponent's card. \n\ud83c\udf39 Also ignore the value of your opponent's card.",
+                "Script": "../Little Red Riding Hood/What Big Eyes You Have \ud83d\udc3a.lua"
+            }
+        },
+        {
+            "Amount": 4,
+            "Card": {
+                "AllowedFighters": [
+                    "Little red"
+                ],
+                "Name": "What's That In My Basket? \ud83c\udf1f ",
+                "Key": "Little Red Riding Hood_What's That In My Basket? \ud83c\udf1f ",
+                "Type": "Versatile",
+                "Value": 4,
+                "Boost": 3,
+                "Text": "(\ud83c\udf1f counts as any one \ud83d\udc3a\ud83c\udf39\u2694\ufe0f symbol.)",
+                "Script": "../Little Red Riding Hood/What's That In My Basket? \ud83c\udf1f .lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Little red"
+                ],
+                "Name": "Never Leave the Path \ud83d\udc3a",
+                "Key": "Little Red Riding Hood_Never Leave the Path \ud83d\udc3a",
+                "Type": "Scheme",
+                "Value": null,
+                "Boost": 1,
+                "Text": "\ud83d\udc3a  Place Little Red in any space. Gain 1 action. \n\u2694\ufe0f Deal 2 damage to each opposing fighter in Little Red's zone. \n\ud83c\udf39 Draw 3 cards.",
+                "Script": "../Little Red Riding Hood/Never Leave the Path \ud83d\udc3a.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "Little red"
+                ],
+                "Name": "Into the Woods \ud83d\udc3a\ud83c\udf39\u2694\ufe0f",
+                "Key": "Little Red Riding Hood_Into the Woods \ud83d\udc3a\ud83c\udf39\u2694\ufe0f",
+                "Type": "Scheme",
+                "Value": null,
+                "Boost": 2,
+                "Text": "Move Little Red up to 3 spaces. Gain 1 action.",
+                "Script": "../Little Red Riding Hood/Into the Woods \ud83d\udc3a\ud83c\udf39\u2694\ufe0f.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "Huntsman"
+                ],
+                "Name": "Long Have I Sought You \u2694\ufe0f",
+                "Key": "Little Red Riding Hood_Long Have I Sought You \u2694\ufe0f",
+                "Type": "Attack",
+                "Value": 4,
+                "Boost": 2,
+                "Text": "During combat: If the Huntsman is adjacent to the opposing fighter, the value of this card is 6 instead.",
+                "Script": "../Little Red Riding Hood/Long Have I Sought You \u2694\ufe0f.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Huntsman"
+                ],
+                "Name": "A Grimm Tale \ud83c\udf39",
+                "Key": "Little Red Riding Hood_A Grimm Tale \ud83c\udf39",
+                "Type": "Scheme",
+                "Value": null,
+                "Boost": 3,
+                "Text": "Little Red Recovers 2 health.\n\ud83d\udc3a Little Red recovers 4 health instead.",
+                "Script": "../Little Red Riding Hood/A Grimm Tale \ud83c\udf39.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Stones in the Belly \ud83c\udf39",
+                "Key": "Little Red Riding Hood_Stones in the Belly \ud83c\udf39",
+                "Type": "Versatile",
+                "Value": 2,
+                "Boost": 1,
+                "Text": "During combat: \u2694\ufe0f Your opponent discards 1 random card. Add its BOOST value to this card's value.",
+                "Script": "../Little Red Riding Hood/Stones in the Belly \ud83c\udf39.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Once Upon a Time \ud83c\udf39",
+                "Key": "Little Red Riding Hood_Once Upon a Time \ud83c\udf39",
+                "Type": "Versatile",
+                "Value": 2,
+                "Boost": 1,
+                "Text": "After combat: \u2694\ufe0f Deal 3 damage to the opposing fighter.",
+                "Script": "../Little Red Riding Hood/Once Upon a Time \ud83c\udf39.lua"
+            }
+        }
+    ]
+}

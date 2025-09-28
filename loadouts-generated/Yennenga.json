@@ -1,0 +1,207 @@
+{
+    "Name": "Yennenga",
+    "Key": "Yennenga",
+    "StartsWithSidekicks": true,
+    "Fighters": [
+        {
+            "Name": "Yennenga",
+            "Key": "Yennenga",
+            "Amount": 1,
+            "IsHero": true,
+            "MaxHealth": 15,
+            "StartingHealth": 15,
+            "IsRanged": true,
+            "Text": "If Yennenga would take damage, you may assign any amount of that damage to one or more Archers in her zone instead. (You may not assign more damage to an Archer than their remaining health.)",
+            "Movement": 2,
+            "Script": "../fighter-scripts/Yennenga.lua"
+        },
+        {
+            "Name": "Archer",
+            "Key": "Archer",
+            "Amount": 2,
+            "IsHero": false,
+            "MaxHealth": 2,
+            "StartingHealth": 2,
+            "IsRanged": true,
+            "Text": "If Yennenga would take damage, you may assign any amount of that damage to one or more Archers in her zone instead. (You may not assign more damage to an Archer than their remaining health.)",
+            "Movement": 2,
+            "Script": "../fighter-scripts/Basic.lua"
+        }
+    ],
+    "Deck": [
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Surprise Volley",
+                "Key": "Yennenga_Surprise Volley",
+                "Type": "Attack",
+                "Value": 3,
+                "Boost": 3,
+                "Text": "Immediately: You may return a defeated Archer to a space in the opposing fighter's zone. If you do, that Archer is now the attacker. If not, gain 1 action.",
+                "Script": "../Yennenga/Surprise Volley.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "Yennenga"
+                ],
+                "Name": "Rain of Arrows",
+                "Key": "Yennenga_Rain of Arrows",
+                "Type": "Attack",
+                "Value": 3,
+                "Boost": 3,
+                "Text": "After combat: VOLLEY: 3 ATK",
+                "Script": "../Yennenga/Rain of Arrows.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Archer"
+                ],
+                "Name": "Pin the Prey",
+                "Key": "Yennenga_Pin the Prey",
+                "Type": "Versatile",
+                "Value": 1,
+                "Boost": 2,
+                "Text": "After combat: Move the opposing fighter up to 4 spaces. Your opponent discards 1 card.",
+                "Script": "../Yennenga/Pin the Prey.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Archer"
+                ],
+                "Name": "Divide and Conquer",
+                "Key": "Yennenga_Divide and Conquer",
+                "Type": "Versatile",
+                "Value": 2,
+                "Boost": 1,
+                "Text": "During combat: If your fighter is not in Yennenga's zone, the value of this card is a 4 instead.",
+                "Script": "../Yennenga/Divide and Conquer.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "Yennenga"
+                ],
+                "Name": "Point Blank",
+                "Key": "Yennenga_Point Blank",
+                "Type": "Versatile",
+                "Value": 2,
+                "Boost": 2,
+                "Text": "After combat: If the opposing fighter is adjacent to Yennenga, deal them 2 damage.",
+                "Script": "../Yennenga/Point Blank.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Momentous Shift",
+                "Key": "Yennenga_Momentous Shift",
+                "Type": "Versatile",
+                "Value": 3,
+                "Boost": 2,
+                "Text": "During combat: If your fighter started this turn in a different space, this card's value is 5 instead.",
+                "Script": "../Yennenga/Momentous Shift.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "Yennenga"
+                ],
+                "Name": "Jaws of the Beast",
+                "Key": "Yennenga_Jaws of the Beast",
+                "Type": "Versatile",
+                "Value": 3,
+                "Boost": 3,
+                "Text": "During combat: For each zone the opposing fighter is in, increase the value of this card by +1.",
+                "Script": "../Yennenga/Jaws of the Beast.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Skirmish",
+                "Key": "Yennenga_Skirmish",
+                "Type": "Versatile",
+                "Value": 4,
+                "Boost": 2,
+                "Text": "After combat: If you won the combat, choose one of the fighters in the combat and move them up to 2 spaces.",
+                "Script": "../Yennenga/Skirmish.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "Yennenga"
+                ],
+                "Name": "Stallion Charge",
+                "Key": "Yennenga_Stallion Charge",
+                "Type": "Versatile",
+                "Value": 3,
+                "Boost": 3,
+                "Text": "After combat: Move Yennenga up to 5 spaces. She may move through opposing fighters. Then, deal 1 damage to each opposing fighter she moved through.",
+                "Script": "../Yennenga/Stallion Charge.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Yennenga"
+                ],
+                "Name": "Shield Formation",
+                "Key": "Yennenga_Shield Formation",
+                "Type": "Defense",
+                "Value": 3,
+                "Boost": 3,
+                "Text": "Immediately: Your opponent may discard a card. If they don't, return a defeated Archer to a space in Yennenga's zone.",
+                "Script": "../Yennenga/Shield Formation.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Yennenga"
+                ],
+                "Name": "One With The Land",
+                "Key": "Yennenga_One With The Land",
+                "Type": "Scheme",
+                "Value": null,
+                "Boost": 2,
+                "Text": "Move each of your fighters up to 2 spaces. Each of your fighters recovers 1 health. Draw 1 card.",
+                "Script": "../Yennenga/One With The Land.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Yennenga"
+                ],
+                "Name": "Master of the Hunt",
+                "Key": "Yennenga_Master of the Hunt",
+                "Type": "Scheme",
+                "Value": null,
+                "Boost": 3,
+                "Text": "Gain 2 actions.",
+                "Script": "../Yennenga/Master of the Hunt.lua"
+            }
+        }
+    ]
+}

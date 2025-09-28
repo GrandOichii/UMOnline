@@ -1,0 +1,32 @@
+{
+    "Name": "Shredder",
+    "Key": "Shredder",
+    "StartsWithSidekicks": true,
+    "Fighters": [
+        {
+            "Name": "Shredder",
+            "Key": "Shredder",
+            "Amount": 1,
+            "IsHero": true,
+            "MaxHealth": 15,
+            "StartingHealth": 15,
+            "IsRanged": false,
+            "Text": "Master of the Clan\r\nAt the start of your turn, deploy a Foot soldier to a path adjacent to a friendly fighter. You may attack opposing fighters adjacent to Foot soldiers. If an opponent boosts their maneuver, they may remove any Foot soldiers their hero moves through.",
+            "Movement": 3,
+            "Script": "../fighter-scripts/Shredder.lua"
+        },
+        {
+            "Name": "Bebop & Rocksteady",
+            "Key": "Bebop & Rocksteady",
+            "Amount": 1,
+            "IsHero": false,
+            "MaxHealth": 7,
+            "StartingHealth": 7,
+            "IsRanged": false,
+            "Text": "Master of the Clan\r\nAt the start of your turn, deploy a Foot soldier to a path adjacent to a friendly fighter. You may attack opposing fighters adjacent to Foot soldiers. If an opponent boosts their maneuver, they may remove any Foot soldiers their hero moves through.",
+            "Movement": 3,
+            "Script": "../fighter-scripts/Basic.lua"
+        }
+    ],
+    "Deck": []
+}

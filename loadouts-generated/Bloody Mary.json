@@ -1,0 +1,216 @@
+{
+    "Name": "Bloody Mary",
+    "Key": "Bloody Mary",
+    "StartsWithSidekicks": true,
+    "Fighters": [
+        {
+            "Name": "Bloody Mary",
+            "Key": "Bloody Mary",
+            "Amount": 1,
+            "IsHero": true,
+            "MaxHealth": 16,
+            "StartingHealth": 16,
+            "IsRanged": false,
+            "Text": "At the start of your turn, if you have exactly 3 cards in hand, gain 1 action.",
+            "Movement": 3,
+            "Script": "../fighter-scripts/Bloody Mary.lua"
+        }
+    ],
+    "Deck": [
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Bloody mary"
+                ],
+                "Name": "Out Of The Mirror",
+                "Key": "Bloody Mary_Out Of The Mirror",
+                "Type": "Attack",
+                "Value": 1,
+                "Boost": 2,
+                "Text": "During combat: Your opponent discards 1 random card. Add its BOOST value to this card's value.\nAfter combat: If this is your third action, draw 1 card.",
+                "Script": "../Bloody Mary/Out Of The Mirror.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Bloody mary"
+                ],
+                "Name": "Ghostly Touch",
+                "Key": "Bloody Mary_Ghostly Touch",
+                "Type": "Attack",
+                "Value": 1,
+                "Boost": 2,
+                "Text": "During combat: You may BOOST this attack.\nAfter combat: If this is your third action this turn, recover 3 health.",
+                "Script": "../Bloody Mary/Ghostly Touch.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Bloody mary"
+                ],
+                "Name": "Speak Three Times",
+                "Key": "Bloody Mary_Speak Three Times",
+                "Type": "Attack",
+                "Value": 3,
+                "Boost": 2,
+                "Text": "During combat: If this is your third action this turn, this card's value is 7 instead.",
+                "Script": "../Bloody Mary/Speak Three Times.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "Bloody mary"
+                ],
+                "Name": "Bloody Requiem",
+                "Key": "Bloody Mary_Bloody Requiem",
+                "Type": "Attack",
+                "Value": 3,
+                "Boost": 4,
+                "Text": "After combat: BLOODY REPRISE: 0 ATK\nDURING COMBAT: If your opponent played a card against BLOODY REQUIEM, this attack's value is that card's printed value.",
+                "Script": "../Bloody Mary/Bloody Requiem.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Bloody mary"
+                ],
+                "Name": "Feint",
+                "Key": "Bloody Mary_Feint",
+                "Type": "Versatile",
+                "Value": 2,
+                "Boost": 2,
+                "Text": "Immediately: Cancel all effects on your opponent's card.",
+                "Script": "../Bloody Mary/Feint.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "Bloody mary"
+                ],
+                "Name": "Trick of the Light",
+                "Key": "Bloody Mary_Trick of the Light",
+                "Type": "Versatile",
+                "Value": 2,
+                "Boost": 3,
+                "Text": "After combat: You may place Bloody Mary in any empty space adjacent to the opposing fighter.",
+                "Script": "../Bloody Mary/Trick of the Light.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "Bloody mary"
+                ],
+                "Name": "Broken Glass",
+                "Key": "Bloody Mary_Broken Glass",
+                "Type": "Versatile",
+                "Value": 3,
+                "Boost": 2,
+                "Text": "During combat: You may increase or decrease the value of this card by 1.\nAfter combat: If the value of this card matches your opponent's card, draw 1 card and the opposing fighter takes 2 damage.",
+                "Script": "../Bloody Mary/Broken Glass.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Bloody mary"
+                ],
+                "Name": "Jump Scare",
+                "Key": "Bloody Mary_Jump Scare",
+                "Type": "Versatile",
+                "Value": 3,
+                "Boost": 2,
+                "Text": "During combat: If Bloody Mary shares no zones with the space she started in this turn, this card's value is 6 instead.",
+                "Script": "../Bloody Mary/Jump Scare.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Bloody mary"
+                ],
+                "Name": "Stolen Memories",
+                "Key": "Bloody Mary_Stolen Memories",
+                "Type": "Scheme",
+                "Value": null,
+                "Boost": 3,
+                "Text": "Look at an opponent's hand and choose a card. Your opponent may discard it. If they don't, their hero takes damage equal to its BOOST value.",
+                "Script": "../Bloody Mary/Stolen Memories.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Bloody mary"
+                ],
+                "Name": "Infinity Mirror",
+                "Key": "Bloody Mary_Infinity Mirror",
+                "Type": "Versatile",
+                "Value": 4,
+                "Boost": 2,
+                "Text": "After combat: Choose one of the fighters in the combat and move them up to 4 spaces.",
+                "Script": "../Bloody Mary/Infinity Mirror.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Bloody mary"
+                ],
+                "Name": "Mirror Image",
+                "Key": "Bloody Mary_Mirror Image",
+                "Type": "Defense",
+                "Value": 0,
+                "Boost": 2,
+                "Text": "During combat: The value of this card is equal to the printed value of your opponent's card.",
+                "Script": "../Bloody Mary/Mirror Image.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "Bloody mary"
+                ],
+                "Name": "Evade",
+                "Key": "Bloody Mary_Evade",
+                "Type": "Defense",
+                "Value": 3,
+                "Boost": 1,
+                "Text": "After combat: Draw 1 card.",
+                "Script": "../Bloody Mary/Evade.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Bloody mary"
+                ],
+                "Name": "Closer Than She Appears",
+                "Key": "Bloody Mary_Closer Than She Appears",
+                "Type": "Scheme",
+                "Value": null,
+                "Boost": 2,
+                "Text": "Move your fighter up to 1 space. Draw 1 card. Gain 1 action.",
+                "Script": "../Bloody Mary/Closer Than She Appears.lua"
+            }
+        }
+    ]
+}

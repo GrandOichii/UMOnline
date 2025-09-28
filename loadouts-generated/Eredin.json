@@ -1,0 +1,188 @@
+{
+    "Name": "Eredin",
+    "Key": "Eredin",
+    "StartsWithSidekicks": true,
+    "Fighters": [
+        {
+            "Name": "Eredin",
+            "Key": "Eredin",
+            "Amount": 1,
+            "IsHero": true,
+            "MaxHealth": 14,
+            "StartingHealth": 14,
+            "IsRanged": false,
+            "Text": "King of the Wild Hunt\r\nWhile all of your Red Riders are defeated, Eredin is ENRAGED.\r\n\r\nIf Eredin is ENRAGED, add +1 to the value of your combat cards, and your move value is 3.",
+            "Movement": 2,
+            "Script": "../fighter-scripts/Eredin.lua"
+        },
+        {
+            "Name": "Red Rider",
+            "Key": "Red Rider",
+            "Amount": 4,
+            "IsHero": false,
+            "MaxHealth": 1,
+            "StartingHealth": 1,
+            "IsRanged": false,
+            "Text": "King of the Wild Hunt\r\nWhile all of your Red Riders are defeated, Eredin is ENRAGED.\r\n\r\nIf Eredin is ENRAGED, add +1 to the value of your combat cards, and your move value is 3.",
+            "Movement": 2,
+            "Script": "../fighter-scripts/Basic.lua"
+        }
+    ],
+    "Deck": [
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "Eredin"
+                ],
+                "Name": "Brutal Strike",
+                "Key": "Eredin_Brutal Strike",
+                "Type": "Attack",
+                "Value": 2,
+                "Boost": 3,
+                "Text": "This card's effects cannot be canceled.\nDuring combat: If your opponent's card has an IMMEDIATELY effect, ignore their card's value.",
+                "Script": "../Eredin/Brutal Strike.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "Eredin"
+                ],
+                "Name": "Backhand",
+                "Key": "Eredin_Backhand",
+                "Type": "Attack",
+                "Value": 4,
+                "Boost": 3,
+                "Text": "After combat: Your opponent puts 1 random card from their hand on top of their deck. If Eredin is ENRAGED, they discard it instead.",
+                "Script": "../Eredin/Backhand.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Foul Purpose",
+                "Key": "Eredin_Foul Purpose",
+                "Type": "Attack",
+                "Value": 3,
+                "Boost": 2,
+                "Text": "If Eredin is ENRAGED, you may play this card face-up to target a fighter in any space.\nAfter combat: You may defeat a Red Rider to return this card to your hand.",
+                "Script": "../Eredin/Foul Purpose.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "Red rider"
+                ],
+                "Name": "Unyielding Hordes",
+                "Key": "Eredin_Unyielding Hordes",
+                "Type": "Attack",
+                "Value": 1,
+                "Boost": 2,
+                "Text": "Immediately: Return a defeated Red Rider to any space.\nDuring combat: Add +1 to this card's value for each other friendly fighter adjacent to the opposing fighter.",
+                "Script": "../Eredin/Unyielding Hordes.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Wild Hunt",
+                "Key": "Eredin_Wild Hunt",
+                "Type": "Versatile",
+                "Value": 3,
+                "Boost": 2,
+                "Text": "After combat: Deal 1 damage to each opposing fighter that is adjacent to at least one of your fighters. If Eredin is ENRAGED, deal 2 damage instead.",
+                "Script": "../Eredin/Wild Hunt.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Skirmish",
+                "Key": "Eredin_Skirmish",
+                "Type": "Versatile",
+                "Value": 4,
+                "Boost": 1,
+                "Text": "After combat: If you won the combat, choose one of the fighters in the combat and move them up to 2 spaces.",
+                "Script": "../Eredin/Skirmish.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Icy Guile",
+                "Key": "Eredin_Icy Guile",
+                "Type": "Versatile",
+                "Value": 2,
+                "Boost": 1,
+                "Text": "Immediately: If Eredin is ENRAGED, cancel all effects on your opponent's card.\nDuring combat: You may defeat a Red Rider to ignore the value of your opponent's card.",
+                "Script": "../Eredin/Icy Guile.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Eredin"
+                ],
+                "Name": "Portal Defense",
+                "Key": "Eredin_Portal Defense",
+                "Type": "Defense",
+                "Value": 0,
+                "Boost": 1,
+                "Text": "Immediately: Eredin swaps spaces with an adjacent friendly fighter. That fighter is now the defender.\nAfter combat: If Eredin is ENRAGED, draw 2 cards.",
+                "Script": "../Eredin/Portal Defense.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "Eredin"
+                ],
+                "Name": "Implacable",
+                "Key": "Eredin_Implacable",
+                "Type": "Defense",
+                "Value": 3,
+                "Boost": 3,
+                "Text": "If Eredin is ENRAGED, you may play this card as an attack.\nDuring combat: You may BOOST this card.",
+                "Script": "../Eredin/Implacable.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Eredin"
+                ],
+                "Name": "Might Of The Aen Elle",
+                "Key": "Eredin_Might Of The Aen Elle",
+                "Type": "Scheme",
+                "Value": null,
+                "Boost": 2,
+                "Text": "Draw 1 card. Gain 1 action. [ONGOING]: Eredin does not take damage except combat damage or from exhaustion. Discard this card at the end of your turn if you didn't attack.",
+                "Script": "../Eredin/Might Of The Aen Elle.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Close For The Kill",
+                "Key": "Eredin_Close For The Kill",
+                "Type": "Scheme",
+                "Value": null,
+                "Boost": 4,
+                "Text": "Draw 2 cards. Move each of your fighters up to 3 spaces each. They may move through opposing fighters.",
+                "Script": "../Eredin/Close For The Kill.lua"
+            }
+        }
+    ]
+}

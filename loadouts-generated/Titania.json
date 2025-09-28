@@ -1,0 +1,203 @@
+{
+    "Name": "Titania",
+    "Key": "Titania",
+    "StartsWithSidekicks": true,
+    "Fighters": [
+        {
+            "Name": "Titania",
+            "Key": "Titania",
+            "Amount": 1,
+            "IsHero": true,
+            "MaxHealth": 12,
+            "StartingHealth": 12,
+            "IsRanged": true,
+            "Text": "FAIRY MAGIC\r\nIf you do not have a face-up glamour at the start of your turn, flip the top card of your glamour deck face-up.\r\nIts effect is ongoing while it remains face-up.",
+            "Movement": 2,
+            "Script": "../fighter-scripts/Titania.lua"
+        },
+        {
+            "Name": "Oberon",
+            "Key": "Oberon",
+            "Amount": 1,
+            "IsHero": false,
+            "MaxHealth": 6,
+            "StartingHealth": 6,
+            "IsRanged": false,
+            "Text": "FAIRY MAGIC\r\nIf you do not have a face-up glamour at the start of your turn, flip the top card of your glamour deck face-up.\r\nIts effect is ongoing while it remains face-up.",
+            "Movement": 2,
+            "Script": "../fighter-scripts/Basic.lua"
+        }
+    ],
+    "Deck": [
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Titania"
+                ],
+                "Name": "Queen Of The Fairies",
+                "Key": "Titania_Queen Of The Fairies",
+                "Type": "Attack",
+                "Value": 2,
+                "Boost": 3,
+                "Text": "During combat: Increase the value of this card by +1 for each glamour in your glamour discard pile.",
+                "Script": "../Titania/Queen Of The Fairies.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "Oberon"
+                ],
+                "Name": "Met By Moonlight",
+                "Key": "Titania_Met By Moonlight",
+                "Type": "Attack",
+                "Value": 5,
+                "Boost": 2,
+                "Text": "After combat: Place Oberon in a space adjacent to Titania.",
+                "Script": "../Titania/Met By Moonlight.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "Titania"
+                ],
+                "Name": "As Wise As Beautiful",
+                "Key": "Titania_As Wise As Beautiful",
+                "Type": "Versatile",
+                "Value": 2,
+                "Boost": 2,
+                "Text": "After combat: Draw 1 card. You may discard your glamour to draw 2 cards instead.",
+                "Script": "../Titania/As Wise As Beautiful.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Whisked Away",
+                "Key": "Titania_Whisked Away",
+                "Type": "Versatile",
+                "Value": 4,
+                "Boost": 1,
+                "Text": "After combat: Move your fighter up to 2 spaces. You may discard your glamour. If you do, place your fighter in any space.",
+                "Script": "../Titania/Whisked Away.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Titania"
+                ],
+                "Name": "The Moon Looks Down",
+                "Key": "Titania_The Moon Looks Down",
+                "Type": "Versatile",
+                "Value": 3,
+                "Boost": 2,
+                "Text": "After combat: Put a discarded glamour on the bottom of your glamour deck.",
+                "Script": "../Titania/The Moon Looks Down.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Fairy Song",
+                "Key": "Titania_Fairy Song",
+                "Type": "Versatile",
+                "Value": 3,
+                "Boost": 2,
+                "Text": "During combat: You may discard your glamour. If you do, the value of this card is 5 instead.",
+                "Script": "../Titania/Fairy Song.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Parting Gift",
+                "Key": "Titania_Parting Gift",
+                "Type": "Versatile",
+                "Value": 2,
+                "Boost": 1,
+                "Text": "After combat: You may deal 2 damage to each fighter in the combat.",
+                "Script": "../Titania/Parting Gift.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Titania"
+                ],
+                "Name": "But A Dream",
+                "Key": "Titania_But A Dream",
+                "Type": "Defense",
+                "Value": 0,
+                "Boost": 2,
+                "Text": "Immediately: Cancel all effects on your opponent's card, ignore its value, and return it to your opponent's hand.\nAfter combat: Draw 1 card.",
+                "Script": "../Titania/But A Dream.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Protection Of The Fairy Woods",
+                "Key": "Titania_Protection Of The Fairy Woods",
+                "Type": "Defense",
+                "Value": 2,
+                "Boost": 1,
+                "Text": "Immediately: You may discard your glamour. If you do, cancel all effects on your opponent's card.",
+                "Script": "../Titania/Protection Of The Fairy Woods.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Titania"
+                ],
+                "Name": "A Momentary Glance",
+                "Key": "Titania_A Momentary Glance",
+                "Type": "Scheme",
+                "Value": 2,
+                "Boost": 4,
+                "Text": "Deal 2 damage to any one fighter in Medusa's zone.",
+                "Script": "../Titania/A Momentary Glance.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [],
+                "Name": "Gift Of The Fair Folk",
+                "Key": "Titania_Gift Of The Fair Folk",
+                "Type": "Scheme",
+                "Value": null,
+                "Boost": 2,
+                "Text": "Choose 2 different effects: -one fighter recovers 2 health -draw 2 cards -move two fighters up to 2 spaces each",
+                "Script": "../Titania/Gift Of The Fair Folk.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Oberon"
+                ],
+                "Name": "What Fools These Mortals Be",
+                "Key": "Titania_What Fools These Mortals Be",
+                "Type": "Scheme",
+                "Value": null,
+                "Boost": 2,
+                "Text": "Choose an opponent, look at their hand, and choose a card. They shuffle that card into their deck.",
+                "Script": "../Titania/What Fools These Mortals Be.lua"
+            }
+        }
+    ]
+}

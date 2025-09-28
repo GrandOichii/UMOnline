@@ -1,0 +1,258 @@
+{
+    "Name": "Geralt of Rivia",
+    "Key": "Geralt of Rivia",
+    "StartsWithSidekicks": true,
+    "Fighters": [
+        {
+            "Name": "Geralt of Rivia",
+            "Key": "Geralt of Rivia",
+            "Amount": 1,
+            "IsHero": true,
+            "MaxHealth": 16,
+            "StartingHealth": 16,
+            "IsRanged": false,
+            "Text": "Always Prepared\r\nAt the start of the game, choose your gear. Select a POTION, ARMOR, and SWORD, and shuffle 2 copies of each into your deck.",
+            "Movement": 2,
+            "Script": "../fighter-scripts/Geralt of Rivia.lua"
+        },
+        {
+            "Name": "Dandelion",
+            "Key": "Dandelion",
+            "Amount": 1,
+            "IsHero": false,
+            "MaxHealth": 5,
+            "StartingHealth": 5,
+            "IsRanged": true,
+            "Text": "Always Prepared\r\nAt the start of the game, choose your gear. Select a POTION, ARMOR, and SWORD, and shuffle 2 copies of each into your deck.",
+            "Movement": 2,
+            "Script": "../fighter-scripts/Basic.lua"
+        }
+    ],
+    "Deck": [
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Geralt"
+                ],
+                "Name": "Igni",
+                "Key": "Geralt of Rivia_Igni",
+                "Type": "Attack",
+                "Value": 0,
+                "Boost": 3,
+                "Text": "After combat: Deal 2 damage to the opposing fighter and 1 damage to each other fighter adjacent to Geralt.",
+                "Script": "../Geralt of Rivia/Igni.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Geralt"
+                ],
+                "Name": "Riposte",
+                "Key": "Geralt of Rivia_Riposte",
+                "Type": "Versatile",
+                "Value": 2,
+                "Boost": 2,
+                "Text": "After combat: Choose One: - deal 1 damage to an adjacent fighter - Geralt swaps spaces with an adjacent fighter.",
+                "Script": "../Geralt of Rivia/Riposte.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "Geralt"
+                ],
+                "Name": "Yrden",
+                "Key": "Geralt of Rivia_Yrden",
+                "Type": "Versatile",
+                "Value": 2,
+                "Boost": 2,
+                "Text": "Immediately: The opposing fighter cannot leave their space this turn.\nAfter combat: Move Geralt up to 2 spaces.",
+                "Script": "../Geralt of Rivia/Yrden.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "Geralt"
+                ],
+                "Name": "Rend",
+                "Key": "Geralt of Rivia_Rend",
+                "Type": "Versatile",
+                "Value": 3,
+                "Boost": 2,
+                "Text": "During combat: You may BOOST this card.",
+                "Script": "../Geralt of Rivia/Rend.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "Geralt"
+                ],
+                "Name": "Disciplined Duelist",
+                "Key": "Geralt of Rivia_Disciplined Duelist",
+                "Type": "Versatile",
+                "Value": 4,
+                "Boost": 2,
+                "Text": "After combat: If the printed value of your opponent's card is... 2: you may draw a card 3: deal 1 damage to the opposing fighter 4: your opponent discards a card",
+                "Script": "../Geralt of Rivia/Disciplined Duelist.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "Geralt"
+                ],
+                "Name": "Damn, You're Ugly",
+                "Key": "Geralt of Rivia_Damn, You're Ugly",
+                "Type": "Versatile",
+                "Value": 5,
+                "Boost": 4,
+                "Text": "",
+                "Script": "../Geralt of Rivia/Damn, You're Ugly.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "Dandelion"
+                ],
+                "Name": "Annoying Tune",
+                "Key": "Geralt of Rivia_Annoying Tune",
+                "Type": "Versatile",
+                "Value": 3,
+                "Boost": 3,
+                "Text": "After combat: Move the opposing fighter up to 4 spaces.",
+                "Script": "../Geralt of Rivia/Annoying Tune.lua"
+            }
+        },
+        {
+            "Amount": 3,
+            "Card": {
+                "AllowedFighters": [
+                    "Dandelion"
+                ],
+                "Name": "Plot Twist",
+                "Key": "Geralt of Rivia_Plot Twist",
+                "Type": "Versatile",
+                "Value": 2,
+                "Boost": 2,
+                "Text": "After combat: Look at your opponent's hand and choose 1 card for them to discard. Draw 1 card.",
+                "Script": "../Geralt of Rivia/Plot Twist.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Geralt"
+                ],
+                "Name": "Witcher Senses",
+                "Key": "Geralt of Rivia_Witcher Senses",
+                "Type": "Scheme",
+                "Value": null,
+                "Boost": 3,
+                "Text": "Search your deck or discard pile for a GEAR card and add it to your hand. If you took it from your deck, shuffle this card back into your deck.",
+                "Script": "../Geralt of Rivia/Witcher Senses.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Geralt"
+                ],
+                "Name": "GEAR: Sword of Steel",
+                "Key": "Geralt of Rivia_GEAR: Sword of Steel",
+                "Type": "Attack",
+                "Value": 4,
+                "Boost": 3,
+                "Text": "After combat: Gain 1 action. If the opposing fighter has 8 or more health, gain 2 actions instead.",
+                "Script": "../Geralt of Rivia/GEAR: Sword of Steel.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Geralt"
+                ],
+                "Name": "Gear: Sword of Silver",
+                "Key": "Geralt of Rivia_Gear: Sword of Silver",
+                "Type": "Attack",
+                "Value": 4,
+                "Boost": 3,
+                "Text": "Immediately: If the opposing fighter's card has a printed value of 4 or more, ignore its value.",
+                "Script": "../Geralt of Rivia/Gear: Sword of Silver.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Geralt"
+                ],
+                "Name": "GEAR: Wolf Medallion",
+                "Key": "Geralt of Rivia_GEAR: Wolf Medallion",
+                "Type": "Defense",
+                "Value": 3,
+                "Boost": 3,
+                "Text": "Immediately: Cancel all effects on your opponent's card.\nDuring combat: If the opposing fighter is not adjacent to Geralt, ignore the value of your opponent's card.",
+                "Script": "../Geralt of Rivia/GEAR: Wolf Medallion.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Geralt"
+                ],
+                "Name": "GEAR: Armor Of The Forgotten Wolf",
+                "Key": "Geralt of Rivia_GEAR: Armor Of The Forgotten Wolf",
+                "Type": "Defense",
+                "Value": 2,
+                "Boost": 3,
+                "Text": "During combat: Add +1 to this card's value for each fighter adjacent to Geralt.\nAfter combat: End the turn.",
+                "Script": "../Geralt of Rivia/GEAR: Armor Of The Forgotten Wolf.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Geralt"
+                ],
+                "Name": "GEAR: Blizzard",
+                "Key": "Geralt of Rivia_GEAR: Blizzard",
+                "Type": "Scheme",
+                "Value": null,
+                "Boost": 3,
+                "Text": "Draw 1 card. Move your fighter up to 3 spaces. ONGOING: Your opponent can't gain actions. Discard this card at the end of your turn if you didn't attack.",
+                "Script": "../Geralt of Rivia/GEAR: Blizzard.lua"
+            }
+        },
+        {
+            "Amount": 2,
+            "Card": {
+                "AllowedFighters": [
+                    "Geralt"
+                ],
+                "Name": "GEAR: Tawny Owl",
+                "Key": "Geralt of Rivia_GEAR: Tawny Owl",
+                "Type": "Scheme",
+                "Value": null,
+                "Boost": 3,
+                "Text": "Draw 2 cards. Gain 1 action. ONGOING: If an effect would cause you to discard a card from your hand, you may choose to ignore it. Discard this card at the end of your turn if you didn't attack.",
+                "Script": "../Geralt of Rivia/GEAR: Tawny Owl.lua"
+            }
+        }
+    ]
+}
