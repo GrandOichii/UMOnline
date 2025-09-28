@@ -534,11 +534,27 @@ var ifInstead = new Matcher()
     ]
 };
 
+var moveCanMoveThroughOpponents = new Matcher()
+{
+    // Move Bigfoot up to 5 spaces. You may move
+    Name = "moveCanMoveThroughOpponents",
+    PatternString = "[M|m]ove (.+) (up to .+) spaces?\\. You may move .+ through spaces containing opposing fighters\\.",
+    
+    Script = File.ReadAllText("../scripts/moveFighterCanMoveThroughOpponents.lua"),
+    // Script = TODOSCRIPT,
+    Children = [
+        fighter,
+        numericSelector
+    ]
+
+};
+
 var effects = new Selector()
 {
     Name = "effects",
     Children = [
         ifInstead,
+        moveCanMoveThroughOpponents,
         effectSplitter
     ]
 };

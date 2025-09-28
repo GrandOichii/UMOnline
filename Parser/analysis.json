@@ -105,10 +105,6 @@
       "FullText": "During combat: Discard the top card of your deck. Add its BOOST value to this card\u0027s value."
     },
     {
-      "Text": "You may move Bigfoot through spaces containing opposing fighters.",
-      "FullText": "Move Bigfoot up to 5 spaces. You may move Bigfoot through spaces containing opposing fighters."
-    },
-    {
       "Text": "This card\u0027s value is \u002B1 for each Sister in the same zone as the opposing fighter.",
       "FullText": "During combat: This card\u0027s value is \u002B1 for each Sister in the same zone as the opposing fighter."
     },
@@ -207,10 +203,6 @@
     {
       "Text": "Choose a JEET KUNE DO card in your discard pile and add it to your hand",
       "FullText": "Choose a JEET KUNE DO card in your discard pile and add it to your hand. Gain 1 action."
-    },
-    {
-      "Text": "You may move that fighter through spaces containing opposing fighters.",
-      "FullText": "After combat: Move your fighter up to 5 spaces. You may move that fighter through spaces containing opposing fighters."
     },
     {
       "Text": "choose a card in your discard pile and add it to your hand.",
@@ -399,10 +391,6 @@
     {
       "Text": "Choose 2 different effects:",
       "FullText": "Choose 2 different effects:\n- place up to 3 traps\n- place all of your defeated InGen Workers (if any) in Muldoon\u0027s zone\n- draw 2 cards"
-    },
-    {
-      "Text": "You may move them through spaces containing opposing fighters.",
-      "FullText": "After combat: Move each of your fighters up to 5 spaces. You may move them through spaces containing opposing fighters."
     },
     {
       "Text": "\u002B1 to this attack for each trap token adjacent to the opposing fighter.",
