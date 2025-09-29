@@ -1,18 +1,318 @@
-[gd_resource type="Resource" script_class="DeckColors" load_steps=5 format=3 uid="uid://0r366endf36k"]
+[gd_resource type="Resource" script_class="DeckColors" load_steps=65 format=3 uid="uid://0r366endf36k"]
 
 [ext_resource type="Script" path="res://v1/Decks/DeckColor.gd" id="1_388kc"]
 [ext_resource type="Script" path="res://v1/Decks/DeckColors.gd" id="2_3o2nn"]
 
-[sub_resource type="Resource" id="Resource_4m7fa"]
+[sub_resource type="Resource" id="Resource_0"]
 script = ExtResource("1_388kc")
 DeckName = "Dracula"
-DeckColor = Color(0, 0, 0, 1)
+DeckColor = Color(0.320313, 0.316406, 0.320313, 1)
 
-[sub_resource type="Resource" id="Resource_4u1yo"]
+[sub_resource type="Resource" id="Resource_1"]
 script = ExtResource("1_388kc")
 DeckName = "Medusa"
-DeckColor = Color(0, 0.427451, 0, 1)
+DeckColor = Color(0.257813, 0.667969, 0.277344, 1)
+
+[sub_resource type="Resource" id="Resource_2"]
+script = ExtResource("1_388kc")
+DeckName = "Eredin"
+DeckColor = Color(0.253906, 0.246094, 0.257813, 1)
+
+[sub_resource type="Resource" id="Resource_3"]
+script = ExtResource("1_388kc")
+DeckName = "King Arthur"
+DeckColor = Color(0.886719, 0.328125, 0.335938, 1)
+
+[sub_resource type="Resource" id="Resource_4"]
+script = ExtResource("1_388kc")
+DeckName = "Loki"
+DeckColor = Color(0.351563, 0.476563, 0.308594, 1)
+
+[sub_resource type="Resource" id="Resource_5"]
+script = ExtResource("1_388kc")
+DeckName = "Pandora"
+DeckColor = Color(0.925781, 0.773438, 0.414063, 1)
+
+[sub_resource type="Resource" id="Resource_6"]
+script = ExtResource("1_388kc")
+DeckName = "Chupacabra"
+DeckColor = Color(0.757813, 0.207031, 0.269531, 1)
+
+[sub_resource type="Resource" id="Resource_7"]
+script = ExtResource("1_388kc")
+DeckName = "Blackbeard"
+DeckColor = Color(0, 0, 0, 1)
+
+[sub_resource type="Resource" id="Resource_8"]
+script = ExtResource("1_388kc")
+DeckName = "Yennefer & Triss"
+DeckColor = Color(0.921875, 0.648438, 0.195313, 1)
+
+[sub_resource type="Resource" id="Resource_9"]
+script = ExtResource("1_388kc")
+DeckName = "Philippa"
+DeckColor = Color(0.777344, 0.347656, 0.351563, 1)
+
+[sub_resource type="Resource" id="Resource_10"]
+script = ExtResource("1_388kc")
+DeckName = "Ancient Leshen"
+DeckColor = Color(0.363281, 0.390625, 0.230469, 1)
+
+[sub_resource type="Resource" id="Resource_11"]
+script = ExtResource("1_388kc")
+DeckName = "Ciri"
+DeckColor = Color(0.492188, 0.757813, 0.75, 1)
+
+[sub_resource type="Resource" id="Resource_12"]
+script = ExtResource("1_388kc")
+DeckName = "Geralt of Rivia"
+DeckColor = Color(0.796875, 0.796875, 0.796875, 1)
+
+[sub_resource type="Resource" id="Resource_13"]
+script = ExtResource("1_388kc")
+DeckName = "Titania"
+DeckColor = Color(0.335938, 0.3125, 0.507813, 1)
+
+[sub_resource type="Resource" id="Resource_14"]
+script = ExtResource("1_388kc")
+DeckName = "The Wayward Sisters"
+DeckColor = Color(0.621094, 0.78125, 0.34375, 1)
+
+[sub_resource type="Resource" id="Resource_15"]
+script = ExtResource("1_388kc")
+DeckName = "William Shakespeare"
+DeckColor = Color(0.785156, 0.738281, 0.640625, 1)
+
+[sub_resource type="Resource" id="Resource_16"]
+script = ExtResource("1_388kc")
+DeckName = "Ms. Marvel"
+DeckColor = Color(0.941406, 0.828125, 0, 1)
+
+[sub_resource type="Resource" id="Resource_17"]
+script = ExtResource("1_388kc")
+DeckName = "Moon Knight"
+DeckColor = Color(0.625, 0.714844, 0.710938, 1)
+
+[sub_resource type="Resource" id="Resource_18"]
+script = ExtResource("1_388kc")
+DeckName = "Dr. Ellie Sattler"
+DeckColor = Color(0.902344, 0.425781, 0.453125, 1)
+
+[sub_resource type="Resource" id="Resource_19"]
+script = ExtResource("1_388kc")
+DeckName = "T. Rex"
+DeckColor = Color(0.265625, 0.226563, 0.40625, 1)
+
+[sub_resource type="Resource" id="Resource_20"]
+script = ExtResource("1_388kc")
+DeckName = "Squirrel Girl"
+DeckColor = Color(0.964844, 0.476563, 0.0820313, 1)
+
+[sub_resource type="Resource" id="Resource_21"]
+script = ExtResource("1_388kc")
+DeckName = "She-Hulk"
+DeckColor = Color(0.542969, 0.722656, 0.289063, 1)
+
+[sub_resource type="Resource" id="Resource_22"]
+script = ExtResource("1_388kc")
+DeckName = "Spider-Man"
+DeckColor = Color(0.765625, 0.191406, 0.171875, 1)
+
+[sub_resource type="Resource" id="Resource_23"]
+script = ExtResource("1_388kc")
+DeckName = "Luke Cage"
+DeckColor = Color(0.996094, 0.835938, 0.25, 1)
+
+[sub_resource type="Resource" id="Resource_24"]
+script = ExtResource("1_388kc")
+DeckName = "Hamlet"
+DeckColor = Color(0.847656, 0.167969, 0.253906, 1)
+
+[sub_resource type="Resource" id="Resource_25"]
+script = ExtResource("1_388kc")
+DeckName = "Ghost Rider"
+DeckColor = Color(0.941406, 0.417969, 0.125, 1)
+
+[sub_resource type="Resource" id="Resource_26"]
+script = ExtResource("1_388kc")
+DeckName = "Doctor Strange"
+DeckColor = Color(0.296875, 0.578125, 0.714844, 1)
+
+[sub_resource type="Resource" id="Resource_27"]
+script = ExtResource("1_388kc")
+DeckName = "Cloak and Dagger"
+DeckColor = Color(0.273438, 0.523438, 0.730469, 1)
+
+[sub_resource type="Resource" id="Resource_28"]
+script = ExtResource("1_388kc")
+DeckName = "InGen"
+DeckColor = Color(0.855469, 0.28125, 0.078125, 1)
+
+[sub_resource type="Resource" id="Resource_29"]
+script = ExtResource("1_388kc")
+DeckName = "Raptors"
+DeckColor = Color(0.738281, 0.785156, 0.398438, 1)
+
+[sub_resource type="Resource" id="Resource_30"]
+script = ExtResource("1_388kc")
+DeckName = "Tomoe Gozen"
+DeckColor = Color(0.550781, 0.746094, 0.617188, 1)
+
+[sub_resource type="Resource" id="Resource_31"]
+script = ExtResource("1_388kc")
+DeckName = "Oda Nobunaga"
+DeckColor = Color(0.761719, 0.683594, 0.542969, 1)
+
+[sub_resource type="Resource" id="Resource_32"]
+script = ExtResource("1_388kc")
+DeckName = "Annie Christmas"
+DeckColor = Color(0.332031, 0.316406, 0.527344, 1)
+
+[sub_resource type="Resource" id="Resource_33"]
+script = ExtResource("1_388kc")
+DeckName = "Golden Bat"
+DeckColor = Color(0.917969, 0.792969, 0.105469, 1)
+
+[sub_resource type="Resource" id="Resource_34"]
+script = ExtResource("1_388kc")
+DeckName = "Dr. Jill Trent"
+DeckColor = Color(0.472656, 0.574219, 0.59375, 1)
+
+[sub_resource type="Resource" id="Resource_35"]
+script = ExtResource("1_388kc")
+DeckName = "Nikola Tesla"
+DeckColor = Color(0.773438, 0.476563, 0.382813, 1)
+
+[sub_resource type="Resource" id="Resource_36"]
+script = ExtResource("1_388kc")
+DeckName = "The Genie"
+DeckColor = Color(0.585938, 0.382813, 0.628906, 1)
+
+[sub_resource type="Resource" id="Resource_37"]
+script = ExtResource("1_388kc")
+DeckName = "Harry Houdini"
+DeckColor = Color(0.355469, 0.441406, 0.296875, 1)
+
+[sub_resource type="Resource" id="Resource_38"]
+script = ExtResource("1_388kc")
+DeckName = "Winter Soldier"
+DeckColor = Color(0.386719, 0.492188, 0.597656, 1)
+
+[sub_resource type="Resource" id="Resource_39"]
+script = ExtResource("1_388kc")
+DeckName = "Black Panther"
+DeckColor = Color(0.316406, 0.191406, 0.464844, 1)
+
+[sub_resource type="Resource" id="Resource_40"]
+script = ExtResource("1_388kc")
+DeckName = "Black Widow"
+DeckColor = Color(0.769531, 0.0742188, 0.183594, 1)
+
+[sub_resource type="Resource" id="Resource_41"]
+script = ExtResource("1_388kc")
+DeckName = "Bullseye"
+DeckColor = Color(0.269531, 0.519531, 0.726563, 1)
+
+[sub_resource type="Resource" id="Resource_42"]
+script = ExtResource("1_388kc")
+DeckName = "Daredevil"
+DeckColor = Color(0.855469, 0.121094, 0.164063, 1)
+
+[sub_resource type="Resource" id="Resource_43"]
+script = ExtResource("1_388kc")
+DeckName = "Elektra"
+DeckColor = Color(0, 0, 0, 1)
+
+[sub_resource type="Resource" id="Resource_44"]
+script = ExtResource("1_388kc")
+DeckName = "Angel"
+DeckColor = Color(0.628906, 0.351563, 0.640625, 1)
+
+[sub_resource type="Resource" id="Resource_45"]
+script = ExtResource("1_388kc")
+DeckName = "Willow"
+DeckColor = Color(0.230469, 0.75, 0.71875, 1)
+
+[sub_resource type="Resource" id="Resource_46"]
+script = ExtResource("1_388kc")
+DeckName = "Spike"
+DeckColor = Color(0.933594, 0.273438, 0.460938, 1)
+
+[sub_resource type="Resource" id="Resource_47"]
+script = ExtResource("1_388kc")
+DeckName = "Buffy"
+DeckColor = Color(0.996094, 0.90625, 0.152344, 1)
+
+[sub_resource type="Resource" id="Resource_48"]
+script = ExtResource("1_388kc")
+DeckName = "Little Red Riding Hood"
+DeckColor = Color(0.738281, 0.238281, 0.273438, 1)
+
+[sub_resource type="Resource" id="Resource_49"]
+script = ExtResource("1_388kc")
+DeckName = "Beowulf"
+DeckColor = Color(0.320313, 0.519531, 0.507813, 1)
+
+[sub_resource type="Resource" id="Resource_50"]
+script = ExtResource("1_388kc")
+DeckName = "Yennenga"
+DeckColor = Color(0.09375, 0.40625, 0.574219, 1)
+
+[sub_resource type="Resource" id="Resource_51"]
+script = ExtResource("1_388kc")
+DeckName = "Sun Wukong"
+DeckColor = Color(0.9375, 0.78125, 0.199219, 1)
+
+[sub_resource type="Resource" id="Resource_52"]
+script = ExtResource("1_388kc")
+DeckName = "Bloody Mary"
+DeckColor = Color(0.519531, 0.554688, 0.589844, 1)
+
+[sub_resource type="Resource" id="Resource_53"]
+script = ExtResource("1_388kc")
+DeckName = "Achilles"
+DeckColor = Color(0.707031, 0.410156, 0.316406, 1)
+
+[sub_resource type="Resource" id="Resource_54"]
+script = ExtResource("1_388kc")
+DeckName = "Robin Hood"
+DeckColor = Color(0.15625, 0.394531, 0.242188, 1)
+
+[sub_resource type="Resource" id="Resource_55"]
+script = ExtResource("1_388kc")
+DeckName = "Bigfoot"
+DeckColor = Color(0.574219, 0.410156, 0.214844, 1)
+
+[sub_resource type="Resource" id="Resource_56"]
+script = ExtResource("1_388kc")
+DeckName = "Bruce Lee"
+DeckColor = Color(0.996094, 0.722656, 0, 1)
+
+[sub_resource type="Resource" id="Resource_57"]
+script = ExtResource("1_388kc")
+DeckName = "Sherlock Holmes"
+DeckColor = Color(0.886719, 0.742188, 0.320313, 1)
+
+[sub_resource type="Resource" id="Resource_58"]
+script = ExtResource("1_388kc")
+DeckName = "Jekyll & Hyde"
+DeckColor = Color(0.585938, 0.804688, 0.507813, 1)
+
+[sub_resource type="Resource" id="Resource_59"]
+script = ExtResource("1_388kc")
+DeckName = "Invisible Man"
+DeckColor = Color(0.535156, 0.765625, 0.839844, 1)
+
+[sub_resource type="Resource" id="Resource_60"]
+script = ExtResource("1_388kc")
+DeckName = "Sinbad"
+DeckColor = Color(0.886719, 0.460938, 0.0898438, 1)
+
+[sub_resource type="Resource" id="Resource_61"]
+script = ExtResource("1_388kc")
+DeckName = "Alice"
+DeckColor = Color(0.402344, 0.585938, 0.761719, 1)
 
 [resource]
 script = ExtResource("2_3o2nn")
-Decks = Array[ExtResource("1_388kc")]([SubResource("Resource_4m7fa"), SubResource("Resource_4u1yo")])
+Decks = Array[ExtResource("1_388kc")]([SubResource("Resource_0"), SubResource("Resource_1"), SubResource("Resource_2"), SubResource("Resource_3"), SubResource("Resource_4"), SubResource("Resource_5"), SubResource("Resource_6"), SubResource("Resource_7"), SubResource("Resource_8"), SubResource("Resource_9"), SubResource("Resource_10"), SubResource("Resource_11"), SubResource("Resource_12"), SubResource("Resource_13"), SubResource("Resource_14"), SubResource("Resource_15"), SubResource("Resource_16"), SubResource("Resource_17"), SubResource("Resource_18"), SubResource("Resource_19"), SubResource("Resource_20"), SubResource("Resource_21"), SubResource("Resource_22"), SubResource("Resource_23"), SubResource("Resource_24"), SubResource("Resource_25"), SubResource("Resource_26"), SubResource("Resource_27"), SubResource("Resource_28"), SubResource("Resource_29"), SubResource("Resource_30"), SubResource("Resource_31"), SubResource("Resource_32"), SubResource("Resource_33"), SubResource("Resource_34"), SubResource("Resource_35"), SubResource("Resource_36"), SubResource("Resource_37"), SubResource("Resource_38"), SubResource("Resource_39"), SubResource("Resource_40"), SubResource("Resource_41"), SubResource("Resource_42"), SubResource("Resource_43"), SubResource("Resource_44"), SubResource("Resource_45"), SubResource("Resource_46"), SubResource("Resource_47"), SubResource("Resource_48"), SubResource("Resource_49"), SubResource("Resource_50"), SubResource("Resource_51"), SubResource("Resource_52"), SubResource("Resource_53"), SubResource("Resource_54"), SubResource("Resource_55"), SubResource("Resource_56"), SubResource("Resource_57"), SubResource("Resource_58"), SubResource("Resource_59"), SubResource("Resource_60"), SubResource("Resource_61")])
