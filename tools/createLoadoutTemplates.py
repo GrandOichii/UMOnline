@@ -1,10 +1,11 @@
 import json
+from sys import argv
+from os.path import join
 
 DECKS_FILE = 'decks.json'
-FIGHTER_SCRIPTS_DIR_FORMAT = '../fighter-scripts/{}.lua'
-CARD_SCRIPT_DIR_FORMAT = '../{}/{}.lua'
-TARGET_DIR_FORMAT = 'loadouts-generated/{}.json'
-
+FIGHTER_SCRIPTS_DIR_FORMAT = join('..', 'fighter-scripts', '{}.lua')
+CARD_SCRIPT_DIR_FORMAT = join('..', '{}', '{}.lua')
+TARGET_DIR_FORMAT = join(argv[1], '{}.json')
 
 data = json.loads(open(DECKS_FILE, 'r').read())
 
@@ -64,7 +65,7 @@ def get_sidekick_name(plural):
         'Huntsman': 'Huntsman',
         'The Jackalope': 'The Jackalope',
         'Wiglaf': 'Wiglaf',
-        'The Sisters': 'Sisters',
+        'The Sisters': 'Sister',
         'Outlaws': 'Outlaw',
         'Dr. Malcolm': 'Dr. Malcolm',
         'The Jabberwock': 'The Jabberwock',
@@ -93,7 +94,7 @@ for deck in data['decks']:
             'IsRanged': fighter['attack_type'] == 'ranged',
             'Text': deck['special'],
             'Movement': deck['movement'],
-            'Script': FIGHTER_SCRIPTS_DIR_FORMAT.format(fighter['name'])
+            # 'Script': FIGHTER_SCRIPTS_DIR_FORMAT.format(fighter['name'])
         }]
     for fighter in deck['sidekicks']:
         fighters += [{
@@ -104,9 +105,9 @@ for deck in data['decks']:
             'MaxHealth': fighter['hp'],
             'StartingHealth': fighter['hp'],
             'IsRanged': fighter['attack_type'] == 'ranged',
-            'Text': deck['special'],
+            'Text': '',
             'Movement': deck['movement'],
-            'Script': FIGHTER_SCRIPTS_DIR_FORMAT.format('Basic')
+            # 'Script': FIGHTER_SCRIPTS_DIR_FORMAT.format('Basic')
         }]
     for card in deck['cards']:
         cards += [{

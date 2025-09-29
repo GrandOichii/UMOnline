@@ -209,6 +209,23 @@ function UM.Conditional:FightersCountGte(fighterSelectorFunc, amountFunc)
     end
 end
 
+function UM.Conditional:FightersCountEq(fighterSelectorFunc, amountFunc)
+    return function (args)
+        local amount = amountFunc(args)[1]
+        local fighters = fighterSelectorFunc(args)
+        return #fighters == amount
+    end
+end
+
+UM.Count = {}
+
+function UM.Count:CardsInHand(playerFunc)
+    return function (args)
+        local player = playerFunc(args)
+        return GetHandSize(player)
+    end
+end
+
 UM.Effects = {}
 
 function NumericChoose(args, amounts, hint, player)

@@ -650,12 +650,6 @@ var parser = new Matcher()
     }
 };
 
-var cards = JsonSerializer.Deserialize<List<Card>>(File.ReadAllText(args[0]));
-// List<Card> cards = [new Card {
-//     Name = "Test card",
-//     Text = "After combat: If you won the combat, deal 1 damage to each fighter adjacent to Bigfoot.",
-// }];
-
 string FormattedName(string name)
 {
     return name.Replace(". ", "{DOTSPACE}");
@@ -688,6 +682,11 @@ string TrasnformText(string text)
     return text;
 }
 
+var cards = JsonSerializer.Deserialize<List<Card>>(File.ReadAllText(args[0]));
+// List<Card> cards = [new Card {
+//     Name = "Test card",
+//     Text = "After combat: If you won the combat, deal 1 damage to each fighter adjacent to Bigfoot.",
+// }];
 
 var analysis = new ParseResultAnalyzer();
 
@@ -713,11 +712,11 @@ foreach (var card in cards!)
         if (result.Status == ParseResultStatus.SUCCESS)
         {
             System.Console.WriteLine($"Generated script for {card.Name}");
-            File.WriteAllText($"../card-scripts/{name}.lua", script);
+            File.WriteAllText($"{args[2]}/{name}.lua", script);
             ++successCount;
         }
 
-        File.WriteAllText($"../reports/{name}.yaml", serialized);
+        File.WriteAllText($"{args[1]}/{name}.yaml", serialized);
 
     }
     catch (Exception e)

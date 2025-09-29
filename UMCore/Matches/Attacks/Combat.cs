@@ -23,6 +23,7 @@ public class CombatCard(Combat parent, MatchCard card) : IHasData<CombatCard.Dat
     public void CancelEffects()
     {
         EffectsCancelled = true;
+        // TODO cancel boost cards also
         parent.Match.Logs.Public($"Effects of card {Card.FormattedLogName} are cancelled");
     }
 

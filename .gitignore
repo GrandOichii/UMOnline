@@ -1,6 +1,4 @@
-loadouts-generated
-.generated-reports
-.generated-scripts
+.generated
 .cards.json
 
 card-scripts/*

@@ -15,7 +15,7 @@ class_name PlayerDisplay
 
 var _connection
 
-var _deck_name = 'Medusa & Harpies' # TODO remove
+var _deck_name = 'Medusa' # TODO remove
 
 # Called when the node enters the scene tree for the first time
 func _ready() -> void:

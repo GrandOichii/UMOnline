@@ -30,6 +30,7 @@
         "GetCardInHand",
         "IsAlive",
         "ChoosePlayer",
-        "MoveFighters"
+        "MoveFighters",
+        "GetHandSize"
     ]
 }

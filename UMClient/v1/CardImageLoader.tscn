@@ -87,67 +87,67 @@ image = ExtResource("13_kf13h")
 
 [sub_resource type="Resource" id="Resource_eix6r"]
 script = ExtResource("2_1e04s")
-card_key = "Dracula & The Sisters_Ambush"
+card_key = "Dracula_Ambush"
 image = ExtResource("14_x5ule")
 
 [sub_resource type="Resource" id="Resource_06b5p"]
 script = ExtResource("2_1e04s")
-card_key = "Dracula & The Sisters_Baptism of Blood"
+card_key = "Dracula_Baptism of Blood"
 image = ExtResource("15_jc8ao")
 
 [sub_resource type="Resource" id="Resource_255qv"]
 script = ExtResource("2_1e04s")
-card_key = "Dracula & The Sisters_Beastform"
+card_key = "Dracula_Beastform"
 image = ExtResource("16_vs76n")
 
 [sub_resource type="Resource" id="Resource_m5t2e"]
 script = ExtResource("2_1e04s")
-card_key = "Dracula & The Sisters_Dash"
+card_key = "Dracula_Dash"
 image = ExtResource("17_mvy63")
 
 [sub_resource type="Resource" id="Resource_cdxvb"]
 script = ExtResource("2_1e04s")
-card_key = "Dracula & The Sisters_Do My Bidding"
+card_key = "Dracula_Do My Bidding"
 image = ExtResource("18_s41i2")
 
 [sub_resource type="Resource" id="Resource_60tjs"]
 script = ExtResource("2_1e04s")
-card_key = "Dracula & The Sisters_Exploit"
+card_key = "Dracula_Exploit"
 image = ExtResource("19_4ojbn")
 
 [sub_resource type="Resource" id="Resource_ongam"]
 script = ExtResource("2_1e04s")
-card_key = "Dracula & The Sisters_Feeding Frenzy"
+card_key = "Dracula_Feeding Frenzy"
 image = ExtResource("20_qkld4")
 
 [sub_resource type="Resource" id="Resource_ggb60"]
 script = ExtResource("2_1e04s")
-card_key = "Dracula & The Sisters_Feint"
+card_key = "Dracula_Feint"
 image = ExtResource("21_kv6wo")
 
 [sub_resource type="Resource" id="Resource_7i75j"]
 script = ExtResource("2_1e04s")
-card_key = "Dracula & The Sisters_Look Into My Eyes"
+card_key = "Dracula_Look Into My Eyes"
 image = ExtResource("22_etgia")
 
 [sub_resource type="Resource" id="Resource_83l4d"]
 script = ExtResource("2_1e04s")
-card_key = "Dracula & The Sisters_Mistform"
+card_key = "Dracula_Mistform"
 image = ExtResource("23_0teux")
 
 [sub_resource type="Resource" id="Resource_uk5tn"]
 script = ExtResource("2_1e04s")
-card_key = "Dracula & The Sisters_Prey Upon"
+card_key = "Dracula_Prey Upon"
 image = ExtResource("24_ihcyd")
 
 [sub_resource type="Resource" id="Resource_twbui"]
 script = ExtResource("2_1e04s")
-card_key = "Dracula & The Sisters_Ravening Seduction"
+card_key = "Dracula_Ravening Seduction"
 image = ExtResource("25_vvcjh")
 
 [sub_resource type="Resource" id="Resource_xqklg"]
 script = ExtResource("2_1e04s")
-card_key = "Dracula & The Sisters_Thirst for Sustenance"
+card_key = "Dracula_Thirst for Sustenance"
 image = ExtResource("26_c0ios")
 
 [sub_resource type="Resource" id="Resource_scq06"]
@@ -161,7 +161,7 @@ image = ExtResource("4_n1orx")
 
 [sub_resource type="Resource" id="Resource_g2n7c"]
 script = ExtResource("2_1e04s")
-card_key = "Dracula & The Sisters"
+card_key = "Dracula"
 image = ExtResource("16_ovbyc")
 
 [sub_resource type="Resource" id="Resource_vbtht"]

@@ -286,4 +286,10 @@ public class MatchScripts
         return player.Controller.ChoosePlayer(player, [.. LuaUtility.ParseTable<Player>(players)], hint)
             .GetAwaiter().GetResult();
     }
+
+    [LuaCommand]
+    public int GetHandSize(Player player)
+    {
+        return player.Hand.Count;
+    }
 }

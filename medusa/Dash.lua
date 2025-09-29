@@ -1,14 +1,14 @@
 function _Create()
-return UM:Card()
-:AfterCombat(
-'After combat: Move your fighter up to 3 spaces.',
-UM.Effects:MoveFighters(
-UM.S:Fighters()
-:Only(UM.Fighters:Source())
-:Single()
-:Build(),
-UM:UpTo(3)
-)
-)
-:Build()
+    return UM:Card()
+        :AfterCombat(
+            'After combat: Move your fighter up to 3 spaces.',
+            UM.Effects:MoveFighters(
+                UM.S:Fighters()
+                :Only(UM.Fighters:Source())
+                :Single()
+                :Build(),
+                UM:UpTo(3)
+            )
+        )
+        :Build()
 end
