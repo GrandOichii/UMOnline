@@ -11,6 +11,7 @@ public class MatchConfig
     public required bool RandomFirstPlayer { get; init; }
     public required int FirstPlayerIdx { get; init; }
     public required int ExhaustDamage { get; init; }
+    public required int TeamSize { get; init; } // TODO use this
 
     public static readonly MatchConfig Default = new()
     {
@@ -22,6 +23,7 @@ public class MatchConfig
         MaxHandSize = 7,
         FirstPlayerIdx = -1, // -1
         RandomFirstPlayer = true, // true
+        TeamSize = 1,
         ExhaustDamage = 2,
     };
 }
