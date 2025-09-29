@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://cxs25778q1en6"]
 
 [ext_resource type="Script" path="res://v1/Matches/Cards/CardImageDisplay.gd" id="1_ygibt"]
-[ext_resource type="Texture2D" uid="uid://c3jtlgta45a1g" path="res://assets/cards/card1.webp" id="2_omsqm"]
+[ext_resource type="Texture2D" uid="uid://c3jtlgta45a1g" path="res://assets/card1.webp" id="2_omsqm"]
 
 [node name="CardImageDisplay" type="Control"]
 custom_minimum_size = Vector2(76, 107)

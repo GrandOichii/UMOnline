@@ -5,8 +5,5 @@ class_name EventDisplay
 func _ready() -> void:
 	pass # Replace with function body.5
 
-func set_essentials(card_loader: CardImageLoader, fighter_loader: FighterImageLoader, on_card_mouseover):
-	pass
-
-func load_event(e):
+func set_essentials(_card_loader: CardImageLoader, _fighter_loader: FighterImageLoader, _on_card_mouseover):
 	pass

@@ -1,0 +1,152 @@
+[gd_resource type="Resource" script_class="CardImages" load_steps=51 format=3 uid="uid://cw3neugnycau2"]
+
+[ext_resource type="Script" path="res://v1/CardImage.gd" id="1_ntmwt"]
+[ext_resource type="Script" path="res://v1/CardImages.gd" id="2_en2jy"]
+[ext_resource type="Texture2D" uid="uid://clo83p2r26vwy" path="res://assets/decks/medusa & harpies/cards/medusa & harpies_a momentary glance.png" id="2_heb8j"]
+[ext_resource type="Texture2D" uid="uid://g4wynratpufv" path="res://assets/decks/medusa & harpies/cards/medusa & harpies_clutching claws.png" id="3_eo0qk"]
+[ext_resource type="Texture2D" uid="uid://ien8222ihy05" path="res://assets/decks/medusa & harpies/cards/medusa & harpies_dash.webp" id="4_ghh37"]
+[ext_resource type="Texture2D" uid="uid://cvubescnif40g" path="res://assets/decks/medusa & harpies/cards/medusa & harpies_feint.png" id="5_f3yw4"]
+[ext_resource type="Texture2D" uid="uid://yxlvohiegaxd" path="res://assets/decks/medusa & harpies/cards/medusa & harpies_gaze of stone.png" id="6_8spbd"]
+[ext_resource type="Texture2D" uid="uid://wkprl6cgqjfw" path="res://assets/decks/medusa & harpies/cards/medusa & harpies_hiss and slither.png" id="7_0083p"]
+[ext_resource type="Texture2D" uid="uid://cxq376ft26g0x" path="res://assets/decks/medusa & harpies/cards/medusa & harpies_regroup.png" id="8_qpnt8"]
+[ext_resource type="Texture2D" uid="uid://b16iygwkelhn6" path="res://assets/decks/medusa & harpies/cards/medusa & harpies_second shot.png" id="9_h538q"]
+[ext_resource type="Texture2D" uid="uid://ctjdvwq530pr5" path="res://assets/decks/medusa & harpies/cards/medusa & harpies_snipe.png" id="10_filca"]
+[ext_resource type="Texture2D" uid="uid://bxop8wgues3sr" path="res://assets/decks/medusa & harpies/cards/medusa & harpies_the hounds of mighty zeus.png" id="11_tvvjk"]
+[ext_resource type="Texture2D" uid="uid://dysictnbmg267" path="res://assets/decks/medusa & harpies/cards/medusa & harpies_winged frenzy.png" id="12_cgsgl"]
+[ext_resource type="Texture2D" uid="uid://cwcmmoii4401c" path="res://assets/decks/Dracula & The Sisters/cards/Dracula & The Sisters_Ambush.webp" id="13_akh6j"]
+[ext_resource type="Texture2D" uid="uid://d0f8w6fpeny0p" path="res://assets/decks/Dracula & The Sisters/cards/Dracula & The Sisters_Baptism of Blood.webp" id="14_olhcl"]
+[ext_resource type="Texture2D" uid="uid://birwpqdtv1drl" path="res://assets/decks/Dracula & The Sisters/cards/Dracula & The Sisters_Beastform.webp" id="15_48c03"]
+[ext_resource type="Texture2D" uid="uid://cb5ny6pwbvk8d" path="res://assets/decks/Dracula & The Sisters/cards/Dracula & The Sisters_Dash.webp" id="16_rrrup"]
+[ext_resource type="Texture2D" uid="uid://bos2h6x0sr1wu" path="res://assets/decks/Dracula & The Sisters/cards/Dracula & The Sisters_Do My Bidding.webp" id="17_gotuo"]
+[ext_resource type="Texture2D" uid="uid://kig43quvav54" path="res://assets/decks/Dracula & The Sisters/cards/Dracula & The Sisters_Exploit.webp" id="18_pbvn3"]
+[ext_resource type="Texture2D" uid="uid://drb1cw6d7xw0e" path="res://assets/decks/Dracula & The Sisters/cards/Dracula & The Sisters_Feeding Frenzy.webp" id="19_kqj46"]
+[ext_resource type="Texture2D" uid="uid://bcv0e3je3hx4m" path="res://assets/decks/Dracula & The Sisters/cards/Dracula & The Sisters_Feint.webp" id="20_k0v66"]
+[ext_resource type="Texture2D" uid="uid://t6wc3tieyl0w" path="res://assets/decks/Dracula & The Sisters/cards/Dracula & The Sisters_Look Into My Eyes.webp" id="21_olbrv"]
+[ext_resource type="Texture2D" uid="uid://8nx2q87fm0pv" path="res://assets/decks/Dracula & The Sisters/cards/Dracula & The Sisters_Mistform.webp" id="22_o8xnf"]
+[ext_resource type="Texture2D" uid="uid://2hnqusbbxm4s" path="res://assets/decks/Dracula & The Sisters/cards/Dracula & The Sisters_Prey Upon.webp" id="23_tylaw"]
+[ext_resource type="Texture2D" uid="uid://bmy7flvb1ox2v" path="res://assets/decks/Dracula & The Sisters/cards/Dracula & The Sisters_Ravening Seduction.webp" id="24_gvwcm"]
+[ext_resource type="Texture2D" uid="uid://bwpoxo6xa838g" path="res://assets/decks/Dracula & The Sisters/cards/Dracula & The Sisters_Thirst for Sustenance.webp" id="25_bu7u8"]
+
+[sub_resource type="Resource" id="Resource_5vaqf"]
+script = ExtResource("1_ntmwt")
+card_key = "Medusa_A Momentary Glance"
+image = ExtResource("2_heb8j")
+
+[sub_resource type="Resource" id="Resource_asjt2"]
+script = ExtResource("1_ntmwt")
+card_key = "Medusa_Clutching Claws"
+image = ExtResource("3_eo0qk")
+
+[sub_resource type="Resource" id="Resource_cmyoc"]
+script = ExtResource("1_ntmwt")
+card_key = "Medusa_Dash"
+image = ExtResource("4_ghh37")
+
+[sub_resource type="Resource" id="Resource_bivio"]
+script = ExtResource("1_ntmwt")
+card_key = "Medusa_Feint"
+image = ExtResource("5_f3yw4")
+
+[sub_resource type="Resource" id="Resource_7uqtn"]
+script = ExtResource("1_ntmwt")
+card_key = "Medusa_Gaze of Stone"
+image = ExtResource("6_8spbd")
+
+[sub_resource type="Resource" id="Resource_i2gup"]
+script = ExtResource("1_ntmwt")
+card_key = "Medusa_Hiss and Slither"
+image = ExtResource("7_0083p")
+
+[sub_resource type="Resource" id="Resource_end7w"]
+script = ExtResource("1_ntmwt")
+card_key = "Medusa_Regroup"
+image = ExtResource("8_qpnt8")
+
+[sub_resource type="Resource" id="Resource_ny877"]
+script = ExtResource("1_ntmwt")
+card_key = "Medusa_Second Shot"
+image = ExtResource("9_h538q")
+
+[sub_resource type="Resource" id="Resource_c6kbl"]
+script = ExtResource("1_ntmwt")
+card_key = "Medusa_Snipe"
+image = ExtResource("10_filca")
+
+[sub_resource type="Resource" id="Resource_hlutv"]
+script = ExtResource("1_ntmwt")
+card_key = "Medusa_The Hounds of Mighty Zeus"
+image = ExtResource("11_tvvjk")
+
+[sub_resource type="Resource" id="Resource_jesxb"]
+script = ExtResource("1_ntmwt")
+card_key = "Medusa_Winged Frenzy"
+image = ExtResource("12_cgsgl")
+
+[sub_resource type="Resource" id="Resource_eix6r"]
+script = ExtResource("1_ntmwt")
+card_key = "Dracula_Ambush"
+image = ExtResource("13_akh6j")
+
+[sub_resource type="Resource" id="Resource_06b5p"]
+script = ExtResource("1_ntmwt")
+card_key = "Dracula_Baptism of Blood"
+image = ExtResource("14_olhcl")
+
+[sub_resource type="Resource" id="Resource_255qv"]
+script = ExtResource("1_ntmwt")
+card_key = "Dracula_Beastform"
+image = ExtResource("15_48c03")
+
+[sub_resource type="Resource" id="Resource_m5t2e"]
+script = ExtResource("1_ntmwt")
+card_key = "Dracula_Dash"
+image = ExtResource("16_rrrup")
+
+[sub_resource type="Resource" id="Resource_cdxvb"]
+script = ExtResource("1_ntmwt")
+card_key = "Dracula_Do My Bidding"
+image = ExtResource("17_gotuo")
+
+[sub_resource type="Resource" id="Resource_60tjs"]
+script = ExtResource("1_ntmwt")
+card_key = "Dracula_Exploit"
+image = ExtResource("18_pbvn3")
+
+[sub_resource type="Resource" id="Resource_ongam"]
+script = ExtResource("1_ntmwt")
+card_key = "Dracula_Feeding Frenzy"
+image = ExtResource("19_kqj46")
+
+[sub_resource type="Resource" id="Resource_ggb60"]
+script = ExtResource("1_ntmwt")
+card_key = "Dracula_Feint"
+image = ExtResource("20_k0v66")
+
+[sub_resource type="Resource" id="Resource_7i75j"]
+script = ExtResource("1_ntmwt")
+card_key = "Dracula_Look Into My Eyes"
+image = ExtResource("21_olbrv")
+
+[sub_resource type="Resource" id="Resource_83l4d"]
+script = ExtResource("1_ntmwt")
+card_key = "Dracula_Mistform"
+image = ExtResource("22_o8xnf")
+
+[sub_resource type="Resource" id="Resource_uk5tn"]
+script = ExtResource("1_ntmwt")
+card_key = "Dracula_Prey Upon"
+image = ExtResource("23_tylaw")
+
+[sub_resource type="Resource" id="Resource_twbui"]
+script = ExtResource("1_ntmwt")
+card_key = "Dracula_Ravening Seduction"
+image = ExtResource("24_gvwcm")
+
+[sub_resource type="Resource" id="Resource_xqklg"]
+script = ExtResource("1_ntmwt")
+card_key = "Dracula_Thirst for Sustenance"
+image = ExtResource("25_bu7u8")
+
+[resource]
+script = ExtResource("2_en2jy")
+Images = Array[ExtResource("1_ntmwt")]([SubResource("Resource_5vaqf"), SubResource("Resource_asjt2"), SubResource("Resource_cmyoc"), SubResource("Resource_bivio"), SubResource("Resource_7uqtn"), SubResource("Resource_i2gup"), SubResource("Resource_end7w"), SubResource("Resource_ny877"), SubResource("Resource_c6kbl"), SubResource("Resource_hlutv"), SubResource("Resource_jesxb"), SubResource("Resource_eix6r"), SubResource("Resource_06b5p"), SubResource("Resource_255qv"), SubResource("Resource_m5t2e"), SubResource("Resource_cdxvb"), SubResource("Resource_60tjs"), SubResource("Resource_ongam"), SubResource("Resource_ggb60"), SubResource("Resource_7i75j"), SubResource("Resource_83l4d"), SubResource("Resource_uk5tn"), SubResource("Resource_twbui"), SubResource("Resource_xqklg")])
