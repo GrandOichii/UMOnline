@@ -8,7 +8,7 @@ namespace UMCore.Matches.Attacks;
 public class CombatCard(Combat parent, MatchCard card) : IHasData<CombatCard.Data>
 {
     public MatchCard Card { get; } = card;
-    public int Value { get; set; } = card.Template.Value;
+    public int Value { get; set; } = (int)card.Template.Value!;
     public bool EffectsCancelled { get; private set; } = false;
     public List<MatchCard> Boosts { get; } = [];
 

@@ -91,7 +91,7 @@ public class MatchCard : IHasData<MatchCard.Data>
     public bool CanBeUsedAsDefence(Fighter fighter)
     {
         // TODO some effects change this
-        return (Template.Type == "Defence" || Template.Type == "Versatile") &&
+        return (Template.Type == "Defence" || Template.Type == "Defense" || Template.Type == "Versatile") &&
                 Template.CanBePlayedBy(fighter.GetName());
     }
 

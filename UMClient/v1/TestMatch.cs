@@ -259,8 +259,8 @@ public partial class TestMatch : Control
 			_handler = new LocalMatchIOHandler(this);
 			var controller = new IOPlayerController(_handler);
 
-			var loadout1 = LoadLoadout("../.generated/loadouts/Bigfoot/Bigfoot.json");
-			var loadout2 = LoadLoadout("../.generated/loadouts/Dracula/Dracula.json");
+			var loadout1 = LoadLoadout("../.generated/loadouts/King Arthur/King Arthur.json");
+			var loadout2 = LoadLoadout("../.generated/loadouts/Buffy/Buffy.json");
 
 			await match.AddPlayer(
 				"RealPlayer",

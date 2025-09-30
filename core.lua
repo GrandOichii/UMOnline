@@ -256,7 +256,7 @@ function UM.Effects:Discard(playerSelectorFunc, amountFunc, random)
         for _, player in ipairs(players) do
             if random then
                 discardCards(player, amount, function ()
-                    return Rnd(player.hand.Count)
+                    return Rnd(GetHandSize(player))
                 end)
             else
                 discardCards(player, amount, function ()
