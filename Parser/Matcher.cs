@@ -9,7 +9,8 @@ public class Matcher : ParserBase {
         get => Pattern.ToString();
         set {
             // Pattern = new Regex("^(?i)" + value + "$", RegexOptions.Multiline);
-            Pattern = new Regex("^" + value + "$", RegexOptions.Multiline);
+            Pattern = new Regex("^" + value + "$", RegexOptions.Singleline);
+            // Pattern = new Regex("^" + value + "$");
         }
     }
     public Regex Pattern { get; private set; } = null!;

@@ -292,4 +292,10 @@ public class MatchScripts
     {
         return player.Hand.Count;
     }
+
+    [LuaCommand]
+    public bool IsInCombat(Fighter fighter)
+    {
+        return Match.Combat!.Attacker == fighter || Match.Combat.Defender == fighter;
+    }
 }

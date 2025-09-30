@@ -5,7 +5,7 @@ function _Create()
             UM:If(
                 UM.Conditional:Eq(
                     UM.Count:CardsInHand(
-                        UM.Players:EffectOwner()
+                        UM.Player:EffectOwner()
                     ),
                     UM:Static(3)
                 ),

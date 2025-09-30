@@ -38,6 +38,10 @@ def join(*paths):
 
 # i = 0
 for path in listdir(LOADOUTS_DIR):
+    loadout_report = {
+        'missingScripts': [],
+        'heroImplemented': False
+    }
     data = json.loads(open(join(LOADOUTS_DIR, path), 'r').read())
     deck_name = data['Name']
     target_dir = join(OUT_DIR, deck_name)
@@ -53,6 +57,7 @@ for path in listdir(LOADOUTS_DIR):
     fighter_script = TODO_FIGHTER_SCRIPT
     if exists(fighter_script_path):
         fighter_script = open(fighter_script_path, 'r').read()
+        loadout_report['heroImplemented'] = True
     
     # create hero script
     hero_script_path = join(fighter_scripts_dir, f'{deck_name}.lua')
@@ -75,7 +80,6 @@ for path in listdir(LOADOUTS_DIR):
 
     for card in data['Deck']:
         card_key = card['Card']['Key'].replace('"', '').replace('?', '')
-        # .replace('\'', '').replace('🌟', '')
         card_name = card['Card']['Name']
         card_script = TODO_CARD_SCRIPT
 
@@ -86,6 +90,8 @@ for path in listdir(LOADOUTS_DIR):
             fallback_card_path = join(FALLBACK_SCRIPTS_PATH, f'{card_name}.lua')
             if exists(fallback_card_path):
                 card_script = open(fallback_card_path, 'r').read()
+        if card_script == TODO_CARD_SCRIPT:
+            loadout_report['missingScripts'] += [card]
         
         target_card_path = join(card_scripts_path, f'{card_key}.lua')
         open(target_card_path, 'w').write(card_script)
@@ -93,6 +99,7 @@ for path in listdir(LOADOUTS_DIR):
 
     # copy .json file to target
     open(join(target_dir, f'{deck_name}.json'), 'w').write(json.dumps(data, indent=4))
+    open(join(target_dir, 'report.json'), 'w').write(json.dumps(loadout_report, indent=4))
     # i += 1
     # if i == 2:
     #     break

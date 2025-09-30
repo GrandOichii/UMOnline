@@ -5,7 +5,7 @@ function _Create()
             UM:If(
                 UM.Conditional:FightersCountGte(
                     UM.S:Fighters()
-                        :OpposingTo(UM.Players:EffectOwner())
+                        :OpposingTo(UM.Player:EffectOwner())
                         :InSameZoneAs(UM.Fighters:Source())
                         :Build(),
                     UM:Static(1)
@@ -15,7 +15,7 @@ function _Create()
                     UM.Effects:DealDamage(
                         UM:Static(1),
                         UM.S:Fighters()
-                            :OpposingTo(UM.Players:EffectOwner())
+                            :OpposingTo(UM.Player:EffectOwner())
                             :InSameZoneAs(UM.Fighters:Source())
                             :Single()
                             :Build()

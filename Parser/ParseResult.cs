@@ -70,7 +70,13 @@ public class ParseResult {
             state.DoString(Parent.Script);
             var creationF = LuaUtility.GetGlobalF(state, "_Create");
             var returned = CallCreationFunc(state, creationF, Text, childrenTable);
-            return LuaUtility.GetReturnAs<string>(returned);
+            var result = LuaUtility.GetReturnAs<string>(returned);
+            // System.Console.WriteLine($"{Parent.Name} -> {result}");
+            // System.Console.WriteLine("AAAAA");
+            // System.Console.WriteLine(Parent.Script);
+            // System.Console.WriteLine("VVVVV");
+            // System.Console.WriteLine();
+            return result;
 
         }
         catch (Exception e)

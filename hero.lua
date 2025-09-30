@@ -7,7 +7,7 @@ function _Create()
             'At the start of your turn, if you have exactly 3 cards in hand, gain 1 action.',
             UM:If(
                 UM.Conditional:HandCountEq(
-                    UM.Players:EffectOwner(),
+                    UM.Player:EffectOwner(),
                     UM:Static(3)
                 ),
                 UM.Effects:GainActions(

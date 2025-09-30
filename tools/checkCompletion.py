@@ -2,7 +2,8 @@ import json
 from os.path import join, exists
 
 DECKS_PATH = 'decks.json'
-IMPLEMENTATIONS_DIR = 'card-scripts'
+IMPLEMENTATIONS_DIR = '.generated/scripts'
+CUSTOM_IMPLEMENTATIONS_DIR = 'custom-card-scripts'
 
 data = json.loads(open(DECKS_PATH, 'r').read())
 
@@ -13,6 +14,9 @@ for deck in data['decks']:
     for card in deck['cards']:
         name = card['title'].replace('?', ' ').replace('!', ' ').replace(':', ' ').replace('"', ' ').strip()
         card_path = join(IMPLEMENTATIONS_DIR, f'{name}.lua')
+        if exists(card_path):
+            implemented += 1
+        card_path = join(CUSTOM_IMPLEMENTATIONS_DIR, f'{name}.lua')
         if exists(card_path):
             implemented += 1
     result += [{

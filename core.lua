@@ -147,18 +147,18 @@ function UM:IfInstead(conditionFunc, ifTrueEffectFunc, ifFalseEffectFunc)
     end
 end
 
-UM.Players = {}
+UM.Player = {}
 
-function UM.Players:EffectOwner()
+function UM.Player:EffectOwner()
     return function (args)
         return args.owner
     end
 end
 
-function UM.Players:Opponent()
+function UM.Player:Opponent()
     return function (args)
         return UM.S:Players()
-            :OpposingTo(UM.Players:EffectOwner())
+            :OpposingTo(UM.Player:EffectOwner())
             :BuildOne()(args)
         -- assert(#players > 0, 'No opposing players found')
         -- local result = players[1]
@@ -282,7 +282,7 @@ function UM.Effects:MoveFighters(fighterSelectorFunc, amountFunc, canMoveOverOpp
         -- TODO feels weird
         local amounts = amountFunc(args)
         local amount = amounts[#amounts]
-        MoveFighters(UM.Players:EffectOwner()(args), fighters, amount, canMoveOverOpposing)
+        MoveFighters(UM.Player:EffectOwner()(args), fighters, amount, canMoveOverOpposing)
         -- for _, fighter in ipairs(fighters) do
         --     MoveFighter(fighter, amount, canMoveOverOpposing)
         -- end
@@ -362,7 +362,7 @@ end
 
 function UM.Effects:CancelAllEffectsOfOpponentsCard()
     return function (args)
-        local player = UM.Players:EffectOwner()(args)
+        local player = UM.Player:EffectOwner()(args)
         CancelCombatEffectsOfOpponent(player)
     end
 end
@@ -409,6 +409,14 @@ function UM.S:Fighters()
             return IsCalled(fighter, name)
         end
 
+        return result
+    end
+
+    function result:InCombat()
+        result.filters[#result.filters+1] = function (args, fighter)
+            return IsInCombat(fighter)
+        end
+        
         return result
     end
 

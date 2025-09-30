@@ -1,0 +1,5 @@
+-- Effects
+-- If: conditional, effect
+-- Card draw: amount (can be dynamic), who draws the cards (default is EffectOwner)
+-- Fighter movement: (fighters) (amount)
+-- Card boosting

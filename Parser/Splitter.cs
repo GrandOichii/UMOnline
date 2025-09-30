@@ -24,7 +24,8 @@ public class Splitter : ParserBase {
         var children = new List<ParseResult>();
         // var didntMatch = false;
         var failed = 0;
-        foreach (var part in split) {
+        foreach (var part in split)
+        {
             if (string.IsNullOrEmpty(part)) continue;
             var partResult = child.Parse(part);
             children.Add(partResult);
