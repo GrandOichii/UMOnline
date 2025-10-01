@@ -296,6 +296,7 @@ var FIGHTER_NAMES = new string[] {
     "Ihuarraquax",
     "Faith",
     "Donatello",
+    "Dr. Watson",
     "Michelangelo"
 };
 
@@ -878,7 +879,7 @@ string FormattedName(string name)
     return name.Replace(". ", "{DOTSPACE}");
 }
 
-string TrasnformText(string text)
+string FormatText(string text)
 {
     foreach (var name in FIGHTER_NAMES)
     {
@@ -901,6 +902,14 @@ string TrasnformText(string text)
         ("twice", "2 times"),
     }) text = text.Replace(find, replace);
 
+    text = text
+        .Replace("\n-", "-")
+        .Replace(" (This includes opposing fighters.)", "")
+        .Replace("(If you played this as your first action, end your turn.)", "")
+        .Replace("(This is in addition to any boost from King Arthur's special ability.)", "")
+        .Replace("(If a card does not have a BOOST value, it is treated as 0.)", "")
+        .Replace("(You may do both.)", "")
+    ;
 
     return text;
 }
@@ -908,7 +917,7 @@ string TrasnformText(string text)
 var cards = JsonSerializer.Deserialize<List<Card>>(File.ReadAllText("../cards.json"));
 // List<Card> cards = [new Card {
 //     Name = "Test card",
-//     Text = "Draw 2 cards.",
+//     Text = "Place Dr. Watson in a space adjacent to Holmes. Holmes recovers 1 health. Draw 1 card.",
 // }];
 
 var analysis = new ParseResultAnalyzer();
@@ -917,7 +926,7 @@ var successCount = 0;
 
 foreach (var card in cards!)
 {
-    var result = parser.Parse(TrasnformText(card.Text));
+    var result = parser.Parse(FormatText(card.Text));
 
     analysis.Analyze(result);
 

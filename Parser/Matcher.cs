@@ -33,7 +33,6 @@ public class Matcher : ParserBase {
             var group = match.Groups[i];
             var childResult = child.Parse(group.ToString());
             children.Add(childResult);
-            // TODO
             if (childResult.Status != ParseResultStatus.SUCCESS)
                 status = ParseResultStatus.CHILD_FAILED;
             if (childResult.Status == ParseResultStatus.DIDNT_MATCH)

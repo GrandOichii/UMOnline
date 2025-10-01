@@ -585,7 +585,7 @@
         "name": "Let's Dance",
         "type": "versatile",
         "power": "4",
-        "text": "During combat: If Spike or the opposing fighter is in a space with a shadow token,  you may BOOST this card."
+        "text": "During combat: If Spike or the opposing fighter is in a space with a shadow token, you may BOOST this card."
     },
     {
         "name": "Training",
@@ -948,7 +948,7 @@
         "text": "This card's effects cannot be canceled.\nDuring combat: You may spend 2 Rage to make this card's value 5 instead. You may spend 1 Rage to BOOST this card. (You may do both.)"
     },
     {
-        "name": "What Large Hands You Have $WOLF$",
+        "name": "What Large Hands You Have->$PELT$",
         "type": "attack",
         "power": "2",
         "text": "After combat: You may return this card to your hand.\n$ROSE$ Instead, you may return the top card of your discard pile to your hand."
@@ -1002,13 +1002,13 @@
         "text": "After combat: Your opponent puts 1 random card from their hand on top of their deck. If Eredin is ENRAGED, they discard it instead."
     },
     {
-        "name": "What Big Ears You Have $WOLF$",
+        "name": "What Big Ears You Have->$PELT$",
         "type": "attack",
         "power": "4",
         "text": "$SWORDS$ You may play this card as a defense card."
     },
     {
-        "name": "What Big Eyes You Have $WOLF$",
+        "name": "What Big Eyes You Have->$PELT$",
         "type": "versatile",
         "power": "3",
         "text": "Immediately: Cancel all effects on your opponent's card. \n$ROSE$ Also ignore the value of your opponent's card."
@@ -1023,7 +1023,7 @@
         "name": "The Wolf's Skin $SWORDS$",
         "type": "defence",
         "power": "2",
-        "text": "After combat: $WOLF$ Draw 2 cards."
+        "text": "After combat: $PELT$ Draw 2 cards."
     },
     {
         "name": "Long Have I Sought You $SWORDS$",
@@ -1035,7 +1035,7 @@
         "name": "A Grimm Tale $ROSE$",
         "type": "scheme",
         "power": "",
-        "text": "Little Red Recovers 2 health.\n$WOLF$ Little Red recovers 4 health instead."
+        "text": "Little Red Recovers 2 health.\n$PELT$ Little Red recovers 4 health instead."
     },
     {
         "name": "Stones in the Belly $ROSE$",
@@ -1050,7 +1050,7 @@
         "text": "Immediately: Return a defeated Red Rider to any space.\nDuring combat: Add +1 to this card's value for each other friendly fighter adjacent to the opposing fighter."
     },
     {
-        "name": "Into the Woods $WOLF$$ROSE$$SWORDS$",
+        "name": "Into the Woods $PELT$$ROSE$$SWORDS$",
         "type": "scheme",
         "power": "",
         "text": "Move Little Red up to 3 spaces. Gain 1 action."
@@ -1107,7 +1107,7 @@
         "name": "What's That In My Basket? 🌟",
         "type": "versatile",
         "power": "4",
-        "text": "(🌟 counts as any one $WOLF$$ROSE$$SWORDS$ symbol.)"
+        "text": "(🌟 counts as any one $PELT$$ROSE$$SWORDS$ symbol.)"
     },
     {
         "name": "Transit Card",
@@ -3237,13 +3237,13 @@
         "name": "What a Terrible Big Mouth You Have $SWORDS$",
         "type": "defence",
         "power": "2",
-        "text": "After combat: $WOLF$  Deal damage to the opposing fighter equal to the printed value of their card."
+        "text": "After combat: $PELT$  Deal damage to the opposing fighter equal to the printed value of their card."
     },
     {
-        "name": "Never Leave the Path $WOLF$",
+        "name": "Never Leave the Path->$PELT$",
         "type": "scheme",
         "power": "",
-        "text": "$WOLF$  Place Little Red in any space. Gain 1 action. \n$SWORDS$ Deal 2 damage to each opposing fighter in Little Red's zone. \n$ROSE$ Draw 3 cards."
+        "text": "$PELT$  Place Little Red in any space. Gain 1 action. \n$SWORDS$ Deal 2 damage to each opposing fighter in Little Red's zone. \n$ROSE$ Draw 3 cards."
     },
     {
         "name": "Once Upon a Time $ROSE$",

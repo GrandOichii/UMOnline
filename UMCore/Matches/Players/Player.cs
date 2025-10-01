@@ -216,8 +216,8 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
         {
             effect.Execute(LuaUtility.CreateTable(Match.LState, new Dictionary<string, object>()
             {
-                { "fighter",  fighter },
-                { "owner",  this },
+                { "fighter", fighter },
+                { "owner", this },
             }));
         }
 

@@ -34,7 +34,7 @@ public class Selector : ParserBase {
         if (status == ParseResultStatus.ALL_CHILDREN_FAILED && allDidntMatch)
             status = ParseResultStatus.DIDNT_MATCH;
 
-        // if (status == ParseResultStatus.ALL_CHILDREN_FAILED)
+        if (status == ParseResultStatus.ALL_CHILDREN_FAILED)
         if (closestToMatch != null)
         {
             foreach (var child in children)
