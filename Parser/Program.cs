@@ -909,6 +909,9 @@ string FormatText(string text)
         .Replace("(This is in addition to any boost from King Arthur's special ability.)", "")
         .Replace("(If a card does not have a BOOST value, it is treated as 0.)", "")
         .Replace("(You may do both.)", "")
+        .Replace("(You do not spend Rage for this effect.)", "")
+        .Replace("(\uD83C\uDF1F counts as any 1 $PELT$$ROSE$$SWORDS$ symbol.)", "")
+        .Replace("(You do not spend Hellfire for this effect.)", "")
     ;
 
     return text;

@@ -948,7 +948,7 @@
         "text": "This card's effects cannot be canceled.\nDuring combat: You may spend 2 Rage to make this card's value 5 instead. You may spend 1 Rage to BOOST this card. (You may do both.)"
     },
     {
-        "name": "What Large Hands You Have->$PELT$",
+        "name": "What Large Hands You Have",
         "type": "attack",
         "power": "2",
         "text": "After combat: You may return this card to your hand.\n$ROSE$ Instead, you may return the top card of your discard pile to your hand."
@@ -1002,13 +1002,13 @@
         "text": "After combat: Your opponent puts 1 random card from their hand on top of their deck. If Eredin is ENRAGED, they discard it instead."
     },
     {
-        "name": "What Big Ears You Have->$PELT$",
+        "name": "What Big Ears You Have",
         "type": "attack",
         "power": "4",
         "text": "$SWORDS$ You may play this card as a defense card."
     },
     {
-        "name": "What Big Eyes You Have->$PELT$",
+        "name": "What Big Eyes You Have",
         "type": "versatile",
         "power": "3",
         "text": "Immediately: Cancel all effects on your opponent's card. \n$ROSE$ Also ignore the value of your opponent's card."
@@ -3240,7 +3240,7 @@
         "text": "After combat: $PELT$  Deal damage to the opposing fighter equal to the printed value of their card."
     },
     {
-        "name": "Never Leave the Path->$PELT$",
+        "name": "Never Leave the Path",
         "type": "scheme",
         "power": "",
         "text": "$PELT$  Place Little Red in any space. Gain 1 action. \n$SWORDS$ Deal 2 damage to each opposing fighter in Little Red's zone. \n$ROSE$ Draw 3 cards."

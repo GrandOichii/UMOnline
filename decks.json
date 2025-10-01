@@ -8013,7 +8013,8 @@
                     "other_decks": [],
                     "quantity": 2,
                     "slug": "what-large-hands-you-have",
-                    "title": "What Large Hands You Have \ud83d\udc3a",
+                    "title": "What Large Hands You Have",
+                    "basket": "\ud83d\udc3a",
                     "type": "attack",
                     "value": 2
                 },
@@ -8030,7 +8031,8 @@
                     "other_decks": [],
                     "quantity": 3,
                     "slug": "the-wolf-s-skin",
-                    "title": "The Wolf's Skin \u2694\ufe0f",
+                    "title": "The Wolf's Skin",
+                    "basket": "\u2694\ufe0f",
                     "type": "defense",
                     "value": 2
                 },
@@ -8047,7 +8049,8 @@
                     "other_decks": [],
                     "quantity": 2,
                     "slug": "what-a-terrible-big-mouth-you-have",
-                    "title": "What a Terrible Big Mouth You Have \u2694\ufe0f",
+                    "title": "What a Terrible Big Mouth You Have",
+                    "basket": "\u2694\ufe0f",
                     "type": "defense",
                     "value": 2
                 },
@@ -8064,7 +8067,8 @@
                     "other_decks": [],
                     "quantity": 2,
                     "slug": "what-big-ears-you-have",
-                    "title": "What Big Ears You Have \ud83d\udc3a",
+                    "title": "What Big Ears You Have",
+                    "basket": "\ud83d\udc3a",
                     "type": "attack",
                     "value": 4
                 },
@@ -8081,7 +8085,8 @@
                     "other_decks": [],
                     "quantity": 2,
                     "slug": "what-big-eyes-you-have",
-                    "title": "What Big Eyes You Have \ud83d\udc3a",
+                    "title": "What Big Eyes You Have",
+                    "basket": "\ud83d\udc3a",
                     "type": "versatile",
                     "value": 3
                 },
@@ -8098,7 +8103,8 @@
                     "other_decks": [],
                     "quantity": 4,
                     "slug": "what-s-that-in-my-basket",
-                    "title": "What's That In My Basket? \ud83c\udf1f ",
+                    "title": "What's That In My Basket?",
+                    "basket": "\ud83c\udf1f",
                     "type": "versatile",
                     "value": 4
                 },
@@ -8115,7 +8121,8 @@
                     "other_decks": [],
                     "quantity": 2,
                     "slug": "never-leave-the-path",
-                    "title": "Never Leave the Path \ud83d\udc3a",
+                    "title": "Never Leave the Path",
+                    "basket": "\ud83d\udc3a",
                     "type": "scheme",
                     "value": null
                 },
@@ -8132,7 +8139,8 @@
                     "other_decks": [],
                     "quantity": 3,
                     "slug": "into-the-woods",
-                    "title": "Into the Woods \ud83d\udc3a\ud83c\udf39\u2694\ufe0f",
+                    "title": "Into the Woods",
+                    "basket": "\ud83d\udc3a",
                     "type": "scheme",
                     "value": null
                 },
@@ -8149,7 +8157,8 @@
                     "other_decks": [],
                     "quantity": 3,
                     "slug": "long-have-i-sought-you",
-                    "title": "Long Have I Sought You \u2694\ufe0f",
+                    "title": "Long Have I Sought You",
+                    "basket": "\u2694\ufe0f",
                     "type": "attack",
                     "value": 4
                 },
@@ -8166,7 +8175,8 @@
                     "other_decks": [],
                     "quantity": 2,
                     "slug": "a-grimm-tale",
-                    "title": "A Grimm Tale \ud83c\udf39",
+                    "title": "A Grimm Tale",
+                    "basket": "\ud83c\udf39",
                     "type": "scheme",
                     "value": null
                 },
@@ -8183,7 +8193,8 @@
                     "other_decks": [],
                     "quantity": 3,
                     "slug": "stones-in-the-belly",
-                    "title": "Stones in the Belly \ud83c\udf39",
+                    "title": "Stones in the Belly",
+                    "basket": "\ud83c\udf39",
                     "type": "versatile",
                     "value": 2
                 },
@@ -8200,7 +8211,8 @@
                     "other_decks": [],
                     "quantity": 2,
                     "slug": "once-upon-a-time",
-                    "title": "Once Upon a Time \ud83c\udf39",
+                    "title": "Once Upon a Time",
+                    "basket": "\ud83c\udf39",
                     "type": "versatile",
                     "value": 2
                 }

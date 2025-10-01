@@ -141,8 +141,8 @@
       "FullText": "After combat: If you won the combat, draw 1 card."
     },
     {
-      "Text": "$WOLF$ ",
-      "FullText": "After combat: $WOLF$ Draw 2 cards."
+      "Text": "$PELT$ ",
+      "FullText": "After combat: $PELT$ Draw 2 cards."
     },
     {
       "Text": "your opponent ",
@@ -227,10 +227,6 @@
     {
       "Text": "",
       "FullText": "If you discard this card as a result of an opponent\u0027s effect, draw 1 card.\nBOOSTED WITH: If it\u0027s your turn, gain 1 action."
-    },
-    {
-      "Text": "",
-      "FullText": "After combat: Draw 1 card. Then, if you lost the combat, look at your opponent\u0027s hand and choose 1 card for them to discard."
     },
     {
       "Text": "",
@@ -378,7 +374,7 @@
     },
     {
       "Text": "$ROSE$ ",
-      "FullText": "$WOLF$  Place Little Red in any space. Gain 1 action. \n$SWORDS$ Deal 2 damage to each opposing fighter in Little Red\u0027s zone. \n$ROSE$ Draw 3 cards."
+      "FullText": "$PELT$  Place Little Red in any space. Gain 1 action. \n$SWORDS$ Deal 2 damage to each opposing fighter in Little Red\u0027s zone. \n$ROSE$ Draw 3 cards."
     },
     {
       "Text": "",
@@ -560,7 +556,7 @@
     },
     {
       "Text": "2",
-      "FullText": "After combat: $WOLF$ Draw 2 cards."
+      "FullText": "After combat: $PELT$ Draw 2 cards."
     },
     {
       "Text": "2",
@@ -645,10 +641,6 @@
     {
       "Text": "1",
       "FullText": "If you discard this card as a result of an opponent\u0027s effect, draw 1 card.\nBOOSTED WITH: If it\u0027s your turn, gain 1 action."
-    },
-    {
-      "Text": "1",
-      "FullText": "After combat: Draw 1 card. Then, if you lost the combat, look at your opponent\u0027s hand and choose 1 card for them to discard."
     },
     {
       "Text": "2",
@@ -796,7 +788,7 @@
     },
     {
       "Text": "3",
-      "FullText": "$WOLF$  Place Little Red in any space. Gain 1 action. \n$SWORDS$ Deal 2 damage to each opposing fighter in Little Red\u0027s zone. \n$ROSE$ Draw 3 cards."
+      "FullText": "$PELT$  Place Little Red in any space. Gain 1 action. \n$SWORDS$ Deal 2 damage to each opposing fighter in Little Red\u0027s zone. \n$ROSE$ Draw 3 cards."
     },
     {
       "Text": "1",
@@ -3288,7 +3280,7 @@
     },
     {
       "Text": "1",
-      "FullText": "$WOLF$  Place Little Red in any space. Gain 1 action. \n$SWORDS$ Deal 2 damage to each opposing fighter in Little Red\u0027s zone. \n$ROSE$ Draw 3 cards."
+      "FullText": "$PELT$  Place Little Red in any space. Gain 1 action. \n$SWORDS$ Deal 2 damage to each opposing fighter in Little Red\u0027s zone. \n$ROSE$ Draw 3 cards."
     },
     {
       "Text": "1",
@@ -3505,8 +3497,8 @@
       "FullText": "Place Mr{DOTSPACE}Hyde in any space in his zone. Mr{DOTSPACE}Hyde deals 2 damage to all adjacent fighters."
     },
     {
-      "Text": "$WOLF$  ",
-      "FullText": "$WOLF$  Place Little Red in any space. Gain 1 action. \n$SWORDS$ Deal 2 damage to each opposing fighter in Little Red\u0027s zone. \n$ROSE$ Draw 3 cards."
+      "Text": "$PELT$  ",
+      "FullText": "$PELT$  Place Little Red in any space. Gain 1 action. \n$SWORDS$ Deal 2 damage to each opposing fighter in Little Red\u0027s zone. \n$ROSE$ Draw 3 cards."
     },
     {
       "Text": "",
@@ -3700,7 +3692,7 @@
     },
     {
       "Text": "Little Red",
-      "FullText": "$WOLF$  Place Little Red in any space. Gain 1 action. \n$SWORDS$ Deal 2 damage to each opposing fighter in Little Red\u0027s zone. \n$ROSE$ Draw 3 cards."
+      "FullText": "$PELT$  Place Little Red in any space. Gain 1 action. \n$SWORDS$ Deal 2 damage to each opposing fighter in Little Red\u0027s zone. \n$ROSE$ Draw 3 cards."
     },
     {
       "Text": "the Genie",
@@ -3894,7 +3886,7 @@
     },
     {
       "Text": "any space",
-      "FullText": "$WOLF$  Place Little Red in any space. Gain 1 action. \n$SWORDS$ Deal 2 damage to each opposing fighter in Little Red\u0027s zone. \n$ROSE$ Draw 3 cards."
+      "FullText": "$PELT$  Place Little Red in any space. Gain 1 action. \n$SWORDS$ Deal 2 damage to each opposing fighter in Little Red\u0027s zone. \n$ROSE$ Draw 3 cards."
     },
     {
       "Text": "any empty space",
@@ -4190,7 +4182,7 @@
     },
     {
       "Text": "Little Red ",
-      "FullText": "Little Red Recovers 2 health.\n$WOLF$ Little Red recovers 4 health instead."
+      "FullText": "Little Red Recovers 2 health.\n$PELT$ Little Red recovers 4 health instead."
     },
     {
       "Text": "Choose a different effect for each Rage spent: - draw 2 cards - move Beowulf up to 4 spaces - Beowulf ",
@@ -4352,7 +4344,7 @@
     },
     {
       "Text": "2",
-      "FullText": "Little Red Recovers 2 health.\n$WOLF$ Little Red recovers 4 health instead."
+      "FullText": "Little Red Recovers 2 health.\n$PELT$ Little Red recovers 4 health instead."
     },
     {
       "Text": "2",
@@ -4477,14 +4469,102 @@
       "FullText": "Deal 1 damage to each opposing fighter in the Leshen\u0027s zone. Remove the Leshen from the board. At the start of your next turn, place the Leshen in any space. Then, draw 1 card."
     }
   ],
+  "lookAtOpponentsHandAndDiscardWho": [
+    {
+      "Text": "",
+      "FullText": "After combat: If you won the combat, look at your opponent\u0027s hand and choose 1 card for them to discard."
+    },
+    {
+      "Text": "Choose an opponent. ",
+      "FullText": "Choose an opponent. Look at their hand and choose 1 card for them to discard."
+    },
+    {
+      "Text": "Your opponent ",
+      "FullText": "After combat: Your opponent looks at your hand and chooses a card for you to discard."
+    },
+    {
+      "Text": "",
+      "FullText": "Look at an opponent\u0027s hand and choose 1 card for them to discard. If 1 of their fighters is adjacent to 4 or more squirrels, choose 2 cards instead."
+    },
+    {
+      "Text": "",
+      "FullText": "After combat: Look at your opponent\u0027s hand and choose a card for them to discard."
+    },
+    {
+      "Text": "Draw 1 card. Then, if you lost the combat, ",
+      "FullText": "After combat: Draw 1 card. Then, if you lost the combat, look at your opponent\u0027s hand and choose 1 card for them to discard."
+    },
+    {
+      "Text": "BOOSTED WITH: ",
+      "FullText": "Draw 3 cards. Then, put a card in your hand on top of your deck.\nBOOSTED WITH: Look at an opponent\u0027s hand and choose a card for them to discard."
+    },
+    {
+      "Text": "",
+      "FullText": "After combat: Look at your opponent\u0027s hand and choose 1 card for them to discard. Draw 1 card."
+    }
+  ],
+  "lookAtOpponentsHandAndDiscardAtWhose": [
+    {
+      "Text": "your opponent\u0027s",
+      "FullText": "After combat: If you won the combat, look at your opponent\u0027s hand and choose 1 card for them to discard."
+    },
+    {
+      "Text": "their",
+      "FullText": "Choose an opponent. Look at their hand and choose 1 card for them to discard."
+    },
+    {
+      "Text": "your",
+      "FullText": "After combat: Your opponent looks at your hand and chooses a card for you to discard."
+    },
+    {
+      "Text": "an opponent\u0027s",
+      "FullText": "Look at an opponent\u0027s hand and choose 1 card for them to discard. If 1 of their fighters is adjacent to 4 or more squirrels, choose 2 cards instead."
+    },
+    {
+      "Text": "your opponent\u0027s",
+      "FullText": "After combat: Look at your opponent\u0027s hand and choose a card for them to discard."
+    },
+    {
+      "Text": "your opponent\u0027s",
+      "FullText": "After combat: Draw 1 card. Then, if you lost the combat, look at your opponent\u0027s hand and choose 1 card for them to discard."
+    },
+    {
+      "Text": "an opponent\u0027s",
+      "FullText": "Draw 3 cards. Then, put a card in your hand on top of your deck.\nBOOSTED WITH: Look at an opponent\u0027s hand and choose a card for them to discard."
+    },
+    {
+      "Text": "your opponent\u0027s",
+      "FullText": "After combat: Look at your opponent\u0027s hand and choose 1 card for them to discard. Draw 1 card."
+    }
+  ],
   "lookAtOpponentsHandAndDiscardAmount": [
     {
       "Text": "1",
       "FullText": "After combat: If you won the combat, look at your opponent\u0027s hand and choose 1 card for them to discard."
     },
     {
+      "Text": "1",
+      "FullText": "Choose an opponent. Look at their hand and choose 1 card for them to discard."
+    },
+    {
+      "Text": "a",
+      "FullText": "After combat: Your opponent looks at your hand and chooses a card for you to discard."
+    },
+    {
+      "Text": "1",
+      "FullText": "Look at an opponent\u0027s hand and choose 1 card for them to discard. If 1 of their fighters is adjacent to 4 or more squirrels, choose 2 cards instead."
+    },
+    {
       "Text": "a",
       "FullText": "After combat: Look at your opponent\u0027s hand and choose a card for them to discard."
+    },
+    {
+      "Text": "1",
+      "FullText": "After combat: Draw 1 card. Then, if you lost the combat, look at your opponent\u0027s hand and choose 1 card for them to discard."
+    },
+    {
+      "Text": "a",
+      "FullText": "Draw 3 cards. Then, put a card in your hand on top of your deck.\nBOOSTED WITH: Look at an opponent\u0027s hand and choose a card for them to discard."
     },
     {
       "Text": "1",
@@ -4965,28 +5045,16 @@
       "FullText": "If Eredin is ENRAGED, you may play this card face-up to target a fighter in any space.\nAfter combat: You may defeat a Red Rider to return this card to your hand."
     },
     {
-      "Text": "$WOLF$ Little Red recovers 4 health instead",
-      "FullText": "Little Red Recovers 2 health.\n$WOLF$ Little Red recovers 4 health instead."
-    },
-    {
-      "Text": "Return a defeated Red Rider to any space",
-      "FullText": "Immediately: Return a defeated Red Rider to any space.\nDuring combat: Add \u002B1 to this card\u0027s value for each other friendly fighter adjacent to the opposing fighter."
+      "Text": "$PELT$ Little Red recovers 4 health instead",
+      "FullText": "Little Red Recovers 2 health.\n$PELT$ Little Red recovers 4 health instead."
     },
     {
       "Text": "Add \u002B1 to this card\u0027s value for each other friendly fighter adjacent to the opposing fighter",
       "FullText": "Immediately: Return a defeated Red Rider to any space.\nDuring combat: Add \u002B1 to this card\u0027s value for each other friendly fighter adjacent to the opposing fighter."
     },
     {
-      "Text": "Gain 1 Rage",
-      "FullText": "Immediately: Gain 1 Rage.\nDuring combat: This card\u0027s value is \u002B1 for each Rage you have. (You do not spend Rage for this effect.)"
-    },
-    {
       "Text": "This card\u0027s value is \u002B1 for each Rage you have",
-      "FullText": "Immediately: Gain 1 Rage.\nDuring combat: This card\u0027s value is \u002B1 for each Rage you have. (You do not spend Rage for this effect.)"
-    },
-    {
-      "Text": "(You do not spend Rage for this effect.)",
-      "FullText": "Immediately: Gain 1 Rage.\nDuring combat: This card\u0027s value is \u002B1 for each Rage you have. (You do not spend Rage for this effect.)"
+      "FullText": "Immediately: Gain 1 Rage.\nDuring combat: This card\u0027s value is \u002B1 for each Rage you have. "
     },
     {
       "Text": "Spend any amount of Rage",
@@ -5013,20 +5081,12 @@
       "FullText": "Spend any amount of Rage. Choose a different effect for each Rage spent: - draw 2 cards - move Beowulf up to 4 spaces - Beowulf recovers 2 health."
     },
     {
-      "Text": "(\uD83C\uDF1F counts as any 1 $WOLF$$ROSE$$SWORDS$ symbol.)",
-      "FullText": "(\uD83C\uDF1F counts as any 1 $WOLF$$ROSE$$SWORDS$ symbol.)"
-    },
-    {
       "Text": "Move to any space in your zone",
       "FullText": "After combat: Move to any space in your zone."
     },
     {
       "Text": "You may play this card as a ranged attack",
       "FullText": "You may play this card as a ranged attack."
-    },
-    {
-      "Text": "Your opponent looks at your hand and chooses a card for you to discard",
-      "FullText": "After combat: Your opponent looks at your hand and chooses a card for you to discard."
     },
     {
       "Text": "If they don\u0027t, return a defeated Archer to a space in Yennenga\u0027s zone",
@@ -5041,10 +5101,6 @@
       "FullText": "After combat: Discard the top card of your deck. Draw cards equal to that card\u0027s BOOST value."
     },
     {
-      "Text": "You may spend 2 Hellfire to gain 1 action",
-      "FullText": "After combat: You may spend 2 Hellfire to gain 1 action."
-    },
-    {
       "Text": "You may spend any amount of Hellfire",
       "FullText": "During combat: You may spend any amount of Hellfire. Increase the value of this card by that amount."
     },
@@ -5054,23 +5110,7 @@
     },
     {
       "Text": "This card\u0027s value is \u002B1 for each Hellfire you have",
-      "FullText": "During combat: This card\u0027s value is \u002B1 for each Hellfire you have. (You do not spend Hellfire for this effect.)"
-    },
-    {
-      "Text": "(You do not spend Hellfire for this effect.)",
-      "FullText": "During combat: This card\u0027s value is \u002B1 for each Hellfire you have. (You do not spend Hellfire for this effect.)"
-    },
-    {
-      "Text": "You may spend 2 Hellfire to do it a second time",
-      "FullText": "During combat: Add the BOOST value of the opposing fighter\u0027s card to this card\u0027s value. You may spend 2 Hellfire to do it a second time."
-    },
-    {
-      "Text": "gain 2 Hellfire",
-      "FullText": "After combat: If Ghost Rider started this turn in a different space, gain 2 Hellfire."
-    },
-    {
-      "Text": "Set your Hellfire to 5",
-      "FullText": "Set your Hellfire to 5."
+      "FullText": "During combat: This card\u0027s value is \u002B1 for each Hellfire you have. "
     },
     {
       "Text": "choose 2 cards in your discard pile and shuffle them into your deck",
@@ -5081,19 +5121,11 @@
       "FullText": "Immediately: Misty Knight may swap spaces with Luke Cage. If she does, Luke Cage is now the defender."
     },
     {
-      "Text": "end the turn",
-      "FullText": "Immediately: Cancel all effects on your opponent\u0027s card.\nAfter combat: If you won the combat, end the turn."
-    },
-    {
       "Text": "Place Luke Cage adjacent to the nearest opposing fighter",
       "FullText": "Place Luke Cage adjacent to the nearest opposing fighter.\nGain 1 action."
     },
     {
       "Text": "Move Ghost Rider and up to 1 adjacent fighter up to 4 spaces each",
-      "FullText": "Move Ghost Rider and up to 1 adjacent fighter up to 4 spaces each.\nGain 2 Hellfire. Gain 1 action."
-    },
-    {
-      "Text": "Gain 2 Hellfire",
       "FullText": "Move Ghost Rider and up to 1 adjacent fighter up to 4 spaces each.\nGain 2 Hellfire. Gain 1 action."
     },
     {
@@ -5229,16 +5261,8 @@
       "FullText": "Draw 2 cards. If you won a combat this turn, draw 1 additional card and gain 1 action."
     },
     {
-      "Text": "Return a defeated Hand to a space in Elektra\u0027s zone",
-      "FullText": "After combat: Return a defeated Hand to a space in Elektra\u0027s zone."
-    },
-    {
       "Text": "If she does, that Hand is now the defender",
       "FullText": "Immediately: Elektra may swap spaces with a Hand. If she does, that Hand is now the defender."
-    },
-    {
-      "Text": "Look at an opponent\u0027s hand and choose 1 card for them to discard",
-      "FullText": "Look at an opponent\u0027s hand and choose 1 card for them to discard. If 1 of their fighters is adjacent to 4 or more squirrels, choose 2 cards instead."
     },
     {
       "Text": "choose 2 cards",
@@ -5409,16 +5433,8 @@
       "FullText": "This attack can only target a fighter adjacent to Tomoe Gozen. Play it face up.\nAfter combat: End the turn."
     },
     {
-      "Text": "End the turn",
-      "FullText": "This attack can only target a fighter adjacent to Tomoe Gozen. Play it face up.\nAfter combat: End the turn."
-    },
-    {
       "Text": "you may discard a card to put this card back into your hand",
       "FullText": "After combat: If Tomoe Gozen is adjacent to the opposing fighter, you may discard a card to put this card back into your hand."
-    },
-    {
-      "Text": "if you lost the combat, look at your opponent\u0027s hand and choose 1 card for them to discard",
-      "FullText": "After combat: Draw 1 card. Then, if you lost the combat, look at your opponent\u0027s hand and choose 1 card for them to discard."
     },
     {
       "Text": "Tomoe Gozen cannot leave her space for the rest of the turn",
@@ -5733,10 +5749,6 @@
       "FullText": "Draw 3 cards. Then, put a card in your hand on top of your deck.\nBOOSTED WITH: Look at an opponent\u0027s hand and choose a card for them to discard."
     },
     {
-      "Text": "BOOSTED WITH: Look at an opponent\u0027s hand and choose a card for them to discard",
-      "FullText": "Draw 3 cards. Then, put a card in your hand on top of your deck.\nBOOSTED WITH: Look at an opponent\u0027s hand and choose a card for them to discard."
-    },
-    {
       "Text": "Eredin swaps spaces with an adjacent friendly fighter",
       "FullText": "Immediately: Eredin swaps spaces with an adjacent friendly fighter. That fighter is now the defender.\nAfter combat: If Eredin is ENRAGED, draw 2 cards."
     },
@@ -5838,10 +5850,6 @@
     },
     {
       "Text": "LINE EFFECT: Return all defeated Actors to spaces in Shakespeare\u0027s zone",
-      "FullText": "LINE EFFECT: Return all defeated Actors to spaces in Shakespeare\u0027s zone.\nAfter combat: Return a defeated Actor to any space in Shakespeare\u0027s zone."
-    },
-    {
-      "Text": "Return a defeated Actor to any space in Shakespeare\u0027s zone",
       "FullText": "LINE EFFECT: Return all defeated Actors to spaces in Shakespeare\u0027s zone.\nAfter combat: Return a defeated Actor to any space in Shakespeare\u0027s zone."
     },
     {
@@ -5985,10 +5993,6 @@
       "FullText": "During combat: The value of this card is equal to the number of cards in your hand.\nAfter combat: If you won the combat, your opponent discards 1 card."
     },
     {
-      "Text": "End the turn",
-      "FullText": "After combat: End the turn."
-    },
-    {
       "Text": "Put any number of cards in your hand on the bottom of your deck",
       "FullText": "Put any number of cards in your hand on the bottom of your deck. Then, draw up to that many cards. Gain 1 action."
     },
@@ -6039,10 +6043,6 @@
     {
       "Text": "Choose a zone Philippa is in",
       "FullText": "After combat: Choose a zone Philippa is in. Deal 1 damage to each opposing fighter in that zone."
-    },
-    {
-      "Text": "End the turn",
-      "FullText": "Immediately: Cancel all effects on your opponent\u0027s card.\nAfter combat: End the turn."
     },
     {
       "Text": "If they don\u0027t, ignore their card\u0027s value",
@@ -6101,12 +6101,12 @@
       "FullText": "After combat: If the opposing fighter is adjacent to Yennenga, deal them 2 damage."
     },
     {
-      "Text": "$WOLF$  Deal damage to the opposing fighter equal to the printed value of their card",
-      "FullText": "After combat: $WOLF$  Deal damage to the opposing fighter equal to the printed value of their card."
+      "Text": "$PELT$  Deal damage to the opposing fighter equal to the printed value of their card",
+      "FullText": "After combat: $PELT$  Deal damage to the opposing fighter equal to the printed value of their card."
     },
     {
       "Text": "$SWORDS$ Deal 2 damage to each opposing fighter in Little Red\u0027s zone",
-      "FullText": "$WOLF$  Place Little Red in any space. Gain 1 action. \n$SWORDS$ Deal 2 damage to each opposing fighter in Little Red\u0027s zone. \n$ROSE$ Draw 3 cards."
+      "FullText": "$PELT$  Place Little Red in any space. Gain 1 action. \n$SWORDS$ Deal 2 damage to each opposing fighter in Little Red\u0027s zone. \n$ROSE$ Draw 3 cards."
     },
     {
       "Text": "$SWORDS$ Deal 3 damage to the opposing fighter",
@@ -6393,10 +6393,6 @@
       "FullText": "During combat: Add \u002B1 to this card\u0027s value for each fighter adjacent to Geralt.\nAfter combat: End the turn."
     },
     {
-      "Text": "End the turn",
-      "FullText": "During combat: Add \u002B1 to this card\u0027s value for each fighter adjacent to Geralt.\nAfter combat: End the turn."
-    },
-    {
       "Text": "ONGOING: Your opponent can\u0027t gain actions",
       "FullText": "Draw 1 card. Move your fighter up to 3 spaces. ONGOING: Your opponent can\u0027t gain actions. Discard this card at the end of your turn if you didn\u0027t attack."
     },
@@ -6477,6 +6473,18 @@
     {
       "Text": "Outlaw",
       "FullText": "After combat: Draw 1 card. Return a defeated Outlaw (if any) to any space in Robin Hood\u0027s zone."
+    },
+    {
+      "Text": "Red Rider",
+      "FullText": "Immediately: Return a defeated Red Rider to any space.\nDuring combat: Add \u002B1 to this card\u0027s value for each other friendly fighter adjacent to the opposing fighter."
+    },
+    {
+      "Text": "Hand",
+      "FullText": "After combat: Return a defeated Hand to a space in Elektra\u0027s zone."
+    },
+    {
+      "Text": "Actor",
+      "FullText": "LINE EFFECT: Return all defeated Actors to spaces in Shakespeare\u0027s zone.\nAfter combat: Return a defeated Actor to any space in Shakespeare\u0027s zone."
     }
   ],
   "revivePlace": [
@@ -6491,6 +6499,18 @@
     {
       "Text": "any space in Robin Hood\u0027s zone",
       "FullText": "After combat: Draw 1 card. Return a defeated Outlaw (if any) to any space in Robin Hood\u0027s zone."
+    },
+    {
+      "Text": "any space",
+      "FullText": "Immediately: Return a defeated Red Rider to any space.\nDuring combat: Add \u002B1 to this card\u0027s value for each other friendly fighter adjacent to the opposing fighter."
+    },
+    {
+      "Text": "a space in Elektra\u0027s zone",
+      "FullText": "After combat: Return a defeated Hand to a space in Elektra\u0027s zone."
+    },
+    {
+      "Text": "any space in Shakespeare\u0027s zone",
+      "FullText": "LINE EFFECT: Return all defeated Actors to spaces in Shakespeare\u0027s zone.\nAfter combat: Return a defeated Actor to any space in Shakespeare\u0027s zone."
     }
   ],
   "addCardToYourHandFrom": [
@@ -7121,12 +7141,6 @@
       "FullText": "Draw 2 cards.\n(DARK) Discard the top 2 cards of your deck. Deal 3 damage to a sidekick in your zone (even if it\u0027s your own)."
     }
   ],
-  "chooseLookAndDiscardAmount": [
-    {
-      "Text": "1",
-      "FullText": "Choose an opponent. Look at their hand and choose 1 card for them to discard."
-    }
-  ],
   "shuffleIntoDeckWho": [
     {
       "Text": "",
@@ -7185,6 +7199,48 @@
     {
       "Text": "deal damage to the opposing fighter equal to the printed value of their card",
       "FullText": "Immediately: You may spend 2 Rage to deal damage to the opposing fighter equal to the printed value of their card."
+    }
+  ],
+  "gainRageAmount": [
+    {
+      "Text": "1",
+      "FullText": "Immediately: Gain 1 Rage.\nDuring combat: This card\u0027s value is \u002B1 for each Rage you have. "
+    }
+  ],
+  "spendHellfireAmount": [
+    {
+      "Text": "2",
+      "FullText": "After combat: You may spend 2 Hellfire to gain 1 action."
+    },
+    {
+      "Text": "2",
+      "FullText": "During combat: Add the BOOST value of the opposing fighter\u0027s card to this card\u0027s value. You may spend 2 Hellfire to do it a second time."
+    }
+  ],
+  "spendHellfireEffect": [
+    {
+      "Text": "gain 1 action",
+      "FullText": "After combat: You may spend 2 Hellfire to gain 1 action."
+    },
+    {
+      "Text": "do it a second time",
+      "FullText": "During combat: Add the BOOST value of the opposing fighter\u0027s card to this card\u0027s value. You may spend 2 Hellfire to do it a second time."
+    }
+  ],
+  "gainHellfireAmount": [
+    {
+      "Text": "2",
+      "FullText": "After combat: If Ghost Rider started this turn in a different space, gain 2 Hellfire."
+    },
+    {
+      "Text": "2",
+      "FullText": "Move Ghost Rider and up to 1 adjacent fighter up to 4 spaces each.\nGain 2 Hellfire. Gain 1 action."
+    }
+  ],
+  "setHellfireAmount": [
+    {
+      "Text": "5",
+      "FullText": "Set your Hellfire to 5."
     }
   ]
 }
