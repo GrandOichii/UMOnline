@@ -1,6 +1,6 @@
 ﻿using NLua;
 
-namespace ScriptParser;
+namespace Parser.Parsers;
 
 public abstract class ParserBase {
     public required string Name { get; set; }

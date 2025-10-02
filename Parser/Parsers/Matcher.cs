@@ -2,7 +2,7 @@ using System.Text.RegularExpressions;
 using NLua;
 using YamlDotNet.Serialization;
 
-namespace ScriptParser;
+namespace Parser.Parsers;
 
 public class Matcher : ParserBase {
     public string PatternString { 

@@ -1,7 +1,7 @@
 using NLua;
 using YamlDotNet.Serialization;
 
-namespace ScriptParser;
+namespace Parser.Parsers;
 
 public enum ParseResultStatus
 {

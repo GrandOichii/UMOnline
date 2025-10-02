@@ -1,4 +1,4 @@
-namespace ScriptParser;
+namespace Parser.Parsers;
 
 public class Selector : ParserBase {
 

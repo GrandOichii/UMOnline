@@ -1,7 +1,10 @@
 
 using System.Text.RegularExpressions;
 using System.Xml;
-using ScriptParser;
+using Parser.Parsers;
+
+
+namespace Parser;
 
 class XmlParserRoot
 {

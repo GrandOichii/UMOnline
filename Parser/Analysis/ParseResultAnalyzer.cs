@@ -1,7 +1,8 @@
 using System.Data;
 using System.Text.Json;
+using Parser.Parsers;
 
-namespace ScriptParser;
+namespace Parser;
 
 public class ParseResultAnalyzer
 {

@@ -1,7 +1,7 @@
 using System.Text.RegularExpressions;
 using NLua;
 
-namespace ScriptParser;
+namespace Parser.Parsers;
 
 public class Splitter : ParserBase {
     public required string PatternString { 

@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace ScriptParser;
+namespace Parser;
 
 public class Card {
     [JsonPropertyName("name")]

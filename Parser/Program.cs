@@ -1,9 +1,11 @@
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Xml;
-using ScriptParser;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
+
+using Parser;
+using Parser.Parsers;
 
 ParserBase ReadXMLParser()
 {
