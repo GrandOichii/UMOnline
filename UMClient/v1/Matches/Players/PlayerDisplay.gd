@@ -59,18 +59,18 @@ func load_setup(player_setup):
 func load_player(match_data, idx):
 	var data = match_data.Players[idx]
 	# top data
-	%Idx.text = '[%s]' % [data.Idx]
-	%Actions.text = str(data.Actions)
+	%Idx.text = '[%s]' % [int(data.Idx)]
+	%Actions.text = str(int(data.Actions))
 
 	# decks
 	# discard
-	%DiscardCount.text = str(data.DiscardPile.Count)
+	%DiscardCount.text = str(int(data.DiscardPile.Count))
 	%Discard.hide_image()
 	if data.DiscardPile.Count > 0:
 		%Discard.load_card(data.DiscardPile.Cards[data.DiscardPile.Count - 1].Key)
 		%Discard.show_image()
 	# deck
-	%DeckCount.text = str(data.Deck.Count)
+	%DeckCount.text = str(int(data.Deck.Count))
 	DeckNode.load_back()
 	DeckNode.hide_image()
 	if data.Deck.Count > 0:

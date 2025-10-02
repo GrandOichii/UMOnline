@@ -64,7 +64,7 @@ func _set_card_value(card_data):
 	if card_data.Value == null:
 		%Power.text = '?'
 		return
-	%Power.text = str(card_data.Value)
+	%Power.text = str(int(card_data.Value))
 
 func _set_boosts(card_data):
 	if len(card_data.Boosts) == 0:

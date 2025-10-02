@@ -15,7 +15,7 @@ var _connection: MatchConnection
 
 func _ready() -> void:
 	BorderNode.hide()
-	%ID.text = str(NodeId)
+	%ID.text = str(int(NodeId))
 
 func _on_mouse_entered() -> void:
 	if not can_pick():

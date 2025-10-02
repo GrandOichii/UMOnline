@@ -8,8 +8,8 @@ class_name FighterDisplay
 var _color_manager: ColorManager
 
 func load_fighter(data):
-	CurHealthLabel.text = str(data.CurHealth)
-	MaxHealthLabel.text = str(data.MaxHealth)
+	CurHealthLabel.text = str(int(data.CurHealth))
+	MaxHealthLabel.text = str(int(data.MaxHealth))
 	NameLabel.text = data.Name
 	NameLabel.add_theme_color_override("font_color", _color_manager.get_fighter_color(data.Id))
 	

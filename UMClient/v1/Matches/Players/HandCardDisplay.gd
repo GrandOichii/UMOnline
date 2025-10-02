@@ -16,7 +16,7 @@ func _ready() -> void:
 	
 func set_idx(idx):
 	_idx = idx
-	%IDX.text = str(idx)
+	%IDX.text = str(int(idx))
 	
 func set_essentials(connection, image_loader, deck_name, on_load_card):
 	_connection = connection
@@ -25,7 +25,7 @@ func set_essentials(connection, image_loader, deck_name, on_load_card):
 func load_card(data):
 	_cur_data = data
 	if data != null:
-		%ID.text = str(data.Id)
+		%ID.text = str(int(data.Id))
 	CardNode.load_hand_card(data)
 	
 func can_pick():
