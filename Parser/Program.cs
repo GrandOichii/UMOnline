@@ -912,6 +912,7 @@ string FormatText(string text)
         .Replace("(You do not spend Rage for this effect.)", "")
         .Replace("(\uD83C\uDF1F counts as any 1 $PELT$$ROSE$$SWORDS$ symbol.)", "")
         .Replace("(You do not spend Hellfire for this effect.)", "")
+        .Replace("(This is in addition to any BLIND BOOST from Daredevil's special ability.)", "")
     ;
 
     return text;

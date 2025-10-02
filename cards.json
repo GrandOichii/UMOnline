@@ -2073,7 +2073,7 @@
         "name": "Caught in a Web",
         "type": "versatile",
         "power": "3",
-        "text": "During combat: Cancel all\nAFTER COMBAT effects on your opponent's card."
+        "text": "During combat: Cancel all AFTER COMBAT effects on your opponent's card."
     },
     {
         "name": "Double Identity",

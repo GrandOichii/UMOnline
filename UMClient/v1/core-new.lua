@@ -82,7 +82,7 @@ function UM.Effects:Draw(manyPlayers, numeric)
     -- TODO
 end
 
-function UM.Effects:Move(manyFighters, upToAmount, canMoveOverOpposing)
+function UM.Effects:Move(manyFighters, numeric, canMoveOverOpposing)
     -- TODO
 end
 
