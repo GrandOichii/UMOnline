@@ -13,6 +13,11 @@ using UMCore.Templates;
 
 public partial class TestMatch : Control
 {
+	[Export(PropertyHint.Enum, "Medusa,Ms. Marvel,Daredevil,Sinbad,Sherlock Holmes,Buffy,Hamlet,Black Widow,Angel,Spike,Alice,Dr. Ellie Sattler,Beowulf,Robin Hood,Dracula,Bigfoot,Achilles,Jekyll & Hyde,Titania,Rosie the Riveter,Little Red Riding Hood,Willow,Luke Cage,Bloody Mary,Sun Wukong,Black Panther,The Wayward Sisters,Invisible Man,InGen,Yennenga,Bullseye,Moon Knight,Raptors,Harry Houdini,Squirrel Girl,Ghost Rider,Muhammad Ali,Bruce Lee,Ciri,Ancient Leshen,Eredin,Philippa,Leonardo,Raphael,Elektra,T. Rex,Cloak and Dagger,The Genie,Winter Soldier,Nikola Tesla,William Shakespeare,Dr. Jill Trent,Golden Bat,Annie Christmas,Spider-Man,She-Hulk,Doctor Strange,Tomoe Gozen,Oda Nobunaga,Geralt of Rivia,Yennefer & Triss,King Arthur,Shredder,Krang,Donatello,Michelangelo")]
+	public string PlayerDeck { get; private set; } 
+	[Export(PropertyHint.Enum, "Medusa,Ms. Marvel,Daredevil,Sinbad,Sherlock Holmes,Buffy,Hamlet,Black Widow,Angel,Spike,Alice,Dr. Ellie Sattler,Beowulf,Robin Hood,Dracula,Bigfoot,Achilles,Jekyll & Hyde,Titania,Rosie the Riveter,Little Red Riding Hood,Willow,Luke Cage,Bloody Mary,Sun Wukong,Black Panther,The Wayward Sisters,Invisible Man,InGen,Yennenga,Bullseye,Moon Knight,Raptors,Harry Houdini,Squirrel Girl,Ghost Rider,Muhammad Ali,Bruce Lee,Ciri,Ancient Leshen,Eredin,Philippa,Leonardo,Raphael,Elektra,T. Rex,Cloak and Dagger,The Genie,Winter Soldier,Nikola Tesla,William Shakespeare,Dr. Jill Trent,Golden Bat,Annie Christmas,Spider-Man,She-Hulk,Doctor Strange,Tomoe Gozen,Oda Nobunaga,Geralt of Rivia,Yennefer & Triss,King Arthur,Shredder,Krang,Donatello,Michelangelo")]
+	public string BotDeck { get; private set; } 
+
 	public static IEnumerable<MapNodeLinkTemplate> Bidirectional(MapNodeTemplate n1, MapNodeTemplate n2)
 	{
 		return [
@@ -259,8 +264,8 @@ public partial class TestMatch : Control
 			_handler = new LocalMatchIOHandler(this);
 			var controller = new IOPlayerController(_handler);
 
-			var loadout1 = LoadLoadout("../.generated/loadouts/King Arthur/King Arthur.json");
-			var loadout2 = LoadLoadout("../.generated/loadouts/Buffy/Buffy.json");
+			var loadout1 = LoadLoadout($"../.generated/loadouts/{PlayerDeck}/{PlayerDeck}.json");
+			var loadout2 = LoadLoadout($"../.generated/loadouts/{BotDeck}/{BotDeck}.json");
 
 			await match.AddPlayer(
 				"RealPlayer",
