@@ -2,9 +2,9 @@
 
 [ext_resource type="Texture2D" uid="uid://7ahnq75cy61m" path="res://assets/decks/Achilles/cards/Achilles_Achilles' Heel.webp" id="0"]
 [ext_resource type="Texture2D" uid="uid://b6qrq6sdb7lm3" path="res://assets/decks/Achilles/cards/Achilles_Battle Frenzy.webp" id="1"]
-[ext_resource type="Script" path="res://v1/CardImage.gd" id="1_bskbv"]
+[ext_resource type="Script" uid="uid://camtuy1raewoy" path="res://v1/CardImage.gd" id="1_bskbv"]
 [ext_resource type="Texture2D" uid="uid://b2bkak4rhds7r" path="res://assets/decks/Achilles/cards/Achilles_Battle Hardened.webp" id="2"]
-[ext_resource type="Script" path="res://v1/CardImages.gd" id="2_a873h"]
+[ext_resource type="Script" uid="uid://bndw10fum8xk5" path="res://v1/CardImages.gd" id="2_a873h"]
 [ext_resource type="Texture2D" uid="uid://42oxwpjcjnuy" path="res://assets/decks/Achilles/cards/Achilles_Blessed By Hermes.webp" id="3"]
 [ext_resource type="Texture2D" uid="uid://cepvh1v88rmc1" path="res://assets/decks/Achilles/cards/Achilles_Brothers In Arms.webp" id="4"]
 [ext_resource type="Texture2D" uid="uid://c3wwhk54bfe1h" path="res://assets/decks/Achilles/cards/Achilles_Feint.webp" id="5"]

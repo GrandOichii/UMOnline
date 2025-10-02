@@ -5133,10 +5133,6 @@
       "FullText": "Choose an attack, defense, or versatile card from your discard pile and return it to your hand."
     },
     {
-      "Text": "ignore the value of your opponent\u0027s card",
-      "FullText": "Immediately: If you already won a combat this turn, ignore the value of your opponent\u0027s card."
-    },
-    {
       "Text": "Summon a squirrel in a space adjacent to Squirrel Girl",
       "FullText": "Squirrel Girl recovers 2 health. Summon a squirrel in a space adjacent to Squirrel Girl."
     },
@@ -5369,10 +5365,6 @@
       "FullText": "After combat: If you won the combat, reveal the top card of your opponent\u0027s deck and store it in your Vibranium Suit."
     },
     {
-      "Text": "ignore the value of your opponent\u0027s card",
-      "FullText": "During combat: If the opposing fighter is flanked, ignore the value of your opponent\u0027s card."
-    },
-    {
       "Text": "Choose a trap in the same zone as 1 of your InGen Workers",
       "FullText": "Choose a trap in the same zone as 1 of your InGen Workers. Deal 1 damage to each opposing fighter adjacent to that trap. Return that trap to the box."
     },
@@ -5531,10 +5523,6 @@
     {
       "Text": "All of Spider-Man\u0027s attacks this turn are \u002B1 value",
       "FullText": "All of Spider-Man\u0027s attacks this turn are \u002B1 value. Draw 1 card. Gain 1 action."
-    },
-    {
-      "Text": "ignore the value of your opponent\u0027s card",
-      "FullText": "During combat: If Dr. Strange is adjacent to the opposing fighter, ignore the value of your opponent\u0027s card."
     },
     {
       "Text": "ignore its value",
@@ -6205,10 +6193,6 @@
       "FullText": "During combat: You may BOOST this card.\nAfter combat: If you won the combat, draw 1 card, gain 1 action, and take 2 damage."
     },
     {
-      "Text": "Ignore the value of your opponent\u0027s card",
-      "FullText": "During combat: Ignore the value of your opponent\u0027s card.\nAfter combat: Take 2 damage."
-    },
-    {
       "Text": "Take 2 damage",
       "FullText": "During combat: Ignore the value of your opponent\u0027s card.\nAfter combat: Take 2 damage."
     },
@@ -6383,10 +6367,6 @@
     {
       "Text": "ignore its value",
       "FullText": "Immediately: If the opposing fighter\u0027s card has a printed value of 4 or more, ignore its value."
-    },
-    {
-      "Text": "ignore the value of your opponent\u0027s card",
-      "FullText": "Immediately: Cancel all effects on your opponent\u0027s card.\nDuring combat: If the opposing fighter is not adjacent to Geralt, ignore the value of your opponent\u0027s card."
     },
     {
       "Text": "Add \u002B1 to this card\u0027s value for each fighter adjacent to Geralt",

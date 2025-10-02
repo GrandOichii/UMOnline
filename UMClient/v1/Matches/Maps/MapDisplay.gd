@@ -36,7 +36,7 @@ func set_essentials(connection: MatchConnection):
 func _update_node_map():
 	for child in NodesNode.get_children():
 		var node = child as MapNodeDisplay
-		_node_map[str(node.NodeId)] = node
+		_node_map[int(node.NodeId)] = node
 
 func load_map(match_data):
 	_load_fighters(match_data)
@@ -46,7 +46,7 @@ func _load_nodes(_match_data):
 	pass
 
 func _get_node(node_id):
-	return _node_map[str(node_id)]
+	return _node_map[int(node_id)]
 
 func _get_fighter(fighter_id):
 	return _fighter_map[fighter_id]
