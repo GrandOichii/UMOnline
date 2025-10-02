@@ -2,9 +2,9 @@
 
 [ext_resource type="Texture2D" uid="uid://d1yq8wd2avlha" path="res://assets/decks/Achilles/heroes/hero.webp" id="0"]
 [ext_resource type="Texture2D" uid="uid://b06viw813vacw" path="res://assets/decks/Achilles/sidekicks/Achilles_Patroclus_1.webp" id="1"]
-[ext_resource type="Script" path="res://v1/FighterImage.gd" id="1_gr0k2"]
+[ext_resource type="Script" uid="uid://sccjfeeys1ki" path="res://v1/FighterImage.gd" id="1_gr0k2"]
 [ext_resource type="Texture2D" uid="uid://bdkxsqj4fjjj4" path="res://assets/decks/Alice/heroes/hero.webp" id="2"]
-[ext_resource type="Script" path="res://v1/FighterImages.gd" id="2_25rj5"]
+[ext_resource type="Script" uid="uid://dt4huk5hn82y6" path="res://v1/FighterImages.gd" id="2_25rj5"]
 [ext_resource type="Texture2D" uid="uid://ddojv6gu31srv" path="res://assets/decks/Alice/sidekicks/Alice_The Jabberwock_1.webp" id="3"]
 [ext_resource type="Texture2D" uid="uid://i56gbg2jcntu" path="res://assets/decks/Ancient Leshen/heroes/hero.webp" id="4"]
 [ext_resource type="Texture2D" uid="uid://daqpy7dbc26ky" path="res://assets/decks/Ancient Leshen/sidekicks/Ancient Leshen_Wolf_1.webp" id="5"]

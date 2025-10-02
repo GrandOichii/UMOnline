@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="DeckColors" load_steps=65 format=3 uid="uid://0r366endf36k"]
 
-[ext_resource type="Script" path="res://v1/Decks/DeckColor.gd" id="1_388kc"]
-[ext_resource type="Script" path="res://v1/Decks/DeckColors.gd" id="2_3o2nn"]
+[ext_resource type="Script" uid="uid://dnuervsulkxmo" path="res://v1/Decks/DeckColor.gd" id="1_388kc"]
+[ext_resource type="Script" uid="uid://coahoij3ffuq0" path="res://v1/Decks/DeckColors.gd" id="2_3o2nn"]
 
 [sub_resource type="Resource" id="Resource_0"]
 script = ExtResource("1_388kc")
@@ -41,7 +41,6 @@ DeckColor = Color(0.757813, 0.207031, 0.269531, 1)
 [sub_resource type="Resource" id="Resource_7"]
 script = ExtResource("1_388kc")
 DeckName = "Blackbeard"
-DeckColor = Color(0, 0, 0, 1)
 
 [sub_resource type="Resource" id="Resource_8"]
 script = ExtResource("1_388kc")
@@ -221,7 +220,6 @@ DeckColor = Color(0.855469, 0.121094, 0.164063, 1)
 [sub_resource type="Resource" id="Resource_43"]
 script = ExtResource("1_388kc")
 DeckName = "Elektra"
-DeckColor = Color(0, 0, 0, 1)
 
 [sub_resource type="Resource" id="Resource_44"]
 script = ExtResource("1_388kc")
