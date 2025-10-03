@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="6jYC1WEPvRJkUVU3lfDh" name="Page-1">
-        <mxGraphModel dx="3650" dy="2036" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="848" dy="1018" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -266,10 +266,10 @@
                         <mxPoint x="2146" y="1112.12" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="164" value="1" style="endArrow=classic;html=1;" parent="1" source="122" target="642" edge="1">
+                <mxCell id="164" value="1" style="endArrow=classic;html=1;" parent="1" source="122" target="780" edge="1">
                     <mxGeometry width="50" height="50" relative="1" as="geometry">
                         <mxPoint x="6369.5" y="-2048" as="sourcePoint"/>
-                        <mxPoint x="6614.5" y="-1918" as="targetPoint"/>
+                        <mxPoint x="4603.3643237197775" y="102.32945714732432" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="171" value="3" style="endArrow=classic;html=1;" parent="1" source="122" target="702" edge="1">
@@ -428,9 +428,6 @@
                         <mxPoint x="4316.5" y="1268" as="sourcePoint"/>
                         <mxPoint x="6016.5" y="2317" as="targetPoint"/>
                     </mxGeometry>
-                </mxCell>
-                <mxCell id="642" value="gainActions" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-                    <mxGeometry x="4571.5" y="27" width="120" height="80" as="geometry"/>
                 </mxCell>
                 <mxCell id="648" value="s:ifInsteadBaseEffect" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="2122.5" y="933.1199999999999" width="175" height="60" as="geometry"/>
@@ -2653,13 +2650,7 @@
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="780" value="actionsManipulation" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-                    <mxGeometry x="4818.5" y="786.12" width="120" height="80" as="geometry"/>
-                </mxCell>
-                <mxCell id="781" value="13" style="endArrow=classic;html=1;" edge="1" parent="1" source="122" target="780">
-                    <mxGeometry width="50" height="50" relative="1" as="geometry">
-                        <mxPoint x="4359" y="543" as="sourcePoint"/>
-                        <mxPoint x="5145" y="806" as="targetPoint"/>
-                    </mxGeometry>
+                    <mxGeometry x="4544" y="59" width="120" height="80" as="geometry"/>
                 </mxCell>
                 <mxCell id="785" value="Actions" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" collapsed="1" parent="1">
                     <mxGeometry x="3249" y="1020.1199999999998" width="74" height="26" as="geometry">
