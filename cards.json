@@ -2751,7 +2751,7 @@
         "name": "Unicorn Ally",
         "type": "scheme",
         "power": "",
-        "text": "Ciri recovers 2 health. ONGOING: After each combat your fighter is in, draw 1 card. Discard this card at the end of your turn if you have 5 or more cards in your hand."
+        "text": "Ciri recovers 2 health. [ONGOING]: After each combat your fighter is in, draw 1 card. Discard this card at the end of your turn if you have 5 or more cards in your hand."
     },
     {
         "name": "Horror $2$",
@@ -2805,7 +2805,7 @@
         "name": "Deceive $2$",
         "type": "versatile",
         "power": "2",
-        "text": "LINE EFFECT: Return this card to your hand. Immediately: Cancel all effects on your opponent's card."
+        "text": "LINE EFFECT: Return this card to your hand.\nImmediately: Cancel all effects on your opponent's card."
     },
     {
         "name": "Revise $2$",
@@ -3771,13 +3771,13 @@
         "name": "GEAR: Blizzard",
         "type": "scheme",
         "power": "",
-        "text": "Draw 1 card. Move your fighter up to 3 spaces. ONGOING: Your opponent can't gain actions. Discard this card at the end of your turn if you didn't attack."
+        "text": "Draw 1 card. Move your fighter up to 3 spaces. [ONGOING]: Your opponent can't gain actions. Discard this card at the end of your turn if you didn't attack."
     },
     {
         "name": "GEAR: Tawny Owl",
         "type": "scheme",
         "power": "",
-        "text": "Draw 2 cards. Gain 1 action. ONGOING: If an effect would cause you to discard a card from your hand, you may choose to ignore it. Discard this card at the end of your turn if you didn't attack."
+        "text": "Draw 2 cards. Gain 1 action. [ONGOING]: If an effect would cause you to discard a card from your hand, you may choose to ignore it. Discard this card at the end of your turn if you didn't attack."
     },
     {
         "name": "Channel The Source",

@@ -14181,7 +14181,7 @@
                 },
                 {
                     "afterText": null,
-                    "basicText": "Ciri recovers 2 health. ONGOING: After each combat your fighter is in, draw 1 card. Discard this card at the end of your turn if you have 5 or more cards in your hand.",
+                    "basicText": "Ciri recovers 2 health. [ONGOING]: After each combat your fighter is in, draw 1 card. Discard this card at the end of your turn if you have 5 or more cards in your hand.",
                     "boost": 2,
                     "card_notes": null,
                     "characterName": "ANY",
@@ -19445,7 +19445,7 @@
                 },
                 {
                     "afterText": null,
-                    "basicText": "Draw 1 card. Move your fighter up to 3 spaces. ONGOING: Your opponent can't gain actions. Discard this card at the end of your turn if you didn't attack.",
+                    "basicText": "Draw 1 card. Move your fighter up to 3 spaces. [ONGOING]: Your opponent can't gain actions. Discard this card at the end of your turn if you didn't attack.",
                     "boost": 3,
                     "card_notes": null,
                     "characterName": "GERALT",
@@ -19462,7 +19462,7 @@
                 },
                 {
                     "afterText": null,
-                    "basicText": "Draw 2 cards. Gain 1 action. ONGOING: If an effect would cause you to discard a card from your hand, you may choose to ignore it. Discard this card at the end of your turn if you didn't attack.",
+                    "basicText": "Draw 2 cards. Gain 1 action. [ONGOING]: If an effect would cause you to discard a card from your hand, you may choose to ignore it. Discard this card at the end of your turn if you didn't attack.",
                     "boost": 3,
                     "card_notes": null,
                     "characterName": "GERALT",

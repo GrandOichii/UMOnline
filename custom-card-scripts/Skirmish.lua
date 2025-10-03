@@ -1,4 +1,3 @@
--- TODO not tested
 function _Create()
     return UM:Card()
         :AfterCombat(

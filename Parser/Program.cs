@@ -299,6 +299,7 @@ var FIGHTER_NAMES = new string[] {
     "Faith",
     "Donatello",
     "Dr. Watson",
+    "Dr. Strange",
     "Michelangelo"
 };
 
@@ -915,6 +916,8 @@ string FormatText(string text)
         .Replace("(\uD83C\uDF1F counts as any 1 $PELT$$ROSE$$SWORDS$ symbol.)", "")
         .Replace("(You do not spend Hellfire for this effect.)", "")
         .Replace("(This is in addition to any BLIND BOOST from Daredevil's special ability.)", "")
+        .Replace("(Draw a card for Black Panther's special ability each time you BOOST.)", "")
+        .Replace("(Do not discard any cards from your cauldron to cast these spells.)", "")
     ;
 
     return text;
