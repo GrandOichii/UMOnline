@@ -1053,10 +1053,6 @@
       "FullText": "After combat: You may move Buffy up to 3 spaces. Then, deal 1 damage to each opposing fighter adjacent to her."
     },
     {
-      "Text": "Deal 2 damage to the opposing fighter OR ",
-      "FullText": "After combat: Deal 2 damage to the opposing fighter OR move your fighter up to 3 spaces."
-    },
-    {
       "Text": "",
       "FullText": "After combat: Move Yennenga up to 5 spaces. She may move through opposing fighters. Then, deal 1 damage to each opposing fighter she moved through."
     },
@@ -1357,10 +1353,6 @@
     {
       "Text": " Buffy",
       "FullText": "After combat: You may move Buffy up to 3 spaces. Then, deal 1 damage to each opposing fighter adjacent to her."
-    },
-    {
-      "Text": " your fighter",
-      "FullText": "After combat: Deal 2 damage to the opposing fighter OR move your fighter up to 3 spaces."
     },
     {
       "Text": " Yennenga",
@@ -1665,10 +1657,6 @@
       "FullText": "After combat: You may move Buffy up to 3 spaces. Then, deal 1 damage to each opposing fighter adjacent to her."
     },
     {
-      "Text": "3",
-      "FullText": "After combat: Deal 2 damage to the opposing fighter OR move your fighter up to 3 spaces."
-    },
-    {
       "Text": "5",
       "FullText": "After combat: Move Yennenga up to 5 spaces. She may move through opposing fighters. Then, deal 1 damage to each opposing fighter she moved through."
     },
@@ -1959,6 +1947,10 @@
       "FullText": "After combat: You may move Buffy up to 3 spaces. Then, deal 1 damage to each opposing fighter adjacent to her."
     },
     {
+      "Text": "2",
+      "FullText": "After combat: Deal 2 damage to the opposing fighter OR move your fighter up to 3 spaces."
+    },
+    {
       "Text": "1",
       "FullText": "After combat: Move Yennenga up to 5 spaces. She may move through opposing fighters. Then, deal 1 damage to each opposing fighter she moved through."
     },
@@ -2052,6 +2044,10 @@
     },
     {
       "Text": "1",
+      "FullText": "After combat: If Wong is adjacent to the opposing fighter, deal 1 damage to the opposing fighter and draw 1 card."
+    },
+    {
+      "Text": "1",
       "FullText": "After combat: If you won the combat, deal 1 damage to each fighter adjacent to She-Hulk."
     },
     {
@@ -2061,6 +2057,10 @@
     {
       "Text": "2",
       "FullText": "Deal 2 damage to each opposing fighter adjacent to Annie."
+    },
+    {
+      "Text": "up to 2",
+      "FullText": "Immediately: Deal up to 2 damage to Annie to draw that many cards. (This may cause her special ability to apply.)"
     },
     {
       "Text": "1",
@@ -2193,6 +2193,10 @@
       "FullText": "After combat: You may move Buffy up to 3 spaces. Then, deal 1 damage to each opposing fighter adjacent to her."
     },
     {
+      "Text": "the opposing fighter OR move your fighter up to 3 spaces",
+      "FullText": "After combat: Deal 2 damage to the opposing fighter OR move your fighter up to 3 spaces."
+    },
+    {
       "Text": "each opposing fighter she moved through",
       "FullText": "After combat: Move Yennenga up to 5 spaces. She may move through opposing fighters. Then, deal 1 damage to each opposing fighter she moved through."
     },
@@ -2285,6 +2289,10 @@
       "FullText": "After combat: If the value of your opponent\u0027s card is 4 or higher, deal 2 damage to the opposing fighter."
     },
     {
+      "Text": "the opposing fighter and draw 1 card",
+      "FullText": "After combat: If Wong is adjacent to the opposing fighter, deal 1 damage to the opposing fighter and draw 1 card."
+    },
+    {
       "Text": "each fighter adjacent to She-Hulk",
       "FullText": "After combat: If you won the combat, deal 1 damage to each fighter adjacent to She-Hulk."
     },
@@ -2295,6 +2303,10 @@
     {
       "Text": "each opposing fighter adjacent to Annie",
       "FullText": "Deal 2 damage to each opposing fighter adjacent to Annie."
+    },
+    {
+      "Text": "Annie to draw that many cards",
+      "FullText": "Immediately: Deal up to 2 damage to Annie to draw that many cards. (This may cause her special ability to apply.)"
     },
     {
       "Text": "the opposing fighter",
@@ -2419,10 +2431,6 @@
       "FullText": "During combat: This card\u0027s value is \u002B1 for each other VOYAGE card in your discard pile.\nAfter combat: Draw 1 card."
     },
     {
-      "Text": "Choose 2 different effects:- place up to 3 traps- place all of your defeated InGen Workers (if any) in Muldoon\u0027s zone- ",
-      "FullText": "Choose 2 different effects:- place up to 3 traps- place all of your defeated InGen Workers (if any) in Muldoon\u0027s zone- draw 2 cards"
-    },
-    {
       "Text": "",
       "FullText": "Move each of your fighters up to 2 spaces. Each of your fighters recovers 1 health. Draw 1 card."
     },
@@ -2499,10 +2507,6 @@
       "FullText": "After combat: Your opponent draws 1 card. Draw 3 cards."
     },
     {
-      "Text": "Gain 1 action and choose 1 effect:- ",
-      "FullText": "Gain 1 action and choose 1 effect:- draw 5 cards- for the rest of your turn, your cards\u0027 values are 4 and cannot be changed- each opponent discards 2 cards"
-    },
-    {
       "Text": "",
       "FullText": "Draw 2 cards. Gain 1 action.\nIf an effect would let an opponent look at your hand, you may reveal this card and cancel that effect."
     },
@@ -2549,10 +2553,6 @@
     {
       "Text": "{RED ROOM} Your opponent may ",
       "FullText": "After combat: {RED ROOM} Your opponent may draw 1 card."
-    },
-    {
-      "Text": "{RED ROOM} Discard 2 random cards, then ",
-      "FullText": "After combat: {RED ROOM} Discard 2 random cards, then draw 2 cards"
     },
     {
       "Text": "",
@@ -2671,20 +2671,8 @@
       "FullText": "Deal up to 4 damage to 1 of your fighters. Your other fighter recovers that amount of health. Draw 2 cards"
     },
     {
-      "Text": "deal 1 damage to the opposing fighter and ",
-      "FullText": "After combat: If Wong is adjacent to the opposing fighter, deal 1 damage to the opposing fighter and draw 1 card."
-    },
-    {
-      "Text": "Deal up to 2 damage to Annie to ",
-      "FullText": "Immediately: Deal up to 2 damage to Annie to draw that many cards. (This may cause her special ability to apply.)"
-    },
-    {
       "Text": "they ",
       "FullText": "Choose an opponent. They reveal 4 cards from their hand. Choose 2 of those cards for them to discard. Then, they draw 2 cards."
-    },
-    {
-      "Text": "2: you may ",
-      "FullText": "After combat: If the printed value of your opponent\u0027s card is... 2: you may draw a card 3: deal 1 damage to the opposing fighter 4: your opponent discards a card"
     },
     {
       "Text": "",
@@ -2805,10 +2793,6 @@
       "FullText": "During combat: This card\u0027s value is \u002B1 for each other VOYAGE card in your discard pile.\nAfter combat: Draw 1 card."
     },
     {
-      "Text": "2",
-      "FullText": "Choose 2 different effects:- place up to 3 traps- place all of your defeated InGen Workers (if any) in Muldoon\u0027s zone- draw 2 cards"
-    },
-    {
       "Text": "1",
       "FullText": "Move each of your fighters up to 2 spaces. Each of your fighters recovers 1 health. Draw 1 card."
     },
@@ -2885,10 +2869,6 @@
       "FullText": "After combat: Your opponent draws 1 card. Draw 3 cards."
     },
     {
-      "Text": "5 cards- for the rest of your turn, your cards\u0027 values are 4 and cannot be changed- each opponent discards 2",
-      "FullText": "Gain 1 action and choose 1 effect:- draw 5 cards- for the rest of your turn, your cards\u0027 values are 4 and cannot be changed- each opponent discards 2 cards"
-    },
-    {
       "Text": "2",
       "FullText": "Draw 2 cards. Gain 1 action.\nIf an effect would let an opponent look at your hand, you may reveal this card and cancel that effect."
     },
@@ -2935,10 +2915,6 @@
     {
       "Text": "1",
       "FullText": "After combat: {RED ROOM} Your opponent may draw 1 card."
-    },
-    {
-      "Text": "2",
-      "FullText": "After combat: {RED ROOM} Discard 2 random cards, then draw 2 cards"
     },
     {
       "Text": "2",
@@ -3057,20 +3033,8 @@
       "FullText": "Deal up to 4 damage to 1 of your fighters. Your other fighter recovers that amount of health. Draw 2 cards"
     },
     {
-      "Text": "1",
-      "FullText": "After combat: If Wong is adjacent to the opposing fighter, deal 1 damage to the opposing fighter and draw 1 card."
-    },
-    {
-      "Text": "that many",
-      "FullText": "Immediately: Deal up to 2 damage to Annie to draw that many cards. (This may cause her special ability to apply.)"
-    },
-    {
       "Text": "2",
       "FullText": "Choose an opponent. They reveal 4 cards from their hand. Choose 2 of those cards for them to discard. Then, they draw 2 cards."
-    },
-    {
-      "Text": "a card 3: deal 1 damage to the opposing fighter 4: your opponent discards a",
-      "FullText": "After combat: If the printed value of your opponent\u0027s card is... 2: you may draw a card 3: deal 1 damage to the opposing fighter 4: your opponent discards a card"
     },
     {
       "Text": "1",
@@ -3683,6 +3647,10 @@
       "FullText": "Place Dr{DOTSPACE}Watson in a space adjacent to Holmes. Holmes recovers 1 health. Draw 1 card."
     },
     {
+      "Text": "Choose 2 different effects:- ",
+      "FullText": "Choose 2 different effects:- place up to 3 traps- place all of your defeated InGen Workers (if any) in Muldoon\u0027s zone- draw 2 cards"
+    },
+    {
       "Text": "you may look at the top 3 cards of your opponent\u0027s deck and discard 1 of them. ",
       "FullText": "After combat: If you won the combat, you may look at the top 3 cards of your opponent\u0027s deck and discard 1 of them. Place the other 2 back in any order."
     },
@@ -3873,6 +3841,10 @@
       "FullText": "Place Dr{DOTSPACE}Watson in a space adjacent to Holmes. Holmes recovers 1 health. Draw 1 card."
     },
     {
+      "Text": "up to 3 traps- place all of your defeated InGen Workers (if any)",
+      "FullText": "Choose 2 different effects:- place up to 3 traps- place all of your defeated InGen Workers (if any) in Muldoon\u0027s zone- draw 2 cards"
+    },
+    {
       "Text": "the other 2 back",
       "FullText": "After combat: If you won the combat, you may look at the top 3 cards of your opponent\u0027s deck and discard 1 of them. Place the other 2 back in any order."
     },
@@ -4061,6 +4033,10 @@
     {
       "Text": "a space adjacent to Holmes",
       "FullText": "Place Dr{DOTSPACE}Watson in a space adjacent to Holmes. Holmes recovers 1 health. Draw 1 card."
+    },
+    {
+      "Text": "Muldoon\u0027s zone- draw 2 cards",
+      "FullText": "Choose 2 different effects:- place up to 3 traps- place all of your defeated InGen Workers (if any) in Muldoon\u0027s zone- draw 2 cards"
     },
     {
       "Text": "any order",
@@ -6665,6 +6641,10 @@
       "FullText": "Place T-Rex in any space in her zone. Then, each opponent with a fighter adjacent to T-Rex discards 1 random card."
     },
     {
+      "Text": "Gain 1 action and choose 1 effect:- draw 5 cards- for the rest of your turn, your cards\u0027 values are 4 and cannot be changed- each opponent ",
+      "FullText": "Gain 1 action and choose 1 effect:- draw 5 cards- for the rest of your turn, your cards\u0027 values are 4 and cannot be changed- each opponent discards 2 cards"
+    },
+    {
       "Text": "Your opponent ",
       "FullText": "After combat: Place the opposing fighter in any space. Your opponent discards 1 card."
     },
@@ -6683,6 +6663,10 @@
     {
       "Text": "They ",
       "FullText": "Mission: Black Widow is in your starting space.\nChoose an opponent. They discard 2 cards. Acquire a new mission."
+    },
+    {
+      "Text": "{RED ROOM} ",
+      "FullText": "After combat: {RED ROOM} Discard 2 random cards, then draw 2 cards"
     },
     {
       "Text": "Your opponent ",
@@ -6731,6 +6715,10 @@
     {
       "Text": "Your opponent may ",
       "FullText": "After combat: Your opponent may discard 1 card. If they don\u0027t deal 2 damage to the opposing fighter."
+    },
+    {
+      "Text": "2: you may draw a card 3: deal 1 damage to the opposing fighter 4: your opponent ",
+      "FullText": "After combat: If the printed value of your opponent\u0027s card is... 2: you may draw a card 3: deal 1 damage to the opposing fighter 4: your opponent discards a card"
     }
   ],
   "discardAmount": [
@@ -6775,6 +6763,10 @@
       "FullText": "Place T-Rex in any space in her zone. Then, each opponent with a fighter adjacent to T-Rex discards 1 random card."
     },
     {
+      "Text": "2",
+      "FullText": "Gain 1 action and choose 1 effect:- draw 5 cards- for the rest of your turn, your cards\u0027 values are 4 and cannot be changed- each opponent discards 2 cards"
+    },
+    {
       "Text": "1",
       "FullText": "After combat: Place the opposing fighter in any space. Your opponent discards 1 card."
     },
@@ -6793,6 +6785,10 @@
     {
       "Text": "2",
       "FullText": "Mission: Black Widow is in your starting space.\nChoose an opponent. They discard 2 cards. Acquire a new mission."
+    },
+    {
+      "Text": "2 random cards, then draw 2",
+      "FullText": "After combat: {RED ROOM} Discard 2 random cards, then draw 2 cards"
     },
     {
       "Text": "1",
@@ -6841,6 +6837,52 @@
     {
       "Text": "1",
       "FullText": "After combat: Your opponent may discard 1 card. If they don\u0027t deal 2 damage to the opposing fighter."
+    },
+    {
+      "Text": "a",
+      "FullText": "After combat: If the printed value of your opponent\u0027s card is... 2: you may draw a card 3: deal 1 damage to the opposing fighter 4: your opponent discards a card"
+    }
+  ],
+  "discardIsRandom": [
+    {
+      "Text": " random",
+      "FullText": "After combat: Your opponent discards 1 random card. Gain 1 action."
+    },
+    {
+      "Text": " random",
+      "FullText": "During combat: This card\u0027s value is \u002B1 for each other VOYAGE card in your discard pile.\nAfter combat: Your opponent discards 1 random card."
+    },
+    {
+      "Text": " random",
+      "FullText": "Choose an opponent. They discard 1 random card. Gain rage equal to its BOOST value."
+    },
+    {
+      "Text": " random",
+      "FullText": "Place T-Rex in any space in her zone. Then, each opponent with a fighter adjacent to T-Rex discards 1 random card."
+    },
+    {
+      "Text": " random",
+      "FullText": "Mission: You have 2 or fewer other cards in your hand.\nDraw 5 cards. Each opponent discards 1 random card. Acquire a new mission."
+    },
+    {
+      "Text": " random",
+      "FullText": "After combat: Your opponent discards 1 random card."
+    },
+    {
+      "Text": " random",
+      "FullText": "After combat: Move the opposing fighter up to 2 spaces. You may discharge coils: - 1 Coil: Also, move Tesla up to 2 spaces. - 2 Coils: Also, your opponent discards 1 random card."
+    },
+    {
+      "Text": " random",
+      "FullText": "During combat: - 3$PWR$ This card\u0027s value is a 4 instead. - 5$PWR$ This card\u0027s value is a 4 instead. Your opponent discards 1 random card."
+    },
+    {
+      "Text": " random",
+      "FullText": "After combat: Your opponent discards 1 random card. If you won the combat, Hamlet recovers health equal to its BOOST value."
+    },
+    {
+      "Text": " random",
+      "FullText": "After combat: If you dealt 2 or more combat damage, your opponent discards 2 random cards."
     }
   ],
   "swapSpacesWho": [
