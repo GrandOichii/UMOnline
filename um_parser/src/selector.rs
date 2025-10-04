@@ -27,7 +27,6 @@ impl Parser for Selector {
             if child.status == ParseResultStatus::DidntMatch {
                 continue;
             }
-            println!("Child status: {:?}", child.status);
 
             all_didnt_match = false;
 
