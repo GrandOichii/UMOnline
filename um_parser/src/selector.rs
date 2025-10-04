@@ -13,18 +13,19 @@ impl Parser for Selector {
             children.push(child.parse(text));
         }
         for (idx, child) in children.iter().enumerate() {
+
             if child.status == ParseResultStatus::DidntMatch {
                 continue;
             }
+            println!("Child status: {:?}", child.status);
+
             all_didnt_match = false;
 
-            if closest_to_match_idx.is_none() {
+            if closest_to_match_idx.is_none() || child.status == ParseResultStatus::Success {
                 closest_to_match_idx = Some(idx);
-                continue;
             }
 
             if child.status == ParseResultStatus::Success {
-                closest_to_match_idx = Some(idx);
                 status = ParseResultStatus::Success;
                 break;
             }
