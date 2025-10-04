@@ -1,48 +1,39 @@
+use std::fs;
 use std::vec;
 
 use regex::Regex;
 
-mod parser;
 mod matcher;
+mod parser;
 mod selector;
 mod splitter;
 
-use crate::parser::*;
 use crate::matcher::*;
+use crate::parser::*;
 use crate::selector::*;
 use crate::splitter::Splitter;
 
 fn main() {
-    let static_amount = ParserNode {
-        name: String::from("static_amount"),
-        parser: Box::new(Matcher {
-            script: String::from("value"),
-            pattern: Regex::new("[0-9]").unwrap(),
-        }),
-        children: vec![],
-    };
-    let amount_select = ParserNode {
-        name: String::from("amount_select"),
-        parser: Box::new(Selector),
-        children: vec![&static_amount]
-    };
-    let draw = ParserNode {
-        name: String::from("root"),
-        parser: Box::new(Matcher {
-            script: String::from("function _Create(text, children, data) return 'TODO' end"),
-            pattern: Regex::new("[D|d]raw (.+) cards?").unwrap(),
-        }),
-        children: vec![&amount_select],
-    };
-    let root = ParserNode {
-        name: String::from("sentence_splitter"),
-        children: vec![&draw],
-        parser: Box::new(Splitter {
-            script: String::from("function _Create(text, children, data) return 'TODO' end"),
-            pattern: Regex::new("\\. ").unwrap(),
-        })
-    };
+    let static_amount = Matcher::new(
+        String::from("static_amount"),
+        Regex::new("[0-9]").unwrap(),
+        String::from("value"),
+        vec![],
 
+    );
+    let amount_select = Selector::new(String::from("amount_select"), vec![&static_amount]);
+
+    let draw = Matcher::new(
+        String::from("root"),
+        Regex::new("[D|d]raw (.+) cards?").unwrap(),
+        String::from("function _Create(text, children, data) return 'TODO' end"),
+        vec![&amount_select],
+    );
+    let root = Splitter::new(
+        String::from("sentence_splitter"),
+        Regex::new("\\. ").unwrap(),
+        vec![&draw],
+    );
 
     let texts = vec![
         "Draw 2 cards. Draw 1 card",
@@ -54,6 +45,7 @@ fn main() {
     }
 }
 
-fn read_script(from: &str) {
-    
+fn read_script(from: &str) -> String {
+    let result = fs::read_to_string(from).expect("Failed to read input");
+    return result;
 }

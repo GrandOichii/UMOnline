@@ -2,7 +2,18 @@ use crate::parser::*;
 
 pub struct Selector;
 
+impl Selector {
+    pub fn new<'a>(name: String, children: Vec<&'a ParserNode>) -> ParserNode<'a> {
+        ParserNode {
+            name: name,
+            parser: Box::new(Selector),
+            children: children,
+        }
+    }
+}
+
 impl Parser for Selector {
+
     fn parse<'a>(&'a self, text: &str, node: &ParserNode<'a>) -> ParseResult<'a> {
         println!("Selecting {}", text);
         let mut children: Vec<ParseResult> = Vec::new();
@@ -13,7 +24,6 @@ impl Parser for Selector {
             children.push(child.parse(text));
         }
         for (idx, child) in children.iter().enumerate() {
-
             if child.status == ParseResultStatus::DidntMatch {
                 continue;
             }

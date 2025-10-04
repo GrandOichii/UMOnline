@@ -2,9 +2,48 @@ use regex::Regex;
 
 use crate::parser::*;
 
+static SPLITTER_SCRIPT: &str = r#"
+function _Create(text, children)
+    local result = ''
+    for i, child in ipairs(children) do
+        if child ~= '' then
+            if i ~= 1 then
+                result = result..',\n'
+            end
+            result = result..child
+        end
+    end
+    return result
+end
+"#;
+
 pub struct Splitter {
     pub script: String,
     pub pattern: Regex,
+}
+
+impl Splitter {
+    pub fn new<'a>(name: String, pattern: Regex, children: Vec<&'a ParserNode>) -> ParserNode<'a> {
+        ParserNode {
+            name: name,
+            parser: Box::new(Splitter {
+                script: SPLITTER_SCRIPT.to_string(),
+                pattern: pattern,
+            }),
+            children: children,
+        }   
+    }
+
+    pub fn new_with_script<'a>(name: String, pattern: Regex, script: String, children: Vec<&'a ParserNode>) -> ParserNode<'a> {
+        ParserNode {
+            name: name,
+            parser: Box::new(Splitter {
+                script: script,
+                pattern: pattern,
+            }),
+            children: children,
+        }   
+    }
 }
 
 impl Parser for Splitter {
