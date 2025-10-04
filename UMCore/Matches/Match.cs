@@ -66,7 +66,7 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
             }
         }
 
-        var player = new Player(this, Players.Count, name, teamIdx, loadout, controller);
+        var player = new Player(this, Players.Count, name, teamIdx, loadout, new SafePlayerController(controller));
 
         Players.Add(player);
 

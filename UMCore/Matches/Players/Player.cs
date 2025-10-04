@@ -116,7 +116,7 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
 
     public string LogName => $"{Name}[{Idx}]";
 
-    public string FormattedLogName => $"({Idx}:{Name})"; // TODO
+    public string FormattedLogName => $"({Idx}:{Name})";
 
     public void AddEvent(Event e)
     {
@@ -166,11 +166,6 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
         var available = AvailableActions().Select(a => a.Name());
         var chosen = await Controller.ChooseAction(this, [.. available]);
 
-        if (!available.Contains(chosen))
-        {
-            // TODO add strict mode
-        }
-
         var result = ACTION_MAP[chosen];
         return result;
     }
@@ -184,6 +179,12 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
             --ActionCount;
             await action.Execute(this);
         }
+    }
+
+    public bool IsOpposingTo(Player player)
+    {
+        // TODO
+        return this != player;
     }
 
     public async Task TakeTurn()
@@ -270,7 +271,6 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
 
     public async Task DiscardCardForBoost(MatchCard card)
     {
-        // TODO discard for boost effects
         await Hand.Remove(card);
         await card.PlaceIntoDiscard();
     }

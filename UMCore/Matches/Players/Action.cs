@@ -58,7 +58,7 @@ public class SchemeAction : IAction
         var availableFighters = chosen.GetCanBePlayedBy().ToList();
         if (availableFighters.Count == 0)
         {
-            throw new Exception($"Player {player.LogName} chose {chosen.LogName} to play as scheme card, when no fighter of theirs can play it"); // TODO type
+            throw new MatchException($"Player {player.LogName} chose {chosen.LogName} to play as scheme card, when no fighter of theirs can play it");
         }
         var fighter = availableFighters[0];
         if (availableFighters.Count > 1)

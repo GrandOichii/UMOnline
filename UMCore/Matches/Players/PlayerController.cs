@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using Microsoft.Extensions.Logging;
 using UMCore.Matches.Attacks;
@@ -9,7 +10,7 @@ public interface IPlayerController
 {
     void AddEvent(Event e);
     void AddLog(Log l);
-    
+
     Task Setup(Player player, Match.SetupData setupData);
     Task Update(Player player);
     Task<string> ChooseAction(Player player, string[] options);
@@ -20,6 +21,113 @@ public interface IPlayerController
     Task<AvailableAttack> ChooseAttack(Player player, AvailableAttack[] options);
     Task<string> ChooseString(Player player, string[] options, string hint);
     Task<Player> ChoosePlayer(Player player, Player[] options, string hint);
+}
+
+public class SafePlayerController(IPlayerController controller) : IPlayerController
+{
+    [Serializable]
+    public class UnsafeChoiceException(string message) : Exception(message) { }
+
+    public void AddEvent(Event e)
+    {
+        controller.AddEvent(e);
+    }
+
+    public void AddLog(Log l)
+    {
+        controller.AddLog(l);
+    }
+
+    public async Task<string> ChooseAction(Player player, string[] options)
+    {
+        var result = await controller.ChooseAction(player, options);
+        if (!options.Contains(result))
+        {
+            throw new UnsafeChoiceException($"Player {player.LogName} tried to choose {result} for {nameof(ChooseAction)}, which is not one of the options (options: {string.Join(", ", options)})");
+        }
+        return result;
+    }
+
+    public async Task<AvailableAttack> ChooseAttack(Player player, AvailableAttack[] options)
+    {
+        var result = await controller.ChooseAttack(player, options);
+        if (!options.Contains(result))
+        {
+            // TODO add better exception message
+            throw new UnsafeChoiceException($"Player {player.LogName} chose an invalid attack for {nameof(ChooseAttack)}");
+        }
+        return result;
+    }
+
+    public async Task<MatchCard> ChooseCardInHand(Player player, int playerHandIdx, MatchCard[] options, string hint)
+    {
+        var result = await controller.ChooseCardInHand(player, playerHandIdx, options, hint);
+        if (!options.Contains(result))
+        {
+            throw new UnsafeChoiceException($"Player {player.LogName} tried to choose {result.LogName} for {nameof(ChooseCardInHand)}, which is not one of the options (options: {string.Join(", ", options.Select(c => c.LogName))})");
+        }
+        return result;
+    }
+
+    public async Task<MatchCard?> ChooseCardInHandOrNothing(Player player, int playerHandIdx, MatchCard[] options, string hint)
+    {
+        var result = await controller.ChooseCardInHandOrNothing(player, playerHandIdx, options, hint);
+        if (result is not null && !options.Contains(result))
+        {
+            throw new UnsafeChoiceException($"Player {player.LogName} tried to choose {result.LogName} for {nameof(ChooseCardInHandOrNothing)}, which is not one of the options (options: {string.Join(", ", options.Select(c => c.LogName))})");
+        }
+        return result;
+    }
+
+    public async Task<Fighter> ChooseFighter(Player player, Fighter[] options, string hint)
+    {
+        var result = await controller.ChooseFighter(player, options, hint);
+        if (!options.Contains(result))
+        {
+            throw new UnsafeChoiceException($"Player {player.LogName} tried to choose {result.LogName} for {nameof(ChooseFighter)}, which is not one of the options (options: {string.Join(", ", options.Select(c => c.LogName))})");
+        }
+        return result;
+    }
+
+    public async Task<MapNode> ChooseNode(Player player, MapNode[] options, string hint)
+    {
+        var result = await controller.ChooseNode(player, options, hint);
+        if (!options.Contains(result))
+        {
+            throw new UnsafeChoiceException($"Player {player.LogName} tried to choose {result.Id} for {nameof(ChooseNode)}, which is not one of the options (options: {string.Join(", ", options.Select(c => c.Id))})");
+        }
+        return result;
+    }
+
+    public async Task<Player> ChoosePlayer(Player player, Player[] options, string hint)
+    {
+        var result = await controller.ChoosePlayer(player, options, hint);
+        if (!options.Contains(result))
+        {
+            throw new UnsafeChoiceException($"Player {player.LogName} tried to choose {result.LogName} for {nameof(ChoosePlayer)}, which is not one of the options (options: {string.Join(", ", options.Select(c => c.LogName))})");
+        }
+        return result;
+    }
+
+    public async Task<string> ChooseString(Player player, string[] options, string hint)
+    {
+        var result = await controller.ChooseString(player, options, hint);
+        if (!options.Contains(result))
+        {
+            throw new UnsafeChoiceException($"Player {player.LogName} tried to choose {result} for {nameof(ChoosePlayer)}, which is not one of the options (options: {string.Join(", ", options)})");
+        }
+        return result;
+    }
+
+    public Task Setup(Player player, Match.SetupData setupData)
+    {
+        return controller.Setup(player, setupData);
+    }
+
+    public Task Update(Player player)
+    {
+        return controller.Update(player);
+    }
 }
 
 public class RandomPlayerController(int seed) : IPlayerController

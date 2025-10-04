@@ -135,7 +135,6 @@ public class Combat : IHasData<Combat.Data>
         await Defender.Defend();
         await Match.UpdateClients();
 
-        // TODO reveal cards
         CardsAreRevealed = true;
         var logMsg = $"Combat cards are revealed! Attacker {Attacker.Owner.FormattedLogName} played {AttackCard.Card.FormattedLogName}";
         logMsg += DefenceCard is null
@@ -197,7 +196,7 @@ public class Combat : IHasData<Combat.Data>
             return (AttackCard, Attacker);
         }
 
-        throw new Exception($"Failed to find combat part for player {player.LogName}"); // TODO type
+        throw new MatchException($"Failed to find combat part for player {player.LogName}");
     }
 
     public async Task AddBoostToPlayer(Player player, MatchCard boostCard)
@@ -205,7 +204,7 @@ public class Combat : IHasData<Combat.Data>
         var (card, fighter) = GetCombatPart(player);
         if (card is null)
         {
-            throw new Exception($"Cannot boost empty card"); // TODO type
+            throw new MatchException($"Cannot boost empty card");
         }
         await card.AddBoost(boostCard);
     }

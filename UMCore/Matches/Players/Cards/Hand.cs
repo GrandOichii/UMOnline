@@ -39,7 +39,7 @@ public class Hand : MatchCardCollection
     {
         if (!Cards.Contains(card))
         {
-            throw new Exception($"Cannot discard card {card.LogName} from hand of {Owner.LogName} for they do not have it"); // TODO type and weird message
+            throw new MatchException($"Player {Owner.LogName} does not have card {card.LogName} in their hand for them to discard it");
         }
 
         Owner.Match.Logger?.LogDebug("Player {PlayerLogName} discards {CardLogName} from their hand", Owner.LogName, card.LogName);

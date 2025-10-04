@@ -38,7 +38,7 @@ public abstract class MatchCardCollection : IHasData<MatchCardCollection.Data>
         var result = Cards.FindIndex(c => c == card);
         if (result < 0)
         {
-            throw new Exception($"Failed to find CardIdx of card {card.LogName}"); // TODO type
+            throw new MatchException($"Failed to find CardIdx of card {card.LogName}");
         }
         return result;
     }

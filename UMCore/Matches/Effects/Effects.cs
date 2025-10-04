@@ -18,7 +18,7 @@ public class EffectCollection
         foreach (var e in effectsRaw.Values)
         {
             var effectFunc = e as LuaFunction
-                ?? throw new Exception($"Incorrect table format for constructing {nameof(EffectCollection)}"); // TODO type
+                ?? throw new MatchException($"Incorrect table format for constructing {nameof(EffectCollection)}");
 
             Effects.Add(new(effectFunc!));
         }

@@ -19,7 +19,7 @@ public class MatchCard : IHasData<MatchCard.Data>
 
     public string LogName => $"({Id}){Template.Key}[{Owner.Idx}]";
 
-    public string FormattedLogName => $"{{{Template.Key}:{Id}:{Template.Name}}}"; // TODO
+    public string FormattedLogName => $"{{{Template.Key}:{Id}:{Template.Name}}}";
 
     public MatchCard(Player owner, CardTemplate card)
     {
@@ -40,7 +40,7 @@ public class MatchCard : IHasData<MatchCard.Data>
         }
         catch (Exception e)
         {
-            throw new Exception($"Failed to run card creation function in card {Template.Name}", e); // TODO type
+            throw new MatchException($"Failed to run card creation function in card {Template.Name}", e);
         }
 
         try
@@ -49,7 +49,7 @@ public class MatchCard : IHasData<MatchCard.Data>
         }
         catch (Exception e)
         {
-            throw new Exception($"Failed to get scheme effects for card {card.Name}", e); // TODO type
+            throw new MatchException($"Failed to get scheme effects for card {card.Name}", e);
         }
 
         CombatStepEffects = [];
@@ -67,7 +67,7 @@ public class MatchCard : IHasData<MatchCard.Data>
         }
         catch (Exception e)
         {
-            throw new Exception($"Failed to get combat step effects for card {card.Name}", e); // TODO type
+            throw new MatchException($"Failed to get combat step effects for card {card.Name}", e);
         }
     }
 

@@ -22,7 +22,7 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
 
     public string LogName => $"({Owner.Idx}){GetName()}({(Template.IsHero ? 'h' : 's')})";
 
-    public string FormattedLogName => $"[{Id}:{GetName()}]"; // TODO
+    public string FormattedLogName => $"[{Id}:{GetName()}]";
 
     public Fighter(Player owner, FighterTemplate template)
     {
@@ -46,7 +46,7 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
         }
         catch (Exception e)
         {
-            throw new Exception($"Failed to run fighter creation function in fighter {template.Name}", e); // TODO type
+            throw new MatchException($"Failed to run fighter creation function in fighter {template.Name}", e);
         }
 
         TurnPhaseEffects = [];
@@ -64,7 +64,7 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
         }
         catch (Exception e)
         {
-            throw new Exception($"Failed to get turn step effects for fighter {template.Name}", e); // TODO type
+            throw new MatchException($"Failed to get turn step effects for fighter {template.Name}", e);
         }
 
     }

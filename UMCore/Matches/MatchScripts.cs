@@ -91,8 +91,7 @@ public class MatchScripts
     [LuaCommand]
     public bool AreOpposingPlayers(Player p1, Player p2)
     {
-        // TODO teams
-        return p1.Idx != p2.Idx;
+        return p1.IsOpposingTo(p2);
     }
 
     [LuaCommand]
