@@ -17,26 +17,6 @@
       "FullText": "After combat: Deal 1 damage to each opposing fighter adjacent to your fighter."
     },
     {
-      "Text": "Draw 1 card",
-      "FullText": "After combat: Draw 1 card."
-    },
-    {
-      "Text": "Choose an empty space in this fighter\u0027s zone",
-      "FullText": "After combat: Choose an empty space in this fighter\u0027s zone. Place this fighter in that space."
-    },
-    {
-      "Text": "Place this fighter in that space",
-      "FullText": "After combat: Choose an empty space in this fighter\u0027s zone. Place this fighter in that space."
-    },
-    {
-      "Text": "Your opponent discards 1 random card",
-      "FullText": "During combat: Your opponent discards 1 random card. Add its BOOST value to this card\u0027s attack value."
-    },
-    {
-      "Text": "Add its BOOST value to this card\u0027s attack value",
-      "FullText": "During combat: Your opponent discards 1 random card. Add its BOOST value to this card\u0027s attack value."
-    },
-    {
       "Text": "Move your fighter up to 4 spaces",
       "FullText": "After combat: Move your fighter up to 4 spaces."
     },
@@ -49,10 +29,6 @@
       "FullText": "After combat: If you won the combat, choose 1 of the fighters in the combat and move them up to 4 spaces."
     },
     {
-      "Text": "Draw 1 card",
-      "FullText": "After combat: Draw 1 card."
-    },
-    {
       "Text": "Return your opponent\u0027s attack card to their hand. Look at their hand and choose an attack or versatile card for them to play",
       "FullText": "Immediately: Return your opponent\u0027s attack card to their hand. Look at their hand and choose an attack or versatile card for them to play. (It may be the same card.)"
     },
@@ -61,36 +37,16 @@
       "FullText": "Immediately: Return your opponent\u0027s attack card to their hand. Look at their hand and choose an attack or versatile card for them to play. (It may be the same card.)"
     },
     {
-      "Text": "Draw 2 cards",
-      "FullText": "After combat: Draw 2 cards."
-    },
-    {
-      "Text": "If your fighter is adjacent to the opposing fighter, draw 1 card",
-      "FullText": "After combat: If your fighter is adjacent to the opposing fighter, draw 1 card."
-    },
-    {
       "Text": "Move the opposing fighter up to 3 spaces",
       "FullText": "After combat: Move the opposing fighter up to 3 spaces."
-    },
-    {
-      "Text": "Move 1 of your fighters up to 1 space. Draw 1 card",
-      "FullText": "After combat: Move 1 of your fighters up to 1 space. Draw 1 card. Gain 1 action."
     },
     {
       "Text": "Gain 1 action",
       "FullText": "After combat: Move 1 of your fighters up to 1 space. Draw 1 card. Gain 1 action."
     },
     {
-      "Text": "Draw 1 card",
-      "FullText": "After combat: Draw 1 card."
-    },
-    {
       "Text": "Fighters cannot leave their spaces for the rest of the turn",
       "FullText": "Immediately: Fighters cannot leave their spaces for the rest of the turn."
-    },
-    {
-      "Text": "Move your fighter up to 1 space. Draw 1 card",
-      "FullText": "Move your fighter up to 1 space. Draw 1 card. Gain 1 action."
     },
     {
       "Text": "Gain 1 action",
@@ -119,10 +75,6 @@
     {
       "Text": "You may place your fighter in any space",
       "FullText": "During combat: Prevent all damage\nAfter combat: You may place your fighter in any space."
-    },
-    {
-      "Text": "Draw 1 card",
-      "FullText": "After combat: Draw 1 card. Move 1 fog token up to 2 spaces, then your opponent moves a different fog token up to 2 spaces."
     },
     {
       "Text": "Move 1 fog token up to 2 spaces, then your opponent moves a different fog token up to 2 spaces",
@@ -229,10 +181,6 @@
       "FullText": "After combat: Move Alice up to 5 spaces. Change size."
     },
     {
-      "Text": "Draw 2 cards",
-      "FullText": "Draw 2 cards. Change size."
-    },
-    {
       "Text": "Change size",
       "FullText": "Draw 2 cards. Change size."
     },
@@ -243,14 +191,6 @@
     {
       "Text": "Change size",
       "FullText": "After combat: Move each of your fighters up to 2 spaces. Change size."
-    },
-    {
-      "Text": "Discard the top card of your deck",
-      "FullText": "During combat: Discard the top card of your deck. Add its BOOST value to this card\u0027s value."
-    },
-    {
-      "Text": "Add its BOOST value to this card\u0027s value",
-      "FullText": "During combat: Discard the top card of your deck. Add its BOOST value to this card\u0027s value."
     },
     {
       "Text": "Move Bigfoot up to 5 spaces",
@@ -309,14 +249,6 @@
       "FullText": "During combat: If your hand is empty, the value of this card is 6 instead.\nAfter combat: Draw 2 cards."
     },
     {
-      "Text": "Draw 2 cards",
-      "FullText": "During combat: If your hand is empty, the value of this card is 6 instead.\nAfter combat: Draw 2 cards."
-    },
-    {
-      "Text": "If Bruce Lee has 5 or less health, draw 3 cards",
-      "FullText": "After combat: If Bruce Lee has 5 or less health, draw 3 cards."
-    },
-    {
       "Text": "Choose a JEET KUNE DO card in your discard pile and add it to your hand",
       "FullText": "After combat: Choose a JEET KUNE DO card in your discard pile and add it to your hand."
     },
@@ -335,10 +267,6 @@
     {
       "Text": "Gain 1 action",
       "FullText": "After combat: Your opponent discards 1 random card. Gain 1 action."
-    },
-    {
-      "Text": "Draw 1 card",
-      "FullText": "After combat: Draw 1 card. Gain 1 action."
     },
     {
       "Text": "Gain 1 action",
@@ -413,20 +341,12 @@
       "FullText": "After combat: Move Dr{DOTSPACE}Jekyll up to 4 spaces."
     },
     {
-      "Text": "Recover 2 health. Draw up to 3 cards",
-      "FullText": "Recover 2 health. Draw up to 3 cards. Keep 1 and put any others on the bottom of your deck in any order."
-    },
-    {
       "Text": "Keep 1 and put any others on the bottom of your deck in any order",
       "FullText": "Recover 2 health. Draw up to 3 cards. Keep 1 and put any others on the bottom of your deck in any order."
     },
     {
       "Text": "You may BOOST this attack. ",
       "FullText": "During combat: You may BOOST this attack. "
-    },
-    {
-      "Text": "Draw 2 cards",
-      "FullText": "After combat: Draw 2 cards."
     },
     {
       "Text": "Move King Arthur up to 5 spaces",
@@ -459,10 +379,6 @@
     {
       "Text": "Your opponent discards 1 card",
       "FullText": "After combat: Your opponent discards 1 card."
-    },
-    {
-      "Text": "If you won the combat, draw 2 cards",
-      "FullText": "After combat: If you won the combat, draw 2 cards."
     },
     {
       "Text": "Move each fighter up to 3 spaces",
@@ -501,10 +417,6 @@
       "FullText": "Choose a friendly fighter who has been defeated. Place that fighter in any space in Willow\u0027s zone and set their health to 3."
     },
     {
-      "Text": "Draw 1 card",
-      "FullText": "After combat: Draw 1 card."
-    },
-    {
       "Text": "Move Faith up to 5 spaces",
       "FullText": "After combat: Move Faith up to 5 spaces. She may move through opposing fighters."
     },
@@ -535,10 +447,6 @@
     {
       "Text": "If Spike or the opposing fighter is in a space with a shadow token, you may BOOST this card",
       "FullText": "During combat: If Spike or the opposing fighter is in a space with a shadow token, you may BOOST this card."
-    },
-    {
-      "Text": "Draw 3 cards",
-      "FullText": "Draw 3 cards."
     },
     {
       "Text": "Cancel any abilities on your opponent\u0027s card",
@@ -585,10 +493,6 @@
       "FullText": "Choose 1 of your Raptors. You may place each of your other Raptors in any space in the chosen Raptor\u0027s zone."
     },
     {
-      "Text": "Draw 1 card",
-      "FullText": "After combat: Draw 1 card."
-    },
-    {
       "Text": "Move each of your Raptors up to 3 spaces. You may move them through spaces containing opposing fighters",
       "FullText": "Move each of your Raptors up to 3 spaces. You may move them through spaces containing opposing fighters. Gain 1 action."
     },
@@ -599,18 +503,6 @@
     {
       "Text": "Gain 1 action",
       "FullText": "After combat: Gain 1 action."
-    },
-    {
-      "Text": "Draw 1 card, then choose an opponent. They may choose to discard 1 card",
-      "FullText": "Draw 1 card, then choose an opponent. They may choose to discard 1 card. If they do not, draw 1 more card."
-    },
-    {
-      "Text": "If they do not, draw 1 more card",
-      "FullText": "Draw 1 card, then choose an opponent. They may choose to discard 1 card. If they do not, draw 1 more card."
-    },
-    {
-      "Text": "Draw 1 card",
-      "FullText": "After combat: Draw 1 card. Return a defeated Outlaw (if any) to any space in Robin Hood\u0027s zone."
     },
     {
       "Text": "Return a defeated Outlaw (if any) to any space in Robin Hood\u0027s zone",
@@ -637,14 +529,6 @@
       "FullText": "During combat: if Xander is adjacent to Buffy, the value of this card is 6 instead."
     },
     {
-      "Text": "Draw 1 card",
-      "FullText": "After combat: Draw 1 card."
-    },
-    {
-      "Text": "Draw 2 cards",
-      "FullText": "Draw 2 cards.\nPlace a shadow token in Spike\u0027s space and each space adjacent to it."
-    },
-    {
       "Text": "Place a shadow token in Spike\u0027s space and each space adjacent to it",
       "FullText": "Draw 2 cards.\nPlace a shadow token in Spike\u0027s space and each space adjacent to it."
     },
@@ -663,14 +547,6 @@
     {
       "Text": "Discard the top card of your deck",
       "FullText": "After combat: (DARK) Move Willow to any space in her zone. Discard the top card of your deck."
-    },
-    {
-      "Text": "If you won the combat, your opponent draws 1 card",
-      "FullText": "After combat: If you won the combat, your opponent draws 1 card. If you lost the combat, you draw 2 cards."
-    },
-    {
-      "Text": "If you lost the combat, you draw 2 cards",
-      "FullText": "After combat: If you won the combat, your opponent draws 1 card. If you lost the combat, you draw 2 cards."
     },
     {
       "Text": "If you won the combat, look at your opponent\u0027s hand",
@@ -713,10 +589,6 @@
       "FullText": "Place Dr{DOTSPACE}Watson in a space adjacent to Holmes. Holmes recovers 1 health. Draw 1 card."
     },
     {
-      "Text": "Draw 1 card",
-      "FullText": "Place Dr{DOTSPACE}Watson in a space adjacent to Holmes. Holmes recovers 1 health. Draw 1 card."
-    },
-    {
       "Text": "Move Sinbad up to 3 spaces",
       "FullText": "After combat: Move Sinbad up to 3 spaces."
     },
@@ -727,14 +599,6 @@
     {
       "Text": "Take all other VOYAGE cards from your discard pile and add them to your hand",
       "FullText": "During combat: This card\u0027s value is \u002B1 for each other VOYAGE card in your discard pile.\nAfter combat: Take all other VOYAGE cards from your discard pile and add them to your hand."
-    },
-    {
-      "Text": "Draw 3 cards",
-      "FullText": "Draw 3 cards."
-    },
-    {
-      "Text": "Draw 2 cards",
-      "FullText": "After combat: Draw 2 cards."
     },
     {
       "Text": "This card\u0027s value is \u002B1 for each other VOYAGE card in your discard pile",
@@ -773,16 +637,8 @@
       "FullText": "During combat: This card\u0027s value is \u002B1 for each other VOYAGE card in your discard pile.\nAfter combat: Draw 1 card."
     },
     {
-      "Text": "Draw 1 card",
-      "FullText": "During combat: This card\u0027s value is \u002B1 for each other VOYAGE card in your discard pile.\nAfter combat: Draw 1 card."
-    },
-    {
       "Text": "You may BOOST this attack",
       "FullText": "During combat: You may BOOST this attack."
-    },
-    {
-      "Text": "Choose 2 different effects:- place up to 3 traps- place all of your defeated InGen Workers (if any) in Muldoon\u0027s zone- draw 2 cards",
-      "FullText": "Choose 2 different effects:- place up to 3 traps- place all of your defeated InGen Workers (if any) in Muldoon\u0027s zone- draw 2 cards"
     },
     {
       "Text": "You may BOOST this attack",
@@ -811,14 +667,6 @@
     {
       "Text": "Move each of your fighters up to 2 spaces. Each of your fighters recovers 1 health",
       "FullText": "Move each of your fighters up to 2 spaces. Each of your fighters recovers 1 health. Draw 1 card."
-    },
-    {
-      "Text": "Draw 1 card",
-      "FullText": "Move each of your fighters up to 2 spaces. Each of your fighters recovers 1 health. Draw 1 card."
-    },
-    {
-      "Text": "Draw a card",
-      "FullText": "After combat: Draw a card. Recover 1 health."
     },
     {
       "Text": "Recover 1 health",
@@ -897,10 +745,6 @@
       "FullText": "This card\u0027s effects cannot be canceled.\nDuring combat: If your opponent\u0027s card has an IMMEDIATELY effect, ignore their card\u0027s value."
     },
     {
-      "Text": "If you won the combat, draw 1 card",
-      "FullText": "After combat: If you won the combat, draw 1 card."
-    },
-    {
       "Text": "$SWORDS$ You may play this card as a defense card",
       "FullText": "$SWORDS$ You may play this card as a defense card."
     },
@@ -921,10 +765,6 @@
       "FullText": "If Eredin is ENRAGED, you may play this card face-up to target a fighter in any space.\nAfter combat: You may defeat a Red Rider to return this card to your hand."
     },
     {
-      "Text": "$PELT$ Draw 2 cards",
-      "FullText": "After combat: $PELT$ Draw 2 cards."
-    },
-    {
       "Text": "If the Huntsman is adjacent to the opposing fighter, the value of this card is 6 instead",
       "FullText": "During combat: If the Huntsman is adjacent to the opposing fighter, the value of this card is 6 instead."
     },
@@ -935,14 +775,6 @@
     {
       "Text": "$PELT$ Little Red recovers 4 health instead",
       "FullText": "Little Red Recovers 2 health.\n$PELT$ Little Red recovers 4 health instead."
-    },
-    {
-      "Text": "$SWORDS$ Your opponent discards 1 random card",
-      "FullText": "During combat: $SWORDS$ Your opponent discards 1 random card. Add its BOOST value to this card\u0027s value."
-    },
-    {
-      "Text": "Add its BOOST value to this card\u0027s value",
-      "FullText": "During combat: $SWORDS$ Your opponent discards 1 random card. Add its BOOST value to this card\u0027s value."
     },
     {
       "Text": "Return a defeated Red Rider to any space",
@@ -1001,14 +833,6 @@
       "FullText": "Spend any amount of Rage. Choose a different effect for each Rage spent: - draw 2 cards - move Beowulf up to 4 spaces - Beowulf recovers 2 health."
     },
     {
-      "Text": "If you won the combat, draw 2 cards",
-      "FullText": "After combat: If you won the combat, draw 2 cards. If you lost the combat, your opponent draws 2 cards."
-    },
-    {
-      "Text": "If you lost the combat, your opponent draws 2 cards",
-      "FullText": "After combat: If you won the combat, draw 2 cards. If you lost the combat, your opponent draws 2 cards."
-    },
-    {
       "Text": "Move to any space in your zone",
       "FullText": "After combat: Move to any space in your zone."
     },
@@ -1061,10 +885,6 @@
       "FullText": "During combat: Add the BOOST value of the top card of your discard pile to this card\u0027s value."
     },
     {
-      "Text": "You may spend 1 Hellfire to draw 2 cards",
-      "FullText": "After combat: You may spend 1 Hellfire to draw 2 cards."
-    },
-    {
       "Text": "You may spend 2 Hellfire to gain 1 action",
       "FullText": "After combat: You may spend 2 Hellfire to gain 1 action."
     },
@@ -1099,10 +919,6 @@
     {
       "Text": "Set your Hellfire to 5",
       "FullText": "Set your Hellfire to 5."
-    },
-    {
-      "Text": "If you won the combat, draw 2 cards",
-      "FullText": "After combat: If you won the combat, draw 2 cards."
     },
     {
       "Text": "You may BOOST this attack",
@@ -1189,10 +1005,6 @@
       "FullText": "During combat: You may BOOST this attack. If you don\u0027t BOOST this attack, draw 1 card."
     },
     {
-      "Text": "If you don\u0027t BOOST this attack, draw 1 card",
-      "FullText": "During combat: You may BOOST this attack. If you don\u0027t BOOST this attack, draw 1 card."
-    },
-    {
       "Text": "Recover 2 health",
       "FullText": "Recover 2 health.\nIf you started your turn in a different space, gain 1 action."
     },
@@ -1221,10 +1033,6 @@
       "FullText": "After combat: If Invisible Man is on a space with a fog token, all opposing fighters on spaces with fog tokens take 1 damage."
     },
     {
-      "Text": "Draw 1 card",
-      "FullText": "After combat: Draw 1 card."
-    },
-    {
       "Text": "You may BOOST this card",
       "FullText": "During combat: You may BOOST this card."
     },
@@ -1235,18 +1043,6 @@
     {
       "Text": "If you lost the combat, your opponent gains 1 action",
       "FullText": "After combat: If you lost the combat, your opponent gains 1 action."
-    },
-    {
-      "Text": "Your opponent discards 1 random card",
-      "FullText": "During combat: Your opponent discards 1 random card. Add its BOOST value to this card\u0027s value.\nAfter combat: If this is your third action, draw 1 card."
-    },
-    {
-      "Text": "Add its BOOST value to this card\u0027s value",
-      "FullText": "During combat: Your opponent discards 1 random card. Add its BOOST value to this card\u0027s value.\nAfter combat: If this is your third action, draw 1 card."
-    },
-    {
-      "Text": "If this is your third action, draw 1 card",
-      "FullText": "During combat: Your opponent discards 1 random card. Add its BOOST value to this card\u0027s value.\nAfter combat: If this is your third action, draw 1 card."
     },
     {
       "Text": "If your fighter is not in Yennenga\u0027s zone, the value of this card is a 4 instead",
@@ -1267,10 +1063,6 @@
     {
       "Text": "Gain 1 action",
       "FullText": "During combat: For each other friendly fighter adjacent to the opposing fighter, increase the value of this card by \u002B1.\nAfter combat: Gain 1 action."
-    },
-    {
-      "Text": "Draw 1 card",
-      "FullText": "After combat: Draw 1 card."
     },
     {
       "Text": "You may BOOST this attack",
@@ -1385,10 +1177,6 @@
       "FullText": "Look at an opponent\u0027s hand and choose a card. Put that card on the bottom of their deck. You each draw 1 card."
     },
     {
-      "Text": "You each draw 1 card",
-      "FullText": "Look at an opponent\u0027s hand and choose a card. Put that card on the bottom of their deck. You each draw 1 card."
-    },
-    {
       "Text": "Discard the top card of your deck",
       "FullText": "After combat: Discard the top card of your deck. Recover health equal to its BOOST value."
     },
@@ -1435,10 +1223,6 @@
     {
       "Text": "If you already won a combat this turn, the value of this card is 6 instead",
       "FullText": "During combat: If you already won a combat this turn, the value of this card is 6 instead."
-    },
-    {
-      "Text": "Draw 2 cards",
-      "FullText": "Draw 2 cards. If you won a combat this turn, draw 1 additional card and gain 1 action."
     },
     {
       "Text": "If you won a combat this turn, draw 1 additional card and gain 1 action",
@@ -1581,10 +1365,6 @@
       "FullText": "Immediately: If there are 4 or more squirrels adjacent to the opposing fighter, cancel all effects on your opponent\u0027s card and ignore its value."
     },
     {
-      "Text": "BOOSTED WITH: Draw 1 card",
-      "FullText": "BOOSTED WITH: Draw 1 card.\nDuring combat: You may BOOST this card."
-    },
-    {
       "Text": "You may BOOST this card",
       "FullText": "BOOSTED WITH: Draw 1 card.\nDuring combat: You may BOOST this card."
     },
@@ -1645,24 +1425,8 @@
       "FullText": "During combat: The value of your opponent\u0027s card is equal to its BOOST value."
     },
     {
-      "Text": "Your opponent draws 1 card",
-      "FullText": "After combat: Your opponent draws 1 card. Draw 3 cards."
-    },
-    {
-      "Text": "Draw 3 cards",
-      "FullText": "After combat: Your opponent draws 1 card. Draw 3 cards."
-    },
-    {
       "Text": "If you won the combat, you may discard 2 cards to gain 1 action",
       "FullText": "After combat: If you won the combat, you may discard 2 cards to gain 1 action."
-    },
-    {
-      "Text": "Gain 1 action and choose 1 effect:- draw 5 cards- for the rest of your turn, your cards\u0027 values are 4 and cannot be changed- each opponent discards 2 cards",
-      "FullText": "Gain 1 action and choose 1 effect:- draw 5 cards- for the rest of your turn, your cards\u0027 values are 4 and cannot be changed- each opponent discards 2 cards"
-    },
-    {
-      "Text": "Draw 2 cards",
-      "FullText": "Draw 2 cards. Gain 1 action.\nIf an effect would let an opponent look at your hand, you may reveal this card and cancel that effect."
     },
     {
       "Text": "Gain 1 action",
@@ -1705,10 +1469,6 @@
       "FullText": "During combat: Add the BOOST value of the opposing fighter\u0027s card to this card\u0027s value. Then, You may BOOST this card."
     },
     {
-      "Text": "Draw 2 cards",
-      "FullText": "Draw 2 cards. Then, you may spend an additional action to draw until you have 7 cards in your hand."
-    },
-    {
       "Text": "Then, you may spend an additional action to draw until you have 7 cards in your hand",
       "FullText": "Draw 2 cards. Then, you may spend an additional action to draw until you have 7 cards in your hand."
     },
@@ -1719,10 +1479,6 @@
     {
       "Text": "Then, if you have 4 or more cards in your hand, gain 1 action",
       "FullText": "Recover 2 health. Then, if you have 4 or more cards in your hand, gain 1 action."
-    },
-    {
-      "Text": "If Ms{DOTSPACE}Marvel\u0027s space shares no zones with the opposing fighter, draw 2 cards",
-      "FullText": "After combat: If Ms{DOTSPACE}Marvel\u0027s space shares no zones with the opposing fighter, draw 2 cards."
     },
     {
       "Text": "Place Ms{DOTSPACE}Marvel in any space in her zone",
@@ -1805,16 +1561,8 @@
       "FullText": "Mission: You have 2 or fewer other cards in your hand.\nDraw 5 cards. Each opponent discards 1 random card. Acquire a new mission."
     },
     {
-      "Text": "Draw 5 cards. Each opponent discards 1 random card",
-      "FullText": "Mission: You have 2 or fewer other cards in your hand.\nDraw 5 cards. Each opponent discards 1 random card. Acquire a new mission."
-    },
-    {
       "Text": "Acquire a new mission",
       "FullText": "Mission: You have 2 or fewer other cards in your hand.\nDraw 5 cards. Each opponent discards 1 random card. Acquire a new mission."
-    },
-    {
-      "Text": "If you discard this card as a result of an opponent\u0027s effect, draw 1 card",
-      "FullText": "If you discard this card as a result of an opponent\u0027s effect, draw 1 card.\nBOOSTED WITH: If it\u0027s your turn, gain 1 action."
     },
     {
       "Text": "BOOSTED WITH: If it\u0027s your turn, gain 1 action",
@@ -1869,10 +1617,6 @@
       "FullText": "After combat: Move the opposing fighter up to 3 spaces. Then, if they are a hero, place Tomoe Gozen in a space adjacent to them."
     },
     {
-      "Text": "Draw 1 card",
-      "FullText": "After combat: Draw 1 card. Then, if you lost the combat, look at your opponent\u0027s hand and choose 1 card for them to discard."
-    },
-    {
       "Text": "Then, if you lost the combat, look at your opponent\u0027s hand and choose 1 card for them to discard",
       "FullText": "After combat: Draw 1 card. Then, if you lost the combat, look at your opponent\u0027s hand and choose 1 card for them to discard."
     },
@@ -1898,10 +1642,6 @@
     },
     {
       "Text": "If there are 4 or more squirrels in your fighter\u0027s zone, the value of this card is 4 instead",
-      "FullText": "During combat: If there are 4 or more squirrels in your fighter\u0027s zone, the value of this card is 4 instead.\nAfter combat: If you won the combat, draw 2 cards."
-    },
-    {
-      "Text": "If you won the combat, draw 2 cards",
       "FullText": "During combat: If there are 4 or more squirrels in your fighter\u0027s zone, the value of this card is 4 instead.\nAfter combat: If you won the combat, draw 2 cards."
     },
     {
@@ -2009,10 +1749,6 @@
       "FullText": "During combat: If the opposing fighter is flanked, this card\u0027s value is 5 instead."
     },
     {
-      "Text": "Draw 1 card",
-      "FullText": "After combat: Draw 1 card. Then, move each of your fighters up to 2 spaces."
-    },
-    {
       "Text": "Then, move each of your fighters up to 2 spaces",
       "FullText": "After combat: Draw 1 card. Then, move each of your fighters up to 2 spaces."
     },
@@ -2049,20 +1785,12 @@
       "FullText": "Immediately: Your opponent can\u0027t draw cards this turn."
     },
     {
-      "Text": "If the value of your opponent\u0027s card is 4 or higher, draw 2 cards",
-      "FullText": "After combat: If the value of your opponent\u0027s card is 4 or higher, draw 2 cards."
-    },
-    {
       "Text": "If you won the combat, place Spider-Man in any space in his zone",
       "FullText": "After combat: If you won the combat, place Spider-Man in any space in his zone."
     },
     {
       "Text": "Place Spider-Man in any space in his zone",
       "FullText": "After combat: Place Spider-Man in any space in his zone."
-    },
-    {
-      "Text": "All of Spider-Man\u0027s attacks this turn are \u002B1 value. Draw 1 card",
-      "FullText": "All of Spider-Man\u0027s attacks this turn are \u002B1 value. Draw 1 card. Gain 1 action."
     },
     {
       "Text": "Gain 1 action",
@@ -2109,10 +1837,6 @@
       "FullText": "After combat: Your opponent places Dr{DOTSPACE}Strange in a starting space. Place the opposing fighter in another starting space. All players shuffle their decks."
     },
     {
-      "Text": "Shuffle your hand into your deck. Draw 5 cards",
-      "FullText": "Shuffle your hand into your deck. Draw 5 cards. Gain 1 action."
-    },
-    {
       "Text": "Gain 1 action",
       "FullText": "Shuffle your hand into your deck. Draw 5 cards. Gain 1 action."
     },
@@ -2141,10 +1865,6 @@
       "FullText": "Immediately: Cancel all effects on your opponent\u0027s card.\nDuring combat: If you are attacking, the value of this card is 4 instead."
     },
     {
-      "Text": "If you won the combat, your opponent chooses whether you both draw a card or both discard a card",
-      "FullText": "After combat: If you won the combat, your opponent chooses whether you both draw a card or both discard a card. If you lost the combat, you make the choice instead (see above)."
-    },
-    {
       "Text": "If you lost the combat, you make the choice instead (see above)",
       "FullText": "After combat: If you won the combat, your opponent chooses whether you both draw a card or both discard a card. If you lost the combat, you make the choice instead (see above)."
     },
@@ -2165,10 +1885,6 @@
       "FullText": "Draw 2 cards and recover 2 health."
     },
     {
-      "Text": "Place She-Hulk in a starting space. Draw 1 card",
-      "FullText": "Place She-Hulk in a starting space. Draw 1 card. Gain 1 action."
-    },
-    {
       "Text": "Gain 1 action",
       "FullText": "Place She-Hulk in a starting space. Draw 1 card. Gain 1 action."
     },
@@ -2183,14 +1899,6 @@
     {
       "Text": "Acquire a new mission",
       "FullText": "Mission: Black Widow is in your starting space.\nChoose an opponent. They discard 2 cards. Acquire a new mission."
-    },
-    {
-      "Text": "{RED ROOM} Your opponent may draw 1 card",
-      "FullText": "After combat: {RED ROOM} Your opponent may draw 1 card."
-    },
-    {
-      "Text": "{RED ROOM} Discard 2 random cards, then draw 2 cards",
-      "FullText": "After combat: {RED ROOM} Discard 2 random cards, then draw 2 cards"
     },
     {
       "Text": "Draw until you have 5 cards in your hand",
@@ -2273,14 +1981,6 @@
       "FullText": "During combat: Reveal the bottom card of your deck. Increase the value of this card by the BOOST value of the revealed card, then put the revealed card on the top or the bottom of your deck."
     },
     {
-      "Text": "Draw 2 cards",
-      "FullText": "After combat: Draw 2 cards."
-    },
-    {
-      "Text": "Choose a card in your discard pile and shuffle it into your deck. Draw 2 cards",
-      "FullText": "Choose a card in your discard pile and shuffle it into your deck. Draw 2 cards. Move Golden Bat up to 4 spaces."
-    },
-    {
       "Text": "Move Golden Bat up to 4 spaces",
       "FullText": "Choose a card in your discard pile and shuffle it into your deck. Draw 2 cards. Move Golden Bat up to 4 spaces."
     },
@@ -2353,20 +2053,12 @@
       "FullText": "Shuffle up to 3 Jill Trent cards in your discard pile back into your deck. Draw 1 card."
     },
     {
-      "Text": "Draw 1 card",
-      "FullText": "Shuffle up to 3 Jill Trent cards in your discard pile back into your deck. Draw 1 card."
-    },
-    {
       "Text": "This card\u0027s effects cannot be canceled",
       "FullText": "This card\u0027s effects cannot be canceled. If Daisy and Jill Trent are adjacent and Daisy is attacking, Daisy gains the effect of Jill Trent\u0027s gadget."
     },
     {
       "Text": "If Daisy and Jill Trent are adjacent and Daisy is attacking, Daisy gains the effect of Jill Trent\u0027s gadget",
       "FullText": "This card\u0027s effects cannot be canceled. If Daisy and Jill Trent are adjacent and Daisy is attacking, Daisy gains the effect of Jill Trent\u0027s gadget."
-    },
-    {
-      "Text": "Draw 1 card",
-      "FullText": "After combat: Draw 1 card."
     },
     {
       "Text": "If the opposing fighter is flanked, your fighter recovers 2 health",
@@ -2409,10 +2101,6 @@
       "FullText": "During combat: You may discharge coils: - 1 Coil: This card\u0027s value is 5. - 2 Coils: Instead, this card\u0027s value is 7."
     },
     {
-      "Text": "Draw 1 card. You may discharge coils: - 1 Coil: Instead, draw 2 cards",
-      "FullText": "After combat: Draw 1 card. You may discharge coils: - 1 Coil: Instead, draw 2 cards. - 2 Coils: Instead, draw 3 cards and Tesla recovers 1 health."
-    },
-    {
       "Text": "- 2 Coils: Instead, draw 3 cards and Tesla recovers 1 health",
       "FullText": "After combat: Draw 1 card. You may discharge coils: - 1 Coil: Instead, draw 2 cards. - 2 Coils: Instead, draw 3 cards and Tesla recovers 1 health."
     },
@@ -2445,10 +2133,6 @@
       "FullText": "After combat: You may discharge coils: - 1 Coil: Gain 1 action. - 2 Coils: Also, draw 1 card."
     },
     {
-      "Text": "- 2 Coils: Also, draw 1 card",
-      "FullText": "After combat: You may discharge coils: - 1 Coil: Gain 1 action. - 2 Coils: Also, draw 1 card."
-    },
-    {
       "Text": "Move the opposing fighter up to 2 spaces. You may discharge coils: - 1 Coil: Also, move Tesla up to 2 spaces",
       "FullText": "After combat: Move the opposing fighter up to 2 spaces. You may discharge coils: - 1 Coil: Also, move Tesla up to 2 spaces. - 2 Coils: Also, your opponent discards 1 random card."
     },
@@ -2459,10 +2143,6 @@
     {
       "Text": "Choose 2 different effects:- each friendly fighter recovers 1 health- draw 2 cards- gain 1 action",
       "FullText": "Choose 2 different effects:- each friendly fighter recovers 1 health- draw 2 cards- gain 1 action"
-    },
-    {
-      "Text": "Draw 3 cards",
-      "FullText": "Draw 3 cards. Then, put a card in your hand on top of your deck.\nBOOSTED WITH: Look at an opponent\u0027s hand and choose a card for them to discard."
     },
     {
       "Text": "Then, put a card in your hand on top of your deck",
@@ -2478,10 +2158,6 @@
     },
     {
       "Text": "That fighter is now the defender",
-      "FullText": "Immediately: Eredin swaps spaces with an adjacent friendly fighter. That fighter is now the defender.\nAfter combat: If Eredin is ENRAGED, draw 2 cards."
-    },
-    {
-      "Text": "If Eredin is ENRAGED, draw 2 cards",
       "FullText": "Immediately: Eredin swaps spaces with an adjacent friendly fighter. That fighter is now the defender.\nAfter combat: If Eredin is ENRAGED, draw 2 cards."
     },
     {
@@ -2537,20 +2213,8 @@
       "FullText": "After combat: If you won the combat, your opponent discards 1 card."
     },
     {
-      "Text": "If your fighter hasn\u0027t left their space this turn, draw 1 card",
-      "FullText": "After combat: If your fighter hasn\u0027t left their space this turn, draw 1 card."
-    },
-    {
       "Text": "Add \u002B2 to this card\u0027s value for each of your fighters adjacent to the opposing fighter",
       "FullText": "During combat: Add \u002B2 to this card\u0027s value for each of your fighters adjacent to the opposing fighter."
-    },
-    {
-      "Text": "Your opponent discards the top card of their deck",
-      "FullText": "During combat: Your opponent discards the top card of their deck. Add its BOOST value to their card\u0027s value.\nAfter combat: Move each Wolf up to 3 spaces."
-    },
-    {
-      "Text": "Add its BOOST value to their card\u0027s value",
-      "FullText": "During combat: Your opponent discards the top card of their deck. Add its BOOST value to their card\u0027s value.\nAfter combat: Move each Wolf up to 3 spaces."
     },
     {
       "Text": "Move each Wolf up to 3 spaces",
@@ -2566,10 +2230,6 @@
     },
     {
       "Text": "Deal 1 damage to each opposing fighter in the Leshen\u0027s zone. Remove the Leshen from the board. At the start of your next turn, place the Leshen in any space",
-      "FullText": "Deal 1 damage to each opposing fighter in the Leshen\u0027s zone. Remove the Leshen from the board. At the start of your next turn, place the Leshen in any space. Then, draw 1 card."
-    },
-    {
-      "Text": "Then, draw 1 card",
       "FullText": "Deal 1 damage to each opposing fighter in the Leshen\u0027s zone. Remove the Leshen from the board. At the start of your next turn, place the Leshen in any space. Then, draw 1 card."
     },
     {
@@ -2598,10 +2258,6 @@
     },
     {
       "Text": "- 3$PWR$ Return a card from your discard pile to the top of your deck. - 8$PWR$ Return a card from your discard pile to your hand",
-      "FullText": "After combat: - 3$PWR$ Return a card from your discard pile to the top of your deck. - 8$PWR$ Return a card from your discard pile to your hand. Draw 1 card."
-    },
-    {
-      "Text": "Draw 1 card",
       "FullText": "After combat: - 3$PWR$ Return a card from your discard pile to the top of your deck. - 8$PWR$ Return a card from your discard pile to your hand. Draw 1 card."
     },
     {
@@ -2657,10 +2313,6 @@
       "FullText": "After combat: Draw a number of cards equal to the damage you were dealt."
     },
     {
-      "Text": "Ciri recovers 2 health. [ONGOING]: After each combat your fighter is in, draw 1 card",
-      "FullText": "Ciri recovers 2 health. [ONGOING]: After each combat your fighter is in, draw 1 card. Discard this card at the end of your turn if you have 5 or more cards in your hand."
-    },
-    {
       "Text": "Discard this card at the end of your turn if you have 5 or more cards in your hand",
       "FullText": "Ciri recovers 2 health. [ONGOING]: After each combat your fighter is in, draw 1 card. Discard this card at the end of your turn if you have 5 or more cards in your hand."
     },
@@ -2675,10 +2327,6 @@
     {
       "Text": "LINE EFFECT: Gain 2 actions",
       "FullText": "LINE EFFECT: Gain 2 actions."
-    },
-    {
-      "Text": "LINE EFFECT: Draw 1 card",
-      "FullText": "LINE EFFECT: Draw 1 card.\nAfter combat: Deal 1 damage to each other fighter in your zone."
     },
     {
       "Text": "Deal 1 damage to each other fighter in your zone",
@@ -2699,10 +2347,6 @@
     {
       "Text": "Return a defeated Actor to any space in Shakespeare\u0027s zone",
       "FullText": "LINE EFFECT: Return all defeated Actors to spaces in Shakespeare\u0027s zone.\nAfter combat: Return a defeated Actor to any space in Shakespeare\u0027s zone."
-    },
-    {
-      "Text": "LINE EFFECT: Draw 2 cards",
-      "FullText": "LINE EFFECT: Draw 2 cards. Shakespeare recovers 2 health.\nAfter combat: If you lost the combat, Shakespeare recovers 1 health."
     },
     {
       "Text": "Shakespeare recovers 2 health",
@@ -2737,16 +2381,8 @@
       "FullText": "LINE EFFECT: Move each fighter up to 2 spaces.\nAfter combat: Draw 1 card. If you won the combat, draw 2 cards instead."
     },
     {
-      "Text": "LINE EFFECT: Draw 1 card",
-      "FullText": "LINE EFFECT: Draw 1 card.\nAfter combat: Move your fighter up to 2 spaces."
-    },
-    {
       "Text": "Move your fighter up to 2 spaces",
       "FullText": "LINE EFFECT: Draw 1 card.\nAfter combat: Move your fighter up to 2 spaces."
-    },
-    {
-      "Text": "LINE EFFECT: Draw 1 card",
-      "FullText": "LINE EFFECT: Draw 1 card.\nAfter combat: You may return the first card in your line to your hand (before you add this to your line)."
     },
     {
       "Text": "You may return the first card in your line to your hand (before you add this to your line)",
@@ -2829,10 +2465,6 @@
       "FullText": "After combat: Place Oberon in a space adjacent to Titania."
     },
     {
-      "Text": "Draw 1 card",
-      "FullText": "After combat: Draw 1 card. You may discard your glamour to draw 2 cards instead."
-    },
-    {
       "Text": "You may discard your glamour to draw 2 cards instead",
       "FullText": "After combat: Draw 1 card. You may discard your glamour to draw 2 cards instead."
     },
@@ -2854,10 +2486,6 @@
     },
     {
       "Text": "Cancel all effects on your opponent\u0027s card, ignore its value, and return it to your opponent\u0027s hand",
-      "FullText": "Immediately: Cancel all effects on your opponent\u0027s card, ignore its value, and return it to your opponent\u0027s hand.\nAfter combat: Draw 1 card."
-    },
-    {
-      "Text": "Draw 1 card",
       "FullText": "Immediately: Cancel all effects on your opponent\u0027s card, ignore its value, and return it to your opponent\u0027s hand.\nAfter combat: Draw 1 card."
     },
     {
@@ -2917,14 +2545,6 @@
       "FullText": "After combat: If Hamlet took damage this turn, deal 1 damage to the opposing fighter."
     },
     {
-      "Text": "Discard the top card of your deck",
-      "FullText": "During combat: Discard the top card of your deck. Add its BOOST value to this card\u0027s value.\nAfter combat: If you lost the combat, return the card you discarded to your hand."
-    },
-    {
-      "Text": "Add its BOOST value to this card\u0027s value",
-      "FullText": "During combat: Discard the top card of your deck. Add its BOOST value to this card\u0027s value.\nAfter combat: If you lost the combat, return the card you discarded to your hand."
-    },
-    {
       "Text": "If you lost the combat, return the card you discarded to your hand",
       "FullText": "During combat: Discard the top card of your deck. Add its BOOST value to this card\u0027s value.\nAfter combat: If you lost the combat, return the card you discarded to your hand."
     },
@@ -2943,10 +2563,6 @@
     {
       "Text": "If your opponent played a versatile card, deal 2 damage to the opposing fighter",
       "FullText": "After combat: If your opponent played a versatile card, deal 2 damage to the opposing fighter."
-    },
-    {
-      "Text": "Put any number of cards in your hand on the bottom of your deck. Then, draw up to that many cards",
-      "FullText": "Put any number of cards in your hand on the bottom of your deck. Then, draw up to that many cards. Gain 1 action."
     },
     {
       "Text": "Gain 1 action",
@@ -2994,10 +2610,6 @@
     },
     {
       "Text": "Place your fighter in any space in their zone",
-      "FullText": "After combat: Place your fighter in any space in their zone. Draw 1 card."
-    },
-    {
-      "Text": "Draw 1 card",
       "FullText": "After combat: Place your fighter in any space in their zone. Draw 1 card."
     },
     {
@@ -3081,20 +2693,12 @@
       "FullText": "Choose any space in Merlin\u0027s zone. Deal 2 damage to each opposing fighter in that space and in 1 adjacent space. If at least 1 fighter is defeated this way, draw 1 card."
     },
     {
-      "Text": "If at least 1 fighter is defeated this way, draw 1 card",
-      "FullText": "Choose any space in Merlin\u0027s zone. Deal 2 damage to each opposing fighter in that space and in 1 adjacent space. If at least 1 fighter is defeated this way, draw 1 card."
-    },
-    {
       "Text": "Deal 2 damage to 1 opposing fighter adjacent to Faith",
       "FullText": "Deal 2 damage to 1 opposing fighter adjacent to Faith."
     },
     {
       "Text": "If you lost the combat, the opposing fighter takes 1 damage",
       "FullText": "After combat: If you lost the combat, the opposing fighter takes 1 damage."
-    },
-    {
-      "Text": "Draw 2 cards",
-      "FullText": "Draw 2 cards.\n(DARK) Discard the top 2 cards of your deck. Deal 3 damage to a sidekick in your zone (even if it\u0027s your own)."
     },
     {
       "Text": "(DARK) Discard the top 2 cards of your deck",
@@ -3111,10 +2715,6 @@
     {
       "Text": "If you won the combat, deal 1 damage to 1 adjacent opposing fighter",
       "FullText": "After combat: If you won the combat, deal 1 damage to 1 adjacent opposing fighter."
-    },
-    {
-      "Text": "If you won the combat, draw 2 cards",
-      "FullText": "After combat: If you won the combat, draw 2 cards. Otherwise, take 1 damage."
     },
     {
       "Text": "Otherwise, take 1 damage",
@@ -3185,10 +2785,6 @@
       "FullText": "$PELT$  Place Little Red in any space. Gain 1 action. \n$SWORDS$ Deal 2 damage to each opposing fighter in Little Red\u0027s zone. \n$ROSE$ Draw 3 cards."
     },
     {
-      "Text": "$ROSE$ Draw 3 cards",
-      "FullText": "$PELT$  Place Little Red in any space. Gain 1 action. \n$SWORDS$ Deal 2 damage to each opposing fighter in Little Red\u0027s zone. \n$ROSE$ Draw 3 cards."
-    },
-    {
       "Text": "$SWORDS$ Deal 3 damage to the opposing fighter",
       "FullText": "After combat: $SWORDS$ Deal 3 damage to the opposing fighter."
     },
@@ -3211,10 +2807,6 @@
     {
       "Text": "Then, if you are at full health, take 2 damage",
       "FullText": "After combat: Recover 2 health. Then, if you are at full health, take 2 damage."
-    },
-    {
-      "Text": "You may draw 2 cards",
-      "FullText": "After combat: You may draw 2 cards. If you do, take 2 damage."
     },
     {
       "Text": "If you do, take 2 damage",
@@ -3409,10 +3001,6 @@
       "FullText": "After combat: Draw cards equal to the amount of combat damage you took."
     },
     {
-      "Text": "Draw 1 card",
-      "FullText": "After combat: Draw 1 card. Then, if you have 4 or more cards in your hand, deal 1 damage to an adjacent fighter."
-    },
-    {
       "Text": "Then, if you have 4 or more cards in your hand, deal 1 damage to an adjacent fighter",
       "FullText": "After combat: Draw 1 card. Then, if you have 4 or more cards in your hand, deal 1 damage to an adjacent fighter."
     },
@@ -3426,10 +3014,6 @@
     },
     {
       "Text": "Deal up to 4 damage to 1 of your fighters. Your other fighter recovers that amount of health",
-      "FullText": "Deal up to 4 damage to 1 of your fighters. Your other fighter recovers that amount of health. Draw 2 cards"
-    },
-    {
-      "Text": "Draw 2 cards",
       "FullText": "Deal up to 4 damage to 1 of your fighters. Your other fighter recovers that amount of health. Draw 2 cards"
     },
     {
@@ -3485,10 +3069,6 @@
       "FullText": "After combat: You may move the opposing fighter a number of spaces up to the amount of combat damage dealt."
     },
     {
-      "Text": "If Wong is adjacent to the opposing fighter, deal 1 damage to the opposing fighter and draw 1 card",
-      "FullText": "After combat: If Wong is adjacent to the opposing fighter, deal 1 damage to the opposing fighter and draw 1 card."
-    },
-    {
       "Text": "If you won the combat, your fighter and each friendly fighter adjacent to them recover health equal to the damage dealt",
       "FullText": "After combat: If you won the combat, your fighter and each friendly fighter adjacent to them recover health equal to the damage dealt."
     },
@@ -3523,10 +3103,6 @@
     {
       "Text": "Deal 2 damage to each opposing fighter adjacent to Annie",
       "FullText": "Deal 2 damage to each opposing fighter adjacent to Annie."
-    },
-    {
-      "Text": "Deal up to 2 damage to Annie to draw that many cards",
-      "FullText": "Immediately: Deal up to 2 damage to Annie to draw that many cards. (This may cause her special ability to apply.)"
     },
     {
       "Text": "(This may cause her special ability to apply.)",
@@ -3621,10 +3197,6 @@
       "FullText": "Choose an opponent. They reveal 4 cards from their hand. Choose 2 of those cards for them to discard. Then, they draw 2 cards."
     },
     {
-      "Text": "Then, they draw 2 cards",
-      "FullText": "Choose an opponent. They reveal 4 cards from their hand. Choose 2 of those cards for them to discard. Then, they draw 2 cards."
-    },
-    {
       "Text": "Choose one: -set Philippa\u0027s health to 5 -draw 3 cards",
       "FullText": "Choose one: -set Philippa\u0027s health to 5 -draw 3 cards"
     },
@@ -3649,19 +3221,11 @@
       "FullText": "After combat: If the printed value of your opponent\u0027s card is... 2: you may draw a card 3: deal 1 damage to the opposing fighter 4: your opponent discards a card"
     },
     {
-      "Text": "2: you may draw a card 3: deal 1 damage to the opposing fighter 4: your opponent discards a card",
-      "FullText": "After combat: If the printed value of your opponent\u0027s card is... 2: you may draw a card 3: deal 1 damage to the opposing fighter 4: your opponent discards a card"
-    },
-    {
       "Text": "Move the opposing fighter up to 4 spaces",
       "FullText": "After combat: Move the opposing fighter up to 4 spaces."
     },
     {
       "Text": "Look at your opponent\u0027s hand and choose 1 card for them to discard",
-      "FullText": "After combat: Look at your opponent\u0027s hand and choose 1 card for them to discard. Draw 1 card."
-    },
-    {
-      "Text": "Draw 1 card",
       "FullText": "After combat: Look at your opponent\u0027s hand and choose 1 card for them to discard. Draw 1 card."
     },
     {
@@ -3801,6 +3365,314 @@
     {
       "Text": "Gain 1 action. If the opposing fighter has 8 or more health, gain 2 actions instead",
       "FullText": "After combat: Gain 1 action. If the opposing fighter has 8 or more health, gain 2 actions instead."
+    }
+  ],
+  "chooseSpaceThenPlaceThereWhere": [
+    {
+      "Text": "an empty space in this fighter\u0027s zone",
+      "FullText": "After combat: Choose an empty space in this fighter\u0027s zone. Place this fighter in that space."
+    }
+  ],
+  "chooseSpaceThenPlaceThereWhat": [
+    {
+      "Text": "this fighter",
+      "FullText": "After combat: Choose an empty space in this fighter\u0027s zone. Place this fighter in that space."
+    }
+  ],
+  "doSomethingThenAddBoostValueFrom": [
+    {
+      "Text": "Your opponent discards 1 random card",
+      "FullText": "During combat: Your opponent discards 1 random card. Add its BOOST value to this card\u0027s attack value."
+    },
+    {
+      "Text": "Discard the top card of your deck",
+      "FullText": "During combat: Discard the top card of your deck. Add its BOOST value to this card\u0027s value."
+    },
+    {
+      "Text": "$SWORDS$ Your opponent discards 1 random card",
+      "FullText": "During combat: $SWORDS$ Your opponent discards 1 random card. Add its BOOST value to this card\u0027s value."
+    },
+    {
+      "Text": "Your opponent discards 1 random card",
+      "FullText": "During combat: Your opponent discards 1 random card. Add its BOOST value to this card\u0027s value.\nAfter combat: If this is your third action, draw 1 card."
+    },
+    {
+      "Text": "Your opponent discards the top card of their deck",
+      "FullText": "During combat: Your opponent discards the top card of their deck. Add its BOOST value to their card\u0027s value.\nAfter combat: Move each Wolf up to 3 spaces."
+    },
+    {
+      "Text": "Discard the top card of your deck",
+      "FullText": "During combat: Discard the top card of your deck. Add its BOOST value to this card\u0027s value.\nAfter combat: If you lost the combat, return the card you discarded to your hand."
+    }
+  ],
+  "doSomethingThenAddBoostValueTo": [
+    {
+      "Text": "this card\u0027s attack value",
+      "FullText": "During combat: Your opponent discards 1 random card. Add its BOOST value to this card\u0027s attack value."
+    },
+    {
+      "Text": "this card\u0027s value",
+      "FullText": "During combat: Discard the top card of your deck. Add its BOOST value to this card\u0027s value."
+    },
+    {
+      "Text": "this card\u0027s value",
+      "FullText": "During combat: $SWORDS$ Your opponent discards 1 random card. Add its BOOST value to this card\u0027s value."
+    },
+    {
+      "Text": "this card\u0027s value",
+      "FullText": "During combat: Your opponent discards 1 random card. Add its BOOST value to this card\u0027s value.\nAfter combat: If this is your third action, draw 1 card."
+    },
+    {
+      "Text": "their card\u0027s value",
+      "FullText": "During combat: Your opponent discards the top card of their deck. Add its BOOST value to their card\u0027s value.\nAfter combat: Move each Wolf up to 3 spaces."
+    },
+    {
+      "Text": "this card\u0027s value",
+      "FullText": "During combat: Discard the top card of your deck. Add its BOOST value to this card\u0027s value.\nAfter combat: If you lost the combat, return the card you discarded to your hand."
+    }
+  ],
+  "multiplePlayersSelector": [
+    {
+      "Text": "If your fighter is adjacent to the opposing fighter, ",
+      "FullText": "After combat: If your fighter is adjacent to the opposing fighter, draw 1 card."
+    },
+    {
+      "Text": "Move 1 of your fighters up to 1 space. ",
+      "FullText": "After combat: Move 1 of your fighters up to 1 space. Draw 1 card. Gain 1 action."
+    },
+    {
+      "Text": "Move your fighter up to 1 space. ",
+      "FullText": "Move your fighter up to 1 space. Draw 1 card. Gain 1 action."
+    },
+    {
+      "Text": "If Bruce Lee has 5 or less health, ",
+      "FullText": "After combat: If Bruce Lee has 5 or less health, draw 3 cards."
+    },
+    {
+      "Text": "Recover 2 health. ",
+      "FullText": "Recover 2 health. Draw up to 3 cards. Keep 1 and put any others on the bottom of your deck in any order."
+    },
+    {
+      "Text": "If you won the combat, ",
+      "FullText": "After combat: If you won the combat, draw 2 cards."
+    },
+    {
+      "Text": "If they do not, ",
+      "FullText": "Draw 1 card, then choose an opponent. They may choose to discard 1 card. If they do not, draw 1 more card."
+    },
+    {
+      "Text": "If you won the combat, your opponent ",
+      "FullText": "After combat: If you won the combat, your opponent draws 1 card. If you lost the combat, you draw 2 cards."
+    },
+    {
+      "Text": "If you lost the combat, you ",
+      "FullText": "After combat: If you won the combat, your opponent draws 1 card. If you lost the combat, you draw 2 cards."
+    },
+    {
+      "Text": "Choose 2 different effects:- place up to 3 traps- place all of your defeated InGen Workers (if any) in Muldoon\u0027s zone- ",
+      "FullText": "Choose 2 different effects:- place up to 3 traps- place all of your defeated InGen Workers (if any) in Muldoon\u0027s zone- draw 2 cards"
+    },
+    {
+      "Text": "If you won the combat, ",
+      "FullText": "After combat: If you won the combat, draw 1 card."
+    },
+    {
+      "Text": "$PELT$ ",
+      "FullText": "After combat: $PELT$ Draw 2 cards."
+    },
+    {
+      "Text": "If you won the combat, ",
+      "FullText": "After combat: If you won the combat, draw 2 cards. If you lost the combat, your opponent draws 2 cards."
+    },
+    {
+      "Text": "If you lost the combat, your opponent ",
+      "FullText": "After combat: If you won the combat, draw 2 cards. If you lost the combat, your opponent draws 2 cards."
+    },
+    {
+      "Text": "You may spend 1 Hellfire to ",
+      "FullText": "After combat: You may spend 1 Hellfire to draw 2 cards."
+    },
+    {
+      "Text": "If you won the combat, ",
+      "FullText": "After combat: If you won the combat, draw 2 cards."
+    },
+    {
+      "Text": "If you don\u0027t BOOST this attack, ",
+      "FullText": "During combat: You may BOOST this attack. If you don\u0027t BOOST this attack, draw 1 card."
+    },
+    {
+      "Text": "If this is your third action, ",
+      "FullText": "During combat: Your opponent discards 1 random card. Add its BOOST value to this card\u0027s value.\nAfter combat: If this is your third action, draw 1 card."
+    },
+    {
+      "Text": "BOOSTED WITH: ",
+      "FullText": "BOOSTED WITH: Draw 1 card.\nDuring combat: You may BOOST this card."
+    },
+    {
+      "Text": "Gain 1 action and choose 1 effect:- ",
+      "FullText": "Gain 1 action and choose 1 effect:- draw 5 cards- for the rest of your turn, your cards\u0027 values are 4 and cannot be changed- each opponent discards 2 cards"
+    },
+    {
+      "Text": "If Ms{DOTSPACE}Marvel\u0027s space shares no zones with the opposing fighter, ",
+      "FullText": "After combat: If Ms{DOTSPACE}Marvel\u0027s space shares no zones with the opposing fighter, draw 2 cards."
+    },
+    {
+      "Text": "If you discard this card as a result of an opponent\u0027s effect, ",
+      "FullText": "If you discard this card as a result of an opponent\u0027s effect, draw 1 card.\nBOOSTED WITH: If it\u0027s your turn, gain 1 action."
+    },
+    {
+      "Text": "If you won the combat, ",
+      "FullText": "During combat: If there are 4 or more squirrels in your fighter\u0027s zone, the value of this card is 4 instead.\nAfter combat: If you won the combat, draw 2 cards."
+    },
+    {
+      "Text": "If the value of your opponent\u0027s card is 4 or higher, ",
+      "FullText": "After combat: If the value of your opponent\u0027s card is 4 or higher, draw 2 cards."
+    },
+    {
+      "Text": "All of Spider-Man\u0027s attacks this turn are \u002B1 value. ",
+      "FullText": "All of Spider-Man\u0027s attacks this turn are \u002B1 value. Draw 1 card. Gain 1 action."
+    },
+    {
+      "Text": "Shuffle your hand into your deck. ",
+      "FullText": "Shuffle your hand into your deck. Draw 5 cards. Gain 1 action."
+    },
+    {
+      "Text": "If you won the combat, your opponent chooses whether you both ",
+      "FullText": "After combat: If you won the combat, your opponent chooses whether you both draw a card or both discard a card. If you lost the combat, you make the choice instead (see above)."
+    },
+    {
+      "Text": "Place She-Hulk in a starting space. ",
+      "FullText": "Place She-Hulk in a starting space. Draw 1 card. Gain 1 action."
+    },
+    {
+      "Text": "{RED ROOM} Your opponent may ",
+      "FullText": "After combat: {RED ROOM} Your opponent may draw 1 card."
+    },
+    {
+      "Text": "{RED ROOM} Discard 2 random cards, then ",
+      "FullText": "After combat: {RED ROOM} Discard 2 random cards, then draw 2 cards"
+    },
+    {
+      "Text": "Choose a card in your discard pile and shuffle it into your deck. ",
+      "FullText": "Choose a card in your discard pile and shuffle it into your deck. Draw 2 cards. Move Golden Bat up to 4 spaces."
+    },
+    {
+      "Text": "Draw 1 card. You may discharge coils: - 1 Coil: Instead, ",
+      "FullText": "After combat: Draw 1 card. You may discharge coils: - 1 Coil: Instead, draw 2 cards. - 2 Coils: Instead, draw 3 cards and Tesla recovers 1 health."
+    },
+    {
+      "Text": "- 2 Coils: Also, ",
+      "FullText": "After combat: You may discharge coils: - 1 Coil: Gain 1 action. - 2 Coils: Also, draw 1 card."
+    },
+    {
+      "Text": "If Eredin is ENRAGED, ",
+      "FullText": "Immediately: Eredin swaps spaces with an adjacent friendly fighter. That fighter is now the defender.\nAfter combat: If Eredin is ENRAGED, draw 2 cards."
+    },
+    {
+      "Text": "If your fighter hasn\u0027t left their space this turn, ",
+      "FullText": "After combat: If your fighter hasn\u0027t left their space this turn, draw 1 card."
+    },
+    {
+      "Text": "Then, ",
+      "FullText": "Deal 1 damage to each opposing fighter in the Leshen\u0027s zone. Remove the Leshen from the board. At the start of your next turn, place the Leshen in any space. Then, draw 1 card."
+    },
+    {
+      "Text": "Ciri recovers 2 health. [ONGOING]: After each combat your fighter is in, ",
+      "FullText": "Ciri recovers 2 health. [ONGOING]: After each combat your fighter is in, draw 1 card. Discard this card at the end of your turn if you have 5 or more cards in your hand."
+    },
+    {
+      "Text": "LINE EFFECT: ",
+      "FullText": "LINE EFFECT: Draw 1 card.\nAfter combat: Deal 1 damage to each other fighter in your zone."
+    },
+    {
+      "Text": "LINE EFFECT: ",
+      "FullText": "LINE EFFECT: Draw 2 cards. Shakespeare recovers 2 health.\nAfter combat: If you lost the combat, Shakespeare recovers 1 health."
+    },
+    {
+      "Text": "LINE EFFECT: ",
+      "FullText": "LINE EFFECT: Draw 1 card.\nAfter combat: Move your fighter up to 2 spaces."
+    },
+    {
+      "Text": "LINE EFFECT: ",
+      "FullText": "LINE EFFECT: Draw 1 card.\nAfter combat: You may return the first card in your line to your hand (before you add this to your line)."
+    },
+    {
+      "Text": "Put any number of cards in your hand on the bottom of your deck. Then, ",
+      "FullText": "Put any number of cards in your hand on the bottom of your deck. Then, draw up to that many cards. Gain 1 action."
+    },
+    {
+      "Text": "If at least 1 fighter is defeated this way, ",
+      "FullText": "Choose any space in Merlin\u0027s zone. Deal 2 damage to each opposing fighter in that space and in 1 adjacent space. If at least 1 fighter is defeated this way, draw 1 card."
+    },
+    {
+      "Text": "If you won the combat, ",
+      "FullText": "After combat: If you won the combat, draw 2 cards. Otherwise, take 1 damage."
+    },
+    {
+      "Text": "$ROSE$ ",
+      "FullText": "$PELT$  Place Little Red in any space. Gain 1 action. \n$SWORDS$ Deal 2 damage to each opposing fighter in Little Red\u0027s zone. \n$ROSE$ Draw 3 cards."
+    },
+    {
+      "Text": "You may ",
+      "FullText": "After combat: You may draw 2 cards. If you do, take 2 damage."
+    },
+    {
+      "Text": "If Wong is adjacent to the opposing fighter, deal 1 damage to the opposing fighter and ",
+      "FullText": "After combat: If Wong is adjacent to the opposing fighter, deal 1 damage to the opposing fighter and draw 1 card."
+    },
+    {
+      "Text": "Deal up to 2 damage to Annie to ",
+      "FullText": "Immediately: Deal up to 2 damage to Annie to draw that many cards. (This may cause her special ability to apply.)"
+    },
+    {
+      "Text": "Then, they ",
+      "FullText": "Choose an opponent. They reveal 4 cards from their hand. Choose 2 of those cards for them to discard. Then, they draw 2 cards."
+    },
+    {
+      "Text": "2: you may ",
+      "FullText": "After combat: If the printed value of your opponent\u0027s card is... 2: you may draw a card 3: deal 1 damage to the opposing fighter 4: your opponent discards a card"
+    }
+  ],
+  "numericSelector": [
+    {
+      "Text": "up to 3",
+      "FullText": "Recover 2 health. Draw up to 3 cards. Keep 1 and put any others on the bottom of your deck in any order."
+    },
+    {
+      "Text": "1 card, then choose an opponent. They may choose to discard 1",
+      "FullText": "Draw 1 card, then choose an opponent. They may choose to discard 1 card. If they do not, draw 1 more card."
+    },
+    {
+      "Text": "1 more",
+      "FullText": "Draw 1 card, then choose an opponent. They may choose to discard 1 card. If they do not, draw 1 more card."
+    },
+    {
+      "Text": "a",
+      "FullText": "After combat: Draw a card. Recover 1 health."
+    },
+    {
+      "Text": "5 cards- for the rest of your turn, your cards\u0027 values are 4 and cannot be changed- each opponent discards 2",
+      "FullText": "Gain 1 action and choose 1 effect:- draw 5 cards- for the rest of your turn, your cards\u0027 values are 4 and cannot be changed- each opponent discards 2 cards"
+    },
+    {
+      "Text": "5 cards. Each opponent discards 1 random",
+      "FullText": "Mission: You have 2 or fewer other cards in your hand.\nDraw 5 cards. Each opponent discards 1 random card. Acquire a new mission."
+    },
+    {
+      "Text": "a card or both discard a",
+      "FullText": "After combat: If you won the combat, your opponent chooses whether you both draw a card or both discard a card. If you lost the combat, you make the choice instead (see above)."
+    },
+    {
+      "Text": "up to that many",
+      "FullText": "Put any number of cards in your hand on the bottom of your deck. Then, draw up to that many cards. Gain 1 action."
+    },
+    {
+      "Text": "that many",
+      "FullText": "Immediately: Deal up to 2 damage to Annie to draw that many cards. (This may cause her special ability to apply.)"
+    },
+    {
+      "Text": "a card 3: deal 1 damage to the opposing fighter 4: your opponent discards a",
+      "FullText": "After combat: If the printed value of your opponent\u0027s card is... 2: you may draw a card 3: deal 1 damage to the opposing fighter 4: your opponent discards a card"
     }
   ]
 }

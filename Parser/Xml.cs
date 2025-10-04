@@ -92,7 +92,7 @@ partial class XmlParserNode
 
     private Matcher ToMatcher(string name)
     {
-        var pattern = Lines[0].Text.Replace("\\n", "\n");
+        var pattern = Lines[0].Text.Replace("\\n", "\n").Replace("&nbsp;", " ");
         if (pattern == "-") pattern = "";
         var script = ToScript(Lines[1].Text);
 

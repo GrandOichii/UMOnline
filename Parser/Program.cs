@@ -926,7 +926,7 @@ string FormatText(string text)
 var cards = JsonSerializer.Deserialize<List<Card>>(File.ReadAllText("../cards.json"));
 // List<Card> cards = [new Card {
 //     Name = "Test card",
-//     Text = "After combat: Draw 1 card. If you won the combat, draw 2 cards instead.",
+//     Text = "After combat: Your opponent draws 1 card. Draw 3 cards.",
 // }];
 
 var analysis = new ParseResultAnalyzer();
