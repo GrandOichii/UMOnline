@@ -53,3 +53,7 @@ fn main() {
         root.parse(text);
     }
 }
+
+fn read_script(from: &str) {
+    
+}
