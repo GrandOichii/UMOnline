@@ -7,8 +7,8 @@ pub struct Matcher {
     pub pattern: Regex,
 }
 
-impl Matcher {
-    pub fn new<'a>(name: String, pattern: Regex, script: String, children: Vec<&'a ParserNode>) -> ParserNode<'a> {
+impl ParserNode<'_> {
+    pub fn matcher<'a>(name: String, pattern: Regex, script: String, children: Vec<&'a ParserNode>) -> ParserNode<'a> {
         ParserNode {
             name: name,
             children: children,

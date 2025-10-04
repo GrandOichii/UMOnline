@@ -22,8 +22,8 @@ pub struct Splitter {
     pub pattern: Regex,
 }
 
-impl Splitter {
-    pub fn new<'a>(name: String, pattern: Regex, children: Vec<&'a ParserNode>) -> ParserNode<'a> {
+impl ParserNode<'_> {
+    pub fn splitter<'a>(name: String, pattern: Regex, children: Vec<&'a ParserNode>) -> ParserNode<'a> {
         ParserNode {
             name: name,
             parser: Box::new(Splitter {

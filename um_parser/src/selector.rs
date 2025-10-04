@@ -2,8 +2,8 @@ use crate::parser::*;
 
 pub struct Selector;
 
-impl Selector {
-    pub fn new<'a>(name: String, children: Vec<&'a ParserNode>) -> ParserNode<'a> {
+impl ParserNode<'_> {
+    pub fn selector<'a>(name: String, children: Vec<&'a ParserNode>) -> ParserNode<'a> {
         ParserNode {
             name: name,
             parser: Box::new(Selector),

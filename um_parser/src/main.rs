@@ -8,28 +8,24 @@ mod parser;
 mod selector;
 mod splitter;
 
-use crate::matcher::*;
 use crate::parser::*;
-use crate::selector::*;
-use crate::splitter::Splitter;
 
 fn main() {
-    let static_amount = Matcher::new(
+    let static_amount = ParserNode::matcher(
         String::from("static_amount"),
         Regex::new("[0-9]").unwrap(),
         String::from("value"),
         vec![],
-
     );
-    let amount_select = Selector::new(String::from("amount_select"), vec![&static_amount]);
+    let amount_select = ParserNode::selector(String::from("amount_select"), vec![&static_amount]);
 
-    let draw = Matcher::new(
+    let draw = ParserNode::matcher(
         String::from("root"),
         Regex::new("[D|d]raw (.+) cards?").unwrap(),
         String::from("function _Create(text, children, data) return 'TODO' end"),
         vec![&amount_select],
     );
-    let root = Splitter::new(
+    let root = ParserNode::splitter(
         String::from("sentence_splitter"),
         Regex::new("\\. ").unwrap(),
         vec![&draw],
