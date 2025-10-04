@@ -9,7 +9,7 @@ using Parser.Parsers;
 
 ParserBase ReadXMLParser()
 {
-    var doc = "../parser.drawio";
+    var doc = "../parser1.drawio";
     XmlDocument xDoc = new();
     xDoc.Load(doc);
 
@@ -926,7 +926,7 @@ string FormatText(string text)
 var cards = JsonSerializer.Deserialize<List<Card>>(File.ReadAllText("../cards.json"));
 // List<Card> cards = [new Card {
 //     Name = "Test card",
-//     Text = "Return your opponent\u0027s attack card to their hand. Look at their hand and choose an attack or versatile card for them to play. (It may be the same card.).",
+//     Text = "After combat: Draw 1 card. If you won the combat, draw 2 cards instead.",
 // }];
 
 var analysis = new ParseResultAnalyzer();
