@@ -918,6 +918,7 @@ string FormatText(string text)
         .Replace("(This is in addition to any BLIND BOOST from Daredevil's special ability.)", "")
         .Replace("(Draw a card for Black Panther's special ability each time you BOOST.)", "")
         .Replace("(Do not discard any cards from your cauldron to cast these spells.)", "")
+        .Replace(" (This may cause her special ability to apply.)", "")
     ;
 
     return text;
