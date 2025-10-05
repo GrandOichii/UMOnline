@@ -32,6 +32,9 @@
         "ChoosePlayer",
         "MoveFighters",
         "GetHandSize",
-        "IsInCombat"
+        "IsInCombat",
+        "LogPublic",
+        "GetPlayerAttribute",
+        "SetPlayerAttribute"
     ]
 }

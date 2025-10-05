@@ -38,9 +38,8 @@ public class MatchScripts
     }
 
     [LuaCommand]
-    public void DrawCards(int playerIdx, int amount)
+    public void DrawCards(Player player, int amount)
     {
-        var player = Match.GetPlayer(playerIdx);
         player.Hand.Draw(amount)
             .Wait();
     }
@@ -129,7 +128,7 @@ public class MatchScripts
                     .GetAwaiter().GetResult();
             }
             fighters.Remove(fighter);
-            
+
             player.MoveFighter(fighter, amount, true, canMoveOverOpposing)
                 .Wait();
         }
@@ -197,7 +196,7 @@ public class MatchScripts
     public MapNode ChooseNode(Player player, LuaTable nodes, string hint)
     {
         var options = LuaUtility.ParseTable<MapNode>(nodes);
-        var result = player.Controller.ChooseNode(player, [..options], hint)
+        var result = player.Controller.ChooseNode(player, [.. options], hint)
             .GetAwaiter().GetResult();
         return result;
     }
@@ -222,7 +221,7 @@ public class MatchScripts
     [LuaCommand]
     public string ChooseString(Player player, LuaTable optionsRaw, string hint)
     {
-        return player.Controller.ChooseString(player, [..LuaUtility.ParseTable<string>(optionsRaw)], hint)
+        return player.Controller.ChooseString(player, [.. LuaUtility.ParseTable<string>(optionsRaw)], hint)
             .GetAwaiter().GetResult();
     }
 
@@ -296,5 +295,23 @@ public class MatchScripts
     public bool IsInCombat(Fighter fighter)
     {
         return Match.Combat!.Attacker == fighter || Match.Combat.Defender == fighter;
+    }
+
+    [LuaCommand]
+    public void LogPublic(string msg)
+    {
+        Match.Logs.Public(msg);
+    }
+
+    [LuaCommand]
+    public void SetPlayerAttribute(Player player, string key, string value)
+    {
+        player.Attributes.Set(key, value);
+    }
+
+    [LuaCommand]
+    public string? GetPlayerAttribute(Player player, string key)
+    {
+        return player.Attributes.Get(key);
     }
 }

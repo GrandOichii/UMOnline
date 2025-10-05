@@ -5,12 +5,20 @@ using UMCore.Matches.Players;
 
 namespace UMCore.Matches.Attacks;
 
-public class CombatCard(Combat parent, MatchCard card) : IHasData<CombatCard.Data>
+public class CombatCard : IHasData<CombatCard.Data>
 {
-    public MatchCard Card { get; } = card;
-    public int Value { get; set; } = (int)card.Template.Value!;
+    public MatchCard Card { get; }
+    public int Value { get; set; }
     public bool EffectsCancelled { get; private set; } = false;
     public List<MatchCard> Boosts { get; } = [];
+
+    public CombatCard(Combat parent, MatchCard card)
+    {
+        Card = card;
+        Value = (int)card.Template.Value!;
+
+        // TODO modify value
+    }
 
     public int GetValue()
     {
@@ -76,7 +84,6 @@ public class CombatCard(Combat parent, MatchCard card) : IHasData<CombatCard.Dat
         public required string DeckName { get; init; }
     }
 }
-
 
 public enum CombatStepTrigger {
     Immediately = 0,

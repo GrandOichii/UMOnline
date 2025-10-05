@@ -671,3 +671,5 @@ function UM.S.Spaces()
 
     return result
 end
+
+UM.Effects.CharacterSpecific = {}

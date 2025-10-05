@@ -84,13 +84,16 @@ for path in listdir(LOADOUTS_DIR):
         card_script = TODO_CARD_SCRIPT
 
         card_path = join(SCRIPTS_PATH, f'{card_name}.lua')
+        has_script = False
         if exists(card_path):
             card_script = open(card_path, 'r').read()
+            has_script = True
         else:
             fallback_card_path = join(FALLBACK_SCRIPTS_PATH, f'{card_name}.lua')
             if exists(fallback_card_path):
                 card_script = open(fallback_card_path, 'r').read()
-        if card_script == TODO_CARD_SCRIPT:
+                has_script = True
+        if not has_script:
             loadout_report['missingScripts'] += [card]
         
         target_card_path = join(card_scripts_path, f'{card_key}.lua')

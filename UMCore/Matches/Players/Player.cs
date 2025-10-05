@@ -40,6 +40,7 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
     public Deck Deck { get; }
     public DiscardPile DiscardPile { get; }
     public LoadoutTemplate Loadout { get; }
+    public Attributes Attributes { get; }
 
     public int ActionCount { get; set; }
 
@@ -54,6 +55,7 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
         Hand = new(this);
         Deck = new(this);
         DiscardPile = new(this);
+        Attributes = new(this);
 
         Fighters = [];
     }

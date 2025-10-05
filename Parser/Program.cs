@@ -946,7 +946,7 @@ foreach (var card in cards!)
 
     try
     {
-        var name = card.Name.Replace('?', ' ').Replace('!', ' ').Replace(':', ' ').Replace('"', ' ').Trim();
+        var name = card.Name.Replace('?', ' ').Replace(':', ' ').Replace('"', ' ').Trim();
         var serialized = serializer.Serialize(result);
         File.WriteAllText($"{args[1]}/{name}.yaml", serialized);
 
