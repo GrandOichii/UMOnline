@@ -78,7 +78,7 @@ function UM.Effects:CancelAllEffectsOfOpponentsCard()
     -- TODO
 end
 
-function UM.Effects:Draw(manyPlayers, numeric)
+function UM.Effects:Draw(manyPlayers, numeric, optional)
     -- TODO
 end
 

@@ -927,7 +927,7 @@ string FormatText(string text)
 var cards = JsonSerializer.Deserialize<List<Card>>(File.ReadAllText("../cards.json"));
 // List<Card> cards = [new Card {
 //     Name = "Test card",
-//     Text = "After combat: Your opponent draws 1 card. Draw 3 cards.",
+//     Text = "After combat: Draw 1 card. Draw 1 card. Draw 1 card. Draw 1 card.",
 // }];
 
 var analysis = new ParseResultAnalyzer();
@@ -946,19 +946,18 @@ foreach (var card in cards!)
 
     try
     {
+        var name = card.Name.Replace('?', ' ').Replace('!', ' ').Replace(':', ' ').Replace('"', ' ').Trim();
         var serialized = serializer.Serialize(result);
+        File.WriteAllText($"{args[1]}/{name}.yaml", serialized);
 
         var script = result.CreateScript();
 
-        var name = card.Name.Replace('?', ' ').Replace('!', ' ').Replace(':', ' ').Replace('"', ' ').Trim();
         if (result.Status == ParseResultStatus.SUCCESS)
         {
             System.Console.WriteLine($"Generated script for {card.Name}");
             File.WriteAllText($"{args[2]}/{name}.lua", script);
             ++successCount;
         }
-
-        File.WriteAllText($"{args[1]}/{name}.yaml", serialized);
 
     }
     catch (Exception e)

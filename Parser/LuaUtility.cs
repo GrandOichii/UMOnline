@@ -99,7 +99,7 @@ static class LuaUtility {
     /// <typeparam name="T">Type of the return value</typeparam>
     static public T GetReturnAs<T>(object[] returned, int index=0) where T : class {
         CheckIndex(returned, index);
-        var result = returned[index] as T ?? throw new ConvertLuaException("Return value in index " + index + " is not a table");
+        var result = returned[index] as T ?? throw new ConvertLuaException($"Return value in index {index} is not of type {typeof(T)}");
         return result;
     }
 
