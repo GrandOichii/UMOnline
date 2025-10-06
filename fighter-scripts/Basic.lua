@@ -1,4 +1,4 @@
 function _Create()
-    return UM:Fighter()
+    return UM.Build:Fighter()
     :Build()
 end

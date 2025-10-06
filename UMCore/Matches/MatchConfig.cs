@@ -14,14 +14,14 @@ public class MatchConfig
 
     public static readonly MatchConfig Default = new()
     {
-        RandomMatch = true,
-        Seed = 0,
+        RandomMatch = false, // true
+        Seed = 1,
         ActionsPerTurn = 2,
         InitialHandSize = 5,
         ManoeuvreDrawAmount = 1,
         MaxHandSize = 7,
-        FirstPlayerIdx = -1, // -1
-        RandomFirstPlayer = true, // true
+        FirstPlayerIdx = 0, // -1
+        RandomFirstPlayer = false, // true
         ExhaustDamage = 2,
     };
 }

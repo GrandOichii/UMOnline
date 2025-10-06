@@ -24,6 +24,8 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
 
     public string FormattedLogName => $"[{Id}:{GetName()}]";
 
+    public List<CardValueModifier> CardValueModifiers { get; }
+
     public Fighter(Player owner, FighterTemplate template)
     {
         Template = template;
@@ -65,6 +67,22 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
         catch (Exception e)
         {
             throw new MatchException($"Failed to get turn step effects for fighter {template.Name}", e);
+        }
+
+        CardValueModifiers = [];
+        try
+        {
+            var cardValueModifiers = LuaUtility.TableGet<LuaTable>(data, "CardValueModifiers");
+            foreach (var keyRaw in cardValueModifiers.Keys)
+            {
+                var modFunc = cardValueModifiers[keyRaw] as LuaFunction;
+                // TODO check for null
+                CardValueModifiers.Add(new(new(modFunc!)));
+            }
+        }
+        catch (Exception e)
+        {
+            throw new MatchException($"Failed to get card value modifiers for fighter {template.Name}", e);
         }
 
     }

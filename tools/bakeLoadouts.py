@@ -12,7 +12,7 @@ OUT_DIR = argv[5]
 
 TODO_FIGHTER_SCRIPT = '''
 function _Create()
-    return UM:Fighter()
+    return UM.Build:Fighter()
     -- TODO
     :Build()
 end
@@ -20,7 +20,7 @@ end
 
 TODO_CARD_SCRIPT = '''
 function _Create()
-    return UM:Card()
+    return UM.Build:Card()
     -- TODO
     :Build()
 end
@@ -28,7 +28,7 @@ end
 
 BASIC_FIGHTER_SCRIPT = '''
 function _Create()
-    return UM:Fighter()
+    return UM.Build:Fighter()
     :Build()
 end
 '''

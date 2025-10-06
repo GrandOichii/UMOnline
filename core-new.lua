@@ -1,4 +1,4 @@
-local UM = {}
+UM = {}
 
 UM.CombatSteps = {
     IMMEDIATELY = 0,
@@ -11,10 +11,38 @@ UM.TurnPhaseTriggers = {
     END = 1,
 }
 
+-- Single player
+
+
+UM.Player = {}
+
+function UM.Player:EffectOwner()
+    return function (args)
+        return args.owner
+    end
+end
+
+-- function UM.Player:Opponent()
+--     return function (args)
+--         -- TODO
+--     end
+-- end
+
+-- Single fighter
+
+UM.Fighter = {}
+
+function UM.Fighter:Source()
+    return function (args)
+        return args.fighter
+    end
+end
 
 -- Card creation
 
-function UM:Card()
+UM.Build = {}
+
+function UM.Build:Card()
     local result = {}
 
     result.scheme = {
@@ -79,10 +107,26 @@ end
 
 -- Fighter creation
 
-function UM:Fighter()
+function UM.Build:Fighter()
     local result = {}
 
     result.turnPhaseEffects = {}
+    result.cardValueModifiers = {}
+
+    function result:ModCardValue(modFunc, modCondition)
+        modCondition = modCondition or function (...)
+            return true
+        end
+
+        result.cardValueModifiers[#result.cardValueModifiers+1] = function (args, combatCard, resultValue)
+            if not modCondition(args) then
+                return resultValue
+            end
+            return modFunc(args, combatCard, result)
+        end
+
+        return result
+    end
 
     function result:AddTurnPhaseEffects(step, text, ...)
         local obj = {
@@ -110,7 +154,8 @@ function UM:Fighter()
 
     function result:Build()
         local fighter = {
-            TurnPhaseEffects = result.turnPhaseEffects
+            TurnPhaseEffects = result.turnPhaseEffects,
+            CardValueModifiers = result.cardValueModifiers,
         }
         return fighter
     end
@@ -139,11 +184,15 @@ function UM.Number:_(options)
         return result.values[#result.values]
     end
 
-    return result
+    return function (...)
+        return result
+    end
 end
 
 function UM.Number:Static(v)
-    return UM.Number:_(v)
+    return UM.Number:_({
+        [1] = v
+    })
 end
 
 function UM.Number:UpTo(max)
@@ -176,11 +225,75 @@ function UM.Effects:IfInstead(conditionalFunc, trueEffectFunc, falseEffectFunc)
     -- TODO
 end
 
-function UM.Effects:CancelAllEffectsOfOpponentsCard()
+function UM.Effects:Optional(hint, ...)
+    local effectFuncs = {...}
+
     return function (args)
-        local player = args.owner
-        CancelCombatEffectsOfOpponent(player)
+        local choice = ChooseString(args.owner, {
+            [1] = 'Yes',
+            [2] = 'No'
+        }, hint)
+
+        if choice == 'Yes' then
+            for _, effectFunc in ipairs(effectFuncs) do
+                effectFunc(args)
+            end
+        end
     end
+end
+
+-- Conditions
+
+UM.Conditions = {}
+
+function UM.Conditions:PlayerAttributeEqualTo(attrKey, attrValue)
+    return function (args)
+        return GetPlayerAttribute(args.owner, attrKey) == attrValue
+    end
+end
+
+function UM.Conditions:CombatWonBy(playerFunc)
+    return function (args)
+        local combat = GetCombat()
+        -- TODO assert that combat is not null
+        -- TODO assert that combat winner is not null
+        return combat.Winner == playerFunc(args)
+    end
+end
+
+function UM.Conditions:FightersCountGte(manyFighters, amount)
+    return function (args)
+        -- TODO feels wierd
+        local fighters = manyFighters(args)
+        return #fighters >= amount
+    end
+end
+
+
+-- Card modifications
+
+UM.Mod = {}
+UM.Mod.Cards = {}
+
+function UM.Mod.Cards:_(value, boostsAttackCards, boostsDefenseCards)
+    return function (args, combatCard, result)
+        print(args, combatCard, result)
+        if not boostsAttackCards and not combatCard.IsDefence then
+            return result
+        end
+        if not boostsDefenseCards and combatCard.IsDefence then
+            return result
+        end
+        return result + value
+    end
+end
+
+function UM.Mod.Cards:AttackCards(value)
+    return UM.Mod.Cards:_(value, true, false)
+end
+
+function UM.Mod.Cards:DefenseCards(value)
+    return UM.Mod.Cards:_(value, false, true)
 end
 
 -- Effects
@@ -193,7 +306,7 @@ function UM.Effects:Draw(manyPlayers, numeric, optional)
     end
 end
 
-function UM.Effects:Move(manyFighters, numeric, canMoveOverOpposing)
+function UM.Effects:MoveFighters(manyFighters, numeric, canMoveOverOpposing)
     return function (args)
         local fighters = manyFighters(args)
         local amount = numeric(args):Last()
@@ -282,6 +395,13 @@ function UM.Effects:RecoverHealth(manyFighters, amount)
     end
 end
 
+function UM.Effects:CancelAllEffectsOnOpponentsCard()
+    return function (args)
+        local player = args.owner
+        CancelCombatEffectsOfOpponent(player)
+    end
+end
+
 function UM.Effects:PreventAllDamage()
     -- TODO prevent all damage in combat
 end
@@ -295,6 +415,263 @@ function UM.Effects:ImpossibleToSee()
     -- The value of your opponent's attack or defense is 0 and cannot be changed by card effects. (Other card effects still happen.)
     -- TODO
 end
+
+
+-- entity selectors
+
+UM.Select = {}
+
+function UM.Select:Fighters()
+    local result = {}
+
+    result.filters = {}
+    result.single = false
+
+    -- function result:OwnedBy(playerFunc)
+    --     result.filters[#result.filters+1] = function (args, fighter)
+    --         return fighter.Owner.Idx == playerFunc(args).Idx
+    --     end
+
+    --     return result
+    -- end
+
+    function result:Your()
+        -- TODO
+
+        return result
+    end
+
+    function result:Named(name)
+        result.filters[#result.filters+1] = function (args, fighter)
+            return IsCalled(fighter, name)
+        end
+
+        return result
+    end
+
+    function result:InCombat()
+        result.filters[#result.filters+1] = function (args, fighter)
+            return IsInCombat(fighter)
+        end
+        
+        return result
+    end
+
+    function result:Only(fighterFunc)
+        result.filters[#result.filters+1] = function (args, fighter)
+            local f = fighterFunc(args)
+            if not IsAlive(f) then
+                return false
+            end
+            return fighter == f
+        end
+
+        return result
+    end
+
+    function result:AdjacentTo(fighterFunc)
+        result.filters[#result.filters+1] = function (args, fighter)
+            local f = fighterFunc(args)
+            if not IsAlive(f) then
+                return false
+            end
+            return AreAdjacent(fighter, f)
+        end
+
+        return result
+    end
+
+    function result:InSameZoneAs(fighterFunc)
+        result.filters[#result.filters+1] = function (args, fighter)
+            local f = fighterFunc(args)
+            if not IsAlive(f) then
+                return false
+            end
+            return AreInSameZone(fighter, f)
+        end
+
+        return result
+    end
+
+    function result:OpposingInCombatTo(fighterFunc)
+        result.filters[#result.filters+1] = function (args, fighter)
+            local f = fighterFunc(args)
+            if not IsAlive(f) then
+                return false
+            end
+            return AreOpposingInCombat(fighter, f)
+        end
+
+        return result
+    end
+
+    -- function result:NotOwnedBy(playerFunc)
+    --     result.filters[#result.filters+1] = function (args, fighter)
+    --         return fighter.Owner.Idx ~= playerFunc(args).Idx
+    --     end
+
+    --     return result
+    -- end
+
+    function result:OpposingTo(playerFunc)
+        result.filters[#result.filters+1] = function (args, fighter)
+            return IsOpposingTo(fighter, playerFunc(args))
+        end
+
+        return result
+    end
+
+    function result:Single()
+        result.single = true
+        return result
+    end
+
+    function result:_Select(args)
+        local allFighters = GetFighters()
+        local fighters = {}
+
+        local filterFunc = function (fighter)
+            for _, filter in ipairs(result.filters) do
+                if not filter(args, fighter) then
+                    return false
+                end
+            end
+            return true
+        end
+
+        for _, fighter in ipairs(allFighters) do
+            if filterFunc(fighter) then
+                fighters[#fighters+1] = fighter
+            end
+        end
+
+        -- TODO check for 0
+
+        if result.single then
+            local fighter = fighters[1]
+
+            if #fighters > 1 then
+                fighter = ChooseFighter(args.owner, fighters, 'Choose a fighter')
+            end
+
+            fighters = {
+                [1] = fighter
+            }
+
+        end
+
+        return fighters
+    end
+
+    function result:Build()
+        return function (args)
+            return result:_Select(args)
+        end
+    end
+
+    function result:BuildOne()
+        return function (args)
+            -- TODO
+        end
+    end
+
+    function result:YourFighter()
+        -- TODO
+
+        return result
+    end
+
+    return result
+end
+
+
+function UM.Select.Players()
+    local result = {}
+
+    result.filters = {}
+    result.single = false
+
+    -- function result:OpposingTo(playerFunc)
+    --     -- TODO
+    --     result.filters[#result.filters+1] = function (args, player)
+    --         return AreOpposingPlayers(player, playerFunc(args))
+    --     end
+    --     return result
+    -- end
+
+    function result:_Select(args)
+        local allPlayers = GetPlayers()
+        local players = {}
+
+        local filterFunc = function (player)
+            for _, filter in ipairs(result.filters) do
+                if not filter(args, player) then
+                    return false
+                end
+            end
+            return true
+        end
+
+        for _, player in ipairs(allPlayers) do
+            if filterFunc(player) then
+                players[#players+1] = player
+            end
+        end
+
+        if result.single then
+            local player = players[1]
+
+            if #players > 1 then
+                player = ChoosePlayer(args.owner, players, 'Choose a player')
+            end
+
+            players = {
+                [1] = player
+            }
+
+        end
+
+        return players
+    end
+
+    -- function result:BuildOne()
+    --     return function (args)
+    --         -- TODO is this the right way
+    --         local options = result:_Select(args)
+    --         local player = options[1]
+    --         -- if #options > 1 then
+    --         --     fighter = ChooseFighter(args.owner, options, 'Choose a single fighter')
+    --         -- end
+    --         return player
+    --     end
+    -- end
+
+    -- function result:Single()
+    --     result.single = true
+    --     return result
+    -- end
+
+    function result:You()
+        -- TODO
+
+        return result
+    end
+
+    function result:YourOpponent()
+        -- TODO
+
+        return result
+    end
+
+    function result:Build()
+        return function (args)
+            return result:_Select(args)
+        end
+    end
+
+    return result
+end
+
 
 -- Character-specific
 

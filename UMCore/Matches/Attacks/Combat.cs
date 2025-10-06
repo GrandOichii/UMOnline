@@ -7,17 +7,26 @@ namespace UMCore.Matches.Attacks;
 
 public class CombatCard : IHasData<CombatCard.Data>
 {
+    public bool IsDefence { get; }
     public MatchCard Card { get; }
     public int Value { get; set; }
     public bool EffectsCancelled { get; private set; } = false;
     public List<MatchCard> Boosts { get; } = [];
+    public Combat Parent { get; }
+    public Fighter Fighter { get; }
 
-    public CombatCard(Combat parent, MatchCard card)
+    public CombatCard(Combat parent, Fighter fighter, MatchCard card, bool isDefence)
     {
+        Fighter = fighter;
+        IsDefence = isDefence;
         Card = card;
+        Parent = parent;
         Value = (int)card.Template.Value!;
 
-        // TODO modify value
+        foreach (var modifier in fighter.CardValueModifiers)
+        {
+            Value = modifier.Modify(this);
+        }
     }
 
     public int GetValue()
@@ -32,7 +41,7 @@ public class CombatCard : IHasData<CombatCard.Data>
     {
         EffectsCancelled = true;
         // TODO cancel boost cards also
-        parent.Match.Logs.Public($"Effects of card {Card.FormattedLogName} are cancelled");
+        Parent.Match.Logs.Public($"Effects of card {Card.FormattedLogName} are cancelled");
     }
 
     public bool CanBeCancelled()
@@ -57,7 +66,7 @@ public class CombatCard : IHasData<CombatCard.Data>
 
     public Data GetData(Player player)
     {
-        var visible = Card.Owner == player || parent.CardsAreRevealed;
+        var visible = Card.Owner == player || Parent.CardsAreRevealed;
         if (visible) {
             return new()
             {
@@ -109,12 +118,12 @@ public class Combat : IHasData<Combat.Data>
         Match = match;
         Attacker = original.Fighter;
         Defender = original.Target;
-        AttackCard = new(this, original.AttackCard);
+        AttackCard = new(this, Attacker, original.AttackCard, false);
     }
 
     public async Task SetDefenceCard(MatchCard? defence)
     {
-        DefenceCard = defence is null ? null : new(this, defence);
+        DefenceCard = defence is null ? null : new(this, Defender, defence, true);
 
         await Match.UpdateClients();
     }

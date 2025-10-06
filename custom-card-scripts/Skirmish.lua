@@ -1,16 +1,17 @@
 function _Create()
-    return UM:Card()
+    return UM.Build:Card()
         :AfterCombat(
             'After combat: If you won the combat, choose one of the fighters in the combat and move them up to 2 spaces',
-            UM:If(
-                UM.Conditional:CombatWonBy(
+            UM.Effects:If(
+                UM.Conditions:CombatWonBy(
                     UM.Player:EffectOwner()
                 ),
                 UM.Effects:MoveFighters(
-                    UM.S:Fighters()
+                    UM.Select:Fighters()
                     :InCombat()
                     :Single()
-                    :Build()
+                    :Build(),
+                    UM.Number:UpTo(2)
                 )
             )
         )

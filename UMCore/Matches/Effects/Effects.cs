@@ -42,8 +42,8 @@ public class Effect
         Func = func;
     }
 
-    public void Execute(LuaTable? args = null)
+    public object[] Execute(params object[] args)
     {
-        Func.Call(args);
+        return Func.Call(args);
     }
 }
