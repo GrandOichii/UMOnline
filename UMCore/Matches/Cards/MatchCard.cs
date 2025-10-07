@@ -104,11 +104,7 @@ public class MatchCard : IHasData<MatchCard.Data>
     {
         Owner.Match.Logger?.LogDebug("Executing scheme effects of card {CardLogName} by fighter {FighterLogName}", LogName, by.LogName);
         Owner.Match.Logs.Public($"Player {by.Owner.FormattedLogName} played Scheme card {FormattedLogName}");
-        SchemeEffect.Execute(LuaUtility.CreateTable(Owner.Match.LState, new Dictionary<string, object>()
-        {
-            { "fighter", by },
-            { "owner", by.Owner },
-        }));
+        SchemeEffect.Execute(by, by.Owner);
 
         await Owner.Match.UpdateClients();        
     }
@@ -125,11 +121,7 @@ public class MatchCard : IHasData<MatchCard.Data>
             return;
         }
 
-        effects.Execute(LuaUtility.CreateTable(Owner.Match.LState, new Dictionary<string, object>()
-        {
-            { "fighter", by },
-            { "owner", by.Owner },
-        }));
+        effects.Execute(by, by.Owner);
     }
 
     public Data GetData(Player player)

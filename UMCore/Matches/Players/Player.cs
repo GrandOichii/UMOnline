@@ -217,11 +217,7 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
 
         foreach (var (effect, fighter) in effects)
         {
-            effect.Execute(LuaUtility.CreateTable(Match.LState, new Dictionary<string, object>()
-            {
-                { "fighter", fighter },
-                { "owner", this },
-            }));
+            effect.Execute(fighter, this); 
         }
 
         await Match.UpdateClients();

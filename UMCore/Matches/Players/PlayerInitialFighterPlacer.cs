@@ -24,6 +24,11 @@ public class PlayerInitialFighterPlacer
         await PlaceRemaining(player, sidekickQueue, heroAvailableNodes, sidekickAvailableNodes);
 
         player.Match.Logs.Public($"Player {player.FormattedLogName} placed all of their fighters");
+
+        foreach (var fighter in player.Fighters)
+        {
+            fighter.ExecuteWhenPlacedEffects();
+        }
     }
 
     private async Task PlaceRemaining(Player player, Queue<Fighter> fighters, List<MapNode> heroAvailableNodes, List<MapNode> sidekickAvailableNodes)

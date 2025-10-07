@@ -77,7 +77,7 @@ static class LuaUtility {
     /// <returns>The function</returns>
     static public LuaFunction GetGlobalF(Lua lState, string fName) {
         var f = lState[fName] as LuaFunction
-            ?? throw new GetLuaException("Failed to get function " + fName + " from global Lua state");
+            ?? throw new GetLuaException($"Failed to get function {fName} from global Lua state");
         return f;
     } 
 
@@ -89,7 +89,7 @@ static class LuaUtility {
     static void CheckIndex(object[] returned, int index) {
         if (index < returned.Length) return;
 
-        throw new ArgumentOutOfRangeException("Can't access return value with index " + index + ": total amount of returned values is " + returned.Length);
+        throw new ArgumentOutOfRangeException($"Can't access return value with index {index}: total amount of returned values is {returned.Length}");
     }
 
     /// <summary>
@@ -171,7 +171,7 @@ static class LuaUtility {
     /// <returns>Long value</returns>
     static public T TableGet<T>(LuaTable table, string name) where T : class {
         var raw = table[name]
-            ?? throw new GetLuaTableException(table, "Failed to get T " + name + " from Lua table ")
+            ?? throw new GetLuaTableException(table, $"Failed to get value {name} of type {typeof(T)} from Lua table ");
         ;
         var f = raw as T 
             ?? throw new GetLuaTableException(table, $"Failed to cast value \"{name}\" of type {raw.GetType()} to type {typeof(T)}");

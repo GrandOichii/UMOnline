@@ -112,6 +112,7 @@ function UM.Build:Fighter()
 
     result.turnPhaseEffects = {}
     result.cardValueModifiers = {}
+    result.whenPlaced = {}
 
     function result:ModCardValue(modFunc, modCondition)
         modCondition = modCondition or function (...)
@@ -125,6 +126,14 @@ function UM.Build:Fighter()
             return modFunc(args, combatCard, resultValue)
         end
 
+        return result
+    end
+
+    function result:WhenPlaced(text, ...)
+        result.whenPlaced[#result.whenPlaced+1] = {
+            text = text,
+            effects = {...}
+        }
         return result
     end
 
@@ -156,6 +165,7 @@ function UM.Build:Fighter()
         local fighter = {
             TurnPhaseEffects = result.turnPhaseEffects,
             CardValueModifiers = result.cardValueModifiers,
+            WhenPlacedEffects = result.whenPlaced,
         }
         return fighter
     end

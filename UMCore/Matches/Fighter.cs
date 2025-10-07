@@ -25,6 +25,7 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
     public string FormattedLogName => $"[{Id}:{GetName()}]";
 
     public List<CardValueModifier> CardValueModifiers { get; }
+    public List<EffectCollection> WhenPlacedEffects { get; }
 
     public Fighter(Player owner, FighterTemplate template)
     {
@@ -85,6 +86,30 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
             throw new MatchException($"Failed to get card value modifiers for fighter {template.Name}", e);
         }
 
+        WhenPlacedEffects = [];
+        try
+        {
+            var whenPlacedEffects = LuaUtility.TableGet<LuaTable>(data, "WhenPlacedEffects");
+            foreach (var value in whenPlacedEffects.Values)
+            {
+                var table = value as LuaTable;
+                // TODO check for null
+                var effects = new EffectCollection(table!);
+                WhenPlacedEffects.Add(effects);
+            }
+        }
+        catch (Exception e)
+        {
+            throw new MatchException($"Failed to get initial fighter placement effects for fighter {template.Name}", e);
+        }
+    }
+
+    public void ExecuteWhenPlacedEffects()
+    {
+        foreach (var effect in WhenPlacedEffects)
+        {
+            effect.Execute(this, Owner);
+        }
     }
 
     public string GetName()

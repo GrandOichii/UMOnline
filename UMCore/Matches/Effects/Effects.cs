@@ -1,4 +1,5 @@
 using NLua;
+using UMCore.Matches.Players;
 using UMCore.Utility;
 
 namespace UMCore.Matches.Effects;
@@ -31,6 +32,15 @@ public class EffectCollection
             effect.Execute(args);
         }
     }
+
+    public void Execute(Fighter fighter, Player owner)
+    {
+        Execute(LuaUtility.CreateTable(owner.Match.LState, new Dictionary<string, object>()
+        {
+            { "fighter", fighter },
+            { "owner", owner },
+        }));
+    }
 }
 
 public class Effect
@@ -42,7 +52,7 @@ public class Effect
         Func = func;
     }
 
-    public object[] Execute(params object[] args)
+    public object[] Execute(params object?[] args)
     {
         return Func.Call(args);
     }

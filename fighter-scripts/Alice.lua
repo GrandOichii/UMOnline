@@ -9,16 +9,16 @@ function _Create()
         -- :DefinePlayerAttribute(
         --     'ALICE_SIZE'
         -- )
-        -- :WhenPlaced(
-        --     'When you place Alice, choose whether she starts the game BIG or SMALL',
-        --     function (args)
-        --         local choice = ChooseString(args.owner, 'Start the game BIG or SMALL?', {
-        --             [1] = 'BIG',
-        --             [2] = 'SMALL',
-        --         })
-        --         SetPlayerAttribute(args.owner, 'ALICE_SIZE', choice)
-        --     end
-        -- )
+        :WhenPlaced(
+            'When you place Alice, choose whether she starts the game BIG or SMALL',
+            function (args)
+                local choice = ChooseString(args.owner, {
+                    [1] = 'BIG',
+                    [2] = 'SMALL',
+                }, 'Start the game BIG or SMALL?')
+                UM.Effects.CharacterSpecific._SetSize(args.owner, choice)
+            end
+        )
         :ModCardValue(
             UM.Mod.Cards:AttackCards(2),
             UM.Conditions:PlayerAttributeEqualTo('ALICE_SIZE', 'BIG')
@@ -30,6 +30,12 @@ function _Create()
     :Build()
 end
 
+function UM.Effects.CharacterSpecific._SetSize(owner, size)
+    SetPlayerAttribute(owner, 'ALICE_SIZE', size)
+
+    LogPublic('Alice changes size! Alice is now '..size)
+end
+
 function UM.Effects.CharacterSpecific:ChangeSize()
     return function (args)
         local attr = GetPlayerAttribute(args.owner, 'ALICE_SIZE')
@@ -37,8 +43,6 @@ function UM.Effects.CharacterSpecific:ChangeSize()
         if attr == 'BIG' then
             newSize = 'SMALL'
         end
-        SetPlayerAttribute(args.owner, 'ALICE_SIZE', newSize)
-
-        LogPublic('Alice changes size! Alice is now '..newSize)
+        UM.Effects.CharacterSpecific._SetSize(args.owner, newSize)
     end
 end

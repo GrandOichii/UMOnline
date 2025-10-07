@@ -76,7 +76,7 @@ static class LuaUtility {
     /// <param name="fName">Function name</param>
     /// <returns>The function</returns>
     static public LuaFunction GetGlobalF(Lua lState, string fName) {
-        var f = lState[fName] as LuaFunction ?? throw new GetLuaException("Failed to get function " + fName + " from glabal Lua state");
+        var f = lState[fName] as LuaFunction ?? throw new GetLuaException($"Failed to get function {fName} from glabal Lua state");
         return f;
     } 
 
@@ -88,7 +88,7 @@ static class LuaUtility {
     static void CheckIndex(object[] returned, int index) {
         if (index < returned.Length) return;
 
-        throw new ArgumentOutOfRangeException("Can't access return value with index " + index + ": total amount of returned values is " + returned.Length);
+        throw new ArgumentOutOfRangeException($"Can't access return value with index {index}: total amount of returned values is {returned.Length}");
     }
 
     /// <summary>
@@ -111,7 +111,7 @@ static class LuaUtility {
     /// <returns></returns>
     static public bool GetReturnAsBool(object[] returned, int index=0) {
         CheckIndex(returned, index);
-        var result = returned[index] as bool? ?? throw new ConvertLuaException("Return value in index " + index + " is not a table");
+        var result = returned[index] as bool? ?? throw new ConvertLuaException($"Return value in index {index} is not a table");
         return result;
     }
 
@@ -122,7 +122,7 @@ static class LuaUtility {
     /// <param name="name">Name of the field</param>
     /// <returns>Long value</returns>
     static public long GetLong(LuaTable table, string name) {
-        var f = table[name] as long? ?? throw new GetLuaTableException(table, "Failed to get long " + name + " from Lua table ");
+        var f = table[name] as long? ?? throw new GetLuaTableException(table, $"Failed to get long {name} from Lua table ");
         return (long)f;
     }
 
@@ -134,7 +134,7 @@ static class LuaUtility {
     /// <returns>Bool value</returns>
     static public bool GetBool(LuaTable table, string name) {
         var f = table[name] as bool?;
-        if (f is null) throw new GetLuaTableException(table, "Failed to get bool " + name + " from Lua table ");
+        if (f is null) throw new GetLuaTableException(table, $"Failed to get bool {name} from Lua table ");
         return (bool)f;
     }
 
@@ -146,7 +146,8 @@ static class LuaUtility {
     /// <typeparam name="T">Type of the value</typeparam>
     /// <returns>Long value</returns>    
     static public T TableGet<T>(LuaTable table, string name) where T : class {
-        var f = table[name] as T ?? throw new GetLuaTableException(table, "Failed to get T " + name + " from Lua table ");
+        var f = table[name] as T
+            ?? throw new GetLuaTableException(table, $"Failed to get value {name} of type {typeof(T)} from Lua table ");
         return (T)f;
     }
 }
