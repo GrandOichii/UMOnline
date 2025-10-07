@@ -194,6 +194,7 @@ public class Combat : IHasData<Combat.Data>
 
     public async Task CancelEffectsOfOpponent(Player player)
     {
+        // TODO this cancels the owners effects, not opponents
         var (card, fighter) = GetCombatPart(player);
         if (card is null) return;
         if (!card.CanBeCancelled()) return;

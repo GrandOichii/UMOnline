@@ -122,7 +122,7 @@ function UM.Build:Fighter()
             if not modCondition(args) then
                 return resultValue
             end
-            return modFunc(args, combatCard, result)
+            return modFunc(args, combatCard, resultValue)
         end
 
         return result
@@ -277,7 +277,6 @@ UM.Mod.Cards = {}
 
 function UM.Mod.Cards:_(value, boostsAttackCards, boostsDefenseCards)
     return function (args, combatCard, result)
-        print(args, combatCard, result)
         if not boostsAttackCards and not combatCard.IsDefence then
             return result
         end
@@ -301,7 +300,7 @@ end
 function UM.Effects:Draw(manyPlayers, numeric, optional)
     return function (args)
         local fighter = args.fighter
-        local amount = numeric:Choose(args, 'Choose how many cards to draw')
+        local amount = numeric(args):Choose(args, 'Choose how many cards to draw')
         DrawCards(fighter.Owner, amount)
     end
 end
@@ -358,7 +357,7 @@ function UM.Effects:DealDamage(manyfighters, numeric)
         local fighters = manyfighters(args)
 
         for _, fighter in ipairs(fighters) do
-            local amount = numeric:Choose(args, 'Choose how much damage to deal to '..fighter.Name)
+            local amount = numeric(args):Choose(args, 'Choose how much damage to deal to '..fighter.Name)
             DealDamage(fighter, amount)
         end
     end
