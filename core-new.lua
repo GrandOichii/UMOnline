@@ -279,6 +279,22 @@ function UM.Conditions:FightersCountGte(manyFighters, amount)
     end
 end
 
+function UM.Conditions:Eq(numeric1, numeric2)
+    return function (args)
+        return numeric1(args):Last() == numeric2(args):Last()
+    end
+end
+
+-- Counters
+
+UM.Count = {}
+
+function UM.Count:CardsInHand(singlePlayer)
+    return function (args)
+        local player = singlePlayer(args)
+        return GetHandSize(player)
+    end
+end
 
 -- Card modifications
 
