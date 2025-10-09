@@ -292,7 +292,13 @@ UM.Count = {}
 function UM.Count:CardsInHand(singlePlayer)
     return function (args)
         local player = singlePlayer(args)
-        return GetHandSize(player)
+        return UM.Number:Static(GetHandSize(player))
+    end
+end
+
+function UM.Count:Fighters(manyFighters)
+    return function (args)
+        return UM.Number:Static(#manyFighters(args))
     end
 end
 
