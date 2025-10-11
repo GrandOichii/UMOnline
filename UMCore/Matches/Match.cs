@@ -45,6 +45,12 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
         new MatchScripts(this);
     }
 
+    public bool CanRun()
+    {
+        // TODO check teams and player counts
+        return Players.Count == 2;
+    }
+
     public bool CheckForWinners()
     {
         var activePlayers = Players.Where(p => p.GetAliveHeroes().Any()).ToList();

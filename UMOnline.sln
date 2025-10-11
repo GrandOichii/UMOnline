@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UMTester", "UMTester\UMTest
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UMClient", "UMClient\UMClient.csproj", "{C7BC78BF-0C96-4E67-A454-0F01AC56A04D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UMCore.Tests", "UMCore.Tests\UMCore.Tests.csproj", "{D0004332-4215-4240-AAC2-CEEE2B9C48AE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,6 +34,10 @@ Global
 		{C7BC78BF-0C96-4E67-A454-0F01AC56A04D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C7BC78BF-0C96-4E67-A454-0F01AC56A04D}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{C7BC78BF-0C96-4E67-A454-0F01AC56A04D}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{D0004332-4215-4240-AAC2-CEEE2B9C48AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0004332-4215-4240-AAC2-CEEE2B9C48AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0004332-4215-4240-AAC2-CEEE2B9C48AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0004332-4215-4240-AAC2-CEEE2B9C48AE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
