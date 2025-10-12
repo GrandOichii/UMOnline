@@ -21,9 +21,15 @@ public class TestMatch
 
     }
 
-    public async Task AddMainPlayer(TestPlayerController controller, LoadoutTemplate loadout)
+    public async Task<bool> AddMainPlayer(TestPlayerController controller, LoadoutTemplate loadout)
     {
-        await Match.AddPlayer("Main", MAIN_TEAM, loadout, controller);
+        return await Match.AddPlayer("Main", MAIN_TEAM, loadout, controller);
+    }
+
+    private int _oppCount = 0;
+    public async Task<bool> AddOpponent(TestPlayerController controller, LoadoutTemplate loadout)
+    {
+        return await Match.AddPlayer($"Opp{++_oppCount}", OPPONENT_TEAM, loadout, controller);
     }
 
     public async Task Run()

@@ -2,9 +2,10 @@ namespace UMCore.Tests.Setup.Builders;
 
 public class TestPlayerControllerBuilder
 {
-    public static TestPlayerController BuildDefault()
+    public static TestPlayerController AutoPass()
     {
-        // TODO
-        throw new NotImplementedException();
+        var result = new TestPlayerController();
+// TODO
+        return result;        
     }
 }

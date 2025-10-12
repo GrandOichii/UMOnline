@@ -2,15 +2,16 @@ namespace UMCore.Matches;
 
 public class MatchConfig
 {
-    public required bool RandomMatch { get; init; }
-    public required int Seed { get; init; }
-    public required int InitialHandSize { get; init; }
-    public required int ActionsPerTurn { get; init; }
-    public required int MaxHandSize { get; init; }
-    public required int ManoeuvreDrawAmount { get; init; }
-    public required bool RandomFirstPlayer { get; init; }
-    public required int FirstPlayerIdx { get; init; }
-    public required int ExhaustDamage { get; init; }
+    public required bool RandomMatch { get; set; }
+    public required int Seed { get; set; }
+    public required int InitialHandSize { get; set; }
+    public required int ActionsPerTurn { get; set; }
+    public required int MaxHandSize { get; set; }
+    public required int ManoeuvreDrawAmount { get; set; }
+    public required bool RandomFirstPlayer { get; set; }
+    public required int FirstPlayerIdx { get; set; }
+    public required int ExhaustDamage { get; set; }
+    public required int TeamSize { get; set; }
 
     public static readonly MatchConfig Default = new()
     {
@@ -23,5 +24,6 @@ public class MatchConfig
         FirstPlayerIdx = 0, // -1
         RandomFirstPlayer = false, // true
         ExhaustDamage = 2,
+        TeamSize = 1,
     };
 }
