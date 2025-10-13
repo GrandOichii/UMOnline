@@ -6,6 +6,8 @@ namespace UMCore.Tests.Setup;
 
 public class TestPlayerController : IPlayerController
 {
+    public bool SetupCalled { get; private set; } = false;
+
     public void AddEvent(Event e)
     {
         // TODO
@@ -68,8 +70,8 @@ public class TestPlayerController : IPlayerController
 
     public Task Setup(Player player, Match.SetupData setupData)
     {
-        // TODO
-        throw new NotImplementedException();
+        SetupCalled = true;
+        return Task.CompletedTask;
     }
 
     public Task Update(Player player)

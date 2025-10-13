@@ -1,3 +1,4 @@
+using System.Security.Cryptography.X509Certificates;
 using Microsoft.Extensions.Logging;
 using NLua;
 using UMCore.Matches.Attacks;
@@ -23,6 +24,8 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
     public EventsManager Events { get; }
     public Player? Winner { get; private set; }
 
+    public Dictionary<int, List<Player>> Teams { get; }
+
     public Match(MatchConfig config, MapTemplate mapTemplate, string setupScript)
     {
         Config = config;
@@ -34,6 +37,7 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
         Logs = new(this);
         Events = new(this);
         Winner = null;
+        Teams = [];
 
         Random = new();
         if (!Config.RandomMatch)
@@ -47,8 +51,9 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
 
     public bool CanRun()
     {
-        // TODO check teams and player counts
-        return Players.Count == 2;
+        if (Teams.Count <= 1) return false;
+        var pCount = Teams[0].Count;
+        return Teams.Values.All(t => t.Count == pCount);
     }
 
     public bool CheckForWinners()
@@ -59,6 +64,8 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
         Winner = activePlayers[0];
         return IsWinnerDetermined();
     }
+
+    #region Player management
 
     public Player GetPlayer(int idx) => Players[idx];
 
@@ -72,12 +79,31 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
             }
         }
 
+        var team = GetTeam(teamIdx);
+        if (team.Count >= Config.TeamSize)
+        {
+            return false;
+        }
+
         var player = new Player(this, Players.Count, name, teamIdx, loadout, new SafePlayerController(controller));
 
+        team.Add(player);
         Players.Add(player);
 
         return true;
     }
+
+    public List<Player> GetTeam(int teamIdx)
+    {
+        if (!Teams.TryGetValue(teamIdx, out var value))
+        {
+            value = [];
+            Teams[teamIdx] = value;
+        }
+        return value;
+    }
+
+    #endregion
 
     public async Task Run()
     {

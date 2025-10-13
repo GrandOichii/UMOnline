@@ -48,4 +48,9 @@ public class TestMatch
     {
         return new(Match.GetPlayer(playerIdx));
     }
+
+    public MatchAsserts Assert()
+    {
+        return new(this);
+    }
 }
