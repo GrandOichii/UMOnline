@@ -1,17 +1,27 @@
 using System.Threading.Tasks;
+using UMCore.Matches.Players;
 using UMCore.Tests.Asserts;
 
 namespace UMCore.Tests.Setup;
 
-public class TestMatch
+public class TestMatch(MatchConfig config, MapTemplate mapTemplate, string setupScript) 
+    : Match(config, mapTemplate, setupScript)
+{
+    public void SetWinner(Player player)
+    {
+        Winner = player;
+    }
+}
+
+public class TestMatchWrapper
 {
     public static readonly int MAIN_TEAM = 0;
     public static readonly int OPPONENT_TEAM = 1;
 
-    public Match Match { get; }
+    public TestMatch Match { get; }
     public Exception? Exception { get; private set; } = null;
 
-    public TestMatch(MatchConfig config, MapTemplate mapTemplate)
+    public TestMatchWrapper(MatchConfig config, MapTemplate mapTemplate)
     {
         Match = new(config, mapTemplate, File.ReadAllText("../../../../core-new.lua"))
         {

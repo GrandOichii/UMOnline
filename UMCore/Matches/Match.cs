@@ -22,7 +22,7 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
     public Random Random { get; }
     public LogsManager Logs { get; }
     public EventsManager Events { get; }
-    public Player? Winner { get; private set; }
+    public Player? Winner { get; protected set; }
 
     public Dictionary<int, List<Player>> Teams { get; }
 

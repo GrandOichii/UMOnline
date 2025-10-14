@@ -2,7 +2,7 @@ using Shouldly;
 
 namespace UMCore.Tests.Asserts;
 
-public class MatchAsserts(TestMatch match)
+public class MatchAsserts(TestMatchWrapper match)
 {
     public MatchAsserts PlayerCount(int count)
     {
@@ -25,6 +25,12 @@ public class MatchAsserts(TestMatch match)
     public MatchAsserts Threw()
     {
         match.Exception.ShouldNotBeNull();
+        return this;
+    }
+
+    public MatchAsserts DidntThrow()
+    {
+        match.Exception.ShouldBeNull();
         return this;
     }
 }

@@ -6,24 +6,50 @@ namespace UMCore.Tests.Setup;
 
 public class TestPlayerController : IPlayerController
 {
+    public static readonly string NEXT_ACTION = "next";
+
+
+    /// <summary>
+    /// Player action
+    /// </summary>
+    /// <param name="player">Player</param>
+    /// <param name="options">Action options</param>
+    /// <returns>the action word and whether to remove the action from queue or not</returns>
+    public delegate (string, bool) PlayerAction(TestMatch match, Player player, string[] options);
+
+    public Queue<PlayerAction> Actions { get; init; } = [];
+
     public bool SetupCalled { get; private set; } = false;
 
     public void AddEvent(Event e)
     {
         // TODO
-        throw new NotImplementedException();
     }
 
     public void AddLog(Log l)
     {
         // TODO
-        throw new NotImplementedException();
     }
 
-    public Task<string> ChooseAction(Player player, string[] options)
+    public async Task<string> ChooseAction(Player player, string[] options)
     {
-        // TODO
-        throw new NotImplementedException();
+        var match = (player.Match as TestMatch)!;
+        var result = NEXT_ACTION;
+        while (result == NEXT_ACTION)
+        {
+            if (!Actions.TryPeek(out var action))
+                throw new Exception("No actions left in queue!");
+            bool next;
+            (result, next) = action(match, player, options);
+            if (next) Actions.Dequeue();
+        }
+
+        if (!options.Contains(result))
+        {
+            throw new Exception($"Received action \"{result}\", which is not a valid action! (expected: \"{string.Join(", ", options)}\")");
+        }
+
+        return result;
     }
 
     public Task<AvailableAttack> ChooseAttack(Player player, AvailableAttack[] options)
@@ -76,7 +102,6 @@ public class TestPlayerController : IPlayerController
 
     public Task Update(Player player)
     {
-        // TODO
-        throw new NotImplementedException();
+        return Task.CompletedTask;
     }
 }

@@ -25,22 +25,24 @@ public interface IPlayerController
 
 public class SafePlayerController(IPlayerController controller) : IPlayerController
 {
+    public IPlayerController Controller { get; } = controller;
+
     [Serializable]
     public class UnsafeChoiceException(string message) : Exception(message) { }
 
     public void AddEvent(Event e)
     {
-        controller.AddEvent(e);
+        Controller.AddEvent(e);
     }
 
     public void AddLog(Log l)
     {
-        controller.AddLog(l);
+        Controller.AddLog(l);
     }
 
     public async Task<string> ChooseAction(Player player, string[] options)
     {
-        var result = await controller.ChooseAction(player, options);
+        var result = await Controller.ChooseAction(player, options);
         if (!options.Contains(result))
         {
             throw new UnsafeChoiceException($"Player {player.LogName} tried to choose {result} for {nameof(ChooseAction)}, which is not one of the options (options: {string.Join(", ", options)})");
@@ -50,7 +52,7 @@ public class SafePlayerController(IPlayerController controller) : IPlayerControl
 
     public async Task<AvailableAttack> ChooseAttack(Player player, AvailableAttack[] options)
     {
-        var result = await controller.ChooseAttack(player, options);
+        var result = await Controller.ChooseAttack(player, options);
         if (!options.Contains(result))
         {
             // TODO add better exception message
@@ -61,7 +63,7 @@ public class SafePlayerController(IPlayerController controller) : IPlayerControl
 
     public async Task<MatchCard> ChooseCardInHand(Player player, int playerHandIdx, MatchCard[] options, string hint)
     {
-        var result = await controller.ChooseCardInHand(player, playerHandIdx, options, hint);
+        var result = await Controller.ChooseCardInHand(player, playerHandIdx, options, hint);
         if (!options.Contains(result))
         {
             throw new UnsafeChoiceException($"Player {player.LogName} tried to choose {result.LogName} for {nameof(ChooseCardInHand)}, which is not one of the options (options: {string.Join(", ", options.Select(c => c.LogName))})");
@@ -71,7 +73,7 @@ public class SafePlayerController(IPlayerController controller) : IPlayerControl
 
     public async Task<MatchCard?> ChooseCardInHandOrNothing(Player player, int playerHandIdx, MatchCard[] options, string hint)
     {
-        var result = await controller.ChooseCardInHandOrNothing(player, playerHandIdx, options, hint);
+        var result = await Controller.ChooseCardInHandOrNothing(player, playerHandIdx, options, hint);
         if (result is not null && !options.Contains(result))
         {
             throw new UnsafeChoiceException($"Player {player.LogName} tried to choose {result.LogName} for {nameof(ChooseCardInHandOrNothing)}, which is not one of the options (options: {string.Join(", ", options.Select(c => c.LogName))})");
@@ -81,7 +83,7 @@ public class SafePlayerController(IPlayerController controller) : IPlayerControl
 
     public async Task<Fighter> ChooseFighter(Player player, Fighter[] options, string hint)
     {
-        var result = await controller.ChooseFighter(player, options, hint);
+        var result = await Controller.ChooseFighter(player, options, hint);
         if (!options.Contains(result))
         {
             throw new UnsafeChoiceException($"Player {player.LogName} tried to choose {result.LogName} for {nameof(ChooseFighter)}, which is not one of the options (options: {string.Join(", ", options.Select(c => c.LogName))})");
@@ -91,7 +93,7 @@ public class SafePlayerController(IPlayerController controller) : IPlayerControl
 
     public async Task<MapNode> ChooseNode(Player player, MapNode[] options, string hint)
     {
-        var result = await controller.ChooseNode(player, options, hint);
+        var result = await Controller.ChooseNode(player, options, hint);
         if (!options.Contains(result))
         {
             throw new UnsafeChoiceException($"Player {player.LogName} tried to choose {result.Id} for {nameof(ChooseNode)}, which is not one of the options (options: {string.Join(", ", options.Select(c => c.Id))})");
@@ -101,7 +103,7 @@ public class SafePlayerController(IPlayerController controller) : IPlayerControl
 
     public async Task<Player> ChoosePlayer(Player player, Player[] options, string hint)
     {
-        var result = await controller.ChoosePlayer(player, options, hint);
+        var result = await Controller.ChoosePlayer(player, options, hint);
         if (!options.Contains(result))
         {
             throw new UnsafeChoiceException($"Player {player.LogName} tried to choose {result.LogName} for {nameof(ChoosePlayer)}, which is not one of the options (options: {string.Join(", ", options.Select(c => c.LogName))})");
@@ -111,7 +113,7 @@ public class SafePlayerController(IPlayerController controller) : IPlayerControl
 
     public async Task<string> ChooseString(Player player, string[] options, string hint)
     {
-        var result = await controller.ChooseString(player, options, hint);
+        var result = await Controller.ChooseString(player, options, hint);
         if (!options.Contains(result))
         {
             throw new UnsafeChoiceException($"Player {player.LogName} tried to choose {result} for {nameof(ChoosePlayer)}, which is not one of the options (options: {string.Join(", ", options)})");
@@ -121,12 +123,12 @@ public class SafePlayerController(IPlayerController controller) : IPlayerControl
 
     public Task Setup(Player player, Match.SetupData setupData)
     {
-        return controller.Setup(player, setupData);
+        return Controller.Setup(player, setupData);
     }
 
     public Task Update(Player player)
     {
-        return controller.Update(player);
+        return Controller.Update(player);
     }
 }
 

@@ -12,7 +12,7 @@ public class PlayerAddingTests
         // Arrange
         var config = MatchConfigBuilder.BuildDefault();
         var mapTemplate = MapTemplateBuilder.BuildDefault();
-        var match = new TestMatch(
+        var match = new TestMatchWrapper(
             config,
             mapTemplate
         );
@@ -32,7 +32,7 @@ public class PlayerAddingTests
         // Arrange
         var config = MatchConfigBuilder.BuildDefault();
         var mapTemplate = MapTemplateBuilder.BuildDefault();
-        var match = new TestMatch(
+        var match = new TestMatchWrapper(
             config,
             mapTemplate
         );
@@ -58,7 +58,7 @@ public class PlayerAddingTests
         var config = MatchConfigBuilder.BuildDefault();
 
         var mapTemplate = MapTemplateBuilder.BuildDefault();
-        var match = new TestMatch(
+        var match = new TestMatchWrapper(
             config,
             mapTemplate
         );
@@ -90,7 +90,7 @@ public class PlayerAddingTests
             .Build();
 
         var mapTemplate = MapTemplateBuilder.BuildDefault();
-        var match = new TestMatch(
+        var match = new TestMatchWrapper(
             config,
             mapTemplate
         );
@@ -127,7 +127,7 @@ public class PlayerAddingTests
             .Build();
 
         var mapTemplate = MapTemplateBuilder.BuildDefault();
-        var match = new TestMatch(
+        var match = new TestMatchWrapper(
             config,
             mapTemplate
         );
@@ -165,7 +165,7 @@ public class PlayerAddingTests
             .Build();
 
         var mapTemplate = MapTemplateBuilder.BuildDefault();
-        var match = new TestMatch(
+        var match = new TestMatchWrapper(
             config,
             mapTemplate
         );
@@ -191,6 +191,84 @@ public class PlayerAddingTests
             .CanRun()
             .PlayerCount(teamSize * 2);
     }
+}
 
-    
+public class TODOSortTheseTests
+{
+    [Fact]
+    public async Task SetupCalledForPlayers()
+    {
+        // Arrange
+        var config = MatchConfigBuilder.BuildDefault();
+
+        var mapTemplate = MapTemplateBuilder.BuildDefault();
+        var match = new TestMatchWrapper(
+            config,
+            mapTemplate
+        );
+
+        await match.AddMainPlayer(
+            TestPlayerControllerBuilder.AutoPass(),
+            LoadoutTemplateBuilder.Foo("foo1")
+        );
+        await match.AddOpponent(
+            TestPlayerControllerBuilder.AutoPass(),
+            LoadoutTemplateBuilder.Foo("foo2")
+        );
+
+        // Act
+        await match.Run();
+
+        // Assert
+        match.Assert()
+            .Threw(); // TODO could change
+
+        match.AssertPlayer(0)
+            .SetupCalled();
+        match.AssertPlayer(1)
+            .SetupCalled();
+    }
+
+    [Fact]
+    public async Task ShouldRunBase()
+    {
+        // Arrange
+        var config = MatchConfigBuilder.BuildDefault();
+
+        var mapTemplate = MapTemplateBuilder.BuildDefault();
+        var match = new TestMatchWrapper(
+            config,
+            mapTemplate
+        );
+
+        await match.AddMainPlayer(
+            new TestPlayerControllerBuilder()
+                .ConfigActions(a => a
+                    .DeclareWinner()
+                    .CrashMatch()
+                )
+                .Build(),
+            LoadoutTemplateBuilder.Foo("foo1")
+        );
+        await match.AddOpponent(
+            TestPlayerControllerBuilder.AutoPass(),
+            LoadoutTemplateBuilder.Foo("foo2")
+        );
+
+        // Act
+        await match.Run();
+
+        // Assert
+        match.Assert()
+            .Threw();
+
+        match.AssertPlayer(0)
+            .SetupCalled()
+            .IsWinner();
+        match.AssertPlayer(1)
+            .SetupCalled()
+            .IsNotWinner();
+    }
+
+
 }
