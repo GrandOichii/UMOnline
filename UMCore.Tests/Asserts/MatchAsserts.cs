@@ -22,9 +22,17 @@ public class MatchAsserts(TestMatchWrapper match)
         return this;
     }
 
-    public MatchAsserts Threw()
+    public MatchAsserts CrashedIntentionally()
     {
         match.Exception.ShouldNotBeNull();
+        match.Exception.ShouldBeOfType<IntentionalCrashException>();
+        return this;
+    }
+
+    public MatchAsserts CrashedUnintentionally()
+    {
+        match.Exception.ShouldNotBeNull();
+        match.Exception.ShouldNotBeOfType<IntentionalCrashException>();
         return this;
     }
 

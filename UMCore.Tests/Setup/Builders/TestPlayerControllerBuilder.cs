@@ -5,11 +5,13 @@ public class TestPlayerControllerBuilder
     // static controllers
     private readonly TestPlayerControllerActions _actions = new();
 
-    public static TestPlayerController AutoPass()
+    public static TestPlayerController Crash()
     {
-        var result = new TestPlayerController();
-        // TODO
-        return result;
+        return new TestPlayerControllerBuilder()
+            .ConfigActions(a => a
+                .CrashMatch()
+            )
+            .Build();
     }
 
     public TestPlayerControllerBuilder ConfigActions(Action<TestPlayerControllerActions> actions)
@@ -50,7 +52,12 @@ public class TestPlayerControllerActions
     {
         return Enqueue((match, player, options) =>
         {
-            throw new Exception("Requested crash from TestPlayerController");
+            throw new IntentionalCrashException("Requested crash from TestPlayerController");
         });
     }
+}
+
+[Serializable]
+public class IntentionalCrashException(string message) : Exception(message)
+{
 }

@@ -22,7 +22,7 @@ public class PlayerAddingTests
 
         // Assert
         match.Assert()
-            .Threw()
+            .CrashedUnintentionally()
             .CantRun();
     }
 
@@ -38,7 +38,7 @@ public class PlayerAddingTests
         );
 
         await match.AddMainPlayer(
-            TestPlayerControllerBuilder.AutoPass(),
+            TestPlayerControllerBuilder.Crash(),
             LoadoutTemplateBuilder.Foo()
         );
 
@@ -47,7 +47,7 @@ public class PlayerAddingTests
 
         // Assert
         match.Assert()
-            .Threw()
+            .CrashedUnintentionally()
             .CantRun();
     }
 
@@ -64,13 +64,13 @@ public class PlayerAddingTests
         );
 
         await match.AddMainPlayer(
-            TestPlayerControllerBuilder.AutoPass(),
+            TestPlayerControllerBuilder.Crash(),
             LoadoutTemplateBuilder.Foo()
         );
 
         // Act
         var result = await match.AddOpponent(
-            TestPlayerControllerBuilder.AutoPass(),
+            TestPlayerControllerBuilder.Crash(),
             LoadoutTemplateBuilder.Foo()
         );
 
@@ -96,18 +96,18 @@ public class PlayerAddingTests
         );
 
         await match.AddMainPlayer(
-            TestPlayerControllerBuilder.AutoPass(),
+            TestPlayerControllerBuilder.Crash(),
             LoadoutTemplateBuilder.Foo("foo1")
         );
 
         // Act
         await match.AddOpponent(
-            TestPlayerControllerBuilder.AutoPass(),
+            TestPlayerControllerBuilder.Crash(),
             LoadoutTemplateBuilder.Foo("foo2")
         );
 
         var result = await match.AddOpponent(
-            TestPlayerControllerBuilder.AutoPass(),
+            TestPlayerControllerBuilder.Crash(),
             LoadoutTemplateBuilder.Foo("foo3")
         );
 
@@ -133,17 +133,17 @@ public class PlayerAddingTests
         );
 
         await match.AddMainPlayer(
-            TestPlayerControllerBuilder.AutoPass(),
+            TestPlayerControllerBuilder.Crash(),
             LoadoutTemplateBuilder.Foo("foo1")
         );
         await match.AddOpponent(
-            TestPlayerControllerBuilder.AutoPass(),
+            TestPlayerControllerBuilder.Crash(),
             LoadoutTemplateBuilder.Foo("foo2")
         );
 
         // Act
         await match.AddOpponent(
-            TestPlayerControllerBuilder.AutoPass(),
+            TestPlayerControllerBuilder.Crash(),
             LoadoutTemplateBuilder.Foo("foo3")
         );
 
@@ -174,14 +174,14 @@ public class PlayerAddingTests
         for (int i = 0; i < teamSize; ++i)
         {
             await match.AddMainPlayer(
-                TestPlayerControllerBuilder.AutoPass(),
+                TestPlayerControllerBuilder.Crash(),
                 LoadoutTemplateBuilder.Foo($"foo{i}")
             );
         }
         for (int i = 0; i < teamSize; ++i)
         {
             await match.AddOpponent(
-                TestPlayerControllerBuilder.AutoPass(),
+                TestPlayerControllerBuilder.Crash(),
                 LoadoutTemplateBuilder.Foo($"bar{i}")
             );
         }
@@ -208,11 +208,11 @@ public class TODOSortTheseTests
         );
 
         await match.AddMainPlayer(
-            TestPlayerControllerBuilder.AutoPass(),
+            TestPlayerControllerBuilder.Crash(),
             LoadoutTemplateBuilder.Foo("foo1")
         );
         await match.AddOpponent(
-            TestPlayerControllerBuilder.AutoPass(),
+            TestPlayerControllerBuilder.Crash(),
             LoadoutTemplateBuilder.Foo("foo2")
         );
 
@@ -221,7 +221,7 @@ public class TODOSortTheseTests
 
         // Assert
         match.Assert()
-            .Threw(); // TODO could change
+            .CrashedIntentionally(); // TODO could change
 
         match.AssertPlayer(0)
             .SetupCalled();
@@ -251,7 +251,7 @@ public class TODOSortTheseTests
             LoadoutTemplateBuilder.Foo("foo1")
         );
         await match.AddOpponent(
-            TestPlayerControllerBuilder.AutoPass(),
+            TestPlayerControllerBuilder.Crash(),
             LoadoutTemplateBuilder.Foo("foo2")
         );
 
@@ -260,7 +260,7 @@ public class TODOSortTheseTests
 
         // Assert
         match.Assert()
-            .Threw();
+            .CrashedIntentionally();
 
         match.AssertPlayer(0)
             .SetupCalled()

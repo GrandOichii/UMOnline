@@ -107,6 +107,10 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
 
     public async Task Run()
     {
+        if (!CanRun())
+        {
+            throw new MatchException("Cant run match");
+        }
         Logger?.LogDebug("Starting match");
         await Setup();
 
