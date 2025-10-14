@@ -2,9 +2,9 @@ namespace UMCore.Tests.Setup.Builders;
 
 public class MatchConfigBuilder
 {
-    public static MatchConfig BuildDefault() => MatchConfig.Default;
+    public static MatchConfig BuildDefault() => new MatchConfigBuilder().Build();
 
-    private MatchConfig _result = new()
+    private readonly MatchConfig _result = new()
     {
         ActionsPerTurn = 2,
         ExhaustDamage = 1,
@@ -23,6 +23,12 @@ public class MatchConfigBuilder
     public MatchConfigBuilder TeamSize(int size)
     {
         _result.TeamSize = size;
+        return this;
+    }
+
+    public MatchConfigBuilder ActionsPerTurn(int amount)
+    {
+        _result.ActionsPerTurn = amount;
         return this;
     }
 }

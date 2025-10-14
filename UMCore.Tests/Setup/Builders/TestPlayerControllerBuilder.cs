@@ -1,10 +1,16 @@
+using Shouldly;
+using UMCore.Matches.Players;
+
 namespace UMCore.Tests.Setup.Builders;
 
 public class TestPlayerControllerBuilder
 {
-    // static controllers
-    private readonly TestPlayerControllerActions _actions = new();
+    private readonly ActionsBuilder _actions = new();
+    private readonly HandCardChoicesBuilder _handCardChoices = new();
+    private readonly FighterChoicesBuilder _fighterChoices = new();
+    private readonly NodeChoicesBuilder _nodeChoices = new();
 
+    // static controllers
     public static TestPlayerController Crash()
     {
         return new TestPlayerControllerBuilder()
@@ -14,9 +20,27 @@ public class TestPlayerControllerBuilder
             .Build();
     }
 
-    public TestPlayerControllerBuilder ConfigActions(Action<TestPlayerControllerActions> actions)
+    public TestPlayerControllerBuilder ConfigActions(Action<ActionsBuilder> actions)
     {
         actions(_actions);
+        return this;
+    }
+
+    public TestPlayerControllerBuilder ConfigHandCardChoices(Action<HandCardChoicesBuilder> choices)
+    {
+        choices(_handCardChoices);
+        return this;
+    }
+
+    public TestPlayerControllerBuilder ConfigFighterChoices(Action<FighterChoicesBuilder> choices)
+    {
+        choices(_fighterChoices);
+        return this;
+    }
+
+    public TestPlayerControllerBuilder ConfigNodeChoices(Action<NodeChoicesBuilder> choices)
+    {
+        choices(_nodeChoices);
         return this;
     }
 
@@ -24,40 +48,94 @@ public class TestPlayerControllerBuilder
     {
         return new TestPlayerController()
         {
-            Actions = _actions.Queue
+            Actions = _actions.Queue,
+            HandCardChoices = _handCardChoices.Queue,
+            FighterChoices = _fighterChoices.Queue,
+            NodeChoices = _nodeChoices.Queue,
         };
     }
+
+    public class ActionsBuilder
+    {
+        public Queue<TestPlayerController.PlayerAction> Queue { get; } = [];
+
+        private ActionsBuilder Enqueue(TestPlayerController.PlayerAction action)
+        {
+            Queue.Enqueue(action);
+            return this;
+        }
+
+        public ActionsBuilder DeclareWinner()
+        {
+            return Enqueue((match, player, options) =>
+            {
+                match.SetWinner(player);
+                return (TestPlayerController.NEXT_ACTION, true);
+            });
+        }
+
+        public ActionsBuilder CrashMatch()
+        {
+            return Enqueue((match, player, options) =>
+            {
+                throw new IntentionalCrashException("Requested crash from TestPlayerController");
+            });
+        }
+
+        public ActionsBuilder Manoeuvre()
+        {
+            return Enqueue((match, player, options) =>
+            {
+                return (new ManoeuvreAction().Name(), true);
+            });
+        }
+    }
+
+    public class HandCardChoicesBuilder
+    {
+        public Queue<TestPlayerController.HandCardChoice> Queue { get; } = new();
+
+        public HandCardChoicesBuilder Nothing()
+        {
+            Queue.Enqueue((player, pIdx, options, hint) => null);
+            return this;
+        }
+    }
+
+    public class FighterChoicesBuilder
+    {
+        public Queue<TestPlayerController.FighterChoice> Queue { get; } = new();
+
+        public FighterChoicesBuilder First()
+        {
+            Queue.Enqueue((player, options, hint) => options.First());
+            return this;
+        }
+    }
+
+    public class NodeChoicesBuilder
+    {
+        public Queue<TestPlayerController.NodeChoice> Queue { get; } = new();
+
+        public NodeChoicesBuilder WithId(int id)
+        {
+            Queue.Enqueue((player, options, hint) => (options.First(n => n.Id == id), true));
+            return this;
+        }
+
+        public NodeChoicesBuilder AssertOptionsHasLength(int amount)
+        {
+            Queue.Enqueue((player, options, hint) => {
+                options.Length.ShouldBe(amount);
+                return (null, false);
+            });
+            return this;
+        }
+    }
 }
 
-public class TestPlayerControllerActions
-{
-    public Queue<TestPlayerController.PlayerAction> Queue { get; } = [];
 
-    private TestPlayerControllerActions Enqueue(TestPlayerController.PlayerAction action)
-    {
-        Queue.Enqueue(action);
-        return this;
-    }
-
-    public TestPlayerControllerActions DeclareWinner()
-    {
-        return Enqueue((match, player, options) =>
-        {
-            match.SetWinner(player);
-            return (TestPlayerController.NEXT_ACTION, true);
-        });
-    }
-
-    public TestPlayerControllerActions CrashMatch()
-    {
-        return Enqueue((match, player, options) =>
-        {
-            throw new IntentionalCrashException("Requested crash from TestPlayerController");
-        });
-    }
-}
 
 [Serializable]
-public class IntentionalCrashException(string message) : Exception(message)
-{
-}
+public class IntentionalCrashException(string message) 
+    : Exception(message) {}

@@ -11,7 +11,7 @@ public class PlayerAddingTests
     {
         // Arrange
         var config = MatchConfigBuilder.BuildDefault();
-        var mapTemplate = MapTemplateBuilder.BuildDefault();
+        var mapTemplate = MapTemplateBuilder.Build2x2();
         var match = new TestMatchWrapper(
             config,
             mapTemplate
@@ -31,7 +31,7 @@ public class PlayerAddingTests
     {
         // Arrange
         var config = MatchConfigBuilder.BuildDefault();
-        var mapTemplate = MapTemplateBuilder.BuildDefault();
+        var mapTemplate = MapTemplateBuilder.Build2x2();
         var match = new TestMatchWrapper(
             config,
             mapTemplate
@@ -57,7 +57,7 @@ public class PlayerAddingTests
         // Arrange
         var config = MatchConfigBuilder.BuildDefault();
 
-        var mapTemplate = MapTemplateBuilder.BuildDefault();
+        var mapTemplate = MapTemplateBuilder.Build2x2();
         var match = new TestMatchWrapper(
             config,
             mapTemplate
@@ -89,7 +89,7 @@ public class PlayerAddingTests
             .TeamSize(1)
             .Build();
 
-        var mapTemplate = MapTemplateBuilder.BuildDefault();
+        var mapTemplate = MapTemplateBuilder.Build2x2();
         var match = new TestMatchWrapper(
             config,
             mapTemplate
@@ -126,7 +126,7 @@ public class PlayerAddingTests
             .TeamSize(2)
             .Build();
 
-        var mapTemplate = MapTemplateBuilder.BuildDefault();
+        var mapTemplate = MapTemplateBuilder.Build2x2();
         var match = new TestMatchWrapper(
             config,
             mapTemplate
@@ -164,7 +164,7 @@ public class PlayerAddingTests
             .TeamSize(teamSize)
             .Build();
 
-        var mapTemplate = MapTemplateBuilder.BuildDefault();
+        var mapTemplate = MapTemplateBuilder.Build2x2();
         var match = new TestMatchWrapper(
             config,
             mapTemplate
@@ -201,7 +201,7 @@ public class TODOSortTheseTests
         // Arrange
         var config = MatchConfigBuilder.BuildDefault();
 
-        var mapTemplate = MapTemplateBuilder.BuildDefault();
+        var mapTemplate = MapTemplateBuilder.Build2x2();
         var match = new TestMatchWrapper(
             config,
             mapTemplate
@@ -233,9 +233,11 @@ public class TODOSortTheseTests
     public async Task ShouldRunBase()
     {
         // Arrange
-        var config = MatchConfigBuilder.BuildDefault();
+        var config = new MatchConfigBuilder()
+            .ActionsPerTurn(2)
+            .Build();
 
-        var mapTemplate = MapTemplateBuilder.BuildDefault();
+        var mapTemplate = MapTemplateBuilder.Build2x2();
         var match = new TestMatchWrapper(
             config,
             mapTemplate
@@ -264,11 +266,87 @@ public class TODOSortTheseTests
 
         match.AssertPlayer(0)
             .SetupCalled()
+            .HasUnspentActions(2)
             .IsWinner();
         match.AssertPlayer(1)
             .SetupCalled()
             .IsNotWinner();
     }
+}
 
+public class MovementTests
+{
+    [Theory]
+    [InlineData(0)]
+    [InlineData(1)]
+    [InlineData(2)]
+    public async Task MovementTest1(int fighterMovement)
+    {
+        // Arrange
+        var config = new MatchConfigBuilder()
+            .ActionsPerTurn(2)
+            .Build();
 
+        // 0 - 1 - 2 - 3 - 4
+        var mapTemplate = new MapTemplateBuilder()
+            .AddNode(0, [0], spawnNumber: 1)
+            .AddNode(1, [0])
+            .AddNode(2, [0])
+            .AddNode(3, [0])
+            .AddNode(4, [0], spawnNumber: 2)
+            .Connect(0, 1)
+            .Connect(1, 2)
+            .Connect(2, 3)
+            .Connect(3, 4)
+            .Build();
+
+        var match = new TestMatchWrapper(
+            config,
+            mapTemplate
+        );
+
+        await match.AddMainPlayer(
+            new TestPlayerControllerBuilder()
+                .ConfigActions(a => a
+                    .Manoeuvre()
+                    .DeclareWinner()
+                    .CrashMatch()
+                )
+                .ConfigHandCardChoices(c => c
+                    .Nothing()
+                )
+                .ConfigFighterChoices(c => c
+                    .First()
+                )
+                .ConfigNodeChoices(c => c
+                    .AssertOptionsHasLength(fighterMovement + 1)
+                    .WithId(0))
+                .Build(),
+            new LoadoutTemplateBuilder("foo1")
+                .AddFighter(new FighterTemplateBuilder("foo1", "foo1")
+                    .Movement(fighterMovement)
+                    .Build()
+                )
+                .Build()
+        );
+        await match.AddOpponent(
+            TestPlayerControllerBuilder.Crash(),
+            LoadoutTemplateBuilder.Foo("foo2")
+        );
+
+        // Act
+        await match.Run();
+
+        // Assert
+        match.Assert()
+            .CrashedIntentionally();
+
+        match.AssertPlayer(0)
+            .SetupCalled()
+            .HasUnspentActions(1)
+            .IsWinner();
+        match.AssertPlayer(1)
+            .SetupCalled()
+            .IsNotWinner();
+    }
 }

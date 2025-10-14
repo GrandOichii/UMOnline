@@ -1,0 +1,84 @@
+- Match tests
+    - Setup
+        - Adding players
+        - initial fighter placement
+            1. single hero
+            2. single hero + single sidekick
+            3. single hero + 3 sidekicks
+            4. single hero + 5 sidekicks (cant fit all in zone)
+            5. 3 heroes
+            6. single hero + single sidekick BUT fighter starts with no sidekicks
+        - Check initial hand sizes
+    - Main game loop
+        - Check that requested to choose action equal to the amount specified in config
+        - Player turn
+            - Check that has 0 actions at end of turn
+            - Check discard to max hand size at end of turn
+            - CanTakeActions
+            - Check that can take actions (depends on context):
+                - Scheme
+                - Manoeuvre (can always be taken)
+                - Attack
+            - Turn phase triggers
+            - Fighter movement
+            - Manoeuvre action
+                - movement boosting + check that boost card is discarded
+                - exhaustion
+            - Scheme
+                - check that card is discarded after resolution
+                - get available attacks
+            - GetData
+    - Fighters
+        - health manipulation
+            - damage processing
+            - health recovery
+        - GetReachableFighters
+        - IsInZone
+        - GetData
+    - Map
+        - GetNodesInZone
+        - GetPossibleMovementResults
+        - GetData
+    - MapNode
+        - IsAdjacentTo
+        - Secret passages
+    - Custom cases
+        - Set auto manoeuvre and check whether the match ends
+    - AvailableAttack
+        - Check all available attacks
+            - For melee fighter
+                - With modified range
+            - For ranged fighters
+        - Check that cant attack self
+    - Combat
+        - Validate attacker, defender, attack card, defense card (if any)
+        - Validate attack and defense values
+        - Validate boosts
+        - Validate that all combat step triggers triggered
+        - Card cancellation
+        - GetData
+        - Validate that after combat cards are discarded
+    - Check action execution
+- Unit tests
+    - MatchCard
+        - Check that all effects are extracted from lua script
+        - Check all "CanBe*" methods
+        - GetData
+    - Effects
+        - Check execution
+    - MatchCardCollection(DiscardPile, Hand, Deck)
+        - TakeFromTop
+        - GetData
+            - Private or public
+    - Attributes
+        - Check setter and getter
+    - CardValueModifier
+    - Player
+        - Fighter placement
+        - Opposing players
+    - Fighter
+        - check that all effects are extracted from lua script
+        - IsOpposingTo, IsFriendlyTo
+        - GetStatus
+
+- Fighter tests

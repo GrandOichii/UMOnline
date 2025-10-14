@@ -12,49 +12,80 @@ public class MapTemplateBuilder
         ];
     }
 
-    public static MapTemplate BuildDefault()
+    public MapTemplate Result { get; } = new()
     {
-        // 00 - 01
-        // |  X  |
-        // 10 - 11
-        var node00 = new MapNodeTemplate()
+        Nodes = [],
+        Adjacent = [],
+    };
+
+    public static MapTemplate Build2x2()
+    {
+        return new MapTemplateBuilder()
+            .AddNode(00, [0], spawnNumber: 1)
+            .AddNode(01, [0], spawnNumber: 2)
+            .AddNode(10, [0], spawnNumber: 3)
+            .AddNode(11, [0], spawnNumber: 4)
+            .Connect(00, 01)
+            .Connect(00, 11)
+            .Connect(00, 10)
+            .Connect(01, 11)
+            .Connect(01, 10)
+            .Connect(11, 10)
+            .Build();
+    }
+
+    private readonly Dictionary<int, MapNodeTemplate> _nodeMap = [];
+
+    public MapTemplateBuilder AddNode(
+        int id,
+        int[] zones,
+        bool HasSecretPassage = false,
+        int spawnNumber = -1
+    ) {
+        if (NodeExists(id))
         {
-            Id = 0,
-            Zones = [0],
-            SpawnNumber = 0,
-        };
-        var node01 = new MapNodeTemplate()
+            throw new Exception($"Tried to add map node with duplicate id: {id}");
+        }
+
+        var node = new MapNodeTemplate()
         {
-            Id = 1,
-            Zones = [0],
-            SpawnNumber = 1,
-        };
-        var node10 = new MapNodeTemplate()
-        {
-            Id = 2,
-            Zones = [0],
-            SpawnNumber = 2,
-        };
-        var node11 = new MapNodeTemplate()
-        {
-            Id = 3,
-            Zones = [0],
-            SpawnNumber = 3,
+            Id = id,
+            Zones = [.. zones],
+            HasSecretPassage = HasSecretPassage,
+            SpawnNumber = spawnNumber
         };
 
-        return new()
+        _nodeMap.Add(id, node);
+        Result.Nodes.Add(node);
+
+        return this;
+    }
+
+    public MapTemplateBuilder Connect(int id1, int id2)
+    {
+        if (!NodeExists(id1))
         {
-            Nodes = [node00, node01, node10, node11],
-            Adjacent = [
-                .. Bidirectional(node00, node01),
-                .. Bidirectional(node00, node10),
-                .. Bidirectional(node00, node11),
+            throw new Exception($"No node with id {id1}");
+        }
+        if (!NodeExists(id2))
+        {
+            throw new Exception($"No node with id {id2}");
+        }
+        Result.Adjacent.Add(new()
+        {
+            First = id1,
+            Second = id2,
+        });
+        return this;
+    }
+    
+    private bool NodeExists(int id)
+    {
+        return _nodeMap.ContainsKey(id);
+    } 
 
-                .. Bidirectional(node01, node10),
-                .. Bidirectional(node01, node11),
-
-                .. Bidirectional(node10, node11),
-            ]
-        };
+    public MapTemplate Build()
+    {
+        return Result;
     }
 }

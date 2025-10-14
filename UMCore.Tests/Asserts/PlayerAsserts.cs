@@ -24,4 +24,16 @@ public class PlayerAsserts(Player player)
         player.Match.Winner.ShouldNotBe(player);
         return this;
     }
+
+    public PlayerAsserts HasUnspentActions(int amount)
+    {
+        player.ActionCount.ShouldBe(amount);
+        return this;
+    }
+
+    public PlayerAsserts HasNoUnspentActions()
+    {
+        player.ActionCount.ShouldBe(0);
+        return this;
+    }
 }

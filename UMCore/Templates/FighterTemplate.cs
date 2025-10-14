@@ -2,16 +2,15 @@ namespace UMCore.Templates;
 
 public class FighterTemplate
 {
-    public required string Name { get; init; }
-    public required string Key { get; init; }
-    public required int Amount { get; init; }
-    public required string Text { get; init; }
-    public required int MaxHealth { get; init; }
-    public required int StartingHealth { get; init; }
-    public required bool IsHero { get; init; }
-    public required int Movement { get; init; }
-    public required bool IsRanged { get; init; }
-    public required string Script { get; set; } // TODO change to { get; init; }
-    
-    public int MeleeRange { get; init; } = 1;
+    public required string Name { get; set; }
+    public required string Key { get; set; }
+    public required int Amount { get; set; }
+    public required string Text { get; set; }
+    public required int MaxHealth { get; set; }
+    public required int StartingHealth { get; set; }
+    public required bool IsHero { get; set; }
+    public required int Movement { get; set; }
+    public required bool IsRanged { get; set; }
+    public required string Script { get; set; }    
+    public int MeleeRange { get; set; } = 1;
 }

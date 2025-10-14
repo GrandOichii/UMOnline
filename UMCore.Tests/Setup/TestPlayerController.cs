@@ -17,7 +17,14 @@ public class TestPlayerController : IPlayerController
     /// <returns>the action word and whether to remove the action from queue or not</returns>
     public delegate (string, bool) PlayerAction(TestMatch match, Player player, string[] options);
 
-    public Queue<PlayerAction> Actions { get; init; } = [];
+    public delegate MatchCard? HandCardChoice(Player player, int playerHandIdx, MatchCard[] options, string hint);
+    public delegate Fighter FighterChoice(Player player, Fighter[] options, string hint);
+    public delegate (MapNode?, bool) NodeChoice(Player player, MapNode[] options, string hint);
+
+    public required Queue<PlayerAction> Actions { get; init; }
+    public required Queue<HandCardChoice> HandCardChoices { get; init; }
+    public required Queue<FighterChoice> FighterChoices { get; init; }
+    public required Queue<NodeChoice> NodeChoices { get; init; }
 
     public bool SetupCalled { get; private set; } = false;
 
@@ -58,28 +65,46 @@ public class TestPlayerController : IPlayerController
         throw new NotImplementedException();
     }
 
-    public Task<MatchCard> ChooseCardInHand(Player player, int playerHandIdx, MatchCard[] options, string hint)
+    public async Task<MatchCard> ChooseCardInHand(Player player, int playerHandIdx, MatchCard[] options, string hint)
     {
-        // TODO
-        throw new NotImplementedException();
+        var result = await ChooseCardInHandOrNothing(player, playerHandIdx, options, hint)
+            ?? throw new Exception($"Provided null as a card for {nameof(ChooseCardInHand)}");
+        return result;
     }
 
     public Task<MatchCard?> ChooseCardInHandOrNothing(Player player, int playerHandIdx, MatchCard[] options, string hint)
     {
-        // TODO
-        throw new NotImplementedException();
+        if (HandCardChoices.Count == 0)
+        {
+            throw new Exception($"No hand card choices left in queue");
+        }
+        var choiceFunc = HandCardChoices.Dequeue();
+        var result = choiceFunc(player, playerHandIdx, options, hint);
+        return Task.FromResult(result);
     }
 
     public Task<Fighter> ChooseFighter(Player player, Fighter[] options, string hint)
     {
-        // TODO
-        throw new NotImplementedException();
+        if (FighterChoices.Count == 0)
+        {
+            throw new Exception($"No fighter choices left in queue");
+        }
+        var choiceFunc = FighterChoices.Dequeue();
+        var result = choiceFunc(player, options, hint);
+        return Task.FromResult(result);
     }
 
     public Task<MapNode> ChooseNode(Player player, MapNode[] options, string hint)
     {
-        // TODO
-        throw new NotImplementedException();
+        while (NodeChoices.Count > 0)
+        {
+            var choice = NodeChoices.Dequeue();
+            var (result, isResult) = choice(player, options, hint);
+            if (!isResult) continue;
+            return Task.FromResult(result!);
+        }
+        
+        throw new Exception($"No node choices left in queue");
     }
 
     public Task<Player> ChoosePlayer(Player player, Player[] options, string hint)

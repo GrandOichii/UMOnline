@@ -5,9 +5,7 @@ namespace UMCore.Matches.Players.Cards;
 
 public class Deck : MatchCardCollection
 {
-    public Deck(Player owner) : base(owner)
-    {
-    }
+    public Deck(Player owner) : base(owner){}
 
     public async Task<List<MatchCard>> TakeFromTop(int amount)
     {
