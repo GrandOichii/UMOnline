@@ -31,4 +31,9 @@ public class MatchConfigBuilder
         _result.ActionsPerTurn = amount;
         return this;
     }
+
+    public MatchConfigBuilder InitialHandSize(int amount) {
+        _result.InitialHandSize = amount;
+        return this;
+    }
 }

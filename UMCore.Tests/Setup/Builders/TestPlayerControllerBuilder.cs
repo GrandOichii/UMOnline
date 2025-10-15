@@ -100,6 +100,12 @@ public class TestPlayerControllerBuilder
             Queue.Enqueue((player, pIdx, options, hint) => null);
             return this;
         }
+
+        public HandCardChoicesBuilder First()
+        {
+            Queue.Enqueue((player, pIdx, options, hint) => options.First());
+            return this;
+        }
     }
 
     public class FighterChoicesBuilder

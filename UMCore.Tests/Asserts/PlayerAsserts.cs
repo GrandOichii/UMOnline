@@ -36,4 +36,22 @@ public class PlayerAsserts(Player player)
         player.ActionCount.ShouldBe(0);
         return this;
     }
+
+    public PlayerAsserts HasCardsInHand(int amount)
+    {
+        player.Hand.Count.ShouldBe(amount);
+        return this;
+    }
+
+    public PlayerAsserts HasCardsInDiscardPile(int amount)
+    {
+        player.DiscardPile.Count.ShouldBe(amount);
+        return this;
+    }
+
+    public PlayerAsserts HasCardsInDeck(int amount)
+    {
+        player.Deck.Count.ShouldBe(amount);
+        return this;
+    }
 }

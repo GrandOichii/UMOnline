@@ -1,8 +1,21 @@
 namespace UMCore.Tests.Setup.Builders;
 
-public class LoadoutTemplateBuilder(string name)
+public class LoadoutTemplateBuilder
 {
-    private readonly DeckBuilder _deckBuilder = new();
+    private readonly DeckBuilder _deckBuilder;
+
+    public LoadoutTemplateBuilder(string name)
+    {
+        _deckBuilder = new(this);
+
+        Result = new()
+        {
+            Deck = [],
+            Fighters = [],
+            Name = name,
+            StartsWithSidekicks = true,
+        };
+    }
 
     public static LoadoutTemplate Foo(string loadoutName = "Foo")
     {
@@ -34,13 +47,7 @@ public class LoadoutTemplateBuilder(string name)
         };
     }
 
-    public LoadoutTemplate Result { get; } = new()
-    {
-        Deck = [],
-        Fighters = [],
-        Name = name,
-        StartsWithSidekicks = true,
-    };
+    public LoadoutTemplate Result { get; }
 
     public LoadoutTemplateBuilder ConfigDeck(Action<DeckBuilder> configFunc)
     {
@@ -59,8 +66,10 @@ public class LoadoutTemplateBuilder(string name)
         return Result;
     }
 
-    public class DeckBuilder
+    public class DeckBuilder(LoadoutTemplateBuilder parent)
     {
+        private static readonly string DEFAULT_CARD_TEXT = "function _Create() return UM.Build:Card():Build() end";
+
         private static int _basicAttackIdx = 0;
         private static int _basicDefenseIdx = 0;
         private static int _basicSchemeIdx = 0;
@@ -84,8 +93,20 @@ public class LoadoutTemplateBuilder(string name)
         public DeckBuilder AddBasicScheme(int boost = 1, int amount = 1)
         {
             var idx = ++_basicSchemeIdx;
-            // TODO
-            throw new NotImplementedException();
+
+            parent.Result.Deck.Add(new() {
+                Amount = amount,
+                Card = new() {
+                    Key = $"scheme{idx}",
+                    Name = $"scheme{idx}",
+                    Type = "Scheme",
+                    Value = null,
+                    Boost = boost,
+                    Text = "",
+                    Script = DEFAULT_CARD_TEXT,
+                    AllowedFighters = [],
+                }
+            });
             return this;
         }
            
