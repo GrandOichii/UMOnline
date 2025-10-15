@@ -78,6 +78,19 @@ public class MapTemplateBuilder
         });
         return this;
     }
+
+    public MapTemplateBuilder ConnectAll()
+    {
+        for (int i = 0; i < Result.Nodes.Count; ++i)
+        {
+            for (int ii = i + 1; ii < Result.Nodes.Count; ++ii)
+            {
+                Connect(Result.Nodes[i].Id, Result.Nodes[ii].Id);
+            }
+        }
+
+        return this;
+    }
     
     private bool NodeExists(int id)
     {

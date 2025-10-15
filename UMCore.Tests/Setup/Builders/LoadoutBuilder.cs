@@ -30,6 +30,58 @@ public class LoadoutTemplateBuilder
             .Build();
     }
 
+    public static LoadoutTemplate FooBarBaz(string loadoutName = "FooBarBaz")
+    {
+        return new LoadoutTemplateBuilder(loadoutName)
+            .AddFighter(new FighterTemplateBuilder("Foo", "Foo")
+                .Build()
+            )
+            .AddFighter(new FighterTemplateBuilder("Bar", "Bar")
+                .IsSidekick()
+                .Build()
+            )
+            .AddFighter(new FighterTemplateBuilder("Baz", "Baz")
+                .IsSidekick()
+                .Build()
+            )
+            .Build();
+    }
+
+    public static LoadoutTemplate FooBarBazQuux(string loadoutName = "FooBarBazQuux")
+    {
+        return new LoadoutTemplateBuilder(loadoutName)
+            .AddFighter(new FighterTemplateBuilder("Foo", "Foo")
+                .Build()
+            )
+            .AddFighter(new FighterTemplateBuilder("Bar", "Bar")
+                .IsSidekick()
+                .Build()
+            )
+            .AddFighter(new FighterTemplateBuilder("Baz", "Baz")
+                .IsSidekick()
+                .Build()
+            )
+            .AddFighter(new FighterTemplateBuilder("Quux", "Quux")
+                .IsSidekick()
+                .Build()
+            )
+            .Build();
+    }
+
+    public static LoadoutTemplate NHeroesMSidekicks(int n, int m)
+    {
+        var result = new LoadoutTemplateBuilder($"{n}heroes_{m}sidekicks");
+        for (int i = 0; i < n; ++i)
+        {
+            result.AddFighter(new FighterTemplateBuilder($"Hero{i}", $"Hero{i}").Build());
+        }
+        for (int i = 0; i < m; ++i)
+        {
+            result.AddFighter(new FighterTemplateBuilder($"Sidekick{i}", $"Sidekick{i}").IsSidekick().Build());
+        }
+        return result.Build();
+    }
+
     public static LoadoutTemplate Foo(string loadoutName = "Foo")
     {
         return new LoadoutTemplateBuilder(loadoutName)

@@ -11,7 +11,7 @@ public class TestPlayerControllerBuilder
     private readonly NodeChoicesBuilder _nodeChoices = new();
 
     // static controllers
-    public static TestPlayerController Crash()
+    public static TestPlayerController Crasher()
     {
         return new TestPlayerControllerBuilder()
             .ConfigActions(a => a
@@ -112,6 +112,15 @@ public class TestPlayerControllerBuilder
     {
         public Queue<TestPlayerController.FighterChoice> Queue { get; } = new();
 
+        public FighterChoicesBuilder ForEach<T>(IEnumerable<T> objs, Action<FighterChoicesBuilder, T> action)
+        {
+            foreach (var o in objs)
+            {
+                action(this, o);
+            }
+            return this;
+        }
+
         public FighterChoicesBuilder First()
         {
             Queue.Enqueue((player, options, hint) => options.First());
@@ -128,6 +137,15 @@ public class TestPlayerControllerBuilder
     public class NodeChoicesBuilder
     {
         public Queue<TestPlayerController.NodeChoice> Queue { get; } = new();
+
+        public NodeChoicesBuilder ForEach<T>(IEnumerable<T> objs, Action<NodeChoicesBuilder, T> action)
+        {
+            foreach (var o in objs)
+            {
+                action(this, o);
+            }
+            return this;
+        }
 
         public NodeChoicesBuilder WithId(int id)
         {
