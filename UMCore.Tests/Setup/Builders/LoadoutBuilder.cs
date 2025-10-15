@@ -17,34 +17,51 @@ public class LoadoutTemplateBuilder
         };
     }
 
+    public static LoadoutTemplate FooBar(string loadoutName = "FooBar")
+    {
+        return new LoadoutTemplateBuilder(loadoutName)
+            .AddFighter(new FighterTemplateBuilder("Foo", "Foo")
+                .Build()
+            )
+            .AddFighter(new FighterTemplateBuilder("Bar", "Bar")
+                .IsSidekick()
+                .Build()
+            )
+            .Build();
+    }
+
     public static LoadoutTemplate Foo(string loadoutName = "Foo")
     {
-        // TODO
-        return new()
-        {
-            Name = loadoutName,
-            StartsWithSidekicks = true,
-            Fighters = [
-                new() {
-                    Amount = 1,
-                    IsHero = true,
-                    IsRanged = false,
-                    Key = "Foo",
-                    MaxHealth = 10,
-                    Movement = 2,
-                    Name = "Foo",
-                    Script = FighterTemplateBuilder.DEFAULT_FIGHTER_SCRIPT,
-                    StartingHealth = 10,
-                    Text = ""
-                }
-            ],
-            Deck = [
-                new() {
-                    Amount = 5,
-                    Card = CardTemplateBuilder.DefaultScheme()
-                },
-            ]
-        };
+        return new LoadoutTemplateBuilder(loadoutName)
+            .AddFighter(new FighterTemplateBuilder("Foo", "Foo")
+                .Build()
+            )
+            .Build();
+        // return new()
+        // {
+        //     Name = loadoutName,
+        //     StartsWithSidekicks = true,
+        //     Fighters = [
+        //         new() {
+        //             Amount = 1,
+        //             IsHero = true,
+        //             IsRanged = false,
+        //             Key = "Foo",
+        //             MaxHealth = 10,
+        //             Movement = 2,
+        //             Name = "Foo",
+        //             Script = FighterTemplateBuilder.DEFAULT_FIGHTER_SCRIPT,
+        //             StartingHealth = 10,
+        //             Text = ""
+        //         }
+        //     ],
+        //     Deck = [
+        //         new() {
+        //             Amount = 5,
+        //             Card = CardTemplateBuilder.DefaultScheme()
+        //         },
+        //     ]
+        // };
     }
 
     public LoadoutTemplate Result { get; }

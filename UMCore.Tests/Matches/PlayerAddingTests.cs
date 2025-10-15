@@ -277,23 +277,27 @@ public class TODOSortTheseTests
 public class MovementTests
 {    
     [Theory]
-    [InlineData(0)]
-    [InlineData(1)]
-    [InlineData(2)]
-    public async Task LineMovementTests(int fighterMovement)
+    [InlineData(0, 1)]
+    [InlineData(1, 2)]
+    [InlineData(2, 3)]
+    [InlineData(3, 4)]
+    [InlineData(4, 4)]
+    [InlineData(5, 4)]
+    public async Task LineMovementTests(int fighterMovement, int expectedOptionsCount)
     {
         // Arrange
         var config = new MatchConfigBuilder()
             .ActionsPerTurn(2)
             .Build();
 
-        // 0 - 1 - 2 - 3 - 4
+        // 0 - 1 - 2 - 3 - 4 - 5
         var mapTemplate = new MapTemplateBuilder()
             .AddNode(0, [0], spawnNumber: 1)
             .AddNode(1, [0])
             .AddNode(2, [0])
             .AddNode(3, [0])
             .AddNode(4, [0], spawnNumber: 2)
+            .AddNode(5, [0])
             .Connect(0, 1)
             .Connect(1, 2)
             .Connect(2, 3)
@@ -319,7 +323,7 @@ public class MovementTests
                     .First()
                 )
                 .ConfigNodeChoices(c => c
-                    .AssertOptionsHasLength(fighterMovement + 1)
+                    .AssertOptionsHasLength(expectedOptionsCount)
                     .WithId(0))
                 .Build(),
             new LoadoutTemplateBuilder("foo1")
@@ -351,10 +355,13 @@ public class MovementTests
     }
 
     [Theory]
-    [InlineData(0)]
-    [InlineData(1)]
-    [InlineData(2)]
-    public async Task LineMovementWithBoostTests(int boostValue)
+    [InlineData(0, 1)]
+    [InlineData(1, 2)]
+    [InlineData(2, 3)]
+    [InlineData(3, 4)]
+    [InlineData(4, 4)]
+    [InlineData(5, 4)]
+    public async Task LineMovementWithBoostTests(int boostValue, int expectedOptionsCount)
     {
         // Arrange
         var config = new MatchConfigBuilder()
@@ -362,7 +369,7 @@ public class MovementTests
             .InitialHandSize(5)
             .Build();
 
-        // 0 - 1 - 2 - 3 - 4
+        // 0 - 1 - 2 - 3 - 4 - 5
         var mapTemplate = new MapTemplateBuilder()
             .AddNode(0, [0], spawnNumber: 1)
             .AddNode(1, [0])
@@ -394,7 +401,7 @@ public class MovementTests
                     .First()
                 )
                 .ConfigNodeChoices(c => c
-                    .AssertOptionsHasLength(boostValue + 1)
+                    .AssertOptionsHasLength(expectedOptionsCount)
                     .WithId(0))
                 .Build(),
             new LoadoutTemplateBuilder("foo1")
@@ -402,6 +409,99 @@ public class MovementTests
                     .Movement(0)
                     .Build()
                 )
+                .ConfigDeck(d => d
+                    .AddBasicScheme(boostValue, 10)
+                )
+                .Build()
+        );
+        await match.AddOpponent(
+            TestPlayerControllerBuilder.Crash(),
+            LoadoutTemplateBuilder.Foo("foo2")
+        );
+
+        // Act
+        await match.Run();
+
+        // Assert
+        match.Assert()
+            .CrashedIntentionally();
+
+        match.AssertPlayer(0)
+            .SetupCalled()
+            .HasUnspentActions(1)
+            .HasCardsInHand(5)
+            .HasCardsInDeck(4)
+            .HasCardsInDiscardPile(1)
+            .IsWinner();
+        match.AssertPlayer(1)
+            .SetupCalled()
+            .IsNotWinner();
+    }
+
+    [Theory]
+    [InlineData(0, 1)]
+    [InlineData(1, 1)]
+    [InlineData(2, 2)]
+    [InlineData(3, 3)]
+    [InlineData(4, 3)]
+    [InlineData(5, 3)]
+    public async Task LineMovementWithSidekickTests(int boostValue, int expectedOptionsCount)
+    {
+        // Arrange
+        var config = new MatchConfigBuilder()
+            .ActionsPerTurn(2)
+            .InitialHandSize(5)
+            .Build();
+
+        // 0 - 1 - 2 - 3 - 4 - 5
+        var mapTemplate = new MapTemplateBuilder()
+            .AddNode(0, [0], spawnNumber: 1) // hero is here
+            .AddNode(1, [0])                 // sidekick is here
+            .AddNode(2, [0])
+            .AddNode(3, [0])
+            .AddNode(4, [0], spawnNumber: 2) // opponent is here
+            .AddNode(5, [0])
+            .Connect(0, 1)
+            .Connect(1, 2)
+            .Connect(2, 3)
+            .Connect(3, 4)
+            .Build();
+
+        var match = new TestMatchWrapper(
+            config,
+            mapTemplate
+        );
+
+        await match.AddMainPlayer(
+            new TestPlayerControllerBuilder()
+                .ConfigActions(a => a
+                    .Manoeuvre()
+                    .DeclareWinner()
+                    .CrashMatch()
+                )
+                .ConfigHandCardChoices(c => c
+                    .First()
+                )
+                .ConfigFighterChoices(c => c
+                    .WithName("foo1")
+                    .WithName("bar1")
+                )
+                .ConfigNodeChoices(c => c
+                    .WithId(1)
+                    .AssertOptionsHasLength(expectedOptionsCount)
+                    .WithId(0)
+                    .First()
+                )
+                .Build(),
+            new LoadoutTemplateBuilder("foo1")
+                .AddFighter(new FighterTemplateBuilder("foo1", "foo1")
+                    .Movement(0)
+                    .Build()
+                )
+                .AddFighter(new FighterTemplateBuilder("bar1", "bar1")
+                    .IsSidekick()
+                    .Movement(0)
+                    .Build())
                 .ConfigDeck(d => d
                     .AddBasicScheme(boostValue, 10)
                 )
@@ -487,6 +587,87 @@ public class MovementTests
         await match.AddOpponent(
             TestPlayerControllerBuilder.Crash(),
             LoadoutTemplateBuilder.Foo("foo2")
+        );
+
+        // Act
+        await match.Run();
+
+        // Assert
+        match.Assert()
+            .CrashedIntentionally();
+
+        match.AssertPlayer(0)
+            .SetupCalled()
+            .HasUnspentActions(1)
+            .IsWinner();
+        match.AssertPlayer(1)
+            .SetupCalled()
+            .IsNotWinner();
+    }
+
+    [Theory]
+    [InlineData(0)]
+    [InlineData(1)]
+    [InlineData(2)]
+    public async Task LineWithSurroundedTests(int fighterMovement)
+    {
+        // Arrange
+        var config = new MatchConfigBuilder()
+            .ActionsPerTurn(2)
+            .Build();
+
+        // 0 - 1 - 2 - 3 - 4
+        var mapTemplate = new MapTemplateBuilder()
+            .AddNode(0, [0], spawnNumber: 2) // opponent hero
+            .AddNode(1, [0], spawnNumber: 1) // main hero
+            .AddNode(2, [0])                 // opponent sidekick
+            .AddNode(3, [0])
+            .AddNode(4, [0])
+            .Connect(0, 1)
+            .Connect(1, 2)
+            .Connect(2, 3)
+            .Connect(3, 4)
+            .Build();
+
+        var match = new TestMatchWrapper(
+            config,
+            mapTemplate
+        );
+
+        await match.AddMainPlayer(
+            new TestPlayerControllerBuilder()
+                .ConfigActions(a => a
+                    .Manoeuvre()
+                    .DeclareWinner()
+                    .CrashMatch()
+                )
+                .ConfigHandCardChoices(c => c
+                    .Nothing()
+                )
+                .ConfigFighterChoices(c => c
+                    .First()
+                )
+                .ConfigNodeChoices(c => c
+                    .AssertOptionsHasLength(1)
+                    .First()
+                )
+                .Build(),
+            new LoadoutTemplateBuilder("foo1")
+                .AddFighter(new FighterTemplateBuilder("foo1", "foo1")
+                    .Movement(fighterMovement)
+                    .Build()
+                )
+                .Build()
+        );
+        await match.AddOpponent(
+            new TestPlayerControllerBuilder()
+                .ConfigActions(a => a
+                    .CrashMatch()
+                )
+                .ConfigNodeChoices(c => c
+                    .WithId(2))
+                .Build(),
+            LoadoutTemplateBuilder.FooBar("foo2")
         );
 
         // Act

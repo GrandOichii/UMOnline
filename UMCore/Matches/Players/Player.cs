@@ -76,7 +76,9 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
 
     public async Task InitialPlaceFighters(int spawnNumber)
     {
-        await new PlayerInitialFighterPlacer().Run(this, spawnNumber);
+        // IPlayerInitialFighterPlacer placer = new PlayerInitialFighterPlacerNeighbors();
+        IPlayerInitialFighterPlacer placer = new PlayerInitialFighterPlacerInZone();
+        await placer.Run(this, spawnNumber);
     }
 
     public async Task Setup()

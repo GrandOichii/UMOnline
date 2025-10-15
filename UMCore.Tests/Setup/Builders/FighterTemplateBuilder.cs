@@ -24,6 +24,12 @@ public class FighterTemplateBuilder(string name, string key)
         return Result;
     }
 
+    public FighterTemplateBuilder IsSidekick()
+    {
+        Result.IsHero = false;
+        return this;
+    }
+
     public FighterTemplateBuilder Movement(int amount)
     {
         Result.Movement = amount;

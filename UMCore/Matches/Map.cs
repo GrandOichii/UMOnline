@@ -86,6 +86,8 @@ public class Map : IHasData<Map.Data>
         return Nodes.FirstOrDefault(node => node.Fighter == fighter);
     }
 
+    public IEnumerable<MapNode> GetEmptyNodes() => Nodes.Where(n => n.IsEmpty());
+
     public MapNode GetSpawnLocation(int idx)
     {
         return Nodes.First(node => node.Template.SpawnNumber == idx);
@@ -152,7 +154,9 @@ public class MapNode : IHasData<MapNode.Data>
         Adjacent = [];
     }
 
-    public List<MapNode> GetAdjacentEmptyNodes() => [.. Adjacent.Where(n => n.Fighter == null)];
+    public IEnumerable<MapNode> GetAdjacentEmptyNodes() => [.. Adjacent.Where(n => n.IsEmpty())];
+
+    public bool IsEmpty() => Fighter == null;
 
     public IEnumerable<int> GetZones() => Template.Zones;
 

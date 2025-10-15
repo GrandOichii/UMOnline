@@ -117,6 +117,12 @@ public class TestPlayerControllerBuilder
             Queue.Enqueue((player, options, hint) => options.First());
             return this;
         }
+
+        public FighterChoicesBuilder WithName(string name)
+        {
+            Queue.Enqueue((player, options, hint) => options.First(f => f.Name == name));
+            return this;
+        }
     }
 
     public class NodeChoicesBuilder
@@ -126,6 +132,12 @@ public class TestPlayerControllerBuilder
         public NodeChoicesBuilder WithId(int id)
         {
             Queue.Enqueue((player, options, hint) => (options.First(n => n.Id == id), true));
+            return this;
+        }
+
+        public NodeChoicesBuilder First()
+        {
+            Queue.Enqueue((player, options, hint) => (options.First(), true));
             return this;
         }
 
