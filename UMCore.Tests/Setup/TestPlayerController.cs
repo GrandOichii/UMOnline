@@ -1,3 +1,4 @@
+using Shouldly;
 using UMCore.Matches.Attacks;
 using UMCore.Matches.Cards;
 using UMCore.Matches.Players;
@@ -128,5 +129,12 @@ public class TestPlayerController : IPlayerController
     public Task Update(Player player)
     {
         return Task.CompletedTask;
+    }
+
+    public void AssertAllChoiceQueuesEmpty()
+    {
+        HandCardChoices.Count.ShouldBe(0);
+        FighterChoices.Count.ShouldBe(0);
+        NodeChoices.Count.ShouldBe(0);       
     }
 }

@@ -690,16 +690,16 @@ public class MovementTests
 public class InitialFighterPlacementTests
 {
     [Theory]
-    [InlineData(1, 1, new int[] {3})]
-    [InlineData(1, 2, new int[] {3, 2})]
-    [InlineData(1, 3, new int[] {3, 2, 1})]
-    [InlineData(2, 0, new int[] {3})]
-    [InlineData(2, 1, new int[] {3, 2})]
-    [InlineData(2, 2, new int[] {3, 2, 1})]
-    [InlineData(4, 1, new int[] {3, 2, 1, 5})]
-    [InlineData(4, 2, new int[] {3, 2, 1, 5, 4})]
-    [InlineData(4, 3, new int[] {3, 2, 1, 5, 4, 3})]
-    [InlineData(4, 4, new int[] {3, 2, 1, 5, 4, 3, 2})]
+    [InlineData(1, 1, new int[] { 3 })]
+    [InlineData(1, 2, new int[] { 3, 2 })]
+    [InlineData(1, 3, new int[] { 3, 2, 1 })]
+    [InlineData(2, 0, new int[] { 3 })]
+    [InlineData(2, 1, new int[] { 3, 2 })]
+    [InlineData(2, 2, new int[] { 3, 2, 1 })]
+    [InlineData(4, 1, new int[] { 3, 2, 1, 5 })]
+    [InlineData(4, 2, new int[] { 3, 2, 1, 5, 4 })]
+    [InlineData(4, 3, new int[] { 3, 2, 1, 5, 4, 3 })]
+    [InlineData(4, 4, new int[] { 3, 2, 1, 5, 4, 3, 2 })]
     public async Task Place_N_Heroes_M_Sidekicks_In_3x3_Box_2x2_Zone(int heroCount, int sidekickCount, int[] optionCounts)
     {
         // Arrange
@@ -772,9 +772,12 @@ public class InitialFighterPlacementTests
     }
 
     [Theory]
-    [InlineData(1, 1, new int[] {3})]
-    [InlineData(1, 2, new int[] {3, 2})]
-    [InlineData(1, 3, new int[] {3, 2, 1})]
+    [InlineData(1, 1, new int[] { 3 })]
+    [InlineData(1, 2, new int[] { 3, 2 })]
+    [InlineData(1, 3, new int[] { 3, 2, 1 })]
+    [InlineData(2, 0, new int[] { 3 })]
+    [InlineData(2, 1, new int[] { 3, 2 })]
+    [InlineData(2, 2, new int[] { 3, 2, 1 })]
     public async Task Opponent_Place_N_Heroes_M_Sidekicks_In_3x3_Box_2x2_Zone(int heroCount, int sidekickCount, int[] optionCounts)
     {
         // Arrange
@@ -861,4 +864,541 @@ public class InitialFighterPlacementTests
             .SetupCalled()
             .IsNotWinner();
     }
+}
+
+public class ManoeuvreTests
+{
+    [Theory]
+    [InlineData(10, 2)]
+    [InlineData(30, 4)]
+    [InlineData(1, 1)]
+    public async Task SingleManoeuvre_CardDrawn_EveryFighterMoved(int deckSize, int sidekickCount)
+    {
+        // Arrange
+        var config = new MatchConfigBuilder()
+            .InitialHandSize(0)
+            .ActionsPerTurn(2)
+            .Build();
+
+        // 00 - 01 - 02
+        // |  X |  X |
+        // 10 - 11 - 12
+        // |  X |  X |
+        // 20 - 21 - 22
+        var mapTemplate = new MapTemplateBuilder()
+            .AddNode(00, [0], spawnNumber: 1)
+            .AddNode(01, [0])
+            .AddNode(10, [0])
+            .AddNode(11, [0])
+            .AddNode(02, [1])
+            .AddNode(12, [1])
+            .AddNode(22, [1], spawnNumber: 2)
+            .AddNode(21, [1])
+            .AddNode(20, [1])
+            .ConnectAll()
+            .Build();
+
+        var match = new TestMatchWrapper(
+            config,
+            mapTemplate
+        );
+
+        var c = new TestPlayerControllerBuilder()
+            .ConfigActions(a => a
+                .Manoeuvre()
+                .DeclareWinner()
+                .CrashMatch()
+            )
+            .ConfigFighterChoices(c => c
+                .ForEach(Enumerable.Range(0, sidekickCount + 1), (cfc, _) => cfc.First())
+            )
+            .ConfigNodeChoices(c => c
+                .ForEach(Enumerable.Range(0, sidekickCount), (cnc, _) => cnc.First())
+                .ForEach(Enumerable.Range(0, sidekickCount + 1), (cnc, _) => cnc.First())
+            )
+            .ConfigHandCardChoices(c => c
+                .Nothing()
+            )
+            .Build();
+        await match.AddMainPlayer(
+            c,
+            new LoadoutTemplateBuilder("main")
+                .AddFighter(new FighterTemplateBuilder("hero", "hero")
+                    .Build()
+                )
+                .ForReach(Enumerable.Range(0, sidekickCount), (ltb, _) => ltb
+                    .AddFighter(new FighterTemplateBuilder("sidekick", "sidekick")
+                        .IsSidekick()
+                        .Build()
+                    )
+                )
+                .ConfigDeck(d => d
+                    .AddBasicScheme(amount: deckSize)
+                )
+                .Build()
+        );
+        await match.AddOpponent(
+            TestPlayerControllerBuilder.Crasher(),
+            LoadoutTemplateBuilder.Foo()
+        );
+
+        // Act
+        await match.Run();
+
+        // Assert
+        match.Assert()
+            .CrashedIntentionally();
+        c.AssertAllChoiceQueuesEmpty();
+
+        match.AssertPlayer(0)
+            .SetupCalled()
+            .HasUnspentActions(1)
+            .HasCardsInHand(1)
+            .HasCardsInDeck(deckSize - 1)
+            .IsWinner();
+        match.AssertPlayer(1)
+            .SetupCalled()
+            .IsNotWinner();
+    }
+
+    [Theory]
+    [InlineData(10, 2)]
+    [InlineData(30, 4)]
+    [InlineData(2, 1)]
+    public async Task DoubleManoeuvre_CardDrawn_EveryFighterMoved(int deckSize, int sidekickCount)
+    {
+        // Arrange
+        var config = new MatchConfigBuilder()
+            .InitialHandSize(0)
+            .ActionsPerTurn(2)
+            .Build();
+
+        // 00 - 01 - 02
+        // |  X |  X |
+        // 10 - 11 - 12
+        // |  X |  X |
+        // 20 - 21 - 22
+        var mapTemplate = new MapTemplateBuilder()
+            .AddNode(00, [0], spawnNumber: 1)
+            .AddNode(01, [0])
+            .AddNode(10, [0])
+            .AddNode(11, [0])
+            .AddNode(02, [1])
+            .AddNode(12, [1])
+            .AddNode(22, [1], spawnNumber: 2)
+            .AddNode(21, [1])
+            .AddNode(20, [1])
+            .ConnectAll()
+            .Build();
+
+        var match = new TestMatchWrapper(
+            config,
+            mapTemplate
+        );
+
+        var c = new TestPlayerControllerBuilder()
+            .ConfigActions(a => a
+                .Manoeuvre()
+                .Manoeuvre()
+                .CrashMatch()
+            )
+            .ConfigFighterChoices(c => c
+                .ForEach(Enumerable.Range(0, sidekickCount + 1), (cfc, _) => cfc.First())
+                .ForEach(Enumerable.Range(0, sidekickCount + 1), (cfc, _) => cfc.First())
+            )
+            .ConfigNodeChoices(c => c
+                .ForEach(Enumerable.Range(0, sidekickCount), (cnc, _) => cnc.First())
+                .ForEach(Enumerable.Range(0, sidekickCount + 1), (cnc, _) => cnc.First())
+                .ForEach(Enumerable.Range(0, sidekickCount + 1), (cnc, _) => cnc.First())
+            )
+            .ConfigHandCardChoices(c => c
+                .Nothing()
+                .Nothing()
+            )
+            .Build();
+        await match.AddMainPlayer(
+            c,
+            new LoadoutTemplateBuilder("main")
+                .AddFighter(new FighterTemplateBuilder("hero", "hero")
+                    .Build()
+                )
+                .ForReach(Enumerable.Range(0, sidekickCount), (ltb, _) => ltb
+                    .AddFighter(new FighterTemplateBuilder("sidekick", "sidekick")
+                        .IsSidekick()
+                        .Build()
+                    )
+                )
+                .ConfigDeck(d => d
+                    .AddBasicScheme(amount: deckSize)
+                )
+                .Build()
+        );
+        await match.AddOpponent(
+            TestPlayerControllerBuilder.Crasher(),
+            LoadoutTemplateBuilder.Foo()
+        );
+
+        // Act
+        await match.Run();
+
+        // Assert
+        match.Assert()
+            .CrashedIntentionally();
+        c.AssertAllChoiceQueuesEmpty();
+
+        match.AssertPlayer(0)
+            .SetupCalled()
+            .HasUnspentActions(0)
+            .HasCardsInHand(2)
+            .HasCardsInDeck(deckSize - 2);
+        match.AssertPlayer(1)
+            .SetupCalled()
+            .IsCurrentPlayer()
+            .IsNotWinner();
+    }
+}
+
+public class SchemeTests
+{
+    [Fact]
+    public async Task CantPlaySchemeIfNoSchemeInHand()
+    {
+        // Arrange
+        var config = new MatchConfigBuilder()
+            .InitialHandSize(0)
+            .ActionsPerTurn(2)
+            .Build();
+
+        var mapTemplate = MapTemplateBuilder.Build2x2();
+
+        var match = new TestMatchWrapper(
+            config,
+            mapTemplate
+        );
+
+        await match.AddMainPlayer(
+            new TestPlayerControllerBuilder()
+                .ConfigActions(a => a
+                    .Assert(a => a.CantScheme())
+                    .DeclareWinner()
+                    .CrashMatch()
+                )
+            .Build(),
+            LoadoutTemplateBuilder.Foo("main")
+        );
+        await match.AddOpponent(
+            TestPlayerControllerBuilder.Crasher(),
+            LoadoutTemplateBuilder.Foo()
+        );
+
+        // Act
+        await match.Run();
+
+        // Assert
+        match.Assert()
+            .CrashedIntentionally();
+        match.AssertPlayer(0)
+            .SetupCalled()
+            .IsWinner()
+            .HasUnspentActions(2);
+        match.AssertPlayer(1)
+            .SetupCalled()
+            .IsNotWinner();
+    }
+
+    [Fact]
+    public async Task CanPlaySchemeOnce()
+    {
+        // Arrange
+        var config = new MatchConfigBuilder()
+            .InitialHandSize(1)
+            .ActionsPerTurn(2)
+            .Build();
+
+        var mapTemplate = MapTemplateBuilder.Build2x2();
+
+        var match = new TestMatchWrapper(
+            config,
+            mapTemplate
+        );
+
+        await match.AddMainPlayer(
+            new TestPlayerControllerBuilder()
+                .ConfigActions(a => a
+                    .Scheme()
+                    .Assert(a => a.CantScheme())
+                    .DeclareWinner()
+                    .CrashMatch()
+                )
+                .ConfigHandCardChoices(c => c
+                    .First()
+                )
+            .Build(),
+            new LoadoutTemplateBuilder("main")
+                .AddFighter(new FighterTemplateBuilder("main", "main").Build())
+                .ConfigDeck(d => d.AddBasicScheme(amount: 10))
+                .Build()
+        );
+        await match.AddOpponent(
+            TestPlayerControllerBuilder.Crasher(),
+            LoadoutTemplateBuilder.Foo()
+        );
+
+        // Act
+        await match.Run();
+
+        // Assert
+        match.Assert()
+            .CrashedIntentionally();
+        match.AssertPlayer(0)
+            .SetupCalled()
+            .IsWinner()
+            .HasUnspentActions(1);
+        match.AssertPlayer(1)
+            .SetupCalled()
+            .IsNotWinner();
+    }
+
+    [Fact]
+    public async Task CanPlaySchemeTwice()
+    {
+        // Arrange
+        var config = new MatchConfigBuilder()
+            .InitialHandSize(2)
+            .ActionsPerTurn(3)
+            .Build();
+
+        var mapTemplate = MapTemplateBuilder.Build2x2();
+
+        var match = new TestMatchWrapper(
+            config,
+            mapTemplate
+        );
+
+        await match.AddMainPlayer(
+            new TestPlayerControllerBuilder()
+                .ConfigActions(a => a
+                    .Scheme()
+                    .Scheme()
+                    .DeclareWinner()
+                    .CrashMatch()
+                )
+                .ConfigHandCardChoices(c => c
+                    .First()
+                    .First()
+                )
+            .Build(),
+            new LoadoutTemplateBuilder("main")
+                .AddFighter(new FighterTemplateBuilder("main", "main").Build())
+                .ConfigDeck(d => d.AddBasicScheme(amount: 10))
+                .Build()
+        );
+        await match.AddOpponent(
+            TestPlayerControllerBuilder.Crasher(),
+            LoadoutTemplateBuilder.Foo()
+        );
+
+        // Act
+        await match.Run();
+
+        // Assert
+        match.Assert()
+            .CrashedIntentionally();
+        match.AssertPlayer(0)
+            .SetupCalled()
+            .IsWinner()
+            .HasUnspentActions(1);
+        match.AssertPlayer(1)
+            .SetupCalled()
+            .IsNotWinner();
+    }
+
+    [Fact]
+    public async Task CardDrawSchemeCheck()
+    {
+        // Arrange
+        var config = new MatchConfigBuilder()
+            .InitialHandSize(1)
+            .ActionsPerTurn(2)
+            .Build();
+
+        var mapTemplate = MapTemplateBuilder.Build2x2();
+
+        var match = new TestMatchWrapper(
+            config,
+            mapTemplate
+        );
+
+        await match.AddMainPlayer(
+            new TestPlayerControllerBuilder()
+                .ConfigActions(a => a
+                    .Scheme()
+                    .DeclareWinner()
+                    .CrashMatch()
+                )
+                .ConfigHandCardChoices(c => c
+                    .First()
+                )
+            .Build(),
+            new LoadoutTemplateBuilder("main")
+                .AddFighter(new FighterTemplateBuilder("main", "main").Build())
+                .ConfigDeck(d => d.AddCardDrawScheme(1, amount: 10))
+                .Build()
+        );
+        await match.AddOpponent(
+            TestPlayerControllerBuilder.Crasher(),
+            LoadoutTemplateBuilder.Foo()
+        );
+
+        // Act
+        await match.Run();
+
+        // Assert
+        match.Assert()
+            .CrashedIntentionally();
+        match.AssertPlayer(0)
+            .SetupCalled()
+            .IsWinner()
+            .HasCardsInHand(1)
+            .HasCardsInDiscardPile(1)
+            .HasCardsInDeck(8)
+            .HasUnspentActions(1);
+        match.AssertPlayer(1)
+            .SetupCalled()
+            .IsNotWinner();
+    }
+}
+
+public class ExhaustionTests
+{
+    [Fact]
+    public async Task ManoeuvreExhaust()
+    {
+        // Arrange
+        var config = new MatchConfigBuilder()
+            .InitialHandSize(0)
+            .ActionsPerTurn(2)
+            .Build();
+
+        var mapTemplate = MapTemplateBuilder.Build2x2();
+
+        var match = new TestMatchWrapper(
+            config,
+            mapTemplate
+        );
+
+        var heroKey = "hero";
+        await match.AddMainPlayer(
+            new TestPlayerControllerBuilder()
+                .ConfigActions(a => a
+                    .Manoeuvre()
+                    .DeclareWinner()
+                    .CrashMatch()
+                )
+                .ConfigFighterChoices(c => c
+                    .First()
+                )
+                .ConfigNodeChoices(c => c
+                    .First()
+                )
+                .ConfigHandCardChoices(c => c
+                    .Nothing()
+                )
+                .Build(),
+            new LoadoutTemplateBuilder("main")
+                .AddFighter(new FighterTemplateBuilder("hero", heroKey)
+                    .Health(10)
+                    .Build()
+                )
+                .Build()
+        );
+        await match.AddOpponent(
+            TestPlayerControllerBuilder.Crasher(),
+            LoadoutTemplateBuilder.Foo()
+        );
+
+        // Act
+        await match.Run();
+
+        // Assert
+        match.Assert()
+            .CrashedIntentionally();
+        match.AssertPlayer(0)
+            .SetupCalled()
+            .HasUnspentActions(1)
+            .HasCardsInHand(0)
+            .HasCardsInDeck(0)
+            .HasCardsInDiscardPile(0)
+            .IsWinner();
+        match.AssertFighter(heroKey)
+            .HasHealth(8)
+            .IsAlive();
+        match.AssertPlayer(1)
+            .SetupCalled()
+            .IsNotWinner();
+    }
+
+    [Fact]
+    public async Task CardDrawSchemeExhaust()
+    {
+        // Arrange
+        var config = new MatchConfigBuilder()
+            .InitialHandSize(1)
+            .ActionsPerTurn(2)
+            .Build();
+
+        var mapTemplate = MapTemplateBuilder.Build2x2();
+
+        var match = new TestMatchWrapper(
+            config,
+            mapTemplate
+        );
+
+        var heroKey = "main";
+        await match.AddMainPlayer(
+            new TestPlayerControllerBuilder()
+                .ConfigActions(a => a
+                    .Scheme()
+                    .DeclareWinner()
+                    .CrashMatch()
+                )
+                .ConfigHandCardChoices(c => c
+                    .First()
+                )
+            .Build(),
+            new LoadoutTemplateBuilder("main")
+                .AddFighter(new FighterTemplateBuilder("main", heroKey).Build())
+                .ConfigDeck(d => d.AddCardDrawScheme(1, amount: 1))
+                .Build()
+        );
+        await match.AddOpponent(
+            TestPlayerControllerBuilder.Crasher(),
+            LoadoutTemplateBuilder.Foo()
+        );
+
+        // Act
+        await match.Run();
+
+        // Assert
+        match.Assert()
+            .CrashedIntentionally();
+        match.AssertPlayer(0)
+            .SetupCalled()
+            .HasUnspentActions(1)
+            .HasCardsInHand(0)
+            .HasCardsInDeck(0)
+            .HasCardsInDiscardPile(1)
+            .IsWinner();
+        match.AssertFighter(heroKey)
+            .HasHealth(8)
+            .IsAlive();
+        match.AssertPlayer(1)
+            .SetupCalled()
+            .IsNotWinner();
+    }
+}
+
+public class AttackTests
+{
+    // TODO
 }

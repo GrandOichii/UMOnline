@@ -24,6 +24,13 @@ public class FighterTemplateBuilder(string name, string key)
         return Result;
     }
 
+    public FighterTemplateBuilder Health(int health)
+    {
+        Result.MaxHealth = health;
+        Result.StartingHealth = health;
+        return this;
+    }
+
     public FighterTemplateBuilder IsSidekick()
     {
         Result.IsHero = false;

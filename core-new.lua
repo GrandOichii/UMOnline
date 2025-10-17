@@ -331,9 +331,11 @@ end
 
 function UM.Effects:Draw(manyPlayers, numeric, optional)
     return function (args)
-        local fighter = args.fighter
-        local amount = numeric(args):Choose(args, 'Choose how many cards to draw')
-        DrawCards(fighter.Owner, amount)
+        local players = manyPlayers(args)
+        for _, p in ipairs(players) do
+            local amount = numeric(args):Choose(args, 'Choose how many cards to draw')
+            DrawCards(p, amount)
+        end
     end
 end
 

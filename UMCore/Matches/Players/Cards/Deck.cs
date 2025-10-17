@@ -10,7 +10,7 @@ public class Deck : MatchCardCollection
     public async Task<List<MatchCard>> TakeFromTop(int amount)
     {
         var result = new List<MatchCard>();
-        while (amount-- > 0 && Count > 0)
+        while (Count > 0 && amount-- > 0)
         {
             var card = Cards[0];
             result.Add(card);

@@ -7,7 +7,7 @@ public class MatchConfigBuilder
     private readonly MatchConfig _result = new()
     {
         ActionsPerTurn = 2,
-        ExhaustDamage = 1,
+        ExhaustDamage = 2,
         FirstPlayerIdx = 0,
         InitialHandSize = 5,
         ManoeuvreDrawAmount = 1,

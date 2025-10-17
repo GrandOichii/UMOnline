@@ -13,6 +13,12 @@ public class PlayerAsserts(Player player)
         return this;
     }
 
+    public PlayerAsserts IsCurrentPlayer()
+    {
+        player.Match.CurPlayerIdx.ShouldBe(player.Idx);
+        return this;
+    }
+
     public PlayerAsserts IsWinner()
     {
         player.Match.Winner.ShouldBe(player);

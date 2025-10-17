@@ -89,6 +89,30 @@ public class TestPlayerControllerBuilder
                 return (new ManoeuvreAction().Name(), true);
             });
         }
+
+        public ActionsBuilder Scheme()
+        {
+            return Enqueue((match, player, options) => (new SchemeAction().Name(), true));
+        }
+
+        public ActionsBuilder Assert(Action<Asserts> action)
+        {
+            return Enqueue((match, player, options) =>
+            {
+                action(new Asserts(match, player, options));
+                return (TestPlayerController.NEXT_ACTION, true);
+            });
+
+        }
+
+        public class Asserts(TestMatch match, Player player, string[] options)
+        {
+            public Asserts CantScheme()
+            {
+                options.ShouldContain(new ManoeuvreAction().Name());
+                return this;
+            }
+        }
     }
 
     public class HandCardChoicesBuilder

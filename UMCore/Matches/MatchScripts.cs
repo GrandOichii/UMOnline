@@ -1,6 +1,7 @@
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading.Tasks;
+using System.Xml;
 using Microsoft.Extensions.Options;
 using Microsoft.VisualBasic;
 using NLua;

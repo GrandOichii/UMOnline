@@ -89,34 +89,18 @@ public class LoadoutTemplateBuilder
                 .Build()
             )
             .Build();
-        // return new()
-        // {
-        //     Name = loadoutName,
-        //     StartsWithSidekicks = true,
-        //     Fighters = [
-        //         new() {
-        //             Amount = 1,
-        //             IsHero = true,
-        //             IsRanged = false,
-        //             Key = "Foo",
-        //             MaxHealth = 10,
-        //             Movement = 2,
-        //             Name = "Foo",
-        //             Script = FighterTemplateBuilder.DEFAULT_FIGHTER_SCRIPT,
-        //             StartingHealth = 10,
-        //             Text = ""
-        //         }
-        //     ],
-        //     Deck = [
-        //         new() {
-        //             Amount = 5,
-        //             Card = CardTemplateBuilder.DefaultScheme()
-        //         },
-        //     ]
-        // };
     }
 
     public LoadoutTemplate Result { get; }
+
+    public LoadoutTemplateBuilder ForReach<T>(IEnumerable<T> arr, Action<LoadoutTemplateBuilder, T> action)
+    {
+        foreach (var o in arr)
+        {
+            action(this, o);
+        }
+        return this;
+    }
 
     public LoadoutTemplateBuilder ConfigDeck(Action<DeckBuilder> configFunc)
     {
@@ -138,6 +122,19 @@ public class LoadoutTemplateBuilder
     public class DeckBuilder(LoadoutTemplateBuilder parent)
     {
         private static readonly string DEFAULT_CARD_TEXT = "function _Create() return UM.Build:Card():Build() end";
+        private static readonly string SCHEME_CARD_DRAW_TEXT = """
+        function _Create() 
+            return UM.Build:Card()
+                :Effect(
+                    'Draw {0} card(s)',
+                    UM.Effects:Draw(
+                        UM.Select:Players():You():Build(),
+                        UM.Number:Static({0})
+                    )
+                )
+                :Build()
+        end
+        """;
 
         private static int _basicAttackIdx = 0;
         private static int _basicDefenseIdx = 0;
@@ -158,14 +155,16 @@ public class LoadoutTemplateBuilder
             throw new NotImplementedException();
             return this;
         }
-        
+
         public DeckBuilder AddBasicScheme(int boost = 1, int amount = 1)
         {
             var idx = ++_basicSchemeIdx;
 
-            parent.Result.Deck.Add(new() {
+            parent.Result.Deck.Add(new()
+            {
                 Amount = amount,
-                Card = new() {
+                Card = new()
+                {
                     Key = $"scheme{idx}",
                     Name = $"scheme{idx}",
                     Type = "Scheme",
@@ -173,6 +172,28 @@ public class LoadoutTemplateBuilder
                     Boost = boost,
                     Text = "",
                     Script = DEFAULT_CARD_TEXT,
+                    AllowedFighters = [],
+                }
+            });
+            return this;
+        }
+        
+        public DeckBuilder AddCardDrawScheme(int draw, int boost = 1, int amount = 1)
+        {
+            var idx = ++_basicSchemeIdx;
+
+            parent.Result.Deck.Add(new()
+            {
+                Amount = amount,
+                Card = new()
+                {
+                    Key = $"scheme{idx}",
+                    Name = $"scheme{idx}",
+                    Type = "Scheme",
+                    Value = null,
+                    Boost = boost,
+                    Text = "",
+                    Script = string.Format(SCHEME_CARD_DRAW_TEXT, draw),
                     AllowedFighters = [],
                 }
             });

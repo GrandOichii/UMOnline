@@ -59,6 +59,12 @@ public class TestMatchWrapper
         return new(Match.GetPlayer(playerIdx));
     }
 
+    public FighterAsserts AssertFighter(string fighterKey)
+    {
+        var fighter = Match.Fighters.Single(f => f.Template.Key == fighterKey);
+        return new(fighter);
+    }
+
     public MatchAsserts Assert()
     {
         return new(this);
