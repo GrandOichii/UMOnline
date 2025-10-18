@@ -140,7 +140,7 @@ public class LoadoutTemplateBuilder
         private static int _basicDefenseIdx = 0;
         private static int _basicSchemeIdx = 0;
 
-        public DeckBuilder AddBasicAttack(int value, int boost = 1, int amount = 1)
+        public DeckBuilder AddBasicAttack(int value, int boost = 1, int amount = 1, string? key=null)
         {
             var idx = ++_basicAttackIdx;
             parent.Result.Deck.Add(new()
@@ -148,7 +148,7 @@ public class LoadoutTemplateBuilder
                 Amount = amount,
                 Card = new()
                 {
-                    Key = $"attack{idx}",
+                    Key = key ?? $"attack{idx}",
                     Name = $"attack{idx}",
                     Type = "Attack",
                     Value = value,

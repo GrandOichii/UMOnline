@@ -1,4 +1,5 @@
 using Shouldly;
+using UMCore.Matches.Attacks;
 using UMCore.Matches.Players;
 
 namespace UMCore.Tests.Setup.Builders;
@@ -9,6 +10,7 @@ public class TestPlayerControllerBuilder
     private readonly HandCardChoicesBuilder _handCardChoices = new();
     private readonly FighterChoicesBuilder _fighterChoices = new();
     private readonly NodeChoicesBuilder _nodeChoices = new();
+    private readonly AttackChoicesBuilder _attackChoices = new();
 
     // static controllers
     public static TestPlayerController Crasher()
@@ -23,6 +25,12 @@ public class TestPlayerControllerBuilder
     public TestPlayerControllerBuilder ConfigActions(Action<ActionsBuilder> actions)
     {
         actions(_actions);
+        return this;
+    }
+
+    public TestPlayerControllerBuilder ConfigAttackChoices(Action<AttackChoicesBuilder> actions)
+    {
+        actions(_attackChoices);
         return this;
     }
 
@@ -52,6 +60,7 @@ public class TestPlayerControllerBuilder
             HandCardChoices = _handCardChoices.Queue,
             FighterChoices = _fighterChoices.Queue,
             NodeChoices = _nodeChoices.Queue,
+            AttackChoices = _attackChoices.Queue,
         };
     }
 
@@ -90,6 +99,14 @@ public class TestPlayerControllerBuilder
             });
         }
 
+        public ActionsBuilder Attack()
+        {
+            return Enqueue((match, player, options) =>
+            {
+                return (new AttackAction().Name(), true);
+            });
+        }
+
         public ActionsBuilder Scheme()
         {
             return Enqueue((match, player, options) => (new SchemeAction().Name(), true));
@@ -102,7 +119,6 @@ public class TestPlayerControllerBuilder
                 action(new Asserts(match, player, options));
                 return (TestPlayerController.NEXT_ACTION, true);
             });
-
         }
 
         public class Asserts(TestMatch match, Player player, string[] options)
@@ -196,6 +212,51 @@ public class TestPlayerControllerBuilder
                 return (null, false);
             });
             return this;
+        }
+    }
+
+    public class AttackChoicesBuilder
+    {
+        public Queue<TestPlayerController.AttackChoice> Queue { get; } = new();
+
+        private AttackChoicesBuilder Enqueue(TestPlayerController.AttackChoice choice)
+        {
+            Queue.Enqueue(choice);
+            return this;
+        }
+
+        public AttackChoicesBuilder First()
+        {
+            return Enqueue((player, options) => (options.First(), true));
+        }
+
+        public AttackChoicesBuilder Assert(Action<Asserts> action)
+        {
+            return Enqueue((player, options) =>
+            {
+                action(new Asserts(player, options));
+                return (null, false);
+            });
+        }
+
+        public class Asserts(Player player, AvailableAttack[] options)
+        {
+            public Asserts OptionsCount(int amount)
+            {
+                options.Length.ShouldBe(amount);
+                return this;
+            }
+            
+            public Asserts CanAttack(string attackerKey, string defenderKey, string attackCardKey)
+            {
+                var attack = options.FirstOrDefault(a =>
+                    a.AttackCard.Template.Key == attackCardKey &&
+                    a.Fighter.Template.Key == attackerKey && 
+                    a.Target.Template.Key == defenderKey
+                );
+                attack.ShouldNotBeNull();
+                return this;
+            }
         }
     }
 }

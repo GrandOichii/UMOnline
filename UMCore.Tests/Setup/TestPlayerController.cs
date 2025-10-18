@@ -21,11 +21,13 @@ public class TestPlayerController : IPlayerController
     public delegate MatchCard? HandCardChoice(Player player, int playerHandIdx, MatchCard[] options, string hint);
     public delegate Fighter FighterChoice(Player player, Fighter[] options, string hint);
     public delegate (MapNode?, bool) NodeChoice(Player player, MapNode[] options, string hint);
+    public delegate (AvailableAttack?, bool) AttackChoice(Player player, AvailableAttack[] options);
 
     public required Queue<PlayerAction> Actions { get; init; }
     public required Queue<HandCardChoice> HandCardChoices { get; init; }
     public required Queue<FighterChoice> FighterChoices { get; init; }
     public required Queue<NodeChoice> NodeChoices { get; init; }
+    public required Queue<AttackChoice> AttackChoices { get; init; }
 
     public bool SetupCalled { get; private set; } = false;
 
@@ -62,8 +64,16 @@ public class TestPlayerController : IPlayerController
 
     public Task<AvailableAttack> ChooseAttack(Player player, AvailableAttack[] options)
     {
-        // TODO
-        throw new NotImplementedException();
+        while (AttackChoices.Count > 0)
+        {
+            var choice = AttackChoices.Dequeue();
+            var (result, isResult) = choice(player, options);
+            if (!isResult) continue;
+            if (result is null) throw new Exception($"Provided null attack choice for {nameof(ChooseAttack)}");
+            return Task.FromResult(result);
+        }
+        
+        throw new Exception($"No attack choices left in queue");
     }
 
     public async Task<MatchCard> ChooseCardInHand(Player player, int playerHandIdx, MatchCard[] options, string hint)

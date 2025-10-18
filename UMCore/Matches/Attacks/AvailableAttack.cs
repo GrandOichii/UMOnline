@@ -3,7 +3,7 @@ namespace UMCore.Matches.Attacks;
 using UMCore.Matches;
 using UMCore.Matches.Cards;
 
-public readonly struct AvailableAttack
+public class AvailableAttack
 {
     public required Fighter Fighter { get; init; }
     public required Fighter Target { get; init; }
