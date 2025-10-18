@@ -257,6 +257,16 @@ public class TestPlayerControllerBuilder
                 attack.ShouldNotBeNull();
                 return this;
             }
+
+            public Asserts CanAttackOnly(string attackerKey, string defenderKey, string attackCardKey)
+            {
+                options.All(a =>
+                    a.AttackCard.Template.Key == attackCardKey &&
+                    a.Fighter.Template.Key == attackerKey && 
+                    a.Target.Template.Key == defenderKey
+                ).ShouldBeTrue();
+                return this;
+            }
         }
     }
 }

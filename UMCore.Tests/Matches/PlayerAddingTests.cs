@@ -1637,7 +1637,7 @@ public class AttackTests
     }
 
     [Fact]
-    public async Task CanAttack_1Opp_1Card()
+    public async Task CanAttack_1Main_1Opp_1Card()
     {
         // Arrange
         var config = new MatchConfigBuilder()
@@ -1677,14 +1677,8 @@ public class AttackTests
                 .ConfigAttackChoices(c => c
                     .Assert(a => a
                         .OptionsCount(1)
-                        .CanAttack(mainFighter, opponentFighter, attackCard)
+                        .CanAttackOnly(mainFighter, opponentFighter, attackCard)
                     )
-                    .First()
-                )
-                .ConfigHandCardChoices(c => c
-                    .First()
-                )
-                .ConfigHandCardChoices(c => c
                     .First()
                 )
             .Build(),
@@ -1723,7 +1717,87 @@ public class AttackTests
     }
 
     [Fact]
-    public async Task CanAttack_2Opp_1Card()
+    public async Task CanAttack_1Main_1Opp_2Cards()
+    {
+        // Arrange
+        var config = new MatchConfigBuilder()
+            .InitialHandSize(2)
+            .ActionsPerTurn(2)
+            .Build();
+
+        var mapTemplate = new MapTemplateBuilder()
+            .AddNode(0, [0], spawnNumber: 1)
+            .AddNode(1, [0], spawnNumber: 2)
+            .AddNode(2, [0])
+            .Connect(0, 1)
+            .Connect(1, 2)
+            .Build();
+
+        var match = new TestMatchWrapper(
+            config,
+            mapTemplate
+        );
+
+        var mainFighter = "main";
+        var opponentFighter = "opp";
+        var attackCard = "attack";
+
+        var loadout = new LoadoutTemplateBuilder("main")
+            .AddFighter(new FighterTemplateBuilder("main", mainFighter).Build())
+            .ConfigDeck(d => d.AddBasicAttack(5, amount: 10, key: attackCard))
+            .Build();
+
+        await match.AddMainPlayer(
+            new TestPlayerControllerBuilder()
+                .ConfigActions(a => a
+                    .Attack()
+                    .DeclareWinner()
+                    .CrashMatch()
+                )
+                .ConfigAttackChoices(c => c
+                    .Assert(a => a
+                        .OptionsCount(2)
+                        .CanAttackOnly(mainFighter, opponentFighter, attackCard)
+                    )
+                    .First()
+                )
+            .Build(),
+            loadout
+        );
+        await match.AddOpponent(
+            new TestPlayerControllerBuilder()
+                .ConfigHandCardChoices(c => c
+                    .Nothing()
+                )
+            .Build(),
+            new LoadoutTemplateBuilder("opp")
+                .AddFighter(new FighterTemplateBuilder("opp", opponentFighter).Build())
+                .ConfigDeck(d => d.AddBasicDefense(3, amount: 10))
+                .Build()
+        );
+
+        // Act
+        await match.Run();
+
+        // Assert
+        match.Assert()
+            .CrashedIntentionally();
+
+        match.AssertPlayer(0)
+            .SetupCalled()
+            .IsWinner();
+        match.AssertPlayer(1)
+            .SetupCalled()
+            .IsNotWinner();
+
+        match.AssertFighter(mainFighter)
+            .IsAlive();
+        match.AssertFighter(opponentFighter)
+            .IsAlive();
+    }
+
+    [Fact]
+    public async Task CanAttack_1Main_2Opp_1Card()
     {
         // Arrange
         var config = new MatchConfigBuilder()
@@ -1769,12 +1843,6 @@ public class AttackTests
                     )
                     .First()
                 )
-                .ConfigHandCardChoices(c => c
-                    .First()
-                )
-                .ConfigHandCardChoices(c => c
-                    .First()
-                )
             .Build(),
             loadout
         );
@@ -1811,6 +1879,264 @@ public class AttackTests
         match.AssertFighter(mainFighter)
             .IsAlive();
         match.AssertFighter(opponentFighter)
+            .IsAlive();
+    }
+
+    [Fact]
+    public async Task CanAttack_2Main_1Opp_1Card()
+    {
+        // Arrange
+        var config = new MatchConfigBuilder()
+            .InitialHandSize(1)
+            .ActionsPerTurn(2)
+            .Build();
+
+        var mapTemplate = new MapTemplateBuilder()
+            .AddNode(0, [0], spawnNumber: 1)
+            .AddNode(1, [0], spawnNumber: 2)
+            .AddNode(2, [0])
+            .Connect(0, 1)
+            .Connect(1, 2)
+            .Build();
+
+        var match = new TestMatchWrapper(
+            config,
+            mapTemplate
+        );
+
+        var mainFighter = "main";
+        var mainSidekick = "main-sidekick";
+        var opponentFighter = "opp";
+        var attackCard = "attack";
+
+        var loadout = new LoadoutTemplateBuilder("main")
+            .AddFighter(new FighterTemplateBuilder("main", mainFighter).Build())
+            .AddFighter(new FighterTemplateBuilder("main-sidekick", mainSidekick).IsSidekick().Build())
+            .ConfigDeck(d => d.AddBasicAttack(5, amount: 10, key: attackCard))
+            .Build();
+
+        await match.AddMainPlayer(
+            new TestPlayerControllerBuilder()
+                .ConfigActions(a => a
+                    .Attack()
+                    .DeclareWinner()
+                    .CrashMatch()
+                )
+                .ConfigAttackChoices(c => c
+                    .Assert(a => a
+                        .OptionsCount(2)
+                        .CanAttack(mainFighter, opponentFighter, attackCard)
+                        .CanAttack(mainSidekick, opponentFighter, attackCard)
+                    )
+                    .First()
+                )
+                .ConfigNodeChoices(c => c
+                    .WithId(2)
+                )
+            .Build(),
+            loadout
+        );
+        await match.AddOpponent(
+            new TestPlayerControllerBuilder()
+                .ConfigHandCardChoices(c => c
+                    .Nothing()
+                )
+                .ConfigNodeChoices(c => c
+                    .WithId(0)
+                )
+            .Build(),
+            new LoadoutTemplateBuilder("opp")
+                .AddFighter(new FighterTemplateBuilder("opp", opponentFighter).Build())
+                .ConfigDeck(d => d.AddBasicDefense(3, amount: 10))
+                .Build()
+        );
+
+        // Act
+        await match.Run();
+
+        // Assert
+        match.Assert()
+            .CrashedIntentionally();
+
+        match.AssertPlayer(0)
+            .SetupCalled()
+            .IsWinner();
+        match.AssertPlayer(1)
+            .SetupCalled()
+            .IsNotWinner();
+
+        match.AssertFighter(mainFighter)
+            .IsAlive();
+        match.AssertFighter(opponentFighter)
+            .IsAlive();
+    }
+
+    [Theory]
+    [InlineData(1)]
+    [InlineData(2)]
+    [InlineData(3)]
+    [InlineData(4)]
+    [InlineData(5)]
+    public async Task CheckCombatDamage_WithoutDefense(int attackValue)
+    {
+        // Arrange
+        var config = new MatchConfigBuilder()
+            .InitialHandSize(1)
+            .ActionsPerTurn(2)
+            .Build();
+
+        var mapTemplate = new MapTemplateBuilder()
+            .AddNode(0, [0], spawnNumber: 1)
+            .AddNode(1, [0], spawnNumber: 2)
+            .AddNode(2, [0])
+            .Connect(0, 1)
+            .Connect(1, 2)
+            .Build();
+
+        var match = new TestMatchWrapper(
+            config,
+            mapTemplate
+        );
+
+        var mainFighter = "main";
+        var opponentFighter = "opp";
+        var attackCard = "attack";
+
+        var loadout = new LoadoutTemplateBuilder("main")
+            .AddFighter(new FighterTemplateBuilder("main", mainFighter).Build())
+            .ConfigDeck(d => d.AddBasicAttack(attackValue, amount: 10, key: attackCard))
+            .Build();
+
+        await match.AddMainPlayer(
+            new TestPlayerControllerBuilder()
+                .ConfigActions(a => a
+                    .Attack()
+                    .DeclareWinner()
+                    .CrashMatch()
+                )
+                .ConfigAttackChoices(c => c
+                    .First()
+                )
+            .Build(),
+            loadout
+        );
+        await match.AddOpponent(
+            new TestPlayerControllerBuilder()
+                .ConfigHandCardChoices(c => c
+                    .Nothing()
+                )
+            .Build(),
+            new LoadoutTemplateBuilder("opp")
+                .AddFighter(new FighterTemplateBuilder("opp", opponentFighter).Build())
+                .ConfigDeck(d => d.AddBasicDefense(1, amount: 10))
+                .Build()
+        );
+
+        // Act
+        await match.Run();
+
+        // Assert
+        match.Assert()
+            .CrashedIntentionally();
+
+        match.AssertPlayer(0)
+            .SetupCalled()
+            .IsWinner();
+        match.AssertPlayer(1)
+            .SetupCalled()
+            .IsNotWinner();
+
+        match.AssertFighter(mainFighter)
+            .IsAtFullHealth()
+            .IsAlive();
+        match.AssertFighter(opponentFighter)
+            .HasDamage(attackValue)
+            .IsAlive();
+    }
+    
+
+    [Theory]
+    [InlineData(1, 1, 0)]
+    [InlineData(2, 1, 1)]
+    [InlineData(3, 2, 1)]
+    [InlineData(3, 1, 2)]
+    [InlineData(0, 1, 0)]
+    [InlineData(0, 2, 0)]
+    [InlineData(1, 2, 0)]
+    public async Task CheckCombatDamage_WithDefense(int attackValue, int defenseValue, int expectedDamage)
+    {
+        // Arrange
+        var config = new MatchConfigBuilder()
+            .InitialHandSize(1)
+            .ActionsPerTurn(2)
+            .Build();
+
+        var mapTemplate = new MapTemplateBuilder()
+            .AddNode(0, [0], spawnNumber: 1)
+            .AddNode(1, [0], spawnNumber: 2)
+            .AddNode(2, [0])
+            .Connect(0, 1)
+            .Connect(1, 2)
+            .Build();
+
+        var match = new TestMatchWrapper(
+            config,
+            mapTemplate
+        );
+
+        var mainFighter = "main";
+        var opponentFighter = "opp";
+        var attackCard = "attack";
+
+        var loadout = new LoadoutTemplateBuilder("main")
+            .AddFighter(new FighterTemplateBuilder("main", mainFighter).Build())
+            .ConfigDeck(d => d.AddBasicAttack(attackValue, amount: 10, key: attackCard))
+            .Build();
+
+        await match.AddMainPlayer(
+            new TestPlayerControllerBuilder()
+                .ConfigActions(a => a
+                    .Attack()
+                    .DeclareWinner()
+                    .CrashMatch()
+                )
+                .ConfigAttackChoices(c => c
+                    .First()
+                )
+            .Build(),
+            loadout
+        );
+        await match.AddOpponent(
+            new TestPlayerControllerBuilder()
+                .ConfigHandCardChoices(c => c
+                    .First()
+                )
+            .Build(),
+            new LoadoutTemplateBuilder("opp")
+                .AddFighter(new FighterTemplateBuilder("opp", opponentFighter).Build())
+                .ConfigDeck(d => d.AddBasicDefense(defenseValue, amount: 10))
+                .Build()
+        );
+
+        // Act
+        await match.Run();
+
+        // Assert
+        match.Assert()
+            .CrashedIntentionally();
+
+        match.AssertPlayer(0)
+            .SetupCalled()
+            .IsWinner();
+        match.AssertPlayer(1)
+            .SetupCalled()
+            .IsNotWinner();
+
+        match.AssertFighter(mainFighter)
+            .IsAtFullHealth()
+            .IsAlive();
+        match.AssertFighter(opponentFighter)
+            .HasDamage(expectedDamage)
             .IsAlive();
     }
 }
