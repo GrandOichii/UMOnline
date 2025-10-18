@@ -134,14 +134,12 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
 
     public bool IsOpposingTo(Player player)
     {
-        // TODO change with teams
-        return Owner != player;
+        return Owner.IsOpposingTo(player);
     }
 
     public bool IsFriendlyTo(Player player)
     {
-        // TODO change with teams
-        return Owner == player;
+        return !Owner.IsOpposingTo(player);
     }
 
     public bool IsAlive()

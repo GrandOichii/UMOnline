@@ -140,19 +140,45 @@ public class LoadoutTemplateBuilder
         private static int _basicDefenseIdx = 0;
         private static int _basicSchemeIdx = 0;
 
-        public DeckBuilder AddBasicAttack(int boost = 1, int amount = 1)
+        public DeckBuilder AddBasicAttack(int value, int boost = 1, int amount = 1)
         {
             var idx = ++_basicAttackIdx;
-            // TODO
-            throw new NotImplementedException();
+            parent.Result.Deck.Add(new()
+            {
+                Amount = amount,
+                Card = new()
+                {
+                    Key = $"attack{idx}",
+                    Name = $"attack{idx}",
+                    Type = "Attack",
+                    Value = value,
+                    Boost = boost,
+                    Text = "",
+                    Script = DEFAULT_CARD_TEXT,
+                    AllowedFighters = [],
+                }
+            });
             return this;
         }
 
-        public DeckBuilder AddBasicDefense(int boost = 1, int amount = 1)
+        public DeckBuilder AddBasicDefense(int value, int boost = 1, int amount = 1)
         {
             var idx = ++_basicDefenseIdx;
-            // TODO
-            throw new NotImplementedException();
+            parent.Result.Deck.Add(new()
+            {
+                Amount = amount,
+                Card = new()
+                {
+                    Key = $"defense{idx}",
+                    Name = $"defense{idx}",
+                    Type = "Defense",
+                    Value = value,
+                    Boost = boost,
+                    Text = "",
+                    Script = DEFAULT_CARD_TEXT,
+                    AllowedFighters = [],
+                }
+            });
             return this;
         }
 

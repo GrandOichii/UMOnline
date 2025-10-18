@@ -169,7 +169,7 @@ public class MapNode : IHasData<MapNode.Data>
             Fighter is not null &&
             Fighter != fighter &&
             Fighter.IsOpposingTo(fighter.Owner)
-            )
+        )
         {
             result.Add(Fighter);
         }
@@ -262,7 +262,7 @@ public class MapNode : IHasData<MapNode.Data>
 
     public class Data
     {
-        public required int Id { get; init; }       
+        public required int Id { get; init; }
         // public required Fighter.Data? Fighter { get; init; }
         public required int? FighterId { get; init; }
     }

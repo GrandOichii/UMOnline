@@ -16,4 +16,10 @@ public class FighterAsserts(Fighter fighter)
         fighter.Health.Current.ShouldBe(v);
         return this;
     }
+
+    public FighterAsserts IsAtFullHealth()
+    {
+        fighter.Health.Current.ShouldBe(fighter.Health.Max);
+        return this;
+    }
 }

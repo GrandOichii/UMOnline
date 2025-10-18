@@ -103,6 +103,12 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
         return value;
     }
 
+    public bool AreInSameTeam(Player p1, Player p2)
+    {
+        var team = GetTeam(p1.TeamIdx);
+        return team.Contains(p2);
+    }
+
     #endregion
 
     public async Task Run()

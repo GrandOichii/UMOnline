@@ -12,7 +12,7 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
 {
     private static readonly List<IAction> ACTIONS = [
         new ManoeuvreAction(),
-        new FightAction(),
+        new AttackAction(),
         new SchemeAction(),
     ];
 
@@ -51,6 +51,7 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
         Name = name;
         Idx = idx;
         Loadout = loadout;
+        TeamIdx = teamIdx;
 
         Hand = new(this);
         Deck = new(this);
@@ -187,8 +188,7 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
 
     public bool IsOpposingTo(Player player)
     {
-        // TODO
-        return this != player;
+        return !Match.AreInSameTeam(this, player);
     }
 
     public async Task TakeTurn()

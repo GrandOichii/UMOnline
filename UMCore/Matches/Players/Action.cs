@@ -24,9 +24,9 @@ public class ManoeuvreAction : IAction
     }
 }
 
-public class FightAction : IAction
+public class AttackAction : IAction
 {
-    public string Name() => "Fight";
+    public string Name() => "Attack";
 
     public async Task Execute(Player player)
     {

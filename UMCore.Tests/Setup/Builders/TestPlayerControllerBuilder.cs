@@ -109,7 +109,13 @@ public class TestPlayerControllerBuilder
         {
             public Asserts CantScheme()
             {
-                options.ShouldContain(new ManoeuvreAction().Name());
+                options.ShouldNotContain(new SchemeAction().Name());
+                return this;
+            }
+
+            public Asserts CantAttack()
+            {
+                options.ShouldNotContain(new AttackAction().Name());
                 return this;
             }
         }
