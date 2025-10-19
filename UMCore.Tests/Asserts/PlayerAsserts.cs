@@ -5,7 +5,7 @@ namespace UMCore.Tests.Asserts;
 
 public class PlayerAsserts(Player player)
 {
-    private TestPlayerController _controller = (TestPlayerController)((SafePlayerController)player.Controller).Controller;
+    private readonly TestPlayerController _controller = (TestPlayerController)((SafePlayerController)player.Controller).Controller;
 
     public PlayerAsserts SetupCalled()
     {
