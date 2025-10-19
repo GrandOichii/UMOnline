@@ -37,6 +37,12 @@ public class FighterTemplateBuilder(string name, string key)
         return this;
     }
 
+    public FighterTemplateBuilder IsRanged()
+    {
+        Result.IsRanged = true;
+        return this;
+    }
+
     public FighterTemplateBuilder Movement(int amount)
     {
         Result.Movement = amount;
