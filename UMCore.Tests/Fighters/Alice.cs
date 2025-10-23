@@ -159,4 +159,96 @@ public class AliceTests
         match.AssertFighter("Foo")
             .HasDamage(expectedDamage);
     }
+
+    [Theory]
+    [InlineData("BIG", 2, "Defense")]
+    [InlineData("BIG", 2, "Versatile")]
+    [InlineData("SMALL", 1, "Defense")]
+    [InlineData("SMALL", 1, "Versatile")]
+    public async Task CheckDefense(string size, int expectedDamage, string cardType)
+    {
+        // Arrange
+        var config = new MatchConfigBuilder()
+            .FirstPlayer(1)
+            .InitialHandSize(1)
+            .ActionsPerTurn(2)
+            .Build();
+
+        var mapTemplate = new MapTemplateBuilder()
+            .AddNode(0, [0])
+            .AddNode(1, [0], spawnNumber: 2)
+            .AddNode(2, [0], spawnNumber: 1)
+            .Connect(0, 1)
+            .Connect(1, 2)
+            .Build();
+
+        var match = new TestMatchWrapper(
+            config,
+            mapTemplate
+        );
+
+        await match.AddMainPlayer(
+            new TestPlayerControllerBuilder()
+                .ConfigHandCardChoices(c => c
+                    .First()
+                )
+                .ConfigStringChoices(c => c
+                    .Assert(a => a
+                        .EquivalentTo(["BIG", "SMALL"])
+                    )
+                    .Choose(size)
+                )
+                .ConfigNodeChoices(c => c
+                    .WithId(0)
+                )
+                .Build(),
+            LOADOUT
+                .ClearDeck()
+                .ConfigDeck(d => d
+                    .AddBasicValueCard(cardType, 3)
+                )
+                .Build()
+        );
+        await match.AddOpponent(
+            new TestPlayerControllerBuilder()
+                .ConfigHandCardChoices(c => c
+                    .Nothing()
+                )
+                .ConfigActions(c => c
+                    .Attack()
+                    .DeclareWinner()
+                    .CrashMatch()
+                )
+                .ConfigAttackChoices(c => c
+                    .First()
+                )
+                .Build(),
+            new LoadoutTemplateBuilder("Foo")
+                .AddFighter(new FighterTemplateBuilder("Foo", "Foo")
+                .Build())
+                .ConfigDeck(d => d
+                    .AddBasicAttack(5)
+                )
+            .Build()
+        );
+
+        // Act
+        await match.Run();
+
+        // Assert
+        match.Assert()
+            .CrashedIntentionally();
+
+        match.AssertPlayer(0)
+            .SetupCalled()
+            .AttrEq(SIZE_ATTR, size)
+            .IsNotWinner();
+
+        match.AssertPlayer(1)
+            .SetupCalled()
+            .IsWinner();
+
+        match.AssertFighter("Alice")
+            .HasDamage(expectedDamage);
+    }
 }

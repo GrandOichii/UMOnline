@@ -120,13 +120,13 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
         Logger?.LogDebug("Starting match");
         await Setup();
 
-        var pIdx = Config.FirstPlayerIdx;
+        CurPlayerIdx = Config.FirstPlayerIdx;
         if (Config.RandomFirstPlayer)
-            pIdx = Random.Next(Players.Count);
+            CurPlayerIdx = Random.Next(Players.Count);
 
         for (int i = 0; i < Players.Count; ++i)
         {
-            var player = Players[(pIdx + i) % Players.Count];
+            var player = Players[(CurPlayerIdx + i) % Players.Count];
             await player.InitialPlaceFighters(i + 1);
         }
 

@@ -20,6 +20,13 @@ public class MatchConfigBuilder
 
     public MatchConfig Build() => _result;
 
+    public MatchConfigBuilder FirstPlayer(int idx)
+    {
+        _result.RandomFirstPlayer = false;
+        _result.FirstPlayerIdx = idx;
+        return this;
+    }
+
     public MatchConfigBuilder TeamSize(int size)
     {
         _result.TeamSize = size;
