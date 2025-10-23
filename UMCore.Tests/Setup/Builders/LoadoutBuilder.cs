@@ -1,11 +1,15 @@
+using System.Text.Json;
+
 namespace UMCore.Tests.Setup.Builders;
 
 public class LoadoutTemplateBuilder
 {
+    private readonly string _name;
     private readonly DeckBuilder _deckBuilder;
 
     public LoadoutTemplateBuilder(string name)
     {
+        _name = name;
         _deckBuilder = new(this);
 
         Result = new()
@@ -91,7 +95,48 @@ public class LoadoutTemplateBuilder
             .Build();
     }
 
-    public LoadoutTemplate Result { get; }
+    private static LoadoutTemplate LoadLoadout(string path)
+    {
+        var data = File.ReadAllText(path);
+        var result = JsonSerializer.Deserialize<LoadoutTemplate>(data)!;
+        foreach (var card in result.Deck)
+        {
+            card.Card.Script = File.ReadAllText($"../../../../{card.Card.Script}");
+        }
+
+        foreach (var fighter in result.Fighters)
+        {
+            fighter.Script = File.ReadAllText($"../../../../{fighter.Script}");
+        }
+        return result;
+    }
+
+    public LoadoutTemplate Result { get; private set;  }
+
+    public LoadoutTemplateBuilder Clear()
+    {
+        Result = new()
+        {
+            Deck = [],
+            Fighters = [],
+            Name = _name,
+            StartsWithSidekicks = true,
+        };
+        return this;
+    }
+
+    public LoadoutTemplateBuilder Load(string path)
+    {
+        Clear();
+        Result = LoadLoadout(path);
+        return this;
+    }
+
+    public LoadoutTemplateBuilder ClearDeck()
+    {
+        _deckBuilder.Clear();
+        return this;
+    }
 
     public LoadoutTemplateBuilder ForReach<T>(IEnumerable<T> arr, Action<LoadoutTemplateBuilder, T> action)
     {
@@ -136,9 +181,45 @@ public class LoadoutTemplateBuilder
         end
         """;
 
+        private static int _basicVersatileIdx = 0;
         private static int _basicAttackIdx = 0;
         private static int _basicDefenseIdx = 0;
         private static int _basicSchemeIdx = 0;
+
+        public DeckBuilder Clear()
+        {
+            parent.Result.Deck.Clear();
+            return this;
+        }
+
+        public DeckBuilder AddBasicValueCard(string cardType, int value, int boost = 1, int amount = 1, string? key = null)
+        {
+            if (cardType == "Attack") return AddBasicAttack(value, boost, amount, key);
+            if (cardType == "Defense") return AddBasicDefense(value, boost, amount, key);
+            if (cardType == "Versatile") return AddBasicVersatile(value, boost, amount, key);
+            throw new ArgumentException($"Unsupported card type for {nameof(AddBasicValueCard)}: {cardType}");
+        }
+
+        public DeckBuilder AddBasicVersatile(int value, int boost = 1, int amount = 1, string? key = null)
+        {
+            var idx = ++_basicVersatileIdx;
+            parent.Result.Deck.Add(new()
+            {
+                Amount = amount,
+                Card = new()
+                {
+                    Key = key ?? $"versatile{idx}",
+                    Name = $"versatile{idx}",
+                    Type = "Versatile",
+                    Value = value,
+                    Boost = boost,
+                    Text = "",
+                    Script = DEFAULT_CARD_TEXT,
+                    AllowedFighters = [],
+                }
+            });
+            return this;
+        }
 
         public DeckBuilder AddBasicAttack(int value, int boost = 1, int amount = 1, string? key = null)
         {
@@ -161,7 +242,7 @@ public class LoadoutTemplateBuilder
             return this;
         }
 
-        public DeckBuilder AddBasicDefense(int value, int boost = 1, int amount = 1)
+        public DeckBuilder AddBasicDefense(int value, int boost = 1, int amount = 1, string? key = null)
         {
             var idx = ++_basicDefenseIdx;
             parent.Result.Deck.Add(new()

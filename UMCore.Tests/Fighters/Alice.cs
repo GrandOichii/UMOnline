@@ -2,38 +2,24 @@ using System.Text.Json;
 
 namespace UMCore.Tests.Fighters;
 
-public class AliceTests {
-    private static LoadoutTemplate LoadLoadout(string path)
-    {
-        var data = File.ReadAllText(path);
-        var result = JsonSerializer.Deserialize<LoadoutTemplate>(data)!;
-        foreach (var card in result.Deck)
-        {
-            card.Card.Script = File.ReadAllText($"../../../../{card.Card.Script}");
-        }
+public class AliceTests
+{
 
-        foreach (var fighter in result.Fighters)
-        {
-            fighter.Script = File.ReadAllText($"../../../../{fighter.Script}");
-        }
-        return result;
-    }
-    
-    private static LoadoutTemplate LOADOUT;
+    private static readonly string SIZE_ATTR = "ALICE_SIZE";
+
+    private static readonly LoadoutTemplateBuilder LOADOUT;
 
     static AliceTests()
     {
-        LOADOUT = LoadLoadout("../../../../.generated/loadouts/Alice/Alice.json");
-        // LOADOUT
+        LOADOUT = new LoadoutTemplateBuilder("Alice")
+            .Load("../../../../.generated/loadouts/Alice/Alice.json")
+            .ClearDeck();
 
     }
-        // small
     // test when BIG (+2 to all attacks(attack + versatile))
     // test when SMALL (+1 to defense cards(defense + versatile))
-    
-// -- When you place Alice, choose whether she starts the game BIG or SMALL.
-// -- When Alice is BIG, add 2 to the value of her attack cards.
-// -- When Alice is SMALL, add 1 to the value of her defense cards.
+
+    // TODO test that Jabberwock is not effected
 
     [Theory]
     [InlineData("BIG")]
@@ -69,7 +55,7 @@ public class AliceTests {
                     .WithId(1)
                 )
                 .Build(),
-            LOADOUT
+            LOADOUT.Build()
         );
         await match.AddOpponent(
             TestPlayerControllerBuilder.Crasher(),
@@ -85,10 +71,92 @@ public class AliceTests {
 
         match.AssertPlayer(0)
             .SetupCalled()
-            .AttrEq("ALICE_SIZE", targetSize)
+            .AttrEq(SIZE_ATTR, targetSize)
             .IsWinner();
         match.AssertPlayer(1)
             .SetupCalled()
             .IsNotWinner();
+    }
+
+    [Theory]
+    [InlineData("BIG", 7, "Attack")]
+    [InlineData("BIG", 7, "Versatile")]
+    [InlineData("SMALL", 5, "Attack")]
+    [InlineData("SMALL", 5, "Versatile")]
+    public async Task CheckAttack(string size, int expectedDamage, string cardType)
+    {
+        // Arrange
+        var config = new MatchConfigBuilder()
+            .InitialHandSize(1)
+            .ActionsPerTurn(2)
+            .Build();
+
+        var mapTemplate = new MapTemplateBuilder()
+            .AddNode(0, [0])
+            .AddNode(1, [0], spawnNumber: 1)
+            .AddNode(2, [0], spawnNumber: 2)
+            .Connect(0, 1)
+            .Connect(1, 2)
+            .Build();
+
+        var match = new TestMatchWrapper(
+            config,
+            mapTemplate
+        );
+
+        await match.AddMainPlayer(
+            new TestPlayerControllerBuilder()
+                .ConfigActions(a => a
+                    .Attack()
+                    .DeclareWinner()
+                    .CrashMatch()
+                )
+                .ConfigAttackChoices(c => c
+                    .First()
+                )
+                .ConfigStringChoices(c => c
+                    .Assert(a => a
+                        .EquivalentTo(["BIG", "SMALL"])
+                    )
+                    .Choose(size)
+                )
+                .ConfigNodeChoices(c => c
+                    .WithId(0)
+                )
+                .Build(),
+            LOADOUT
+                .ClearDeck()
+                .ConfigDeck(d => d
+                    .AddBasicValueCard(cardType, 5)
+                )
+                .Build()
+        );
+        await match.AddOpponent(
+            new TestPlayerControllerBuilder()
+                .ConfigHandCardChoices(c => c
+                    .Nothing()
+                )
+                .Build(),
+            LoadoutTemplateBuilder.Foo()
+        );
+
+        // Act
+        await match.Run();
+
+        // Assert
+        match.Assert()
+            .CrashedIntentionally();
+
+        match.AssertPlayer(0)
+            .SetupCalled()
+            .AttrEq(SIZE_ATTR, size)
+            .IsWinner();
+
+        match.AssertPlayer(1)
+            .SetupCalled()
+            .IsNotWinner();
+
+        match.AssertFighter("Foo")
+            .HasDamage(expectedDamage);
     }
 }
