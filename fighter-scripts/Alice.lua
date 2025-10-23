@@ -1,14 +1,6 @@
 
-
--- When you place Alice, choose whether she starts the game BIG or SMALL.
--- When Alice is BIG, add 2 to the value of her attack cards.
--- When Alice is SMALL, add 1 to the value of her defense cards.
-
 function _Create()
     return UM.Build:Fighter()
-        -- :DefinePlayerAttribute(
-        --     'ALICE_SIZE'
-        -- )
         :WhenPlaced(
             'When you place Alice, choose whether she starts the game BIG or SMALL',
             function (args)

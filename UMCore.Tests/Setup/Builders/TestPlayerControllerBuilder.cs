@@ -11,6 +11,7 @@ public class TestPlayerControllerBuilder
     private readonly FighterChoicesBuilder _fighterChoices = new();
     private readonly NodeChoicesBuilder _nodeChoices = new();
     private readonly AttackChoicesBuilder _attackChoices = new();
+    private readonly StringChoicesBuilder _stringChoices = new();
 
     // static controllers
     public static TestPlayerController Crasher()
@@ -31,6 +32,12 @@ public class TestPlayerControllerBuilder
     public TestPlayerControllerBuilder ConfigAttackChoices(Action<AttackChoicesBuilder> actions)
     {
         actions(_attackChoices);
+        return this;
+    }
+
+    public TestPlayerControllerBuilder ConfigStringChoices(Action<StringChoicesBuilder> actions)
+    {
+        actions(_stringChoices);
         return this;
     }
 
@@ -61,6 +68,7 @@ public class TestPlayerControllerBuilder
             FighterChoices = _fighterChoices.Queue,
             NodeChoices = _nodeChoices.Queue,
             AttackChoices = _attackChoices.Queue,
+            StringChoices = _stringChoices.Queue,
         };
     }
 
@@ -246,12 +254,12 @@ public class TestPlayerControllerBuilder
                 options.Length.ShouldBe(amount);
                 return this;
             }
-            
+
             public Asserts CanAttack(string attackerKey, string defenderKey, string attackCardKey)
             {
                 var attack = options.FirstOrDefault(a =>
                     a.AttackCard.Template.Key == attackCardKey &&
-                    a.Fighter.Template.Key == attackerKey && 
+                    a.Fighter.Template.Key == attackerKey &&
                     a.Target.Template.Key == defenderKey
                 );
                 attack.ShouldNotBeNull();
@@ -262,9 +270,54 @@ public class TestPlayerControllerBuilder
             {
                 options.All(a =>
                     a.AttackCard.Template.Key == attackCardKey &&
-                    a.Fighter.Template.Key == attackerKey && 
+                    a.Fighter.Template.Key == attackerKey &&
                     a.Target.Template.Key == defenderKey
                 ).ShouldBeTrue();
+                return this;
+            }
+        }
+    }
+    
+    public class StringChoicesBuilder
+    {
+        public Queue<TestPlayerController.StringChoice> Queue { get; } = new();
+
+        private StringChoicesBuilder Enqueue(TestPlayerController.StringChoice choice)
+        {
+            Queue.Enqueue(choice);
+            return this;
+        }
+
+        public StringChoicesBuilder First()
+        {
+            return Enqueue((player, options, hint) => (options.First(), true));
+        }
+
+        public StringChoicesBuilder Choose(string v)
+        {
+            return Enqueue((player, options, hint) => (v, true));
+        }
+
+        public StringChoicesBuilder Assert(Action<Asserts> action)
+        {
+            return Enqueue((player, options, hint) =>
+            {
+                action(new Asserts(player, options, hint));
+                return (null, false);
+            });
+        }
+
+        public class Asserts(Player player, string[] options, string hint)
+        {
+            public Asserts OptionsCount(int amount)
+            {
+                options.Length.ShouldBe(amount);
+                return this;
+            }
+
+            public Asserts EquivalentTo(string[] opts)
+            {
+                options.ShouldBeEquivalentTo(opts);
                 return this;
             }
         }

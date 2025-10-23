@@ -140,7 +140,7 @@ public class LoadoutTemplateBuilder
         private static int _basicDefenseIdx = 0;
         private static int _basicSchemeIdx = 0;
 
-        public DeckBuilder AddBasicAttack(int value, int boost = 1, int amount = 1, string? key=null)
+        public DeckBuilder AddBasicAttack(int value, int boost = 1, int amount = 1, string? key = null)
         {
             var idx = ++_basicAttackIdx;
             parent.Result.Deck.Add(new()
@@ -203,7 +203,7 @@ public class LoadoutTemplateBuilder
             });
             return this;
         }
-        
+
         public DeckBuilder AddCardDrawScheme(int draw, int boost = 1, int amount = 1)
         {
             var idx = ++_basicSchemeIdx;
@@ -225,6 +225,7 @@ public class LoadoutTemplateBuilder
             });
             return this;
         }
-           
+
     }
+
 }

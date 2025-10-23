@@ -36,6 +36,10 @@ public class PlayerInitialFighterPlacerInZone : IPlayerInitialFighterPlacer
 
         player.Match.Logs.Public($"Player {player.FormattedLogName} placed all of their fighters");
 
+        foreach (var fighter in player.Fighters)
+        {
+            fighter.ExecuteWhenPlacedEffects();
+        }
     }
 
     private async Task PlaceRemaining(Player player, Queue<Fighter> fighters, List<MapNode> options)

@@ -1,3 +1,4 @@
+using Microsoft.VisualStudio.TestPlatform.Common.DataCollection;
 using Shouldly;
 using UMCore.Matches.Players;
 
@@ -10,6 +11,14 @@ public class PlayerAsserts(Player player)
     public PlayerAsserts SetupCalled()
     {
         _controller.SetupCalled.ShouldBeTrue();
+        return this;
+    }
+
+    public PlayerAsserts AttrEq(string attrKey, string value)
+    {
+        var attr = player.Attributes.Get(attrKey);
+        attr.ShouldNotBeNull();
+        attr.ShouldBe(value);
         return this;
     }
 
