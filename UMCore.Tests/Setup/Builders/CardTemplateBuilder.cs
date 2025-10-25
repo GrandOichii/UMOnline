@@ -13,7 +13,8 @@ public class CardTemplateBuilder
             Script = "function _Create() return UM.Build.Card():Build() end",
             Text = "",
             Type = "Scheme",
-            Value = 0
+            Value = 0,
+            Labels = [],
         };
     }
 }

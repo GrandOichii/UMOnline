@@ -17,11 +17,9 @@ function _Create()
     return UM.Build:Fighter()
         :ModManoeuvreValue(
             _FighterIn(UM.Select:Fighters():AllYour():Build()),
-            -- TODO too low-level
-            function (args, value)
-                LogPublic(tostring(value)..' '..tostring(value + 1))
-                return value + 1
-            end
+            UM.Select:CardsInDiscardPile(UM.Player:EffectOwner())
+                :WithLabel('voyage')
+                :Count()
         )
     :Build()
 end

@@ -124,6 +124,11 @@ public class MatchCard : IHasData<MatchCard.Data>
         effects.Execute(by, by.Owner);
     }
 
+    public bool HasLabel(string label)
+    {
+        return Template.Labels.Contains(label);
+    }
+
     public Data GetData(Player player)
     {
         return new()

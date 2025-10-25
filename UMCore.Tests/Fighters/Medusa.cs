@@ -5,15 +5,9 @@ namespace UMCore.Tests.Fighters;
 public class MedusaTests
 {
 
-    private static readonly LoadoutTemplateBuilder LOADOUT;
-
-    static MedusaTests()
-    {
-        LOADOUT = new LoadoutTemplateBuilder("Medusa")
-            .Load("../../../../.generated/loadouts/Medusa/Medusa.json")
-            .ClearDeck();
-
-    }
+    private static LoadoutTemplateBuilder GetLoadoutBuilder() => new LoadoutTemplateBuilder("Medusa")
+        .Load("../../../../.generated/loadouts/Medusa/Medusa.json")
+        .ClearDeck();
 
     [Fact]
     public async Task TurnStartTrigger_CantTrigger()
@@ -50,7 +44,7 @@ public class MedusaTests
                     .WithId(3)
                 )
                 .Build(),
-            LOADOUT.Build()
+            GetLoadoutBuilder().Build()
         );
         await match.AddOpponent(
             TestPlayerControllerBuilder.Crasher(),
@@ -110,7 +104,7 @@ public class MedusaTests
                     .No()
                 )
                 .Build(),
-            LOADOUT.Build()
+            GetLoadoutBuilder().Build()
         );
         await match.AddOpponent(
             TestPlayerControllerBuilder.Crasher(),
@@ -177,7 +171,7 @@ public class MedusaTests
                     .WithName("Foo")
                 )
                 .Build(),
-            LOADOUT.Build()
+            GetLoadoutBuilder().Build()
         );
         await match.AddOpponent(
             new TestPlayerControllerBuilder()
@@ -250,7 +244,7 @@ public class MedusaTests
                     .WithName("Bar")
                 )
                 .Build(),
-            LOADOUT.Build()
+            GetLoadoutBuilder().Build()
         );
         await match.AddOpponent(
             new TestPlayerControllerBuilder()

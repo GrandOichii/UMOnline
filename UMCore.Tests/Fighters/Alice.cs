@@ -7,15 +7,10 @@ public class AliceTests
 
     private static readonly string SIZE_ATTR = "ALICE_SIZE";
 
-    private static readonly LoadoutTemplateBuilder LOADOUT;
 
-    static AliceTests()
-    {
-        LOADOUT = new LoadoutTemplateBuilder("Alice")
-            .Load("../../../../.generated/loadouts/Alice/Alice.json")
-            .ClearDeck();
-
-    }
+    private static LoadoutTemplateBuilder GetLoadoutBuilder() => new LoadoutTemplateBuilder("Alice")
+        .Load("../../../../.generated/loadouts/Alice/Alice.json")
+        .ClearDeck();
 
     [Theory]
     [InlineData("BIG")]
@@ -51,7 +46,7 @@ public class AliceTests
                     .WithId(1)
                 )
                 .Build(),
-            LOADOUT.Build()
+            GetLoadoutBuilder().Build()
         );
         await match.AddOpponent(
             TestPlayerControllerBuilder.Crasher(),
@@ -120,7 +115,7 @@ public class AliceTests
                     .WithId(0)
                 )
                 .Build(),
-            LOADOUT
+            GetLoadoutBuilder()
                 .ClearDeck()
                 .ConfigDeck(d => d
                     .AddBasicValueCard(cardType, 5)
@@ -198,7 +193,7 @@ public class AliceTests
                     .WithId(0)
                 )
                 .Build(),
-            LOADOUT
+            GetLoadoutBuilder()
                 .ClearDeck()
                 .ConfigDeck(d => d
                     .AddBasicValueCard(cardType, 3)
@@ -294,7 +289,7 @@ public class AliceTests
                     .WithId(1)
                 )
                 .Build(),
-            LOADOUT
+            GetLoadoutBuilder()
                 .ClearDeck()
                 .ConfigDeck(d => d
                     .AddBasicValueCard(cardType, 5)
@@ -372,7 +367,7 @@ public class AliceTests
                     .WithId(1)
                 )
                 .Build(),
-            LOADOUT
+            GetLoadoutBuilder()
                 .ClearDeck()
                 .ConfigDeck(d => d
                     .AddBasicValueCard(cardType, 3)

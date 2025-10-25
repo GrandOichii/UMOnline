@@ -350,6 +350,15 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
         }
     }
 
+    public async Task<List<MatchCard>> Mill(int amount)
+    {
+        var cards = await Deck.TakeFromTop(amount);
+        await DiscardPile.Add(cards);
+        Match.Logger?.LogDebug("Player {PlayerLogName} milled {amount} cards (wanted to mill: {wantedAmount})", LogName, cards.Count, amount);
+        Match.Logs.Public($"{LogName} discarded {cards.Count} cards from the top of their deck: {string.Join(" ,", cards.Select(c => c.LogName))}");
+        return cards;
+    }
+
     public Data GetData(Player player)
     {
         return new()

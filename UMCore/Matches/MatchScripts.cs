@@ -315,4 +315,16 @@ public class MatchScripts
     {
         return player.Attributes.Get(key);
     }
+
+    [LuaCommand]
+    public LuaTable GetCardsInDiscardPile(Player player)
+    {
+        return LuaUtility.CreateTable(Match.LState, player.DiscardPile.Cards);
+    }
+
+    [LuaCommand]
+    public bool CardHasLabel(MatchCard card, string label)
+    {
+        return card.HasLabel(label);
+    }
 }

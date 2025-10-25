@@ -35,6 +35,8 @@
         "IsInCombat",
         "LogPublic",
         "GetPlayerAttribute",
-        "SetPlayerAttribute"
+        "SetPlayerAttribute",
+        "GetCardsInDiscardPile",
+        "CardHasLabel"
     ]
 }

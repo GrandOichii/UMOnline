@@ -43,4 +43,9 @@ public class MatchConfigBuilder
         _result.InitialHandSize = amount;
         return this;
     }
+
+    public MatchConfigBuilder ManoeuvreDrawAmount(int amount) {
+        _result.ManoeuvreDrawAmount = amount;
+        return this;
+    }
 }

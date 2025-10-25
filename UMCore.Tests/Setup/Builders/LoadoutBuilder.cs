@@ -200,7 +200,7 @@ public class LoadoutTemplateBuilder
             throw new ArgumentException($"Unsupported card type for {nameof(AddBasicValueCard)}: {cardType}");
         }
 
-        public DeckBuilder AddBasicVersatile(int value, int boost = 1, int amount = 1, string? key = null)
+        public DeckBuilder AddBasicVersatile(int value, int boost = 1, int amount = 1, string? key = null, string[]? labels = null)
         {
             var idx = ++_basicVersatileIdx;
             parent.Result.Deck.Add(new()
@@ -216,12 +216,13 @@ public class LoadoutTemplateBuilder
                     Text = "",
                     Script = DEFAULT_CARD_TEXT,
                     AllowedFighters = [],
+                    Labels = labels ?? [],
                 }
             });
             return this;
         }
 
-        public DeckBuilder AddBasicAttack(int value, int boost = 1, int amount = 1, string? key = null)
+        public DeckBuilder AddBasicAttack(int value, int boost = 1, int amount = 1, string? key = null, string[]? labels = null)
         {
             var idx = ++_basicAttackIdx;
             parent.Result.Deck.Add(new()
@@ -237,12 +238,13 @@ public class LoadoutTemplateBuilder
                     Text = "",
                     Script = DEFAULT_CARD_TEXT,
                     AllowedFighters = [],
+                    Labels = labels ?? [],
                 }
             });
             return this;
         }
 
-        public DeckBuilder AddBasicDefense(int value, int boost = 1, int amount = 1, string? key = null)
+        public DeckBuilder AddBasicDefense(int value, int boost = 1, int amount = 1, string? key = null, string[]? labels = null)
         {
             var idx = ++_basicDefenseIdx;
             parent.Result.Deck.Add(new()
@@ -250,7 +252,7 @@ public class LoadoutTemplateBuilder
                 Amount = amount,
                 Card = new()
                 {
-                    Key = $"defense{idx}",
+                    Key = key ?? $"defense{idx}",
                     Name = $"defense{idx}",
                     Type = "Defense",
                     Value = value,
@@ -258,12 +260,13 @@ public class LoadoutTemplateBuilder
                     Text = "",
                     Script = DEFAULT_CARD_TEXT,
                     AllowedFighters = [],
+                    Labels = labels ?? [],
                 }
             });
             return this;
         }
 
-        public DeckBuilder AddBasicScheme(int boost = 1, int amount = 1)
+        public DeckBuilder AddBasicScheme(int boost = 1, int amount = 1, string[]? labels = null)
         {
             var idx = ++_basicSchemeIdx;
 
@@ -280,12 +283,13 @@ public class LoadoutTemplateBuilder
                     Text = "",
                     Script = DEFAULT_CARD_TEXT,
                     AllowedFighters = [],
+                    Labels = labels ?? [],
                 }
             });
             return this;
         }
 
-        public DeckBuilder AddCardDrawScheme(int draw, int boost = 1, int amount = 1)
+        public DeckBuilder AddCardDrawScheme(int draw, int boost = 1, int amount = 1, string[]? labels = null)
         {
             var idx = ++_basicSchemeIdx;
 
@@ -302,6 +306,7 @@ public class LoadoutTemplateBuilder
                     Text = "",
                     Script = string.Format(SCHEME_CARD_DRAW_TEXT, draw),
                     AllowedFighters = [],
+                    Labels = labels ?? [],
                 }
             });
             return this;

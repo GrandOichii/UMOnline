@@ -462,6 +462,76 @@ end
 
 UM.Select = {}
 
+function UM.Select:CardsInDiscardPile(ofPlayer)
+    local result = {}
+
+    result.filters = {}
+
+    function result:Count()
+        return function (args)
+            return #result:_Select(args)
+        end
+    end
+
+    function result:_Select(args)
+        local player = ofPlayer(args)
+        local allCards = GetCardsInDiscardPile(player)
+        local cards = {}
+
+        local filterFunc = function (card)
+            for _, filter in ipairs(result.filters) do
+                if not filter(args, card) then
+                    return false
+                end
+            end
+            return true
+        end
+
+        for _, card in ipairs(allCards) do
+            if filterFunc(card) then
+                cards[#cards+1] = card
+            end
+        end
+
+        -- TODO check for 0
+
+        -- if result.single then
+        --     local fighter = fighters[1]
+
+        --     if #fighters > 1 then
+        --         fighter = ChooseFighter(args.owner, fighters, 'Choose a fighter')
+        --     end
+
+        --     fighters = {
+        --         [1] = fighter
+        --     }
+
+        -- end
+
+        return cards
+    end
+
+    function result:_Add(func)
+        result.filters[#result.filters+1] = func
+
+        return result
+    end
+
+    function result:WithLabel(label)
+        return result:_Add(function (args, card)
+            return CardHasLabel(card, label)
+        end)
+    end
+
+    function result:Build()
+        return function (args)
+            return result:_Select(args)
+        end
+    end
+
+    return result
+end
+
 function UM.Select:Fighters()
     local result = {}
 

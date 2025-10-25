@@ -10,6 +10,7 @@ public class CardTemplate
     public required string Text { get; init; }
     public required string Script { get; set; } // TODO change to { get; init;}
     public required List<string> AllowedFighters { get; init; }
+    public required string[] Labels { get; init; }
 
     public bool CanBePlayedBy(string name)
     {

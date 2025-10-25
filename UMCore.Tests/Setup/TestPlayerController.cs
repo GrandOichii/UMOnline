@@ -16,7 +16,7 @@ public class TestPlayerController : IPlayerController
     /// <param name="player">Player</param>
     /// <param name="options">Action options</param>
     /// <returns>the action word and whether to remove the action from queue or not</returns>
-    public delegate (string, bool) PlayerAction(TestMatch match, Player player, string[] options);
+    public delegate Task<(string, bool)> PlayerAction(TestMatch match, Player player, string[] options);
 
     public delegate MatchCard? HandCardChoice(Player player, int playerHandIdx, MatchCard[] options, string hint);
     public delegate Fighter FighterChoice(Player player, Fighter[] options, string hint);
@@ -52,7 +52,7 @@ public class TestPlayerController : IPlayerController
             if (!Actions.TryPeek(out var action))
                 throw new Exception("No actions left in queue!");
             bool next;
-            (result, next) = action(match, player, options);
+            (result, next) = await action(match, player, options);
             if (next) Actions.Dequeue();
         }
 

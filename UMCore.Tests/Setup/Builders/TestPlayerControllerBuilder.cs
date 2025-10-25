@@ -87,6 +87,15 @@ public class TestPlayerControllerBuilder
             return Enqueue((match, player, options) =>
             {
                 match.SetWinner(player);
+                return Task.FromResult((TestPlayerController.NEXT_ACTION, true));
+            });
+        }
+
+        public ActionsBuilder Mill(int amount)
+        {
+            return Enqueue(async (match, player, options) =>
+            {
+                await player.Mill(amount);
                 return (TestPlayerController.NEXT_ACTION, true);
             });
         }
@@ -103,7 +112,7 @@ public class TestPlayerControllerBuilder
         {
             return Enqueue((match, player, options) =>
             {
-                return (new ManoeuvreAction().Name(), true);
+                return Task.FromResult((new ManoeuvreAction().Name(), true));
             });
         }
 
@@ -111,13 +120,13 @@ public class TestPlayerControllerBuilder
         {
             return Enqueue((match, player, options) =>
             {
-                return (new AttackAction().Name(), true);
+                return Task.FromResult((new AttackAction().Name(), true));
             });
         }
 
         public ActionsBuilder Scheme()
         {
-            return Enqueue((match, player, options) => (new SchemeAction().Name(), true));
+            return Enqueue((match, player, options) => Task.FromResult((new SchemeAction().Name(), true)));
         }
 
         public ActionsBuilder Assert(Action<Asserts> action)
@@ -125,7 +134,7 @@ public class TestPlayerControllerBuilder
             return Enqueue((match, player, options) =>
             {
                 action(new Asserts(match, player, options));
-                return (TestPlayerController.NEXT_ACTION, true);
+                return Task.FromResult((TestPlayerController.NEXT_ACTION, true));
             });
         }
 
