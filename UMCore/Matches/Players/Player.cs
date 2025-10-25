@@ -219,17 +219,22 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
 
         foreach (var (effect, fighter) in effects)
         {
-            effect.Execute(fighter, this); 
+            effect.Execute(fighter, this);
         }
 
         await Match.UpdateClients();
     }
 
-    public async Task MoveFighters(bool allowBoost = false, bool canMoveOverFriendly = true, bool canMoveOverOpposing = false)
+    public async Task MoveFighters(
+        bool isManoeuvre = false,
+        bool canMoveOverFriendly = true,
+        bool canMoveOverOpposing = false
+    )
     {
         var boostValue = 0;
-        if (allowBoost)
+        if (isManoeuvre)
         {
+            // allow boost
             var card = await ChooseBoostCard();
             if (card is not null)
             {
@@ -248,16 +253,24 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
             // {
             //     fighter = await Controller.ChooseFighter(this, [..fighters], "Choose which fighter to move");
             // }
-            var fighter = await Controller.ChooseFighter(this, [..fighters], "Choose which fighter to move");
+
+            var fighter = await Controller.ChooseFighter(this, [.. fighters], "Choose which fighter to move");
+            var mod = 0;
+            if (isManoeuvre)
+            {
+                var modifiers = Match.GetManoeuvreValueModifiersFor(fighter);
+                foreach (var m in modifiers) 
+                    mod = m.Modify(mod);
+            }
             fighters.Remove(fighter);
-            await MoveFighter(fighter, fighter.Movement() + boostValue, canMoveOverFriendly, canMoveOverOpposing);
+            await MoveFighter(fighter, fighter.Movement() + boostValue + mod, canMoveOverFriendly, canMoveOverOpposing);
         }
     }
 
     public async Task MoveFighter(Fighter fighter, int movement, bool canMoveOverFriendly, bool canMoveOverOpposing)
     {
         var available = Match.Map.GetPossibleMovementResults(fighter, movement, canMoveOverFriendly, canMoveOverOpposing);
-        var result = await Controller.ChooseNode(this, [..available], $"Choose where to move {fighter.LogName}");
+        var result = await Controller.ChooseNode(this, [.. available], $"Choose where to move {fighter.LogName}");
         await result.PlaceFighter(fighter);
 
         Match.Logs.Public($"Player {FormattedLogName} moves {fighter.FormattedLogName}");
@@ -265,7 +278,7 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
 
     public async Task<MatchCard?> ChooseBoostCard()
     {
-        var card = await Controller.ChooseCardInHandOrNothing(this, Idx, [..Hand.Cards], "Choose a card to boost your movement");
+        var card = await Controller.ChooseCardInHandOrNothing(this, Idx, [.. Hand.Cards], "Choose a card to boost your movement");
         return card;
     }
 

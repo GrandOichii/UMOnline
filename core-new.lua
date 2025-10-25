@@ -113,6 +113,15 @@ function UM.Build:Fighter()
     result.turnPhaseEffects = {}
     result.cardValueModifiers = {}
     result.whenPlaced = {}
+    result.manoeuvreValueMods = {}
+
+    function result:ModManoeuvreValue(fighterPredFunc, modFunc)
+        result.manoeuvreValueMods[#result.manoeuvreValueMods+1] = {
+            ['fighterPred'] = fighterPredFunc,
+            ['modFunc'] = modFunc,
+        }
+        return result
+    end
 
     function result:ModCardValue(modFunc, modCondition)
         modCondition = modCondition or function (...)
@@ -137,24 +146,17 @@ function UM.Build:Fighter()
         return result
     end
 
-    function result:AddTurnPhaseEffects(step, text, ...)
-        local obj = {
-            text = '',
-            effects = {}
+    function result:AddTurnPhaseEffects(step, text, effects)
+        result.turnPhaseEffects[step] = {
+            text = text,
+            effects = effects
         }
-        obj.text = text
-        local effects = {...}
-
-        for _, v in ipairs(effects) do
-            obj.effects[#obj.effects+1] = v
-        end
-        result.turnPhaseEffects[step] = obj
 
         return result
     end
 
     function result:AtTheStartOfYourTurn(text, ...)
-        return result:AddTurnPhaseEffects(UM.TurnPhaseTriggers.START, text, ...)
+        return result:AddTurnPhaseEffects(UM.TurnPhaseTriggers.START, text, {...})
     end
 
     -- function result:DefinePlayerAttribute()
@@ -166,6 +168,7 @@ function UM.Build:Fighter()
             TurnPhaseEffects = result.turnPhaseEffects,
             CardValueModifiers = result.cardValueModifiers,
             WhenPlacedEffects = result.whenPlaced,
+            ManoeuvreValueMods = result.manoeuvreValueMods,
         }
         return fighter
     end
@@ -228,7 +231,12 @@ UM.Effects = {}
 -- Control flow
 
 function UM.Effects:If(conditionalFunc, effectFunc)
-    -- TODO
+    return function (args)
+        if not conditionalFunc(args) then
+            return
+        end
+        effectFunc(args)
+    end
 end
 
 function UM.Effects:IfInstead(conditionalFunc, trueEffectFunc, falseEffectFunc)
@@ -467,6 +475,18 @@ function UM.Select:Fighters()
 
     --     return result
     -- end
+
+    function result:OwnedBy(playerFunc)
+        result.filters[#result.filters+1] = function (args, fighter)
+            return fighter.Owner.Idx == playerFunc(args).Idx
+        end
+
+        return result
+    end
+
+    function result:AllYour()
+        return result:OwnedBy(UM.Player:EffectOwner())
+    end
 
     function result:Your()
         -- TODO

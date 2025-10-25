@@ -26,6 +26,7 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
 
     public List<CardValueModifier> CardValueModifiers { get; }
     public List<EffectCollection> WhenPlacedEffects { get; }
+    public List<ManoeuvreValueModifier> ManoeuvreValueMods { get; }
 
     public Fighter(Player owner, FighterTemplate template)
     {
@@ -96,6 +97,22 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
                 // TODO check for null
                 var effects = new EffectCollection(table!);
                 WhenPlacedEffects.Add(effects);
+            }
+        }
+        catch (Exception e)
+        {
+            throw new MatchException($"Failed to get initial fighter placement effects for fighter {template.Name}", e);
+        }
+
+        ManoeuvreValueMods = [];
+        try
+        {
+            var manoeuvreValueMods = LuaUtility.TableGet<LuaTable>(data, "ManoeuvreValueMods");
+            foreach (var value in manoeuvreValueMods.Values)
+            {
+                var table = value as LuaTable;
+                // TODO check for null
+                ManoeuvreValueMods.Add(new(this, table!));
             }
         }
         catch (Exception e)

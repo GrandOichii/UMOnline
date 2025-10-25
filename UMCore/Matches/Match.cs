@@ -201,6 +201,18 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
         // TODO add combat event
     }
 
+    public IEnumerable<ManoeuvreValueModifier> GetManoeuvreValueModifiersFor(Fighter fighter)
+    {
+        foreach (var f in Fighters)
+        {
+            foreach (var mod in f.ManoeuvreValueMods)
+            {
+                if (!mod.Accepts(fighter)) continue;
+                yield return mod;
+            }
+        }
+    }
+
     public Data GetData(Player player)
     {
         return new()

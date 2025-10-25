@@ -15,7 +15,7 @@ public class ManoeuvreAction : IAction
     {
         await player.Hand.Draw(player.Match.Config.ManoeuvreDrawAmount);
 
-        await player.MoveFighters(allowBoost: true, canMoveOverFriendly: true);
+        await player.MoveFighters(isManoeuvre: true, canMoveOverFriendly: true);
     }
 
     public bool CanBeTaken(Player player)

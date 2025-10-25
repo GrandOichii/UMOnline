@@ -56,4 +56,33 @@ public class Effect
     {
         return Func.Call(args);
     }
+
+    public object[] Execute(Fighter fighter, Player owner)
+    {
+        return Execute(LuaUtility.CreateTable(owner.Match.LState, new Dictionary<string, object>()
+        {
+            { "fighter", fighter },
+            { "owner", owner },
+        }));
+    }
+
+    public bool ExecuteFighterCheck(Fighter fighter, Player owner, Fighter checkedFighter)
+    {
+        var result = Execute(LuaUtility.CreateTable(owner.Match.LState, new Dictionary<string, object>()
+        {
+            { "fighter", fighter },
+            { "owner", owner },
+        }), checkedFighter);
+        return LuaUtility.GetReturnAsBool(result);
+    }
+
+    public int ExecuteReturnModified(Fighter fighter, Player owner, int value)
+    {
+        var result = Execute(LuaUtility.CreateTable(owner.Match.LState, new Dictionary<string, object>()
+        {
+            { "fighter", fighter },
+            { "owner", owner },
+        }), value);
+        return LuaUtility.GetReturnAsInt(result);
+    }
 }
