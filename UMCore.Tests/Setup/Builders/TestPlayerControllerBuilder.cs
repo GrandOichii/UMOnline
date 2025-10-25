@@ -288,6 +288,16 @@ public class TestPlayerControllerBuilder
             return this;
         }
 
+        public StringChoicesBuilder Yes()
+        {
+            return Enqueue((player, options, hint) => ("Yes", true));
+        }
+
+        public StringChoicesBuilder No()
+        {
+            return Enqueue((player, options, hint) => ("No", true));
+        }
+
         public StringChoicesBuilder First()
         {
             return Enqueue((player, options, hint) => (options.First(), true));

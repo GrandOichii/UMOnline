@@ -91,6 +91,16 @@ public class MapTemplateBuilder
 
         return this;
     }
+
+    public MapTemplateBuilder ConnectAllAsLine()
+    {
+        for (int i = 1; i < Result.Nodes.Count; ++i)
+        {
+            Connect(Result.Nodes[i - 1].Id, Result.Nodes[i].Id);
+        }
+
+        return this;
+    }
     
     private bool NodeExists(int id)
     {
