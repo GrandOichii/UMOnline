@@ -21,6 +21,7 @@ for path in listdir(LOADOUTS_DIR):
             'type': card['Card']['Type'],
             'power': card['Card']['Value'],
             'text': card['Card']['Text'],
+            'labels': card['Card']['Labels'],
         }]
 
 open(OUT_PATH, 'w').write(json.dumps(result, indent=4))

@@ -1,6 +1,7 @@
 import json
 from sys import argv
 from os.path import join
+import re
 
 DECKS_FILE = 'decks.json'
 FIGHTER_SCRIPTS_DIR_FORMAT = join('..', 'fighter-scripts', '{}.lua')
@@ -169,6 +170,12 @@ def get_sidekick_name(plural):
         'The Porter': 'The Porter',
     }[plural]
 
+def get_card_name(title):
+    m = re.match('^(.+)_.+$', title)
+    if m is None:
+        return title
+    return m.groups()[0]
+
 for deck in data['decks']:
     deck_name = deck['name']
     deck_key = deck['name']
@@ -207,12 +214,13 @@ for deck in data['decks']:
             'Amount': card['quantity'],
             'Card': {
                 'AllowedFighters': get_allowed_fighters(card['characterName']),
-                'Name': card['title'],
+                'Name': get_card_name(card['title']) ,
                 'Key': f'{deck_name}_{card['title']}',
                 'Type': card['type'].capitalize(),
                 'Value': card['value'],
                 'Boost': card['boost'],
                 'Text': get_text(card),
+                'Labels': card['labels'] if 'labels' in card else [],
                 'Script': CARD_SCRIPT_DIR_FORMAT.format(deck_name, card['title'])
             }
         }]
