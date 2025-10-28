@@ -14,6 +14,7 @@ def get_allowed_fighters(af):
     if af == 'ANY':
         return []
     return [{
+        'Robin hood': 'Robin Hood',
         'Arthur': 'King Arthur',
         'Medusa': 'Medusa',
         'Harpy': 'Harpy',

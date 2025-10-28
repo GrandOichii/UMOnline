@@ -7,14 +7,14 @@ function _Create()
                     UM.Count:Fighters(
                         UM.Select:Fighters()
                             :OpposingTo(UM.Player:EffectOwner())
-                            :InSameZoneAs(UM.Fighters:Source())
+                            :InSameZoneAs(UM.Fighter:Source())
                             :Build()
                     ),
-                    UM:Static(0)
+                    UM.Number:Static(0)
                 ),
                 UM.Effects:Draw(
                     UM.Select:Players():You():Build(),
-                    UM:Static(1),
+                    UM.Number:Static(1),
                     true
                 )
             )

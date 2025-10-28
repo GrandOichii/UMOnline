@@ -114,11 +114,31 @@ function UM.Build:Fighter()
     result.cardValueModifiers = {}
     result.whenPlaced = {}
     result.manoeuvreValueMods = {}
+    result.onAttackEffects = {}
+    result.afterAttackEffects = {}
+
+    function result:OnAttack(text, fighterPredFunc, ...)
+        result.onAttackEffects[#result.onAttackEffects+1] = {
+            text = text,
+            fighterPred = fighterPredFunc,
+            effects = {...}
+        }
+        return result
+    end
+
+    function result:AfterAttack(text, fighterPredFunc, ...)
+        result.afterAttackEffects[#result.afterAttackEffects+1] = {
+            text = text,
+            fighterPred = fighterPredFunc,
+            effects = {...}
+        }
+        return result
+    end
 
     function result:ModManoeuvreValue(fighterPredFunc, modFunc)
         result.manoeuvreValueMods[#result.manoeuvreValueMods+1] = {
-            ['fighterPred'] = fighterPredFunc,
-            ['modFunc'] = modFunc,
+            fighterPred = fighterPredFunc,
+            modFunc = modFunc,
         }
         return result
     end
@@ -159,6 +179,10 @@ function UM.Build:Fighter()
         return result:AddTurnPhaseEffects(UM.TurnPhaseTriggers.START, text, {...})
     end
 
+    function result:AtTheEndOfYourTurn(text, ...)
+        return result:AddTurnPhaseEffects(UM.TurnPhaseTriggers.END, text, {...})
+    end
+
     -- function result:DefinePlayerAttribute()
         
     -- end
@@ -169,6 +193,8 @@ function UM.Build:Fighter()
             CardValueModifiers = result.cardValueModifiers,
             WhenPlacedEffects = result.whenPlaced,
             ManoeuvreValueMods = result.manoeuvreValueMods,
+            OnAttackEffects = result.onAttackEffects,
+            AfterAttackEffects = result.afterAttackEffects,
         }
         return fighter
     end
@@ -306,7 +332,7 @@ end
 
 function UM.Count:Fighters(manyFighters)
     return function (args)
-        return UM.Number:Static(#manyFighters(args))
+        return UM.Number:Static(#manyFighters(args))(args)
     end
 end
 
@@ -340,6 +366,15 @@ end
 function UM.Effects:Draw(manyPlayers, numeric, optional)
     return function (args)
         local players = manyPlayers(args)
+        if optional then
+            local choice = ChooseString(args.owner, {
+                [1] = 'Yes',
+                [2] = 'No'
+            }, 'Draw card(s)?')
+            if choice ~= 'Yes' then
+                return
+            end
+        end
         for _, p in ipairs(players) do
             local amount = numeric(args):Choose(args, 'Choose how many cards to draw')
             DrawCards(p, amount)
@@ -351,7 +386,7 @@ function UM.Effects:MoveFighters(manyFighters, numeric, canMoveOverOpposing)
     return function (args)
         local fighters = manyFighters(args)
         local amount = numeric(args):Last()
-        MoveFighters(args.owner, fighters, amount, canMoveOverOpposing)
+        MoveFighters(args.owner, fighters, amount, canMoveOverOpposing) -- TODO this threw an exception after playing Skirmish and defeating a Harpy
     end
 end
 
@@ -391,7 +426,38 @@ function UM.Effects:Discard(manyPlayers, fixedNumber, random)
 end
 
 function UM.Effects:AllowBoost(numeric, optional)
-    -- TODO
+    return function (args)
+        local f = true
+        if optional then
+            local choice = ChooseString(args.owner, {
+                [1] = 'Yes',
+                [2] = 'No'
+            }, 'Boost your card?')
+            if choice ~= 'Yes' then
+                f = false
+            end
+        end
+
+        if not f then
+            return
+        end
+
+        local amount = numeric(args):Choose(args, 'Boost how many times?')
+        local player = args.owner
+        for i = 1, amount do
+            if GetHandSize(player) == 0 then
+                return
+            end
+            
+            -- TODO check hand size
+            local card = GetCardInHand(
+                player,
+                ChooseCardInHand(player, player, 'Choose a card for boost')
+            )
+
+            BoostCardInCombat(player, card)
+        end
+    end
 end
 
 function UM.Effects:DealDamage(manyfighters, numeric)
@@ -546,6 +612,12 @@ function UM.Select:Fighters()
     --     return result
     -- end
 
+    function result:_Add(filter)
+        result.filters[#result.filters+1] = filter
+
+        return result
+    end
+
     function result:OwnedBy(playerFunc)
         result.filters[#result.filters+1] = function (args, fighter)
             return fighter.Owner.Idx == playerFunc(args).Idx
@@ -559,9 +631,10 @@ function UM.Select:Fighters()
     end
 
     function result:Your()
-        -- TODO
-
-        return result
+        return result:_Add(function (args, fighter)
+            -- TODO
+            return args.fighter == fighter
+        end)
     end
 
     function result:Named(name)
@@ -689,6 +762,18 @@ function UM.Select:Fighters()
     function result:Build()
         return function (args)
             return result:_Select(args)
+        end
+    end
+
+    function result:FighterPredicate()
+        return function (args, fighter)
+            local fighters = result:_Select(args)
+            for _, v in ipairs(fighters) do
+                if v == fighter then
+                    return true
+                end
+            end
+            return false
         end
     end
 

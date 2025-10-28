@@ -1,6 +1,8 @@
 extends Control
 class_name CombatPartDisplay
 
+@export var BoostCardDisplayScene: PackedScene
+
 @export var IsDefender: bool
 @export var DefenderIcon: Texture2D
 
@@ -10,6 +12,7 @@ class_name CombatPartDisplay
 var _card_image_loader
 var _fighter_image_loader
 var _color_manager
+var _on_load_card
 
 func _ready() -> void:
 	if IsDefender:
@@ -30,6 +33,7 @@ func set_essentials(card_image_loader: CardImageLoader, fighter_image_loader: Fi
 	_card_image_loader = card_image_loader
 	_fighter_image_loader = fighter_image_loader
 	_color_manager = color_manager
+	_on_load_card = on_load_card
 	
 	%Card.set_essentials(card_image_loader, '', on_load_card)
 	%Fighter.set_essentials(fighter_image_loader, _color_manager)
@@ -67,11 +71,22 @@ func _set_card_value(card_data):
 	%Power.text = str(int(card_data.Value))
 
 func _set_boosts(card_data):
+	var boostsNode = %Boosts
 	if len(card_data.Boosts) == 0:
-		%Boosts.hide()
+		boostsNode.hide()
 		return
-	%Boosts.show()
-	# TODO
+	boostsNode.show()
+	# TODO optimize
+	while boostsNode.get_child_count() > 0:
+		boostsNode.remove_child(boostsNode.get_child(0))
+		
+	for card in card_data.Boosts:
+		var child = BoostCardDisplayScene.instantiate()
+		boostsNode.add_child(child)
+		
+		var display = child as CardImageDisplay
+		display.set_essentials(_card_image_loader, card_data.DeckName, _on_load_card)
+		display.load_hand_card(card)
 
 func _set_card(card_data):
 	if card_data.Card == null:

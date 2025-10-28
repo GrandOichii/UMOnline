@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://c8qgglrmpnbh2"]
 
-[ext_resource type="Script" path="res://v1/Matches/Combat/CombatPartDisplay.gd" id="1_7wyh1"]
+[ext_resource type="Script" uid="uid://c8qv1otyxmkoy" path="res://v1/Matches/Combat/CombatPartDisplay.gd" id="1_7wyh1"]
 [ext_resource type="PackedScene" uid="uid://cxs25778q1en6" path="res://v1/Matches/Cards/CardImageDisplay.tscn" id="1_kouk2"]
 [ext_resource type="Texture2D" uid="uid://bhb7dedjno8r" path="res://assets/combat/defence.png" id="2_id46t"]
 [ext_resource type="PackedScene" uid="uid://bkwcncqk4nj5k" path="res://v1/Matches/Fighters/FighterDisplay.tscn" id="2_max60"]
@@ -11,6 +11,7 @@ offset_right = 426.0
 offset_bottom = 224.0
 size_flags_horizontal = 3
 script = ExtResource("1_7wyh1")
+BoostCardDisplayScene = ExtResource("1_kouk2")
 DefenderIcon = ExtResource("2_id46t")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
