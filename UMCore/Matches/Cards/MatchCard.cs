@@ -71,6 +71,11 @@ public class MatchCard : IHasData<MatchCard.Data>
         }
     }
 
+    public bool HasEffects()
+    {
+        return CombatStepEffects.Count > 0;
+    }
+
     public int GetBoostValue()
     {
         return Template.Boost;

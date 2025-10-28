@@ -269,15 +269,19 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
 
     public async Task MoveFighter(Fighter fighter, int movement, bool canMoveOverFriendly, bool canMoveOverOpposing)
     {
-        var available = Match.Map.GetPossibleMovementResults(fighter, movement, canMoveOverFriendly, canMoveOverOpposing);
-        var result = await Controller.ChooseNode(this, [.. available], $"Choose where to move {fighter.LogName}");
-        await result.PlaceFighter(fighter);
+        while (--movement > 0)
+        {
+            var available = Match.Map.GetPossibleMovementResults(fighter, 1, canMoveOverFriendly, canMoveOverOpposing);
+            var result = await Controller.ChooseNode(this, [.. available], $"Choose where to move {fighter.LogName} (movement left: {movement})");
+            await result.PlaceFighter(fighter);
+        }
 
         Match.Logs.Public($"Player {FormattedLogName} moves {fighter.FormattedLogName}");
     }
 
     public async Task<MatchCard?> ChooseBoostCard()
     {
+        if (Hand.Cards.Count == 0) return null;
         var card = await Controller.ChooseCardInHandOrNothing(this, Idx, [.. Hand.Cards], "Choose a card to boost your movement");
         return card;
     }
@@ -357,6 +361,24 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
         Match.Logger?.LogDebug("Player {PlayerLogName} milled {amount} cards (wanted to mill: {wantedAmount})", LogName, cards.Count, amount);
         Match.Logs.Public($"{LogName} discarded {cards.Count} cards from the top of their deck: {string.Join(" ,", cards.Select(c => c.LogName))}");
         return cards;
+    }
+
+    public async Task ExecuteOnAttackEffects(Fighter fighter)
+    {
+        var onAttackEffects = Match.GetOnAttackEffectsFor(fighter);
+        foreach (var e in onAttackEffects)
+        {
+            e.Execute(fighter, this);
+        }
+    }
+
+    public async Task ExecuteAfterAttackEffects(Fighter fighter)
+    {
+        var onAttackEffects = Match.GetAfterAttackEffectsFor(fighter);
+        foreach (var e in onAttackEffects)
+        {
+            e.Execute(fighter, this);
+        }
     }
 
     public Data GetData(Player player)

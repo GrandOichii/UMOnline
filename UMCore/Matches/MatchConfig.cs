@@ -16,7 +16,7 @@ public class MatchConfig
     public static readonly MatchConfig Default = new()
     {
         RandomMatch = false, // true
-        Seed = 1,
+        Seed = 2,
         ActionsPerTurn = 2,
         InitialHandSize = 5,
         ManoeuvreDrawAmount = 1,

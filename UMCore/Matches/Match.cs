@@ -201,6 +201,30 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
         // TODO add combat event
     }
 
+    public IEnumerable<AttackEffect> GetOnAttackEffectsFor(Fighter fighter)
+    {
+        foreach (var f in Fighters)
+        {
+            foreach (var e in f.OnAttackEffects)
+            {
+                if (!e.Accepts(fighter)) continue;
+                yield return e;
+            }
+        }
+    }
+
+    public IEnumerable<AttackEffect> GetAfterAttackEffectsFor(Fighter fighter)
+    {
+        foreach (var f in Fighters)
+        {
+            foreach (var e in f.AfterAttackEffects)
+            {
+                if (!e.Accepts(fighter)) continue;
+                yield return e;
+            }
+        }
+    }
+
     public IEnumerable<ManoeuvreValueModifier> GetManoeuvreValueModifiersFor(Fighter fighter)
     {
         foreach (var f in Fighters)

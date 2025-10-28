@@ -27,6 +27,8 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
     public List<CardValueModifier> CardValueModifiers { get; }
     public List<EffectCollection> WhenPlacedEffects { get; }
     public List<ManoeuvreValueModifier> ManoeuvreValueMods { get; }
+    public List<AttackEffect> OnAttackEffects { get; }
+    public List<AttackEffect> AfterAttackEffects { get; }
 
     public Fighter(Player owner, FighterTemplate template)
     {
@@ -113,6 +115,38 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
                 var table = value as LuaTable;
                 // TODO check for null
                 ManoeuvreValueMods.Add(new(this, table!));
+            }
+        }
+        catch (Exception e)
+        {
+            throw new MatchException($"Failed to get initial fighter placement effects for fighter {template.Name}", e);
+        }
+        
+        OnAttackEffects = [];
+        try
+        {
+            var onAttackEffects = LuaUtility.TableGet<LuaTable>(data, "OnAttackEffects");
+            foreach (var value in onAttackEffects.Values)
+            {
+                var table = value as LuaTable;
+                // TODO check for null
+                OnAttackEffects.Add(new(this, table!));
+            }
+        }
+        catch (Exception e)
+        {
+            throw new MatchException($"Failed to get initial fighter placement effects for fighter {template.Name}", e);
+        }
+
+        AfterAttackEffects = [];
+        try
+        {
+            var onAttackEffects = LuaUtility.TableGet<LuaTable>(data, "AfterAttackEffects");
+            foreach (var value in onAttackEffects.Values)
+            {
+                var table = value as LuaTable;
+                // TODO check for null
+                AfterAttackEffects.Add(new(this, table!));
             }
         }
         catch (Exception e)

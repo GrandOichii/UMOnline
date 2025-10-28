@@ -5,7 +5,7 @@ using UMCore.Matches.Players;
 
 namespace UMCore.Matches.Attacks;
 
-public class CombatCard : IHasData<CombatCard.Data>
+public class CombatPart : IHasData<CombatPart.Data>
 {
     public bool IsDefence { get; }
     public MatchCard Card { get; }
@@ -15,7 +15,7 @@ public class CombatCard : IHasData<CombatCard.Data>
     public Combat Parent { get; }
     public Fighter Fighter { get; }
 
-    public CombatCard(Combat parent, Fighter fighter, MatchCard card, bool isDefence)
+    public CombatPart(Combat parent, Fighter fighter, MatchCard card, bool isDefence)
     {
         Fighter = fighter;
         IsDefence = isDefence;
@@ -33,29 +33,38 @@ public class CombatCard : IHasData<CombatCard.Data>
     {
         var result = Value;
         foreach (var boost in Boosts)
+        {
             result += boost.GetBoostValue();
+        }
         return result;
     }
 
-    public void CancelEffects()
+    public async Task CancelEffects()
     {
         EffectsCancelled = true;
-        // TODO cancel boost cards also
         Parent.Match.Logs.Public($"Effects of card {Card.FormattedLogName} are cancelled");
+
+
+        await DiscardBoostCards();
     }
 
     public bool CanBeCancelled()
     {
         // TODO check if can be cancelled
+        return Card.HasEffects();
+    }
 
-        return true;
+    public async Task DiscardBoostCards()
+    {
+        foreach (var boost in Boosts)
+            await boost.PlaceIntoDiscard();
+        Boosts.Clear();
     }
 
     public async Task Discard()
     {
         await Card.PlaceIntoDiscard();
-        foreach (var boost in Boosts)
-            await boost.PlaceIntoDiscard();
+        await DiscardBoostCards();
     }
 
     public async Task AddBoost(MatchCard card)
@@ -107,8 +116,8 @@ public class Combat : IHasData<Combat.Data>
     public Fighter Attacker { get; private set; }
     public Fighter Defender { get; private set; }
 
-    public CombatCard AttackCard { get; private set; }
-    public CombatCard? DefenceCard { get; private set; }
+    public CombatPart AttackCard { get; private set; }
+    public CombatPart? DefenceCard { get; private set; }
 
     public Player? Winner { get; private set; }
     public bool CardsAreRevealed { get; private set; } = false;
@@ -132,7 +141,7 @@ public class Combat : IHasData<Combat.Data>
 
     public async Task EmitTrigger(CombatStepTrigger trigger)
     {
-        List<(CombatCard?, Fighter)> cards = [(DefenceCard, Defender), (AttackCard, Attacker)];
+        List<(CombatPart?, Fighter)> cards = [(DefenceCard, Defender), (AttackCard, Attacker)];
         foreach (var (card, fighter) in cards)
         {
             if (card is null) continue;
@@ -147,6 +156,8 @@ public class Combat : IHasData<Combat.Data>
     {
         await Initiator.Hand.Remove(AttackCard.Card);
         await Match.UpdateClients();
+
+        await Initiator.ExecuteOnAttackEffects(Attacker);
 
         await Defender.Defend();
         await Match.UpdateClients();
@@ -172,6 +183,7 @@ public class Combat : IHasData<Combat.Data>
         {
             damage -= DefenceCard.GetValue();
         }
+        Match.Logger?.LogDebug("Attacker value: {AttackerValue}, defender value: {DefenderValue}", AttackCard.GetValue(), DefenceCard?.GetValue() ?? 0);
         if (damage < 0) damage = 0;
         await Defender.ProcessDamage(damage, true);
         if (Match.IsWinnerDetermined()) return;
@@ -190,20 +202,32 @@ public class Combat : IHasData<Combat.Data>
 
         if (DefenceCard is not null)
             await DefenceCard.Discard();
+
+        await Initiator.ExecuteAfterAttackEffects(Attacker);
+    }
+
+    public CombatPart? GetOpponent(CombatPart? part)
+    {
+        if (part == AttackCard) return DefenceCard;
+        if (part == DefenceCard) return AttackCard;
+
+        throw new MatchException($"Stale CombatPart passed to {nameof(GetOpponent)}");// TODO type
     }
 
     public async Task CancelEffectsOfOpponent(Player player)
     {
         // TODO this cancels the owners effects, not opponents
         var (card, fighter) = GetCombatPart(player);
-        if (card is null) return;
-        if (!card.CanBeCancelled()) return;
-        card.CancelEffects();
-        Match.Logger?.LogDebug("Effects of card {CardLogName} of player {PlayerLogName} were cancelled", card.Card.LogName, fighter.Owner.LogName);
+        var oppCard = GetOpponent(card);
+        if (oppCard is null) return;
+        if (!oppCard.CanBeCancelled()) return;
+
+        await oppCard.CancelEffects();
+        Match.Logger?.LogDebug("Effects of card {CardLogName} of player {PlayerLogName} were cancelled", oppCard.Card.LogName, fighter.Owner.LogName);
         await Match.UpdateClients();
     }
 
-    public (CombatCard?, Fighter) GetCombatPart(Player player) {
+    public (CombatPart?, Fighter) GetCombatPart(Player player) {
         if (Defender.Owner == player)
         {
             return (DefenceCard, Defender);
@@ -241,10 +265,10 @@ public class Combat : IHasData<Combat.Data>
     public class Data
     {
         public required Fighter.Data Attacker { get; init; }
-        public required CombatCard.Data AttackCard { get; init; }
+        public required CombatPart.Data AttackCard { get; init; }
 
         public required Fighter.Data Defender { get; init; }
-        public required CombatCard.Data? DefenceCard { get; init; }
+        public required CombatPart.Data? DefenceCard { get; init; }
 
         public required int? WinnerIdx { get; init; }
     }

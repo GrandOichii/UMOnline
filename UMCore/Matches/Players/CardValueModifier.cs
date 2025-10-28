@@ -7,7 +7,7 @@ namespace UMCore.Matches.Players;
 
 public class CardValueModifier(Effect effect)
 {
-    public int Modify(CombatCard card)
+    public int Modify(CombatPart card)
     {
         var owner = card.Card.Owner;
         var returned = effect.Execute(
