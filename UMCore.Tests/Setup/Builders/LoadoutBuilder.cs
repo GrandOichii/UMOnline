@@ -1,4 +1,5 @@
 using System.Text.Json;
+using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 
 namespace UMCore.Tests.Setup.Builders;
 
@@ -189,6 +190,13 @@ public class LoadoutTemplateBuilder
         public DeckBuilder Clear()
         {
             parent.Result.Deck.Clear();
+            return this;
+        }
+
+        public DeckBuilder Add(LoadoutCardTemplate card)
+        {
+            parent.Result.Deck.Add(card);
+
             return this;
         }
 

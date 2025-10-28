@@ -18,7 +18,7 @@ public class TestPlayerController : IPlayerController
     /// <returns>the action word and whether to remove the action from queue or not</returns>
     public delegate Task<(string, bool)> PlayerAction(TestMatch match, Player player, string[] options);
 
-    public delegate MatchCard? HandCardChoice(Player player, int playerHandIdx, MatchCard[] options, string hint);
+    public delegate Task<(MatchCard?, bool)> HandCardChoice(Player player, int playerHandIdx, MatchCard[] options, string hint);
     public delegate Fighter FighterChoice(Player player, Fighter[] options, string hint);
     public delegate (MapNode?, bool) NodeChoice(Player player, MapNode[] options, string hint);
     public delegate (AvailableAttack?, bool) AttackChoice(Player player, AvailableAttack[] options);
@@ -85,15 +85,17 @@ public class TestPlayerController : IPlayerController
         return result;
     }
 
-    public Task<MatchCard?> ChooseCardInHandOrNothing(Player player, int playerHandIdx, MatchCard[] options, string hint)
+    public async Task<MatchCard?> ChooseCardInHandOrNothing(Player player, int playerHandIdx, MatchCard[] options, string hint)
     {
-        if (HandCardChoices.Count == 0)
+        while (HandCardChoices.Count > 0)
         {
-            throw new Exception($"No hand card choices left in queue");
+            var choice = HandCardChoices.Dequeue();
+            var (result, isResult) = await choice(player, playerHandIdx, options, hint);
+            if (!isResult) continue;
+            return result;
         }
-        var choiceFunc = HandCardChoices.Dequeue();
-        var result = choiceFunc(player, playerHandIdx, options, hint);
-        return Task.FromResult(result);
+        
+        throw new Exception($"No hand card choices left in queue");
     }
 
     public Task<Fighter> ChooseFighter(Player player, Fighter[] options, string hint)

@@ -1,5 +1,6 @@
 using Shouldly;
 using UMCore.Matches.Attacks;
+using UMCore.Matches.Cards;
 using UMCore.Matches.Players;
 
 namespace UMCore.Tests.Setup.Builders;
@@ -158,16 +159,35 @@ public class TestPlayerControllerBuilder
     {
         public Queue<TestPlayerController.HandCardChoice> Queue { get; } = new();
 
+        private HandCardChoicesBuilder Enqueue(TestPlayerController.HandCardChoice choice)
+        {
+            Queue.Enqueue(choice);
+            return this;
+        }
+
         public HandCardChoicesBuilder Nothing()
         {
-            Queue.Enqueue((player, pIdx, options, hint) => null);
-            return this;
+            return Enqueue((player, pIdx, options, hint) => Task.FromResult<(MatchCard?, bool)>((null, true)));
         }
 
         public HandCardChoicesBuilder First()
         {
-            Queue.Enqueue((player, pIdx, options, hint) => options.First());
+            Queue.Enqueue((player, pIdx, options, hint) => Task.FromResult<(MatchCard?, bool)>((options.First(), true)));
             return this;
+        }
+
+        public HandCardChoicesBuilder Assert(Action<Asserts> action)
+        {
+            return Enqueue((player, pIdx, options, hint) =>
+            {
+                action(new Asserts(player, pIdx, options, hint));
+                return Task.FromResult<(MatchCard?, bool)>((null, false));
+            });
+        }
+
+        public class Asserts(Player player, int playerHandIdx, MatchCard[] options, string hint) : GeneralAsserts(player)
+        {
+            
         }
     }
 
@@ -224,7 +244,8 @@ public class TestPlayerControllerBuilder
 
         public NodeChoicesBuilder AssertOptionsHasLength(int amount)
         {
-            Queue.Enqueue((player, options, hint) => {
+            Queue.Enqueue((player, options, hint) =>
+            {
                 options.Length.ShouldBe(amount);
                 return (null, false);
             });
@@ -245,6 +266,21 @@ public class TestPlayerControllerBuilder
         public AttackChoicesBuilder First()
         {
             return Enqueue((player, options) => (options.First(), true));
+        }
+
+        public AttackChoicesBuilder FirstByFighterWithName(string name)
+        {
+            return Enqueue((player, options) => (options.First(a => a.Fighter.Name == name), true));
+        }
+
+        public AttackChoicesBuilder ByFighterInNodeWithId(int nodeId)
+        {
+            return Enqueue((player, options) => {
+                var nodes = player.Match.Map.Nodes;
+                var fighter = nodes.First(n => n.Id == nodeId).Fighter;
+
+                return (options.First(a => a.Fighter == fighter), true);
+            });
         }
 
         public AttackChoicesBuilder Assert(Action<Asserts> action)
@@ -286,7 +322,7 @@ public class TestPlayerControllerBuilder
             }
         }
     }
-    
+
     public class StringChoicesBuilder
     {
         public Queue<TestPlayerController.StringChoice> Queue { get; } = new();
@@ -343,8 +379,17 @@ public class TestPlayerControllerBuilder
     }
 }
 
-
+public class GeneralAsserts(Player player)
+{
+    // public void CombatCardsAreHidden()
+    // {
+    //     var combat = player.Match.Combat;
+    //     combat.ShouldNotBeNull();
+    //     combat.AttackCard.
+    // }
+}
 
 [Serializable]
-public class IntentionalCrashException(string message) 
-    : Exception(message) {}
+public class IntentionalCrashException(string message)
+    : Exception(message)
+{ }
