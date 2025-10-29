@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.Threading.Tasks;
 using Shouldly;
 using UMCore.Tests.Setup;
@@ -277,13 +278,13 @@ public class TODOSortTheseTests
 public class MovementTests
 {
     [Theory]
-    [InlineData(0, 1)]
-    [InlineData(1, 2)]
-    [InlineData(2, 3)]
-    [InlineData(3, 4)]
-    [InlineData(4, 4)]
-    [InlineData(5, 4)]
-    public async Task LineMovementTests(int fighterMovement, int expectedOptionsCount)
+    [InlineData(0)]
+    [InlineData(1)]
+    [InlineData(2)]
+    [InlineData(3)]
+    [InlineData(4)]
+    [InlineData(5)]
+    public async Task LineMovementTests(int fighterMovement)
     {
         // Arrange
         var config = new MatchConfigBuilder()
@@ -316,15 +317,12 @@ public class MovementTests
                     .DeclareWinner()
                     .CrashMatch()
                 )
-                .ConfigHandCardChoices(c => c
-                    .Nothing()
-                )
                 .ConfigFighterChoices(c => c
                     .First()
                 )
                 .ConfigNodeChoices(c => c
-                    .AssertOptionsHasLength(expectedOptionsCount)
-                    .WithId(0))
+                    .NTimes(fighterMovement, nc => nc.First())
+                )
                 .Build(),
             new LoadoutTemplateBuilder("foo1")
                 .AddFighter(new FighterTemplateBuilder("foo1", "foo1")
@@ -355,13 +353,13 @@ public class MovementTests
     }
 
     [Theory]
-    [InlineData(0, 1)]
-    [InlineData(1, 2)]
-    [InlineData(2, 3)]
-    [InlineData(3, 4)]
-    [InlineData(4, 4)]
-    [InlineData(5, 4)]
-    public async Task LineMovementWithBoostTests(int boostValue, int expectedOptionsCount)
+    [InlineData(0)]
+    [InlineData(1)]
+    [InlineData(2)]
+    [InlineData(3)]
+    [InlineData(4)]
+    [InlineData(5)]
+    public async Task LineMovementWithBoostTests(int boostValue)
     {
         // Arrange
         var config = new MatchConfigBuilder()
@@ -401,8 +399,8 @@ public class MovementTests
                     .First()
                 )
                 .ConfigNodeChoices(c => c
-                    .AssertOptionsHasLength(expectedOptionsCount)
-                    .WithId(0))
+                    .NTimes(boostValue, nc => nc.First())
+                )
                 .Build(),
             new LoadoutTemplateBuilder("foo1")
                 .AddFighter(new FighterTemplateBuilder("foo1", "foo1")
@@ -439,13 +437,13 @@ public class MovementTests
     }
 
     [Theory]
-    [InlineData(0, 1)]
-    [InlineData(1, 1)]
-    [InlineData(2, 2)]
-    [InlineData(3, 3)]
-    [InlineData(4, 3)]
-    [InlineData(5, 3)]
-    public async Task LineMovementWithSidekickTests(int boostValue, int expectedOptionsCount)
+    [InlineData(0)]
+    [InlineData(1)]
+    [InlineData(2)]
+    [InlineData(3)]
+    [InlineData(4)]
+    [InlineData(5)]
+    public async Task LineMovementWithSidekickTests(int boostValue)
     {
         // Arrange
         var config = new MatchConfigBuilder()
@@ -488,9 +486,8 @@ public class MovementTests
                 )
                 .ConfigNodeChoices(c => c
                     .WithId(1)
-                    .AssertOptionsHasLength(expectedOptionsCount)
-                    .WithId(0)
-                    .First()
+                    .NTimes(boostValue, nc => nc.First())
+                    .NTimes(boostValue, nc => nc.First())
                 )
                 .Build(),
             new LoadoutTemplateBuilder("foo1")
@@ -567,15 +564,12 @@ public class MovementTests
                     .DeclareWinner()
                     .CrashMatch()
                 )
-                .ConfigHandCardChoices(c => c
-                    .Nothing()
-                )
                 .ConfigFighterChoices(c => c
                     .First()
                 )
                 .ConfigNodeChoices(c => c
-                    .AssertOptionsHasLength(fighterMovement + 1)
-                    .WithId(0))
+                    .NTimes(fighterMovement, nc => nc.AssertOptionsHasLength(2).First())
+                )
                 .Build(),
             new LoadoutTemplateBuilder("foo1")
                 .AddFighter(new FighterTemplateBuilder("foo1", "foo1")
@@ -641,15 +635,11 @@ public class MovementTests
                     .DeclareWinner()
                     .CrashMatch()
                 )
-                .ConfigHandCardChoices(c => c
-                    .Nothing()
-                )
                 .ConfigFighterChoices(c => c
                     .First()
                 )
                 .ConfigNodeChoices(c => c
-                    .AssertOptionsHasLength(1)
-                    .First()
+                    .NTimes(fighterMovement, nc => nc.AssertOptionsHasLength(1).First())
                 )
                 .Build(),
             new LoadoutTemplateBuilder("foo1")
@@ -736,9 +726,6 @@ public class InitialFighterPlacementTests
                     .DeclareWinner()
                     .CrashMatch()
                 )
-                .ConfigFighterChoices(c => c
-                    .ForEach(optionCounts, (cfc, _) => cfc.First())
-                )
                 .ConfigNodeChoices(c => c
                     .ForEach(
                         optionCounts,
@@ -814,9 +801,6 @@ public class InitialFighterPlacementTests
                     .DeclareWinner()
                     .CrashMatch()
                 )
-                .ConfigFighterChoices(c => c
-                    .ForEach([3, 2, 1, 5], (cfc, _) => cfc.First())
-                )
                 .ConfigNodeChoices(c => c
                     .ForEach(
                         [3, 2, 1, 5],
@@ -833,9 +817,6 @@ public class InitialFighterPlacementTests
                 .ConfigActions(a => a
                     .DeclareWinner()
                     .CrashMatch()
-                )
-                .ConfigFighterChoices(c => c
-                    .ForEach(optionCounts, (cfc, _) => cfc.First())
                 )
                 .ConfigNodeChoices(c => c
                     .ForEach(
@@ -910,11 +891,11 @@ public class ManoeuvreTests
                 .CrashMatch()
             )
             .ConfigFighterChoices(c => c
-                .ForEach(Enumerable.Range(0, sidekickCount + 1), (cfc, _) => cfc.First())
+                .NTimes(sidekickCount + 1, nc => nc.First())
             )
             .ConfigNodeChoices(c => c
-                .ForEach(Enumerable.Range(0, sidekickCount), (cnc, _) => cnc.First())
-                .ForEach(Enumerable.Range(0, sidekickCount + 1), (cnc, _) => cnc.First())
+                .NTimes(sidekickCount, nc => nc.First())
+                .NTimes(sidekickCount + 1, nc => nc.NTimes(2, nnc => nnc.First()))
             )
             .ConfigHandCardChoices(c => c
                 .Nothing()
@@ -1003,13 +984,13 @@ public class ManoeuvreTests
                 .CrashMatch()
             )
             .ConfigFighterChoices(c => c
-                .ForEach(Enumerable.Range(0, sidekickCount + 1), (cfc, _) => cfc.First())
-                .ForEach(Enumerable.Range(0, sidekickCount + 1), (cfc, _) => cfc.First())
+                .NTimes(sidekickCount + 1, nc => nc.First())
+                .NTimes(sidekickCount + 1, nc => nc.First())
             )
             .ConfigNodeChoices(c => c
-                .ForEach(Enumerable.Range(0, sidekickCount), (cnc, _) => cnc.First())
-                .ForEach(Enumerable.Range(0, sidekickCount + 1), (cnc, _) => cnc.First())
-                .ForEach(Enumerable.Range(0, sidekickCount + 1), (cnc, _) => cnc.First())
+                .NTimes(sidekickCount, nc => nc.First())
+                .NTimes(sidekickCount + 1, nc => nc.NTimes(2, nnc => nnc.First()))
+                .NTimes(sidekickCount + 1, nc => nc.NTimes(2, nnc => nnc.First()))
             )
             .ConfigHandCardChoices(c => c
                 .Nothing()
@@ -1299,10 +1280,7 @@ public class ExhaustionTests
                     .First()
                 )
                 .ConfigNodeChoices(c => c
-                    .First()
-                )
-                .ConfigHandCardChoices(c => c
-                    .Nothing()
+                    .NTimes(2, nc => nc.First())
                 )
                 .Build(),
             new LoadoutTemplateBuilder("main")
@@ -1433,9 +1411,6 @@ public class AttackTests
                     .DeclareWinner()
                     .CrashMatch()
                 )
-                .ConfigHandCardChoices(c => c
-                    .First()
-                )
             .Build(),
             new LoadoutTemplateBuilder("main")
                 .AddFighter(new FighterTemplateBuilder("main", mainFighter).Build())
@@ -1508,9 +1483,6 @@ public class AttackTests
                     )
                     .DeclareWinner()
                     .CrashMatch()
-                )
-                .ConfigHandCardChoices(c => c
-                    .First()
                 )
             .Build(),
             new LoadoutTemplateBuilder("main1")
@@ -1596,9 +1568,6 @@ public class AttackTests
                     .DeclareWinner()
                     .CrashMatch()
                 )
-                .ConfigHandCardChoices(c => c
-                    .First()
-                )
             .Build(),
             new LoadoutTemplateBuilder("main")
                 .AddFighter(new FighterTemplateBuilder("main", mainFighter).Build())
@@ -1668,9 +1637,6 @@ public class AttackTests
                     )
                     .DeclareWinner()
                     .CrashMatch()
-                )
-                .ConfigHandCardChoices(c => c
-                    .First()
                 )
             .Build(),
             new LoadoutTemplateBuilder("main")
@@ -2013,9 +1979,6 @@ public class AttackTests
             new TestPlayerControllerBuilder()
                 .ConfigHandCardChoices(c => c
                     .Nothing()
-                )
-                .ConfigNodeChoices(c => c
-                    .WithId(0)
                 )
             .Build(),
             new LoadoutTemplateBuilder("opp")

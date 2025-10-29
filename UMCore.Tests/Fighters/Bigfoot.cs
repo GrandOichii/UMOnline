@@ -37,8 +37,8 @@ public class BigfootTests
                 )
                 .ConfigNodeChoices(c => c
                     .WithId(1)
-                    .First()
-                    .First()
+                    .NTimes(3, nc => nc.First()) // move bigfoot
+                    .NTimes(3, nc => nc.First()) // move the Jackalope
                 )
                 .ConfigFighterChoices(c => c
                     .First()
@@ -111,8 +111,8 @@ public class BigfootTests
                 )
                 .ConfigNodeChoices(c => c
                     .WithId(1)
-                    .First()
-                    .First()
+                    .NTimes(3, nc => nc.First()) // move bigfoot
+                    .NTimes(3, nc => nc.First()) // move the Jackalope
                 )
                 .ConfigFighterChoices(c => c
                     .First()
@@ -186,8 +186,8 @@ public class BigfootTests
                 )
                 .ConfigNodeChoices(c => c
                     .WithId(1)
-                    .First()
-                    .First()
+                    .NTimes(3, nc => nc.First()) // move bigfoot
+                    .NTimes(3, nc => nc.First()) // move the Jackalope
                 )
                 .ConfigFighterChoices(c => c
                     .First()
@@ -260,8 +260,8 @@ public class BigfootTests
                 )
                 .ConfigNodeChoices(c => c
                     .WithId(1)
-                    .First()
-                    .First()
+                    .NTimes(3, nc => nc.First()) // move bigfoot
+                    .NTimes(3, nc => nc.First()) // move the Jackalope
                 )
                 .ConfigFighterChoices(c => c
                     .First()
@@ -332,8 +332,8 @@ public class BigfootTests
                 )
                 .ConfigNodeChoices(c => c
                     .WithId(1)
-                    .First()
-                    .First()
+                    .NTimes(3, nc => nc.First()) // move bigfoot
+                    .NTimes(3, nc => nc.First()) // move the Jackalope
                 )
                 .ConfigFighterChoices(c => c
                     .First()

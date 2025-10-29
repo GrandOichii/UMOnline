@@ -10,16 +10,16 @@ public class SinbadTests
         .ClearDeck();
 
     [Theory]
-    [InlineData(0, 0, 5)]
-    [InlineData(1, 0, 7)]
-    [InlineData(2, 0, 9)]
-    [InlineData(0, 1, 5)]
-    [InlineData(1, 1, 7)]
-    [InlineData(2, 1, 9)]
-    [InlineData(0, 2, 5)]
-    [InlineData(1, 2, 7)]
-    [InlineData(2, 2, 9)]
-    public async Task ManoeuvreValue(int voyageCardsInDiscard, int nonVoyageCardsInDiscard, int expectedNodeOptionsCount)
+    [InlineData(0, 0, 2)]
+    [InlineData(1, 0, 3)]
+    [InlineData(2, 0, 4)]
+    [InlineData(0, 1, 2)]
+    [InlineData(1, 1, 3)]
+    [InlineData(2, 1, 4)]
+    [InlineData(0, 2, 2)]
+    [InlineData(1, 2, 3)]
+    [InlineData(2, 2, 4)]
+    public async Task ManoeuvreValue(int voyageCardsInDiscard, int nonVoyageCardsInDiscard, int expectedMovementValue)
     {
         // Arrange
         var config = new MatchConfigBuilder()
@@ -66,19 +66,14 @@ public class SinbadTests
                     .DeclareWinner()
                     .CrashMatch()
                 )
-                .ConfigHandCardChoices(c => c
-                    .Nothing()
-                )
                 .ConfigFighterChoices(c => c
                     .WithName("Sinbad")
                     .WithName("The Porter")
                 )
                 .ConfigNodeChoices(c => c
                     .WithId(13)
-                    .AssertOptionsHasLength(expectedNodeOptionsCount)
-                    .First()
-                    .AssertOptionsHasLength(expectedNodeOptionsCount)
-                    .First()
+                    .NTimes(expectedMovementValue, nc => nc.First())
+                    .NTimes(expectedMovementValue, nc => nc.First())
                 )
                 .Build(),
             GetLoadoutBuilder()

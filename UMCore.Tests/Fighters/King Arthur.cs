@@ -210,9 +210,6 @@ public class KingArthurTests
                 .ConfigNodeChoices(c => c
                     .WithId(0)
                 )
-                .ConfigHandCardChoices(c => c
-                    .First()
-                )
                 .Build(),
             GetLoadoutBuilder()
                 .ConfigDeck(d => d

@@ -27,8 +27,6 @@ public class TestMatchWrapper
         {
             Logger = null
         };
-
-
     }
 
     public async Task<bool> AddMainPlayer(TestPlayerController controller, LoadoutTemplate loadout)
@@ -40,6 +38,12 @@ public class TestMatchWrapper
     public async Task<bool> AddOpponent(TestPlayerController controller, LoadoutTemplate loadout)
     {
         return await Match.AddPlayer($"Opp{++_oppCount}", OPPONENT_TEAM, loadout, controller);
+    }
+
+    public void SetTokenAmount(string tokenName, int amount)
+    {
+        var token = Match.Tokens.Get(tokenName);
+        token.SetAmount(amount);
     }
 
     public async Task Run()
@@ -63,6 +67,18 @@ public class TestMatchWrapper
     {
         var fighter = Match.Fighters.Single(f => f.Template.Key == fighterKey);
         return new(fighter);
+    }
+
+    public MapNodeAsserts AssertNode(int id)
+    {
+        var node = Match.Map.Nodes.Single(n => n.Id == id);
+        return new(node);
+    }
+
+    public TokenAsserts AssertToken(string tokenName)
+    {
+        var token = Match.Tokens.Get(tokenName);
+        return new(token);
     }
 
     public MatchAsserts Assert()

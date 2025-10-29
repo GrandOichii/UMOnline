@@ -48,8 +48,7 @@ public class RobinHood
                     .WithId(4)
                     .WithId(5)
                     .WithId(8)
-                    .AssertOptionsHasLength(3)
-                    .First()
+                    .NTimes(2, nc => nc.First())
                 )
                 .ConfigAttackChoices(c => c
                     .FirstByFighterWithName("Robin Hood")
@@ -125,8 +124,7 @@ public class RobinHood
                     .WithId(4)
                     .WithId(5)
                     .WithId(8)
-                    .AssertOptionsHasLength(3)
-                    .First()
+                    .NTimes(2, nc => nc.First())
                 )
                 .ConfigAttackChoices(c => c
                     .ByFighterInNodeWithId(8)

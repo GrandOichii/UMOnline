@@ -40,7 +40,7 @@ public class BruceLeeTests
                     .First()
                 )
                 .ConfigNodeChoices(c => c
-                    .First()
+                    .NTimes(3, nc => nc.First()) // move Bruce Lee
                 )
                 .ConfigStringChoices(c => c
                     .No()
@@ -105,9 +105,8 @@ public class BruceLeeTests
                     .First()
                 )
                 .ConfigNodeChoices(c => c
-                    .First()
-                    .AssertOptionsHasLength(3)
-                    .First()
+                    .NTimes(3, nc => nc.First()) // move Bruce Lee
+                    .NTimes(1, nc => nc.First()) // move Bruce Lee
                 )
                 .ConfigStringChoices(c => c
                     .Yes()

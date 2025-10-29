@@ -215,6 +215,14 @@ public class TestPlayerControllerBuilder
             Queue.Enqueue((player, options, hint) => options.First(f => f.Name == name));
             return this;
         }
+    
+        public FighterChoicesBuilder NTimes(int n, Action<FighterChoicesBuilder> action)
+        {
+            for (int i = 0; i < n; ++i)
+                action(this);
+            return this;
+        }
+
     }
 
     public class NodeChoicesBuilder
@@ -227,6 +235,13 @@ public class TestPlayerControllerBuilder
             {
                 action(this, o);
             }
+            return this;
+        }
+
+        public NodeChoicesBuilder NTimes(int n, Action<NodeChoicesBuilder> action)
+        {
+            for (int i = 0; i < n; ++i)
+                action(this);
             return this;
         }
 

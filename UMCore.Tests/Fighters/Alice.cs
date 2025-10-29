@@ -202,9 +202,6 @@ public class AliceTests
         );
         await match.AddOpponent(
             new TestPlayerControllerBuilder()
-                .ConfigHandCardChoices(c => c
-                    .Nothing()
-                )
                 .ConfigActions(c => c
                     .Attack()
                     .DeclareWinner()
@@ -376,9 +373,6 @@ public class AliceTests
         );
         await match.AddOpponent(
             new TestPlayerControllerBuilder()
-                .ConfigHandCardChoices(c => c
-                    .Nothing()
-                )
                 .ConfigActions(c => c
                     .Attack()
                     .DeclareWinner()
