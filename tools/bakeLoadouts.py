@@ -40,7 +40,6 @@ def join(*paths):
 for path in listdir(LOADOUTS_DIR):
     loadout_report = {
         'missingScripts': [],
-        'heroImplemented': False
     }
     data = json.loads(open(join(LOADOUTS_DIR, path), 'r').read())
     deck_name = data['Name']
@@ -53,26 +52,15 @@ for path in listdir(LOADOUTS_DIR):
     fighter_scripts_dir = join(target_dir, 'fighters')
     makedirs(fighter_scripts_dir, exist_ok=True)
 
-    fighter_script_path = join(FIGHTER_SCRIPTS, f'{deck_name}.lua')
-    fighter_script = TODO_FIGHTER_SCRIPT
-    if exists(fighter_script_path):
-        fighter_script = open(fighter_script_path, 'r').read()
-        loadout_report['heroImplemented'] = True
-    
-    # create hero script
-    hero_script_path = join(fighter_scripts_dir, f'{deck_name}.lua')
-    open(hero_script_path, 'w').write(fighter_script)
-
-    # create sidekick script
-    sidekick_script_path = join(fighter_scripts_dir, 'Basic.lua')
-    open(sidekick_script_path, 'w').write(BASIC_FIGHTER_SCRIPT)
-
-    # fill fighter scripts in JSON
     for fighter in data['Fighters']:
-        if fighter['IsHero']:
-            fighter['Script'] = f'{hero_script_path}'
-            continue
-        fighter['Script'] = f'{sidekick_script_path}'
+        fighter_script_path = join(FIGHTER_SCRIPTS, f'{fighter['Name']}.lua')
+        fighter_script = TODO_FIGHTER_SCRIPT
+        if exists(fighter_script_path):
+            fighter_script = open(fighter_script_path, 'r').read()
+        
+        target_fighter_script_path = join(fighter_scripts_dir, f'{fighter['Name']}.lua')
+        open(target_fighter_script_path, 'w').write(fighter_script)
+        fighter['Script'] = target_fighter_script_path
 
     # cards
     card_scripts_path = join(target_dir, 'cards')
