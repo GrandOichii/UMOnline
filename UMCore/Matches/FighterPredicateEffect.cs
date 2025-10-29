@@ -1,10 +1,11 @@
 using NLua;
 using UMCore.Matches.Effects;
+using UMCore.Matches.Players;
 using UMCore.Utility;
 
-namespace UMCore.Matches.Players;
+namespace UMCore.Matches;
 
-public class AttackEffect(Fighter fighter, LuaTable table)
+public class FighterPredicateEffect(Fighter fighter, LuaTable table)
 {
     private readonly Fighter _fighter = fighter;
     private readonly Effect _fighterPredicate = new(LuaUtility.TableGet<LuaFunction>(table, "fighterPred"));

@@ -27,8 +27,8 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
     public List<CardValueModifier> CardValueModifiers { get; }
     public List<EffectCollection> WhenPlacedEffects { get; }
     public List<ManoeuvreValueModifier> ManoeuvreValueMods { get; }
-    public List<AttackEffect> OnAttackEffects { get; }
-    public List<AttackEffect> AfterAttackEffects { get; }
+    public List<FighterPredicateEffect> OnAttackEffects { get; }
+    public List<FighterPredicateEffect> AfterAttackEffects { get; }
 
     public Fighter(Player owner, FighterTemplate template)
     {
@@ -152,6 +152,22 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
         catch (Exception e)
         {
             throw new MatchException($"Failed to get initial fighter placement effects for fighter {template.Name}", e);
+        }
+
+        // tokens
+        try
+        {
+            var tokenDeclarations = LuaUtility.TableGet<LuaTable>(data, "Tokens");
+            foreach (string tokenName in tokenDeclarations.Keys)
+            {
+                var table = tokenDeclarations[tokenName] as LuaTable;
+                // TODO check for null
+                Match.Tokens.Declare(tokenName, this, table!);
+            }
+        }
+        catch (Exception e)
+        {
+            throw new MatchException($"Failed to get token declarations for fighter {template.Name}", e);
         }
     }
 

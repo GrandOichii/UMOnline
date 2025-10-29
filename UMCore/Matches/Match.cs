@@ -4,6 +4,7 @@ using NLua;
 using UMCore.Matches.Attacks;
 using UMCore.Matches.Cards;
 using UMCore.Matches.Players;
+using UMCore.Matches.Tokens;
 using UMCore.Templates;
 
 namespace UMCore.Matches;
@@ -22,6 +23,7 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
     public Random Random { get; }
     public LogsManager Logs { get; }
     public EventsManager Events { get; }
+    public TokenManager Tokens { get; }
     public Player? Winner { get; protected set; }
 
     public Dictionary<int, List<Player>> Teams { get; }
@@ -36,6 +38,7 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
         Combat = null;
         Logs = new(this);
         Events = new(this);
+        Tokens = new(this);
         Winner = null;
         Teams = [];
 
@@ -201,7 +204,7 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
         // TODO add combat event
     }
 
-    public IEnumerable<AttackEffect> GetOnAttackEffectsFor(Fighter fighter)
+    public IEnumerable<FighterPredicateEffect> GetOnAttackEffectsFor(Fighter fighter)
     {
         foreach (var f in Fighters)
         {
@@ -213,7 +216,7 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
         }
     }
 
-    public IEnumerable<AttackEffect> GetAfterAttackEffectsFor(Fighter fighter)
+    public IEnumerable<FighterPredicateEffect> GetAfterAttackEffectsFor(Fighter fighter)
     {
         foreach (var f in Fighters)
         {

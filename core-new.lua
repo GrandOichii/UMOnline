@@ -24,7 +24,7 @@ end
 
 -- function UM.Player:Opponent()
 --     return function (args)
---         -- TODO
+--         -- TODO combat opponent
 --     end
 -- end
 
@@ -35,6 +35,16 @@ UM.Fighter = {}
 function UM.Fighter:Source()
     return function (args)
         return args.fighter
+    end
+end
+
+-- Single token
+
+UM.Token = {}
+
+function UM.Token:Source()
+    return function (args)
+        return args.token
     end
 end
 
@@ -105,6 +115,49 @@ function UM.Build:Card()
     return result
 end
 
+-- Token creation
+
+function UM.Build:Token()
+    local result = {}
+
+    result.amount = -1
+    result.whenReturnedToBox = {}
+    result.onStepEffects = {}
+
+    function result:Build()
+        return {
+            Amount = result.amount,
+            WhenReturnedToBox = result.whenReturnedToBox,
+            OnStepEffects = result.onStepEffects,
+        }
+    end
+
+    function result:Amount(v)
+        result.amount = v
+
+        return result
+    end
+
+    function result:WhenReturnedToBox(text, ...)
+        result.whenReturnedToBox[#result.whenReturnedToBox+1] = {
+            text = text,
+            effects = {...}
+        }
+        return result
+    end
+
+    function result:OnStep(text, fighterPredFunc, ...)
+        result.onStepEffects[#result.onStepEffects+1] = {
+            text = text,
+            fighterPred = fighterPredFunc,
+            effects = {...}
+        }
+        return result
+    end
+
+    return result
+end
+
 -- Fighter creation
 
 function UM.Build:Fighter()
@@ -116,6 +169,13 @@ function UM.Build:Fighter()
     result.manoeuvreValueMods = {}
     result.onAttackEffects = {}
     result.afterAttackEffects = {}
+    result.tokens = {}
+
+    function result:DeclareToken(tokenName, tokenBehavior)
+        result.tokens[tokenName] = tokenBehavior
+
+        return result
+    end
 
     function result:OnAttack(text, fighterPredFunc, ...)
         result.onAttackEffects[#result.onAttackEffects+1] = {
@@ -195,6 +255,7 @@ function UM.Build:Fighter()
             ManoeuvreValueMods = result.manoeuvreValueMods,
             OnAttackEffects = result.onAttackEffects,
             AfterAttackEffects = result.afterAttackEffects,
+            Tokens = result.tokens,
         }
         return fighter
     end
@@ -296,6 +357,12 @@ function UM.Conditions:PlayerAttributeEqualTo(attrKey, attrValue)
     end
 end
 
+function UM.Conditions:TokensLeft(tokenName)
+    return function (args)
+        return GetTokenAmount(tokenName) > 0
+    end
+end
+
 function UM.Conditions:CombatWonBy(playerFunc)
     return function (args)
         local combat = GetCombat()
@@ -316,6 +383,12 @@ end
 function UM.Conditions:Eq(numeric1, numeric2)
     return function (args)
         return numeric1(args):Last() == numeric2(args):Last()
+    end
+end
+
+function UM.Conditions:Gt(numeric1, numeric2)
+    return function (args)
+        return numeric1(args):Last() > numeric2(args):Last()
     end
 end
 
@@ -509,6 +582,18 @@ function UM.Effects:CancelAllEffectsOnOpponentsCard()
     end
 end
 
+function UM.Effects:CancelCurrentMovement()
+    return function (args)
+        -- TODO
+    end
+end
+
+function UM.Effects:RemoveToken(manyTokens)
+    return function (args)
+        -- TODO
+    end
+end
+
 function UM.Effects:PreventAllDamage()
     -- TODO prevent all damage in combat
 end
@@ -521,6 +606,21 @@ end
 function UM.Effects:ImpossibleToSee()
     -- The value of your opponent's attack or defense is 0 and cannot be changed by card effects. (Other card effects still happen.)
     -- TODO
+end
+
+function UM.Effects:PlaceToken(tokenName, manyNodes)
+    return function (args)
+        assert(IsTokenDefined(tokenName), 'Tried to place an undefined token: '..tokenName)
+
+        local options = manyNodes(args)
+        if #options == 0 then
+            return
+        end
+
+        local node = ChooseNode(args.owner, options, 'Choose where to place a '..tokenName..' token')
+
+        PlaceToken(node, tokenName)
+    end
 end
 
 
@@ -701,6 +801,12 @@ function UM.Select:Fighters()
         return result
     end
 
+    function result:MovingFighter()
+        return result:_Add(function (args, fighter)
+            return IsMoving(fighter)
+        end)
+    end
+
     -- function result:NotOwnedBy(playerFunc)
     --     result.filters[#result.filters+1] = function (args, fighter)
     --         return fighter.Owner.Idx ~= playerFunc(args).Idx
@@ -715,6 +821,10 @@ function UM.Select:Fighters()
         end
 
         return result
+    end
+
+    function result:Opposing()
+        return result:OpposingTo(UM.Player:EffectOwner())
     end
 
     function result:Single()
@@ -778,8 +888,12 @@ function UM.Select:Fighters()
     end
 
     function result:BuildOne()
+        result.single = true
+        -- TODO? cache result
         return function (args)
-            -- TODO
+            local fighters = result:_Select(args)
+            -- TODO what if no fighters
+            return fighters[1]
         end
     end
 
@@ -792,8 +906,7 @@ function UM.Select:Fighters()
     return result
 end
 
-
-function UM.Select.Players()
+function UM.Select:Players()
     local result = {}
 
     result.filters = {}
@@ -859,14 +972,20 @@ function UM.Select.Players()
     --     return result
     -- end
 
-    function result:You()
-        -- TODO
+    function result:_Add(filter)
+        result.filters[#result.filters+1] = filter
 
         return result
     end
 
+    function result:You()
+        return result:_Add(function (args, player)
+            return args.owner == player
+        end)
+    end
+
     function result:YourOpponent()
-        -- TODO
+        -- TODO combat opponent
 
         return result
     end
@@ -880,6 +999,156 @@ function UM.Select.Players()
     return result
 end
 
+function UM.Select:Nodes()
+    local result = {}
+
+    result.filters = {}
+    result.single = false
+
+    function result:_Select(args)
+        local allNodes = GetNodes()
+        local nodes = {}
+
+        local filterFunc = function (node)
+            for _, filter in ipairs(result.filters) do
+                if not filter(args, node) then
+                    return false
+                end
+            end
+            return true
+        end
+
+        for _, node in ipairs(allNodes) do
+            if filterFunc(node) then
+                nodes[#nodes+1] = node
+            end
+        end
+
+        if result.single then
+            local node = nodes[1]
+
+            if #nodes > 1 then
+                node = ChooseNode(args.owner, nodes, 'Choose a node')
+            end
+
+            nodes = {
+                [1] = node
+            }
+
+        end
+
+        return nodes
+    end
+
+    function result:_Add(filter)
+        result.filters[#result.filters+1] = filter
+
+        return result
+    end
+
+    function result:Unoccupied()
+        return result:_Add(function (args, node)
+            return IsUnoccupied(node)
+        end)
+    end
+
+    function result:InZoneOfFighter(singleFighter)
+        return result:_Add(function (args, node)
+            return IsInZone(node, GetFighterZones(singleFighter(args)))
+        end)
+    end
+
+    function result:WithNoToken(tokenName)
+        return result:_Add(function (args, node)
+            -- TODO
+            return true
+        end)
+    end
+
+    function result:Build()
+        return function (args)
+            return result:_Select(args)
+        end
+    end
+
+    function result:Single()
+        result.single = true
+
+        return result
+    end
+
+    return result
+end
+
+function UM.Select:Tokens()
+    local result = {}
+
+    result.filters = {}
+    result.single = false
+
+    function result:_Select(args)
+        local allTokens = GetTokens()
+        local tokens = {}
+
+        local filterFunc = function (token)
+            for _, filter in ipairs(result.filters) do
+                if not filter(args, token) then
+                    return false
+                end
+            end
+            return true
+        end
+
+        for _, token in ipairs(allTokens) do
+            if filterFunc(token) then
+                tokens[#tokens+1] = token
+            end
+        end
+
+        if result.single then
+            local token = tokens[1]
+
+            if #tokens > 1 then
+                token = ChooseToken(args.owner, tokens, 'Choose a token')
+            end
+
+            tokens = {
+                [1] = token
+            }
+
+        end
+
+        return tokens
+    end
+
+    function result:_Add(filter)
+        result.filters[#result.filters+1] = filter
+
+        return result
+    end
+
+    -- TODO filters
+
+    function result:Only(singleToken)
+        return result:_Add(function (args, token)
+            return token == singleToken(args)
+        end)
+    end
+
+    function result:Build()
+        return function (args)
+            return result:_Select(args)
+        end
+    end
+
+    function result:Single()
+        result.single = true
+
+        return result
+    end
+    
+    return result
+end
 
 -- Character-specific
 

@@ -269,7 +269,7 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
 
     public async Task MoveFighter(Fighter fighter, int movement, bool canMoveOverFriendly, bool canMoveOverOpposing)
     {
-        while (--movement > 0)
+        while (movement-- > 0)
         {
             var available = Match.Map.GetPossibleMovementResults(fighter, 1, canMoveOverFriendly, canMoveOverOpposing);
             var result = await Controller.ChooseNode(this, [.. available], $"Choose where to move {fighter.LogName} (movement left: {movement})");

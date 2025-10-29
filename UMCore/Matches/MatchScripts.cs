@@ -327,4 +327,55 @@ public class MatchScripts
     {
         return card.HasLabel(label);
     }
+
+    [LuaCommand]
+    public bool IsMoving(Fighter fighter)
+    {
+        // TODO
+        throw new NotImplementedException();
+    }
+
+    [LuaCommand]
+    public LuaTable GetTokens()
+    {
+        // TODO
+        throw new NotImplementedException();
+    }
+
+    [LuaCommand]
+    public MapNode ChooseToken(Player player, LuaTable nodes, string hint)
+    {
+        // TODO
+        throw new NotImplementedException();
+        // var options = LuaUtility.ParseTable<MapNode>(nodes);
+        // var result = player.Controller.ChooseNode(player, [.. options], hint)
+        //     .GetAwaiter().GetResult();
+        // return result;
+    }
+
+    [LuaCommand]
+    public bool IsUnoccupied(MapNode node)
+    {
+        return !node.IsOccupied();
+    }
+
+    [LuaCommand]
+    public bool IsTokenDefined(string tokenName)
+    {
+        return Match.Tokens.IsDefined(tokenName);
+    }
+
+    [LuaCommand]
+    public void PlaceToken(MapNode node, string tokenName)
+    {
+        var token = Match.Tokens.Get(tokenName);
+        node.PlaceToken(token)
+            .Wait();
+    }
+
+    [LuaCommand]
+    public int GetTokenAmount(string tokenName)
+    {
+        return Match.Tokens.Get(tokenName).Amount;
+    }
 }

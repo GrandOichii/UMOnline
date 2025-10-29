@@ -1,6 +1,7 @@
 using System.Security;
 using Microsoft.Extensions.Logging;
 using UMCore.Matches.Players;
+using UMCore.Matches.Tokens;
 using UMCore.Templates;
 
 namespace UMCore.Matches;
@@ -141,7 +142,7 @@ public class MapNode : IHasData<MapNode.Data>
     public List<MapNode> Adjacent { get; }
 
     public Fighter? Fighter { get; private set; }
-    // public List<Token> Tokens { get; } // TODO
+    public List<PlacedToken> Tokens { get; }
     public Map Parent { get; }
 
     public MapNode(Map parent, MapNodeTemplate template)
@@ -152,6 +153,7 @@ public class MapNode : IHasData<MapNode.Data>
         Fighter = null;
 
         Adjacent = [];
+        Tokens = [];
     }
 
     public IEnumerable<MapNode> GetAdjacentEmptyNodes() => [.. Adjacent.Where(n => n.IsEmpty())];
@@ -193,6 +195,8 @@ public class MapNode : IHasData<MapNode.Data>
         Fighter = fighter;
         Parent.Match.Logger?.LogDebug("Placed fighter {LogName} in node {NodeId}", fighter.LogName, Id);
         await Parent.Match.UpdateClients();
+
+        // TODO trigger OnStep effects of all tokens
     }
 
     public async Task RemoveFighter(bool updateClients = false)
@@ -248,6 +252,34 @@ public class MapNode : IHasData<MapNode.Data>
     public bool IsAdjecentTo(MapNode other)
     {
         return other.Adjacent.Contains(this);
+    }
+
+    public bool IsOccupied()
+    {
+        return Fighter is not null && Tokens.Count == 0;
+    }
+
+    public PlacedToken? GetTokenOrDefault(string tokenName)
+    {
+        return Tokens.FirstOrDefault(t => t.GetName() == tokenName);
+    }
+
+    public bool HasToken(string tokenName)
+    {
+        return GetTokenOrDefault(tokenName) is not null;
+    }
+
+    public async Task PlaceToken(Token token)
+    {
+        var newToken = token.GetPlacedToken();
+        if (newToken is null)
+        {
+            Parent.Match.Logs.Public($"No more {token.Name} tokens left!");
+            return;
+        }
+        Tokens.Add(newToken);
+
+        Parent.Match.Logger?.LogDebug("Placed {tokenName} token on node {nodeId} (amount left: {tokenAmount})", token.Name, Id, token.Amount);
     }
 
     public Data GetData(Player player)

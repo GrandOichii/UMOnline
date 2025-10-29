@@ -37,6 +37,13 @@
         "GetPlayerAttribute",
         "SetPlayerAttribute",
         "GetCardsInDiscardPile",
-        "CardHasLabel"
+        "CardHasLabel",
+        "IsMoving",
+        "GetTokens",
+        "ChooseToken",
+        "IsUnoccupied",
+        "IsTokenDefined",
+        "PlaceToken",
+        "GetTokenAmount"
     ]
 }
