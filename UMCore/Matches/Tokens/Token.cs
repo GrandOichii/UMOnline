@@ -11,10 +11,12 @@ public class Token
     public int Amount { get; private set; }
     public List<EffectCollection> WhenReturnedToBoxEffects { get; }
     public List<FighterPredicateEffect> OnStepEffects { get; }
+    public Fighter Originator { get; }
 
     public Token(string name, Fighter fighter, LuaTable data)
     {
         Name = name;
+        Originator = fighter;
         Amount = LuaUtility.GetInt(data, "Amount");
 
         WhenReturnedToBoxEffects = [];

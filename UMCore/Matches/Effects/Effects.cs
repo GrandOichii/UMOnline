@@ -1,5 +1,6 @@
 using NLua;
 using UMCore.Matches.Players;
+using UMCore.Matches.Tokens;
 using UMCore.Utility;
 
 namespace UMCore.Matches.Effects;
@@ -39,6 +40,16 @@ public class EffectCollection
         {
             { "fighter", fighter },
             { "owner", owner },
+        }));
+    }
+
+    public void Execute(Fighter fighter, Player owner, PlacedToken token)
+    {
+        Execute(LuaUtility.CreateTable(owner.Match.LState, new Dictionary<string, object>()
+        {
+            { "fighter", fighter },
+            { "owner", owner },
+            { "token", token },
         }));
     }
 }

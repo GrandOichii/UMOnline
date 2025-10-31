@@ -267,14 +267,11 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
         }
     }
 
-    public async Task MoveFighter(Fighter fighter, int movement, bool canMoveOverFriendly, bool canMoveOverOpposing)
+    public async Task MoveFighter(Fighter fighter, int distance, bool canMoveOverFriendly, bool canMoveOverOpposing)
     {
-        while (movement-- > 0)
-        {
-            var available = Match.Map.GetPossibleMovementResults(fighter, 1, canMoveOverFriendly, canMoveOverOpposing);
-            var result = await Controller.ChooseNode(this, [.. available], $"Choose where to move {fighter.LogName} (movement left: {movement})");
-            await result.PlaceFighter(fighter);
-        }
+        var movement = Match.SetCurrentMovement(new(fighter, distance, canMoveOverFriendly, canMoveOverOpposing));
+        await movement.Resolve();
+        Match.FinishMovement();
 
         Match.Logs.Public($"Player {FormattedLogName} moves {fighter.FormattedLogName}");
     }

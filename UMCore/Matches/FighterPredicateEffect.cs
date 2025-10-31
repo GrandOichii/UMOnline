@@ -1,6 +1,7 @@
 using NLua;
 using UMCore.Matches.Effects;
 using UMCore.Matches.Players;
+using UMCore.Matches.Tokens;
 using UMCore.Utility;
 
 namespace UMCore.Matches;
@@ -19,5 +20,10 @@ public class FighterPredicateEffect(Fighter fighter, LuaTable table)
     public void Execute(Fighter fighter, Player owner)
     {
         _effects.Execute(fighter, owner);
+    }
+
+    public void Execute(Fighter fighter, Player owner, PlacedToken token)
+    {
+        _effects.Execute(fighter, owner, token);
     }
 }

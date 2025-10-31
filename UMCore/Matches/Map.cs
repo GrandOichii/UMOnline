@@ -196,7 +196,25 @@ public class MapNode : IHasData<MapNode.Data>
         Parent.Match.Logger?.LogDebug("Placed fighter {LogName} in node {NodeId}", fighter.LogName, Id);
         await Parent.Match.UpdateClients();
 
+        await ResolveOnStepEffects();
         // TODO trigger OnStep effects of all tokens
+    }
+
+    private async Task ResolveOnStepEffects()
+    {
+        List<(PlacedToken, FighterPredicateEffect)> effects = [];
+        foreach (var token in Tokens)
+        {
+            effects.AddRange(token.GetOnStepEffects(Fighter!).Select(s => (token, s)));
+        }
+        
+        // TODO order effects
+        foreach (var pair in effects)
+        {
+            var token = pair.Item1;
+            var effect = pair.Item2;
+            effect.Execute(Fighter!, token.Original.Originator.Owner, token);
+        }
     }
 
     public async Task RemoveFighter(bool updateClients = false)
@@ -256,7 +274,7 @@ public class MapNode : IHasData<MapNode.Data>
 
     public bool IsOccupied()
     {
-        return Fighter is not null && Tokens.Count == 0;
+        return Fighter is not null || Tokens.Count > 0;
     }
 
     public PlacedToken? GetTokenOrDefault(string tokenName)

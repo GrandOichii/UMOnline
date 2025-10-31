@@ -10,4 +10,10 @@ public class MapNodeAsserts(MapNode node)
         node.HasToken(tokenName).ShouldBeTrue();
         return this;
     }
+
+    public MapNodeAsserts HasNoTokens()
+    {
+        node.Tokens.Count.ShouldBe(0);
+        return this;
+    }
 }

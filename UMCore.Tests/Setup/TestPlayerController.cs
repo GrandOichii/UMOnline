@@ -139,7 +139,7 @@ public class TestPlayerController : IPlayerController
             return Task.FromResult(result);
         }
         
-        throw new Exception($"No string choices left in queue");
+        throw new Exception($"No string choices left in queue (hint: {hint})");
     }
 
     public Task Setup(Player player, Match.SetupData setupData)

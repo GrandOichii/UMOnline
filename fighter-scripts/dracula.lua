@@ -3,7 +3,7 @@ function _Create()
         :AtTheStartOfYourTurn(
             'At the start of your turn, you may deal 1 damage to a fighter adjacent to Dracula. If you do, draw a card.',
             UM:If(
-                UM.Conditions:FightersCountGte(
+                UM.Conditions:CountGte(
                     UM.Count:Fighters(
                         UM.Select:Fighters()
                             :AdjacentTo(UM.Fighter:Source())

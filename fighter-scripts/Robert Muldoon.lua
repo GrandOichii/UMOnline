@@ -1,22 +1,30 @@
 
 function _Create()
+    local nodeFilter = UM.Select:Nodes()
+        :Unoccupied()
+        :InZoneOfFighter(
+            UM.Select:Fighters()
+                :Named('Robert Muldoon')
+                :BuildOne()
+        )
+        :WithNoToken('Trap')
+        :Single()
+        :Build()
+
     return UM.Build:Fighter()
         :AtTheStartOfYourTurn(
             'At the start of your turn, you may place a trap in an unoccupied node in Robert Muldoon\'s zone.',
             UM.Effects:If(
-                UM.Conditions:TokensLeft('Trap'),
-                UM.Effects:PlaceToken(
-                    'Trap',
-                    UM.Select:Nodes()
-                        :Unoccupied()
-                        :InZoneOfFighter(
-                            UM.Select:Fighters()
-                                :Named('Robert Muldoon')
-                                :BuildOne()
-                        )
-                        :WithNoToken('Trap')
-                        :Single()
-                        :Build()
+                UM.Conditions:And(
+                    UM.Conditions:TokensLeft('Trap'),
+                    UM.Conditions:CountGte(nodeFilter, 1)
+                ),
+                UM.Effects:Optional(
+                    'Place a trap token?',
+                    UM.Effects:PlaceToken(
+                        'Trap',
+                        nodeFilter
+                    )
                 )
             )
         )
@@ -40,10 +48,10 @@ function _Create()
                     UM.Effects:DealDamage(
                         UM.Select:Fighters():MovingFighter():Build(),
                         UM.Number:Static(1)
-                    ),
-                    UM.Effects:RemoveToken(
-                        UM.Select:Tokens():Only(UM.Token:Source()):Build()
                     )
+                    -- UM.Effects:RemoveToken(
+                    --     UM.Select:Tokens():Only(UM.Token:Source()):Build()
+                    -- )
                 )
                 -- TODO add OnStep for friendly fighters
             :Build()

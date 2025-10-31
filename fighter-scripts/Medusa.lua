@@ -3,7 +3,7 @@ function _Create()
         :AtTheStartOfYourTurn(
             'At the start of your turn, you may deal 1 damage to an opposing fighter in Medusa\'s zone.',
             UM.Effects:If(
-                UM.Conditions:FightersCountGte(
+                UM.Conditions:CountGte(
                     UM.Select:Fighters()
                         :OpposingTo(UM.Player:EffectOwner())
                         :InSameZoneAs(UM.Fighter:Source())

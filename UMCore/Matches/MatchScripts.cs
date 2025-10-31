@@ -331,8 +331,8 @@ public class MatchScripts
     [LuaCommand]
     public bool IsMoving(Fighter fighter)
     {
-        // TODO
-        throw new NotImplementedException();
+        if (Match.CurrentMovement is null) return false;
+        return Match.CurrentMovement.Fighter == fighter;
     }
 
     [LuaCommand]
@@ -377,5 +377,11 @@ public class MatchScripts
     public int GetTokenAmount(string tokenName)
     {
         return Match.Tokens.Get(tokenName).Amount;
+    }
+
+    [LuaCommand]
+    public void CancelCurrentMovement()
+    {
+        Match.CurrentMovement!.Cancel();
     }
 }

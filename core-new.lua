@@ -322,6 +322,7 @@ function UM.Effects:If(conditionalFunc, effectFunc)
         if not conditionalFunc(args) then
             return
         end
+        LogPublic('EFFECT')
         effectFunc(args)
     end
 end
@@ -334,10 +335,12 @@ function UM.Effects:Optional(hint, ...)
     local effectFuncs = {...}
 
     return function (args)
+        LogPublic('CHOICE')
         local choice = ChooseString(args.owner, {
             [1] = 'Yes',
             [2] = 'No'
         }, hint)
+        LogPublic('CHOICE: '..choice)
 
         if choice == 'Yes' then
             for _, effectFunc in ipairs(effectFuncs) do
@@ -357,6 +360,14 @@ function UM.Conditions:PlayerAttributeEqualTo(attrKey, attrValue)
     end
 end
 
+function UM.Conditions:And(cond1, cond2)
+    return function (args)
+        LogPublic('cond1 '..tostring(cond1(args)))
+        LogPublic('cond2 '..tostring(cond2(args)))
+        return cond1(args) and cond2(args)
+    end
+end
+
 function UM.Conditions:TokensLeft(tokenName)
     return function (args)
         return GetTokenAmount(tokenName) > 0
@@ -372,13 +383,14 @@ function UM.Conditions:CombatWonBy(playerFunc)
     end
 end
 
-function UM.Conditions:FightersCountGte(manyFighters, amount)
+function UM.Conditions:CountGte(many, amount)
     return function (args)
-        -- TODO feels wierd
-        local fighters = manyFighters(args)
-        return #fighters >= amount
+        local objs = many(args)
+        LogPublic('COUNT: '..tostring(#objs))
+        return #objs >= amount
     end
 end
+
 
 function UM.Conditions:Eq(numeric1, numeric2)
     return function (args)
@@ -584,7 +596,7 @@ end
 
 function UM.Effects:CancelCurrentMovement()
     return function (args)
-        -- TODO
+        CancelCurrentMovement()
     end
 end
 
@@ -618,7 +630,7 @@ function UM.Effects:PlaceToken(tokenName, manyNodes)
         end
 
         local node = ChooseNode(args.owner, options, 'Choose where to place a '..tokenName..' token')
-
+        LogPublic('PLACE')
         PlaceToken(node, tokenName)
     end
 end

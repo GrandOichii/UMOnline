@@ -25,6 +25,7 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
     public EventsManager Events { get; }
     public TokenManager Tokens { get; }
     public Player? Winner { get; protected set; }
+    public Movement? CurrentMovement { get; private set; }
 
     public Dictionary<int, List<Player>> Teams { get; }
 
@@ -41,6 +42,7 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
         Tokens = new(this);
         Winner = null;
         Teams = [];
+        CurrentMovement = null;
 
         Random = new();
         if (!Config.RandomMatch)
@@ -238,6 +240,22 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
                 yield return mod;
             }
         }
+    }
+
+    public Movement SetCurrentMovement(Movement movement)
+    {
+        if (CurrentMovement is not null)
+        {
+            // TODO may need to remove this
+            throw new MatchException($"Tried to call {SetCurrentMovement} while the active movement hasn't resolved");
+        }
+        CurrentMovement = movement;
+        return movement;
+    }
+
+    public void FinishMovement()
+    {
+        CurrentMovement = null;
     }
 
     public Data GetData(Player player)

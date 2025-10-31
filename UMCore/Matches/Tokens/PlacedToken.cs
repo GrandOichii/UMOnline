@@ -13,4 +13,10 @@ public class PlacedToken
     {
         return Original.Name;
     }
+
+    public IEnumerable<FighterPredicateEffect> GetOnStepEffects(Fighter fighter)
+    {
+        return Original
+            .OnStepEffects.Where(e => e.Accepts(fighter));
+    }
 }

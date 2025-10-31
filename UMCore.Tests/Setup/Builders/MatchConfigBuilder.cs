@@ -43,6 +43,16 @@ public class MatchConfigBuilder
         _result.InitialHandSize = amount;
         return this;
     }
+    
+    public MatchConfigBuilder NoExhaustDamage()
+    {
+        return ExhaustDamage(0);
+    }
+
+    public MatchConfigBuilder ExhaustDamage(int amount) {
+        _result.ExhaustDamage = amount;
+        return this;
+    }
 
     public MatchConfigBuilder ManoeuvreDrawAmount(int amount) {
         _result.ManoeuvreDrawAmount = amount;
