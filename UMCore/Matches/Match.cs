@@ -63,6 +63,7 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
 
     public bool CheckForWinners()
     {
+        // TODO! teams
         var activePlayers = Players.Where(p => p.GetAliveHeroes().Any()).ToList();
         if (activePlayers.Count > 1) return false;
 

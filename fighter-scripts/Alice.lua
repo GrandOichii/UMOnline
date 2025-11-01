@@ -12,11 +12,11 @@ function _Create()
             end
         )
         :ModCardValue(
-            UM.Mod.Cards:AttackCards(2),
+            UM.Mod.Cards:AttackCards(UM.Number:Static(2)),
             UM.Conditions:PlayerAttributeEqualTo('ALICE_SIZE', 'BIG')
         )
         :ModCardValue(
-            UM.Mod.Cards:DefenseCards(1),
+            UM.Mod.Cards:DefenseCards(UM.Number:Static(1)),
             UM.Conditions:PlayerAttributeEqualTo('ALICE_SIZE', 'SMALL')
         )
     :Build()

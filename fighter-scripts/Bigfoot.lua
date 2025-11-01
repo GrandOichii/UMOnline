@@ -4,7 +4,7 @@ function _Create()
             'At the end of your turn, if there are no opposing fighters in Bigfoot\'s zone, you may draw 1 card.',
             UM.Effects:If(
                 UM.Conditions:Eq(
-                    UM.Count:Fighters(
+                    UM.Number:Count(
                         UM.Select:Fighters()
                             :OpposingTo(UM.Player:EffectOwner())
                             :InSameZoneAs(UM.Fighter:Source())

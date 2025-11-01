@@ -280,13 +280,31 @@ function UM.Number:_(options)
         return _result
     end
 
-    function result:Last()
+    function result:Last(args)
         return result.values[#result.values]
     end
 
-    return function (...)
-        return result
+    return result
+    -- return function (...)
+    --     return result
+    -- end
+end
+
+function UM.Number:Count(many)
+    local result = {}
+
+    function result:Choose(args, hint)
+        -- TODO
     end
+
+    function result:Last(args)
+        return #many(args)
+    end
+
+    return result
+    -- return function (...)
+    --     return result
+    -- end
 end
 
 function UM.Number:Static(v)
@@ -294,6 +312,7 @@ function UM.Number:Static(v)
         [1] = v
     })
 end
+
 
 function UM.Number:UpTo(max)
     local values = {}
@@ -388,13 +407,13 @@ end
 
 function UM.Conditions:Eq(numeric1, numeric2)
     return function (args)
-        return numeric1(args):Last() == numeric2(args):Last()
+        return numeric1:Last(args) == numeric2:Last(args)
     end
 end
 
 function UM.Conditions:Gt(numeric1, numeric2)
     return function (args)
-        return numeric1(args):Last() > numeric2(args):Last()
+        return numeric1:Last(args) > numeric2:Last(args)
     end
 end
 
@@ -411,7 +430,7 @@ end
 
 function UM.Count:Fighters(manyFighters)
     return function (args)
-        return UM.Number:Static(#manyFighters(args))(args)
+        return UM.Number:Static(#manyFighters(args))
     end
 end
 
@@ -420,24 +439,25 @@ end
 UM.Mod = {}
 UM.Mod.Cards = {}
 
-function UM.Mod.Cards:_(value, boostsAttackCards, boostsDefenseCards)
+function UM.Mod.Cards:_(numeric, boostsAttackCards, boostsDefenseCards)
     return function (args, combatCard, result)
+        local amount = numeric:Last(args)
         if not boostsAttackCards and not combatCard.IsDefence then
             return result
         end
         if not boostsDefenseCards and combatCard.IsDefence then
             return result
         end
-        return result + value
+        return result + amount
     end
 end
 
-function UM.Mod.Cards:AttackCards(value)
-    return UM.Mod.Cards:_(value, true, false)
+function UM.Mod.Cards:AttackCards(numeric)
+    return UM.Mod.Cards:_(numeric, true, false)
 end
 
-function UM.Mod.Cards:DefenseCards(value)
-    return UM.Mod.Cards:_(value, false, true)
+function UM.Mod.Cards:DefenseCards(numeric)
+    return UM.Mod.Cards:_(numeric, false, true)
 end
 
 -- Effects
@@ -455,7 +475,7 @@ function UM.Effects:Draw(manyPlayers, numeric, optional)
             end
         end
         for _, p in ipairs(players) do
-            local amount = numeric(args):Choose(args, 'Choose how many cards to draw')
+            local amount = numeric:Choose(args, 'Choose how many cards to draw')
             DrawCards(p, amount)
         end
     end
@@ -464,7 +484,7 @@ end
 function UM.Effects:MoveFighters(manyFighters, numeric, canMoveOverOpposing)
     return function (args)
         local fighters = manyFighters(args)
-        local amount = numeric(args):Last()
+        local amount = numeric:Last(args)
         MoveFighters(args.owner, fighters, amount, canMoveOverOpposing) -- TODO this threw an exception after playing Skirmish and defeating a Harpy
     end
 end
@@ -521,7 +541,7 @@ function UM.Effects:AllowBoost(numeric, optional)
             return
         end
 
-        local amount = numeric(args):Choose(args, 'Boost how many times?')
+        local amount = numeric:Choose(args, 'Boost how many times?')
         local player = args.owner
         for i = 1, amount do
             if GetHandSize(player) == 0 then
@@ -544,7 +564,7 @@ function UM.Effects:DealDamage(manyfighters, numeric)
         local fighters = manyfighters(args)
 
         for _, fighter in ipairs(fighters) do
-            local amount = numeric(args):Choose(args, 'Choose how much damage to deal to '..fighter.Name)
+            local amount = numeric:Choose(args, 'Choose how much damage to deal to '..fighter.Name)
             DealDamage(fighter, amount)
         end
     end
