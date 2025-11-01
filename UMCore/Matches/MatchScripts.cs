@@ -8,6 +8,7 @@ using NLua;
 using UMCore.Matches.Attacks;
 using UMCore.Matches.Cards;
 using UMCore.Matches.Players;
+using UMCore.Matches.Tokens;
 using UMCore.Utility;
 
 namespace UMCore.Matches;
@@ -338,8 +339,8 @@ public class MatchScripts
     [LuaCommand]
     public LuaTable GetTokens()
     {
-        // TODO
-        throw new NotImplementedException();
+        List<PlacedToken> tokens = [.. Match.Map.Nodes.SelectMany(n => n.Tokens)];
+        return LuaUtility.CreateTable(Match.LState, tokens);
     }
 
     [LuaCommand]
@@ -383,5 +384,12 @@ public class MatchScripts
     public void CancelCurrentMovement()
     {
         Match.CurrentMovement!.Cancel();
+    }
+
+    [LuaCommand]
+    public void RemoveToken(PlacedToken token)
+    {
+        token.Remove()
+            .Wait();
     }
 }

@@ -50,7 +50,7 @@ public class TestPlayerController : IPlayerController
         while (result == NEXT_ACTION)
         {
             if (!Actions.TryPeek(out var action))
-                throw new Exception("No actions left in queue!");
+                throw new Exception($"No actions left in queue for player {player.LogName}");
             bool next;
             (result, next) = await action(match, player, options);
             if (next) Actions.Dequeue();
@@ -75,7 +75,7 @@ public class TestPlayerController : IPlayerController
             return Task.FromResult(result);
         }
         
-        throw new Exception($"No attack choices left in queue");
+        throw new Exception($"No attack choices left in queue for player {player.LogName}");
     }
 
     public async Task<MatchCard> ChooseCardInHand(Player player, int playerHandIdx, MatchCard[] options, string hint)
@@ -95,14 +95,14 @@ public class TestPlayerController : IPlayerController
             return result;
         }
         
-        throw new Exception($"No hand card choices left in queue");
+        throw new Exception($"No hand card choices left in queue for player {player.LogName}");
     }
 
     public Task<Fighter> ChooseFighter(Player player, Fighter[] options, string hint)
     {
         if (FighterChoices.Count == 0)
         {
-            throw new Exception($"No fighter choices left in queue");
+            throw new Exception($"No fighter choices left in queue for player {player.LogName}");
         }
         var choiceFunc = FighterChoices.Dequeue();
         var result = choiceFunc(player, options, hint);
@@ -119,7 +119,7 @@ public class TestPlayerController : IPlayerController
             return Task.FromResult(result!);
         }
         
-        throw new Exception($"No node choices left in queue (hint: {hint})");
+        throw new Exception($"No node choices left in queue (player: {player.LogName}, hint: {hint})");
     }
 
     public Task<Player> ChoosePlayer(Player player, Player[] options, string hint)
@@ -139,7 +139,7 @@ public class TestPlayerController : IPlayerController
             return Task.FromResult(result);
         }
         
-        throw new Exception($"No string choices left in queue (hint: {hint})");
+        throw new Exception($"No string choices left in queue (player: {player.LogName}, hint: {hint})");
     }
 
     public Task Setup(Player player, Match.SetupData setupData)

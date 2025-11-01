@@ -45,6 +45,7 @@
         "IsTokenDefined",
         "PlaceToken",
         "GetTokenAmount",
-        "CancelCurrentMovement"
+        "CancelCurrentMovement",
+        "RemoveToken"
     ]
 }

@@ -417,20 +417,501 @@ public class InGenTests
 
         match.AssertPlayer(0)
             .SetupCalled()
-            // .HasCardsInHand(2) // TODO add back
+            .HasCardsInHand(2)
             .IsWinner();
         match.AssertPlayer(1)
             .SetupCalled()
             .IsNotWinner();
 
-        // match.AssertNode(4) // TODO add back
-        //     .HasNoTokens();
+        match.AssertNode(4)
+            .HasNoTokens();
 
         match.AssertToken("Trap")
             .HasAmount(7);
 
         match.AssertFighter("Foo")
             .HasDamage(1);
+    }
+
+    [Fact]
+    public async Task TrapTrigger_OpponentSidekick()
+    {
+        // Arrange
+        var config = new MatchConfigBuilder()
+            .InitialHandSize(0)
+            .NoExhaustDamage()
+            .ActionsPerTurn(1)
+            .Build();
+
+        var mapTemplate = new MapTemplateBuilder()
+            .AddNode(0, [0], spawnNumber: 1)
+            .AddNode(1, [0]) // worker
+            .AddNode(2, [0]) // worker
+            .AddNode(3, [0]) // worker
+            .AddNode(4, [0]) // trap
+            .AddNode(5, [0]) // bar
+            .AddNode(6, [0], spawnNumber: 2)
+            .ConnectAllAsLine()
+            .Build();
+
+        var match = new TestMatchWrapper(
+            config,
+            mapTemplate
+        );
+
+        await match.AddMainPlayer(
+            new TestPlayerControllerBuilder()
+                .ConfigActions(a => a
+                    .Manoeuvre()
+                    .DeclareWinner()
+                    .CrashMatch()
+                )
+                .ConfigStringChoices(c => c
+                    .Yes()
+                    .No()
+                )
+                .ConfigNodeChoices(c => c
+                    .WithId(1)
+                    .WithId(2)
+                    .WithId(3)
+                    .WithId(4) // trap
+                    .NTimes(3, nc => nc.First())
+                    .NTimes(3, nc => nc.First())
+                    .NTimes(3, nc => nc.First())
+                    .NTimes(3, nc => nc.First())
+                )
+                .ConfigHandCardChoices(c => c
+                    .Nothing()
+                )
+                .ConfigFighterChoices(c => c
+                    .First()
+                    .First()
+                    .First()
+                    .First()
+                )
+                .Build(),
+            GetLoadoutBuilder()
+                .ConfigDeck(d => d.AddBasicScheme(amount: 10))
+                .Build()
+        );
+        await match.AddOpponent(
+            new TestPlayerControllerBuilder()
+                .ConfigActions(a => a
+                    .Manoeuvre()
+                )
+                .ConfigFighterChoices(c => c
+                    .WithName("Foo")
+                    .WithName("Bar")
+                )
+                .ConfigNodeChoices(c => c
+                    .WithId(5)
+                    .NTimes(2, nc => nc.First()) // Foo
+                    .WithId(4) // Bar, should stop after first
+                )
+            .Build(),
+            LoadoutTemplateBuilder.FooBar()
+        );
+
+        // Act
+        await match.Run();
+
+        // Assert
+        match.Assert()
+            .CrashedIntentionally();
+
+        match.AssertPlayer(0)
+            .SetupCalled()
+            .HasCardsInHand(2)
+            .IsWinner();
+        match.AssertPlayer(1)
+            .SetupCalled()
+            .IsNotWinner();
+
+        match.AssertNode(4)
+            .HasNoTokens();
+
+        match.AssertToken("Trap")
+            .HasAmount(7);
+
+        match.AssertFighter("Bar")
+            .HasDamage(1);
+    }
+
+    [Fact]
+    public async Task DeclineTrapTrigger_MainHero()
+    {
+        // Arrange
+        var config = new MatchConfigBuilder()
+            .InitialHandSize(0)
+            .NoExhaustDamage()
+            .ActionsPerTurn(2)
+            .Build();
+
+        var mapTemplate = new MapTemplateBuilder()
+            .AddNode(1, [0]) // worker
+            .AddNode(2, [0]) // worker
+            .AddNode(3, [0]) // worker
+            .AddNode(0, [0], spawnNumber: 1)
+            .AddNode(4, [0]) // trap
+            .AddNode(5, [0], spawnNumber: 2)
+            .ConnectAllAsLine()
+            .Build();
+
+        var match = new TestMatchWrapper(
+            config,
+            mapTemplate
+        );
+
+        await match.AddMainPlayer(
+            new TestPlayerControllerBuilder()
+                .ConfigActions(a => a
+                    .Manoeuvre()
+                    .DeclareWinner()
+                    .CrashMatch()
+                )
+                .ConfigStringChoices(c => c
+                    .Yes() // place trap
+                    // is triggered for each step
+                    .No() // trigger trap
+                    .No() // trigger trap
+                    .No() // trigger trap
+                )
+                .ConfigNodeChoices(c => c
+                    .WithId(1)
+                    .WithId(2)
+                    .WithId(3)
+                    
+                    .WithId(4) // place trap
+
+                    .WithId(4) // enter trap
+                    .NTimes(2, nc => nc.First()) // continue movement
+
+                    .NTimes(3, nc => nc.First())
+                    .NTimes(3, nc => nc.First())
+                    .NTimes(3, nc => nc.First())
+                )
+                .ConfigHandCardChoices(c => c
+                    .Nothing()
+                )
+                .ConfigFighterChoices(c => c
+                    .WithName("Robert Muldoon")
+                    .First()
+                    .First()
+                    .First()
+                )
+                .Build(),
+            GetLoadoutBuilder()
+                .ConfigDeck(d => d.AddBasicScheme(amount: 10))
+                .Build()
+        );
+        await match.AddOpponent(
+            TestPlayerControllerBuilder.Crasher(),
+            LoadoutTemplateBuilder.Foo()
+        );
+
+        // Act
+        await match.Run();
+
+        // Assert
+        match.Assert()
+            .CrashedIntentionally();
+
+        match.AssertPlayer(0)
+            .SetupCalled()
+            .HasCardsInHand(1)
+            .IsWinner();
+        match.AssertPlayer(1)
+            .SetupCalled()
+            .IsNotWinner();
+
+        match.AssertNode(4)
+            .HasToken("Trap");
+
+        match.AssertToken("Trap")
+            .HasAmount(7);
+
+        match.AssertFighter("Robert Muldoon")
+            .IsAtFullHealth();
+    }
+
+    [Fact]
+    public async Task DeclineTrapTrigger_MainSidekick()
+    {
+        // Arrange
+        var config = new MatchConfigBuilder()
+            .InitialHandSize(0)
+            .NoExhaustDamage()
+            .ActionsPerTurn(2)
+            .Build();
+
+        var mapTemplate = new MapTemplateBuilder()
+            .AddNode(1, [0]) // worker
+            .AddNode(2, [0]) // worker
+            .AddNode(0, [0], spawnNumber: 1)
+            .AddNode(3, [0]) // worker
+            .AddNode(4, [0]) // trap
+            .AddNode(5, [0], spawnNumber: 2)
+            .ConnectAllAsLine()
+            .Build();
+
+        var match = new TestMatchWrapper(
+            config,
+            mapTemplate
+        );
+
+        await match.AddMainPlayer(
+            new TestPlayerControllerBuilder()
+                .ConfigActions(a => a
+                    .Manoeuvre()
+                    .DeclareWinner()
+                    .CrashMatch()
+                )
+                .ConfigStringChoices(c => c
+                    .Yes() // place trap
+                    // is triggered for each step
+                    .No() // trigger trap
+                    .No() // trigger trap
+                    .No() // trigger trap
+                )
+                .ConfigNodeChoices(c => c
+                    .WithId(1)
+                    .WithId(2)
+                    .WithId(3)
+                    
+                    .WithId(4) // place trap
+
+                    .WithId(4) // enter trap
+                    .NTimes(2, nc => nc.First()) // continue movement
+
+                    .NTimes(3, nc => nc.First())
+                    .NTimes(3, nc => nc.First())
+                    .NTimes(3, nc => nc.First())
+                )
+                .ConfigHandCardChoices(c => c
+                    .Nothing()
+                )
+                .ConfigFighterChoices(c => c
+                    .InNodeWithId(3)
+                    .First()
+                    .First()
+                    .First()
+                )
+                .Build(),
+            GetLoadoutBuilder()
+                .ConfigDeck(d => d.AddBasicScheme(amount: 10))
+                .Build()
+        );
+        await match.AddOpponent(
+            TestPlayerControllerBuilder.Crasher(),
+            LoadoutTemplateBuilder.Foo()
+        );
+
+        // Act
+        await match.Run();
+
+        // Assert
+        match.Assert()
+            .CrashedIntentionally();
+
+        match.AssertPlayer(0)
+            .SetupCalled()
+            .HasCardsInHand(1)
+            .IsWinner();
+        match.AssertPlayer(1)
+            .SetupCalled()
+            .IsNotWinner();
+
+        match.AssertNode(4)
+            .HasToken("Trap");
+
+        match.AssertToken("Trap")
+            .HasAmount(7);
+
+        match.AssertFighter("Robert Muldoon")
+            .IsAtFullHealth();
+    }
+
+    [Fact]
+    public async Task ConfirmTrapTrigger_MainHero()
+    {
+        // Arrange
+        var config = new MatchConfigBuilder()
+            .InitialHandSize(0)
+            .NoExhaustDamage()
+            .ActionsPerTurn(2)
+            .Build();
+
+        var mapTemplate = new MapTemplateBuilder()
+            .AddNode(1, [0]) // worker
+            .AddNode(2, [0]) // worker
+            .AddNode(3, [0]) // worker
+            .AddNode(0, [0], spawnNumber: 1)
+            .AddNode(4, [0]) // trap
+            .AddNode(5, [0], spawnNumber: 2)
+            .ConnectAllAsLine()
+            .Build();
+
+        var match = new TestMatchWrapper(
+            config,
+            mapTemplate
+        );
+
+        await match.AddMainPlayer(
+            new TestPlayerControllerBuilder()
+                .ConfigActions(a => a
+                    .Manoeuvre()
+                    .DeclareWinner()
+                    .CrashMatch()
+                )
+                .ConfigStringChoices(c => c
+                    .Yes() // place trap
+                    .Yes() // trigger trap
+                )
+                .ConfigNodeChoices(c => c
+                    .WithId(1)
+                    .WithId(2)
+                    .WithId(3)
+                    
+                    .WithId(4) // place trap
+
+                    .WithId(4) // enter trap
+
+                    .NTimes(3, nc => nc.First())
+                    .NTimes(3, nc => nc.First())
+                    .NTimes(3, nc => nc.First())
+                )
+                .ConfigHandCardChoices(c => c
+                    .Nothing()
+                )
+                .ConfigFighterChoices(c => c
+                    .WithName("Robert Muldoon")
+                    .First()
+                    .First()
+                    .First()
+                )
+                .Build(),
+            GetLoadoutBuilder()
+                .ConfigDeck(d => d.AddBasicScheme(amount: 10))
+                .Build()
+        );
+        await match.AddOpponent(
+            TestPlayerControllerBuilder.Crasher(),
+            LoadoutTemplateBuilder.Foo()
+        );
+
+        // Act
+        await match.Run();
+
+        // Assert
+        match.Assert()
+            .CrashedIntentionally();
+
+        match.AssertPlayer(0)
+            .SetupCalled()
+            .HasCardsInHand(2)
+            .IsWinner();
+        match.AssertPlayer(1)
+            .SetupCalled()
+            .IsNotWinner();
+
+        match.AssertNode(4)
+            .HasNoTokens();
+
+        match.AssertToken("Trap")
+            .HasAmount(7);
+
+        match.AssertFighter("Robert Muldoon")
+            .HasDamage(1);
+    }
+
+    [Fact]
+    public async Task ConfirmTrapTrigger_MainSidekick()
+    {
+        // Arrange
+        var config = new MatchConfigBuilder()
+            .InitialHandSize(0)
+            .NoExhaustDamage()
+            .ActionsPerTurn(2)
+            .Build();
+
+        var mapTemplate = new MapTemplateBuilder()
+            .AddNode(1, [0]) // worker
+            .AddNode(2, [0]) // worker
+            .AddNode(0, [0], spawnNumber: 1)
+            .AddNode(3, [0]) // worker
+            .AddNode(4, [0]) // trap
+            .AddNode(5, [0], spawnNumber: 2)
+            .ConnectAllAsLine()
+            .Build();
+
+        var match = new TestMatchWrapper(
+            config,
+            mapTemplate
+        );
+
+        await match.AddMainPlayer(
+            new TestPlayerControllerBuilder()
+                .ConfigActions(a => a
+                    .Manoeuvre()
+                    .DeclareWinner()
+                    .CrashMatch()
+                )
+                .ConfigStringChoices(c => c
+                    .Yes() // place trap
+                    .Yes() // trigger trap
+                )
+                .ConfigNodeChoices(c => c
+                    .WithId(1)
+                    .WithId(2)
+                    .WithId(3)
+                    
+                    .WithId(4) // place trap
+
+                    .WithId(4) // enter trap
+
+                    .NTimes(3, nc => nc.First())
+                    .NTimes(3, nc => nc.First())
+                    .NTimes(3, nc => nc.First())
+                )
+                .ConfigHandCardChoices(c => c
+                    .Nothing()
+                )
+                .ConfigFighterChoices(c => c
+                    .InNodeWithId(3)
+                    .First()
+                    .First()
+                    .First()
+                )
+                .Build(),
+            GetLoadoutBuilder()
+                .ConfigDeck(d => d.AddBasicScheme(amount: 10))
+                .Build()
+        );
+        await match.AddOpponent(
+            TestPlayerControllerBuilder.Crasher(),
+            LoadoutTemplateBuilder.Foo()
+        );
+
+        // Act
+        await match.Run();
+
+        // Assert
+        match.Assert()
+            .CrashedIntentionally();
+
+        match.AssertPlayer(0)
+            .SetupCalled()
+            .HasCardsInHand(2)
+            .IsWinner();
+        match.AssertPlayer(1)
+            .SetupCalled()
+            .IsNotWinner();
+
+        match.AssertNode(4)
+            .HasNoTokens();
+
+        match.AssertToken("Trap")
+            .HasAmount(7);
     }
 
 }

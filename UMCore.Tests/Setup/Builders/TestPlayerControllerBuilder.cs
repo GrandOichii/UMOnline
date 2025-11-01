@@ -215,6 +215,12 @@ public class TestPlayerControllerBuilder
             Queue.Enqueue((player, options, hint) => options.First(f => f.Name == name));
             return this;
         }
+
+        public FighterChoicesBuilder InNodeWithId(int id)
+        {
+            Queue.Enqueue((player, options, hint) => player.Match.Map.Nodes.Single(n => n.Id == id).Fighter!);
+            return this;
+        }
     
         public FighterChoicesBuilder NTimes(int n, Action<FighterChoicesBuilder> action)
         {

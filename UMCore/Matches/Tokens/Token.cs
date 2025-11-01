@@ -52,14 +52,14 @@ public class Token
         }
     }
     
-    public PlacedToken? GetPlacedToken()
+    public PlacedToken? CreatePlacedToken(MapNode node)
     {
         if (Amount == 0)
         {
             return null;
         }
         --Amount;
-        return new(this);
+        return new(this, node);
     }
 
     public void SetAmount(int v)

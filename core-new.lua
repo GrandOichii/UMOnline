@@ -322,7 +322,6 @@ function UM.Effects:If(conditionalFunc, effectFunc)
         if not conditionalFunc(args) then
             return
         end
-        LogPublic('EFFECT')
         effectFunc(args)
     end
 end
@@ -335,12 +334,10 @@ function UM.Effects:Optional(hint, ...)
     local effectFuncs = {...}
 
     return function (args)
-        LogPublic('CHOICE')
         local choice = ChooseString(args.owner, {
             [1] = 'Yes',
             [2] = 'No'
         }, hint)
-        LogPublic('CHOICE: '..choice)
 
         if choice == 'Yes' then
             for _, effectFunc in ipairs(effectFuncs) do
@@ -362,8 +359,6 @@ end
 
 function UM.Conditions:And(cond1, cond2)
     return function (args)
-        LogPublic('cond1 '..tostring(cond1(args)))
-        LogPublic('cond2 '..tostring(cond2(args)))
         return cond1(args) and cond2(args)
     end
 end
@@ -386,7 +381,6 @@ end
 function UM.Conditions:CountGte(many, amount)
     return function (args)
         local objs = many(args)
-        LogPublic('COUNT: '..tostring(#objs))
         return #objs >= amount
     end
 end
@@ -600,9 +594,12 @@ function UM.Effects:CancelCurrentMovement()
     end
 end
 
-function UM.Effects:RemoveToken(manyTokens)
+function UM.Effects:RemoveTokens(manyTokens)
     return function (args)
-        -- TODO
+        local tokens = manyTokens(args)
+        for _, token in ipairs(tokens) do
+            RemoveToken(token)
+        end
     end
 end
 
@@ -630,7 +627,6 @@ function UM.Effects:PlaceToken(tokenName, manyNodes)
         end
 
         local node = ChooseNode(args.owner, options, 'Choose where to place a '..tokenName..' token')
-        LogPublic('PLACE')
         PlaceToken(node, tokenName)
     end
 end
@@ -835,8 +831,20 @@ function UM.Select:Fighters()
         return result
     end
 
+    function result:FriendlyTo(playerFunc)
+        result.filters[#result.filters+1] = function (args, fighter)
+            return not IsOpposingTo(fighter, playerFunc(args))
+        end
+
+        return result
+    end
+
     function result:Opposing()
         return result:OpposingTo(UM.Player:EffectOwner())
+    end
+    
+    function result:Friendly()
+        return result:FriendlyTo(UM.Player:EffectOwner())
     end
 
     function result:Single()

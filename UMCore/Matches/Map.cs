@@ -207,7 +207,7 @@ public class MapNode : IHasData<MapNode.Data>
         {
             effects.AddRange(token.GetOnStepEffects(Fighter!).Select(s => (token, s)));
         }
-        
+
         // TODO order effects
         foreach (var pair in effects)
         {
@@ -215,6 +215,8 @@ public class MapNode : IHasData<MapNode.Data>
             var effect = pair.Item2;
             effect.Execute(Fighter!, token.Original.Originator.Owner, token);
         }
+
+        await Parent.Match.UpdateClients();
     }
 
     public async Task RemoveFighter(bool updateClients = false)
@@ -289,7 +291,7 @@ public class MapNode : IHasData<MapNode.Data>
 
     public async Task PlaceToken(Token token)
     {
-        var newToken = token.GetPlacedToken();
+        var newToken = token.CreatePlacedToken(this);
         if (newToken is null)
         {
             Parent.Match.Logs.Public($"No more {token.Name} tokens left!");
@@ -298,6 +300,7 @@ public class MapNode : IHasData<MapNode.Data>
         Tokens.Add(newToken);
 
         Parent.Match.Logger?.LogDebug("Placed {tokenName} token on node {nodeId} (amount left: {tokenAmount})", token.Name, Id, token.Amount);
+        await Parent.Match.UpdateClients();
     }
 
     public Data GetData(Player player)
