@@ -6,7 +6,7 @@
 
 [sub_resource type="Resource" id="Resource_tl4ce"]
 script = ExtResource("1_eyhej")
-token_name = "test"
+token_name = "Trap"
 image = ExtResource("2_dxh8q")
 metadata/_custom_type_script = "uid://bj4ku106fdy6h"
 

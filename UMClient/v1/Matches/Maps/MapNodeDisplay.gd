@@ -30,9 +30,10 @@ func _default_color():
 		return PickableColor
 	return DefaultColor
 	
-func set_essentials(connection: MatchConnection):
+func set_essentials(connection: MatchConnection, token_image_loader: TokenImageLoader):
 	_connection = connection
 	_connection.match_info_updated.connect(_on_match_info_updated)
+	%Tokens.set_essentials(token_image_loader)
 	
 func _on_match_info_updated(match_info):
 	if match_info.Request == 'ChooseNode':
@@ -56,4 +57,6 @@ func can_pick():
 func _on_gui_input(event: InputEvent) -> void:
 	if can_pick() and event.is_action_pressed("pick_node"):
 		_connection.pick_node(NodeId)
-		
+
+func load(node):
+	%Tokens.load(node.Tokens)

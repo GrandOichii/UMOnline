@@ -2,6 +2,7 @@ extends PanelContainer
 
 @export var FighterScene: PackedScene
 @export var FighterImageLoaderNode: FighterImageLoader
+@export var TokenImageLoaderNode: TokenImageLoader
 
 @onready var NodesNode = %Nodes
 @onready var HiddenFightersNode = %HiddenFighters
@@ -28,7 +29,7 @@ func load_setup(match_data):
 func set_essentials(connection: MatchConnection):
 	_connection = connection
 	for child: MapNodeDisplay in NodesNode.get_children():
-		child.set_essentials(connection)
+		child.set_essentials(connection, TokenImageLoaderNode)
 	for key in _fighter_map:
 		var node = _fighter_map[key]
 		node.set_essentials(connection, FighterImageLoaderNode)
@@ -43,6 +44,9 @@ func load_map(match_data):
 	_load_nodes(match_data)
 	
 func _load_nodes(_match_data):
+	for data in _match_data.Map.Nodes:
+		var node = _get_node(data.Id)
+		node.load(data)
 	pass
 
 func _get_node(node_id):

@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://cpc3ofe4utau1"]
 
-[ext_resource type="Script" path="res://v1/Matches/Maps/MapDisplay.gd" id="1_vy4u3"]
+[ext_resource type="Script" uid="uid://duuibiihsjbrm" path="res://v1/Matches/Maps/MapDisplay.gd" id="1_vy4u3"]
 [ext_resource type="PackedScene" uid="uid://cobbn5fcos4sj" path="res://v1/Matches/Maps/MapNodeDisplay.tscn" id="2_aukae"]
 [ext_resource type="PackedScene" uid="uid://dr5q1fb5amb1p" path="res://v1/Matches/Maps/FighterFigureDisplay.tscn" id="2_x1sco"]
 [ext_resource type="Texture2D" uid="uid://ctj1sumxmapmq" path="res://assets/maps/testmap.webp" id="3_xg07d"]
