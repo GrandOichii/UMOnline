@@ -39,9 +39,7 @@ public class BruceLeeTests
                 .ConfigFighterChoices(c => c
                     .First()
                 )
-                .ConfigNodeChoices(c => c
-                    .NTimes(3, nc => nc.First()) // move Bruce Lee
-                )
+                .ConfigPathChoices(c => c.First())
                 .ConfigStringChoices(c => c
                     .No()
                 )
@@ -104,10 +102,7 @@ public class BruceLeeTests
                 .ConfigFighterChoices(c => c
                     .First()
                 )
-                .ConfigNodeChoices(c => c
-                    .NTimes(3, nc => nc.First()) // move Bruce Lee
-                    .NTimes(1, nc => nc.First()) // move Bruce Lee
-                )
+                .ConfigPathChoices(c => c.First().First())
                 .ConfigStringChoices(c => c
                     .Yes()
                 )

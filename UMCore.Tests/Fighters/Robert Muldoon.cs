@@ -1,6 +1,6 @@
 namespace UMCore.Tests.Fighters;
 
-public class InGenTests
+public class RobertMuldoon
 {
     private static LoadoutTemplateBuilder GetLoadoutBuilder() => new LoadoutTemplateBuilder("InGen")
         .Load("../../../../.generated/loadouts/InGen/InGen.json")
@@ -374,10 +374,9 @@ public class InGenTests
                     .WithId(2)
                     .WithId(3)
                     .WithId(4) // trap
-                    .NTimes(3, nc => nc.First())
-                    .NTimes(3, nc => nc.First())
-                    .NTimes(3, nc => nc.First())
-                    .NTimes(3, nc => nc.First())
+                )
+                .ConfigPathChoices(c => c
+                    .NTimes(4, nc => nc.First())
                 )
                 .ConfigHandCardChoices(c => c
                     .Nothing()
@@ -401,8 +400,8 @@ public class InGenTests
                 .ConfigFighterChoices(c => c
                     .First()
                 )
-                .ConfigNodeChoices(c => c
-                    .WithId(4) // should stop after first
+                .ConfigPathChoices(c => c
+                    .FirstStopsAtId(4)
                 )
             .Build(),
             LoadoutTemplateBuilder.Foo()
@@ -475,11 +474,8 @@ public class InGenTests
                     .WithId(2)
                     .WithId(3)
                     .WithId(4) // trap
-                    .NTimes(3, nc => nc.First())
-                    .NTimes(3, nc => nc.First())
-                    .NTimes(3, nc => nc.First())
-                    .NTimes(3, nc => nc.First())
                 )
+                .ConfigPathChoices(c => c.NTimes(4, nc => nc.First()))
                 .ConfigHandCardChoices(c => c
                     .Nothing()
                 )
@@ -505,8 +501,10 @@ public class InGenTests
                 )
                 .ConfigNodeChoices(c => c
                     .WithId(5)
-                    .NTimes(2, nc => nc.First()) // Foo
-                    .WithId(4) // Bar, should stop after first
+                )
+                .ConfigPathChoices(c => c
+                    .First()
+                    .FirstStopsAtId(4)
                 )
             .Build(),
             LoadoutTemplateBuilder.FooBar()
@@ -571,24 +569,13 @@ public class InGenTests
                 )
                 .ConfigStringChoices(c => c
                     .Yes() // place trap
-                    // is triggered for each step
-                    .No() // trigger trap
-                    .No() // trigger trap
                     .No() // trigger trap
                 )
                 .ConfigNodeChoices(c => c
                     .WithId(1)
                     .WithId(2)
                     .WithId(3)
-                    
                     .WithId(4) // place trap
-
-                    .WithId(4) // enter trap
-                    .NTimes(2, nc => nc.First()) // continue movement
-
-                    .NTimes(3, nc => nc.First())
-                    .NTimes(3, nc => nc.First())
-                    .NTimes(3, nc => nc.First())
                 )
                 .ConfigHandCardChoices(c => c
                     .Nothing()
@@ -598,6 +585,10 @@ public class InGenTests
                     .First()
                     .First()
                     .First()
+                )
+                .ConfigPathChoices(c => c
+                    .FirstStopsAtId(4)
+                    .NTimes(3, nc => nc.First())
                 )
                 .Build(),
             GetLoadoutBuilder()
@@ -668,23 +659,16 @@ public class InGenTests
                 )
                 .ConfigStringChoices(c => c
                     .Yes() // place trap
-                    // is triggered for each step
-                    .No() // trigger trap
-                    .No() // trigger trap
                     .No() // trigger trap
                 )
                 .ConfigNodeChoices(c => c
                     .WithId(1)
                     .WithId(2)
                     .WithId(3)
-                    
                     .WithId(4) // place trap
-
-                    .WithId(4) // enter trap
-                    .NTimes(2, nc => nc.First()) // continue movement
-
-                    .NTimes(3, nc => nc.First())
-                    .NTimes(3, nc => nc.First())
+                )
+                .ConfigPathChoices(c => c
+                    .FirstStopsAtId(4)
                     .NTimes(3, nc => nc.First())
                 )
                 .ConfigHandCardChoices(c => c
@@ -771,13 +755,10 @@ public class InGenTests
                     .WithId(1)
                     .WithId(2)
                     .WithId(3)
-                    
                     .WithId(4) // place trap
-
-                    .WithId(4) // enter trap
-
-                    .NTimes(3, nc => nc.First())
-                    .NTimes(3, nc => nc.First())
+                )
+                .ConfigPathChoices(c => c
+                    .FirstStopsAtId(4)
                     .NTimes(3, nc => nc.First())
                 )
                 .ConfigHandCardChoices(c => c
@@ -866,11 +847,9 @@ public class InGenTests
                     .WithId(3)
                     
                     .WithId(4) // place trap
-
-                    .WithId(4) // enter trap
-
-                    .NTimes(3, nc => nc.First())
-                    .NTimes(3, nc => nc.First())
+                )
+                .ConfigPathChoices(c => c
+                    .FirstStopsAtId(4)
                     .NTimes(3, nc => nc.First())
                 )
                 .ConfigHandCardChoices(c => c

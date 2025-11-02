@@ -278,13 +278,13 @@ public class TODOSortTheseTests
 public class MovementTests
 {
     [Theory]
-    [InlineData(0)]
-    [InlineData(1)]
-    [InlineData(2)]
-    [InlineData(3)]
-    [InlineData(4)]
-    [InlineData(5)]
-    public async Task LineMovementTests(int fighterMovement)
+    [InlineData(0, 1)]
+    [InlineData(1, 2)]
+    [InlineData(2, 3)]
+    [InlineData(3, 4)]
+    [InlineData(4, 4)]
+    [InlineData(5, 4)]
+    public async Task LineMovementTests(int fighterMovement, int expectedPathsCount)
     {
         // Arrange
         var config = new MatchConfigBuilder()
@@ -320,8 +320,11 @@ public class MovementTests
                 .ConfigFighterChoices(c => c
                     .First()
                 )
-                .ConfigNodeChoices(c => c
-                    .NTimes(fighterMovement, nc => nc.First())
+                .ConfigPathChoices(c => c
+                    .Assert(a => a
+                        .OptionsCount(expectedPathsCount)
+                    )
+                    .First()
                 )
                 .Build(),
             new LoadoutTemplateBuilder("foo1")
@@ -353,13 +356,13 @@ public class MovementTests
     }
 
     [Theory]
-    [InlineData(0)]
-    [InlineData(1)]
-    [InlineData(2)]
-    [InlineData(3)]
-    [InlineData(4)]
-    [InlineData(5)]
-    public async Task LineMovementWithBoostTests(int boostValue)
+    [InlineData(0, 1)]
+    [InlineData(1, 2)]
+    [InlineData(2, 3)]
+    [InlineData(3, 4)]
+    [InlineData(4, 4)]
+    [InlineData(5, 4)]
+    public async Task LineMovementWithBoostTests(int boostValue, int expectedPathsCount)
     {
         // Arrange
         var config = new MatchConfigBuilder()
@@ -398,8 +401,11 @@ public class MovementTests
                 .ConfigFighterChoices(c => c
                     .First()
                 )
-                .ConfigNodeChoices(c => c
-                    .NTimes(boostValue, nc => nc.First())
+                .ConfigPathChoices(c => c
+                    .Assert(a => a
+                        .OptionsCount(expectedPathsCount)
+                    )
+                    .First()
                 )
                 .Build(),
             new LoadoutTemplateBuilder("foo1")
@@ -437,13 +443,13 @@ public class MovementTests
     }
 
     [Theory]
-    [InlineData(0)]
-    [InlineData(1)]
-    [InlineData(2)]
-    [InlineData(3)]
-    [InlineData(4)]
-    [InlineData(5)]
-    public async Task LineMovementWithSidekickTests(int boostValue)
+    [InlineData(0, 1)]
+    [InlineData(1, 1)]
+    [InlineData(2, 2)]
+    [InlineData(3, 3)]
+    [InlineData(4, 3)]
+    [InlineData(5, 3)]
+    public async Task LineMovementWithSidekickTests(int boostValue, int expectedPathsCount)
     {
         // Arrange
         var config = new MatchConfigBuilder()
@@ -486,8 +492,13 @@ public class MovementTests
                 )
                 .ConfigNodeChoices(c => c
                     .WithId(1)
-                    .NTimes(boostValue, nc => nc.First())
-                    .NTimes(boostValue, nc => nc.First())
+                )
+                .ConfigPathChoices(c => c
+                    .Assert(a => a
+                        .OptionsCount(expectedPathsCount)
+                    )
+                    .First()
+                    .First()
                 )
                 .Build(),
             new LoadoutTemplateBuilder("foo1")
@@ -529,10 +540,12 @@ public class MovementTests
     }
 
     [Theory]
-    [InlineData(0)]
-    [InlineData(1)]
-    [InlineData(2)]
-    public async Task LineWithSecretPassageMovementTests(int fighterMovement)
+    [InlineData(0, 1)]
+    [InlineData(1, 2)]
+    [InlineData(2, 3)]
+    [InlineData(3, 4)]
+    [InlineData(4, 4)]
+    public async Task LineWithSecretPassageMovementTests(int fighterMovement, int expectedPathsCount)
     {
         // Arrange
         var config = new MatchConfigBuilder()
@@ -567,8 +580,11 @@ public class MovementTests
                 .ConfigFighterChoices(c => c
                     .First()
                 )
-                .ConfigNodeChoices(c => c
-                    .NTimes(fighterMovement, nc => nc.AssertOptionsHasLength(2).First())
+                .ConfigPathChoices(c => c
+                    .Assert(a => a
+                        .OptionsCount(expectedPathsCount)
+                    )
+                    .First()
                 )
                 .Build(),
             new LoadoutTemplateBuilder("foo1")
@@ -638,8 +654,9 @@ public class MovementTests
                 .ConfigFighterChoices(c => c
                     .First()
                 )
-                .ConfigNodeChoices(c => c
-                    .NTimes(fighterMovement, nc => nc.AssertOptionsHasLength(1).First())
+                .ConfigPathChoices(c => c
+                    .Assert(a => a.OptionsCount(1))
+                    .First()
                 )
                 .Build(),
             new LoadoutTemplateBuilder("foo1")
@@ -895,7 +912,9 @@ public class ManoeuvreTests
             )
             .ConfigNodeChoices(c => c
                 .NTimes(sidekickCount, nc => nc.First())
-                .NTimes(sidekickCount + 1, nc => nc.NTimes(2, nnc => nnc.First()))
+            )
+            .ConfigPathChoices(c => c
+                .NTimes(sidekickCount + 1, nc => nc.First())
             )
             .ConfigHandCardChoices(c => c
                 .Nothing()
@@ -989,8 +1008,10 @@ public class ManoeuvreTests
             )
             .ConfigNodeChoices(c => c
                 .NTimes(sidekickCount, nc => nc.First())
-                .NTimes(sidekickCount + 1, nc => nc.NTimes(2, nnc => nnc.First()))
-                .NTimes(sidekickCount + 1, nc => nc.NTimes(2, nnc => nnc.First()))
+            )
+            .ConfigPathChoices(c => c
+                .NTimes(sidekickCount + 1, nc => nc.First())
+                .NTimes(sidekickCount + 1, nc => nc.First())
             )
             .ConfigHandCardChoices(c => c
                 .Nothing()
@@ -1279,9 +1300,7 @@ public class ExhaustionTests
                 .ConfigFighterChoices(c => c
                     .First()
                 )
-                .ConfigNodeChoices(c => c
-                    .NTimes(2, nc => nc.First())
-                )
+                .ConfigPathChoices(c => c.First())
                 .Build(),
             new LoadoutTemplateBuilder("main")
                 .AddFighter(new FighterTemplateBuilder("hero", heroKey)

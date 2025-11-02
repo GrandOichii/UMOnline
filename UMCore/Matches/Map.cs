@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Security;
 using Microsoft.Extensions.Logging;
 using UMCore.Matches.Players;
@@ -42,6 +43,17 @@ public class Map : IHasData<Map.Data>
                 mapping[n2].Adjacent.Add(mapping[n1]);
             }
         }
+    }
+
+    public List<Path> GetPossiblePaths(
+        Fighter fighter,
+        int movement,
+        bool canMoveOverFriendly,
+        bool canMoveOverOpposing
+    )
+    {
+        var result = GetFighterLocation(fighter).GetPossiblePaths(fighter, movement, canMoveOverFriendly, canMoveOverOpposing, []);
+        return result;
     }
 
     public IEnumerable<Fighter> GetReachableFighters(Fighter fighter, int range)
@@ -94,26 +106,26 @@ public class Map : IHasData<Map.Data>
         return Nodes.First(node => node.Template.SpawnNumber == idx);
     }
 
-    public IEnumerable<MapNode> GetPossibleMovementResults(
-        Fighter fighter,
-        int movement,
-        bool canMoveOverFriendly,
-        bool canMoveOverOpposing
-    )
-    {
-        var node = GetFighterLocation(fighter);
+    // public IEnumerable<MapNode> GetPossibleMovementResults(
+    //     Fighter fighter,
+    //     int movement,
+    //     bool canMoveOverFriendly,
+    //     bool canMoveOverOpposing
+    // )
+    // {
+    //     var node = GetFighterLocation(fighter);
 
-        HashSet<MapNode> result = [];
-        node.GetPossibleMovementResults(
-            fighter,
-            movement,
-            canMoveOverFriendly,
-            canMoveOverOpposing,
-            in result
-        );
+    //     HashSet<MapNode> result = [];
+    //     node.GetPossibleMovementResults(
+    //         fighter,
+    //         movement,
+    //         canMoveOverFriendly,
+    //         canMoveOverOpposing,
+    //         in result
+    //     );
 
-        return result;
-    }
+    //     return result;
+    // }
 
     public async Task RemoveFighterFromBoard(Fighter fighter)
     {
@@ -227,42 +239,111 @@ public class MapNode : IHasData<MapNode.Data>
         await Parent.Match.UpdateClients();
     }
 
-    public void GetPossibleMovementResults(
+    private bool CanStepOver(Fighter fighter, bool canMoveOverFriendly, bool canMoveOverOpposing)
+    {
+        if (Fighter is null || Fighter == fighter)
+        {
+            return true;
+        }
+        if (!canMoveOverOpposing && Fighter.IsOpposingTo(fighter.Owner))
+            return false;
+        if (!canMoveOverFriendly && Fighter.IsFriendlyTo(fighter.Owner))
+            return false;
+
+        return true;
+    }
+
+    public List<Path> GetPossiblePaths(
         Fighter fighter,
         int movement,
         bool canMoveOverFriendly,
         bool canMoveOverOpposing,
-        in HashSet<MapNode> result)
+        HashSet<MapNode> processed
+    )
     {
-        if (Fighter is not null && Fighter != fighter)
+        if (processed.Contains(this)) return [];
+        processed.Add(this);
+
+        var canStepOver = CanStepOver(fighter, canMoveOverFriendly, canMoveOverOpposing);
+        var isOccupied = Fighter is not null && Fighter != fighter;
+        if (!canStepOver)
         {
-            if (!canMoveOverOpposing && Fighter.IsOpposingTo(fighter.Owner)) return;
-            if (!canMoveOverFriendly && Fighter.IsFriendlyTo(fighter.Owner)) return;
+            return [];
         }
-        else
+
+        if (movement == 0 && isOccupied)
         {
-            result.Add(this);
+            return [];
         }
 
         if (movement == 0)
         {
-            return;
+            return [new() {
+                Nodes = [this]
+            }];
         }
 
-        foreach (var node in Adjacent)
+        List<Path> result = [];
+        if (!isOccupied)
         {
-            node.GetPossibleMovementResults(fighter, movement - 1, canMoveOverFriendly, canMoveOverOpposing, result);
-        }
-        if (Template.HasSecretPassage)
-        {
-            foreach (var node in Parent.SecretPassageNodes)
+            result.Add(new()
             {
-                if (node == this) continue;
-                node.GetPossibleMovementResults(fighter, movement - 1, canMoveOverFriendly, canMoveOverOpposing, result);
-            }
+                Nodes = []
+            });
         }
+        List<MapNode> neighbors = [.. Adjacent];
+        if (Template.HasSecretPassage) 
+            neighbors.AddRange(Parent.SecretPassageNodes.Where(n => n != this));
         // TODO add support for fog token-like effects
+        
+        foreach (var node in neighbors)
+        {
+            var paths = node.GetPossiblePaths(fighter, movement - 1, canMoveOverFriendly, canMoveOverOpposing, processed);
+            result.AddRange(paths);
+        }
+
+        foreach (var path in result)
+            path.Nodes.Add(this);
+
+        return result;
     }
+
+    // public void GetPossibleMovementResults(
+    //     Fighter fighter,
+    //     int movement,
+    //     bool canMoveOverFriendly,
+    //     bool canMoveOverOpposing,
+    //     in HashSet<MapNode> result)
+    // {
+    //     if (Fighter is not null && Fighter != fighter)
+    //     {
+    //         if (!canMoveOverOpposing && Fighter.IsOpposingTo(fighter.Owner)) return;
+    //         if (!canMoveOverFriendly && Fighter.IsFriendlyTo(fighter.Owner)) return;
+    //     }
+    //     else
+    //     {
+    //         result.Add(this);
+    //     }
+
+    //     if (movement == 0)
+    //     {
+    //         return;
+    //     }
+
+    //     foreach (var node in Adjacent)
+    //     {
+    //         node.GetPossibleMovementResults(fighter, movement - 1, canMoveOverFriendly, canMoveOverOpposing, result);
+    //     }
+    //     if (Template.HasSecretPassage)
+    //     {
+    //         foreach (var node in Parent.SecretPassageNodes)
+    //         {
+    //             if (node == this) continue;
+    //             node.GetPossibleMovementResults(fighter, movement - 1, canMoveOverFriendly, canMoveOverOpposing, result);
+    //         }
+    //     }
+    //     // TODO add support for fog token-like effects
+    // }
 
     public bool IsInZone(IEnumerable<int> zones)
     {

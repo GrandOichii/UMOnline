@@ -13,6 +13,7 @@ public class TestPlayerControllerBuilder
     private readonly NodeChoicesBuilder _nodeChoices = new();
     private readonly AttackChoicesBuilder _attackChoices = new();
     private readonly StringChoicesBuilder _stringChoices = new();
+    private readonly PathChoicesBuilder _pathChoices = new();
 
     // static controllers
     public static TestPlayerController Crasher()
@@ -59,6 +60,12 @@ public class TestPlayerControllerBuilder
         choices(_nodeChoices);
         return this;
     }
+    
+    public TestPlayerControllerBuilder ConfigPathChoices(Action<PathChoicesBuilder> choices)
+    {
+        choices(_pathChoices);
+        return this;
+    }
 
     public TestPlayerController Build()
     {
@@ -70,6 +77,7 @@ public class TestPlayerControllerBuilder
             NodeChoices = _nodeChoices.Queue,
             AttackChoices = _attackChoices.Queue,
             StringChoices = _stringChoices.Queue,
+            PathChoices = _pathChoices.Queue,
         };
     }
 
@@ -396,6 +404,74 @@ public class TestPlayerControllerBuilder
                 options.ShouldBeEquivalentTo(opts);
                 return this;
             }
+        }
+    }
+
+    public class PathChoicesBuilder
+    {
+        public Queue<TestPlayerController.PathChoice> Queue { get; } = new();
+
+        private PathChoicesBuilder Enqueue(TestPlayerController.PathChoice choice)
+        {
+            Queue.Enqueue(choice);
+            return this;
+        }
+
+        // public PathChoicesBuilder Yes()
+        // {
+        //     return Enqueue((player, options, hint) => ("Yes", true));
+        // }
+
+        // public PathChoicesBuilder No()
+        // {
+        //     return Enqueue((player, options, hint) => ("No", true));
+        // }
+
+        public PathChoicesBuilder First()
+        {
+            return Enqueue((player, options, hint) => (options.First(), true));
+        }
+        
+        public PathChoicesBuilder FirstStopsAtId(int id)
+        {
+            return Enqueue((player, options, hint) => (options.First(p => p.Nodes[0].Id == id), true));
+        }
+
+        public PathChoicesBuilder NTimes(int n, Action<PathChoicesBuilder> action)
+        {
+            for (int i = 0; i < n; ++i)
+                action(this);
+            return this;
+        }
+
+
+        // public PathChoicesBuilder Choose(Path v)
+        // {
+        //     return Enqueue((player, options, hint) => (v, true));
+        // }
+
+        public PathChoicesBuilder Assert(Action<Asserts> action)
+        {
+            return Enqueue((player, options, hint) =>
+            {
+                action(new Asserts(player, options, hint));
+                return (null, false);
+            });
+        }
+
+        public class Asserts(Player player, UMCore.Matches.Path[] options, string hint)
+        {
+            public Asserts OptionsCount(int amount)
+            {
+                options.Length.ShouldBe(amount);
+                return this;
+            }
+
+            // public Asserts EquivalentTo(Path[] opts)
+            // {
+            //     options.ShouldBeEquivalentTo(opts);
+            //     return this;
+            // }
         }
     }
 }

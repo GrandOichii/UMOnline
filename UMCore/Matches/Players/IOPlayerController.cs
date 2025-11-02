@@ -92,6 +92,16 @@ public class IOPlayerController : IPlayerController
         );
     }
 
+    // private static Dictionary<string, object> PathsToArgs<Path>(Path[] options)
+    // {
+    //     // return options.Select(
+    //     //     (o, i) => new { o, i }
+    //     // ).ToDictionary(
+    //     //     e => e.i.ToString(),
+    //     //     e => (object)e.o
+    //     // );
+    // }
+
     public async Task Update(Player player)
     {
         await WriteData(new()
@@ -283,4 +293,53 @@ public class IOPlayerController : IPlayerController
 
         return options.ToList()[idx];
     }
+
+    public async Task<Matches.Path> ChoosePath(Player player, Matches.Path[] options, string hint)
+    {
+        List<Matches.Path> paths = [.. options];
+
+        if (paths.Count == 0)
+            throw new Exception($"Provided no paths for {nameof(ChoosePath)}");
+
+        MapNode? lastNode = null;
+        int step = 0;
+        while (paths.Count > 1)
+        {
+            var nodeOptions = GetNodeOptions();
+            var node = await ChooseNode(player, nodeOptions, $"Choose node for movement (paths left: {paths.Count})");
+            if (node == paths[0].Nodes[0]) return paths[0];
+            paths.RemoveAll(p => p.Nodes[step] != node);
+            ++step;
+        }
+
+        return paths[0];
+
+        MapNode[] GetNodeOptions()
+        {
+            HashSet<MapNode> result = [];
+            if (lastNode is not null) result.Add(lastNode);
+            foreach (var path in paths)
+            {
+                result.Add(path.Nodes[0]);
+            }
+            return [.. result];
+        }
+            
+        // TODO replace with this
+
+        // await WriteData(new() {
+        //     PlayerIdx = player.Idx,
+        //     Match = player.Match.GetData(player),
+        //     NewLogs = PopLogs(),
+        //     NewEvents = PopEvents(),
+        //     Request = "ChoosePath",
+        //     Hint = hint,
+        //     Args = PathsToArgs(options),
+        // });
+
+        // var idx = int.Parse(await _handler.Read());
+
+        // return options.ToList()[idx];
+    }
+        
 }

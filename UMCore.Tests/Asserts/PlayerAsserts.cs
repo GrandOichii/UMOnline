@@ -20,6 +20,7 @@ public class PlayerAsserts
         _controller.HandCardChoices.ShouldBeEmpty();
         _controller.NodeChoices.ShouldBeEmpty();
         _controller.StringChoices.ShouldBeEmpty();
+        _controller.PathChoices.ShouldBeEmpty();
     }
 
     public PlayerAsserts SetupCalled()

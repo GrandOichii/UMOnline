@@ -72,9 +72,8 @@ public class SinbadTests
                 )
                 .ConfigNodeChoices(c => c
                     .WithId(13)
-                    .NTimes(expectedMovementValue, nc => nc.First())
-                    .NTimes(expectedMovementValue, nc => nc.First())
                 )
+                .ConfigPathChoices(c => c.First().First())
                 .Build(),
             GetLoadoutBuilder()
                 .ConfigDeck(d => d

@@ -48,8 +48,8 @@ public class RobinHood
                     .WithId(4)
                     .WithId(5)
                     .WithId(8)
-                    .NTimes(2, nc => nc.First())
                 )
+                .ConfigPathChoices(c => c.First())
                 .ConfigAttackChoices(c => c
                     .FirstByFighterWithName("Robin Hood")
                 )
@@ -124,8 +124,8 @@ public class RobinHood
                     .WithId(4)
                     .WithId(5)
                     .WithId(8)
-                    .NTimes(2, nc => nc.First())
                 )
+                .ConfigPathChoices(c => c.First())
                 .ConfigAttackChoices(c => c
                     .ByFighterInNodeWithId(8)
                 )
