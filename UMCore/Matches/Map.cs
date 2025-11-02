@@ -308,15 +308,15 @@ public class MapNode : IHasData<MapNode.Data>
         return new()
         {
             Id = Id,
-            // Fighter = Fighter?.GetData(player),
             FighterId = Fighter?.Id,
+            Tokens = [.. Tokens.Select(t => t.Original.Name)]
         };
     }
 
     public class Data
     {
         public required int Id { get; init; }
-        // public required Fighter.Data? Fighter { get; init; }
         public required int? FighterId { get; init; }
+        public required string[] Tokens { get; init; }
     }
 }

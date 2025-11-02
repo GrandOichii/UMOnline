@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://cqvr2f5usbs04"]
+
+[ext_resource type="Script" uid="uid://dpto14trwo7c5" path="res://v1/Matches/Maps/Tokens/TokensDisplay.gd" id="1_6ukpe"]
+[ext_resource type="PackedScene" uid="uid://55h76ibihp3b" path="res://v1/Matches/Maps/Tokens/TokenDisplay.tscn" id="2_k3wmo"]
+
+[node name="TokensDisplay" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_6ukpe")
+
+[node name="TokenDisplay" parent="." instance=ExtResource("2_k3wmo")]
+layout_mode = 1

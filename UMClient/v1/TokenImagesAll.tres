@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="TokenImages" load_steps=5 format=3 uid="uid://c1u31jgkt6o3d"]
+
+[ext_resource type="Script" uid="uid://bj4ku106fdy6h" path="res://v1/TokenImage.gd" id="1_eyhej"]
+[ext_resource type="Texture2D" uid="uid://blcwg6tod2n5g" path="res://assets/tokens/test.png" id="2_dxh8q"]
+[ext_resource type="Script" uid="uid://dyyyc176jg7hv" path="res://v1/TokenImages.gd" id="2_gpwd5"]
+
+[sub_resource type="Resource" id="Resource_tl4ce"]
+script = ExtResource("1_eyhej")
+token_name = "test"
+image = ExtResource("2_dxh8q")
+metadata/_custom_type_script = "uid://bj4ku106fdy6h"
+
+[resource]
+script = ExtResource("2_gpwd5")
+Images = Array[ExtResource("1_eyhej")]([SubResource("Resource_tl4ce")])

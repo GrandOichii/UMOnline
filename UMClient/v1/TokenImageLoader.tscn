@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bgsquvi2li3wh"]
+
+[ext_resource type="Script" uid="uid://c8ra2cw7hvisp" path="res://v1/TokenImageLoader.gd" id="1_13hu3"]
+
+[node name="TokenImageLoader" type="Node"]
+script = ExtResource("1_13hu3")
