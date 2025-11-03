@@ -7313,7 +7313,7 @@
                 {
                     "attack_type": "melee",
                     "hp": 7,
-                    "name": "Raptors",
+                    "name": "Raptor",
                     "quantity": 3,
                     "slug": "raptors"
                 }

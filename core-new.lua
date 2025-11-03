@@ -38,6 +38,13 @@ function UM.Fighter:Source()
     end
 end
 
+function UM.Fighter:Defender()
+    return function (args)
+        -- TODO
+        return GetDefender()
+    end
+end
+
 -- Single token
 
 UM.Token = {}
@@ -773,6 +780,12 @@ function UM.Select:Fighters()
         return result
     end
 
+    function result:Except(singleFighter)
+        return result:_Add(function (args, fighter)
+            return fighter ~= singleFighter(args)
+        end)
+    end
+
     function result:InCombat()
         result.filters[#result.filters+1] = function (args, fighter)
             return IsInCombat(fighter)
@@ -793,9 +806,9 @@ function UM.Select:Fighters()
         return result
     end
 
-    function result:AdjacentTo(fighterFunc)
+    function result:AdjacentTo(singleFighter)
         result.filters[#result.filters+1] = function (args, fighter)
-            local f = fighterFunc(args)
+            local f = singleFighter(args)
             if not IsAlive(f) then
                 return false
             end

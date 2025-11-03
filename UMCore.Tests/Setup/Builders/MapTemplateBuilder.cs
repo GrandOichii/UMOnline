@@ -25,12 +25,7 @@ public class MapTemplateBuilder
             .AddNode(01, [0], spawnNumber: 2)
             .AddNode(10, [0], spawnNumber: 3)
             .AddNode(11, [0], spawnNumber: 4)
-            .Connect(00, 01)
-            .Connect(00, 11)
-            .Connect(00, 10)
-            .Connect(01, 11)
-            .Connect(01, 10)
-            .Connect(11, 10)
+            .ConnectAll()
             .Build();
     }
 

@@ -46,6 +46,7 @@
         "PlaceToken",
         "GetTokenAmount",
         "CancelCurrentMovement",
-        "RemoveToken"
+        "RemoveToken",
+        "GetDefender"
     ]
 }

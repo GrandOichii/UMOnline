@@ -22,8 +22,11 @@ public class CombatPart : IHasData<CombatPart.Data>
         Card = card;
         Parent = parent;
         Value = (int)card.Template.Value!;
+    }
 
-        foreach (var modifier in fighter.CardValueModifiers)
+    public void ApplyModifiers()
+    {
+        foreach (var modifier in Fighter.CardValueModifiers)
         {
             Value = modifier.Modify(this);
         }
@@ -173,6 +176,10 @@ public class Combat : IHasData<Combat.Data>
         await EmitTrigger(CombatStepTrigger.Immediately);
         if (Match.IsWinnerDetermined()) return;
 
+        // before "during combat", apply card value modifiers
+        AttackCard.ApplyModifiers();
+        DefenceCard?.ApplyModifiers();
+        
         // execute "during combat"
         await EmitTrigger(CombatStepTrigger.DuringCombat);
         if (Match.IsWinnerDetermined()) return;

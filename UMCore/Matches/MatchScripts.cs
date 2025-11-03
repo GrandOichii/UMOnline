@@ -392,4 +392,10 @@ public class MatchScripts
         token.Remove()
             .Wait();
     }
+
+    [LuaCommand]
+    public Fighter GetDefender()
+    {
+        return Match.Combat!.Defender;
+    }
 }
