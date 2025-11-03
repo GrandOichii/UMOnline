@@ -69,6 +69,11 @@ public class TestMatchWrapper
         return new(fighter);
     }
 
+    public MultipleFighterAsserts AssertAllFighters()
+    {
+        return new(Match.Fighters);
+    }
+
     public MapNodeAsserts AssertNode(int id)
     {
         var node = Match.Map.Nodes.Single(n => n.Id == id);
