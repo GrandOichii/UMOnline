@@ -47,6 +47,8 @@
         "GetTokenAmount",
         "CancelCurrentMovement",
         "RemoveToken",
-        "GetDefender"
+        "GetDefender",
+        "NodeContainsToken",
+        "FighterStandsOn"
     ]
 }

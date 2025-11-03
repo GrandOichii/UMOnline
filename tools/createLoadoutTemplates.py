@@ -106,6 +106,7 @@ def get_allowed_fighters(af):
         'Black widow': 'Black Widow',
         'Dr. watson': 'Dr. Watson',
         'Holmes': 'Sherlock Holmes',
+        'Sherlock holmes': 'Sherlock Holmes',
         'Ms. marvel': 'Ms. Marvel',
     }[af.lower().capitalize()]]
 

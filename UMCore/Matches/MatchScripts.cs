@@ -398,4 +398,16 @@ public class MatchScripts
     {
         return Match.Combat!.Defender;
     }
+
+    [LuaCommand]
+    public bool NodeContainsToken(MapNode node, string tokenName)
+    {
+        return node.HasToken(tokenName);
+    }
+
+    [LuaCommand]
+    public bool FighterStandsOn(Fighter fighter, MapNode node)
+    {
+        return node.Fighter == fighter;
+    }
 }

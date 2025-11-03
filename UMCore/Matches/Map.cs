@@ -297,7 +297,7 @@ public class MapNode : IHasData<MapNode.Data>
         List<MapNode> neighbors = [.. Adjacent];
         if (Template.HasSecretPassage) 
             neighbors.AddRange(Parent.SecretPassageNodes.Where(n => n != this));
-        // TODO add support for fog token-like effects
+        neighbors.AddRange(Parent.Match.GetAdditionalConnectedNodesFor(fighter, this));
         
         foreach (var node in neighbors)
         {

@@ -29,6 +29,8 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
     public List<ManoeuvreValueModifier> ManoeuvreValueMods { get; }
     public List<FighterPredicateEffect> OnAttackEffects { get; }
     public List<FighterPredicateEffect> AfterAttackEffects { get; }
+    public List<EffectCollection> GameStartEffects { get; }
+    public List<MovementNodeConnection> MovementNodeConnections { get; }
 
     public Fighter(Player owner, FighterTemplate template)
     {
@@ -41,7 +43,6 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
 
         Health = new(this);
 
-        // effects
         LuaTable data;
         try
         {
@@ -119,9 +120,9 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
         }
         catch (Exception e)
         {
-            throw new MatchException($"Failed to get initial fighter placement effects for fighter {template.Name}", e);
+            throw new MatchException($"Failed to get manoeuvre value modifiers for fighter {template.Name}", e);
         }
-        
+
         OnAttackEffects = [];
         try
         {
@@ -135,7 +136,7 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
         }
         catch (Exception e)
         {
-            throw new MatchException($"Failed to get initial fighter placement effects for fighter {template.Name}", e);
+            throw new MatchException($"Failed to get on attack effects for fighter {template.Name}", e);
         }
 
         AfterAttackEffects = [];
@@ -151,7 +152,7 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
         }
         catch (Exception e)
         {
-            throw new MatchException($"Failed to get initial fighter placement effects for fighter {template.Name}", e);
+            throw new MatchException($"Failed to get after attack effects for fighter {template.Name}", e);
         }
 
         // tokens
@@ -168,6 +169,48 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
         catch (Exception e)
         {
             throw new MatchException($"Failed to get token declarations for fighter {template.Name}", e);
+        }
+
+        GameStartEffects = [];
+        try
+        {
+            var gameStartEffects = LuaUtility.TableGet<LuaTable>(data, "GameStartEffects");
+            foreach (var value in gameStartEffects.Values)
+            {
+                var table = value as LuaTable;
+                // TODO check for null
+                var effects = new EffectCollection(table!);
+                GameStartEffects.Add(effects);
+            }
+        }
+        catch (Exception e)
+        {
+            throw new MatchException($"Failed to get game start effects for fighter {template.Name}", e);
+        }
+
+        MovementNodeConnections = [];
+        try
+        {
+            var movementNodeConnections = LuaUtility.TableGet<LuaTable>(data, "MovementNodeConnections");
+            foreach (var value in movementNodeConnections.Values)
+            {
+                var func = value as LuaFunction;
+                // TODO check for null
+                var effects = new MovementNodeConnection(this, func!);
+                MovementNodeConnections.Add(effects);
+            }
+        }
+        catch (Exception e)
+        {
+            throw new MatchException($"Failed to movement node connections for fighter {template.Name}", e);
+        }
+    }
+    
+    public void ExecuteGameStartEffects()
+    {
+        foreach (var effect in GameStartEffects)
+        {
+            effect.Execute(this, Owner);
         }
     }
 

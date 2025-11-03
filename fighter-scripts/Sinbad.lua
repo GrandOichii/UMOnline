@@ -16,7 +16,7 @@ end
 function _Create()
     return UM.Build:Fighter()
         :ModManoeuvreValue(
-            UM.Select:Fighters():AllYour():FighterPredicate(),
+            UM.Select:Fighters():AllYour():BuildPredicate(),
             UM.Select:CardsInDiscardPile(UM.Player:EffectOwner())
                 :WithLabel('voyage')
                 :Count()

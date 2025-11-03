@@ -6,7 +6,7 @@ function _Create()
     return UM.Build:Fighter()
         :AfterAttack(
             'After you attack, you may move your attacking fighter up to 2 spaces.',
-            UM.Select:Fighters():AllYour():FighterPredicate(),
+            UM.Select:Fighters():AllYour():BuildPredicate(),
             UM.Effects:MoveFighters(
                 UM.Select:Fighters():Your():Build(),
                 UM.Number:UpTo(2),

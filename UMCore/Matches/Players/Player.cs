@@ -378,6 +378,14 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
         }
     }
 
+    public void ExecuteGameStartEffects()
+    {
+        foreach (var fighter in Fighters)
+        {
+            fighter.ExecuteGameStartEffects();
+        }
+    }
+
     public Data GetData(Player player)
     {
         return new()

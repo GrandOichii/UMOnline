@@ -117,6 +117,28 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
 
     #endregion
 
+    private void ExecuteGameStartEffects()
+    {
+        for (int i = 0; i < Players.Count; ++i)
+        {
+            var player = Players[(CurPlayerIdx + i) % Players.Count];
+            player.ExecuteGameStartEffects();
+        }
+    }
+
+    public List<MapNode> GetAdditionalConnectedNodesFor(Fighter fighter, MapNode node)
+    {
+        List<MapNode> result = [];
+        foreach (var f in Fighters)
+        {
+            foreach (var conn in f.MovementNodeConnections)
+            {
+                result.AddRange(conn.GetConnectedNodesFor(fighter, node));
+            }
+        }
+        return result;
+    }
+
     public async Task Run()
     {
         if (!CanRun())
@@ -137,6 +159,7 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
         }
 
         Logs.Public("Match started!");
+        ExecuteGameStartEffects();
 
         while (!IsWinnerDetermined())
         {

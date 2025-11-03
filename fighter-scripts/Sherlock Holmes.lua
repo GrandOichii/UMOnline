@@ -11,7 +11,7 @@ function _Create()
                     card.Template:CanBePlayedBy('Sherlock Holmes') or
                     card.Template:CanBePlayedBy('Dr. Watson')
             end,
-            UM.Select:Players():Opponents():PlayerPredicate()
+            UM.Select:Players():Opponents():BuildPredicate()
         )
     :Build()
 end

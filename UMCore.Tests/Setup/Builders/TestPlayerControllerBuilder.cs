@@ -461,6 +461,20 @@ public class TestPlayerControllerBuilder
 
         public class Asserts(Player player, UMCore.Matches.Path[] options, string hint)
         {
+            public Asserts CanReachNodeWithId(int id)
+            {
+                // options.Any(p => p.Nodes.FirstOrDefault(n => n.Id == id) is not null).ShouldBeTrue();
+                options.Any(p => p.Nodes.Last().Id == id).ShouldBeTrue();
+
+                return this;
+            }
+
+            public Asserts CantReachNodeWithId(int id)
+            {
+                options.Any(p => p.Nodes.FirstOrDefault(n => n.Id == id) is not null).ShouldBeFalse();
+                return this;
+            }
+            
             public Asserts OptionsCount(int amount)
             {
                 options.Length.ShouldBe(amount);

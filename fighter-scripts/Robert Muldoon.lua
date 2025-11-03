@@ -1,15 +1,11 @@
 
 function _Create()
-    local nodeFilter = UM.Select:Nodes()
+    local nodeFilter = function ()
+        return UM.Select:Nodes()
         :Unoccupied()
-        :InZoneOfFighter(
-            UM.Select:Fighters()
-                :Named('Robert Muldoon')
-                :BuildOne()
-        )
+        :InZoneOfFighter(UM.Fighter:Named('Robert Muldoon'))
         :WithNoToken('Trap')
-        :Single()
-        :Build()
+    end
 
     local onStepEffect = {
         [1] = UM.Effects:CancelCurrentMovement(),
@@ -28,13 +24,15 @@ function _Create()
             UM.Effects:If(
                 UM.Conditions:And(
                     UM.Conditions:TokensLeft('Trap'),
-                    UM.Conditions:CountGte(nodeFilter, 1)
+                    UM.Conditions:CountGte(nodeFilter():Build(), 1)
                 ),
                 UM.Effects:Optional(
                     'Place a trap token?',
-                    UM.Effects:PlaceToken(
+                    UM.Effects:PlaceTokens(
                         'Trap',
-                        nodeFilter
+                        nodeFilter()
+                            :Single()
+                            :Build()
                     )
                 )
             )
@@ -53,12 +51,12 @@ function _Create()
                 )
                 :OnStep(
                     'When an opposing fighter steps onto a Trap, deal 1 damage to them and stop their movement. Remove the trap from the board',
-                    UM.Select:Fighters():Opposing():FighterPredicate(),
+                    UM.Select:Fighters():Opposing():BuildPredicate(),
                     table.unpack(onStepEffect)
                 )
                 :OnStep(
                     'When a friendly fighter steps onto a Trap, you may deal 1 damage to them and stop their movement. If you do, Remove the trap from the board',
-                    UM.Select:Fighters():Friendly():FighterPredicate(),
+                    UM.Select:Fighters():Friendly():BuildPredicate(),
                     UM.Effects:Optional(
                         'Trigger trap on friendly fighter?',
                         table.unpack(onStepEffect)

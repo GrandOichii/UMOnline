@@ -45,6 +45,12 @@ function UM.Fighter:Defender()
     end
 end
 
+function UM.Fighter:Named(name)
+    return UM.Select:Fighters()
+        :Named(name)
+        :BuildOne()
+end
+
 -- Single token
 
 UM.Token = {}
@@ -176,6 +182,8 @@ function UM.Build:Fighter()
     result.manoeuvreValueMods = {}
     result.onAttackEffects = {}
     result.afterAttackEffects = {}
+    result.gameStartEffects = {}
+    result.movementNodeConnections = {}
     result.tokens = {}
 
     function result:ForbidEffectCancelling(cardPredicate, playerPredicate)
@@ -231,11 +239,41 @@ function UM.Build:Fighter()
         return result
     end
 
+    function result:ConnectNodesForMovement(fighterPred, fromNodePred, manyNodesTo)
+        result.movementNodeConnections[#result.movementNodeConnections+1] = function (args, fighter, node)
+            if not fighterPred(args, fighter) then
+                return {}
+            end
+            if not fromNodePred(args, node) then
+                return {}
+            end
+            local nodes = manyNodesTo(args)
+            local resultNodes = {}
+            for _, n in ipairs(nodes) do
+                if n ~= node then
+                    resultNodes[#resultNodes+1] = n
+                end
+            end
+            return resultNodes
+        end
+
+        return result
+    end
+
     function result:WhenPlaced(text, ...)
         result.whenPlaced[#result.whenPlaced+1] = {
             text = text,
             effects = {...}
         }
+        return result
+    end
+
+    function result:AtTheStartOfTheGame(text, ...)
+        result.gameStartEffects[#result.gameStartEffects+1] = {
+            text = text,
+            effects = {...}
+        }
+
         return result
     end
 
@@ -256,10 +294,6 @@ function UM.Build:Fighter()
         return result:AddTurnPhaseEffects(UM.TurnPhaseTriggers.END, text, {...})
     end
 
-    -- function result:DefinePlayerAttribute()
-        
-    -- end
-
     function result:Build()
         local fighter = {
             TurnPhaseEffects = result.turnPhaseEffects,
@@ -269,6 +303,8 @@ function UM.Build:Fighter()
             OnAttackEffects = result.onAttackEffects,
             AfterAttackEffects = result.afterAttackEffects,
             Tokens = result.tokens,
+            GameStartEffects = result.gameStartEffects,
+            MovementNodeConnections = result.movementNodeConnections
         }
         return fighter
     end
@@ -326,7 +362,6 @@ function UM.Number:Static(v)
     })
 end
 
-
 function UM.Number:UpTo(max)
     local values = {}
     for i = 1, max do
@@ -382,6 +417,19 @@ end
 -- Conditions
 
 UM.Conditions = {}
+
+function UM.Conditions:FighterStandsOnNode(singleFighter, manyNodes)
+    return function (args)
+        local fighter = singleFighter(args)
+        local nodes = manyNodes(args)
+        for _, node in ipairs(nodes) do
+            if node.Fighter == fighter then
+                return true
+            end
+        end
+        return false
+    end
+end
 
 function UM.Conditions:PlayerAttributeEqualTo(attrKey, attrValue)
     return function (args)
@@ -456,11 +504,14 @@ function UM.Mod.Cards:_(numeric, boostsAttackCards, boostsDefenseCards)
     return function (args, combatCard, result)
         local amount = numeric:Last(args)
         if not boostsAttackCards and not combatCard.IsDefence then
+            LogPublic('CANT A')
             return result
         end
         if not boostsDefenseCards and combatCard.IsDefence then
+            LogPublic('CANT B')
             return result
         end
+        LogPublic('YES')
         return result + amount
     end
 end
@@ -650,17 +701,15 @@ function UM.Effects:ImpossibleToSee()
     -- TODO
 end
 
-function UM.Effects:PlaceToken(tokenName, manyNodes)
+function UM.Effects:PlaceTokens(tokenName, manyNodes)
     return function (args)
         assert(IsTokenDefined(tokenName), 'Tried to place an undefined token: '..tokenName)
 
-        local options = manyNodes(args)
-        if #options == 0 then
-            return
-        end
+        local nodes = manyNodes(args, 'Choose where to place a '..tokenName..' token')
 
-        local node = ChooseNode(args.owner, options, 'Choose where to place a '..tokenName..' token')
-        PlaceToken(node, tokenName)
+        for _, node in ipairs(nodes) do
+            PlaceToken(node, tokenName)
+        end
     end
 end
 
@@ -744,6 +793,7 @@ function UM.Select:Fighters()
 
     result.filters = {}
     result.single = false
+    result.chooseHint = 'Choose a fighter'
 
     -- function result:OwnedBy(playerFunc)
     --     result.filters[#result.filters+1] = function (args, fighter)
@@ -854,14 +904,6 @@ function UM.Select:Fighters()
         end)
     end
 
-    -- function result:NotOwnedBy(playerFunc)
-    --     result.filters[#result.filters+1] = function (args, fighter)
-    --         return fighter.Owner.Idx ~= playerFunc(args).Idx
-    --     end
-
-    --     return result
-    -- end
-
     function result:OpposingTo(playerFunc)
         result.filters[#result.filters+1] = function (args, fighter)
             return IsOpposingTo(fighter, playerFunc(args))
@@ -881,7 +923,7 @@ function UM.Select:Fighters()
     function result:Opposing()
         return result:OpposingTo(UM.Player:EffectOwner())
     end
-    
+
     function result:Friendly()
         return result:FriendlyTo(UM.Player:EffectOwner())
     end
@@ -916,7 +958,7 @@ function UM.Select:Fighters()
             local fighter = fighters[1]
 
             if #fighters > 1 then
-                fighter = ChooseFighter(args.owner, fighters, 'Choose a fighter')
+                fighter = ChooseFighter(args.owner, fighters, result.chooseHint)
             end
 
             fighters = {
@@ -929,12 +971,13 @@ function UM.Select:Fighters()
     end
 
     function result:Build()
-        return function (args)
+        return function (args, chooseHint)
+            result.chooseHint = chooseHint or result.chooseHint
             return result:_Select(args)
         end
     end
 
-    function result:FighterPredicate()
+    function result:BuildPredicate()
         return function (args, fighter)
             local fighters = result:_Select(args)
             for _, v in ipairs(fighters) do
@@ -1061,7 +1104,7 @@ function UM.Select:Players()
         end
     end
 
-    function result:PlayerPredicate()
+    function result:BuildPredicate()
         return function (args, player)
             local players = result:_Select(args)
             for _, v in ipairs(players) do
@@ -1082,6 +1125,7 @@ function UM.Select:Nodes()
 
     result.filters = {}
     result.single = false
+    result.chooseHint = 'Choose a node'
 
     function result:_Select(args)
         local allNodes = GetNodes()
@@ -1106,7 +1150,7 @@ function UM.Select:Nodes()
             local node = nodes[1]
 
             if #nodes > 1 then
-                node = ChooseNode(args.owner, nodes, 'Choose a node')
+                node = ChooseNode(args.owner, nodes, result.chooseHint)
             end
 
             nodes = {
@@ -1138,13 +1182,19 @@ function UM.Select:Nodes()
 
     function result:WithNoToken(tokenName)
         return result:_Add(function (args, node)
-            -- TODO
-            return true
+            return not NodeContainsToken(node, tokenName)
+        end)
+    end
+
+    function result:WithToken(tokenName)
+        return result:_Add(function (args, node)
+            return NodeContainsToken(node, tokenName)
         end)
     end
 
     function result:Build()
-        return function (args)
+        return function (args, chooseHint)
+            result.chooseHint = chooseHint or result.chooseHint
             return result:_Select(args)
         end
     end
@@ -1153,6 +1203,18 @@ function UM.Select:Nodes()
         result.single = true
 
         return result
+    end
+
+    function result:BuildPredicate()
+        return function (args, node)
+            local nodes = result:_Select(args)
+            for _, v in ipairs(nodes) do
+                if v == node then
+                    return true
+                end
+            end
+            return false
+        end
     end
 
     return result

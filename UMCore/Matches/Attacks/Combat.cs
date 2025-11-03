@@ -48,7 +48,6 @@ public class CombatPart : IHasData<CombatPart.Data>
         EffectsCancelled = true;
         Parent.Match.Logs.Public($"Effects of card {Card.FormattedLogName} are cancelled");
 
-
         await DiscardBoostCards();
     }
 

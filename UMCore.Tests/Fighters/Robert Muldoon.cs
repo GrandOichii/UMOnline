@@ -17,10 +17,11 @@ public class RobertMuldoon
 
         var mapTemplate = new MapTemplateBuilder()
             .AddNode(0, [0], spawnNumber: 1)
-            .AddNode(1, [0])
-            .AddNode(2, [0])
-            .AddNode(3, [0])
+            .AddNode(1, [0]) // worker 1
+            .AddNode(2, [0]) // worker 2
+            .AddNode(3, [0]) // worker 3
             .AddNode(4, [0])
+            .AddNode(6, [0])
             .AddNode(5, [0], spawnNumber: 2)
             .ConnectAllAsLine()
             .Build();
@@ -43,7 +44,7 @@ public class RobertMuldoon
                     .WithId(1)
                     .WithId(2)
                     .WithId(3)
-                    .WithId(4) // trap
+                    .WithId(4)
                 )
                 .Build(),
             GetLoadoutBuilder()
@@ -348,6 +349,7 @@ public class RobertMuldoon
             .AddNode(1, [0]) // worker
             .AddNode(2, [0]) // worker
             .AddNode(3, [0]) // worker
+            .AddNode(6, [0])
             .AddNode(4, [0]) // trap
             .AddNode(5, [0], spawnNumber: 2)
             .ConnectAllAsLine()
@@ -447,6 +449,7 @@ public class RobertMuldoon
             .AddNode(1, [0]) // worker
             .AddNode(2, [0]) // worker
             .AddNode(3, [0]) // worker
+            .AddNode(7, [0])
             .AddNode(4, [0]) // trap
             .AddNode(5, [0]) // bar
             .AddNode(6, [0], spawnNumber: 2)
@@ -546,6 +549,7 @@ public class RobertMuldoon
             .Build();
 
         var mapTemplate = new MapTemplateBuilder()
+            .AddNode(6, [0])
             .AddNode(1, [0]) // worker
             .AddNode(2, [0]) // worker
             .AddNode(3, [0]) // worker
@@ -636,6 +640,7 @@ public class RobertMuldoon
             .Build();
 
         var mapTemplate = new MapTemplateBuilder()
+            .AddNode(6, [0])
             .AddNode(1, [0]) // worker
             .AddNode(2, [0]) // worker
             .AddNode(0, [0], spawnNumber: 1)
@@ -726,6 +731,7 @@ public class RobertMuldoon
             .Build();
 
         var mapTemplate = new MapTemplateBuilder()
+            .AddNode(6, [0])
             .AddNode(1, [0]) // worker
             .AddNode(2, [0]) // worker
             .AddNode(3, [0]) // worker
@@ -816,6 +822,7 @@ public class RobertMuldoon
             .Build();
 
         var mapTemplate = new MapTemplateBuilder()
+            .AddNode(6, [0])
             .AddNode(1, [0]) // worker
             .AddNode(2, [0]) // worker
             .AddNode(0, [0], spawnNumber: 1)
