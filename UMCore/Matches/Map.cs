@@ -89,8 +89,11 @@ public class Map : IHasData<Map.Data>
 
     public MapNode GetFighterLocation(Fighter fighter)
     {
-        var result = GetFighterLocationOrDefault(fighter)
-            ?? throw new Exception($"Failed to find fighter {fighter.LogName}");
+        var result = GetFighterLocationOrDefault(fighter);
+        if (result is null)
+        {
+            throw new Exception($"Failed to find fighter {fighter.LogName}");
+        }
         return result;
     }
 
@@ -261,8 +264,8 @@ public class MapNode : IHasData<MapNode.Data>
         HashSet<MapNode> processed
     )
     {
-        if (processed.Contains(this)) return [];
-        processed.Add(this);
+        // if (processed.Contains(this)) return [];
+        // processed.Add(this);
 
         var canStepOver = CanStepOver(fighter, canMoveOverFriendly, canMoveOverOpposing);
         var isOccupied = Fighter is not null && Fighter != fighter;
@@ -303,7 +306,7 @@ public class MapNode : IHasData<MapNode.Data>
         }
 
         foreach (var path in result)
-            path.Nodes.Add(this);
+            path.Nodes.Insert(0, this);
 
         return result;
     }

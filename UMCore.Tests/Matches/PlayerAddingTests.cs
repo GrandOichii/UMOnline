@@ -280,10 +280,10 @@ public class MovementTests
     [Theory]
     [InlineData(0, 1)]
     [InlineData(1, 2)]
-    [InlineData(2, 3)]
-    [InlineData(3, 4)]
-    [InlineData(4, 4)]
-    [InlineData(5, 4)]
+    [InlineData(2, 4)]
+    [InlineData(3, 7)]
+    [InlineData(4, 12)]
+    [InlineData(5, 20)]
     public async Task LineMovementTests(int fighterMovement, int expectedPathsCount)
     {
         // Arrange
@@ -358,10 +358,10 @@ public class MovementTests
     [Theory]
     [InlineData(0, 1)]
     [InlineData(1, 2)]
-    [InlineData(2, 3)]
-    [InlineData(3, 4)]
-    [InlineData(4, 4)]
-    [InlineData(5, 4)]
+    [InlineData(2, 4)]
+    [InlineData(3, 7)]
+    [InlineData(4, 12)]
+    [InlineData(5, 20)]
     public async Task LineMovementWithBoostTests(int boostValue, int expectedPathsCount)
     {
         // Arrange
@@ -445,10 +445,10 @@ public class MovementTests
     [Theory]
     [InlineData(0, 1)]
     [InlineData(1, 1)]
-    [InlineData(2, 2)]
-    [InlineData(3, 3)]
-    [InlineData(4, 3)]
-    [InlineData(5, 3)]
+    [InlineData(2, 3)]
+    [InlineData(3, 4)]
+    [InlineData(4, 9)]
+    [InlineData(5, 12)]
     public async Task LineMovementWithSidekickTests(int boostValue, int expectedPathsCount)
     {
         // Arrange
@@ -542,9 +542,9 @@ public class MovementTests
     [Theory]
     [InlineData(0, 1)]
     [InlineData(1, 2)]
-    [InlineData(2, 3)]
-    [InlineData(3, 4)]
-    [InlineData(4, 4)]
+    [InlineData(2, 4)]
+    [InlineData(3, 7)]
+    [InlineData(4, 12)]
     public async Task LineWithSecretPassageMovementTests(int fighterMovement, int expectedPathsCount)
     {
         // Arrange

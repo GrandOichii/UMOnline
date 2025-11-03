@@ -17,19 +17,15 @@ public class Movement(Fighter fighter, int movement, bool canMoveOverFriendly, b
             return;
         }
 
-        for (int i = result.Nodes.Count - 2; IsActive && i >= 0; --i)
+        for (int i = 1; IsActive && i < result.Nodes.Count; ++i)
         {
             var node = result.Nodes[i];
-            await node.PlaceFighter(Fighter);
+            // ! i dont like this
+            if (node.Fighter is null)
+            {
+                await node.PlaceFighter(Fighter);
+            }
         }
-        
-        // TODO this doesnt work - if limiting movement to 1, the fighter will not be able to move over friendlies
-        // while (IsActive && movement-- > 0)
-        // {
-        //     var available = Fighter.Owner.Match.Map.GetPossibleMovementResults(Fighter, 1, canMoveOverFriendly, canMoveOverOpposing);
-        //     var result = await Fighter.Owner.Controller.ChooseNode(Fighter.Owner, [.. available], $"Choose where to move {Fighter.LogName} (movement left: {movement + 1})");
-        //     await result.PlaceFighter(Fighter);
-        // }
     }
     
     public void Cancel()

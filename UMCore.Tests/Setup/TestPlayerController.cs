@@ -23,6 +23,7 @@ public class TestPlayerController : IPlayerController
     public delegate (MapNode?, bool) NodeChoice(Player player, MapNode[] options, string hint);
     public delegate (AvailableAttack?, bool) AttackChoice(Player player, AvailableAttack[] options);
     public delegate (string?, bool) StringChoice(Player player, string[] options, string hint);
+    public delegate (UMCore.Matches.Path?, bool) PathChoice(Player player, UMCore.Matches.Path[] options, string hint);
 
     public required Queue<PlayerAction> Actions { get; init; }
     public required Queue<HandCardChoice> HandCardChoices { get; init; }
@@ -30,6 +31,7 @@ public class TestPlayerController : IPlayerController
     public required Queue<NodeChoice> NodeChoices { get; init; }
     public required Queue<AttackChoice> AttackChoices { get; init; }
     public required Queue<StringChoice> StringChoices { get; init; }
+    public required Queue<PathChoice> PathChoices { get; init; }
 
     public bool SetupCalled { get; private set; } = false;
 
@@ -142,6 +144,21 @@ public class TestPlayerController : IPlayerController
         throw new Exception($"No string choices left in queue (player: {player.LogName}, hint: {hint})");
     }
 
+    public Task<UMCore.Matches.Path> ChoosePath(Player player, UMCore.Matches.Path[] options, string hint)
+    {
+        while (PathChoices.Count > 0)
+        {
+            var choice = PathChoices.Dequeue();
+            var (result, isResult) = choice(player, options, hint);
+            if (!isResult) continue;
+            if (result is null) throw new Exception($"Provided null path choice for {nameof(ChooseString)}");
+            return Task.FromResult(result);
+        }
+        
+        throw new Exception($"No path choices left in queue (player: {player.LogName}, hint: {hint})");
+    }
+
+
     public Task Setup(Player player, Match.SetupData setupData)
     {
         SetupCalled = true;
@@ -159,4 +176,5 @@ public class TestPlayerController : IPlayerController
         FighterChoices.Count.ShouldBe(0);
         NodeChoices.Count.ShouldBe(0);       
     }
+
 }

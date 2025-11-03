@@ -20,7 +20,6 @@ HoverColor = Color(0, 1, 0, 0.313726)
 
 [node name="ID" type="Label" parent="."]
 unique_name_in_owner = true
-visible = false
 layout_mode = 0
 offset_left = 15.0
 offset_top = 12.0

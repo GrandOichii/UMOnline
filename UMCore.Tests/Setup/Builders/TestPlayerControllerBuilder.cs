@@ -434,7 +434,7 @@ public class TestPlayerControllerBuilder
         
         public PathChoicesBuilder FirstStopsAtId(int id)
         {
-            return Enqueue((player, options, hint) => (options.First(p => p.Nodes[0].Id == id), true));
+            return Enqueue((player, options, hint) => (options.First(p => p.Nodes.Last().Id == id), true));
         }
 
         public PathChoicesBuilder NTimes(int n, Action<PathChoicesBuilder> action)

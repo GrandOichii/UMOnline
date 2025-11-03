@@ -10,15 +10,15 @@ public class SinbadTests
         .ClearDeck();
 
     [Theory]
-    [InlineData(0, 0, 2)]
-    [InlineData(1, 0, 3)]
-    [InlineData(2, 0, 4)]
-    [InlineData(0, 1, 2)]
-    [InlineData(1, 1, 3)]
-    [InlineData(2, 1, 4)]
-    [InlineData(0, 2, 2)]
-    [InlineData(1, 2, 3)]
-    [InlineData(2, 2, 4)]
+    [InlineData(0, 0, 7)]
+    [InlineData(1, 0, 15)]
+    [InlineData(2, 0, 31)]
+    [InlineData(0, 1, 7)]
+    [InlineData(1, 1, 15)]
+    [InlineData(2, 1, 31)]
+    [InlineData(0, 2, 7)]
+    [InlineData(1, 2, 15)]
+    [InlineData(2, 2, 31)]
     public async Task ManoeuvreValue(int voyageCardsInDiscard, int nonVoyageCardsInDiscard, int expectedMovementValue)
     {
         // Arrange
@@ -73,7 +73,14 @@ public class SinbadTests
                 .ConfigNodeChoices(c => c
                     .WithId(13)
                 )
-                .ConfigPathChoices(c => c.First().First())
+                .ConfigPathChoices(c => c
+                    // TODO assert
+                    .Assert(a => a
+                        .OptionsCount(expectedMovementValue)
+                    )
+                    .First()
+                    .First()
+                )
                 .Build(),
             GetLoadoutBuilder()
                 .ConfigDeck(d => d
