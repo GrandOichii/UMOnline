@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 using Microsoft.Extensions.Logging;
 using UMCore.Matches.Cards;
 using UMCore.Matches.Players;
@@ -53,8 +54,11 @@ public class CombatPart : IHasData<CombatPart.Data>
 
     public bool CanBeCancelled()
     {
-        // TODO check if can be cancelled
-        return Card.HasEffects();
+        if (!Card.HasEffects()) return false;
+
+        // TODO check if can be cancelled (Sherlock Holmes)
+
+        return true;
     }
 
     public async Task DiscardBoostCards()
@@ -223,7 +227,6 @@ public class Combat : IHasData<Combat.Data>
 
     public async Task CancelEffectsOfOpponent(Player player)
     {
-        // TODO this cancels the owners effects, not opponents
         var (card, fighter) = GetCombatPart(player);
         var oppCard = GetOpponent(card);
         if (oppCard is null) return;

@@ -178,6 +178,12 @@ function UM.Build:Fighter()
     result.afterAttackEffects = {}
     result.tokens = {}
 
+    function result:ForbidEffectCancelling(cardPredicate, playerPredicate)
+        -- TODO
+
+        return result
+    end
+
     function result:DeclareToken(tokenName, tokenBehavior)
         result.tokens[tokenName] = tokenBehavior
 
@@ -1037,6 +1043,12 @@ function UM.Select:Players()
         end)
     end
 
+    function result:Opponents()
+        return result:_Add(function (args, player)
+            return AreOpposingPlayers(args.owner, player)
+        end)
+    end
+
     function result:YourOpponent()
         -- TODO combat opponent
 
@@ -1048,6 +1060,19 @@ function UM.Select:Players()
             return result:_Select(args)
         end
     end
+
+    function result:PlayerPredicate()
+        return function (args, player)
+            local players = result:_Select(args)
+            for _, v in ipairs(players) do
+                if v == player then
+                    return true
+                end
+            end
+            return false
+        end
+    end
+
 
     return result
 end
