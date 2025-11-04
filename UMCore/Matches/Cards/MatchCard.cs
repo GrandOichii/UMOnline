@@ -100,6 +100,21 @@ public class MatchCard : IHasData<MatchCard.Data>
                 Template.CanBePlayedBy(fighter.GetName());
     }
 
+    public bool CanBeCancelled()
+    {
+        foreach (var fighter in Owner.Match.Fighters)
+        {
+            foreach (var forbid in fighter.CardCancellingForbids)
+            {
+                if (forbid.Forbids(this))
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
     public IEnumerable<Fighter> GetCanBePlayedBy()
     {
         return Owner.GetAliveFighters().Where(CanBePlayedAsScheme);

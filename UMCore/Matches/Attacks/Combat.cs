@@ -55,9 +55,7 @@ public class CombatPart : IHasData<CombatPart.Data>
     {
         if (!Card.HasEffects()) return false;
 
-        // TODO check if can be cancelled (Sherlock Holmes)
-
-        return true;
+        return Card.CanBeCancelled();
     }
 
     public async Task DiscardBoostCards()

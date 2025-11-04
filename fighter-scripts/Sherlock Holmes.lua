@@ -4,7 +4,7 @@
 
 function _Create()
     return UM.Build:Fighter()
-        :ForbidEffectCancelling(
+        :ForbidCardCancelling(
             -- which cards cant be cancelled?
             function (args, card)
                 return

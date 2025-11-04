@@ -31,6 +31,7 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
     public List<FighterPredicateEffect> AfterAttackEffects { get; }
     public List<EffectCollection> GameStartEffects { get; }
     public List<MovementNodeConnection> MovementNodeConnections { get; }
+    public List<CardCancellingForbid> CardCancellingForbids { get; }
 
     public Fighter(Player owner, FighterTemplate template)
     {
@@ -198,6 +199,23 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
                 // TODO check for null
                 var effects = new MovementNodeConnection(this, func!);
                 MovementNodeConnections.Add(effects);
+            }
+        }
+        catch (Exception e)
+        {
+            throw new MatchException($"Failed to movement node connections for fighter {template.Name}", e);
+        }
+
+        CardCancellingForbids = [];
+        try
+        {
+            var cardCancellingForbids = LuaUtility.TableGet<LuaTable>(data, "CardCancellingForbids");
+            foreach (var value in cardCancellingForbids.Values)
+            {
+                var func = value as LuaFunction;
+                // TODO check for null
+                var effects = new CardCancellingForbid(this, func!);
+                CardCancellingForbids.Add(effects);
             }
         }
         catch (Exception e)

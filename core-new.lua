@@ -184,10 +184,19 @@ function UM.Build:Fighter()
     result.afterAttackEffects = {}
     result.gameStartEffects = {}
     result.movementNodeConnections = {}
+    result.cardCancellingForbids = {}
     result.tokens = {}
 
-    function result:ForbidEffectCancelling(cardPredicate, playerPredicate)
-        -- TODO
+    function result:ForbidCardCancelling(cardPredicate, playerPredicate)
+        result.cardCancellingForbids[#result.cardCancellingForbids+1] = function (args, card, player)
+            if not cardPredicate(args, card) then
+                return false
+            end
+            if not playerPredicate(args, player) then
+                return false
+            end
+            return true
+        end
 
         return result
     end
@@ -304,7 +313,8 @@ function UM.Build:Fighter()
             AfterAttackEffects = result.afterAttackEffects,
             Tokens = result.tokens,
             GameStartEffects = result.gameStartEffects,
-            MovementNodeConnections = result.movementNodeConnections
+            MovementNodeConnections = result.movementNodeConnections,
+            CardCancellingForbids = result.cardCancellingForbids,
         }
         return fighter
     end
