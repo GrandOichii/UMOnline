@@ -4,7 +4,6 @@ namespace UMCore.Tests.Fighters;
 
 public class BigfootTests
 {
-
     private static LoadoutTemplateBuilder GetLoadoutBuilder() => new LoadoutTemplateBuilder("Bigfoot")
         .Load("../../../../.generated/loadouts/Bigfoot/Bigfoot.json")
         .ClearDeck();

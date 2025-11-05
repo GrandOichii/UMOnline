@@ -18,6 +18,7 @@ NAMES = [
     # 'Invisible Man',
     # 'Spike',
     # 'Willow'
+    # 'Angel'
 ]
 
 def format_hero(in_path, out_path):

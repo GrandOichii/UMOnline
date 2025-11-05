@@ -4,9 +4,7 @@ namespace UMCore.Tests.Fighters;
 
 public class AliceTests
 {
-
     private static readonly string SIZE_ATTR = "ALICE_SIZE";
-
 
     private static LoadoutTemplateBuilder GetLoadoutBuilder() => new LoadoutTemplateBuilder("Alice")
         .Load("../../../../.generated/loadouts/Alice/Alice.json")

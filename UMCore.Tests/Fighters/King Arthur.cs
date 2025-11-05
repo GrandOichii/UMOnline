@@ -4,7 +4,6 @@ namespace UMCore.Tests.Fighters;
 
 public class KingArthurTests
 {
-
     private static LoadoutTemplateBuilder GetLoadoutBuilder() => new LoadoutTemplateBuilder("King Arthur")
         .Load("../../../../.generated/loadouts/King Arthur/King Arthur.json")
         .ClearDeck();

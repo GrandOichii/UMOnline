@@ -4,7 +4,6 @@ namespace UMCore.Tests.Fighters;
 
 public class BruceLeeTests
 {
-
     private static LoadoutTemplateBuilder GetLoadoutBuilder() => new LoadoutTemplateBuilder("Bruce Lee")
         .Load("../../../../.generated/loadouts/Bruce Lee/Bruce Lee.json")
         .ClearDeck();

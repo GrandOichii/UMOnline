@@ -332,6 +332,11 @@ public class TestPlayerControllerBuilder
             return Enqueue((player, options) => (options.First(a => a.Fighter.Name == name), true));
         }
 
+        public AttackChoicesBuilder FirstTargetingFighterWithName(string name)
+        {
+            return Enqueue((player, options) => (options.First(a => a.Target.Name == name), true));
+        }
+
         public AttackChoicesBuilder ByFighterInNodeWithId(int nodeId)
         {
             return Enqueue((player, options) => {

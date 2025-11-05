@@ -9,9 +9,9 @@
 [ext_resource type="Texture2D" uid="uid://cwwc0rmaqixgg" path="res://assets/decks/Alice/heroes/Alice.webp" id="4_asmjw"]
 [ext_resource type="Texture2D" uid="uid://daqpy7dbc26ky" path="res://assets/decks/Ancient Leshen/sidekicks/Ancient Leshen_Wolf_1.webp" id="5"]
 [ext_resource type="Texture2D" uid="uid://cmaooogqy8r5b" path="res://assets/decks/Ancient Leshen/sidekicks/Ancient Leshen_Wolf_2.webp" id="6"]
-[ext_resource type="Texture2D" uid="uid://lphv6byhaajq" path="res://assets/decks/Angel/heroes/hero.webp" id="7"]
 [ext_resource type="Texture2D" uid="uid://c0yujsxqtg5c7" path="res://assets/decks/Angel/sidekicks/Angel_Faith_1.webp" id="8"]
 [ext_resource type="Texture2D" uid="uid://er02uyjmhqgd" path="res://assets/decks/Annie Christmas/heroes/hero.webp" id="9"]
+[ext_resource type="Texture2D" uid="uid://r0skeiqiemh3" path="res://assets/decks/Angel/heroes/Angel.webp" id="9_bp8j7"]
 [ext_resource type="Texture2D" uid="uid://b6ihixjeb841t" path="res://assets/decks/Annie Christmas/sidekicks/Annie Christmas_Charlie_1.webp" id="10"]
 [ext_resource type="Texture2D" uid="uid://dw8mnyykhky61" path="res://assets/decks/Beowulf/heroes/hero.webp" id="11"]
 [ext_resource type="Texture2D" uid="uid://bxnlybksdc4fx" path="res://assets/decks/Beowulf/sidekicks/Beowulf_Wiglaf_1.webp" id="12"]
@@ -175,7 +175,7 @@ images = Array[CompressedTexture2D]([ExtResource("5"), ExtResource("6")])
 [sub_resource type="Resource" id="Resource_6"]
 script = ExtResource("1_gr0k2")
 fighter_key = "Angel"
-images = Array[CompressedTexture2D]([ExtResource("7")])
+images = Array[CompressedTexture2D]([ExtResource("9_bp8j7")])
 
 [sub_resource type="Resource" id="Resource_7"]
 script = ExtResource("1_gr0k2")

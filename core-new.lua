@@ -508,6 +508,15 @@ function UM.Conditions:CombatWonBy(playerFunc)
     end
 end
 
+function UM.Conditions:CombatLostBy(playerFunc)
+    return function (args)
+        local combat = GetCombat()
+        -- TODO assert that combat is not null
+        -- TODO assert that combat winner is not null
+        return combat.Winner ~= playerFunc(args)
+    end
+end
+
 function UM.Conditions:CountGte(many, amount)
     return function (args)
         local objs = many(args)
@@ -553,14 +562,11 @@ function UM.Mod.Cards:_(numeric, boostsAttackCards, boostsDefenseCards)
     return function (args, combatCard, result)
         local amount = numeric:Last(args)
         if not boostsAttackCards and not combatCard.IsDefence then
-            LogPublic('CANT A')
             return result
         end
         if not boostsDefenseCards and combatCard.IsDefence then
-            LogPublic('CANT B')
             return result
         end
-        LogPublic('YES')
         return result + amount
     end
 end

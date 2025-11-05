@@ -4,7 +4,6 @@ namespace UMCore.Tests.Fighters;
 
 public class MedusaTests
 {
-
     private static LoadoutTemplateBuilder GetLoadoutBuilder() => new LoadoutTemplateBuilder("Medusa")
         .Load("../../../../.generated/loadouts/Medusa/Medusa.json")
         .ClearDeck();
