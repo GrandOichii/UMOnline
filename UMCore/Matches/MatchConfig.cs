@@ -13,17 +13,45 @@ public class MatchConfig
     public required int ExhaustDamage { get; set; }
     public required int TeamSize { get; set; }
 
-    public static readonly MatchConfig Default = new()
+    public static readonly MatchConfig Testing = new()
     {
         RandomMatch = false, // true
         Seed = 2,
         ActionsPerTurn = 2,
-        InitialHandSize = 5,
+        InitialHandSize = 30,
         ManoeuvreDrawAmount = 1,
         MaxHandSize = 7,
         FirstPlayerIdx = 0, // -1
         RandomFirstPlayer = false, // true
         ExhaustDamage = 2,
         TeamSize = 1,
+    };
+
+    public static readonly MatchConfig Default1x1 = new()
+    {
+        RandomMatch = true,
+        Seed = 0,
+        ActionsPerTurn = 2,
+        InitialHandSize = 5,
+        ManoeuvreDrawAmount = 1,
+        MaxHandSize = 7,
+        FirstPlayerIdx = -1,
+        RandomFirstPlayer = true,
+        ExhaustDamage = 2,
+        TeamSize = 1,
+    };
+
+    public static readonly MatchConfig Default2x2 = new()
+    {
+        RandomMatch = true,
+        Seed = 0,
+        ActionsPerTurn = 2,
+        InitialHandSize = 5,
+        ManoeuvreDrawAmount = 1,
+        MaxHandSize = 7,
+        FirstPlayerIdx = -1,
+        RandomFirstPlayer = true,
+        ExhaustDamage = 2,
+        TeamSize = 2,
     };
 }

@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="FighterImages" load_steps=244 format=3 uid="uid://c7hdo261itl3i"]
+[gd_resource type="Resource" script_class="FighterImages" load_steps=245 format=3 uid="uid://c7hdo261itl3i"]
 
 [ext_resource type="Texture2D" uid="uid://d1yq8wd2avlha" path="res://assets/decks/Achilles/heroes/hero.webp" id="0"]
 [ext_resource type="Texture2D" uid="uid://b06viw813vacw" path="res://assets/decks/Achilles/sidekicks/Achilles_Patroclus_1.webp" id="1"]
@@ -94,6 +94,7 @@
 [ext_resource type="Texture2D" uid="uid://dao5b2yswx5tj" path="res://assets/decks/Robin Hood/sidekicks/Robin Hood_Outlaws_1.webp" id="91"]
 [ext_resource type="Texture2D" uid="uid://wdpffhvdfle8" path="res://assets/decks/Raptors/heroes/Raptors.webp" id="91_asmjw"]
 [ext_resource type="Texture2D" uid="uid://cwrrhl1uynt24" path="res://assets/decks/Robin Hood/sidekicks/Robin Hood_Outlaws_2.webp" id="92"]
+[ext_resource type="Texture2D" uid="uid://csdu0xl3t277d" path="res://assets/decks/Raptors/heroes/raptor1.webp" id="92_6lcy8"]
 [ext_resource type="Texture2D" uid="uid://db3wrm66swwyo" path="res://assets/decks/Robin Hood/heroes/Robin Hood.webp" id="92_asmjw"]
 [ext_resource type="Texture2D" uid="uid://so0o264np002" path="res://assets/decks/Robin Hood/sidekicks/Robin Hood_Outlaws_3.webp" id="93"]
 [ext_resource type="Texture2D" uid="uid://dq5gr35s1osb7" path="res://assets/decks/Robin Hood/sidekicks/Robin Hood_Outlaws_4.webp" id="94"]
@@ -136,7 +137,7 @@
 [ext_resource type="Texture2D" uid="uid://ct0508385rap5" path="res://assets/decks/Yennefer & Triss/sidekicks/Yennefer & Triss_Yennefer_2.webp" id="131"]
 [ext_resource type="Texture2D" uid="uid://b3s4ohtaxtn4e" path="res://assets/decks/Yennenga/heroes/hero.webp" id="132"]
 [ext_resource type="Texture2D" uid="uid://cthn2miomgonv" path="res://assets/decks/Yennenga/sidekicks/Yennenga_Archers_1.webp" id="133"]
-[ext_resource type="Texture2D" uid="uid://biqo2368cfcms" path="res://assets/decks/Yennenga/sidekicks/Yennenga_Archers_2.webp" id="134"]
+[ext_resource type="Texture2D" uid="uid://he563630nl3n" path="res://assets/decks/Yennenga/sidekicks/Yennenga_Archers_Flip.png" id="137_6lcy8"]
 [ext_resource type="Texture2D" uid="uid://co2kut3vi6wuq" path="res://assets/decks/Jekyll & Hyde/heroes/Mr. Hyde.png" id="137_asmjw"]
 
 [sub_resource type="Resource" id="Resource_0"]
@@ -507,7 +508,7 @@ images = Array[CompressedTexture2D]([ExtResource("88")])
 [sub_resource type="Resource" id="Resource_73"]
 script = ExtResource("1_gr0k2")
 fighter_key = "Raptor"
-images = Array[CompressedTexture2D]([ExtResource("91_asmjw")])
+images = Array[CompressedTexture2D]([ExtResource("91_asmjw"), ExtResource("92_6lcy8"), ExtResource("100_asmjw")])
 
 [sub_resource type="Resource" id="Resource_74"]
 script = ExtResource("1_gr0k2")
@@ -657,7 +658,7 @@ images = Array[CompressedTexture2D]([ExtResource("132")])
 [sub_resource type="Resource" id="Resource_103"]
 script = ExtResource("1_gr0k2")
 fighter_key = "Archer"
-images = Array[CompressedTexture2D]([ExtResource("133"), ExtResource("134")])
+images = Array[CompressedTexture2D]([ExtResource("133"), ExtResource("137_6lcy8")])
 
 [sub_resource type="Resource" id="Resource_tpuew"]
 script = ExtResource("1_gr0k2")

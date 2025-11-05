@@ -643,12 +643,22 @@ function UM.Effects:AllowBoost(numeric, optional)
     end
 end
 
-function UM.Effects:DealDamage(manyfighters, numeric)
+function UM.Effects:DealDamage(manyFighters, numeric)
     return function (args)
-        local fighters = manyfighters(args)
+        local fighters = manyFighters(args)
 
         for _, fighter in ipairs(fighters) do
             local amount = numeric:Choose(args, 'Choose how much damage to deal to '..fighter.Name)
+            DealDamage(fighter, amount)
+        end
+    end
+end
+
+function UM.Effects:Recover(manyFighters, amount)
+    return function (args)
+        local fighters = manyFighters(args)
+
+        for _, fighter in ipairs(fighters) do
             DealDamage(fighter, amount)
         end
     end
