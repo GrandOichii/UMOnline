@@ -3,6 +3,7 @@ using System.Text.Json;
 using Microsoft.Extensions.Logging;
 using UMCore.Matches.Attacks;
 using UMCore.Matches.Cards;
+using UMCore.Matches.Tokens;
 
 namespace UMCore.Matches.Players;
 
@@ -22,6 +23,7 @@ public interface IPlayerController
     Task<string> ChooseString(Player player, string[] options, string hint);
     Task<Player> ChoosePlayer(Player player, Player[] options, string hint);
     Task<Path> ChoosePath(Player player, Path[] options, string hint);
+    Task<PlacedToken> ChooseToken(Player player, PlacedToken[] options, string hint);
 }
 
 public class SafePlayerController(IPlayerController controller) : IPlayerController
@@ -132,6 +134,15 @@ public class SafePlayerController(IPlayerController controller) : IPlayerControl
         return result;
     }
 
+    public async Task<PlacedToken> ChooseToken(Player player, PlacedToken[] options, string hint)
+    {
+        var result = await Controller.ChooseToken(player, options, hint);
+        if (!options.Contains(result))
+        {
+            throw new UnsafeChoiceException($"Player {player.LogName} tried to choose {result} for {nameof(ChooseToken)}, which is not one of the options");
+        }
+        return result;
+    }
 
     public Task Setup(Player player, Match.SetupData setupData)
     {
@@ -142,7 +153,6 @@ public class SafePlayerController(IPlayerController controller) : IPlayerControl
     {
         return Controller.Update(player);
     }
-
 }
 
 public class RandomPlayerController(int seed) : IPlayerController
@@ -228,6 +238,11 @@ public class RandomPlayerController(int seed) : IPlayerController
         return Task.FromResult(opts[_rnd.Next(opts.Count)]);
     }
 
+    public Task<PlacedToken> ChooseToken(Player player, PlacedToken[] options, string hint)
+    {
+        var opts = options.ToList();
+        return Task.FromResult(opts[_rnd.Next(opts.Count)]);
+    }
 }
 
 public class DelayedControllerWrapper(TimeSpan delay, IPlayerController controller) : IPlayerController
@@ -303,5 +318,11 @@ public class DelayedControllerWrapper(TimeSpan delay, IPlayerController controll
     {
         await Task.Delay(delay);
         return await controller.ChooseString(player, options, hint);
+    }
+
+    public async Task<PlacedToken> ChooseToken(Player player, PlacedToken[] options, string hint)
+    {
+        await Task.Delay(delay);
+        return await controller.ChooseToken(player, options, hint);
     }
 }

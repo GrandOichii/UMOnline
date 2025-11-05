@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="FighterImages" load_steps=245 format=3 uid="uid://c7hdo261itl3i"]
+[gd_resource type="Resource" script_class="FighterImages" load_steps=246 format=3 uid="uid://c7hdo261itl3i"]
 
 [ext_resource type="Texture2D" uid="uid://d1yq8wd2avlha" path="res://assets/decks/Achilles/heroes/hero.webp" id="0"]
 [ext_resource type="Texture2D" uid="uid://b06viw813vacw" path="res://assets/decks/Achilles/sidekicks/Achilles_Patroclus_1.webp" id="1"]
@@ -92,11 +92,12 @@
 [ext_resource type="Texture2D" uid="uid://fh1knf744dsc" path="res://assets/decks/Philippa/heroes/hero.webp" id="87"]
 [ext_resource type="Texture2D" uid="uid://djrv2h82xl8rk" path="res://assets/decks/Philippa/sidekicks/Philippa_Dijkstra_1.webp" id="88"]
 [ext_resource type="Texture2D" uid="uid://dao5b2yswx5tj" path="res://assets/decks/Robin Hood/sidekicks/Robin Hood_Outlaws_1.webp" id="91"]
-[ext_resource type="Texture2D" uid="uid://wdpffhvdfle8" path="res://assets/decks/Raptors/heroes/Raptors.webp" id="91_asmjw"]
+[ext_resource type="Texture2D" uid="uid://c703fiojnm5ef" path="res://assets/decks/Raptors/heroes/Raptor1.png" id="91_iakbt"]
 [ext_resource type="Texture2D" uid="uid://cwrrhl1uynt24" path="res://assets/decks/Robin Hood/sidekicks/Robin Hood_Outlaws_2.webp" id="92"]
-[ext_resource type="Texture2D" uid="uid://csdu0xl3t277d" path="res://assets/decks/Raptors/heroes/raptor1.webp" id="92_6lcy8"]
 [ext_resource type="Texture2D" uid="uid://db3wrm66swwyo" path="res://assets/decks/Robin Hood/heroes/Robin Hood.webp" id="92_asmjw"]
+[ext_resource type="Texture2D" uid="uid://cfofniarelfox" path="res://assets/decks/Raptors/heroes/Raptor2.png" id="92_bp8j7"]
 [ext_resource type="Texture2D" uid="uid://so0o264np002" path="res://assets/decks/Robin Hood/sidekicks/Robin Hood_Outlaws_3.webp" id="93"]
+[ext_resource type="Texture2D" uid="uid://bcchcnvwkhtsa" path="res://assets/decks/Raptors/heroes/Raptor3.png" id="93_qn3q6"]
 [ext_resource type="Texture2D" uid="uid://dq5gr35s1osb7" path="res://assets/decks/Robin Hood/sidekicks/Robin Hood_Outlaws_4.webp" id="94"]
 [ext_resource type="Texture2D" uid="uid://do1n24711sww6" path="res://assets/decks/She-Hulk/heroes/hero.webp" id="95"]
 [ext_resource type="Texture2D" uid="uid://cxyx483ubuyua" path="res://assets/decks/Sherlock Holmes/sidekicks/Sherlock Holmes_Dr. Watson_1.webp" id="97"]
@@ -104,11 +105,11 @@
 [ext_resource type="Texture2D" uid="uid://bnd00wjgly8fx" path="res://assets/decks/Sinbad/sidekicks/Sinbad_The Porter_1.webp" id="99"]
 [ext_resource type="Texture2D" uid="uid://cwopfl3ffas2q" path="res://assets/decks/Spider-Man/heroes/hero.webp" id="100"]
 [ext_resource type="Texture2D" uid="uid://bbfoc84s34abc" path="res://assets/decks/Sinbad/heroes/Sinbad.webp" id="100_asmjw"]
-[ext_resource type="Texture2D" uid="uid://c56i6us0fvtol" path="res://assets/decks/Spike/heroes/hero.webp" id="101"]
 [ext_resource type="Texture2D" uid="uid://11stdad7w2fs" path="res://assets/decks/Spike/sidekicks/Spike_Drusilla_1.webp" id="102"]
 [ext_resource type="Texture2D" uid="uid://iwux3a3wheq4" path="res://assets/decks/Squirrel Girl/heroes/hero.webp" id="103"]
 [ext_resource type="Texture2D" uid="uid://ilq5rwi00oh6" path="res://assets/decks/Squirrel Girl/sidekicks/Squirrel Girl_Squirrel_1.webp" id="104"]
 [ext_resource type="Texture2D" uid="uid://bqfodrxo82qc2" path="res://assets/decks/Squirrel Girl/sidekicks/Squirrel Girl_Squirrel_2.webp" id="105"]
+[ext_resource type="Texture2D" uid="uid://4dgfdmx1q1h6" path="res://assets/decks/Spike/heroes/Spike.webp" id="105_iakbt"]
 [ext_resource type="Texture2D" uid="uid://cn2ia0ja0giet" path="res://assets/decks/Squirrel Girl/sidekicks/Squirrel Girl_Squirrel_3.webp" id="106"]
 [ext_resource type="Texture2D" uid="uid://bvpnar4i32ga5" path="res://assets/decks/Squirrel Girl/sidekicks/Squirrel Girl_Squirrel_4.webp" id="107"]
 [ext_resource type="Texture2D" uid="uid://dpgtgi4iygkov" path="res://assets/decks/Squirrel Girl/sidekicks/Squirrel Girl_Squirrel_5.webp" id="108"]
@@ -508,7 +509,7 @@ images = Array[CompressedTexture2D]([ExtResource("88")])
 [sub_resource type="Resource" id="Resource_73"]
 script = ExtResource("1_gr0k2")
 fighter_key = "Raptor"
-images = Array[CompressedTexture2D]([ExtResource("91_asmjw"), ExtResource("92_6lcy8"), ExtResource("100_asmjw")])
+images = Array[CompressedTexture2D]([ExtResource("91_iakbt"), ExtResource("92_bp8j7"), ExtResource("93_qn3q6")])
 
 [sub_resource type="Resource" id="Resource_74"]
 script = ExtResource("1_gr0k2")
@@ -553,7 +554,7 @@ images = Array[CompressedTexture2D]([ExtResource("100")])
 [sub_resource type="Resource" id="Resource_82"]
 script = ExtResource("1_gr0k2")
 fighter_key = "Spike"
-images = Array[CompressedTexture2D]([ExtResource("101")])
+images = Array[CompressedTexture2D]([ExtResource("105_iakbt")])
 
 [sub_resource type="Resource" id="Resource_83"]
 script = ExtResource("1_gr0k2")

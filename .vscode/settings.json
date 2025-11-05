@@ -51,6 +51,9 @@
         "NodeContainsToken",
         "FighterStandsOn",
         "IsCardOfCharacter",
-        "SetFighterName"
+        "SetFighterName",
+        "GetFighterNode",
+        "AreNodesAdjacent",
+        "MoveToken"
     ]
 }

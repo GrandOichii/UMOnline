@@ -5,8 +5,9 @@ namespace UMCore.Tests.Asserts;
 
 public class MapNodeAsserts(MapNode node)
 {
-    public MapNodeAsserts HasToken(string tokenName)
+    public MapNodeAsserts HasToken(string tokenName, int amount = 1)
     {
+        node.Tokens.Where(t => t.GetName() == tokenName).Count().ShouldBe(amount);
         node.HasToken(tokenName).ShouldBeTrue();
         return this;
     }

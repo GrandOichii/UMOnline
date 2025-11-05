@@ -414,7 +414,13 @@ function UM.Effects:If(conditionalFunc, effectFunc)
 end
 
 function UM.Effects:IfInstead(conditionalFunc, trueEffectFunc, falseEffectFunc)
-    -- TODO
+    return function (args)
+        if not conditionalFunc(args) then
+            falseEffectFunc(args)
+            return
+        end
+        trueEffectFunc(args)
+    end
 end
 
 function UM.Effects:Optional(hint, ...)
@@ -485,7 +491,6 @@ function UM.Conditions:CountGte(many, amount)
     end
 end
 
-
 function UM.Conditions:Eq(numeric1, numeric2)
     return function (args)
         return numeric1:Last(args) == numeric2:Last(args)
@@ -548,7 +553,7 @@ end
 
 function UM.Effects:Draw(manyPlayers, numeric, optional)
     return function (args)
-        local players = manyPlayers(args)
+        local players = manyPlayers(args, 'Choose a player who will draw the cards')
         if optional then
             local choice = ChooseString(args.owner, {
                 [1] = 'Yes',
@@ -567,7 +572,7 @@ end
 
 function UM.Effects:MoveFighters(manyFighters, numeric, canMoveOverOpposing)
     return function (args)
-        local fighters = manyFighters(args)
+        local fighters = manyFighters(args, 'Choose which fighter to move')
         local amount = numeric:Last(args)
         MoveFighters(args.owner, fighters, amount, canMoveOverOpposing) -- TODO this threw an exception after playing Skirmish and defeating a Harpy
     end
@@ -590,7 +595,7 @@ function UM.Effects:Discard(manyPlayers, fixedNumber, random)
     end
 
     return function (args)
-        local players = manyPlayers(args)
+        local players = manyPlayers(args, 'Choose which player will discard')
         local amount = fixedNumber
 
         for _, player in ipairs(players) do
@@ -645,7 +650,7 @@ end
 
 function UM.Effects:DealDamage(manyFighters, numeric)
     return function (args)
-        local fighters = manyFighters(args)
+        local fighters = manyFighters(args, 'Choose the target fighter for damage')
 
         for _, fighter in ipairs(fighters) do
             local amount = numeric:Choose(args, 'Choose how much damage to deal to '..fighter.Name)
@@ -656,7 +661,7 @@ end
 
 function UM.Effects:Recover(manyFighters, amount)
     return function (args)
-        local fighters = manyFighters(args)
+        local fighters = manyFighters(args, 'Choose which fighter will recover health')
 
         for _, fighter in ipairs(fighters) do
             DealDamage(fighter, amount)
@@ -666,7 +671,7 @@ end
 
 function UM.Effects:PlaceFighter(singleFighter, manySpaces)
     return function (args)
-        local fighter = singleFighter(args)
+        local fighter = singleFighter(args, 'Choose which fighter to place')
         local nodes = manySpaces(args)
         local options = {}
         for _, node in ipairs(nodes) do
@@ -685,16 +690,6 @@ function UM.Effects:PlaceFighter(singleFighter, manySpaces)
     end
 end
 
-function UM.Effects:RecoverHealth(manyFighters, amount)
-    return function (args)
-        local fighters = manyFighters(args)
-
-        for _, fighter in ipairs(fighters) do
-            RecoverHealth(fighter, amount)
-        end
-    end
-end
-
 function UM.Effects:CancelAllEffectsOnOpponentsCard()
     return function (args)
         local player = args.owner
@@ -710,7 +705,7 @@ end
 
 function UM.Effects:RemoveTokens(manyTokens)
     return function (args)
-        local tokens = manyTokens(args)
+        local tokens = manyTokens(args, 'Choose which token to remove')
         for _, token in ipairs(tokens) do
             RemoveToken(token)
         end
@@ -743,10 +738,108 @@ function UM.Effects:PlaceTokens(tokenName, manyNodes)
     end
 end
 
+function UM.Effects:MoveToken(singleToken, singleNode)
+    return function (args)
+        local token = singleToken(args, 'Choose what token to move')
+
+        local node = singleNode(args, 'Choose where to move the '..token.Original.Name..' token')
+
+        MoveToken(token, node)
+    end
+end
+
 
 -- entity selectors
 
 UM.Select = {}
+
+function UM.Select:_Base(getAllFunc, chooseSingleFunc)
+    local result = {}
+
+    result.filters = {}
+    result.single = false
+    result.chooseHint = 'Choose'
+
+    function result:_Add(filter)
+        result.filters[#result.filters+1] = filter
+
+        return result
+    end
+
+    function result:Single()
+        result.single = true
+        return result
+    end
+
+    function result:_Select(args)
+        local all = getAllFunc()
+        local objs = {}
+
+        local filterFunc = function (obj)
+            for _, filter in ipairs(result.filters) do
+                if not filter(args, obj) then
+                    return false
+                end
+            end
+            return true
+        end
+
+        for _, obj in ipairs(all) do
+            if filterFunc(obj) then
+                objs[#objs+1] = obj
+            end
+        end
+
+        -- TODO check for 0
+
+        if result.single then
+            local obj = objs[1]
+
+            if #objs > 1 then
+                obj = chooseSingleFunc(args.owner, objs, result.chooseHint)
+            end
+
+            objs = {
+                [1] = obj
+            }
+
+        end
+
+        return objs
+    end
+
+    function result:Build()
+        return function (args, chooseHint)
+            result.chooseHint = chooseHint or result.chooseHint
+            return result:_Select(args)
+        end
+    end
+
+    function result:BuildPredicate()
+        return function (args, obj)
+            local fighters = result:_Select(args)
+            for _, v in ipairs(fighters) do
+                if v == obj then
+                    return true
+                end
+            end
+            return false
+        end
+    end
+
+    function result:BuildOne()
+        result.single = true
+        -- TODO? cache result
+        return function (args, chooseHint)
+            result.chooseHint = chooseHint or result.chooseHint
+            local objs = result:_Select(args)
+            -- TODO what if no objs
+            return objs[1]
+        end
+    end
+
+    return result
+end
 
 function UM.Select:CardsInDiscardPile(ofPlayer)
     local result = {}
@@ -819,25 +912,7 @@ function UM.Select:CardsInDiscardPile(ofPlayer)
 end
 
 function UM.Select:Fighters()
-    local result = {}
-
-    result.filters = {}
-    result.single = false
-    result.chooseHint = 'Choose a fighter'
-
-    -- function result:OwnedBy(playerFunc)
-    --     result.filters[#result.filters+1] = function (args, fighter)
-    --         return fighter.Owner.Idx == playerFunc(args).Idx
-    --     end
-
-    --     return result
-    -- end
-
-    function result:_Add(filter)
-        result.filters[#result.filters+1] = filter
-
-        return result
-    end
+    local result = UM.Select:_Base(GetFighters, ChooseFighter)
 
     function result:OwnedBy(playerFunc)
         result.filters[#result.filters+1] = function (args, fighter)
@@ -858,9 +933,15 @@ function UM.Select:Fighters()
         end)
     end
 
-    function result:Named(name)
+    function result:Named(...)
+        local names = {...}
         result.filters[#result.filters+1] = function (args, fighter)
-            return IsCalled(fighter, name)
+            for _, name in ipairs(names) do
+                if IsCalled(fighter, name) then
+                    return true
+                end
+            end
+            return false
         end
 
         return result
@@ -958,77 +1039,6 @@ function UM.Select:Fighters()
         return result:FriendlyTo(UM.Player:EffectOwner())
     end
 
-    function result:Single()
-        result.single = true
-        return result
-    end
-
-    function result:_Select(args)
-        local allFighters = GetFighters()
-        local fighters = {}
-
-        local filterFunc = function (fighter)
-            for _, filter in ipairs(result.filters) do
-                if not filter(args, fighter) then
-                    return false
-                end
-            end
-            return true
-        end
-
-        for _, fighter in ipairs(allFighters) do
-            if filterFunc(fighter) then
-                fighters[#fighters+1] = fighter
-            end
-        end
-
-        -- TODO check for 0
-
-        if result.single then
-            local fighter = fighters[1]
-
-            if #fighters > 1 then
-                fighter = ChooseFighter(args.owner, fighters, result.chooseHint)
-            end
-
-            fighters = {
-                [1] = fighter
-            }
-
-        end
-
-        return fighters
-    end
-
-    function result:Build()
-        return function (args, chooseHint)
-            result.chooseHint = chooseHint or result.chooseHint
-            return result:_Select(args)
-        end
-    end
-
-    function result:BuildPredicate()
-        return function (args, fighter)
-            local fighters = result:_Select(args)
-            for _, v in ipairs(fighters) do
-                if v == fighter then
-                    return true
-                end
-            end
-            return false
-        end
-    end
-
-    function result:BuildOne()
-        result.single = true
-        -- TODO? cache result
-        return function (args)
-            local fighters = result:_Select(args)
-            -- TODO what if no fighters
-            return fighters[1]
-        end
-    end
-
     function result:YourFighter()
         -- TODO
 
@@ -1039,7 +1049,7 @@ function UM.Select:Fighters()
 end
 
 function UM.Select:Players()
-    local result = {}
+    local result = UM.Select:_Base(GetPlayers, ChoosePlayer)
 
     result.filters = {}
     result.single = false
@@ -1051,64 +1061,6 @@ function UM.Select:Players()
     --     end
     --     return result
     -- end
-
-    function result:_Select(args)
-        local allPlayers = GetPlayers()
-        local players = {}
-
-        local filterFunc = function (player)
-            for _, filter in ipairs(result.filters) do
-                if not filter(args, player) then
-                    return false
-                end
-            end
-            return true
-        end
-
-        for _, player in ipairs(allPlayers) do
-            if filterFunc(player) then
-                players[#players+1] = player
-            end
-        end
-
-        if result.single then
-            local player = players[1]
-
-            if #players > 1 then
-                player = ChoosePlayer(args.owner, players, 'Choose a player')
-            end
-
-            players = {
-                [1] = player
-            }
-
-        end
-
-        return players
-    end
-
-    -- function result:BuildOne()
-    --     return function (args)
-    --         -- TODO is this the right way
-    --         local options = result:_Select(args)
-    --         local player = options[1]
-    --         -- if #options > 1 then
-    --         --     fighter = ChooseFighter(args.owner, options, 'Choose a single fighter')
-    --         -- end
-    --         return player
-    --     end
-    -- end
-
-    -- function result:Single()
-    --     result.single = true
-    --     return result
-    -- end
-
-    function result:_Add(filter)
-        result.filters[#result.filters+1] = filter
-
-        return result
-    end
 
     function result:You()
         return result:_Add(function (args, player)
@@ -1128,75 +1080,11 @@ function UM.Select:Players()
         return result
     end
 
-    function result:Build()
-        return function (args)
-            return result:_Select(args)
-        end
-    end
-
-    function result:BuildPredicate()
-        return function (args, player)
-            local players = result:_Select(args)
-            for _, v in ipairs(players) do
-                if v == player then
-                    return true
-                end
-            end
-            return false
-        end
-    end
-
-
     return result
 end
 
 function UM.Select:Nodes()
-    local result = {}
-
-    result.filters = {}
-    result.single = false
-    result.chooseHint = 'Choose a node'
-
-    function result:_Select(args)
-        local allNodes = GetNodes()
-        local nodes = {}
-
-        local filterFunc = function (node)
-            for _, filter in ipairs(result.filters) do
-                if not filter(args, node) then
-                    return false
-                end
-            end
-            return true
-        end
-
-        for _, node in ipairs(allNodes) do
-            if filterFunc(node) then
-                nodes[#nodes+1] = node
-            end
-        end
-
-        if result.single then
-            local node = nodes[1]
-
-            if #nodes > 1 then
-                node = ChooseNode(args.owner, nodes, result.chooseHint)
-            end
-
-            nodes = {
-                [1] = node
-            }
-
-        end
-
-        return nodes
-    end
-
-    function result:_Add(filter)
-        result.filters[#result.filters+1] = filter
-
-        return result
-    end
+    local result = UM.Select:_Base(GetNodes, ChooseNode)
 
     function result:Unoccupied()
         return result:_Add(function (args, node)
@@ -1222,82 +1110,24 @@ function UM.Select:Nodes()
         end)
     end
 
-    function result:Build()
-        return function (args, chooseHint)
-            result.chooseHint = chooseHint or result.chooseHint
-            return result:_Select(args)
-        end
-    end
-
-    function result:Single()
-        result.single = true
-
-        return result
-    end
-
-    function result:BuildPredicate()
-        return function (args, node)
-            local nodes = result:_Select(args)
-            for _, v in ipairs(nodes) do
-                if v == node then
+    function result:AdjacentToFighters(manyFighters)
+        return result:_Add(function (args, node)
+            local fighters = manyFighters(args)
+            for _, fighter in ipairs(fighters) do
+                local fighterNode = GetFighterNode(fighter)
+                if AreNodesAdjacent(fighterNode, node) then
                     return true
                 end
             end
             return false
-        end
+        end)
     end
 
     return result
 end
 
 function UM.Select:Tokens()
-    local result = {}
-
-    result.filters = {}
-    result.single = false
-
-    function result:_Select(args)
-        local allTokens = GetTokens()
-        local tokens = {}
-
-        local filterFunc = function (token)
-            for _, filter in ipairs(result.filters) do
-                if not filter(args, token) then
-                    return false
-                end
-            end
-            return true
-        end
-
-        for _, token in ipairs(allTokens) do
-            if filterFunc(token) then
-                tokens[#tokens+1] = token
-            end
-        end
-
-        if result.single then
-            local token = tokens[1]
-
-            if #tokens > 1 then
-                token = ChooseToken(args.owner, tokens, 'Choose a token')
-            end
-
-            tokens = {
-                [1] = token
-            }
-
-        end
-
-        return tokens
-    end
-
-    function result:_Add(filter)
-        result.filters[#result.filters+1] = filter
-
-        return result
-    end
-
-    -- TODO filters
+    local result = UM.Select:_Base(GetTokens, ChooseToken)
 
     function result:Only(singleToken)
         return result:_Add(function (args, token)
@@ -1305,18 +1135,12 @@ function UM.Select:Tokens()
         end)
     end
 
-    function result:Build()
-        return function (args)
-            return result:_Select(args)
-        end
+    function result:Named(name)
+        return result:_Add(function (args, token)
+            return token.Original.Name == name
+        end)
     end
 
-    function result:Single()
-        result.single = true
-
-        return result
-    end
-    
     return result
 end
 

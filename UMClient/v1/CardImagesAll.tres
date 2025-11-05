@@ -3658,7 +3658,7 @@ image = ExtResource("580")
 
 [sub_resource type="Resource" id="Resource_581"]
 script = ExtResource("1_bskbv")
-card_key = "Spike_Bloody Hell"
+card_key = "Spike_Bloody Hell!"
 image = ExtResource("581")
 
 [sub_resource type="Resource" id="Resource_582"]

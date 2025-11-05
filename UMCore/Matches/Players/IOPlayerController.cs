@@ -4,6 +4,7 @@ using UMCore.Matches;
 using UMCore.Matches.Attacks;
 using UMCore.Matches.Cards;
 using UMCore.Matches.Players;
+using UMCore.Matches.Tokens;
 
 namespace UMCore;
 
@@ -297,48 +298,11 @@ public class IOPlayerController : IPlayerController
 
     public async Task<Matches.Path> ChoosePath(Player player, Matches.Path[] options, string hint)
     {
-        // TODO works for now, remove later
         MapNode[] nodes = [.. options.Select(p => p.Nodes.Last()).ToHashSet()];
 
         var target = await ChooseNode(player, nodes, $"{hint} (path will be chosen at random)");
         var path = options.First(p => p.Nodes.Last() == target);
         return path;
-        // List<Matches.Path> paths = [.. options];
-
-        // if (paths.Count == 0)
-        //     throw new Exception($"Provided no paths for {nameof(ChoosePath)}");
-
-        // MapNode? lastNode = null;
-        // int step = 1;
-        // while (paths.Count > 1)
-        // {
-        //     foreach (var path in paths)
-        //     {
-        //         player.Match.Logger?.LogDebug("{A}", string.Join(" -> ", path.Nodes.Select(n => n.Id)));
-        //     }
-        //     player.Match.Logger?.LogDebug("-========-");
-        //     var nodeOptions = GetNodeOptions();
-        //     var node = await ChooseNode(player, nodeOptions, $"Choose node for movement (paths left: {paths.Count})");
-        //     if (node == paths[0].Nodes[0]) return paths[0];
-        //     int removed = paths.RemoveAll(p => p.Nodes.Count <= step || p.Nodes[step] != node);
-        //     player.Match.Logger?.LogDebug("Removed {A}", removed);
-
-        //     ++step;
-        // }
-
-        // return paths[0];
-
-        // MapNode[] GetNodeOptions()
-        // {
-        //     HashSet<MapNode> result = [];
-        //     if (lastNode is not null) result.Add(lastNode);
-        //     foreach (var path in paths)
-        //     {
-        //         if (path.Nodes.Count <= step) continue;
-        //         result.Add(path.Nodes[step]);
-        //     }
-        //     return [.. result];
-        // }
 
         // TODO replace with this
 
@@ -356,5 +320,28 @@ public class IOPlayerController : IPlayerController
 
         // return options.ToList()[idx];
     }
-        
+
+    public async Task<PlacedToken> ChooseToken(Player player, PlacedToken[] options, string hint)
+    {
+        MapNode[] nodeOptions = [.. options.Select(t => t.Node).ToHashSet()];
+
+        var choice = await ChooseNode(player, nodeOptions, hint);
+
+        return options.First(t => t.Node == choice);
+
+        // TODO replace with this
+        // await WriteData(new() {
+        //     PlayerIdx = player.Idx,
+        //     Match = player.Match.GetData(player),
+        //     NewLogs = PopLogs(),
+        //     NewEvents = PopEvents(),
+        //     Request = "ChooseToken",
+        //     Hint = hint,
+        //     Args = ToArgs(options),
+        // });
+
+        // var idx = int.Parse(await _handler.Read());
+
+        // return options.ToList()[idx];
+    }
 }

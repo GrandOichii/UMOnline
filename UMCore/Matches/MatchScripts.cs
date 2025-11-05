@@ -345,14 +345,12 @@ public class MatchScripts
     }
 
     [LuaCommand]
-    public MapNode ChooseToken(Player player, LuaTable nodes, string hint)
+    public PlacedToken ChooseToken(Player player, LuaTable tokens, string hint)
     {
-        // TODO
-        throw new NotImplementedException();
-        // var options = LuaUtility.ParseTable<MapNode>(nodes);
-        // var result = player.Controller.ChooseNode(player, [.. options], hint)
-        //     .GetAwaiter().GetResult();
-        // return result;
+        var options = LuaUtility.ParseTable<PlacedToken>(tokens);
+        var result = player.Controller.ChooseToken(player, [.. options], hint)
+            .GetAwaiter().GetResult();
+        return result;
     }
 
     [LuaCommand]
@@ -422,5 +420,24 @@ public class MatchScripts
     public void SetFighterName(Fighter fighter, string name)
     {
         fighter.SetName(name);
+    }
+
+    [LuaCommand]
+    public MapNode? GetFighterNode(Fighter fighter)
+    {
+        return Match.Map.GetFighterLocationOrDefault(fighter);
+    }
+
+    [LuaCommand]
+    public bool AreNodesAdjacent(MapNode node1, MapNode node2)
+    {
+        return node1.IsAdjecentTo(node2);
+    }
+
+    [LuaCommand]
+    public void MoveToken(PlacedToken token, MapNode node)
+    {
+        token.MoveTo(node)
+            .Wait();
     }
 }

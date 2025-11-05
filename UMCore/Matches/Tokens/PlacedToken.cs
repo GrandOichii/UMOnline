@@ -3,7 +3,7 @@ namespace UMCore.Matches.Tokens;
 public class PlacedToken
 {
     public Token Original { get; }
-    public MapNode Node { get; }
+    public MapNode Node { get; private set; }
 
     public PlacedToken(Token original, MapNode node)
     {
@@ -43,5 +43,12 @@ public class PlacedToken
             effect.Execute(Original.Originator, Original.Originator.Owner, this); // TODO? set fighter to null
         }
         await Node.Parent.Match.UpdateClients();
+    }
+
+    public async Task MoveTo(MapNode node)
+    {
+        Node.Tokens.Remove(this);
+        node.Tokens.Add(this);
+        Node = node;
     }
 }

@@ -2,6 +2,7 @@ using Shouldly;
 using UMCore.Matches.Attacks;
 using UMCore.Matches.Cards;
 using UMCore.Matches.Players;
+using UMCore.Matches.Tokens;
 
 namespace UMCore.Tests.Setup.Builders;
 
@@ -14,6 +15,7 @@ public class TestPlayerControllerBuilder
     private readonly AttackChoicesBuilder _attackChoices = new();
     private readonly StringChoicesBuilder _stringChoices = new();
     private readonly PathChoicesBuilder _pathChoices = new();
+    private readonly TokenChoicesBuilder _tokenChoices = new();
 
     // static controllers
     public static TestPlayerController Crasher()
@@ -34,6 +36,12 @@ public class TestPlayerControllerBuilder
     public TestPlayerControllerBuilder ConfigAttackChoices(Action<AttackChoicesBuilder> actions)
     {
         actions(_attackChoices);
+        return this;
+    }
+
+    public TestPlayerControllerBuilder ConfigTokenChoices(Action<TokenChoicesBuilder> actions)
+    {
+        actions(_tokenChoices);
         return this;
     }
 
@@ -78,6 +86,7 @@ public class TestPlayerControllerBuilder
             AttackChoices = _attackChoices.Queue,
             StringChoices = _stringChoices.Queue,
             PathChoices = _pathChoices.Queue,
+            TokenChoices = _tokenChoices.Queue,
         };
     }
 
@@ -97,6 +106,17 @@ public class TestPlayerControllerBuilder
             {
                 match.SetWinner(player);
                 return Task.FromResult((TestPlayerController.NEXT_ACTION, true));
+            });
+        }
+
+        public ActionsBuilder PlaceToken(string tokenName, int nodeId)
+        {
+            return Enqueue(async (match, player, options) =>
+            {
+                var node = match.Map.Nodes.First(n => n.Id == nodeId);
+                var token = match.Tokens.Get(tokenName);
+                await node.PlaceToken(token);
+                return (TestPlayerController.NEXT_ACTION, true);
             });
         }
 
@@ -417,16 +437,6 @@ public class TestPlayerControllerBuilder
             return this;
         }
 
-        // public PathChoicesBuilder Yes()
-        // {
-        //     return Enqueue((player, options, hint) => ("Yes", true));
-        // }
-
-        // public PathChoicesBuilder No()
-        // {
-        //     return Enqueue((player, options, hint) => ("No", true));
-        // }
-
         public PathChoicesBuilder First()
         {
             return Enqueue((player, options, hint) => (options.First(), true));
@@ -443,12 +453,6 @@ public class TestPlayerControllerBuilder
                 action(this);
             return this;
         }
-
-
-        // public PathChoicesBuilder Choose(Path v)
-        // {
-        //     return Enqueue((player, options, hint) => (v, true));
-        // }
 
         public PathChoicesBuilder Assert(Action<Asserts> action)
         {
@@ -480,12 +484,52 @@ public class TestPlayerControllerBuilder
                 options.Length.ShouldBe(amount);
                 return this;
             }
+        }
+    }
 
-            // public Asserts EquivalentTo(Path[] opts)
-            // {
-            //     options.ShouldBeEquivalentTo(opts);
-            //     return this;
-            // }
+    public class TokenChoicesBuilder
+    {
+        public Queue<TestPlayerController.TokenChoice> Queue { get; } = new();
+
+        private TokenChoicesBuilder Enqueue(TestPlayerController.TokenChoice choice)
+        {
+            Queue.Enqueue(choice);
+            return this;
+        }
+
+        public TokenChoicesBuilder First()
+        {
+            return Enqueue((player, options, hint) => (options.First(), true));
+        }
+        
+        public TokenChoicesBuilder InNodeWithId(int id)
+        {
+            return Enqueue((player, options, hint) => (options.First(o => o.Node.Id == id), true));
+        }
+        
+        public TokenChoicesBuilder NTimes(int n, Action<TokenChoicesBuilder> action)
+        {
+            for (int i = 0; i < n; ++i)
+                action(this);
+            return this;
+        }
+
+        public TokenChoicesBuilder Assert(Action<Asserts> action)
+        {
+            return Enqueue((player, options, hint) =>
+            {
+                action(new Asserts(player, options, hint));
+                return (null, false);
+            });
+        }
+
+        public class Asserts(Player player, PlacedToken[] options, string hint)
+        {
+            public Asserts OptionsCount(int amount)
+            {
+                options.Length.ShouldBe(amount);
+                return this;
+            }
         }
     }
 }
