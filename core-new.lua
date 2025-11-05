@@ -185,6 +185,7 @@ function UM.Build:Fighter()
     result.gameStartEffects = {}
     result.movementNodeConnections = {}
     result.cardCancellingForbids = {}
+    result.onManoeuvreEffects = {}
     result.tokens = {}
 
     function result:ForbidCardCancelling(cardPredicate, byPlayerPredicate)
@@ -303,6 +304,14 @@ function UM.Build:Fighter()
         return result:AddTurnPhaseEffects(UM.TurnPhaseTriggers.END, text, {...})
     end
 
+    function result:OnManoeuvre(text, ...)
+        result.onManoeuvreEffects[#result.onManoeuvreEffects+1] = {
+            text = text,
+            effects = {...}
+        }
+        return result
+    end
+
     function result:Build()
         local fighter = {
             TurnPhaseEffects = result.turnPhaseEffects,
@@ -315,6 +324,7 @@ function UM.Build:Fighter()
             GameStartEffects = result.gameStartEffects,
             MovementNodeConnections = result.movementNodeConnections,
             CardCancellingForbids = result.cardCancellingForbids,
+            OnManoeuvreEffects = result.onManoeuvreEffects,
         }
         return fighter
     end

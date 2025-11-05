@@ -62,11 +62,11 @@ func _load_fighters(match_data):
 
 	var fighters = []
 	for node in match_data.Map.Nodes:
-		if node.FighterId == null:
+		if node.Fighter == null:
 			continue
 		# TODO
 		#missing_fighter_ids.remove(node.FighterId)
-		fighters.push_back([node.FighterId, node.Id])
+		fighters.push_back([node.Fighter, node.Id])
 
 	for id in missing_fighter_ids:
 		var node = _get_fighter(id)
@@ -74,15 +74,11 @@ func _load_fighters(match_data):
 
 	for i in range(len(fighters)):
 		var pair = fighters[i]
-		var _fighter_id = pair[0]
+		var _fighter_id = pair[0].Id
 		var node_id = pair[1]
 		var map_node = _get_node(node_id)
 		var fighter_node = _fighter_map[_fighter_id] as FighterFigureDisplay
 		fighter_node.reparent(map_node.FighterContainerNode, false)
-		#fighter_node.create_tween().tween_property(fighter_node, 'global_position', map_node.global_position, .5)
 		fighter_node.position.x = 0
 		fighter_node.position.y = 0
-		
-		# fighter_node.reparent(map_node, false)
-		#fighter_node.reparent(FightersNode)
-		# fighter_node.set_position(map_node.position)
+		fighter_node.set_fighter(pair[0])

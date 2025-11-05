@@ -392,7 +392,7 @@ public class MapNode : IHasData<MapNode.Data>
         return new()
         {
             Id = Id,
-            FighterId = Fighter?.Id,
+            Fighter = Fighter?.GetData(player),
             Tokens = [.. Tokens.Select(t => t.Original.Name)]
         };
     }
@@ -400,7 +400,7 @@ public class MapNode : IHasData<MapNode.Data>
     public class Data
     {
         public required int Id { get; init; }
-        public required int? FighterId { get; init; }
+        public required Fighter.Data? Fighter { get; init; }
         public required string[] Tokens { get; init; }
     }
 }

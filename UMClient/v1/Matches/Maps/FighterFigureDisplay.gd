@@ -15,7 +15,7 @@ func _ready() -> void:
 
 func set_fighter(fighter):
 	_fighter = fighter
-	%Image.load_fighter(fighter.Id, fighter.Key)
+	%Image.load_fighter(fighter.Id, fighter.Name)
 	# TODO
 
 func set_essentials(connection: MatchConnection, fighter_image_loader: FighterImageLoader):

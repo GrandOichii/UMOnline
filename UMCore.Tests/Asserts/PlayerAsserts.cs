@@ -29,6 +29,12 @@ public class PlayerAsserts
         return this;
     }
 
+    public PlayerAsserts HasFighterWithName(string name)
+    {
+        _player.Fighters.FirstOrDefault(f => f.Name == name).ShouldNotBeNull();
+        return this;
+    }
+
     public PlayerAsserts AttrEq(string attrKey, string value)
     {
         var attr = _player.Attributes.Get(attrKey);

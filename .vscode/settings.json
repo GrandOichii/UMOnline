@@ -50,6 +50,7 @@
         "GetDefender",
         "NodeContainsToken",
         "FighterStandsOn",
-        "IsCardOfCharacter"
+        "IsCardOfCharacter",
+        "SetFighterName"
     ]
 }

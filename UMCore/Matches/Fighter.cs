@@ -32,6 +32,7 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
     public List<EffectCollection> GameStartEffects { get; }
     public List<MovementNodeConnection> MovementNodeConnections { get; }
     public List<CardCancellingForbid> CardCancellingForbids { get; }
+    public List<EffectCollection> OnManoeuvreEffects { get; }
 
     public Fighter(Player owner, FighterTemplate template)
     {
@@ -222,6 +223,23 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
         {
             throw new MatchException($"Failed to movement node connections for fighter {template.Name}", e);
         }
+
+        OnManoeuvreEffects = [];
+        try
+        {
+            var onManoeuvreEffects = LuaUtility.TableGet<LuaTable>(data, "OnManoeuvreEffects");
+            foreach (var value in onManoeuvreEffects.Values)
+            {
+                var table = value as LuaTable;
+                // TODO check for null
+                var effects = new EffectCollection(table!);
+                OnManoeuvreEffects.Add(effects);
+            }
+        }
+        catch (Exception e)
+        {
+            throw new MatchException($"Failed to get on manoeuvre effects for fighter {template.Name}", e);
+        }
     }
     
     public void ExecuteGameStartEffects()
@@ -346,6 +364,14 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
         return result;
     }
 
+    public async Task ExecuteOnManoeuvreEffects()
+    {
+        List<EffectCollection> effects = [.. OnManoeuvreEffects];
+        // TODO order effects
+        foreach (var effect in effects)
+            effect.Execute(this, Owner);
+    }
+
     public async Task Defend()
     {
         if (Match.Combat is null)
@@ -388,6 +414,11 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
         return [];
     }
 
+    public void SetName(string newName)
+    {
+        Name = newName;
+    }
+
     public Data GetData(Player player)
     {
         return new()
@@ -397,6 +428,7 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
             IsAlive = IsAlive(),
             CurHealth = Health.Current,
             MaxHealth = Health.Max,
+            Key = Template.Key,
         };
     }
 
@@ -405,7 +437,8 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
         return new()
         {
             Id = Id,
-            Key = Template.Key
+            Key = Template.Key,
+            Name = Name,
         };
     }
 
@@ -413,6 +446,7 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
     {
         public required int Id { get; init; }
         public required string Name { get; init; }
+        public required string Key { get; init; }
         public required bool IsAlive { get; init; }
         public required int CurHealth { get; init; }
         public required int MaxHealth { get; init; }
@@ -422,6 +456,7 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
     {
         public required int Id { get; init; }
         public required string Key { get; init; }
+        public required string Name { get; init; }
     }
 }
 

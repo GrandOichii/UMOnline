@@ -264,6 +264,10 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
             }
             fighters.Remove(fighter);
             await MoveFighter(fighter, fighter.Movement() + boostValue + mod, canMoveOverFriendly, canMoveOverOpposing);
+
+            if (!isManoeuvre) continue;
+
+            await fighter.ExecuteOnManoeuvreEffects();
         }
     }
 

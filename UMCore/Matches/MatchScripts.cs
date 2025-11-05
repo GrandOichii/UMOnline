@@ -9,6 +9,7 @@ using UMCore.Matches.Attacks;
 using UMCore.Matches.Cards;
 using UMCore.Matches.Players;
 using UMCore.Matches.Tokens;
+using UMCore.Templates;
 using UMCore.Utility;
 
 namespace UMCore.Matches;
@@ -415,5 +416,11 @@ public class MatchScripts
     public bool IsCardOfCharacter(MatchCard card, string name)
     {
         return card.Template.IsCardOfCharacter(name);
+    }
+
+    [LuaCommand]
+    public void SetFighterName(Fighter fighter, string name)
+    {
+        fighter.SetName(name);
     }
 }

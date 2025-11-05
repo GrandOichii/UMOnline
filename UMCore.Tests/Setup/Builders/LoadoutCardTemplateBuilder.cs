@@ -61,6 +61,13 @@ public class LoadoutCardTemplateBuilder
 
         return this;
     }
+    
+    public LoadoutCardTemplateBuilder Scheme()
+    {
+        _type = "Scheme";
+
+        return this;
+    }
 
     public LoadoutCardTemplateBuilder Feint()
     {

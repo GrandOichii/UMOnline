@@ -6,8 +6,8 @@ class_name FighterImageLoader
 var _index = {}
 
 func get_image_for(fighter_id: int, fighter_key: String):
-	if fighter_id in _index:
-		return _index[fighter_id]
+	if fighter_key in _index:
+		return _index[fighter_key]
 	var result = images.get_image_for(fighter_key)
-	_index[fighter_id] = result
+	_index[fighter_key] = result
 	return result
