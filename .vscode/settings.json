@@ -49,6 +49,7 @@
         "RemoveToken",
         "GetDefender",
         "NodeContainsToken",
-        "FighterStandsOn"
+        "FighterStandsOn",
+        "IsCardOfCharacter"
     ]
 }

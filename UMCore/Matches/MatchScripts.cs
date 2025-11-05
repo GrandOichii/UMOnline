@@ -410,4 +410,10 @@ public class MatchScripts
     {
         return node.Fighter == fighter;
     }
+
+    [LuaCommand]
+    public bool IsCardOfCharacter(MatchCard card, string name)
+    {
+        return card.Template.IsCardOfCharacter(name);
+    }
 }

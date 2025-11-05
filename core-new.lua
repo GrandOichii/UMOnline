@@ -187,12 +187,12 @@ function UM.Build:Fighter()
     result.cardCancellingForbids = {}
     result.tokens = {}
 
-    function result:ForbidCardCancelling(cardPredicate, playerPredicate)
+    function result:ForbidCardCancelling(cardPredicate, byPlayerPredicate)
         result.cardCancellingForbids[#result.cardCancellingForbids+1] = function (args, card, player)
             if not cardPredicate(args, card) then
                 return false
             end
-            if not playerPredicate(args, player) then
+            if not byPlayerPredicate(args, player) then
                 return false
             end
             return true

@@ -16,4 +16,9 @@ public class CardTemplate
     {
         return AllowedFighters.Count == 0 || AllowedFighters.Contains(name);
     }
+
+    public bool IsCardOfCharacter(string name)
+    {
+        return AllowedFighters.Count == 1 && AllowedFighters[0] == name;
+    }
 }

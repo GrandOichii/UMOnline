@@ -51,11 +51,11 @@ public class CombatPart : IHasData<CombatPart.Data>
         await DiscardBoostCards();
     }
 
-    public bool CanBeCancelled()
+    public bool CanBeCancelled(Player byPlayer)
     {
         if (!Card.HasEffects()) return false;
 
-        return Card.CanBeCancelled();
+        return Card.CanBeCancelled(byPlayer);
     }
 
     public async Task DiscardBoostCards()
@@ -227,10 +227,10 @@ public class Combat : IHasData<Combat.Data>
         var (card, fighter) = GetCombatPart(player);
         var oppCard = GetOpponent(card);
         if (oppCard is null) return;
-        if (!oppCard.CanBeCancelled()) return;
+        if (!oppCard.CanBeCancelled(player)) return;
 
         await oppCard.CancelEffects();
-        Match.Logger?.LogDebug("Effects of card {CardLogName} of player {PlayerLogName} were cancelled", oppCard.Card.LogName, fighter.Owner.LogName);
+        Match.Logger?.LogDebug("Effects of card {CardLogName} of player {PlayerLogName} were cancelled", oppCard.Card.LogName, fighter.Owner.LogName); // TODO wrong {PlayerLogName}
         await Match.UpdateClients();
     }
 

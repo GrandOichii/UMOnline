@@ -21,6 +21,18 @@ public class LoadoutCardTemplateBuilder
 
         return this;
     }
+
+    public LoadoutCardTemplateBuilder CanBePlayedByAny()
+    {
+        _allowedFighters = [];
+        return this;
+    }
+
+    public LoadoutCardTemplateBuilder CanBePlayedBy(string name)
+    {
+        _allowedFighters.Add(name);
+        return this;
+    }
     
     public LoadoutCardTemplateBuilder Value(int value)
     {
