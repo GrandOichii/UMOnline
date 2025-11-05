@@ -186,6 +186,7 @@ function UM.Build:Fighter()
     result.movementNodeConnections = {}
     result.cardCancellingForbids = {}
     result.onManoeuvreEffects = {}
+    result.onDamageEffects = {}
     result.tokens = {}
 
     function result:ForbidCardCancelling(cardPredicate, byPlayerPredicate)
@@ -312,6 +313,14 @@ function UM.Build:Fighter()
         return result
     end
 
+    function result:OnDamage(text, ...)
+        result.onDamageEffects[#result.onDamageEffects+1] = {
+            text = text,
+            effects = {...}
+        }
+        return result
+    end
+
     function result:Build()
         local fighter = {
             TurnPhaseEffects = result.turnPhaseEffects,
@@ -325,6 +334,7 @@ function UM.Build:Fighter()
             MovementNodeConnections = result.movementNodeConnections,
             CardCancellingForbids = result.cardCancellingForbids,
             OnManoeuvreEffects = result.onManoeuvreEffects,
+            OnDamageEffects = result.onDamageEffects,
         }
         return fighter
     end
@@ -443,6 +453,20 @@ end
 -- Conditions
 
 UM.Conditions = {}
+
+function UM.Conditions:FightersAreAdjacent(singleFighter1, singleFighter2)
+    return function (args)
+        local fighter1 = singleFighter1(args)
+        if fighter1 == nil then
+            return false
+        end
+        local fighter2 = singleFighter2(args)
+        if fighter2 == nil then
+            return false
+        end
+        return AreAdjacent(fighter1, fighter2)
+    end
+end
 
 function UM.Conditions:FighterStandsOnNode(singleFighter, manyNodes)
     return function (args)

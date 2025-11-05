@@ -108,7 +108,9 @@ def get_allowed_fighters(af):
         'Holmes': 'Sherlock Holmes',
         'Sherlock holmes': 'Sherlock Holmes',
         'Ms. marvel': 'Ms. Marvel',
-    }[af.lower().capitalize()]]
+        'Dark willow': 'Dark Willow',
+        'willow': 'Willow',
+    }[name] for name in af.lower().capitalize().split('|')]
 
 def get_text(card):
     _m = {

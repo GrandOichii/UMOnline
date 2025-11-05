@@ -28,7 +28,7 @@ public class PlayerInitialFighterPlacerInZone : IPlayerInitialFighterPlacer
         var options = new List<MapNode>();
         foreach (var zone in heroNode.GetZones())
         {
-            options.AddRange(player.Match.Map.GetNodesInZone(zone).Where(n => n.IsEmpty()));
+            options.AddRange(player.Match.Map.GetNodesInZone(zone).Where(n => n.IsEmpty() && n.Template.SpawnNumber <= 0));
         }
 
         await PlaceRemaining(player, heroQueue, options);

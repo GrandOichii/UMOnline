@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="FighterImages" load_steps=246 format=3 uid="uid://c7hdo261itl3i"]
+[gd_resource type="Resource" script_class="FighterImages" load_steps=248 format=3 uid="uid://c7hdo261itl3i"]
 
 [ext_resource type="Texture2D" uid="uid://d1yq8wd2avlha" path="res://assets/decks/Achilles/heroes/hero.webp" id="0"]
 [ext_resource type="Texture2D" uid="uid://b06viw813vacw" path="res://assets/decks/Achilles/sidekicks/Achilles_Patroclus_1.webp" id="1"]
@@ -130,16 +130,17 @@
 [ext_resource type="Texture2D" uid="uid://6tbhbow51ga4" path="res://assets/decks/William Shakespeare/sidekicks/William Shakespeare_Actor_1.webp" id="123"]
 [ext_resource type="Texture2D" uid="uid://bsdxhpj4q7non" path="res://assets/decks/William Shakespeare/sidekicks/William Shakespeare_Actor_2.webp" id="124"]
 [ext_resource type="Texture2D" uid="uid://bvy2c6bu4cmgh" path="res://assets/decks/William Shakespeare/sidekicks/William Shakespeare_Actor_3.webp" id="125"]
-[ext_resource type="Texture2D" uid="uid://lhyngr4onqbn" path="res://assets/decks/Willow/heroes/hero.webp" id="126"]
 [ext_resource type="Texture2D" uid="uid://c0gps48k7o0uf" path="res://assets/decks/Willow/sidekicks/Willow_Tara_1.webp" id="127"]
 [ext_resource type="Texture2D" uid="uid://b6bgc1q2okhed" path="res://assets/decks/Winter Soldier/heroes/hero.webp" id="128"]
 [ext_resource type="Texture2D" uid="uid://bbgqa6xn0nawv" path="res://assets/decks/Yennefer & Triss/heroes/hero.webp" id="129"]
 [ext_resource type="Texture2D" uid="uid://dtdlomlvjlho1" path="res://assets/decks/Yennefer & Triss/sidekicks/Yennefer & Triss_Triss_1.webp" id="130"]
+[ext_resource type="Texture2D" uid="uid://bx5gqpq56tnxy" path="res://assets/decks/Willow/heroes/Willow.webp" id="130_iakbt"]
 [ext_resource type="Texture2D" uid="uid://ct0508385rap5" path="res://assets/decks/Yennefer & Triss/sidekicks/Yennefer & Triss_Yennefer_2.webp" id="131"]
 [ext_resource type="Texture2D" uid="uid://b3s4ohtaxtn4e" path="res://assets/decks/Yennenga/heroes/hero.webp" id="132"]
 [ext_resource type="Texture2D" uid="uid://cthn2miomgonv" path="res://assets/decks/Yennenga/sidekicks/Yennenga_Archers_1.webp" id="133"]
 [ext_resource type="Texture2D" uid="uid://he563630nl3n" path="res://assets/decks/Yennenga/sidekicks/Yennenga_Archers_Flip.png" id="137_6lcy8"]
 [ext_resource type="Texture2D" uid="uid://co2kut3vi6wuq" path="res://assets/decks/Jekyll & Hyde/heroes/Mr. Hyde.png" id="137_asmjw"]
+[ext_resource type="Texture2D" uid="uid://bjuddq3ytx1qt" path="res://assets/decks/Willow/heroes/Dark Willow.webp" id="140_bp8j7"]
 
 [sub_resource type="Resource" id="Resource_0"]
 script = ExtResource("1_gr0k2")
@@ -624,7 +625,7 @@ images = Array[CompressedTexture2D]([ExtResource("123"), ExtResource("124"), Ext
 [sub_resource type="Resource" id="Resource_96"]
 script = ExtResource("1_gr0k2")
 fighter_key = "Willow"
-images = Array[CompressedTexture2D]([ExtResource("126")])
+images = Array[CompressedTexture2D]([ExtResource("130_iakbt")])
 
 [sub_resource type="Resource" id="Resource_97"]
 script = ExtResource("1_gr0k2")
@@ -667,6 +668,12 @@ fighter_key = "Mr. Hyde"
 images = Array[CompressedTexture2D]([ExtResource("137_asmjw")])
 metadata/_custom_type_script = "uid://sccjfeeys1ki"
 
+[sub_resource type="Resource" id="Resource_qn3q6"]
+script = ExtResource("1_gr0k2")
+fighter_key = "Dark Willow"
+images = Array[CompressedTexture2D]([ExtResource("140_bp8j7")])
+metadata/_custom_type_script = "uid://sccjfeeys1ki"
+
 [resource]
 script = ExtResource("2_25rj5")
-Images = Array[ExtResource("1_gr0k2")]([SubResource("Resource_0"), SubResource("Resource_1"), SubResource("Resource_2"), SubResource("Resource_3"), SubResource("Resource_4"), SubResource("Resource_5"), SubResource("Resource_6"), SubResource("Resource_7"), SubResource("Resource_8"), SubResource("Resource_9"), SubResource("Resource_10"), SubResource("Resource_11"), SubResource("Resource_12"), SubResource("Resource_13"), SubResource("Resource_14"), SubResource("Resource_15"), SubResource("Resource_16"), SubResource("Resource_17"), SubResource("Resource_18"), SubResource("Resource_19"), SubResource("Resource_20"), SubResource("Resource_21"), SubResource("Resource_22"), SubResource("Resource_23"), SubResource("Resource_24"), SubResource("Resource_25"), SubResource("Resource_26"), SubResource("Resource_27"), SubResource("Resource_28"), SubResource("Resource_29"), SubResource("Resource_30"), SubResource("Resource_31"), SubResource("Resource_32"), SubResource("Resource_33"), SubResource("Resource_34"), SubResource("Resource_35"), SubResource("Resource_36"), SubResource("Resource_37"), SubResource("Resource_38"), SubResource("Resource_39"), SubResource("Resource_40"), SubResource("Resource_41"), SubResource("Resource_42"), SubResource("Resource_43"), SubResource("Resource_44"), SubResource("Resource_45"), SubResource("Resource_46"), SubResource("Resource_47"), SubResource("Resource_48"), SubResource("Resource_49"), SubResource("Resource_50"), SubResource("Resource_51"), SubResource("Resource_52"), SubResource("Resource_53"), SubResource("Resource_54"), SubResource("Resource_55"), SubResource("Resource_56"), SubResource("Resource_57"), SubResource("Resource_58"), SubResource("Resource_59"), SubResource("Resource_60"), SubResource("Resource_61"), SubResource("Resource_62"), SubResource("Resource_63"), SubResource("Resource_64"), SubResource("Resource_65"), SubResource("Resource_66"), SubResource("Resource_67"), SubResource("Resource_68"), SubResource("Resource_69"), SubResource("Resource_70"), SubResource("Resource_71"), SubResource("Resource_72"), SubResource("Resource_73"), SubResource("Resource_74"), SubResource("Resource_75"), SubResource("Resource_76"), SubResource("Resource_77"), SubResource("Resource_78"), SubResource("Resource_79"), SubResource("Resource_80"), SubResource("Resource_81"), SubResource("Resource_82"), SubResource("Resource_83"), SubResource("Resource_84"), SubResource("Resource_85"), SubResource("Resource_86"), SubResource("Resource_87"), SubResource("Resource_88"), SubResource("Resource_89"), SubResource("Resource_90"), SubResource("Resource_91"), SubResource("Resource_92"), SubResource("Resource_93"), SubResource("Resource_94"), SubResource("Resource_95"), SubResource("Resource_96"), SubResource("Resource_97"), SubResource("Resource_98"), SubResource("Resource_99"), SubResource("Resource_100"), SubResource("Resource_101"), SubResource("Resource_102"), SubResource("Resource_103"), SubResource("Resource_tpuew")])
+Images = Array[ExtResource("1_gr0k2")]([SubResource("Resource_0"), SubResource("Resource_1"), SubResource("Resource_2"), SubResource("Resource_3"), SubResource("Resource_4"), SubResource("Resource_5"), SubResource("Resource_6"), SubResource("Resource_7"), SubResource("Resource_8"), SubResource("Resource_9"), SubResource("Resource_10"), SubResource("Resource_11"), SubResource("Resource_12"), SubResource("Resource_13"), SubResource("Resource_14"), SubResource("Resource_15"), SubResource("Resource_16"), SubResource("Resource_17"), SubResource("Resource_18"), SubResource("Resource_19"), SubResource("Resource_20"), SubResource("Resource_21"), SubResource("Resource_22"), SubResource("Resource_23"), SubResource("Resource_24"), SubResource("Resource_25"), SubResource("Resource_26"), SubResource("Resource_27"), SubResource("Resource_28"), SubResource("Resource_29"), SubResource("Resource_30"), SubResource("Resource_31"), SubResource("Resource_32"), SubResource("Resource_33"), SubResource("Resource_34"), SubResource("Resource_35"), SubResource("Resource_36"), SubResource("Resource_37"), SubResource("Resource_38"), SubResource("Resource_39"), SubResource("Resource_40"), SubResource("Resource_41"), SubResource("Resource_42"), SubResource("Resource_43"), SubResource("Resource_44"), SubResource("Resource_45"), SubResource("Resource_46"), SubResource("Resource_47"), SubResource("Resource_48"), SubResource("Resource_49"), SubResource("Resource_50"), SubResource("Resource_51"), SubResource("Resource_52"), SubResource("Resource_53"), SubResource("Resource_54"), SubResource("Resource_55"), SubResource("Resource_56"), SubResource("Resource_57"), SubResource("Resource_58"), SubResource("Resource_59"), SubResource("Resource_60"), SubResource("Resource_61"), SubResource("Resource_62"), SubResource("Resource_63"), SubResource("Resource_64"), SubResource("Resource_65"), SubResource("Resource_66"), SubResource("Resource_67"), SubResource("Resource_68"), SubResource("Resource_69"), SubResource("Resource_70"), SubResource("Resource_71"), SubResource("Resource_72"), SubResource("Resource_73"), SubResource("Resource_74"), SubResource("Resource_75"), SubResource("Resource_76"), SubResource("Resource_77"), SubResource("Resource_78"), SubResource("Resource_79"), SubResource("Resource_80"), SubResource("Resource_81"), SubResource("Resource_82"), SubResource("Resource_83"), SubResource("Resource_84"), SubResource("Resource_85"), SubResource("Resource_86"), SubResource("Resource_87"), SubResource("Resource_88"), SubResource("Resource_89"), SubResource("Resource_90"), SubResource("Resource_91"), SubResource("Resource_92"), SubResource("Resource_93"), SubResource("Resource_94"), SubResource("Resource_95"), SubResource("Resource_96"), SubResource("Resource_97"), SubResource("Resource_98"), SubResource("Resource_99"), SubResource("Resource_100"), SubResource("Resource_101"), SubResource("Resource_102"), SubResource("Resource_103"), SubResource("Resource_tpuew"), SubResource("Resource_qn3q6")])

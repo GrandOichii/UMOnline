@@ -13,32 +13,6 @@ public class JekyllHydeTests
         .Load("../../../../.generated/loadouts/Jekyll & Hyde/Jekyll & Hyde.json")
         .ClearDeck();
 
-    // [Theory]
-    // [InlineData("Dr. Jekyll")]
-    // [InlineData("Mr. Hyde")]
-    //     await match.AddMainPlayer(
-    //     new TestPlayerControllerBuilder()
-    //         .ConfigActions(a => a
-    //             .DeclareWinner()
-    //             .CrashMatch()
-    //         )
-    //         .ConfigStringChoices(c => c
-    //             .Assert(a => a
-    //                 .EquivalentTo(["BIG", "SMALL"])
-    //             )
-    //             .Choose(targetSize)
-    //         )
-    //         .ConfigNodeChoices(c => c
-    //             .WithId(1)
-    //         )
-    //         .Build(),
-    //     GetLoadoutBuilder().Build()
-    // );
-    // await match.AddOpponent(
-    //     TestPlayerControllerBuilder.Crasher(),
-    //     LoadoutTemplateBuilder.Foo()
-    // );
-
     [Fact]
     public async Task CheckStartingIdentity()
     {

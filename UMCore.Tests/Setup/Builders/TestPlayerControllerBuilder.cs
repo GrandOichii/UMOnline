@@ -109,6 +109,16 @@ public class TestPlayerControllerBuilder
             });
         }
 
+        public ActionsBuilder DealDamage(string fighterName, int amount)
+        {
+            return Enqueue(async (match, player, options) =>
+            {
+                var fighter = match.Fighters.First(f => f.Name == fighterName);
+                await fighter.ProcessDamage(amount);
+                return (TestPlayerController.NEXT_ACTION, true);
+            });
+        }
+
         public ActionsBuilder PlaceToken(string tokenName, int nodeId)
         {
             return Enqueue(async (match, player, options) =>

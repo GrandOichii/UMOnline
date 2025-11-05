@@ -33,6 +33,7 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
     public List<MovementNodeConnection> MovementNodeConnections { get; }
     public List<CardCancellingForbid> CardCancellingForbids { get; }
     public List<EffectCollection> OnManoeuvreEffects { get; }
+    public List<EffectCollection> OnDamageEffects { get; }
 
     public Fighter(Player owner, FighterTemplate template)
     {
@@ -240,6 +241,23 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
         {
             throw new MatchException($"Failed to get on manoeuvre effects for fighter {template.Name}", e);
         }
+
+        OnDamageEffects = [];
+        try
+        {
+            var onDamageEffects = LuaUtility.TableGet<LuaTable>(data, "OnDamageEffects");
+            foreach (var value in onDamageEffects.Values)
+            {
+                var table = value as LuaTable;
+                // TODO check for null
+                var effects = new EffectCollection(table!);
+                OnDamageEffects.Add(effects);
+            }
+        }
+        catch (Exception e)
+        {
+            throw new MatchException($"Failed to get on damage effects for fighter {template.Name}", e);
+        }
     }
     
     public void ExecuteGameStartEffects()
@@ -322,6 +340,12 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
         }
         await Match.UpdateClients();
 
+        // TODO does this go before death or after death
+        if (dealt > 0)
+        {
+            await ExecuteOnDamageEffects();            
+        }
+
         return dealt;
     }
 
@@ -367,6 +391,14 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
     public async Task ExecuteOnManoeuvreEffects()
     {
         List<EffectCollection> effects = [.. OnManoeuvreEffects];
+        // TODO order effects
+        foreach (var effect in effects)
+            effect.Execute(this, Owner);
+    }
+
+    public async Task ExecuteOnDamageEffects()
+    {
+        List<EffectCollection> effects = [.. OnDamageEffects];
         // TODO order effects
         foreach (var effect in effects)
             effect.Execute(this, Owner);
