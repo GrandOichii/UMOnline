@@ -259,7 +259,7 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
             if (card is not null)
             {
                 await DiscardCardForBoost(card);
-                boostValue = card.GetBoostValue();
+                boostValue = (int)card.GetBoostValue()!;
 
                 Match.Logs.Public($"Player {FormattedLogName} boosts their movement with {card.FormattedLogName}");
             }
@@ -309,7 +309,7 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
     public async Task<MatchCard?> ChooseBoostCard()
     {
         if (Hand.Cards.Count == 0) return null;
-        var card = await Controller.ChooseCardInHandOrNothing(this, Idx, [.. Hand.Cards], "Choose a card to boost your movement");
+        var card = await Controller.ChooseCardInHandOrNothing(this, Idx, [.. Hand.Cards.Where(c => c.GetBoostValue() is not null)], "Choose a card to boost your movement");
         return card;
     }
 

@@ -233,38 +233,29 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
 
     public IEnumerable<FighterPredicateEffect> GetOnAttackEffectsFor(Fighter fighter)
     {
+        return Fighters.SelectMany(f => f.OnAttackEffects.Where(e => e.Accepts(fighter)));
+    }
+
+    public void ExecuteOnFighterDefeatEffects(Fighter fighter)
+    {
         foreach (var f in Fighters)
         {
-            foreach (var e in f.OnAttackEffects)
+            foreach (var e in f.OnFighterDefeatEffects)
             {
                 if (!e.Accepts(fighter)) continue;
-                yield return e;
+                e.Execute(f, f.Owner);
             }
         }
     }
 
     public IEnumerable<FighterPredicateEffect> GetAfterAttackEffectsFor(Fighter fighter)
     {
-        foreach (var f in Fighters)
-        {
-            foreach (var e in f.AfterAttackEffects)
-            {
-                if (!e.Accepts(fighter)) continue;
-                yield return e;
-            }
-        }
+        return Fighters.SelectMany(f => f.AfterAttackEffects.Where(e => e.Accepts(fighter)));
     }
 
     public IEnumerable<ManoeuvreValueModifier> GetManoeuvreValueModifiersFor(Fighter fighter)
     {
-        foreach (var f in Fighters)
-        {
-            foreach (var mod in f.ManoeuvreValueMods)
-            {
-                if (!mod.Accepts(fighter)) continue;
-                yield return mod;
-            }
-        }
+        return Fighters.SelectMany(f => f.ManoeuvreValueMods.Where(e => e.Accepts(fighter)));
     }
 
     public Movement SetCurrentMovement(Movement movement)

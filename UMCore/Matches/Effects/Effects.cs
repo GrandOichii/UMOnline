@@ -5,7 +5,7 @@ using UMCore.Utility;
 
 namespace UMCore.Matches.Effects;
 
-public class EffectCollection
+public class EffectCollection : IHasText
 {
     public string Text { get; }
     public List<Effect> Effects { get; }
@@ -25,6 +25,12 @@ public class EffectCollection
             Effects.Add(new(effectFunc!));
         }
     }
+
+    public string GetText()
+    {
+        return Text;
+    }
+
 
     public void Execute(LuaTable? args = null)
     {

@@ -11,6 +11,12 @@ public class FighterAsserts(Fighter fighter)
         return this;
     }
 
+    public FighterAsserts IsDead()
+    {
+        fighter.IsAlive().ShouldBeFalse();
+        return this;
+    }
+
     public FighterAsserts HasHealth(int v)
     {
         fighter.Health.Current.ShouldBe(v);

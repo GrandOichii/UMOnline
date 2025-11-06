@@ -65,30 +65,16 @@ end
 
 UM.Build = {}
 
-function UM.Build:Card()
+function UM.Build:_WithCombatSteps()
     local result = {}
-
-    result.scheme = {
-        text = '',
-        effects = {},
-    }
 
     result.combatStepEffects = {}
 
     function result:CombatStepEffect(step, text, ...)
-        local obj = result.combatStepEffects[step]
-        -- assert(obj == nil, 'Already defined effects for combat step'..step..'('..obj.text..')')
-        obj = {
-            text = '',
-            effects = {}
+        result.combatStepEffects[step] = {
+            text = text,
+            effects = {...}
         }
-        obj.text = text
-        local effects = {...}
-
-        for _, v in ipairs(effects) do
-            obj.effects[#obj.effects+1] = v
-        end
-        result.combatStepEffects[step] = obj
 
         return result
     end
@@ -104,6 +90,17 @@ function UM.Build:Card()
     function result:AfterCombat(text, ...)
         return result:CombatStepEffect(UM.CombatSteps.AFTER_COMBAT, text, ...)
     end
+
+    return result
+end
+
+function UM.Build:Card()
+    local result = UM.Build:_WithCombatSteps()
+
+    result.scheme = {
+        text = '',
+        effects = {},
+    }
 
     function result:Effect(text, ...)
         local effects = {...}
@@ -174,7 +171,7 @@ end
 -- Fighter creation
 
 function UM.Build:Fighter()
-    local result = {}
+    local result = UM.Build:_WithCombatSteps()
 
     result.turnPhaseEffects = {}
     result.cardValueModifiers = {}
@@ -187,7 +184,17 @@ function UM.Build:Fighter()
     result.cardCancellingForbids = {}
     result.onManoeuvreEffects = {}
     result.onDamageEffects = {}
+    result.onFighterDefeatEffects = {}
     result.tokens = {}
+
+    function result:OnFighterDefeat(text, fighterPredFunc, ...)
+        result.onFighterDefeatEffects[#result.onFighterDefeatEffects+1] = {
+            text = text,
+            fighterPred = fighterPredFunc,
+            effects = {...}
+        }
+        return result
+    end
 
     function result:ForbidCardCancelling(cardPredicate, byPlayerPredicate)
         result.cardCancellingForbids[#result.cardCancellingForbids+1] = function (args, card, player)
@@ -335,6 +342,8 @@ function UM.Build:Fighter()
             CardCancellingForbids = result.cardCancellingForbids,
             OnManoeuvreEffects = result.onManoeuvreEffects,
             OnDamageEffects = result.onDamageEffects,
+            OnFighterDefeatEffects = result.onFighterDefeatEffects,
+            CombatStepEffects = result.combatStepEffects,
         }
         return fighter
     end
@@ -460,6 +469,18 @@ function UM.Conditions:FightersAreAdjacent(singleFighter1, singleFighter2)
     end
 end
 
+function UM.Conditions:FightersAreDefeated(manyFighters)
+    return function (args)
+        local fighters = manyFighters(args)
+        for _, f in ipairs(fighters) do
+            if not IsDefeated(f) then
+                return false
+            end
+        end
+        return true
+    end
+end
+
 function UM.Conditions:FighterStandsOnNode(singleFighter, manyNodes)
     return function (args)
         local fighter = singleFighter(args)
@@ -481,7 +502,11 @@ end
 
 function UM.Conditions:And(cond1, cond2)
     return function (args)
-        return cond1(args) and cond2(args)
+
+        local result = cond1(args) and cond2(args)
+        DEBUG(tostring(result))
+
+        return result
     end
 end
 

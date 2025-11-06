@@ -1,3 +1,5 @@
+-- TODO cant place a fog token under Invisible Man
+
 function _Create()
     local placeTokenEffect = UM.Effects:PlaceTokens(
         'Fog',

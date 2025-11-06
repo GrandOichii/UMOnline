@@ -2,6 +2,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Xml;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.VisualBasic;
 using NLua;
@@ -58,7 +59,8 @@ public class MatchScripts
     [LuaCommand]
     public LuaTable GetFighters()
     {
-        return LuaUtility.CreateTable(Match.LState, Match.Fighters.Where(f => f.IsAlive()).ToList());
+        return LuaUtility.CreateTable(Match.LState, Match.Fighters.ToList());
+        // return LuaUtility.CreateTable(Match.LState, Match.Fighters.Where(f => f.IsAlive()).ToList());
     }
 
     [LuaCommand]
@@ -301,6 +303,12 @@ public class MatchScripts
     }
 
     [LuaCommand]
+    public void DEBUG(string msg)
+    {
+        Match.Logger?.LogDebug(msg);
+    }
+
+    [LuaCommand]
     public void LogPublic(string msg)
     {
         Match.Logs.Public(msg);
@@ -451,5 +459,11 @@ public class MatchScripts
     {
         token.MoveTo(node)
             .Wait();
+    }
+
+    [LuaCommand]
+    public bool IsDefeated(Fighter fighter)
+    {
+        return !fighter.IsAlive();
     }
 }

@@ -6,7 +6,7 @@ using UMCore.Utility;
 
 namespace UMCore.Matches;
 
-public class FighterPredicateEffect(Fighter fighter, LuaTable table)
+public class FighterPredicateEffect(Fighter fighter, LuaTable table) : IHasText
 {
     private readonly Fighter _fighter = fighter;
     private readonly Effect _fighterPredicate = new(LuaUtility.TableGet<LuaFunction>(table, "fighterPred"));
@@ -25,5 +25,10 @@ public class FighterPredicateEffect(Fighter fighter, LuaTable table)
     public void Execute(Fighter fighter, Player owner, PlacedToken token)
     {
         _effects.Execute(fighter, owner, token);
+    }
+
+    public string GetText()
+    {
+        return _effects.GetText();
     }
 }

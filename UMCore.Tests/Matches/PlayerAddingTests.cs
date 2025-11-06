@@ -277,6 +277,8 @@ public class TODOSortTheseTests
 
 public class MovementTests
 {
+    // TODO add tests where player cant discard cards for boost (they dont have boost values)
+
     [Theory]
     [InlineData(0, 1)]
     [InlineData(1, 2)]
@@ -2356,4 +2358,6 @@ public class AttackTests
             .HasDamage(expectedDamage)
             .IsAlive();
     }
+
+    // TODO add tests for dead figthers
 }

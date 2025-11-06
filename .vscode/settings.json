@@ -57,6 +57,8 @@
         "GetFighterNode",
         "AreNodesAdjacent",
         "MoveToken",
-        "GetPlayerStringAttribute"
+        "GetPlayerStringAttribute",
+        "DEBUG",
+        "IsDefeated"
     ]
 }

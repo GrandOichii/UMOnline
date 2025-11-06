@@ -34,6 +34,8 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
     public List<CardCancellingForbid> CardCancellingForbids { get; }
     public List<EffectCollection> OnManoeuvreEffects { get; }
     public List<EffectCollection> OnDamageEffects { get; }
+    public List<FighterPredicateEffect> OnFighterDefeatEffects { get; }
+    public CombatStepEffectsCollection CombatStepEffects { get; }
 
     public Fighter(Player owner, FighterTemplate template)
     {
@@ -258,6 +260,30 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
         {
             throw new MatchException($"Failed to get on damage effects for fighter {template.Name}", e);
         }
+
+        OnFighterDefeatEffects = [];
+        try
+        {
+            var onDefeatEffects = LuaUtility.TableGet<LuaTable>(data, "OnFighterDefeatEffects");
+            foreach (var value in onDefeatEffects.Values)
+            {
+                var table = value as LuaTable;
+                // TODO check for null
+                OnFighterDefeatEffects.Add(new(this, table!));
+            }
+        }
+        catch (Exception e)
+        {
+            throw new MatchException($"Failed to get on fighter defeat effects for fighter {template.Name}", e);
+        }
+    
+        try
+        {
+            CombatStepEffects = new(data);
+        } catch (Exception e)
+        {
+            throw new MatchException($"Failed to get combat step effects for fighter {Name}", e);
+        }
     }
     
     public void ExecuteGameStartEffects()
@@ -327,6 +353,8 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
 
     public async Task<int> ProcessDamage(int amount, bool isCombatDamage = false)
     {
+        if (!IsAlive()) return 0;
+
         var dealt = Health.DealDamage(amount);
         Match.Logger?.LogDebug("{FighterLogName} is dealt {Amount} damage (original amount: {OriginalAmount})", LogName, dealt, amount);
         Match.Logs.Public($"Fighter {FormattedLogName} is dealt {amount}{(isCombatDamage ? " combat" : "")} damage");
@@ -337,6 +365,7 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
             Match.Logger?.LogDebug("Fighter {FighterLogName} dies", LogName);
             Match.CheckForWinners();
             await Match.Map.RemoveFighterFromBoard(this);
+            Match.ExecuteOnFighterDefeatEffects(this);
         }
         await Match.UpdateClients();
 

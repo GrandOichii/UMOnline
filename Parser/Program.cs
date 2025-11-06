@@ -924,7 +924,7 @@ string FormatText(string text)
     return text;
 }
 
-var cards = JsonSerializer.Deserialize<List<Card>>(File.ReadAllText("../cards.json"));
+var cards = JsonSerializer.Deserialize<List<Card>>(File.ReadAllText(args[0]));
 // List<Card> cards = [new Card {
 //     Name = "Test card",
 //     Text = "Deal 1 damage to a fighter.",

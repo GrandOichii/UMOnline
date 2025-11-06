@@ -38,7 +38,7 @@ public class CombatPart : IHasData<CombatPart.Data>
         var result = Value;
         foreach (var boost in Boosts)
         {
-            result += boost.GetBoostValue();
+            result += (int)boost.GetBoostValue()!;
         }
         return result;
     }
@@ -145,14 +145,21 @@ public class Combat : IHasData<Combat.Data>
 
     public async Task EmitTrigger(CombatStepTrigger trigger)
     {
+        // cards
         List<(CombatPart?, Fighter)> cards = [(DefenceCard, Defender), (AttackCard, Attacker)];
         foreach (var (card, fighter) in cards)
         {
             if (card is null) continue;
             if (card.EffectsCancelled) continue;
-            await card.Card.ExecuteCombatStepTrigger(trigger, fighter);
+            await card.Card.CombatStepEffects.Execute(trigger, fighter);
             await Match.UpdateClients();
             if (Match.IsWinnerDetermined()) return;
+        }
+
+        // fighters
+        foreach (var (_, fighter) in cards)
+        {
+            await fighter.CombatStepEffects.Execute(trigger, fighter);
         }
     }
 

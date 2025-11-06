@@ -15,7 +15,7 @@ public class MatchCard : IHasData<MatchCard.Data>
     public int Id { get; }
 
     public EffectCollection SchemeEffect { get; }
-    public Dictionary<CombatStepTrigger, EffectCollection> CombatStepEffects { get; }
+    public CombatStepEffectsCollection CombatStepEffects { get; }
 
     public string LogName => $"({Id}){Template.Key}[{Owner.Idx}]";
 
@@ -52,23 +52,14 @@ public class MatchCard : IHasData<MatchCard.Data>
             throw new MatchException($"Failed to get scheme effects for card {card.Name}", e);
         }
 
-        CombatStepEffects = [];
         try
         {
-            var combatStepEffectMappingRaw = LuaUtility.TableGet<LuaTable>(data, "CombatStepEffects");
-            foreach (var keyRaw in combatStepEffectMappingRaw.Keys)
-            {
-                var key = (CombatStepTrigger)Convert.ToInt32(keyRaw);
-                var table = combatStepEffectMappingRaw[keyRaw] as LuaTable;
-                // TODO check for null
-                var effects = new EffectCollection(table!);
-                CombatStepEffects.Add(key, effects);
-            }
-        }
-        catch (Exception e)
+            CombatStepEffects = new(data);
+        } catch (Exception e)
         {
             throw new MatchException($"Failed to get combat step effects for card {card.Name}", e);
         }
+
     }
 
     public bool HasEffects()
@@ -76,7 +67,7 @@ public class MatchCard : IHasData<MatchCard.Data>
         return CombatStepEffects.Count > 0;
     }
 
-    public int GetBoostValue()
+    public int? GetBoostValue()
     {
         return Template.Boost;
     }
@@ -132,16 +123,6 @@ public class MatchCard : IHasData<MatchCard.Data>
     public async Task PlaceIntoDiscard()
     {
         await Owner.DiscardPile.Add([this]);
-    }
-
-    public async Task ExecuteCombatStepTrigger(CombatStepTrigger trigger, Fighter by)
-    {
-        if (!CombatStepEffects.TryGetValue(trigger, out var effects))
-        {
-            return;
-        }
-
-        effects.Execute(by, by.Owner);
     }
 
     public bool HasLabel(string label)
