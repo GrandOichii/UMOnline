@@ -483,7 +483,7 @@ end
 
 function UM.Conditions:PlayerAttributeEqualTo(attrKey, attrValue)
     return function (args)
-        return GetPlayerAttribute(args.owner, attrKey) == attrValue
+        return GetPlayerStringAttribute(args.owner, attrKey) == attrValue
     end
 end
 
@@ -552,6 +552,8 @@ function UM.Count:Fighters(manyFighters)
         return UM.Number:Static(#manyFighters(args))
     end
 end
+
+UM.Count.CharacterSpecific = {}
 
 -- Card modifications
 

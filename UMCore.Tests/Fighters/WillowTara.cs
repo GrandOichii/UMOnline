@@ -54,7 +54,7 @@ public class WillowTaraTests
 
         match.AssertPlayer(0)
             .SetupCalled()
-            .AttrEq(IDENTITY_ATTR, WILLOW)
+            .StringAttrEq(IDENTITY_ATTR, WILLOW)
             .HasFighterWithName(WILLOW)
             .IsNotWinner();
         match.AssertPlayer(1)
@@ -107,7 +107,7 @@ public class WillowTaraTests
 
         match.AssertPlayer(0)
             .SetupCalled()
-            .AttrEq(IDENTITY_ATTR, DARK_WILLOW)
+            .StringAttrEq(IDENTITY_ATTR, DARK_WILLOW)
             .HasFighterWithName(DARK_WILLOW)
             .IsWinner();
         match.AssertPlayer(1)
@@ -166,7 +166,7 @@ public class WillowTaraTests
 
         match.AssertPlayer(0)
             .SetupCalled()
-            .AttrEq(IDENTITY_ATTR, DARK_WILLOW)
+            .StringAttrEq(IDENTITY_ATTR, DARK_WILLOW)
             .HasFighterWithName(DARK_WILLOW)
             .IsNotWinner();
         match.AssertPlayer(1)
@@ -226,7 +226,7 @@ public class WillowTaraTests
 
         match.AssertPlayer(0)
             .SetupCalled()
-            .AttrEq(IDENTITY_ATTR, WILLOW)
+            .StringAttrEq(IDENTITY_ATTR, WILLOW)
             .HasFighterWithName(WILLOW)
             .IsNotWinner();
         match.AssertPlayer(1)

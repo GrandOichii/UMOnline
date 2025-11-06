@@ -60,7 +60,7 @@ public class AliceTests
 
         match.AssertPlayer(0)
             .SetupCalled()
-            .AttrEq(SIZE_ATTR, targetSize)
+            .StringAttrEq(SIZE_ATTR, targetSize)
             .IsWinner();
         match.AssertPlayer(1)
             .SetupCalled()
@@ -138,7 +138,7 @@ public class AliceTests
 
         match.AssertPlayer(0)
             .SetupCalled()
-            .AttrEq(SIZE_ATTR, size)
+            .StringAttrEq(SIZE_ATTR, size)
             .IsWinner();
 
         match.AssertPlayer(1)
@@ -227,7 +227,7 @@ public class AliceTests
 
         match.AssertPlayer(0)
             .SetupCalled()
-            .AttrEq(SIZE_ATTR, size)
+            .StringAttrEq(SIZE_ATTR, size)
             .IsNotWinner();
 
         match.AssertPlayer(1)
@@ -309,7 +309,7 @@ public class AliceTests
 
         match.AssertPlayer(0)
             .SetupCalled()
-            .AttrEq(SIZE_ATTR, size)
+            .StringAttrEq(SIZE_ATTR, size)
             .IsWinner();
 
         match.AssertPlayer(1)
@@ -398,7 +398,7 @@ public class AliceTests
 
         match.AssertPlayer(0)
             .SetupCalled()
-            .AttrEq(SIZE_ATTR, size)
+            .StringAttrEq(SIZE_ATTR, size)
             .IsNotWinner();
 
         match.AssertPlayer(1)

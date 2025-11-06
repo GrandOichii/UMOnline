@@ -23,14 +23,14 @@ function _Create()
 end
 
 function UM.Effects.CharacterSpecific._SetSize(owner, size)
-    SetPlayerAttribute(owner, 'ALICE_SIZE', size)
+    SetPlayerStringAttribute(owner, 'ALICE_SIZE', size)
 
     LogPublic('Alice changes size! Alice is now '..size)
 end
 
 function UM.Effects.CharacterSpecific:ChangeSize()
     return function (args)
-        local attr = GetPlayerAttribute(args.owner, 'ALICE_SIZE')
+        local attr = GetPlayerStringAttribute(args.owner, 'ALICE_SIZE')
         local newSize = 'BIG'
         if attr == 'BIG' then
             newSize = 'SMALL'

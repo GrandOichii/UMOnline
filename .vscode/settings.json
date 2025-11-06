@@ -34,8 +34,10 @@
         "GetHandSize",
         "IsInCombat",
         "LogPublic",
-        "GetPlayerAttribute",
-        "SetPlayerAttribute",
+        "GetPlayerStringAttribute",
+        "SetPlayerStringAttribute",
+        "GetPlayerIntAttribute",
+        "SetPlayerIntAttribute",
         "GetCardsInDiscardPile",
         "CardHasLabel",
         "IsMoving",
@@ -54,6 +56,7 @@
         "SetFighterName",
         "GetFighterNode",
         "AreNodesAdjacent",
-        "MoveToken"
+        "MoveToken",
+        "GetPlayerStringAttribute"
     ]
 }

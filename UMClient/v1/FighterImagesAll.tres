@@ -13,8 +13,8 @@
 [ext_resource type="Texture2D" uid="uid://er02uyjmhqgd" path="res://assets/decks/Annie Christmas/heroes/hero.webp" id="9"]
 [ext_resource type="Texture2D" uid="uid://r0skeiqiemh3" path="res://assets/decks/Angel/heroes/Angel.webp" id="9_bp8j7"]
 [ext_resource type="Texture2D" uid="uid://b6ihixjeb841t" path="res://assets/decks/Annie Christmas/sidekicks/Annie Christmas_Charlie_1.webp" id="10"]
-[ext_resource type="Texture2D" uid="uid://dw8mnyykhky61" path="res://assets/decks/Beowulf/heroes/hero.webp" id="11"]
 [ext_resource type="Texture2D" uid="uid://bxnlybksdc4fx" path="res://assets/decks/Beowulf/sidekicks/Beowulf_Wiglaf_1.webp" id="12"]
+[ext_resource type="Texture2D" uid="uid://ba3o4d86vh5ap" path="res://assets/decks/Beowulf/heroes/Beowulf.webp" id="13_bp8j7"]
 [ext_resource type="Texture2D" uid="uid://bh5iturg4r56x" path="res://assets/decks/Bigfoot/sidekicks/Bigfoot_The Jackalope_1.webp" id="14"]
 [ext_resource type="Texture2D" uid="uid://durh3ktn40mfx" path="res://assets/decks/Black Panther/heroes/hero.webp" id="15"]
 [ext_resource type="Texture2D" uid="uid://dnnenwew65n6s" path="res://assets/decks/Bigfoot/heroes/Bigfoot.webp" id="15_asmjw"]
@@ -70,10 +70,10 @@
 [ext_resource type="Texture2D" uid="uid://da8ltijpbigss" path="res://assets/decks/Invisible Man/heroes/Invisible Man.webp" id="67_asmjw"]
 [ext_resource type="Texture2D" uid="uid://pps5gyfvlbcf" path="res://assets/decks/King Arthur/sidekicks/King Arthur_Merlin_1.webp" id="68"]
 [ext_resource type="Texture2D" uid="uid://dmld5lrk2wig8" path="res://assets/decks/Jekyll & Hyde/heroes/Dr. Jekyll.png" id="68_asmjw"]
-[ext_resource type="Texture2D" uid="uid://bg6x36n610y61" path="res://assets/decks/Little Red Riding Hood/heroes/hero.webp" id="69"]
 [ext_resource type="Texture2D" uid="uid://bwxitihcmmuq2" path="res://assets/decks/King Arthur/heroes/King Arthur.webp" id="69_tpuew"]
 [ext_resource type="Texture2D" uid="uid://dcdu8waqvgkei" path="res://assets/decks/Little Red Riding Hood/sidekicks/Little Red Riding Hood_Huntsman_1.webp" id="70"]
 [ext_resource type="Texture2D" uid="uid://cjo7xtyleabuk" path="res://assets/decks/Loki/heroes/hero.webp" id="71"]
+[ext_resource type="Texture2D" uid="uid://bqqv0uwh3eb8g" path="res://assets/decks/Little Red Riding Hood/heroes/Little Red Riding Hood.webp" id="71_bp8j7"]
 [ext_resource type="Texture2D" uid="uid://bxpvenc6in5vp" path="res://assets/decks/Luke Cage/heroes/hero.webp" id="72"]
 [ext_resource type="Texture2D" uid="uid://cnsbf6v0gfko3" path="res://assets/decks/Luke Cage/sidekicks/Luke Cage_Misty Knight_1.webp" id="73"]
 [ext_resource type="Texture2D" uid="uid://b4xio7nkpixd7" path="res://assets/decks/Medusa/sidekicks/Medusa_Harpies_1.webp" id="75"]
@@ -195,7 +195,7 @@ images = Array[CompressedTexture2D]([ExtResource("10")])
 [sub_resource type="Resource" id="Resource_10"]
 script = ExtResource("1_gr0k2")
 fighter_key = "Beowulf"
-images = Array[CompressedTexture2D]([ExtResource("11")])
+images = Array[CompressedTexture2D]([ExtResource("13_bp8j7")])
 
 [sub_resource type="Resource" id="Resource_11"]
 script = ExtResource("1_gr0k2")
@@ -429,8 +429,8 @@ images = Array[CompressedTexture2D]([ExtResource("68")])
 
 [sub_resource type="Resource" id="Resource_57"]
 script = ExtResource("1_gr0k2")
-fighter_key = "Little Red Riding Hood"
-images = Array[CompressedTexture2D]([ExtResource("69")])
+fighter_key = "Little Red"
+images = Array[CompressedTexture2D]([ExtResource("71_bp8j7")])
 
 [sub_resource type="Resource" id="Resource_58"]
 script = ExtResource("1_gr0k2")

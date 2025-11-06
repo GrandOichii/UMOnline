@@ -20,6 +20,8 @@ NAMES = [
     # 'Willow'
     # 'Angel'
     # 'Buffy'
+    'Beowulf',
+    'Little Red Riding Hood',
 
 ]
 

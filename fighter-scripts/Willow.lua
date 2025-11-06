@@ -32,12 +32,12 @@ function UM.Effects.CharacterSpecific:ToggleDarkWillow(isDarkWillow)
 
     return function (args)
         local identity = identityMap[isDarkWillow]
-        local prev = GetPlayerAttribute(args.owner, 'IDENTITY')
+        local prev = GetPlayerStringAttribute(args.owner, 'IDENTITY')
         if prev == identity then
             return
         end
 
-        SetPlayerAttribute(args.owner, 'IDENTITY', identity)
+        SetPlayerStringAttribute(args.owner, 'IDENTITY', identity)
         SetFighterName(args.fighter, identity)
 
         if prev == nil then

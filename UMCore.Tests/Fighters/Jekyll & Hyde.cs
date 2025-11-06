@@ -53,7 +53,7 @@ public class JekyllHydeTests
 
         match.AssertPlayer(0)
             .SetupCalled()
-            .AttrEq(IDENTITY_ATTR, DR_JEKYLL)
+            .StringAttrEq(IDENTITY_ATTR, DR_JEKYLL)
             .HasFighterWithName(DR_JEKYLL)
             .IsNotWinner();
         match.AssertPlayer(1)
@@ -105,7 +105,7 @@ public class JekyllHydeTests
 
         match.AssertPlayer(0)
             .SetupCalled()
-            .AttrEq(IDENTITY_ATTR, expectedIdentity)
+            .StringAttrEq(IDENTITY_ATTR, expectedIdentity)
             .HasFighterWithName(expectedIdentity)
             .IsWinner();
         match.AssertPlayer(1)

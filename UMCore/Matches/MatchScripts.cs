@@ -307,15 +307,27 @@ public class MatchScripts
     }
 
     [LuaCommand]
-    public void SetPlayerAttribute(Player player, string key, string value)
+    public void SetPlayerStringAttribute(Player player, string key, string value)
     {
-        player.Attributes.Set(key, value);
+        player.Attributes.String.Set(key, value);
     }
 
     [LuaCommand]
-    public string? GetPlayerAttribute(Player player, string key)
+    public string? GetPlayerStringAttribute(Player player, string key)
     {
-        return player.Attributes.Get(key);
+        return player.Attributes.String.Get(key);
+    }
+
+    [LuaCommand]
+    public void SetPlayerIntAttribute(Player player, string key, int value)
+    {
+        player.Attributes.Int.Set(key, value);
+    }
+
+    [LuaCommand]
+    public int? GetPlayerIntAttribute(Player player, string key)
+    {
+        return player.Attributes.Int.Get(key);
     }
 
     [LuaCommand]

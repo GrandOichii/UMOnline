@@ -211,5 +211,4 @@ public class BuffyTests
             .SetupCalled()
             .IsNotWinner();
     }
-    // TODO can move over opponents
 }

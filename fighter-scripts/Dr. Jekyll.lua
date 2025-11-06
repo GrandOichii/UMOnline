@@ -11,7 +11,7 @@ function _Create()
         :AtTheStartOfYourTurn(
             'At the start of your turn, you may transform into Dr. Jekyll or Mr. Hyde.',
             function (args)
-                local prev = GetPlayerAttribute(args.owner, 'IDENTITY')
+                local prev = GetPlayerStringAttribute(args.owner, 'IDENTITY')
                 local newIdentity = jekyll
                 if prev == newIdentity then
                     newIdentity = hyde
@@ -37,11 +37,11 @@ end
 
 function UM.Effects.CharacterSpecific:ChangeToJHIdentity(identity)
     return function (args)
-        local prev = GetPlayerAttribute(args.owner, 'IDENTITY')
+        local prev = GetPlayerStringAttribute(args.owner, 'IDENTITY')
         if prev == identity then
             return
         end
-        SetPlayerAttribute(args.owner, 'IDENTITY', identity)
+        SetPlayerStringAttribute(args.owner, 'IDENTITY', identity)
         SetFighterName(args.fighter, identity)
         if prev == nil then
             return

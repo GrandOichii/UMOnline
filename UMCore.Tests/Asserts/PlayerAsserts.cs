@@ -41,10 +41,17 @@ public class PlayerAsserts
         return this;
     }
 
-    public PlayerAsserts AttrEq(string attrKey, string value)
+    public PlayerAsserts StringAttrEq(string attrKey, string value)
     {
-        var attr = _player.Attributes.Get(attrKey);
+        var attr = _player.Attributes.String.Get(attrKey);
         attr.ShouldNotBeNull();
+        attr.ShouldBe(value);
+        return this;
+    }
+
+    public PlayerAsserts IntAttrEq(string attrKey, int value)
+    {
+        var attr = _player.Attributes.Int.Get(attrKey);
         attr.ShouldBe(value);
         return this;
     }
