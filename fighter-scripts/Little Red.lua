@@ -4,6 +4,19 @@
 
 function _Create()
     return UM.Build:Fighter()
-        -- TODO
     :Build()
+end
+
+-- TODO not tested
+function UM.Conditions.CharacterSpecific:InBasket(symbol)
+    return function (args)
+        local cards = GetCardsInDiscardPile(args.owner)
+
+        -- Little Red's Basket
+        if #cards == 0 then
+            return true
+        end
+
+        return CardHasLabel(cards[#cards], symbol)
+    end
 end

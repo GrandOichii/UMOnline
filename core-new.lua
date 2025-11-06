@@ -536,6 +536,8 @@ function UM.Conditions:Gt(numeric1, numeric2)
     end
 end
 
+UM.Conditions.CharacterSpecific = {}
+
 -- Counters
 
 UM.Count = {}
