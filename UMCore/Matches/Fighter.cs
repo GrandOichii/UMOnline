@@ -389,6 +389,17 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
         return recovered;
     }
 
+    public async Task<int> FullyRecoverHealth()
+    {
+        var recovered = Health.RecoverFully();
+        Match.Logger?.LogDebug("{FighterLogName} recovers to full health", LogName);
+        Match.Logs.Public($"Fighter {FormattedLogName} recovers to full health");
+
+        await Match.UpdateClients();
+
+        return recovered;
+    }
+
     public IEnumerable<MatchCard> GetValidAttackCards()
     {
         return Owner.Hand.Cards.Where(c => c.CanBeUsedAsAttack(this));
@@ -544,6 +555,13 @@ public class Health(Fighter fighter)
         Current += amount;
         if (Current > Max) Current = Max;
 
+        return Current - old;
+    }
+
+    public int RecoverFully()
+    {
+        var old = Current;
+        Current = Max;
         return Current - old;
     }
 }

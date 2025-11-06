@@ -238,9 +238,9 @@ for deck in data['decks']:
     loadout = {
         'Name': deck_name,
         'Key': deck_key,
-        'StartsWithSidekicks': True,
         'Fighters': fighters,
         'ChoosesSidekick': deck['choosesSidekick'] if 'choosesSidekick' in deck else False,
+        'StartsWithSidekicks': deck['startsWithSidekicks'] if 'startsWithSidekicks' in deck else True,
         'Deck': cards
     }
 

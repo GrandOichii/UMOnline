@@ -215,6 +215,14 @@ public class MatchScripts
     }
 
     [LuaCommand]
+    public int FullyRecoverHealth(Fighter fighter)
+    {
+        var result = fighter.FullyRecoverHealth()
+            .GetAwaiter().GetResult();
+        return result;
+    }
+
+    [LuaCommand]
     public bool AreAdjacent(Fighter fighter1, Fighter fighter2)
     {
         var node1 = Match.Map.GetFighterLocation(fighter1);
@@ -465,5 +473,11 @@ public class MatchScripts
     public bool IsDefeated(Fighter fighter)
     {
         return !fighter.IsAlive();
+    }
+
+    [LuaCommand]
+    public bool IsNodeEmpty(MapNode node)
+    {
+        return node.IsEmpty();
     }
 }

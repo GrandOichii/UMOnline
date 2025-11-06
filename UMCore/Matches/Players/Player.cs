@@ -90,6 +90,7 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
         }
         var sidekickQueue = new Queue<Fighter>(Fighters.Where(f => f.IsSidekick()));
 
+        if (!Loadout.StartsWithSidekicks) sidekickQueue = [];
         await placer.Run(this, spawnNumber, heroQueue, sidekickQueue);
     }
 

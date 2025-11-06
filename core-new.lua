@@ -500,13 +500,15 @@ function UM.Conditions:PlayerAttributeEqualTo(attrKey, attrValue)
     end
 end
 
-function UM.Conditions:And(cond1, cond2)
+function UM.Conditions:And(...)
+    local conds = {...}
     return function (args)
-
-        local result = cond1(args) and cond2(args)
-        DEBUG(tostring(result))
-
-        return result
+        for _, cond in ipairs(conds) do
+            if not cond(args) then
+                return false
+            end
+        end
+        return true
     end
 end
 
@@ -706,6 +708,17 @@ function UM.Effects:DealDamage(manyFighters, numeric)
     end
 end
 
+function UM.Effects:ReviveAndSummon(singleDefeatedFighter, singleNode)
+    return function (args)
+        local fighter = singleDefeatedFighter(args, 'Choose which fighter to revive')
+        assert(IsDefeated(fighter), 'Provided a non-defeated fighter for UM.Effects:ReviveAndSummon')
+        FullyRecoverHealth(fighter)
+
+        local node = singleNode(args, 'Choose where to place the fighter')
+        PlaceFighter(fighter, node)
+    end
+end
+
 function UM.Effects:Recover(manyFighters, amount)
     return function (args)
         local fighters = manyFighters(args, 'Choose which fighter will recover health')
@@ -862,6 +875,13 @@ function UM.Select:_Base(getAllFunc, chooseSingleFunc)
         end
     end
 
+    function result:BuildFirst()
+        return function (args, chooseHint)
+            local results =  result:_Select(args)
+            return results[1]
+        end
+    end
+
     function result:BuildPredicate()
         return function (args, obj)
             local fighters = result:_Select(args)
@@ -971,6 +991,12 @@ function UM.Select:Fighters()
 
     function result:AllYour()
         return result:OwnedBy(UM.Player:EffectOwner())
+    end
+
+    function result:Defeated()
+        return result:_Add(function (args, fighter)
+            return IsDefeated(fighter)
+        end)
     end
 
     function result:Your()
@@ -1136,6 +1162,12 @@ function UM.Select:Nodes()
     function result:Unoccupied()
         return result:_Add(function (args, node)
             return IsUnoccupied(node)
+        end)
+    end
+
+    function result:Empty()
+        return result:_Add(function (args, node)
+            return IsNodeEmpty(node)
         end)
     end
 

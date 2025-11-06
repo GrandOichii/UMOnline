@@ -59,6 +59,8 @@
         "MoveToken",
         "GetPlayerStringAttribute",
         "DEBUG",
-        "IsDefeated"
+        "IsDefeated",
+        "IsNodeEmpty",
+        "FullyRecoverHealth"
     ]
 }

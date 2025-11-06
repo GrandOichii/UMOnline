@@ -5553,6 +5553,7 @@
             ],
             "movement": 2,
             "name": "Sun Wukong",
+            "startsWithSidekicks": false,
             "notes": null,
             "quote": null,
             "set": "Battle of Legends, Volume Two",

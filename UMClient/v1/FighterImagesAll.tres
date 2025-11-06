@@ -116,11 +116,11 @@
 [ext_resource type="Texture2D" uid="uid://bhr1dwxboqwev" path="res://assets/decks/Squirrel Girl/sidekicks/Squirrel Girl_Squirrel_6.webp" id="109"]
 [ext_resource type="Texture2D" uid="uid://54l31ae4jff0" path="res://assets/decks/Squirrel Girl/sidekicks/Squirrel Girl_Squirrel_7.webp" id="110"]
 [ext_resource type="Texture2D" uid="uid://cpn5t0j5l4a0a" path="res://assets/decks/Squirrel Girl/sidekicks/Squirrel Girl_Squirrel_8.webp" id="111"]
-[ext_resource type="Texture2D" uid="uid://crvboqaeo1721" path="res://assets/decks/Sun Wukong/heroes/hero.webp" id="112"]
 [ext_resource type="Texture2D" uid="uid://e84p313yf2j4" path="res://assets/decks/Sun Wukong/sidekicks/Sun Wukong_Clones_1.webp" id="113"]
 [ext_resource type="Texture2D" uid="uid://chfwqrgm6vs13" path="res://assets/decks/Sun Wukong/sidekicks/Sun Wukong_Clones_2.webp" id="114"]
 [ext_resource type="Texture2D" uid="uid://mm75s36rdnnj" path="res://assets/decks/Sun Wukong/sidekicks/Sun Wukong_Clones_3.webp" id="115"]
 [ext_resource type="Texture2D" uid="uid://brvrrwsp1h2hp" path="res://assets/decks/T. Rex/heroes/hero.webp" id="116"]
+[ext_resource type="Texture2D" uid="uid://dcnegmvram0t2" path="res://assets/decks/Sun Wukong/heroes/Sun Wukong.webp" id="116_bp8j7"]
 [ext_resource type="Texture2D" uid="uid://dqsefdrt0na3f" path="res://assets/decks/The Genie/heroes/hero.webp" id="117"]
 [ext_resource type="Texture2D" uid="uid://b2wiglftwcfl5" path="res://assets/decks/The Wayward Sisters/heroes/hero.webp" id="118"]
 [ext_resource type="Texture2D" uid="uid://bgg502kgokjjx" path="res://assets/decks/Titania/heroes/hero.webp" id="119"]
@@ -136,8 +136,8 @@
 [ext_resource type="Texture2D" uid="uid://dtdlomlvjlho1" path="res://assets/decks/Yennefer & Triss/sidekicks/Yennefer & Triss_Triss_1.webp" id="130"]
 [ext_resource type="Texture2D" uid="uid://bx5gqpq56tnxy" path="res://assets/decks/Willow/heroes/Willow.webp" id="130_iakbt"]
 [ext_resource type="Texture2D" uid="uid://ct0508385rap5" path="res://assets/decks/Yennefer & Triss/sidekicks/Yennefer & Triss_Yennefer_2.webp" id="131"]
-[ext_resource type="Texture2D" uid="uid://b3s4ohtaxtn4e" path="res://assets/decks/Yennenga/heroes/hero.webp" id="132"]
 [ext_resource type="Texture2D" uid="uid://cthn2miomgonv" path="res://assets/decks/Yennenga/sidekicks/Yennenga_Archers_1.webp" id="133"]
+[ext_resource type="Texture2D" uid="uid://b1nyubcpnhywm" path="res://assets/decks/Yennenga/heroes/Yennenga.webp" id="136_bp8j7"]
 [ext_resource type="Texture2D" uid="uid://he563630nl3n" path="res://assets/decks/Yennenga/sidekicks/Yennenga_Archers_Flip.png" id="137_6lcy8"]
 [ext_resource type="Texture2D" uid="uid://co2kut3vi6wuq" path="res://assets/decks/Jekyll & Hyde/heroes/Mr. Hyde.png" id="137_asmjw"]
 [ext_resource type="Texture2D" uid="uid://bjuddq3ytx1qt" path="res://assets/decks/Willow/heroes/Dark Willow.webp" id="140_bp8j7"]
@@ -575,7 +575,7 @@ images = Array[CompressedTexture2D]([ExtResource("104"), ExtResource("105"), Ext
 [sub_resource type="Resource" id="Resource_86"]
 script = ExtResource("1_gr0k2")
 fighter_key = "Sun Wukong"
-images = Array[CompressedTexture2D]([ExtResource("112")])
+images = Array[CompressedTexture2D]([ExtResource("116_bp8j7")])
 
 [sub_resource type="Resource" id="Resource_87"]
 script = ExtResource("1_gr0k2")
@@ -655,7 +655,7 @@ images = Array[CompressedTexture2D]([ExtResource("131")])
 [sub_resource type="Resource" id="Resource_102"]
 script = ExtResource("1_gr0k2")
 fighter_key = "Yennenga"
-images = Array[CompressedTexture2D]([ExtResource("132")])
+images = Array[CompressedTexture2D]([ExtResource("136_bp8j7")])
 
 [sub_resource type="Resource" id="Resource_103"]
 script = ExtResource("1_gr0k2")
