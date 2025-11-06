@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://er8o2pnai2vo"
-path="res://.godot/imported/Little Red Riding Hood_Once Upon a Time 🌹.webp-81b955921f26921da7ec2f03ab83819b.ctex"
+uid="uid://dvir57akqomrq"
+path="res://.godot/imported/Little Red Riding Hood_The Wolf's Skin.webp-020b379d73c7b2dc166bd65a44e79864.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/decks/Little Red Riding Hood/cards/Little Red Riding Hood_Once Upon a Time 🌹.webp"
-dest_files=["res://.godot/imported/Little Red Riding Hood_Once Upon a Time 🌹.webp-81b955921f26921da7ec2f03ab83819b.ctex"]
+source_file="res://assets/decks/Little Red Riding Hood/cards/Little Red Riding Hood_The Wolf's Skin.webp"
+dest_files=["res://.godot/imported/Little Red Riding Hood_The Wolf's Skin.webp-020b379d73c7b2dc166bd65a44e79864.ctex"]
 
 [params]
 

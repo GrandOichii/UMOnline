@@ -4374,7 +4374,7 @@
         {
             "cards": [
                 {
-                    "afterText": "You may return this card to your hand.\r\n\ud83c\udf39 Instead, you may return the top card of your discard pile to your hand.",
+                    "afterText": "You may return this card to your hand.\n$flower$ Instead, you may return the top card of your discard pile to your hand.",
                     "basicText": null,
                     "boost": 3,
                     "card_notes": null,
@@ -4391,7 +4391,7 @@
                     "value": 2
                 },
                 {
-                    "afterText": "\ud83d\udc3a Draw 2 cards.",
+                    "afterText": "$pelt$ Draw 2 cards.",
                     "basicText": null,
                     "boost": 2,
                     "card_notes": null,
@@ -4408,7 +4408,7 @@
                     "value": 2
                 },
                 {
-                    "afterText": "\ud83d\udc3a  Deal damage to the opposing fighter equal to the printed value of their card.",
+                    "afterText": "$pelt$ Deal damage to the opposing fighter equal to the printed value of their card.",
                     "basicText": null,
                     "boost": 2,
                     "card_notes": null,
@@ -4426,7 +4426,7 @@
                 },
                 {
                     "afterText": null,
-                    "basicText": "\u2694\ufe0f You may play this card as a defense card.",
+                    "basicText": "$knife$ You may play this card as a defense card.",
                     "boost": 2,
                     "card_notes": null,
                     "characterName": "LITTLE RED",
@@ -4450,7 +4450,7 @@
                     "deck_card_notes": null,
                     "duringText": null,
                     "image": "https://static.unmatched.cards/images/umdb/decks/little-red/what-big-eyes-you-have.png",
-                    "immediateText": "Cancel all effects on your opponent's card. \n\ud83c\udf39 Also ignore the value of your opponent's card.",
+                    "immediateText": "Cancel all effects on your opponent's card. \n$flower$ Also ignore the value of your opponent's card.",
                     "quantity": 2,
                     "slug": "what-big-eyes-you-have",
                     "title": "What Big Eyes You Have",
@@ -4460,7 +4460,7 @@
                 },
                 {
                     "afterText": null,
-                    "basicText": "(\ud83c\udf1f counts as any one \ud83d\udc3a\ud83c\udf39\u2694\ufe0f symbol.)",
+                    "basicText": "($peltknifeflower$ counts as any one $pelt$$flower$$knife$ symbol.)",
                     "boost": 3,
                     "card_notes": null,
                     "characterName": "LITTLE RED",
@@ -4477,7 +4477,7 @@
                 },
                 {
                     "afterText": null,
-                    "basicText": "\ud83d\udc3a  Place Little Red in any space. Gain 1 action. \n\u2694\ufe0f Deal 2 damage to each opposing fighter in Little Red's zone. \n\ud83c\udf39 Draw 3 cards.",
+                    "basicText": "$pelt$  Place Little Red in any space. Gain 1 action. \n$knife$ Deal 2 damage to each opposing fighter in Little Red's zone. \n$flower$ Draw 3 cards.",
                     "boost": 1,
                     "card_notes": null,
                     "characterName": "LITTLE RED",
@@ -4562,7 +4562,7 @@
                 },
                 {
                     "afterText": null,
-                    "basicText": "Little Red Recovers 2 health.\n\ud83d\udc3a Little Red recovers 4 health instead.",
+                    "basicText": "Little Red Recovers 2 health.\n$pelt$ Little Red recovers 4 health instead.",
                     "boost": 3,
                     "card_notes": null,
                     "characterName": "HUNTSMAN",
@@ -4584,7 +4584,7 @@
                     "card_notes": null,
                     "characterName": "ANY",
                     "deck_card_notes": null,
-                    "duringText": "\u2694\ufe0f Your opponent discards 1 random card. Add its BOOST value to this card's value.",
+                    "duringText": "$knife$ Your opponent discards 1 random card. Add its BOOST value to this card's value.",
                     "image": "https://static.unmatched.cards/images/umdb/decks/little-red/stones-in-the-belly.png",
                     "immediateText": null,
                     "quantity": 3,
@@ -4595,7 +4595,7 @@
                     "value": 2
                 },
                 {
-                    "afterText": "\u2694\ufe0f Deal 3 damage to the opposing fighter.",
+                    "afterText": "$knife$ Deal 3 damage to the opposing fighter.",
                     "basicText": null,
                     "boost": 1,
                     "card_notes": null,
@@ -4623,7 +4623,7 @@
             ],
             "movement": 2,
             "name": "Little Red Riding Hood",
-            "notes": "(\ud83c\udf1f counts as any one \ud83d\udc3a\ud83c\udf39\u2694\ufe0f symbol.)",
+            "notes": "($peltknifeflower$ counts as any one $pelt$$flower$$knife$ symbol.)",
             "quote": null,
             "set": "Little Red Riding Hood vs. Beowulf",
             "setSlug": "little-red-vs-beowulf",

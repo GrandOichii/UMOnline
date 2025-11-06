@@ -19,14 +19,14 @@ end
 function UM.Effects.CharacterSpecific:SetRage(value)
     return function (args)
         local prev = GetPlayerIntAttribute(args.owner, 'RAGE')
-        if prev == value then
-            return
-        end
         if value > 3 then
             value = 3
         end
         if value < 0 then
             value = 0
+        end
+        if prev == value then
+            return
         end
         SetPlayerIntAttribute(args.owner, 'RAGE', value)
         LogPublic('Beowulf\'s rage is set to '..tostring(value))

@@ -12,8 +12,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_lduew")
-PlayerDeck = "Beowulf"
-BotDeck = "Little Red Riding Hood"
+PlayerDeck = "Little Red Riding Hood"
+BotDeck = "Beowulf"
 
 [node name="Match" parent="." node_paths=PackedStringArray("Connection") instance=ExtResource("2_7v5ud")]
 unique_name_in_owner = true
