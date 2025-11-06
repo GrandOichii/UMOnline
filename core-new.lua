@@ -346,50 +346,40 @@ end
 
 UM.Number = {}
 
-function UM.Number:_(options)
-    local result = {
-        values = options
-    }
+function UM.Number:_(optionsFunc)
+    local result = {}
 
     function result:Choose(args, hint)
-        local _result = result.values[1]
-        if #result.values > 1 then
-            _result = ChooseNumber(args.owner, result.values, hint)
+        local values = optionsFunc(args)
+        local _result = values[1]
+        if #values > 1 then
+            _result = ChooseNumber(args.owner, values, hint)
         end
         return _result
     end
 
     function result:Last(args)
-        return result.values[#result.values]
+        local values = optionsFunc(args)
+        return values[#values]
     end
 
     return result
-    -- return function (...)
-    --     return result
-    -- end
 end
 
 function UM.Number:Count(many)
-    local result = {}
-
-    function result:Choose(args, hint)
-        -- TODO
-    end
-
-    function result:Last(args)
-        return #many(args)
-    end
-
-    return result
-    -- return function (...)
-    --     return result
-    -- end
+    return UM.Number:_(function (args)
+        return {
+            [1] = #many(args)
+        }
+    end)
 end
 
 function UM.Number:Static(v)
-    return UM.Number:_({
-        [1] = v
-    })
+    return UM.Number:_(function (args)
+        return {
+            [1] = v
+        }
+    end)
 end
 
 function UM.Number:UpTo(max)
@@ -397,7 +387,9 @@ function UM.Number:UpTo(max)
     for i = 1, max do
         values[#values+1] = i
     end
-    return UM.Number:_(values)
+    return UM.Number:_(function (args)
+        return values
+    end)
 end
 
 UM.Effects = {}
@@ -526,6 +518,7 @@ end
 
 function UM.Conditions:Eq(numeric1, numeric2)
     return function (args)
+        LogPublic(tostring(numeric1:Last(args))..' '..tostring(numeric2:Last(args)))
         return numeric1:Last(args) == numeric2:Last(args)
     end
 end
@@ -543,16 +536,11 @@ UM.Conditions.CharacterSpecific = {}
 UM.Count = {}
 
 function UM.Count:CardsInHand(singlePlayer)
-    return function (args)
-        local player = singlePlayer(args)
-        return UM.Number:Static(GetHandSize(player))
-    end
-end
-
-function UM.Count:Fighters(manyFighters)
-    return function (args)
-        return UM.Number:Static(#manyFighters(args))
-    end
+    return UM.Number:_(function (args)
+        return {
+            [1] = GetHandSize(singlePlayer(args))
+        }
+    end)
 end
 
 UM.Count.CharacterSpecific = {}

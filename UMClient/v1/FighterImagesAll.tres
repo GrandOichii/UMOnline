@@ -24,7 +24,7 @@
 [ext_resource type="Texture2D" uid="uid://dlem57wqee1gc" path="res://assets/decks/Blackbeard/heroes/hero.webp" id="19"]
 [ext_resource type="Texture2D" uid="uid://d0juety2o5db5" path="res://assets/decks/Blackbeard/sidekicks/Blackbeard_Seadog_1.webp" id="20"]
 [ext_resource type="Texture2D" uid="uid://d33aaq8rykwo4" path="res://assets/decks/Blackbeard/sidekicks/Blackbeard_Seadog_2.webp" id="21"]
-[ext_resource type="Texture2D" uid="uid://b6uke4cfbj3x7" path="res://assets/decks/Bloody Mary/heroes/hero.webp" id="22"]
+[ext_resource type="Texture2D" uid="uid://cyuqxu7nlk3yl" path="res://assets/decks/Bloody Mary/heroes/Bloody Mary.webp" id="24_bp8j7"]
 [ext_resource type="Texture2D" uid="uid://bc1ukgnjswnlg" path="res://assets/decks/Buffy/sidekicks/Buffy_Giles_1.webp" id="25"]
 [ext_resource type="Texture2D" uid="uid://d2qwchc0t7gry" path="res://assets/decks/Bruce Lee/heroes/Bruce Lee.webp" id="25_asmjw"]
 [ext_resource type="Texture2D" uid="uid://d147d1d4ai38y" path="res://assets/decks/Buffy/sidekicks/Buffy_Xander_2.webp" id="26"]
@@ -245,7 +245,7 @@ images = Array[CompressedTexture2D]([ExtResource("20"), ExtResource("21")])
 [sub_resource type="Resource" id="Resource_20"]
 script = ExtResource("1_gr0k2")
 fighter_key = "Bloody Mary"
-images = Array[CompressedTexture2D]([ExtResource("22")])
+images = Array[CompressedTexture2D]([ExtResource("24_bp8j7")])
 
 [sub_resource type="Resource" id="Resource_21"]
 script = ExtResource("1_gr0k2")

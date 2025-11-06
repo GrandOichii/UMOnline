@@ -20,8 +20,12 @@ NAMES = [
     # 'Willow'
     # 'Angel'
     # 'Buffy'
-    'Beowulf',
-    'Little Red Riding Hood',
+    # 'Beowulf',
+    # 'Little Red Riding Hood',
+    # 'Bloody Mary',
+    # 'Achilles',
+    # 'Sun Wukong',
+    # 'Yennenga',
 
 ]
 
