@@ -4,19 +4,16 @@ namespace UMCore.Matches.Players;
 
 public interface IPlayerInitialFighterPlacer
 {
-    Task Run(Player player, int spawnNumber); 
+    Task Run(Player player, int spawnNumber, Queue<Fighter> heroQueue, Queue<Fighter> sidekickQueue); 
 }
 
 public class PlayerInitialFighterPlacerInZone : IPlayerInitialFighterPlacer
 {
     // if no space left, place in any node
 
-    public async Task Run(Player player, int spawnNumber)
+    public async Task Run(Player player, int spawnNumber, Queue<Fighter> heroQueue, Queue<Fighter> sidekickQueue)
     {
         // place fighter in initial node 
-
-        var heroQueue = new Queue<Fighter>(player.Fighters.Where(f => f.IsHero()));
-        var sidekickQueue = new Queue<Fighter>(player.Fighters.Where(f => f.IsSidekick()));
 
         var hero = heroQueue.Dequeue();
         var heroNode = player.Match.Map.GetSpawnLocation(spawnNumber);
@@ -62,11 +59,8 @@ public class PlayerInitialFighterPlacerInZone : IPlayerInitialFighterPlacer
 
 public class PlayerInitialFighterPlacerNeighbors : IPlayerInitialFighterPlacer
 {
-    public async Task Run(Player player, int spawnNumber)
+    public async Task Run(Player player, int spawnNumber, Queue<Fighter> heroQueue, Queue<Fighter> sidekickQueue)
     {
-        var heroQueue = new Queue<Fighter>(player.Fighters.Where(f => f.IsHero()));
-        var sidekickQueue = new Queue<Fighter>(player.Fighters.Where(f => f.IsSidekick()));
-
         // TODO check that is hero
         var hero = heroQueue.Dequeue();
         var heroNode = player.Match.Map.GetSpawnLocation(spawnNumber);

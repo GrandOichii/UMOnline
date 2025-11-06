@@ -15,6 +15,7 @@ public class CardTemplateBuilder
             Type = "Scheme",
             Value = 0,
             Labels = [],
+            IncludedInDeckWithSidekick = null,
         };
     }
 }

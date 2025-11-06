@@ -35,7 +35,7 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
     public string Name { get; }
     public int Idx { get; }
     public int TeamIdx { get; }
-    public List<Fighter> Fighters { get; }
+    public List<Fighter> Fighters { get; private set; }
     public Hand Hand { get; }
     public Deck Deck { get; }
     public DiscardPile DiscardPile { get; }
@@ -79,10 +79,21 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
     {
         // IPlayerInitialFighterPlacer placer = new PlayerInitialFighterPlacerNeighbors();
         IPlayerInitialFighterPlacer placer = new PlayerInitialFighterPlacerInZone();
-        await placer.Run(this, spawnNumber);
+        
+        var heroQueue = new Queue<Fighter>(Fighters.Where(f => f.IsHero()));
+        if (Loadout.ChoosesSidekick)
+        {
+            Dictionary<string, Fighter> sidekickDict = Fighters.Where(f => f.IsSidekick()).ToDictionary(f => f.Name);
+            var choice = await Controller.ChooseString(this, [.. sidekickDict.Keys], "Choose your sidekick");
+            var chosenHero = sidekickDict[choice];
+            Fighters.RemoveAll(s => s.IsSidekick() && s != chosenHero);
+        }
+        var sidekickQueue = new Queue<Fighter>(Fighters.Where(f => f.IsSidekick()));
+
+        await placer.Run(this, spawnNumber, heroQueue, sidekickQueue);
     }
 
-    public async Task Setup()
+    public async Task CreateFighters()
     {
         // create and place fighters
         {
@@ -95,10 +106,19 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
                 }
             }
         }
+    }
+
+    public async Task CreateDeck() {
 
         // create deck
         {
-            foreach (var card in Loadout.Deck)
+            List<LoadoutCardTemplate> cards = [.. Loadout.Deck.Where(c => c.Card.IncludedInDeckWithSidekick is null)];
+            foreach (var fighter in Fighters)
+            {
+                cards.AddRange(Loadout.Deck.Where(c => c.Card.IncludedInDeckWithSidekick == fighter.Template.Key));
+            }
+            
+            foreach (var card in cards)
             {
                 await Deck.Add(
                     Enumerable.Range(0, card.Amount)
@@ -273,6 +293,12 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
 
     public async Task MoveFighter(Fighter fighter, int distance, bool canMoveOverFriendly, bool canMoveOverOpposing)
     {
+        // TODO feels weird
+        if (!canMoveOverOpposing)
+        {
+            canMoveOverOpposing = fighter.Template.CanMoveOverOpposing;
+        }
+
         var movement = Match.SetCurrentMovement(new(fighter, distance, canMoveOverFriendly, canMoveOverOpposing));
         await movement.Resolve();
         Match.FinishMovement();

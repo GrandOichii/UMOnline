@@ -25,10 +25,10 @@
 [ext_resource type="Texture2D" uid="uid://d0juety2o5db5" path="res://assets/decks/Blackbeard/sidekicks/Blackbeard_Seadog_1.webp" id="20"]
 [ext_resource type="Texture2D" uid="uid://d33aaq8rykwo4" path="res://assets/decks/Blackbeard/sidekicks/Blackbeard_Seadog_2.webp" id="21"]
 [ext_resource type="Texture2D" uid="uid://b6uke4cfbj3x7" path="res://assets/decks/Bloody Mary/heroes/hero.webp" id="22"]
-[ext_resource type="Texture2D" uid="uid://cj16ybdsg5p7t" path="res://assets/decks/Buffy/heroes/hero.webp" id="24"]
 [ext_resource type="Texture2D" uid="uid://bc1ukgnjswnlg" path="res://assets/decks/Buffy/sidekicks/Buffy_Giles_1.webp" id="25"]
 [ext_resource type="Texture2D" uid="uid://d2qwchc0t7gry" path="res://assets/decks/Bruce Lee/heroes/Bruce Lee.webp" id="25_asmjw"]
 [ext_resource type="Texture2D" uid="uid://d147d1d4ai38y" path="res://assets/decks/Buffy/sidekicks/Buffy_Xander_2.webp" id="26"]
+[ext_resource type="Texture2D" uid="uid://b248rn1mut0o3" path="res://assets/decks/Buffy/heroes/Buffy.webp" id="26_bp8j7"]
 [ext_resource type="Texture2D" uid="uid://dviq2jj6pm3wl" path="res://assets/decks/Bullseye/heroes/hero.webp" id="27"]
 [ext_resource type="Texture2D" uid="uid://dvrpr5f63kd7y" path="res://assets/decks/Chupacabra/heroes/hero.webp" id="28"]
 [ext_resource type="Texture2D" uid="uid://bhiwpth3351vh" path="res://assets/decks/Ciri/heroes/hero.webp" id="29"]
@@ -255,7 +255,7 @@ images = Array[CompressedTexture2D]([ExtResource("25_asmjw")])
 [sub_resource type="Resource" id="Resource_22"]
 script = ExtResource("1_gr0k2")
 fighter_key = "Buffy"
-images = Array[CompressedTexture2D]([ExtResource("24")])
+images = Array[CompressedTexture2D]([ExtResource("26_bp8j7")])
 
 [sub_resource type="Resource" id="Resource_23"]
 script = ExtResource("1_gr0k2")

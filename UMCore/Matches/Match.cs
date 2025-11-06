@@ -156,6 +156,7 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
         {
             var player = Players[(CurPlayerIdx + i) % Players.Count];
             await player.InitialPlaceFighters(i + 1);
+            await player.CreateDeck();
         }
 
         Logs.Public("Match started!");
@@ -177,7 +178,7 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
     {
         foreach (var player in Players)
         {
-            await player.Setup();
+            await player.CreateFighters();
         }
         
         var setupData = GetSetupData();

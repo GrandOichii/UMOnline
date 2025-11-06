@@ -17,6 +17,7 @@ public class FighterTemplateBuilder(string name, string key)
         Name = name,
         Script = DEFAULT_FIGHTER_SCRIPT,
         Text = "",
+        CanMoveOverOpposing = false,
     };
 
     public FighterTemplate Build()

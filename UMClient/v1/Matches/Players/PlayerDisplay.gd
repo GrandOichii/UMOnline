@@ -101,5 +101,8 @@ func load_player(match_data, idx):
 		var node = FightersNode.get_child(fi)
 		node.load_fighter(fighter)
 		fi += 1
+	while FightersNode.get_child_count() > len(data.Fighters):
+		FightersNode.remove_child(FightersNode.get_child(0))
+
 
 	

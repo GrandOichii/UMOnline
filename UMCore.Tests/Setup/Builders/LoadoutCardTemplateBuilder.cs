@@ -102,7 +102,8 @@ public class LoadoutCardTemplateBuilder
                 end
                 """,
                 Type = _type,
-                Value = _value
+                Value = _value,
+                IncludedInDeckWithSidekick = null,
             }
         };
     }

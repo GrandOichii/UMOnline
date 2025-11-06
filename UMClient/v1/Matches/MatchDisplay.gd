@@ -102,7 +102,9 @@ func _replace_card_names(msg: String) -> String:
 		# var idx = m.strings[2]
 		var card_name = m.strings[3]
 		var color = LogCardColor
-		msg = msg.replace(orig, '[color=' + color.to_html() + '][url=' + key + ']' + card_name + '[/url][/color]')
+		msg = msg.replace(orig, '[color=' + color.to_html() + '][url="' + key + '"]' + card_name + '[/url][/color]')
+		#msg = msg.replace(orig, '[color=' + color.to_html() + ']' + card_name + '[/color]')
+		
 	return msg
 
 func _formatted_log_msg(msg: String) -> String:
@@ -110,7 +112,7 @@ func _formatted_log_msg(msg: String) -> String:
 	result = _replace_fighter_names(result)
 	result = _replace_player_names(result)
 	result = _replace_card_names(result)
-	
+
 	return '- ' + result + '\n'
 
 func _load_logs(new_logs):

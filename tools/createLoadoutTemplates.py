@@ -169,9 +169,10 @@ def get_sidekick_name(plural):
         'The Jabberwock': 'The Jabberwock',
         'Maria Hill': 'Maria Hill',
         'Dr. Watson': 'Dr. Watson',
-        'Giles or Xander': 'GilesXander',
         'Rosencrantz & Guildenstern': 'Rosencrantz & Guildenstern',
         'The Porter': 'The Porter',
+        'Giles': 'Giles',
+        'Xander': 'Xander',
     }[plural]
 
 def get_card_name(title):
@@ -198,6 +199,8 @@ for deck in data['decks']:
             'IsRanged': fighter['attack_type'] == 'ranged',
             'Text': deck['special'],
             'Movement': deck['movement'],
+            'CanMoveOverOpposing': fighter['canMoveOverOpposing'] if 'canMoveOverOpposing' in fighter else False,
+            'MeleeRange': fighter['meleeRange'] if 'meleeRange' in fighter else 1
             # 'Script': FIGHTER_SCRIPTS_DIR_FORMAT.format(fighter['name'])
         }]
     for fighter in deck['sidekicks']:
@@ -211,6 +214,8 @@ for deck in data['decks']:
             'IsRanged': fighter['attack_type'] == 'ranged',
             'Text': '',
             'Movement': deck['movement'],
+            'CanMoveOverOpposing': fighter['canMoveOverOpposing'] if 'canMoveOverOpposing' in fighter else False,
+            'MeleeRange': fighter['meleeRange'] if 'meleeRange' in fighter else 1
             # 'Script': FIGHTER_SCRIPTS_DIR_FORMAT.format('Basic')
         }]
     for card in deck['cards']:
@@ -225,6 +230,7 @@ for deck in data['decks']:
                 'Boost': card['boost'],
                 'Text': get_text(card),
                 'Labels': card['labels'] if 'labels' in card else [],
+                'IncludedInDeckWithSidekick': card['includedInDeckWithSidekick'] if 'includedInDeckWithSidekick' in card else None,
                 'Script': CARD_SCRIPT_DIR_FORMAT.format(deck_name, card['title'])
             }
         }]
@@ -234,6 +240,7 @@ for deck in data['decks']:
         'Key': deck_key,
         'StartsWithSidekicks': True,
         'Fighters': fighters,
+        'ChoosesSidekick': deck['choosesSidekick'] if 'choosesSidekick' in deck else False,
         'Deck': cards
     }
 

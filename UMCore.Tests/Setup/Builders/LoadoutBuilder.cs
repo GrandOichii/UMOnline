@@ -19,6 +19,7 @@ public class LoadoutTemplateBuilder
             Fighters = [],
             Name = name,
             StartsWithSidekicks = true,
+            ChoosesSidekick = false,
         };
     }
 
@@ -122,6 +123,7 @@ public class LoadoutTemplateBuilder
             Fighters = [],
             Name = _name,
             StartsWithSidekicks = true,
+            ChoosesSidekick = true,
         };
         return this;
     }
@@ -225,6 +227,7 @@ public class LoadoutTemplateBuilder
                     Script = DEFAULT_CARD_TEXT,
                     AllowedFighters = [],
                     Labels = labels ?? [],
+                    IncludedInDeckWithSidekick = null,
                 }
             });
             return this;
@@ -247,6 +250,7 @@ public class LoadoutTemplateBuilder
                     Script = DEFAULT_CARD_TEXT,
                     AllowedFighters = [],
                     Labels = labels ?? [],
+                    IncludedInDeckWithSidekick = null,
                 }
             });
             return this;
@@ -269,6 +273,7 @@ public class LoadoutTemplateBuilder
                     Script = DEFAULT_CARD_TEXT,
                     AllowedFighters = [],
                     Labels = labels ?? [],
+                    IncludedInDeckWithSidekick = null,
                 }
             });
             return this;
@@ -292,6 +297,7 @@ public class LoadoutTemplateBuilder
                     Script = DEFAULT_CARD_TEXT,
                     AllowedFighters = [],
                     Labels = labels ?? [],
+                    IncludedInDeckWithSidekick = null,
                 }
             });
             return this;
@@ -315,6 +321,7 @@ public class LoadoutTemplateBuilder
                     Script = string.Format(SCHEME_CARD_DRAW_TEXT, draw),
                     AllowedFighters = [],
                     Labels = labels ?? [],
+                    IncludedInDeckWithSidekick = null,
                 }
             });
             return this;

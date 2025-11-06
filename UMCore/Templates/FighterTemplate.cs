@@ -12,5 +12,6 @@ public class FighterTemplate
     public required int Movement { get; set; }
     public required bool IsRanged { get; set; }
     public required string Script { get; set; }    
-    public int MeleeRange { get; set; } = 1;
+    public required bool CanMoveOverOpposing { get; set; }
+    public required int MeleeRange { get; set; }
 }

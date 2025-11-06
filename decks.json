@@ -1106,6 +1106,7 @@
                     "value": 4
                 },
                 {
+                    "includedInDeckWithSidekick": "Giles",
                     "afterText": null,
                     "basicText": "Choose an opponent and look at their hand. Choose 1 card in their hand for them to discard.",
                     "boost": 3,
@@ -1122,6 +1123,7 @@
                     "value": null
                 },
                 {
+                    "includedInDeckWithSidekick": "Giles",
                     "afterText": null,
                     "basicText": "Draw 3 cards.",
                     "boost": 3,
@@ -1138,6 +1140,7 @@
                     "value": null
                 },
                 {
+                    "includedInDeckWithSidekick": "Xander",
                     "afterText": null,
                     "basicText": null,
                     "boost": 3,
@@ -1154,6 +1157,7 @@
                     "value": 2
                 },
                 {
+                    "includedInDeckWithSidekick": "Xander",
                     "afterText": "Draw 1 card.",
                     "basicText": null,
                     "boost": 3,
@@ -1227,7 +1231,6 @@
                     "duringText": null,
                     "image": "https://static.unmatched.cards/images/umdb/decks/buffy/regroup.png",
                     "immediateText": null,
-                    
                     "quantity": 3,
                     "slug": "regroup",
                     "title": "Regroup",
@@ -1292,7 +1295,6 @@
                     "duringText": null,
                     "image": "https://static.unmatched.cards/images/umdb/decks/buffy/swift-strike.png",
                     "immediateText": null,
-                    
                     "quantity": 3,
                     "slug": "swift-strike",
                     "title": "Swift Strike",
@@ -1305,6 +1307,7 @@
                     "attack_type": "melee",
                     "hp": 14,
                     "name": "Buffy",
+                    "canMoveOverOpposing": true,
                     "quantity": 1,
                     "slug": "buffy"
                 }
@@ -1319,11 +1322,19 @@
                 {
                     "attack_type": "melee",
                     "hp": 6,
-                    "name": "Giles or Xander",
+                    "name": "Giles",
+                    "quantity": 1,
+                    "slug": "giles-or-xander"
+                },
+                {
+                    "attack_type": "melee",
+                    "hp": 6,
+                    "name": "Xander",
                     "quantity": 1,
                     "slug": "giles-or-xander"
                 }
             ],
+            "choosesSidekick": true,
             "slug": "buffy",
             "special": "Buffy may move through spaces containing opposing fighters (including when she is moved by effects)."
         },

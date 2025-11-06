@@ -1280,6 +1280,7 @@ public class ExhaustionTests
         var config = new MatchConfigBuilder()
             .InitialHandSize(0)
             .ActionsPerTurn(2)
+            .ExhaustDamage(2)
             .Build();
 
         var mapTemplate = MapTemplateBuilder.Build2x2();
@@ -1342,6 +1343,7 @@ public class ExhaustionTests
         var config = new MatchConfigBuilder()
             .InitialHandSize(1)
             .ActionsPerTurn(2)
+            .ExhaustDamage(2)
             .Build();
 
         var mapTemplate = MapTemplateBuilder.Build2x2();
