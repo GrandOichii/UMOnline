@@ -274,6 +274,14 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
         CurrentMovement = null;
     }
 
+    public int ModifyDamage(Fighter damageTo, bool isCombatDamage, int amount)
+    {
+        var modifiers = Fighters.SelectMany(f => f.DamageModifiers);
+        foreach (var mod in modifiers)
+            amount = mod.Modify(damageTo, isCombatDamage, amount);
+        return amount;
+    }
+
     public Data GetData(Player player)
     {
         return new()

@@ -36,6 +36,7 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
     public List<EffectCollection> OnDamageEffects { get; }
     public List<FighterPredicateEffect> OnFighterDefeatEffects { get; }
     public CombatStepEffectsCollection CombatStepEffects { get; }
+    public List<DamageModifier> DamageModifiers { get; }
 
     public Fighter(Player owner, FighterTemplate template)
     {
@@ -47,6 +48,8 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
         Id = Match.AddFighter(this);
 
         Health = new(this);
+
+        // TODO this is ugly
 
         LuaTable data;
         try
@@ -276,13 +279,31 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
         {
             throw new MatchException($"Failed to get on fighter defeat effects for fighter {template.Name}", e);
         }
-    
+
         try
         {
             CombatStepEffects = new(data);
-        } catch (Exception e)
+        }
+        catch (Exception e)
         {
             throw new MatchException($"Failed to get combat step effects for fighter {Name}", e);
+        }
+        
+        DamageModifiers = [];
+        try
+        {
+            var damageModifiers = LuaUtility.TableGet<LuaTable>(data, "DamageModifiers");
+            foreach (var value in damageModifiers.Values)
+            {
+                var func = value as LuaFunction;
+                // TODO check for null
+                var effects = new DamageModifier(this, func!);
+                DamageModifiers.Add(effects);
+            }
+        }
+        catch (Exception e)
+        {
+            throw new MatchException($"Failed to damage modifiers for fighter {template.Name}", e);
         }
     }
     
@@ -354,6 +375,8 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
     public async Task<int> ProcessDamage(int amount, bool isCombatDamage = false)
     {
         if (!IsAlive()) return 0;
+
+        amount = Match.ModifyDamage(this, isCombatDamage, amount);
 
         var dealt = Health.DealDamage(amount);
         Match.Logger?.LogDebug("{FighterLogName} is dealt {Amount} damage (original amount: {OriginalAmount})", LogName, dealt, amount);

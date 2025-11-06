@@ -41,6 +41,25 @@ public class MatchScripts
         }
     }
 
+    public static LuaTable CreateArgs(Fighter fighter, Player owner)
+    {
+        return LuaUtility.CreateTable(owner.Match.LState, new Dictionary<string, object>()
+        {
+            { "fighter", fighter },
+            { "owner", owner },
+        });
+    }
+
+    public static LuaTable CreateArgs(Fighter fighter, Player owner, PlacedToken token)
+    {
+        return LuaUtility.CreateTable(owner.Match.LState, new Dictionary<string, object>()
+        {
+            { "fighter", fighter },
+            { "owner", owner },
+            { "token", token },
+        });
+    }
+
     [LuaCommand]
     public void DrawCards(Player player, int amount)
     {

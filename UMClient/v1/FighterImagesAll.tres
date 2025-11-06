@@ -74,8 +74,8 @@
 [ext_resource type="Texture2D" uid="uid://dcdu8waqvgkei" path="res://assets/decks/Little Red Riding Hood/sidekicks/Little Red Riding Hood_Huntsman_1.webp" id="70"]
 [ext_resource type="Texture2D" uid="uid://cjo7xtyleabuk" path="res://assets/decks/Loki/heroes/hero.webp" id="71"]
 [ext_resource type="Texture2D" uid="uid://bqqv0uwh3eb8g" path="res://assets/decks/Little Red Riding Hood/heroes/Little Red Riding Hood.webp" id="71_bp8j7"]
-[ext_resource type="Texture2D" uid="uid://bxpvenc6in5vp" path="res://assets/decks/Luke Cage/heroes/hero.webp" id="72"]
 [ext_resource type="Texture2D" uid="uid://cnsbf6v0gfko3" path="res://assets/decks/Luke Cage/sidekicks/Luke Cage_Misty Knight_1.webp" id="73"]
+[ext_resource type="Texture2D" uid="uid://lv6i4ijs2d2" path="res://assets/decks/Luke Cage/heroes/Luke Cage.webp" id="74_bp8j7"]
 [ext_resource type="Texture2D" uid="uid://b4xio7nkpixd7" path="res://assets/decks/Medusa/sidekicks/Medusa_Harpies_1.webp" id="75"]
 [ext_resource type="Texture2D" uid="uid://ccjdhkykeiaxs" path="res://assets/decks/Medusa/sidekicks/Medusa_Harpies_2.webp" id="76"]
 [ext_resource type="Texture2D" uid="uid://m88dro651iiv" path="res://assets/decks/Medusa/heroes/Medusa.webp" id="76_asmjw"]
@@ -445,7 +445,7 @@ images = Array[CompressedTexture2D]([ExtResource("71")])
 [sub_resource type="Resource" id="Resource_60"]
 script = ExtResource("1_gr0k2")
 fighter_key = "Luke Cage"
-images = Array[CompressedTexture2D]([ExtResource("72")])
+images = Array[CompressedTexture2D]([ExtResource("74_bp8j7")])
 
 [sub_resource type="Resource" id="Resource_61"]
 script = ExtResource("1_gr0k2")

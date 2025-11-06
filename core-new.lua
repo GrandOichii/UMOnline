@@ -185,7 +185,29 @@ function UM.Build:Fighter()
     result.onManoeuvreEffects = {}
     result.onDamageEffects = {}
     result.onFighterDefeatEffects = {}
+    result.damageModifiers = {}
     result.tokens = {}
+
+    function result:Build()
+        local fighter = {
+            TurnPhaseEffects = result.turnPhaseEffects,
+            CardValueModifiers = result.cardValueModifiers,
+            WhenPlacedEffects = result.whenPlaced,
+            ManoeuvreValueMods = result.manoeuvreValueMods,
+            OnAttackEffects = result.onAttackEffects,
+            AfterAttackEffects = result.afterAttackEffects,
+            Tokens = result.tokens,
+            GameStartEffects = result.gameStartEffects,
+            MovementNodeConnections = result.movementNodeConnections,
+            CardCancellingForbids = result.cardCancellingForbids,
+            OnManoeuvreEffects = result.onManoeuvreEffects,
+            OnDamageEffects = result.onDamageEffects,
+            OnFighterDefeatEffects = result.onFighterDefeatEffects,
+            CombatStepEffects = result.combatStepEffects,
+            DamageModifiers = result.damageModifiers,
+        }
+        return fighter
+    end
 
     function result:OnFighterDefeat(text, fighterPredFunc, ...)
         result.onFighterDefeatEffects[#result.onFighterDefeatEffects+1] = {
@@ -193,6 +215,12 @@ function UM.Build:Fighter()
             fighterPred = fighterPredFunc,
             effects = {...}
         }
+        return result
+    end
+
+    function result:ModifyDamage(damageModFunc)
+        result.damageModifiers[#result.damageModifiers+1] = damageModFunc
+
         return result
     end
 
@@ -326,26 +354,6 @@ function UM.Build:Fighter()
             effects = {...}
         }
         return result
-    end
-
-    function result:Build()
-        local fighter = {
-            TurnPhaseEffects = result.turnPhaseEffects,
-            CardValueModifiers = result.cardValueModifiers,
-            WhenPlacedEffects = result.whenPlaced,
-            ManoeuvreValueMods = result.manoeuvreValueMods,
-            OnAttackEffects = result.onAttackEffects,
-            AfterAttackEffects = result.afterAttackEffects,
-            Tokens = result.tokens,
-            GameStartEffects = result.gameStartEffects,
-            MovementNodeConnections = result.movementNodeConnections,
-            CardCancellingForbids = result.cardCancellingForbids,
-            OnManoeuvreEffects = result.onManoeuvreEffects,
-            OnDamageEffects = result.onDamageEffects,
-            OnFighterDefeatEffects = result.onFighterDefeatEffects,
-            CombatStepEffects = result.combatStepEffects,
-        }
-        return fighter
     end
 
     return result

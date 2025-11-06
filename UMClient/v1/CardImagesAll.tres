@@ -2813,7 +2813,7 @@ image = ExtResource("412")
 
 [sub_resource type="Resource" id="Resource_413"]
 script = ExtResource("1_bskbv")
-card_key = "Luke Cage_Got My Back"
+card_key = "Luke Cage_Got My Back?"
 image = ExtResource("413")
 
 [sub_resource type="Resource" id="Resource_414"]
@@ -2848,7 +2848,7 @@ image = ExtResource("419")
 
 [sub_resource type="Resource" id="Resource_420"]
 script = ExtResource("1_bskbv")
-card_key = "Luke Cage_Sweet Christmas"
+card_key = "Luke Cage_Sweet Christmas!"
 image = ExtResource("420")
 
 [sub_resource type="Resource" id="Resource_421"]
@@ -2858,7 +2858,7 @@ image = ExtResource("421")
 
 [sub_resource type="Resource" id="Resource_422"]
 script = ExtResource("1_bskbv")
-card_key = "Luke Cage_Where's My Money"
+card_key = "Luke Cage_Where's My Money?"
 image = ExtResource("422")
 
 [sub_resource type="Resource" id="Resource_423"]

@@ -42,21 +42,12 @@ public class EffectCollection : IHasText
 
     public void Execute(Fighter fighter, Player owner)
     {
-        Execute(LuaUtility.CreateTable(owner.Match.LState, new Dictionary<string, object>()
-        {
-            { "fighter", fighter },
-            { "owner", owner },
-        }));
+        Execute(MatchScripts.CreateArgs(fighter, owner));
     }
 
     public void Execute(Fighter fighter, Player owner, PlacedToken token)
     {
-        Execute(LuaUtility.CreateTable(owner.Match.LState, new Dictionary<string, object>()
-        {
-            { "fighter", fighter },
-            { "owner", owner },
-            { "token", token },
-        }));
+        Execute(MatchScripts.CreateArgs(fighter, owner, token));
     }
 }
 
@@ -76,30 +67,18 @@ public class Effect
 
     public object[] Execute(Fighter fighter, Player owner)
     {
-        return Execute(LuaUtility.CreateTable(owner.Match.LState, new Dictionary<string, object>()
-        {
-            { "fighter", fighter },
-            { "owner", owner },
-        }));
+        return Execute(MatchScripts.CreateArgs(fighter, owner));
     }
 
     public bool ExecuteFighterCheck(Fighter fighter, Player owner, Fighter checkedFighter)
     {
-        var result = Execute(LuaUtility.CreateTable(owner.Match.LState, new Dictionary<string, object>()
-        {
-            { "fighter", fighter },
-            { "owner", owner },
-        }), checkedFighter);
+        var result = Execute(MatchScripts.CreateArgs(fighter, owner), checkedFighter);
         return LuaUtility.GetReturnAsBool(result);
     }
 
     public int ExecuteReturnModified(Fighter fighter, Player owner, int value)
     {
-        var result = Execute(LuaUtility.CreateTable(owner.Match.LState, new Dictionary<string, object>()
-        {
-            { "fighter", fighter },
-            { "owner", owner },
-        }), value);
+        var result = Execute(MatchScripts.CreateArgs(fighter, owner), value);
         return LuaUtility.GetReturnAsInt(result);
     }
 }

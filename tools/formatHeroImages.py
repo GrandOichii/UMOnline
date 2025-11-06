@@ -26,7 +26,7 @@ NAMES = [
     # 'Achilles',
     # 'Sun Wukong',
     # 'Yennenga',
-
+    # 'Luke Cage'
 ]
 
 def format_hero(in_path, out_path):

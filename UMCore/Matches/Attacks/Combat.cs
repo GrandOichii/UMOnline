@@ -200,9 +200,9 @@ public class Combat : IHasData<Combat.Data>
         }
         Match.Logger?.LogDebug("Attacker value: {AttackerValue}, defender value: {DefenderValue}", AttackCard.GetValue(), DefenceCard?.GetValue() ?? 0);
         if (damage < 0) damage = 0;
-        await Defender.ProcessDamage(damage, true);
+        int dealtDamage = await Defender.ProcessDamage(damage, true);
         if (Match.IsWinnerDetermined()) return;
-        Winner = damage > 0
+        Winner = dealtDamage > 0
             ? Attacker.Owner
             : Defender.Owner;
 
