@@ -125,12 +125,14 @@ public class Combat : IHasData<Combat.Data>
 
     public Player? Winner { get; private set; }
     public bool CardsAreRevealed { get; private set; } = false;
+    public int? DamageDealt { get; private set; }
 
     public Combat(Match match, AvailableAttack original)
     {
         Match = match;
         Attacker = original.Fighter;
         Defender = original.Target;
+        DamageDealt = null;
         AttackCard = new(this, Attacker, original.AttackCard, false);
     }
 
@@ -205,9 +207,9 @@ public class Combat : IHasData<Combat.Data>
         }
         Match.Logger?.LogDebug("Attacker value: {AttackerValue}, defender value: {DefenderValue}", AttackCard.GetValue(), DefenceCard?.GetValue() ?? 0);
         if (damage < 0) damage = 0;
-        int dealtDamage = await Defender.ProcessDamage(damage, true);
+        DamageDealt = await Defender.ProcessDamage(damage, true);
         if (Match.IsWinnerDetermined()) return;
-        Winner = dealtDamage > 0
+        Winner = DamageDealt > 0
             ? Attacker.Owner
             : Defender.Owner;
 

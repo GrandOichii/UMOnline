@@ -391,6 +391,7 @@
                 {
                     "attack_type": "melee",
                     "hp": 14,
+                    "meleeRange": 2,
                     "name": "Ms. Marvel",
                     "quantity": 1,
                     "slug": "ms_marvel"

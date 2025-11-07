@@ -35,6 +35,8 @@ NAMES = [
     # 'Dr. Ellie Sattler',
     # 'The Genie',
     # 'Harry Houdini',
+    'Ms. Marvel',
+    'Cloak and Dagger',
 ]
 
 def format_hero(in_path, out_path):
