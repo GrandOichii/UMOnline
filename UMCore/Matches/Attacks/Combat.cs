@@ -150,16 +150,21 @@ public class Combat : IHasData<Combat.Data>
         foreach (var (card, fighter) in cards)
         {
             if (card is null) continue;
-            if (card.EffectsCancelled) continue;
-            await card.Card.CombatStepEffects.Execute(trigger, fighter);
-            await Match.UpdateClients();
-            if (Match.IsWinnerDetermined()) return;
-        }
+            
+            List<CombatStepEffectsCollection> effects = [
+                fighter.CombatStepEffects,
+            ];
+            
+            if (!card.EffectsCancelled)
+                effects.Add(card.Card.CombatStepEffects);
 
-        // fighters
-        foreach (var (_, fighter) in cards)
-        {
-            await fighter.CombatStepEffects.Execute(trigger, fighter);
+            foreach (var effect in effects)
+            {
+                await effect.Execute(trigger, fighter);
+                await Match.UpdateClients();
+            }
+            // await .Execute(trigger, fighter);
+            if (Match.IsWinnerDetermined()) return;
         }
     }
 

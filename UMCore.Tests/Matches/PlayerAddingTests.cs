@@ -2273,7 +2273,7 @@ public class AttackTests
             .HasDamage(attackValue)
             .IsAlive();
     }
-    
+
     [Theory]
     [InlineData(1, 1, 0)]
     [InlineData(2, 1, 1)]
@@ -2357,6 +2357,209 @@ public class AttackTests
         match.AssertFighter(opponentFighter)
             .HasDamage(expectedDamage)
             .IsAlive();
+    }
+
+    [Fact]
+    public async Task CombatRange0()
+    {
+        // Arrange
+        var config = new MatchConfigBuilder()
+            .InitialHandSize(1)
+            .ActionsPerTurn(2)
+            .Build();
+
+        var mapTemplate = new MapTemplateBuilder()
+            .AddNode(0, [0], spawnNumber: 1)
+            .AddNode(1, [0], spawnNumber: 2)
+            .ConnectAllAsLine()
+            .Build();
+
+        var match = new TestMatchWrapper(
+            config,
+            mapTemplate
+        );
+
+        var mainFighter = "main";
+        var opponentFighter = "opp";
+        var attackCard = "attack";
+
+        var loadout = new LoadoutTemplateBuilder("main")
+            .AddFighter(new FighterTemplateBuilder("main", mainFighter)
+                .MeleeRange(0)
+                .Build()
+            )
+            .ConfigDeck(d => d.AddBasicAttack(5, amount: 10, key: attackCard))
+            .Build();
+
+        await match.AddMainPlayer(
+            new TestPlayerControllerBuilder()
+                .ConfigActions(a => a
+                    .Assert(a => a.CantAttack())
+                    .DeclareWinner()
+                    .CrashMatch()
+                )
+            .Build(),
+            loadout
+        );
+        await match.AddOpponent(
+            new TestPlayerControllerBuilder()
+            .Build(),
+            new LoadoutTemplateBuilder("opp")
+                .AddFighter(new FighterTemplateBuilder("opp", opponentFighter).Build())
+                .ConfigDeck(d => d.AddBasicDefense(3, amount: 10))
+                .Build()
+        );
+
+        // Act
+        await match.Run();
+
+        // Assert
+        match.Assert()
+            .CrashedIntentionally();
+
+        match.AssertPlayer(0)
+            .SetupCalled()
+            .IsWinner();
+        match.AssertPlayer(1)
+            .SetupCalled()
+            .IsNotWinner();
+    }
+
+    [Fact]
+    public async Task CombatRange2()
+    {
+        // Arrange
+        var config = new MatchConfigBuilder()
+            .InitialHandSize(1)
+            .ActionsPerTurn(2)
+            .Build();
+
+        var mapTemplate = new MapTemplateBuilder()
+            .AddNode(0, [0], spawnNumber: 1)
+            .AddNode(1, [1])
+            .AddNode(2, [2], spawnNumber: 2)
+            .ConnectAllAsLine()
+            .Build();
+
+        var match = new TestMatchWrapper(
+            config,
+            mapTemplate
+        );
+
+        var mainFighter = "main";
+        var opponentFighter = "opp";
+        var attackCard = "attack";
+
+        var loadout = new LoadoutTemplateBuilder("main")
+            .AddFighter(new FighterTemplateBuilder("main", mainFighter)
+                .MeleeRange(2)
+                .Build()
+            )
+            .ConfigDeck(d => d.AddBasicAttack(5, amount: 10, key: attackCard))
+            .Build();
+
+        await match.AddMainPlayer(
+            new TestPlayerControllerBuilder()
+                .ConfigActions(a => a
+                    .Assert(a => a.CanAttack())
+                    .DeclareWinner()
+                    .CrashMatch()
+                )
+            .Build(),
+            loadout
+        );
+        await match.AddOpponent(
+            new TestPlayerControllerBuilder()
+            .Build(),
+            new LoadoutTemplateBuilder("opp")
+                .AddFighter(new FighterTemplateBuilder("opp", opponentFighter).Build())
+                .ConfigDeck(d => d.AddBasicDefense(3, amount: 10))
+                .Build()
+        );
+
+        // Act
+        await match.Run();
+
+        // Assert
+        match.Assert()
+            .CrashedIntentionally();
+
+        match.AssertPlayer(0)
+            .SetupCalled()
+            .IsWinner();
+        match.AssertPlayer(1)
+            .SetupCalled()
+            .IsNotWinner();
+    }
+
+    [Fact]
+    public async Task CombatRange5()
+    {
+        // Arrange
+        var config = new MatchConfigBuilder()
+            .InitialHandSize(1)
+            .ActionsPerTurn(2)
+            .Build();
+
+        var mapTemplate = new MapTemplateBuilder()
+            .AddNode(0, [0], spawnNumber: 1)
+            .AddNode(1, [1])
+            .AddNode(2, [2])
+            .AddNode(3, [3])
+            .AddNode(4, [4])
+            .AddNode(5, [5], spawnNumber: 2)
+            .ConnectAllAsLine()
+            .Build();
+
+        var match = new TestMatchWrapper(
+            config,
+            mapTemplate
+        );
+
+        var mainFighter = "main";
+        var opponentFighter = "opp";
+        var attackCard = "attack";
+
+        var loadout = new LoadoutTemplateBuilder("main")
+            .AddFighter(new FighterTemplateBuilder("main", mainFighter)
+                .MeleeRange(5)
+                .Build()
+            )
+            .ConfigDeck(d => d.AddBasicAttack(5, amount: 10, key: attackCard))
+            .Build();
+
+        await match.AddMainPlayer(
+            new TestPlayerControllerBuilder()
+                .ConfigActions(a => a
+                    .Assert(a => a.CanAttack())
+                    .DeclareWinner()
+                    .CrashMatch()
+                )
+            .Build(),
+            loadout
+        );
+        await match.AddOpponent(
+            new TestPlayerControllerBuilder()
+            .Build(),
+            new LoadoutTemplateBuilder("opp")
+                .AddFighter(new FighterTemplateBuilder("opp", opponentFighter).Build())
+                .ConfigDeck(d => d.AddBasicDefense(3, amount: 10))
+                .Build()
+        );
+
+        // Act
+        await match.Run();
+
+        // Assert
+        match.Assert()
+            .CrashedIntentionally();
+
+        match.AssertPlayer(0)
+            .SetupCalled()
+            .IsWinner();
+        match.AssertPlayer(1)
+            .SetupCalled()
+            .IsNotWinner();
     }
 
     // TODO add tests for dead figthers

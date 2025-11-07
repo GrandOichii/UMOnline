@@ -15,12 +15,12 @@ public class PlayerAsserts
         _controller = (TestPlayerController)((SafePlayerController)player.Controller).Controller;
 
         // _controller.Actions.ShouldBeEmpty();
-        _controller.AttackChoices.ShouldBeEmpty();
-        _controller.FighterChoices.ShouldBeEmpty();
-        _controller.HandCardChoices.ShouldBeEmpty();
-        _controller.NodeChoices.ShouldBeEmpty();
-        _controller.StringChoices.ShouldBeEmpty();
-        _controller.PathChoices.ShouldBeEmpty();
+        _controller.AttackChoices.ShouldBeEmpty($"{nameof(_controller.AttackChoices)} of player {_player.LogName} was not empty");
+        _controller.FighterChoices.ShouldBeEmpty($"{nameof(_controller.FighterChoices)} of player {_player.LogName} was not empty");
+        _controller.HandCardChoices.ShouldBeEmpty($"{nameof(_controller.HandCardChoices)} of player {_player.LogName} was not empty");
+        _controller.NodeChoices.ShouldBeEmpty($"{nameof(_controller.NodeChoices)} of player {_player.LogName} was not empty");
+        _controller.StringChoices.ShouldBeEmpty($"{nameof(_controller.StringChoices)} of player {_player.LogName} was not empty");
+        _controller.PathChoices.ShouldBeEmpty($"{nameof(_controller.PathChoices)} of player {_player.LogName} was not empty");
     }
 
     public PlayerAsserts SetupCalled()

@@ -282,6 +282,27 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
         return amount;
     }
 
+    public IEnumerable<Fighter> GetAliveFighters()
+    {
+        return Players.SelectMany(p => p.GetAliveFighters());
+    }
+
+    public async Task ExecuteAfterMovementEffects()
+    {
+        if (CurrentMovement is null)
+            throw new MatchException($"Called {nameof(ExecuteAfterMovementEffects)} with no {nameof(CurrentMovement)}");
+        var fighter = CurrentMovement.Fighter;
+
+        var fighters = GetAliveFighters();
+        var effects = fighters.SelectMany(f => f.AfterMovementEffects.Where(e => e.Accepts(fighter)));
+        // TODO order effects
+        
+        foreach (var e in effects)
+        {
+            e.Execute();
+        }
+    }
+
     public Data GetData(Player player)
     {
         return new()

@@ -12,6 +12,11 @@ public class FighterPredicateEffect(Fighter fighter, LuaTable table) : IHasText
     private readonly Effect _fighterPredicate = new(LuaUtility.TableGet<LuaFunction>(table, "fighterPred"));
     private readonly EffectCollection _effects = new(table);
 
+    public void Execute()
+    {
+        _effects.Execute(_fighter, _fighter.Owner);
+    }
+
     public bool Accepts(Fighter fighter)
     {
         return _fighterPredicate.ExecuteFighterCheck(_fighter, _fighter.Owner, fighter);

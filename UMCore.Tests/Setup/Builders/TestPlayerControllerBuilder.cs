@@ -100,6 +100,14 @@ public class TestPlayerControllerBuilder
             return this;
         }
 
+        public ActionsBuilder NTimes(int n, Action<ActionsBuilder> action)
+        {
+            for (int i = 0; i < n; ++i)
+                action(this);
+            return this;
+        }
+
+
         public ActionsBuilder DeclareWinner()
         {
             return Enqueue((match, player, options) =>
@@ -109,11 +117,15 @@ public class TestPlayerControllerBuilder
             });
         }
 
-        public ActionsBuilder DealDamage(string fighterName, int amount)
+        public ActionsBuilder DealDamage(string fighterNameOrKey, int amount, bool byKey = false)
         {
             return Enqueue(async (match, player, options) =>
             {
-                var fighter = match.Fighters.First(f => f.Name == fighterName);
+                
+                var fighter = byKey
+                    ? match.Fighters.First(f => f.Template.Key == fighterNameOrKey)
+                    : match.Fighters.First(f => f.Name == fighterNameOrKey)
+                ;
                 await fighter.ProcessDamage(amount);
                 return (TestPlayerController.NEXT_ACTION, true);
             });
@@ -190,6 +202,12 @@ public class TestPlayerControllerBuilder
                 options.ShouldNotContain(new AttackAction().Name());
                 return this;
             }
+
+            public Asserts CanAttack()
+            {
+                options.ShouldContain(new AttackAction().Name());
+                return this;
+            }
         }
     }
 
@@ -200,6 +218,13 @@ public class TestPlayerControllerBuilder
         private HandCardChoicesBuilder Enqueue(TestPlayerController.HandCardChoice choice)
         {
             Queue.Enqueue(choice);
+            return this;
+        }
+
+        public HandCardChoicesBuilder NTimes(int n, Action<HandCardChoicesBuilder> action)
+        {
+            for (int i = 0; i < n; ++i)
+                action(this);
             return this;
         }
 
@@ -394,6 +419,13 @@ public class TestPlayerControllerBuilder
         private StringChoicesBuilder Enqueue(TestPlayerController.StringChoice choice)
         {
             Queue.Enqueue(choice);
+            return this;
+        }
+
+        public StringChoicesBuilder NTimes(int n, Action<StringChoicesBuilder> action)
+        {
+            for (int i = 0; i < n; ++i)
+                action(this);
             return this;
         }
 

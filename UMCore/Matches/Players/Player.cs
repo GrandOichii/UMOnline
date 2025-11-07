@@ -326,7 +326,7 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
 
         foreach (var fighter in GetAliveFighters())
         {
-            await fighter.ProcessDamage(Match.Config.ExhaustDamage);
+            await fighter.ProcessDamage(Match.Config.ExhaustDamage * times);
         }
     }
 

@@ -43,6 +43,11 @@ public class MatchConfigBuilder
         _result.InitialHandSize = amount;
         return this;
     }
+
+    public MatchConfigBuilder MaxHandSize(int amount) {
+        _result.MaxHandSize = amount;
+        return this;
+    }
     
     public MatchConfigBuilder NoExhaustDamage()
     {

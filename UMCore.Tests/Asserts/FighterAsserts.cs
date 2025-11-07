@@ -5,6 +5,12 @@ namespace UMCore.Tests.Asserts;
 
 public class FighterAsserts(Fighter fighter)
 {
+    public FighterAsserts DoesntHaveName(string name)
+    {
+        fighter.Name.ShouldNotBe(name);
+        return this;
+    }
+
     public FighterAsserts IsAlive()
     {
         fighter.IsAlive().ShouldBeTrue();

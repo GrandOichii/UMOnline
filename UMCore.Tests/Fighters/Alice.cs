@@ -239,6 +239,93 @@ public class AliceTests
     }
 
     [Theory]
+    [InlineData("BIG")]
+    [InlineData("SMALL")]
+    public async Task CheckAliceNoDefense(string size)
+    {
+        // Arrange
+        var config = new MatchConfigBuilder()
+            .FirstPlayer(1)
+            .InitialHandSize(1)
+            .ActionsPerTurn(2)
+            .Build();
+
+        var mapTemplate = new MapTemplateBuilder()
+            .AddNode(0, [0])
+            .AddNode(1, [0], spawnNumber: 2)
+            .AddNode(2, [0], spawnNumber: 1)
+            .Connect(0, 1)
+            .Connect(1, 2)
+            .Build();
+
+        var match = new TestMatchWrapper(
+            config,
+            mapTemplate
+        );
+
+        await match.AddMainPlayer(
+            new TestPlayerControllerBuilder()
+                .ConfigHandCardChoices(c => c
+                    .Nothing()
+                )
+                .ConfigStringChoices(c => c
+                    .Assert(a => a
+                        .EquivalentTo(["BIG", "SMALL"])
+                    )
+                    .Choose(size)
+                )
+                .ConfigNodeChoices(c => c
+                    .WithId(0)
+                )
+                .Build(),
+            GetLoadoutBuilder()
+                .ClearDeck()
+                .ConfigDeck(d => d
+                    .AddBasicScheme()
+                )
+                .Build()
+        );
+        await match.AddOpponent(
+            new TestPlayerControllerBuilder()
+                .ConfigActions(c => c
+                    .Attack()
+                    .DeclareWinner()
+                    .CrashMatch()
+                )
+                .ConfigAttackChoices(c => c
+                    .First()
+                )
+                .Build(),
+            new LoadoutTemplateBuilder("Foo")
+                .AddFighter(new FighterTemplateBuilder("Foo", "Foo")
+                .Build())
+                .ConfigDeck(d => d
+                    .AddBasicAttack(5)
+                )
+            .Build()
+        );
+
+        // Act
+        await match.Run();
+
+        // Assert
+        match.Assert()
+            .CrashedIntentionally();
+
+        match.AssertPlayer(0)
+            .SetupCalled()
+            .StringAttrEq(SIZE_ATTR, size)
+            .IsNotWinner();
+
+        match.AssertPlayer(1)
+            .SetupCalled()
+            .IsWinner();
+
+        match.AssertFighter("Alice")
+            .HasDamage(5);
+    }
+
+    [Theory]
     [InlineData("BIG", 5, "Attack")]
     [InlineData("BIG", 5, "Versatile")]
     [InlineData("SMALL", 5, "Attack")]

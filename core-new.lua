@@ -40,8 +40,13 @@ end
 
 function UM.Fighter:Defender()
     return function (args)
-        -- TODO
         return GetDefender()
+    end
+end
+
+function UM.Fighter:Moving()
+    return function (args)
+        return GetMovingFighter()
     end
 end
 
@@ -186,6 +191,7 @@ function UM.Build:Fighter()
     result.onDamageEffects = {}
     result.onFighterDefeatEffects = {}
     result.damageModifiers = {}
+    result.afterMovementEffects = {}
     result.tokens = {}
 
     function result:Build()
@@ -205,8 +211,18 @@ function UM.Build:Fighter()
             OnFighterDefeatEffects = result.onFighterDefeatEffects,
             CombatStepEffects = result.combatStepEffects,
             DamageModifiers = result.damageModifiers,
+            AfterMovementEffects = result.afterMovementEffects,
         }
         return fighter
+    end
+
+    function result:AfterMove(text, fighterPredFunc, ...)
+        result.afterMovementEffects[#result.afterMovementEffects+1] = {
+            text = text,
+            fighterPred = fighterPredFunc,
+            effects = {...}
+        }
+        return result
     end
 
     function result:OnFighterDefeat(text, fighterPredFunc, ...)
@@ -564,6 +580,12 @@ function UM.Conditions:Gt(numeric1, numeric2)
     end
 end
 
+function UM.Conditions:Lte(numeric1, numeric2)
+    return function (args)
+        return numeric1:Last(args) <= numeric2:Last(args)
+    end
+end
+
 UM.Conditions.CharacterSpecific = {}
 
 -- Counters
@@ -668,6 +690,34 @@ function UM.Effects:Discard(manyPlayers, fixedNumber, random)
         end
     end
 
+end
+
+function UM.Effects:BlindBoost(numeric, manyPlayers)
+    local blindBoost = function (player)
+        local milled = Mill(player, 1)
+        if #milled == 0 then
+            return
+        end
+
+        local card = milled[1]
+        local boost = GetBoostValue(card)
+        if boost == nil then
+            return
+        end
+
+        AddToCardValueInCombat(player, boost)
+    end
+
+    return function (args)
+        local players = manyPlayers(args, 'BLIND BOOST whose card?')
+        local number = numeric:Choose(args, 'BLIND BOOST how many times?')
+
+        for _, player in ipairs(players) do
+            for i = 1, number do
+                blindBoost(player)
+            end
+        end
+    end
 end
 
 function UM.Effects:AllowBoost(numeric, optional)
@@ -990,11 +1040,13 @@ function UM.Select:Fighters()
     local result = UM.Select:_Base(GetFighters, ChooseFighter)
 
     function result:OwnedBy(playerFunc)
-        result.filters[#result.filters+1] = function (args, fighter)
+        return result:_Add(function (args, fighter)
             return fighter.Owner.Idx == playerFunc(args).Idx
-        end
+        end)
+    end
 
-        return result
+    function result:OtherThanSource()
+        return result:Except(UM.Fighter:Source())
     end
 
     function result:AllYour()
@@ -1009,23 +1061,22 @@ function UM.Select:Fighters()
 
     function result:Your()
         return result:_Add(function (args, fighter)
-            -- TODO
+            -- TODO your fighters - all fighters
             return args.fighter == fighter
         end)
     end
 
     function result:Named(...)
         local names = {...}
-        result.filters[#result.filters+1] = function (args, fighter)
+
+        return result:_Add(function (args, fighter)
             for _, name in ipairs(names) do
                 if IsCalled(fighter, name) then
                     return true
                 end
             end
             return false
-        end
-
-        return result
+        end)
     end
 
     function result:Except(singleFighter)
@@ -1035,59 +1086,48 @@ function UM.Select:Fighters()
     end
 
     function result:InCombat()
-        result.filters[#result.filters+1] = function (args, fighter)
+        return result:_Add(function (args, fighter)
             return IsInCombat(fighter)
-        end
-        
-        return result
+        end)
     end
 
     function result:Only(fighterFunc)
-        result.filters[#result.filters+1] = function (args, fighter)
+        return result:_Add(function (args, fighter)
             local f = fighterFunc(args)
             if not IsAlive(f) then
                 return false
             end
             return fighter == f
-        end
-
-        return result
+        end)
     end
 
     function result:AdjacentTo(singleFighter)
-        result.filters[#result.filters+1] = function (args, fighter)
+        return result:_Add(function (args, fighter)
             local f = singleFighter(args)
             if not IsAlive(f) then
                 return false
             end
             return AreAdjacent(fighter, f)
-        end
-
-        return result
+        end)
     end
 
     function result:InSameZoneAs(fighterFunc)
-        result.filters[#result.filters+1] = function (args, fighter)
+        return result:_Add(function (args, fighter)
             local f = fighterFunc(args)
             if not IsAlive(f) then
                 return false
             end
             return AreInSameZone(fighter, f)
-        end
-
-        return result
+        end)
     end
 
     function result:OpposingInCombatTo(fighterFunc)
-        result.filters[#result.filters+1] = function (args, fighter)
+        return result:_Add(function (args, fighter)
             local f = fighterFunc(args)
             if not IsAlive(f) then
                 return false
             end
-            return AreOpposingInCombat(fighter, f)
-        end
-
-        return result
+        end)
     end
 
     function result:MovingFighter()
@@ -1097,19 +1137,15 @@ function UM.Select:Fighters()
     end
 
     function result:OpposingTo(playerFunc)
-        result.filters[#result.filters+1] = function (args, fighter)
+        return result:_Add(function (args, fighter)
             return IsOpposingTo(fighter, playerFunc(args))
-        end
-
-        return result
+        end)
     end
 
     function result:FriendlyTo(playerFunc)
-        result.filters[#result.filters+1] = function (args, fighter)
+        return result:_Add(function (args, fighter)
             return not IsOpposingTo(fighter, playerFunc(args))
-        end
-
-        return result
+        end)
     end
 
     function result:Opposing()
@@ -1170,6 +1206,13 @@ function UM.Select:Nodes()
     function result:Unoccupied()
         return result:_Add(function (args, node)
             return IsUnoccupied(node)
+        end)
+    end
+
+    function result:WithFighter(singleFighter)
+        return result:_Add(function (args, node)
+            local fighter = singleFighter(args)
+            return node.Fighter == fighter
         end)
     end
 

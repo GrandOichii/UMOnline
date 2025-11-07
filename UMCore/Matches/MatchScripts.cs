@@ -499,4 +499,40 @@ public class MatchScripts
     {
         return node.IsEmpty();
     }
+
+    [LuaCommand]
+    public LuaTable Mill(Player player, int amount)
+    {
+        var result = player.Mill(amount)
+            .GetAwaiter().GetResult();
+
+        return LuaUtility.CreateTable(Match.LState, result);
+    }
+
+    [LuaCommand]
+    public int? GetBoostValue(MatchCard card)
+    {
+        return card.GetBoostValue();
+    }
+
+    [LuaCommand]
+    public void AddToCardValueInCombat(Player player, int amount)
+    {
+        var combat = Match.Combat
+            ?? throw new MatchException($"Called {nameof(AddToCardValueInCombat)} while there is no combat");
+
+        var (card, _) = combat.GetCombatPart(player);
+        if (card is null) return;
+
+        card.Value += amount;
+    }
+
+    [LuaCommand]
+    public Fighter GetMovingFighter()
+    {
+        var movement = Match.CurrentMovement
+            ?? throw new MatchException($"Called {nameof(GetMovingFighter)} while there is no movement");
+
+        return movement.Fighter;
+    }
 }

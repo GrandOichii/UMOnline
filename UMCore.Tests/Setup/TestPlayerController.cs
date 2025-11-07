@@ -86,7 +86,7 @@ public class TestPlayerController : IPlayerController
     public async Task<MatchCard> ChooseCardInHand(Player player, int playerHandIdx, MatchCard[] options, string hint)
     {
         var result = await ChooseCardInHandOrNothing(player, playerHandIdx, options, hint)
-            ?? throw new Exception($"Provided null as a card for {nameof(ChooseCardInHand)}");
+            ?? throw new Exception($"Provided null as a card for {nameof(ChooseCardInHand)} (player: {player.LogName}, hint: {hint})");
         return result;
     }
 
@@ -100,14 +100,14 @@ public class TestPlayerController : IPlayerController
             return result;
         }
         
-        throw new Exception($"No hand card choices left in queue for player {player.LogName}");
+        throw new Exception($"No hand card choices left in queue for player {player.LogName} (hint: {hint})");
     }
 
     public Task<Fighter> ChooseFighter(Player player, Fighter[] options, string hint)
     {
         if (FighterChoices.Count == 0)
         {
-            throw new Exception($"No fighter choices left in queue for player {player.LogName}");
+            throw new Exception($"No fighter choices left in queue for player {player.LogName} (hint: {hint})");
         }
         var choiceFunc = FighterChoices.Dequeue();
         var result = choiceFunc(player, options, hint);
@@ -140,7 +140,7 @@ public class TestPlayerController : IPlayerController
             var choice = StringChoices.Dequeue();
             var (result, isResult) = choice(player, options, hint);
             if (!isResult) continue;
-            if (result is null) throw new Exception($"Provided null string choice for {nameof(ChooseString)}");
+            if (result is null) throw new Exception($"Provided null string choice for {nameof(ChooseString)} (hint: {hint})");
             return Task.FromResult(result);
         }
         
@@ -154,7 +154,7 @@ public class TestPlayerController : IPlayerController
             var choice = PathChoices.Dequeue();
             var (result, isResult) = choice(player, options, hint);
             if (!isResult) continue;
-            if (result is null) throw new Exception($"Provided null path choice for {nameof(ChoosePath)}");
+            if (result is null) throw new Exception($"Provided null path choice for {nameof(ChoosePath)} (hint: {hint})");
             return Task.FromResult(result);
         }
         
@@ -168,7 +168,7 @@ public class TestPlayerController : IPlayerController
             var choice = TokenChoices.Dequeue();
             var (result, isResult) = choice(player, options, hint);
             if (!isResult) continue;
-            if (result is null) throw new Exception($"Provided null token choice for {nameof(ChooseToken)}");
+            if (result is null) throw new Exception($"Provided null token choice for {nameof(ChooseToken)} (hint: {hint})");
             return Task.FromResult(result);
         }
         

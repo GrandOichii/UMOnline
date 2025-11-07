@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="FighterImages" load_steps=248 format=3 uid="uid://c7hdo261itl3i"]
+[gd_resource type="Resource" script_class="FighterImages" load_steps=250 format=3 uid="uid://c7hdo261itl3i"]
 
 [ext_resource type="Texture2D" uid="uid://b06viw813vacw" path="res://assets/decks/Achilles/sidekicks/Achilles_Patroclus_1.webp" id="1"]
 [ext_resource type="Script" uid="uid://sccjfeeys1ki" path="res://v1/FighterImage.gd" id="1_gr0k2"]
@@ -29,25 +29,25 @@
 [ext_resource type="Texture2D" uid="uid://d2qwchc0t7gry" path="res://assets/decks/Bruce Lee/heroes/Bruce Lee.webp" id="25_asmjw"]
 [ext_resource type="Texture2D" uid="uid://d147d1d4ai38y" path="res://assets/decks/Buffy/sidekicks/Buffy_Xander_2.webp" id="26"]
 [ext_resource type="Texture2D" uid="uid://b248rn1mut0o3" path="res://assets/decks/Buffy/heroes/Buffy.webp" id="26_bp8j7"]
-[ext_resource type="Texture2D" uid="uid://dviq2jj6pm3wl" path="res://assets/decks/Bullseye/heroes/hero.webp" id="27"]
 [ext_resource type="Texture2D" uid="uid://dvrpr5f63kd7y" path="res://assets/decks/Chupacabra/heroes/hero.webp" id="28"]
 [ext_resource type="Texture2D" uid="uid://bhiwpth3351vh" path="res://assets/decks/Ciri/heroes/hero.webp" id="29"]
+[ext_resource type="Texture2D" uid="uid://dexlgyfa2htut" path="res://assets/decks/Bullseye/heroes/Bullseye.webp" id="29_bp8j7"]
 [ext_resource type="Texture2D" uid="uid://bdkt8sc1at54e" path="res://assets/decks/Ciri/sidekicks/Ciri_Ihuarraquax_1.webp" id="30"]
 [ext_resource type="Texture2D" uid="uid://fexemn7yu3ap" path="res://assets/decks/Cloak and Dagger/heroes/hero.webp" id="31"]
-[ext_resource type="Texture2D" uid="uid://krnol5pdb2k" path="res://assets/decks/Daredevil/heroes/hero.webp" id="32"]
 [ext_resource type="Texture2D" uid="uid://benjk31m3ombu" path="res://assets/decks/Doctor Strange/heroes/hero.webp" id="33"]
 [ext_resource type="Texture2D" uid="uid://bana76v1klnp5" path="res://assets/decks/Doctor Strange/sidekicks/Doctor Strange_Wong_1.webp" id="34"]
-[ext_resource type="Texture2D" uid="uid://dg43x0qdd12sf" path="res://assets/decks/Dr. Ellie Sattler/heroes/hero.webp" id="35"]
+[ext_resource type="Texture2D" uid="uid://kyg358mnof0a" path="res://assets/decks/Daredevil/heroes/Daredevil.webp" id="34_bp8j7"]
 [ext_resource type="Texture2D" uid="uid://bw81ig3rjns8k" path="res://assets/decks/Dr. Ellie Sattler/sidekicks/Dr. Ellie Sattler_Dr. Malcolm_1.webp" id="36"]
 [ext_resource type="Texture2D" uid="uid://dwgr6mr63lpro" path="res://assets/decks/Dr. Jill Trent/heroes/hero.webp" id="37"]
+[ext_resource type="Texture2D" uid="uid://bb0ri3fj0njnc" path="res://assets/decks/Dr. Ellie Sattler/heroes/Dr. Ellie Sattler.webp" id="37_bp8j7"]
 [ext_resource type="Texture2D" uid="uid://cj0l3dgeeujn4" path="res://assets/decks/Dr. Jill Trent/sidekicks/Dr. Jill Trent_Daisy_1.webp" id="38"]
 [ext_resource type="Texture2D" uid="uid://d1ijv5mks01o1" path="res://assets/decks/Dracula/sidekicks/Dracula_The Sisters_1.webp" id="40"]
 [ext_resource type="Texture2D" uid="uid://b4lvlrws5cbw7" path="res://assets/decks/Dracula/sidekicks/Dracula_The Sisters_2.webp" id="41"]
 [ext_resource type="Texture2D" uid="uid://ddasoh3obpw50" path="res://assets/decks/Dracula/heroes/Dracula.webp" id="41_asmjw"]
 [ext_resource type="Texture2D" uid="uid://dhrhhbgyqro67" path="res://assets/decks/Dracula/sidekicks/Dracula_The Sisters_3.webp" id="42"]
-[ext_resource type="Texture2D" uid="uid://k1p8h7ojioww" path="res://assets/decks/Elektra/heroes/hero.webp" id="43"]
 [ext_resource type="Texture2D" uid="uid://c8anoc3etauif" path="res://assets/decks/Elektra/sidekicks/Elektra_The Hand_1.webp" id="44"]
 [ext_resource type="Texture2D" uid="uid://c0h4yl06tli2f" path="res://assets/decks/Elektra/sidekicks/Elektra_The Hand_2.webp" id="45"]
+[ext_resource type="Texture2D" uid="uid://cbjdwfkrgvbpu" path="res://assets/decks/Elektra/heroes/Elektra.webp" id="45_bp8j7"]
 [ext_resource type="Texture2D" uid="uid://d33x6cavb25yc" path="res://assets/decks/Elektra/sidekicks/Elektra_The Hand_3.webp" id="46"]
 [ext_resource type="Texture2D" uid="uid://cneursngi5f6m" path="res://assets/decks/Elektra/sidekicks/Elektra_The Hand_4.webp" id="47"]
 [ext_resource type="Texture2D" uid="uid://bjrn2v4fypyn6" path="res://assets/decks/Eredin/heroes/hero.webp" id="48"]
@@ -57,12 +57,12 @@
 [ext_resource type="Texture2D" uid="uid://dqon77sriwcjw" path="res://assets/decks/Eredin/sidekicks/Eredin_Red Rider_4.webp" id="52"]
 [ext_resource type="Texture2D" uid="uid://dhkyqqcjmubuq" path="res://assets/decks/Geralt of Rivia/heroes/hero.webp" id="53"]
 [ext_resource type="Texture2D" uid="uid://b63saeqn3edwe" path="res://assets/decks/Geralt of Rivia/sidekicks/Geralt of Rivia_Dandelion_1.webp" id="54"]
-[ext_resource type="Texture2D" uid="uid://0co4c4drax2v" path="res://assets/decks/Ghost Rider/heroes/hero.webp" id="55"]
 [ext_resource type="Texture2D" uid="uid://daqaos2otvhfp" path="res://assets/decks/Golden Bat/heroes/hero.webp" id="56"]
 [ext_resource type="Texture2D" uid="uid://dtg8k355aiso7" path="res://assets/decks/Hamlet/heroes/hero.webp" id="57"]
+[ext_resource type="Texture2D" uid="uid://cmvg6htgwt3se" path="res://assets/decks/Ghost Rider/heroes/Ghost Rider.webp" id="57_bp8j7"]
 [ext_resource type="Texture2D" uid="uid://yw0yiycwcaei" path="res://assets/decks/Hamlet/sidekicks/Hamlet_Rosencrantz & Guildenstern_1.webp" id="58"]
-[ext_resource type="Texture2D" uid="uid://5xp4hvtgxf7r" path="res://assets/decks/Harry Houdini/heroes/hero.webp" id="59"]
 [ext_resource type="Texture2D" uid="uid://b2yrgyreresoi" path="res://assets/decks/Harry Houdini/sidekicks/Harry Houdini_Bess_1.webp" id="60"]
+[ext_resource type="Texture2D" uid="uid://cy4amwlypsked" path="res://assets/decks/Harry Houdini/heroes/Harry Houdini.webp" id="61_bp8j7"]
 [ext_resource type="Texture2D" uid="uid://68ex6sclf1kb" path="res://assets/decks/InGen/sidekicks/InGen_Ingen Worker_1.webp" id="62"]
 [ext_resource type="Texture2D" uid="uid://df83kvr1a1deo" path="res://assets/decks/InGen/sidekicks/InGen_Ingen Worker_2.webp" id="63"]
 [ext_resource type="Texture2D" uid="uid://dxw3rve80knlf" path="res://assets/decks/InGen/heroes/Robert Muldoon.webp" id="63_asmjw"]
@@ -80,9 +80,9 @@
 [ext_resource type="Texture2D" uid="uid://ccjdhkykeiaxs" path="res://assets/decks/Medusa/sidekicks/Medusa_Harpies_2.webp" id="76"]
 [ext_resource type="Texture2D" uid="uid://m88dro651iiv" path="res://assets/decks/Medusa/heroes/Medusa.webp" id="76_asmjw"]
 [ext_resource type="Texture2D" uid="uid://djo4nqcfnciu1" path="res://assets/decks/Medusa/sidekicks/Medusa_Harpies_3.webp" id="77"]
-[ext_resource type="Texture2D" uid="uid://dcrp4jwknc4gr" path="res://assets/decks/Moon Knight/heroes/hero.webp" id="78"]
 [ext_resource type="Texture2D" uid="uid://utl8fej0yq0l" path="res://assets/decks/Ms. Marvel/heroes/hero.webp" id="79"]
 [ext_resource type="Texture2D" uid="uid://bk4h1hu3a8imx" path="res://assets/decks/Nikola Tesla/heroes/hero.webp" id="80"]
+[ext_resource type="Texture2D" uid="uid://chsimq3un7eoy" path="res://assets/decks/Moon Knight/heroes/Moon Knight.webp" id="80_bp8j7"]
 [ext_resource type="Texture2D" uid="uid://b7hr70kch6qp6" path="res://assets/decks/Oda Nobunaga/heroes/hero.webp" id="81"]
 [ext_resource type="Texture2D" uid="uid://0aksxbsrego1" path="res://assets/decks/Oda Nobunaga/sidekicks/Oda Nobunaga_Honor Guard_1.webp" id="82"]
 [ext_resource type="Texture2D" uid="uid://b114ntxlmsor0" path="res://assets/decks/Oda Nobunaga/sidekicks/Oda Nobunaga_Honor Guard_2.webp" id="83"]
@@ -121,11 +121,11 @@
 [ext_resource type="Texture2D" uid="uid://mm75s36rdnnj" path="res://assets/decks/Sun Wukong/sidekicks/Sun Wukong_Clones_3.webp" id="115"]
 [ext_resource type="Texture2D" uid="uid://brvrrwsp1h2hp" path="res://assets/decks/T. Rex/heroes/hero.webp" id="116"]
 [ext_resource type="Texture2D" uid="uid://dcnegmvram0t2" path="res://assets/decks/Sun Wukong/heroes/Sun Wukong.webp" id="116_bp8j7"]
-[ext_resource type="Texture2D" uid="uid://dqsefdrt0na3f" path="res://assets/decks/The Genie/heroes/hero.webp" id="117"]
 [ext_resource type="Texture2D" uid="uid://b2wiglftwcfl5" path="res://assets/decks/The Wayward Sisters/heroes/hero.webp" id="118"]
 [ext_resource type="Texture2D" uid="uid://bgg502kgokjjx" path="res://assets/decks/Titania/heroes/hero.webp" id="119"]
 [ext_resource type="Texture2D" uid="uid://c8jcxr37340mi" path="res://assets/decks/Titania/sidekicks/Titania_Oberon_1.webp" id="120"]
 [ext_resource type="Texture2D" uid="uid://bkjqf2lqy3h7p" path="res://assets/decks/Tomoe Gozen/heroes/hero.webp" id="121"]
+[ext_resource type="Texture2D" uid="uid://bgqkp8kmg7cdl" path="res://assets/decks/The Genie/heroes/The Genie.webp" id="121_bp8j7"]
 [ext_resource type="Texture2D" uid="uid://enmho4irij3s" path="res://assets/decks/William Shakespeare/heroes/hero.webp" id="122"]
 [ext_resource type="Texture2D" uid="uid://6tbhbow51ga4" path="res://assets/decks/William Shakespeare/sidekicks/William Shakespeare_Actor_1.webp" id="123"]
 [ext_resource type="Texture2D" uid="uid://bsdxhpj4q7non" path="res://assets/decks/William Shakespeare/sidekicks/William Shakespeare_Actor_2.webp" id="124"]
@@ -270,7 +270,7 @@ images = Array[CompressedTexture2D]([ExtResource("26")])
 [sub_resource type="Resource" id="Resource_25"]
 script = ExtResource("1_gr0k2")
 fighter_key = "Bullseye"
-images = Array[CompressedTexture2D]([ExtResource("27")])
+images = Array[CompressedTexture2D]([ExtResource("29_bp8j7")])
 
 [sub_resource type="Resource" id="Resource_26"]
 script = ExtResource("1_gr0k2")
@@ -295,7 +295,7 @@ images = Array[CompressedTexture2D]([ExtResource("31")])
 [sub_resource type="Resource" id="Resource_30"]
 script = ExtResource("1_gr0k2")
 fighter_key = "Daredevil"
-images = Array[CompressedTexture2D]([ExtResource("32")])
+images = Array[CompressedTexture2D]([ExtResource("34_bp8j7")])
 
 [sub_resource type="Resource" id="Resource_31"]
 script = ExtResource("1_gr0k2")
@@ -309,8 +309,8 @@ images = Array[CompressedTexture2D]([ExtResource("34")])
 
 [sub_resource type="Resource" id="Resource_33"]
 script = ExtResource("1_gr0k2")
-fighter_key = "Dr. Ellie Sattler"
-images = Array[CompressedTexture2D]([ExtResource("35")])
+fighter_key = "Dr. Sattler"
+images = Array[CompressedTexture2D]([ExtResource("37_bp8j7")])
 
 [sub_resource type="Resource" id="Resource_34"]
 script = ExtResource("1_gr0k2")
@@ -340,7 +340,7 @@ images = Array[CompressedTexture2D]([ExtResource("40"), ExtResource("41"), ExtRe
 [sub_resource type="Resource" id="Resource_39"]
 script = ExtResource("1_gr0k2")
 fighter_key = "Elektra"
-images = Array[CompressedTexture2D]([ExtResource("43")])
+images = Array[CompressedTexture2D]([ExtResource("45_bp8j7")])
 
 [sub_resource type="Resource" id="Resource_40"]
 script = ExtResource("1_gr0k2")
@@ -370,7 +370,7 @@ images = Array[CompressedTexture2D]([ExtResource("54")])
 [sub_resource type="Resource" id="Resource_45"]
 script = ExtResource("1_gr0k2")
 fighter_key = "Ghost Rider"
-images = Array[CompressedTexture2D]([ExtResource("55")])
+images = Array[CompressedTexture2D]([ExtResource("57_bp8j7")])
 
 [sub_resource type="Resource" id="Resource_46"]
 script = ExtResource("1_gr0k2")
@@ -389,8 +389,8 @@ images = Array[CompressedTexture2D]([ExtResource("58")])
 
 [sub_resource type="Resource" id="Resource_49"]
 script = ExtResource("1_gr0k2")
-fighter_key = "Harry Houdini"
-images = Array[CompressedTexture2D]([ExtResource("59")])
+fighter_key = "Houdini"
+images = Array[CompressedTexture2D]([ExtResource("61_bp8j7")])
 
 [sub_resource type="Resource" id="Resource_50"]
 script = ExtResource("1_gr0k2")
@@ -465,7 +465,7 @@ images = Array[CompressedTexture2D]([ExtResource("75"), ExtResource("76"), ExtRe
 [sub_resource type="Resource" id="Resource_64"]
 script = ExtResource("1_gr0k2")
 fighter_key = "Moon Knight"
-images = Array[CompressedTexture2D]([ExtResource("78")])
+images = Array[CompressedTexture2D]([ExtResource("80_bp8j7")])
 
 [sub_resource type="Resource" id="Resource_65"]
 script = ExtResource("1_gr0k2")
@@ -590,7 +590,7 @@ images = Array[CompressedTexture2D]([ExtResource("116")])
 [sub_resource type="Resource" id="Resource_89"]
 script = ExtResource("1_gr0k2")
 fighter_key = "The Genie"
-images = Array[CompressedTexture2D]([ExtResource("117")])
+images = Array[CompressedTexture2D]([ExtResource("121_bp8j7")])
 
 [sub_resource type="Resource" id="Resource_90"]
 script = ExtResource("1_gr0k2")
@@ -674,6 +674,18 @@ fighter_key = "Dark Willow"
 images = Array[CompressedTexture2D]([ExtResource("140_bp8j7")])
 metadata/_custom_type_script = "uid://sccjfeeys1ki"
 
+[sub_resource type="Resource" id="Resource_bp8j7"]
+script = ExtResource("1_gr0k2")
+fighter_key = "Khonshu"
+images = Array[CompressedTexture2D]([ExtResource("76_asmjw")])
+metadata/_custom_type_script = "uid://sccjfeeys1ki"
+
+[sub_resource type="Resource" id="Resource_m82ym"]
+script = ExtResource("1_gr0k2")
+fighter_key = "Mr. Knight"
+images = Array[CompressedTexture2D]([ExtResource("100_asmjw")])
+metadata/_custom_type_script = "uid://sccjfeeys1ki"
+
 [resource]
 script = ExtResource("2_25rj5")
-Images = Array[ExtResource("1_gr0k2")]([SubResource("Resource_0"), SubResource("Resource_1"), SubResource("Resource_2"), SubResource("Resource_3"), SubResource("Resource_4"), SubResource("Resource_5"), SubResource("Resource_6"), SubResource("Resource_7"), SubResource("Resource_8"), SubResource("Resource_9"), SubResource("Resource_10"), SubResource("Resource_11"), SubResource("Resource_12"), SubResource("Resource_13"), SubResource("Resource_14"), SubResource("Resource_15"), SubResource("Resource_16"), SubResource("Resource_17"), SubResource("Resource_18"), SubResource("Resource_19"), SubResource("Resource_20"), SubResource("Resource_21"), SubResource("Resource_22"), SubResource("Resource_23"), SubResource("Resource_24"), SubResource("Resource_25"), SubResource("Resource_26"), SubResource("Resource_27"), SubResource("Resource_28"), SubResource("Resource_29"), SubResource("Resource_30"), SubResource("Resource_31"), SubResource("Resource_32"), SubResource("Resource_33"), SubResource("Resource_34"), SubResource("Resource_35"), SubResource("Resource_36"), SubResource("Resource_37"), SubResource("Resource_38"), SubResource("Resource_39"), SubResource("Resource_40"), SubResource("Resource_41"), SubResource("Resource_42"), SubResource("Resource_43"), SubResource("Resource_44"), SubResource("Resource_45"), SubResource("Resource_46"), SubResource("Resource_47"), SubResource("Resource_48"), SubResource("Resource_49"), SubResource("Resource_50"), SubResource("Resource_51"), SubResource("Resource_52"), SubResource("Resource_53"), SubResource("Resource_54"), SubResource("Resource_55"), SubResource("Resource_56"), SubResource("Resource_57"), SubResource("Resource_58"), SubResource("Resource_59"), SubResource("Resource_60"), SubResource("Resource_61"), SubResource("Resource_62"), SubResource("Resource_63"), SubResource("Resource_64"), SubResource("Resource_65"), SubResource("Resource_66"), SubResource("Resource_67"), SubResource("Resource_68"), SubResource("Resource_69"), SubResource("Resource_70"), SubResource("Resource_71"), SubResource("Resource_72"), SubResource("Resource_73"), SubResource("Resource_74"), SubResource("Resource_75"), SubResource("Resource_76"), SubResource("Resource_77"), SubResource("Resource_78"), SubResource("Resource_79"), SubResource("Resource_80"), SubResource("Resource_81"), SubResource("Resource_82"), SubResource("Resource_83"), SubResource("Resource_84"), SubResource("Resource_85"), SubResource("Resource_86"), SubResource("Resource_87"), SubResource("Resource_88"), SubResource("Resource_89"), SubResource("Resource_90"), SubResource("Resource_91"), SubResource("Resource_92"), SubResource("Resource_93"), SubResource("Resource_94"), SubResource("Resource_95"), SubResource("Resource_96"), SubResource("Resource_97"), SubResource("Resource_98"), SubResource("Resource_99"), SubResource("Resource_100"), SubResource("Resource_101"), SubResource("Resource_102"), SubResource("Resource_103"), SubResource("Resource_tpuew"), SubResource("Resource_qn3q6")])
+Images = Array[ExtResource("1_gr0k2")]([SubResource("Resource_0"), SubResource("Resource_1"), SubResource("Resource_2"), SubResource("Resource_3"), SubResource("Resource_4"), SubResource("Resource_5"), SubResource("Resource_6"), SubResource("Resource_7"), SubResource("Resource_8"), SubResource("Resource_9"), SubResource("Resource_10"), SubResource("Resource_11"), SubResource("Resource_12"), SubResource("Resource_13"), SubResource("Resource_14"), SubResource("Resource_15"), SubResource("Resource_16"), SubResource("Resource_17"), SubResource("Resource_18"), SubResource("Resource_19"), SubResource("Resource_20"), SubResource("Resource_21"), SubResource("Resource_22"), SubResource("Resource_23"), SubResource("Resource_24"), SubResource("Resource_25"), SubResource("Resource_26"), SubResource("Resource_27"), SubResource("Resource_28"), SubResource("Resource_29"), SubResource("Resource_30"), SubResource("Resource_31"), SubResource("Resource_32"), SubResource("Resource_33"), SubResource("Resource_34"), SubResource("Resource_35"), SubResource("Resource_36"), SubResource("Resource_37"), SubResource("Resource_38"), SubResource("Resource_39"), SubResource("Resource_40"), SubResource("Resource_41"), SubResource("Resource_42"), SubResource("Resource_43"), SubResource("Resource_44"), SubResource("Resource_45"), SubResource("Resource_46"), SubResource("Resource_47"), SubResource("Resource_48"), SubResource("Resource_49"), SubResource("Resource_50"), SubResource("Resource_51"), SubResource("Resource_52"), SubResource("Resource_53"), SubResource("Resource_54"), SubResource("Resource_55"), SubResource("Resource_56"), SubResource("Resource_57"), SubResource("Resource_58"), SubResource("Resource_59"), SubResource("Resource_60"), SubResource("Resource_61"), SubResource("Resource_62"), SubResource("Resource_63"), SubResource("Resource_64"), SubResource("Resource_65"), SubResource("Resource_66"), SubResource("Resource_67"), SubResource("Resource_68"), SubResource("Resource_69"), SubResource("Resource_70"), SubResource("Resource_71"), SubResource("Resource_72"), SubResource("Resource_73"), SubResource("Resource_74"), SubResource("Resource_75"), SubResource("Resource_76"), SubResource("Resource_77"), SubResource("Resource_78"), SubResource("Resource_79"), SubResource("Resource_80"), SubResource("Resource_81"), SubResource("Resource_82"), SubResource("Resource_83"), SubResource("Resource_84"), SubResource("Resource_85"), SubResource("Resource_86"), SubResource("Resource_87"), SubResource("Resource_88"), SubResource("Resource_89"), SubResource("Resource_90"), SubResource("Resource_91"), SubResource("Resource_92"), SubResource("Resource_93"), SubResource("Resource_94"), SubResource("Resource_95"), SubResource("Resource_96"), SubResource("Resource_97"), SubResource("Resource_98"), SubResource("Resource_99"), SubResource("Resource_100"), SubResource("Resource_101"), SubResource("Resource_102"), SubResource("Resource_103"), SubResource("Resource_tpuew"), SubResource("Resource_qn3q6"), SubResource("Resource_bp8j7"), SubResource("Resource_m82ym")])

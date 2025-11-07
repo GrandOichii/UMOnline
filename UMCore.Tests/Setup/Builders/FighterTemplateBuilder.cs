@@ -44,6 +44,12 @@ public class FighterTemplateBuilder(string name, string key)
         return this;
     }
 
+    public FighterTemplateBuilder MeleeRange(int value)
+    {
+        Result.MeleeRange = value;
+        return this;
+    }
+
     public FighterTemplateBuilder Movement(int amount)
     {
         Result.Movement = amount;

@@ -6900,6 +6900,7 @@
                     "hp": 14,
                     "name": "Bullseye",
                     "quantity": 1,
+                    "meleeRange": 5,
                     "slug": "bullseye"
                 }
             ],
@@ -7115,20 +7116,6 @@
                     "name": "Moon Knight",
                     "quantity": 1,
                     "slug": "moon-knight"
-                },
-                {
-                    "attack_type": "melee",
-                    "hp": 16,
-                    "name": "Khonshu",
-                    "quantity": 1,
-                    "slug": "khonshu"
-                },
-                {
-                    "attack_type": "melee",
-                    "hp": 16,
-                    "name": "Mr. Knight",
-                    "quantity": 1,
-                    "slug": "mr-knight"
                 }
             ],
             "movement": 3,
@@ -9419,16 +9406,10 @@
                 {
                     "attack_type": "melee",
                     "hp": 7,
+                    "_hp": 9,
                     "name": "Elektra",
                     "quantity": 1,
                     "slug": "elektra"
-                },
-                {
-                    "attack_type": "melee",
-                    "hp": 9,
-                    "name": "Elektra Resurrected",
-                    "quantity": 1,
-                    "slug": "elektra-ressurected"
                 }
             ],
             "movement": 2,

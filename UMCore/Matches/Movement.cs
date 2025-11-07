@@ -26,6 +26,8 @@ public class Movement(Fighter fighter, int movement, bool canMoveOverFriendly, b
                 await node.PlaceFighter(Fighter);
             }
         }
+
+        await Fighter.Owner.Match.ExecuteAfterMovementEffects();
     }
     
     public void Cancel()

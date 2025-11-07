@@ -27,6 +27,14 @@ NAMES = [
     # 'Sun Wukong',
     # 'Yennenga',
     # 'Luke Cage'
+    # 'Moon Knight'
+    # 'Ghost Rider',
+    # 'Elektra',
+    # 'Bullseye',
+    # 'Daredevil',
+    # 'Dr. Ellie Sattler',
+    # 'The Genie',
+    # 'Harry Houdini',
 ]
 
 def format_hero(in_path, out_path):

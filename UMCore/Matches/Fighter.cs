@@ -37,6 +37,27 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
     public List<FighterPredicateEffect> OnFighterDefeatEffects { get; }
     public CombatStepEffectsCollection CombatStepEffects { get; }
     public List<DamageModifier> DamageModifiers { get; }
+    public List<FighterPredicateEffect> AfterMovementEffects { get; }
+
+    public static List<FighterPredicateEffect> ExtractFighterPredicateEffects(Fighter fighter, LuaTable data, string key)
+    {
+        try
+        {
+            List<FighterPredicateEffect> result = [];
+            var onDefeatEffects = LuaUtility.TableGet<LuaTable>(data, key);
+            foreach (var value in onDefeatEffects.Values)
+            {
+                var table = value as LuaTable;
+                // TODO check for null
+                result.Add(new(fighter, table!));
+            }
+            return result;
+        }
+        catch (Exception e)
+        {
+            throw new MatchException($"Failed extract {key} predicate effects for fighter {fighter.Name}", e);
+        }
+    }
 
     public Fighter(Player owner, FighterTemplate template)
     {
@@ -280,6 +301,7 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
             throw new MatchException($"Failed to get on fighter defeat effects for fighter {template.Name}", e);
         }
 
+        // combat step effects
         try
         {
             CombatStepEffects = new(data);
@@ -305,6 +327,9 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
         {
             throw new MatchException($"Failed to damage modifiers for fighter {template.Name}", e);
         }
+    
+        // after movement effects
+        AfterMovementEffects = ExtractFighterPredicateEffects(this, data, "AfterMovementEffects");
     }
     
     public void ExecuteGameStartEffects()

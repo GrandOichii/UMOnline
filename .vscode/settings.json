@@ -61,6 +61,10 @@
         "DEBUG",
         "IsDefeated",
         "IsNodeEmpty",
-        "FullyRecoverHealth"
+        "FullyRecoverHealth",
+        "Mill",
+        "GetBoostValue",
+        "AddToCardValueInCombat",
+        "GetMovingFighter"
     ]
 }
