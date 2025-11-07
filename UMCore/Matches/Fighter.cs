@@ -38,24 +38,45 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
     public CombatStepEffectsCollection CombatStepEffects { get; }
     public List<DamageModifier> DamageModifiers { get; }
     public List<FighterPredicateEffect> AfterMovementEffects { get; }
+    public List<BoostedMovementReplacer> BoostedMovementReplacers { get; }
 
     public static List<FighterPredicateEffect> ExtractFighterPredicateEffects(Fighter fighter, LuaTable data, string key)
     {
         try
         {
             List<FighterPredicateEffect> result = [];
-            var onDefeatEffects = LuaUtility.TableGet<LuaTable>(data, key);
-            foreach (var value in onDefeatEffects.Values)
+            var table = LuaUtility.TableGet<LuaTable>(data, key);
+            foreach (var value in table.Values)
             {
-                var table = value as LuaTable;
+                var tableRaw = value as LuaTable;
                 // TODO check for null
-                result.Add(new(fighter, table!));
+                result.Add(new(fighter, tableRaw!));
             }
             return result;
         }
         catch (Exception e)
         {
             throw new MatchException($"Failed extract {key} predicate effects for fighter {fighter.Name}", e);
+        }
+    }
+
+    public static List<LuaFunction> ExtractFunctionList(Fighter fighter, LuaTable data, string key)
+    {
+        try
+        {
+            List<LuaFunction> result = [];
+            var table = LuaUtility.TableGet<LuaTable>(data, key);
+            foreach (var value in table.Values)
+            {
+                var func = value as LuaFunction;
+                // TODO check for null
+                result.Add(func!);
+            }
+            return result;
+        }
+        catch (Exception e)
+        {
+            throw new MatchException($"Failed to extract function list {key} for fighter {fighter.Name}", e);
         }
     }
 
@@ -328,8 +349,13 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
             throw new MatchException($"Failed to damage modifiers for fighter {template.Name}", e);
         }
     
-        // after movement effects
         AfterMovementEffects = ExtractFighterPredicateEffects(this, data, "AfterMovementEffects");
+
+        BoostedMovementReplacers = [ ..ExtractFunctionList(this, data, "BoostedMovementReplacers")
+            .Select(f =>
+                new BoostedMovementReplacer(this, f)
+            )
+        ];
     }
     
     public void ExecuteGameStartEffects()

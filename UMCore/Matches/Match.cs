@@ -296,11 +296,26 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
         var fighters = GetAliveFighters();
         var effects = fighters.SelectMany(f => f.AfterMovementEffects.Where(e => e.Accepts(fighter)));
         // TODO order effects
-        
+
         foreach (var e in effects)
         {
             e.Execute();
         }
+    }
+    
+    public async Task<bool> ReplaceBoostedMovement()
+    {
+        if (CurrentMovement is null)
+            throw new MatchException($"Called {nameof(ReplaceBoostedMovement)} with no {nameof(CurrentMovement)}");
+
+        var replacers = Fighters.SelectMany(f => f.BoostedMovementReplacers);
+        // TODO order replacers
+        foreach (var replacer in replacers)
+        {
+            var result = replacer.TryReplace(CurrentMovement);
+            if (result) return true;
+        }
+        return false;
     }
 
     public Data GetData(Player player)

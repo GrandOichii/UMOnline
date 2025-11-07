@@ -2390,7 +2390,7 @@ image = ExtResource("327")
 
 [sub_resource type="Resource" id="Resource_328"]
 script = ExtResource("1_bskbv")
-card_key = "Harry Houdini_And the Beautiful Bess"
+card_key = "Harry Houdini_And the Beautiful Bess!"
 image = ExtResource("328")
 
 [sub_resource type="Resource" id="Resource_329"]

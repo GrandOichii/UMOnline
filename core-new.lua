@@ -192,6 +192,7 @@ function UM.Build:Fighter()
     result.onFighterDefeatEffects = {}
     result.damageModifiers = {}
     result.afterMovementEffects = {}
+    result.boostedMovementReplacers = {}
     result.tokens = {}
 
     function result:Build()
@@ -212,8 +213,15 @@ function UM.Build:Fighter()
             CombatStepEffects = result.combatStepEffects,
             DamageModifiers = result.damageModifiers,
             AfterMovementEffects = result.afterMovementEffects,
+            BoostedMovementReplacers = result.boostedMovementReplacers,
         }
         return fighter
+    end
+
+    function result:ReplaceBoostedMovement(replacerFunc)
+        result.boostedMovementReplacers[#result.boostedMovementReplacers+1] = replacerFunc
+
+        return result
     end
 
     function result:AfterMove(text, fighterPredFunc, ...)

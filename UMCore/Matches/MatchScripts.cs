@@ -135,7 +135,7 @@ public class MatchScripts
     [LuaCommand]
     public void MoveFighter(Fighter fighter, int amount, bool canMoveOverOpposing)
     {
-        fighter.Owner.MoveFighter(fighter, amount, true, canMoveOverOpposing)
+        fighter.Owner.MoveFighter(fighter, amount, true, canMoveOverOpposing, false)
             .Wait();
     }
 
@@ -153,7 +153,7 @@ public class MatchScripts
             }
             fighters.Remove(fighter);
 
-            player.MoveFighter(fighter, amount, true, canMoveOverOpposing)
+            player.MoveFighter(fighter, amount, true, canMoveOverOpposing, false)
                 .Wait();
         }
     }

@@ -79,7 +79,7 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
     {
         // IPlayerInitialFighterPlacer placer = new PlayerInitialFighterPlacerNeighbors();
         IPlayerInitialFighterPlacer placer = new PlayerInitialFighterPlacerInZone();
-        
+
         var heroQueue = new Queue<Fighter>(Fighters.Where(f => f.IsHero()));
         if (Loadout.ChoosesSidekick)
         {
@@ -109,7 +109,8 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
         }
     }
 
-    public async Task CreateDeck() {
+    public async Task CreateDeck()
+    {
 
         // create deck
         {
@@ -118,7 +119,7 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
             {
                 cards.AddRange(Loadout.Deck.Where(c => c.Card.IncludedInDeckWithSidekick == fighter.Template.Key));
             }
-            
+
             foreach (var card in cards)
             {
                 await Deck.Add(
@@ -253,6 +254,7 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
     )
     {
         var boostValue = 0;
+        var wasBoosted = false;
         if (isManoeuvre)
         {
             // allow boost
@@ -261,6 +263,7 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
             {
                 await DiscardCardForBoost(card);
                 boostValue = (int)card.GetBoostValue()!;
+                wasBoosted = true;
 
                 Match.Logs.Public($"Player {FormattedLogName} boosts their movement with {card.FormattedLogName}");
             }
@@ -280,11 +283,12 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
             if (isManoeuvre)
             {
                 var modifiers = Match.GetManoeuvreValueModifiersFor(fighter);
-                foreach (var m in modifiers) 
+                foreach (var m in modifiers)
                     mod = m.Modify(mod);
             }
             fighters.Remove(fighter);
-            await MoveFighter(fighter, fighter.Movement() + boostValue + mod, canMoveOverFriendly, canMoveOverOpposing);
+
+            await MoveFighter(fighter, fighter.Movement() + boostValue + mod, canMoveOverFriendly, canMoveOverOpposing, wasBoosted);
 
             if (!isManoeuvre) continue;
 
@@ -292,7 +296,7 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
         }
     }
 
-    public async Task MoveFighter(Fighter fighter, int distance, bool canMoveOverFriendly, bool canMoveOverOpposing)
+    public async Task MoveFighter(Fighter fighter, int distance, bool canMoveOverFriendly, bool canMoveOverOpposing, bool wasBoosted)
     {
         // TODO feels weird
         if (!canMoveOverOpposing)
@@ -301,7 +305,14 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
         }
 
         var movement = Match.SetCurrentMovement(new(fighter, distance, canMoveOverFriendly, canMoveOverOpposing));
-        await movement.Resolve();
+        if (
+            !wasBoosted ||
+            !await Match.ReplaceBoostedMovement()
+        )
+        {
+            await movement.Resolve();
+        }
+
         Match.FinishMovement();
 
         Match.Logs.Public($"Player {FormattedLogName} moves {fighter.FormattedLogName}");
