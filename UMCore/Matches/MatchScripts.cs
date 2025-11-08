@@ -541,30 +541,41 @@ public class MatchScripts
     }
 
     [LuaCommand]
-    public object?[] GetCombatPart(Player player)
+    public LuaTable GetCombatPart(Player player)
     {
         var combat = Match.Combat
             ?? throw new MatchException($"Called {nameof(GetCombatPart)} while there is no combat");
         var (part, fighter) = combat.GetCombatPart(player);
-        return [part, fighter];
+        return LuaUtility.CreateTable(Match.LState, new List<object?>() { part, fighter});
     }
 
     [LuaCommand]
-    public void PutCardOnTheBottomOfDeck(Player player, MatchCard card)
+    public void PutCardOnTheBottomOfDeck(Player player, MatchCard? card)
     {
+        if (card is null)
+            throw new MatchException($"Provided null card for {nameof(PutCardOnTheBottomOfDeck)}");
+        try
+        {
         var deck = player.Deck;
         deck.PutOnBottom(card)
             .Wait();
+        }catch (Exception e)
+        {
+            Match.Logger?.LogError(e.Message);
+            Match.Logger?.LogError(e.StackTrace);
+            Match.Logger?.LogError(e.InnerException?.Message);
+            Match.Logger?.LogError(e.InnerException?.StackTrace);
+        }
     }
     
     [LuaCommand]
-    public object?[] RemoveCombatPart(Player player)
+    public LuaTable RemoveCombatPart(Player player)
     {
         var combat = Match.Combat
             ?? throw new MatchException($"Called {nameof(GetCombatPart)} while there is no combat");
 
         var (part, fighter) = combat.RemoveCombatPart(player);
-        return [part, fighter];
+        return LuaUtility.CreateTable(Match.LState, new List<object?>() { part, fighter});
     }
 
     [LuaCommand]

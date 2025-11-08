@@ -295,7 +295,7 @@ public class Combat : IHasData<Combat.Data>
         return new()
         {
             Attacker = Attacker.GetData(player),
-            AttackCard = AttackCard!.GetData(player),
+            AttackCard = AttackCard?.GetData(player),
             Defender = Defender.GetData(player),
             DefenceCard = DefenceCard?.GetData(player),
             WinnerIdx = Winner?.Idx,
@@ -305,7 +305,7 @@ public class Combat : IHasData<Combat.Data>
     public class Data
     {
         public required Fighter.Data Attacker { get; init; }
-        public required CombatPart.Data AttackCard { get; init; }
+        public required CombatPart.Data? AttackCard { get; init; }
 
         public required Fighter.Data Defender { get; init; }
         public required CombatPart.Data? DefenceCard { get; init; }

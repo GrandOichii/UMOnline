@@ -525,8 +525,8 @@ end
 
 function UM.Conditions:PlayedCombatCard(singlePlayer)
     return function (args)
-        local part, fighter = GetCombatPart(singlePlayer(args))
-        return part ~= nil
+        local part = GetCombatPart(singlePlayer(args))
+        return part[1] ~= nil
     end
 end
 

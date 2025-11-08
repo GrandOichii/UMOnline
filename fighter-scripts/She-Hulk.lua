@@ -32,7 +32,6 @@ function _Create()
                         UM.Number:_(
                             function (args)
                                 local discarded = args.ctx['DISCARDED']
-                                DEBUG(tostring(#discarded))
                                 if #discarded == 0 then
                                     return {
                                         [1] = 0

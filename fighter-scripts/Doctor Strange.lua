@@ -16,8 +16,8 @@ function _Create()
                     -- TODO too low-level
                     function (args)
                         local player = args.owner
-                        local part, fighter = RemoveCombatPart(player)
-                        PutCardOnTheBottomOfDeck(player, part.Card)
+                        local part = RemoveCombatPart(player)
+                        PutCardOnTheBottomOfDeck(player, part[1].Card)
                     end
                 )
             )
