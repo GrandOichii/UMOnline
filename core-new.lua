@@ -630,7 +630,6 @@ end
 
 function UM.Conditions:Gte(numeric1, numeric2)
     return function (args)
-        DEBUG(tostring(numeric1:Last(args)..' '..numeric2:Last(args)))
         return numeric1:Last(args) >= numeric2:Last(args)
     end
 end
@@ -719,13 +718,16 @@ function UM.Effects:GainActions(fixedNumber)
     end
 end
 
-function UM.Effects:Discard(manyPlayers, fixedNumber, random)
+function UM.Effects:Discard(manyPlayers, fixedNumber, random, ctxKey)
     local discardCards = function (player, amount, cardIdxFunc)
+        local result = {}
         while amount > 0 do
             local idx = cardIdxFunc()
-            DiscardCard(player, idx)
+            local discarded = DiscardCard(player, idx)
             amount = amount - 1
+            result[#result+1] = discarded
         end
+        return result
     end
 
     return function (args)
@@ -733,15 +735,20 @@ function UM.Effects:Discard(manyPlayers, fixedNumber, random)
         local amount = fixedNumber
 
         for _, player in ipairs(players) do
+            local discarded
             if random then
-                discardCards(player, amount, function ()
+                discarded = discardCards(player, amount, function ()
                     return Rnd(GetHandSize(player))
                 end)
             else
-                discardCards(player, amount, function ()
+                discarded = discardCards(player, amount, function ()
                     return ChooseCardInHand(player, player, 'Choose a card to discard')
                 end)
             end
+            if ctxKey == nil then
+                return
+            end
+            args.ctx[ctxKey] = discarded
         end
     end
 
@@ -1166,9 +1173,9 @@ function UM.Select:Fighters()
         end)
     end
 
-    function result:InSameZoneAs(fighterFunc)
+    function result:InSameZoneAs(singleFighter)
         return result:_Add(function (args, fighter)
-            local f = fighterFunc(args)
+            local f = singleFighter(args)
             if not IsAlive(f) then
                 return false
             end

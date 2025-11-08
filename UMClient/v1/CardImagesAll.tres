@@ -1229,7 +1229,7 @@ image = ExtResource("96")
 
 [sub_resource type="Resource" id="Resource_97"]
 script = ExtResource("1_bskbv")
-card_key = "Black Panther_Wakanda Forever"
+card_key = "Black Panther_Wakanda Forever!"
 image = ExtResource("97")
 
 [sub_resource type="Resource" id="Resource_98"]

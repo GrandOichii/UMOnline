@@ -41,6 +41,9 @@ NAMES = [
     # 'Winter Soldier',
     # 'Black Widow',
     # 'Black Panther',
+    'Spider-Man',
+    'She-Hulk',
+    'Doctor Strange',
 ]
 
 def format_hero(in_path, out_path):

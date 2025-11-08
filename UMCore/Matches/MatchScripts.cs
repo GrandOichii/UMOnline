@@ -47,6 +47,7 @@ public class MatchScripts
         {
             { "fighter", fighter },
             { "owner", owner },
+            { "ctx", LuaUtility.CreateTable(owner.Match.LState) },
         });
     }
 
@@ -104,11 +105,12 @@ public class MatchScripts
     }
 
     [LuaCommand]
-    public void DiscardCard(Player player, int idx)
+    public MatchCard DiscardCard(Player player, int idx)
     {
         var card = player.Hand.Cards[idx];
         player.Hand.Discard(card)
             .Wait();
+        return card;
     }
 
     [LuaCommand]

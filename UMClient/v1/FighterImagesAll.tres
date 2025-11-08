@@ -33,10 +33,10 @@
 [ext_resource type="Texture2D" uid="uid://bhiwpth3351vh" path="res://assets/decks/Ciri/heroes/hero.webp" id="29"]
 [ext_resource type="Texture2D" uid="uid://dexlgyfa2htut" path="res://assets/decks/Bullseye/heroes/Bullseye.webp" id="29_bp8j7"]
 [ext_resource type="Texture2D" uid="uid://bdkt8sc1at54e" path="res://assets/decks/Ciri/sidekicks/Ciri_Ihuarraquax_1.webp" id="30"]
-[ext_resource type="Texture2D" uid="uid://benjk31m3ombu" path="res://assets/decks/Doctor Strange/heroes/hero.webp" id="33"]
 [ext_resource type="Texture2D" uid="uid://bqdq1sqafl3xs" path="res://assets/decks/Cloak and Dagger/heroes/Cloak.webp" id="33_bp8j7"]
 [ext_resource type="Texture2D" uid="uid://bana76v1klnp5" path="res://assets/decks/Doctor Strange/sidekicks/Doctor Strange_Wong_1.webp" id="34"]
 [ext_resource type="Texture2D" uid="uid://kyg358mnof0a" path="res://assets/decks/Daredevil/heroes/Daredevil.webp" id="34_bp8j7"]
+[ext_resource type="Texture2D" uid="uid://ctsgg4o1n8kky" path="res://assets/decks/Doctor Strange/heroes/Doctor Strange.webp" id="35_bp8j7"]
 [ext_resource type="Texture2D" uid="uid://bw81ig3rjns8k" path="res://assets/decks/Dr. Ellie Sattler/sidekicks/Dr. Ellie Sattler_Dr. Malcolm_1.webp" id="36"]
 [ext_resource type="Texture2D" uid="uid://dwgr6mr63lpro" path="res://assets/decks/Dr. Jill Trent/heroes/hero.webp" id="37"]
 [ext_resource type="Texture2D" uid="uid://bb0ri3fj0njnc" path="res://assets/decks/Dr. Ellie Sattler/heroes/Dr. Ellie Sattler.webp" id="37_bp8j7"]
@@ -99,14 +99,14 @@
 [ext_resource type="Texture2D" uid="uid://so0o264np002" path="res://assets/decks/Robin Hood/sidekicks/Robin Hood_Outlaws_3.webp" id="93"]
 [ext_resource type="Texture2D" uid="uid://bcchcnvwkhtsa" path="res://assets/decks/Raptors/heroes/Raptor3.png" id="93_qn3q6"]
 [ext_resource type="Texture2D" uid="uid://dq5gr35s1osb7" path="res://assets/decks/Robin Hood/sidekicks/Robin Hood_Outlaws_4.webp" id="94"]
-[ext_resource type="Texture2D" uid="uid://do1n24711sww6" path="res://assets/decks/She-Hulk/heroes/hero.webp" id="95"]
 [ext_resource type="Texture2D" uid="uid://cxyx483ubuyua" path="res://assets/decks/Sherlock Holmes/sidekicks/Sherlock Holmes_Dr. Watson_1.webp" id="97"]
 [ext_resource type="Texture2D" uid="uid://dji8hpi0l0xr0" path="res://assets/decks/Sherlock Holmes/heroes/Sherlock Holmes.webp" id="98_asmjw"]
 [ext_resource type="Texture2D" uid="uid://bnd00wjgly8fx" path="res://assets/decks/Sinbad/sidekicks/Sinbad_The Porter_1.webp" id="99"]
-[ext_resource type="Texture2D" uid="uid://cwopfl3ffas2q" path="res://assets/decks/Spider-Man/heroes/hero.webp" id="100"]
+[ext_resource type="Texture2D" uid="uid://dd4s3d5ff2hjh" path="res://assets/decks/She-Hulk/heroes/She-Hulk.webp" id="99_bp8j7"]
 [ext_resource type="Texture2D" uid="uid://bbfoc84s34abc" path="res://assets/decks/Sinbad/heroes/Sinbad.webp" id="100_asmjw"]
 [ext_resource type="Texture2D" uid="uid://11stdad7w2fs" path="res://assets/decks/Spike/sidekicks/Spike_Drusilla_1.webp" id="102"]
 [ext_resource type="Texture2D" uid="uid://ilq5rwi00oh6" path="res://assets/decks/Squirrel Girl/sidekicks/Squirrel Girl_Squirrel_1.webp" id="104"]
+[ext_resource type="Texture2D" uid="uid://ckyfaw672xbwh" path="res://assets/decks/Spider-Man/heroes/Spider-Man.webp" id="104_bp8j7"]
 [ext_resource type="Texture2D" uid="uid://bqfodrxo82qc2" path="res://assets/decks/Squirrel Girl/sidekicks/Squirrel Girl_Squirrel_2.webp" id="105"]
 [ext_resource type="Texture2D" uid="uid://4dgfdmx1q1h6" path="res://assets/decks/Spike/heroes/Spike.webp" id="105_iakbt"]
 [ext_resource type="Texture2D" uid="uid://cn2ia0ja0giet" path="res://assets/decks/Squirrel Girl/sidekicks/Squirrel Girl_Squirrel_3.webp" id="106"]
@@ -300,7 +300,7 @@ images = Array[CompressedTexture2D]([ExtResource("34_bp8j7")])
 [sub_resource type="Resource" id="Resource_31"]
 script = ExtResource("1_gr0k2")
 fighter_key = "Doctor Strange"
-images = Array[CompressedTexture2D]([ExtResource("33")])
+images = Array[CompressedTexture2D]([ExtResource("35_bp8j7")])
 
 [sub_resource type="Resource" id="Resource_32"]
 script = ExtResource("1_gr0k2")
@@ -525,7 +525,7 @@ images = Array[CompressedTexture2D]([ExtResource("91"), ExtResource("92"), ExtRe
 [sub_resource type="Resource" id="Resource_76"]
 script = ExtResource("1_gr0k2")
 fighter_key = "She-Hulk"
-images = Array[CompressedTexture2D]([ExtResource("95")])
+images = Array[CompressedTexture2D]([ExtResource("99_bp8j7")])
 
 [sub_resource type="Resource" id="Resource_77"]
 script = ExtResource("1_gr0k2")
@@ -550,7 +550,7 @@ images = Array[CompressedTexture2D]([ExtResource("99")])
 [sub_resource type="Resource" id="Resource_81"]
 script = ExtResource("1_gr0k2")
 fighter_key = "Spider-Man"
-images = Array[CompressedTexture2D]([ExtResource("100")])
+images = Array[CompressedTexture2D]([ExtResource("104_bp8j7")])
 
 [sub_resource type="Resource" id="Resource_82"]
 script = ExtResource("1_gr0k2")
