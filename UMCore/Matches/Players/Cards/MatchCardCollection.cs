@@ -52,6 +52,12 @@ public abstract class MatchCardCollection : IHasData<MatchCardCollection.Data>
         Cards = [.. Cards.OrderBy(_ => Owner.Match.Random.Next())];
     }
 
+    public async Task PutOnBottom(MatchCard card)
+    {
+        Cards.Insert(0, card);
+        await Owner.Match.UpdateClients();
+    }
+
     public virtual Data GetData(Player player)
     {
         return new()

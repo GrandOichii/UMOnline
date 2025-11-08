@@ -541,6 +541,33 @@ public class MatchScripts
     }
 
     [LuaCommand]
+    public object?[] GetCombatPart(Player player)
+    {
+        var combat = Match.Combat
+            ?? throw new MatchException($"Called {nameof(GetCombatPart)} while there is no combat");
+        var (part, fighter) = combat.GetCombatPart(player);
+        return [part, fighter];
+    }
+
+    [LuaCommand]
+    public void PutCardOnTheBottomOfDeck(Player player, MatchCard card)
+    {
+        var deck = player.Deck;
+        deck.PutOnBottom(card)
+            .Wait();
+    }
+    
+    [LuaCommand]
+    public object?[] RemoveCombatPart(Player player)
+    {
+        var combat = Match.Combat
+            ?? throw new MatchException($"Called {nameof(GetCombatPart)} while there is no combat");
+
+        var (part, fighter) = combat.RemoveCombatPart(player);
+        return [part, fighter];
+    }
+
+    [LuaCommand]
     public Fighter GetMovingFighter()
     {
         var movement = Match.CurrentMovement

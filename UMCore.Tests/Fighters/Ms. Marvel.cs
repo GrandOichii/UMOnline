@@ -9,7 +9,7 @@ public class MsMarvelTests
         .ClearDeck();
 
     [Fact]
-    public async Task CheckInitialRage()
+    public async Task TurnStartTrigger()
     {
         // Arrange
         var config = new MatchConfigBuilder()

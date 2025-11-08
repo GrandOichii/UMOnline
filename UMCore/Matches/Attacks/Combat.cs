@@ -120,7 +120,7 @@ public class Combat : IHasData<Combat.Data>
     public Fighter Attacker { get; private set; }
     public Fighter Defender { get; private set; }
 
-    public CombatPart AttackCard { get; private set; }
+    public CombatPart? AttackCard { get; private set; }
     public CombatPart? DefenceCard { get; private set; }
 
     public Player? Winner { get; private set; }
@@ -172,7 +172,7 @@ public class Combat : IHasData<Combat.Data>
 
     public async Task Process()
     {
-        await Initiator.Hand.Remove(AttackCard.Card);
+        await Initiator.Hand.Remove(AttackCard!.Card);
         await Match.UpdateClients();
 
         await Initiator.ExecuteOnAttackEffects(Attacker);
@@ -220,7 +220,9 @@ public class Combat : IHasData<Combat.Data>
         // discard cards
         Match.Logger?.LogDebug("Discarding combat cards");
         Match.Logs.Public("Discarding combat cards");
-        await AttackCard.Discard();
+
+        if (AttackCard is not null)
+            await AttackCard.Discard();
 
         if (DefenceCard is not null)
             await DefenceCard.Discard();
@@ -261,6 +263,23 @@ public class Combat : IHasData<Combat.Data>
         throw new MatchException($"Failed to find combat part for player {player.LogName}");
     }
 
+    public (CombatPart?, Fighter) RemoveCombatPart(Player player) {
+        if (Defender.Owner == player)
+        {
+            var result = DefenceCard;
+            DefenceCard = null;
+            return (result, Defender);
+        }
+        if (Attacker.Owner == player)
+        {
+            var result = AttackCard;
+            AttackCard = null;
+            return (result, Defender);
+        }
+
+        throw new MatchException($"Failed to find combat part for player {player.LogName}");
+    }
+
     public async Task AddBoostToPlayer(Player player, MatchCard boostCard)
     {
         var (card, fighter) = GetCombatPart(player);
@@ -276,7 +295,7 @@ public class Combat : IHasData<Combat.Data>
         return new()
         {
             Attacker = Attacker.GetData(player),
-            AttackCard = AttackCard.GetData(player),
+            AttackCard = AttackCard!.GetData(player),
             Defender = Defender.GetData(player),
             DefenceCard = DefenceCard?.GetData(player),
             WinnerIdx = Winner?.Idx,

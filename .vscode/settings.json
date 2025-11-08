@@ -66,6 +66,9 @@
         "GetBoostValue",
         "AddToCardValueInCombat",
         "GetMovingFighter",
-        "GetOpponentOf"
+        "GetOpponentOf",
+        "GetCombatPart",
+        "RemoveCombatPart",
+        "PutCardOnTheBottomOfDeck"
     ]
 }

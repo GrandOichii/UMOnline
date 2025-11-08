@@ -523,6 +523,13 @@ function UM.Conditions:FightersAreAdjacent(singleFighter1, singleFighter2)
     end
 end
 
+function UM.Conditions:PlayedCombatCard(singlePlayer)
+    return function (args)
+        local part, fighter = GetCombatPart(singlePlayer(args))
+        return part ~= nil
+    end
+end
+
 -- function UM.Conditions:AttackerOwnedBy(singlePlayer)
 --     return function (args)
 --         local combat = GetCombat()
