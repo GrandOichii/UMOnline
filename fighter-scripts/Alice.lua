@@ -25,7 +25,7 @@ end
 function UM.Effects.CharacterSpecific._SetSize(owner, size)
     SetPlayerStringAttribute(owner, 'ALICE_SIZE', size)
 
-    LogPublic('Alice changes size! Alice is now '..size)
+    LogPublic('Alice changes size! Alice is now '..size) -- TODO format name
 end
 
 function UM.Effects.CharacterSpecific:ChangeSize()

@@ -173,6 +173,7 @@ def get_sidekick_name(plural):
         'The Porter': 'The Porter',
         'Giles': 'Giles',
         'Xander': 'Xander',
+        'Squirrel': 'Squirrel',
     }[plural]
 
 def get_card_name(title):

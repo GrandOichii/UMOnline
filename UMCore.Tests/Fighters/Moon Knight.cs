@@ -5,10 +5,6 @@ namespace UMCore.Tests.Fighters;
 public class MoonKnightTests
 {
     private static readonly string IDENTITY_ATTR = "IDENTITY";
-    private static readonly string MOON_KNIGHT = "Moon Knight";
-    private static readonly string KHONSHU = "Khonshu";
-    private static readonly string MR_KNIGHT = "Mr. Knight";
-    private static readonly string FIGHTER_KEY = MOON_KNIGHT;
 
     private static LoadoutTemplateBuilder GetLoadoutBuilder() => new LoadoutTemplateBuilder("Moon Knight")
         .Load("../../../../.generated/loadouts/Moon Knight/Moon Knight.json")

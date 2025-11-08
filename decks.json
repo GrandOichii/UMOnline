@@ -7777,6 +7777,15 @@
                     "value": 3
                 }
             ],
+            "sidekicks": [
+                {
+                    "attack_type": "melee",
+                    "hp": 1,
+                    "name": "Squirrel",
+                    "quantity": 8,
+                    "slug": "squirrels"
+                }
+            ],
             "heroes": [
                 {
                     "attack_type": "melee",
@@ -7784,13 +7793,6 @@
                     "name": "Squirrel Girl",
                     "quantity": 1,
                     "slug": "squirrel_girl"
-                },
-                {
-                    "attack_type": "melee",
-                    "hp": 1,
-                    "name": "Squirrels",
-                    "quantity": 8,
-                    "slug": "squirrels"
                 }
             ],
             "movement": 2,
@@ -7799,7 +7801,6 @@
             "quote": null,
             "set": "Teen Spirit",
             "setSlug": "teen-spirit",
-            "sidekicks": [],
             "slug": "squirrel-girl",
             "special": "GO NUTS!\r\nAt the start of your turn, summon a squirrel in a space adjacent to Squirrel Girl.\r\nSquirrels are small fighters. Do not start with any squirrels on the board."
         },
