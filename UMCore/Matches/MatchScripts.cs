@@ -283,6 +283,17 @@ public class MatchScripts
     }
 
     [LuaCommand]
+    public Player? GetOpponentOf(Player player)
+    {
+        var combat = Match.Combat
+            ?? throw new MatchException($"Called {nameof(GetOpponentOf)} while no combat is active");
+
+        var (part, fighter) = combat.GetCombatPart(player);
+        var (_, resultFighter) = combat.GetOpponent(part);
+        return resultFighter?.Owner;
+    }
+
+    [LuaCommand]
     public void CancelCombatEffectsOfOpponent(Player player)
     {
         Match.Combat!.CancelEffectsOfOpponent(player)

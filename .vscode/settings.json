@@ -65,6 +65,7 @@
         "Mill",
         "GetBoostValue",
         "AddToCardValueInCombat",
-        "GetMovingFighter"
+        "GetMovingFighter",
+        "GetOpponentOf"
     ]
 }

@@ -383,6 +383,28 @@ function UM.Build:Fighter()
     return result
 end
 
+-- Combat
+
+UM.Combat = {}
+
+function UM.Combat:DamageDealt()
+    return UM.Number:_(function (args)
+        local combat = GetCombat()
+        assert(combat ~= nil, 'TODO write this error')
+
+        local damage = combat.DamageDealt
+        if damage == nil then
+            return {
+                [1] = 0
+            }
+        end
+
+        return {
+            [1] = damage
+        }
+    end)
+end
+
 -- numeric
 
 UM.Number = {}
@@ -501,6 +523,24 @@ function UM.Conditions:FightersAreAdjacent(singleFighter1, singleFighter2)
     end
 end
 
+-- function UM.Conditions:AttackerOwnedBy(singlePlayer)
+--     return function (args)
+--         local combat = GetCombat()
+--         assert(combat ~= nil, 'TODO write this error')
+
+--         return combat.Attacker.Owner == singlePlayer(args)
+--     end
+-- end
+
+-- function UM.Conditions:AttackerIs(singleFighter)
+--     return function (args)
+--         local combat = GetCombat()
+--         assert(combat ~= nil, 'TODO write this error')
+
+--         return combat.Attacker == singleFighter(args)
+--     end
+-- end
+
 function UM.Conditions:FightersAreDefeated(manyFighters)
     return function (args)
         local fighters = manyFighters(args)
@@ -585,6 +625,13 @@ end
 function UM.Conditions:Gt(numeric1, numeric2)
     return function (args)
         return numeric1:Last(args) > numeric2:Last(args)
+    end
+end
+
+function UM.Conditions:Gte(numeric1, numeric2)
+    return function (args)
+        DEBUG(tostring(numeric1:Last(args)..' '..numeric2:Last(args)))
+        return numeric1:Last(args) >= numeric2:Last(args)
     end
 end
 
@@ -1200,9 +1247,10 @@ function UM.Select:Players()
     end
 
     function result:YourOpponent()
-        -- TODO combat opponent
-
-        return result
+        return result:_Add(function (args, player)
+            local owner = args.owner
+            return GetOpponentOf(owner) == player
+        end)
     end
 
     return result

@@ -228,10 +228,10 @@ public class Combat : IHasData<Combat.Data>
         await Initiator.ExecuteAfterAttackEffects(Attacker);
     }
 
-    public CombatPart? GetOpponent(CombatPart? part)
+    public (CombatPart?, Fighter) GetOpponent(CombatPart? part)
     {
-        if (part == AttackCard) return DefenceCard;
-        if (part == DefenceCard) return AttackCard;
+        if (part == AttackCard) return (DefenceCard, Defender);
+        if (part == DefenceCard) return (AttackCard, Attacker);
 
         throw new MatchException($"Stale CombatPart passed to {nameof(GetOpponent)}");// TODO type
     }
@@ -239,7 +239,7 @@ public class Combat : IHasData<Combat.Data>
     public async Task CancelEffectsOfOpponent(Player player)
     {
         var (card, fighter) = GetCombatPart(player);
-        var oppCard = GetOpponent(card);
+        var (oppCard, _) = GetOpponent(card);
         if (oppCard is null) return;
         if (!oppCard.CanBeCancelled(player)) return;
 
