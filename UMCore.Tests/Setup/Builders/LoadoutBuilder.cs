@@ -22,6 +22,8 @@ public class LoadoutTemplateBuilder
             ChoosesSidekick = false,
             StartsWithCards = [],
             CantBePlayedWith = [],
+            MaximumHandSize = null,
+            StartingHandSize = null,
         };
     }
 
@@ -128,6 +130,8 @@ public class LoadoutTemplateBuilder
             ChoosesSidekick = true,
             StartsWithCards = [],
             CantBePlayedWith = [],
+            MaximumHandSize = null,
+            StartingHandSize = null,
         };
         return this;
     }

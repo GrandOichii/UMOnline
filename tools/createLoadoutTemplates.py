@@ -251,6 +251,8 @@ for deck in data['decks']:
         'StartsWithSidekicks': deck['startsWithSidekicks'] if 'startsWithSidekicks' in deck else True,
         'StartsWithCards': deck['startsWithCards'] if 'startsWithCards' in deck else [],
         'CantBePlayedWith': deck['cantBePlayedWith'] if 'cantBePlayedWith' in deck else [],
+        'StartingHandSize': deck['startingHandSize'] if 'startingHandSize' in deck else None,
+        'MaximumHandSize': deck['maximumHandSize'] if 'maximumHandSize' in deck else None,
         'Deck': cards
     }
 

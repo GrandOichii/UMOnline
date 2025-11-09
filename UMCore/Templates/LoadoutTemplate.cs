@@ -9,6 +9,8 @@ public class LoadoutTemplate
     public required bool ChoosesSidekick { get; init; }
     public required List<string> StartsWithCards { get; init; }
     public required List<string> CantBePlayedWith { get; init; }
+    public required int? StartingHandSize { get; set; }
+    public required int? MaximumHandSize { get; set; }
 }
 
 public class LoadoutCardTemplate

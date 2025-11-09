@@ -147,7 +147,7 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
         }
 
         // initial draw
-        var amount = Match.Config.InitialHandSize;
+        var amount = Loadout.StartingHandSize ?? Match.Config.InitialHandSize;
         await Hand.Draw(amount);
 
         // Match.Logs.Public($"Player {FormattedLogName} drew their initial hand of {amount} cards");
@@ -183,9 +183,10 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
         ActionCount = 0;
         TurnHistory.Clear();
 
-        while (Hand.Count > Match.Config.MaxHandSize)
+        var maxHandSize = Loadout.MaximumHandSize ?? Match.Config.MaxHandSize;
+        while (Hand.Count > maxHandSize)
         {
-            var card = await Controller.ChooseCardInHand(this, Idx, [.. Hand.Cards], $"Discard down to {Match.Config.MaxHandSize} cards");
+            var card = await Controller.ChooseCardInHand(this, Idx, [.. Hand.Cards], $"Discard down to {maxHandSize} cards");
             await Hand.Discard(card);
         }
 

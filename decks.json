@@ -13803,6 +13803,8 @@
                     "slug": "michelangelo"
                 }
             ],
+            "startingHandSize": 3,
+            "maximumHandSize": 3,
             "movement": 3,
             "name": "Michelangelo",
             "notes": null,
