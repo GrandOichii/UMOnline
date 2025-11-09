@@ -4,7 +4,6 @@
 - Leonardo - need to download images
 - Yennefer & Triss - need to add as a separate deck in decks.json (Yennefer & Triss AND Triss & Yennefer)
 - Eredin - "your move value is 3"
-- Ciri (tests) - can't really test without writing lua scripts in c# files
 - Geralt - could do a funny and make 27 different Geralt decks, but really need to make a system of adding cards to deck "mid-match"
 - Titania - separate deck (not really)
 - The Wayward Sisters - custom card zone

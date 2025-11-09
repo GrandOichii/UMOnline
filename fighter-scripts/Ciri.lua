@@ -1,18 +1,21 @@
--- TODO too low level
-
 -- (7) Effects on Ciri's cards cannot be canceled.
 
 function _Create()
     return UM.Build:Fighter()
-        :AtTheStartOfYourTurn(
-            'Start your turn with {RED ROOM} effects active',
-            UM.Effects.CharacterSpecific:WSEnableRedRoom()
-        )
         :ForbidCardCancelling(
             function (args, card)
+                -- TODO too low level
+                
                 if not IsCardOfCharacter(card, 'Ciri') then
+                    DEBUG('NOT CIRI')
                     return false
                 end
+                if UM.Count.CharacterSpecific:CiriSource()(args) < 7 then
+                    DEBUG(tostring(UM.Count.CharacterSpecific:CiriSource()(args)))
+                    return false
+                end
+                DEBUG('TRUE')
+                return true
             end,
             UM.Select:Players():BuildPredicate()
         )
@@ -25,10 +28,11 @@ function UM.Count.CharacterSpecific:CiriSource()
         :Count()
 end
 
-function UM.Effects.CharacterSpecific:SourceEffect(source, ...)
+function UM.Effects.CharacterSpecific:SourceEffect(source, text, ...)
     local effects = {...}
     return {
         ['source'] = source,
+        ['text'] = text,
         ['effect'] = function (args)
             for _, e in ipairs(effects) do
                 e(args)

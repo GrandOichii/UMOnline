@@ -33,6 +33,12 @@ public class LoadoutCardTemplateBuilder
         _allowedFighters.Add(name);
         return this;
     }
+
+    public LoadoutCardTemplateBuilder HasLabel(string label)
+    {
+        _labels.Add(label);
+        return this;
+    }
     
     public LoadoutCardTemplateBuilder Value(int value)
     {
@@ -65,6 +71,13 @@ public class LoadoutCardTemplateBuilder
     public LoadoutCardTemplateBuilder Scheme()
     {
         _type = "Scheme";
+
+        return this;
+    }
+
+    public LoadoutCardTemplateBuilder Name(string name)
+    {
+        _name = name;
 
         return this;
     }
