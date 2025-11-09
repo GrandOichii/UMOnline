@@ -297,16 +297,16 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
             // }
 
             var fighter = await Controller.ChooseFighter(this, [.. fighters], "Choose which fighter to move");
-            var mod = 0;
+            var movement = fighter.Movement();
             if (isManoeuvre)
             {
                 var modifiers = Match.GetManoeuvreValueModifiersFor(fighter);
                 foreach (var m in modifiers)
-                    mod = m.Modify(mod);
+                    movement = m.Modify(movement);
             }
             fighters.Remove(fighter);
 
-            await MoveFighter(fighter, fighter.Movement() + boostValue + mod, canMoveOverFriendly, canMoveOverOpposing, wasBoosted);
+            await MoveFighter(fighter, movement + boostValue, canMoveOverFriendly, canMoveOverOpposing, wasBoosted);
 
             if (!isManoeuvre) continue;
 

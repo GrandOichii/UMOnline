@@ -2092,22 +2092,22 @@ image = ExtResource("268")
 
 [sub_resource type="Resource" id="Resource_269"]
 script = ExtResource("1_bskbv")
-card_key = "Eredin_Brutal strike"
+card_key = "Eredin_Brutal Strike"
 image = ExtResource("269")
 
 [sub_resource type="Resource" id="Resource_270"]
 script = ExtResource("1_bskbv")
-card_key = "Eredin_Close for the kill"
+card_key = "Eredin_Close For The Kill"
 image = ExtResource("270")
 
 [sub_resource type="Resource" id="Resource_271"]
 script = ExtResource("1_bskbv")
-card_key = "Eredin_Foul purpose"
+card_key = "Eredin_Foul Purpose"
 image = ExtResource("271")
 
 [sub_resource type="Resource" id="Resource_272"]
 script = ExtResource("1_bskbv")
-card_key = "Eredin_Icy guile"
+card_key = "Eredin_Icy Guile"
 image = ExtResource("272")
 
 [sub_resource type="Resource" id="Resource_273"]
@@ -2117,12 +2117,12 @@ image = ExtResource("273")
 
 [sub_resource type="Resource" id="Resource_274"]
 script = ExtResource("1_bskbv")
-card_key = "Eredin_Might of the Aen Elle"
+card_key = "Eredin_Might Of The Aen Elle"
 image = ExtResource("274")
 
 [sub_resource type="Resource" id="Resource_275"]
 script = ExtResource("1_bskbv")
-card_key = "Eredin_Portal defense"
+card_key = "Eredin_Portal Defense"
 image = ExtResource("275")
 
 [sub_resource type="Resource" id="Resource_276"]
@@ -2132,17 +2132,17 @@ image = ExtResource("276")
 
 [sub_resource type="Resource" id="Resource_277"]
 script = ExtResource("1_bskbv")
-card_key = "Eredin_Unyielding hordes"
+card_key = "Eredin_Unyielding Hordes"
 image = ExtResource("277")
 
 [sub_resource type="Resource" id="Resource_278"]
 script = ExtResource("1_bskbv")
-card_key = "Eredin_Wild hunt"
+card_key = "Eredin_Wild Hunt"
 image = ExtResource("278")
 
 [sub_resource type="Resource" id="Resource_279"]
 script = ExtResource("1_bskbv")
-card_key = "Geralt of Rivia_Annoying tune"
+card_key = "Geralt of Rivia_Annoying Tune"
 image = ExtResource("279")
 
 [sub_resource type="Resource" id="Resource_280"]

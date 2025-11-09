@@ -772,6 +772,13 @@ function UM.Conditions:CountGte(many, amount)
     end
 end
 
+function UM.Conditions:CountEq(many, amount)
+    return function (args)
+        local objs = many(args)
+        return #objs == amount
+    end
+end
+
 function UM.Conditions:Eq(numeric1, numeric2)
     return function (args)
         LogPublic(tostring(numeric1:Last(args))..' '..tostring(numeric2:Last(args)))
@@ -1319,6 +1326,12 @@ function UM.Select:Fighters()
 
     function result:AllYour()
         return result:OwnedBy(UM.Player:EffectOwner())
+    end
+
+    function result:Undefeated()
+        return result:_Add(function (args, fighter)
+            return not IsDefeated(fighter)
+        end)
     end
 
     function result:Defeated()
