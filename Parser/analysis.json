@@ -89,6 +89,10 @@
       "FullText": "Choose any space in Merlin\u0027s zone. Deal 2 damage to each opposing fighter in that space and in 1 adjacent space. If at least 1 fighter is defeated this way, draw 1 card."
     },
     {
+      "Text": "If he does, they both",
+      "FullText": "Splinter may swap spaces with another friendly fighter. If he does, they both recover 2 health. Gain 1 action."
+    },
+    {
       "Text": "them and each opposing fighter they moved through",
       "FullText": "After combat: Move the opposing fighter up to 3 spaces. You may move them through other opposing fighters. Deal 1 damage to them and each opposing fighter they moved through."
     },
@@ -869,6 +873,26 @@
     {
       "Text": "Choose any space in Merlin\u0027s zone",
       "FullText": "Choose any space in Merlin\u0027s zone. Deal 2 damage to each opposing fighter in that space and in 1 adjacent space. If at least 1 fighter is defeated this way, draw 1 card."
+    },
+    {
+      "Text": "Splinter may swap spaces with another friendly fighter",
+      "FullText": "Splinter may swap spaces with another friendly fighter. If he does, they both recover 2 health. Gain 1 action."
+    },
+    {
+      "Text": "Place each fighter adjacent yo your fighter in another space in their zone",
+      "FullText": "After combat: Place each fighter adjacent yo your fighter in another space in their zone."
+    },
+    {
+      "Text": "Add \u002B2 to this card\u0027s value for each other friendly fighter adjacent to the opposing fighter",
+      "FullText": "During combat: Add \u002B2 to this card\u0027s value for each other friendly fighter adjacent to the opposing fighter."
+    },
+    {
+      "Text": "You may BOOST this card",
+      "FullText": "During combat: You may BOOST this card."
+    },
+    {
+      "Text": "Move both fighters in the combat up to 1 space each",
+      "FullText": "After combat: Move both fighters in the combat up to 1 space each. You may discard 1 card to gain 1 action."
     },
     {
       "Text": "You may return this card to your hand",
@@ -1961,6 +1985,14 @@
       "FullText": "Look at the top 4 cards of your deck. Add 2 of them to your hand and put the other 2 back on top of your deck, in any order."
     },
     {
+      "Text": "If you do, cancel all effects on your opponent\u0027s card and ignore it\u0027s value",
+      "FullText": "Immediately: You may discard 1 card. If you do, cancel all effects on your opponent\u0027s card and ignore it\u0027s value."
+    },
+    {
+      "Text": "You may discard 1 card to gain 1 action",
+      "FullText": "After combat: Move both fighters in the combat up to 1 space each. You may discard 1 card to gain 1 action."
+    },
+    {
       "Text": "You may move them through other opposing fighters",
       "FullText": "After combat: Move the opposing fighter up to 3 spaces. You may move them through other opposing fighters. Deal 1 damage to them and each opposing fighter they moved through."
     },
@@ -2681,6 +2713,14 @@
       "FullText": "After combat: If you won the combat, draw 2 cards."
     },
     {
+      "Text": "If the opposing fighter is in fewer zones than Leonardo, deal 2 damage to the opposing fighter",
+      "FullText": "After combat: If the opposing fighter is in fewer zones than Leonardo, deal 2 damage to the opposing fighter."
+    },
+    {
+      "Text": "If the opposing fighter is in fewer zones than Splinter, deal 1 damage to the opposing fighter and draw 1 card",
+      "FullText": "After combat: If the opposing fighter is in fewer zones than Splinter, deal 1 damage to the opposing fighter and draw 1 card."
+    },
+    {
       "Text": "If the Huntsman is adjacent to the opposing fighter, the value of this card is 6 instead",
       "FullText": "During combat: If the Huntsman is adjacent to the opposing fighter, the value of this card is 6 instead."
     },
@@ -2955,6 +2995,10 @@
       "FullText": "After combat: Deal 1 damage to each opposing fighter that is adjacent to at least 1 of your fighters. If Eredin is ENRAGED, deal 2 damage instead."
     },
     {
+      "Text": "other friendly ",
+      "FullText": "Move each other friendly fighter up to 3 spaces.\nDraw 1 card."
+    },
+    {
       "Text": "opposing flanked ",
       "FullText": "Deal 2 damage to each opposing flanked fighter."
     }
@@ -3083,6 +3127,10 @@
     {
       "Text": "If at least 1 fighter is defeated this way, ",
       "FullText": "Choose any space in Merlin\u0027s zone. Deal 2 damage to each opposing fighter in that space and in 1 adjacent space. If at least 1 fighter is defeated this way, draw 1 card."
+    },
+    {
+      "Text": "You may ",
+      "FullText": "Immediately: You may discard 1 card. If you do, cancel all effects on your opponent\u0027s card and ignore it\u0027s value."
     },
     {
       "Text": "$pelt$ ",

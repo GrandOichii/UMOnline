@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="CardImages" load_steps=128 format=3 uid="uid://2gxhgfvong8d"]
+[gd_resource type="Resource" script_class="CardImages" load_steps=136 format=3 uid="uid://2gxhgfvong8d"]
 
 [ext_resource type="Script" uid="uid://camtuy1raewoy" path="res://v1/CardImage.gd" id="1_uei8g"]
 [ext_resource type="Texture2D" uid="uid://ji7620hps24w" path="res://assets/decks/Achilles/back.png" id="2_dmk5q"]
@@ -64,6 +64,10 @@
 [ext_resource type="Texture2D" uid="uid://dxixfkhq7u83m" path="res://assets/decks/Yennefer & Triss/back.webp" id="62_6ufxv"]
 [ext_resource type="Texture2D" uid="uid://bciv7doh8kxxu" path="res://assets/decks/Yennenga/back.jpg" id="63_o20su"]
 [ext_resource type="Script" uid="uid://bndw10fum8xk5" path="res://v1/CardImages.gd" id="64_eokon"]
+[ext_resource type="Texture2D" uid="uid://dfa1ju3abl511" path="res://assets/decks/Raphael/back.webp" id="64_ppcd4"]
+[ext_resource type="Texture2D" uid="uid://cea8g1nl3jiif" path="res://assets/decks/Michelangelo/back.webp" id="65_g2yjq"]
+[ext_resource type="Texture2D" uid="uid://bmvs70fcvfwo5" path="res://assets/decks/Leonardo/back.png" id="66_jafng"]
+[ext_resource type="Texture2D" uid="uid://dwpvfgjwhrqjb" path="res://assets/decks/Donatello/back.webp" id="67_8rlkq"]
 
 [sub_resource type="Resource" id="Resource_0"]
 script = ExtResource("1_uei8g")
@@ -381,6 +385,30 @@ card_key = "Triss & Yennefer"
 image = ExtResource("62_6ufxv")
 metadata/_custom_type_script = "uid://camtuy1raewoy"
 
+[sub_resource type="Resource" id="Resource_1afh4"]
+script = ExtResource("1_uei8g")
+card_key = "Raphael"
+image = ExtResource("64_ppcd4")
+metadata/_custom_type_script = "uid://camtuy1raewoy"
+
+[sub_resource type="Resource" id="Resource_yrd0e"]
+script = ExtResource("1_uei8g")
+card_key = "Michelangelo"
+image = ExtResource("65_g2yjq")
+metadata/_custom_type_script = "uid://camtuy1raewoy"
+
+[sub_resource type="Resource" id="Resource_g2yjq"]
+script = ExtResource("1_uei8g")
+card_key = "Leonardo"
+image = ExtResource("66_jafng")
+metadata/_custom_type_script = "uid://camtuy1raewoy"
+
+[sub_resource type="Resource" id="Resource_jafng"]
+script = ExtResource("1_uei8g")
+card_key = "Donatello"
+image = ExtResource("67_8rlkq")
+metadata/_custom_type_script = "uid://camtuy1raewoy"
+
 [resource]
 script = ExtResource("64_eokon")
-Images = Array[ExtResource("1_uei8g")]([SubResource("Resource_0"), SubResource("Resource_1"), SubResource("Resource_2"), SubResource("Resource_3"), SubResource("Resource_4"), SubResource("Resource_5"), SubResource("Resource_6"), SubResource("Resource_7"), SubResource("Resource_8"), SubResource("Resource_9"), SubResource("Resource_10"), SubResource("Resource_11"), SubResource("Resource_12"), SubResource("Resource_13"), SubResource("Resource_14"), SubResource("Resource_15"), SubResource("Resource_16"), SubResource("Resource_17"), SubResource("Resource_18"), SubResource("Resource_19"), SubResource("Resource_20"), SubResource("Resource_21"), SubResource("Resource_22"), SubResource("Resource_23"), SubResource("Resource_24"), SubResource("Resource_25"), SubResource("Resource_26"), SubResource("Resource_27"), SubResource("Resource_28"), SubResource("Resource_29"), SubResource("Resource_30"), SubResource("Resource_31"), SubResource("Resource_32"), SubResource("Resource_33"), SubResource("Resource_34"), SubResource("Resource_35"), SubResource("Resource_36"), SubResource("Resource_37"), SubResource("Resource_38"), SubResource("Resource_39"), SubResource("Resource_40"), SubResource("Resource_41"), SubResource("Resource_42"), SubResource("Resource_43"), SubResource("Resource_44"), SubResource("Resource_45"), SubResource("Resource_46"), SubResource("Resource_47"), SubResource("Resource_48"), SubResource("Resource_49"), SubResource("Resource_50"), SubResource("Resource_51"), SubResource("Resource_52"), SubResource("Resource_53"), SubResource("Resource_54"), SubResource("Resource_55"), SubResource("Resource_56"), SubResource("Resource_57"), SubResource("Resource_58"), SubResource("Resource_59"), SubResource("Resource_60"), SubResource("Resource_61"), SubResource("Resource_k6tbm")])
+Images = Array[ExtResource("1_uei8g")]([SubResource("Resource_0"), SubResource("Resource_1"), SubResource("Resource_2"), SubResource("Resource_3"), SubResource("Resource_4"), SubResource("Resource_5"), SubResource("Resource_6"), SubResource("Resource_7"), SubResource("Resource_8"), SubResource("Resource_9"), SubResource("Resource_10"), SubResource("Resource_11"), SubResource("Resource_12"), SubResource("Resource_13"), SubResource("Resource_14"), SubResource("Resource_15"), SubResource("Resource_16"), SubResource("Resource_17"), SubResource("Resource_18"), SubResource("Resource_19"), SubResource("Resource_20"), SubResource("Resource_21"), SubResource("Resource_22"), SubResource("Resource_23"), SubResource("Resource_24"), SubResource("Resource_25"), SubResource("Resource_26"), SubResource("Resource_27"), SubResource("Resource_28"), SubResource("Resource_29"), SubResource("Resource_30"), SubResource("Resource_31"), SubResource("Resource_32"), SubResource("Resource_33"), SubResource("Resource_34"), SubResource("Resource_35"), SubResource("Resource_36"), SubResource("Resource_37"), SubResource("Resource_38"), SubResource("Resource_39"), SubResource("Resource_40"), SubResource("Resource_41"), SubResource("Resource_42"), SubResource("Resource_43"), SubResource("Resource_44"), SubResource("Resource_45"), SubResource("Resource_46"), SubResource("Resource_47"), SubResource("Resource_48"), SubResource("Resource_49"), SubResource("Resource_50"), SubResource("Resource_51"), SubResource("Resource_52"), SubResource("Resource_53"), SubResource("Resource_54"), SubResource("Resource_55"), SubResource("Resource_56"), SubResource("Resource_57"), SubResource("Resource_58"), SubResource("Resource_59"), SubResource("Resource_60"), SubResource("Resource_61"), SubResource("Resource_k6tbm"), SubResource("Resource_1afh4"), SubResource("Resource_yrd0e"), SubResource("Resource_g2yjq"), SubResource("Resource_jafng")])
