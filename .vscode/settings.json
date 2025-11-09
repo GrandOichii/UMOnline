@@ -74,6 +74,7 @@
         "PerformedActionThisTurn",
         "GetDeck",
         "GetAttacker",
-        "FighterAttackedThisTurn"
+        "FighterAttackedThisTurn",
+        "IsWinnerDetermined"
     ]
 }

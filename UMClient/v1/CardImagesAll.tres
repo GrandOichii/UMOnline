@@ -3203,17 +3203,17 @@ image = ExtResource("490")
 
 [sub_resource type="Resource" id="Resource_491"]
 script = ExtResource("1_bskbv")
-card_key = "Philippa_Backup plan"
+card_key = "Philippa_Backup Plan"
 image = ExtResource("491")
 
 [sub_resource type="Resource" id="Resource_492"]
 script = ExtResource("1_bskbv")
-card_key = "Philippa_Blinding dust"
+card_key = "Philippa_Blinding Dust"
 image = ExtResource("492")
 
 [sub_resource type="Resource" id="Resource_493"]
 script = ExtResource("1_bskbv")
-card_key = "Philippa_Chain lightning"
+card_key = "Philippa_Chain Lightning"
 image = ExtResource("493")
 
 [sub_resource type="Resource" id="Resource_494"]
@@ -3223,12 +3223,12 @@ image = ExtResource("494")
 
 [sub_resource type="Resource" id="Resource_495"]
 script = ExtResource("1_bskbv")
-card_key = "Philippa_Do my bidding"
+card_key = "Philippa_Do My Bidding"
 image = ExtResource("495")
 
 [sub_resource type="Resource" id="Resource_496"]
 script = ExtResource("1_bskbv")
-card_key = "Philippa_Lightning bolt"
+card_key = "Philippa_Lightning Bolt"
 image = ExtResource("496")
 
 [sub_resource type="Resource" id="Resource_497"]
@@ -3238,7 +3238,7 @@ image = ExtResource("497")
 
 [sub_resource type="Resource" id="Resource_498"]
 script = ExtResource("1_bskbv")
-card_key = "Philippa_Paralyzing fetters"
+card_key = "Philippa_Paralyzing Fetters"
 image = ExtResource("498")
 
 [sub_resource type="Resource" id="Resource_499"]
@@ -3248,7 +3248,7 @@ image = ExtResource("499")
 
 [sub_resource type="Resource" id="Resource_500"]
 script = ExtResource("1_bskbv")
-card_key = "Philippa_Redanian plot"
+card_key = "Philippa_Redanian Plot"
 image = ExtResource("500")
 
 [sub_resource type="Resource" id="Resource_501"]
@@ -3263,7 +3263,7 @@ image = ExtResource("502")
 
 [sub_resource type="Resource" id="Resource_503"]
 script = ExtResource("1_bskbv")
-card_key = "Philippa_Spymaster's ruse"
+card_key = "Philippa_Spymaster's Ruse"
 image = ExtResource("503")
 
 [sub_resource type="Resource" id="Resource_504"]
@@ -4343,7 +4343,7 @@ image = ExtResource("718")
 
 [sub_resource type="Resource" id="Resource_719"]
 script = ExtResource("1_bskbv")
-card_key = "Yennefer & Triss_Paralyzing fetters"
+card_key = "Yennefer & Triss_Paralyzing Fetters"
 image = ExtResource("719")
 
 [sub_resource type="Resource" id="Resource_720"]

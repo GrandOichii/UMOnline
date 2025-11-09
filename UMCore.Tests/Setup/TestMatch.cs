@@ -24,7 +24,7 @@ public class TestMatchWrapper
 
     public TestMatchWrapper(MatchConfig config, MapTemplate mapTemplate)
     {
-        Match = new(config, mapTemplate, File.ReadAllText("../../../../core-new.lua"))
+        Match = new(config, mapTemplate, File.ReadAllText("../../../../core.lua"))
         {
             Logger = null
         };

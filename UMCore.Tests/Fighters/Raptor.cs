@@ -38,7 +38,7 @@ public class RaptorTests
                     .CrashMatch()
                 )
                 .ConfigAttackChoices(c => c
-                    .ByFighterInNodeWithId(2)
+                    .FirstByFighterInNodeWithId(2)
                 )
                 .ConfigNodeChoices(c => c
                     .WithId(1)
@@ -108,7 +108,7 @@ public class RaptorTests
                     .CrashMatch()
                 )
                 .ConfigAttackChoices(c => c
-                    .ByFighterInNodeWithId(2)
+                    .FirstByFighterInNodeWithId(2)
                 )
                 .ConfigNodeChoices(c => c
                     .WithId(1)
@@ -147,7 +147,7 @@ public class RaptorTests
         match.AssertFighter("Foo")
             .HasDamage(2);
     }
-    
+
     [Fact]
     public async Task Attack_2_AdjacentRaptors()
     {
@@ -172,7 +172,7 @@ public class RaptorTests
                     .CrashMatch()
                 )
                 .ConfigAttackChoices(c => c
-                    .ByFighterInNodeWithId(0)
+                    .FirstByFighterInNodeWithId(0)
                 )
                 .ConfigNodeChoices(c => c
                     .WithId(10)
@@ -211,5 +211,7 @@ public class RaptorTests
         match.AssertFighter("Foo")
             .HasDamage(3);
     }
+    
+    // TODO add defense tests
 
 }

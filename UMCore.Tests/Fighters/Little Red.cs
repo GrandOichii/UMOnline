@@ -42,11 +42,22 @@ public class LittleRedTests
     //             )
     //             .Build(),
     //         GetLoadoutBuilder()
+    //             .ConfigDeck(d => d
+    //                 .AddBasicVersatile(5)
+    //             )
     //             .Build()
     //     );
     //     await match.AddOpponent(
-    //         TestPlayerControllerBuilder.Crasher(),
-    //         LoadoutTemplateBuilder.Foo()
+    //         new TestPlayerControllerBuilder()
+    //             .Build(),
+    //         new LoadoutTemplateBuilder("Foo")
+    //             .AddFighter(new FighterTemplateBuilder("Foo", "Foo")
+    //                 .Build()
+    //             )
+    //             // .ConfigDeck(d => d
+    //             //     .AddBasicVersatile(3)
+    //             // )
+    //             .Build()
     //     );
 
     //     // Act
@@ -58,7 +69,6 @@ public class LittleRedTests
 
     //     match.AssertPlayer(0)
     //         .SetupCalled()
-    //         .IntAttrEq("RAGE", 1)
     //         .IsWinner();
     //     match.AssertPlayer(1)
     //         .SetupCalled()

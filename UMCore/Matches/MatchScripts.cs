@@ -616,4 +616,10 @@ public class MatchScripts
     {
         return fighter.Owner.TurnHistory.Attacks.Any((a) => a.Item1 == fighter);
     }
+
+    [LuaCommand]
+    public bool IsWinnerDetermined()
+    {
+        return Match.IsWinnerDetermined();
+    }
 }

@@ -1,0 +1,20 @@
+- Rahpael
+- Michalangelo
+- Donatello
+- Leonardo
+- Yennefer & Triss
+- Eredin
+- Ciri (tests)
+- Geralt
+- Titania
+- The Wayward Sisters
+- William Shakespeare
+- T. Rex
+- Squirrel Girl
+- Spiderman
+- Hamlet
+- Ghost Rider
+- Black Panther
+- Black Widow
+- Elektra
+- Yennenga

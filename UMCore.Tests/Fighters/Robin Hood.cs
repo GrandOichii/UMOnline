@@ -127,7 +127,7 @@ public class RobinHood
                 )
                 .ConfigPathChoices(c => c.First())
                 .ConfigAttackChoices(c => c
-                    .ByFighterInNodeWithId(8)
+                    .FirstByFighterInNodeWithId(8)
                 )
                 .Build(),
             GetLoadoutBuilder()
