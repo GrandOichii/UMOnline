@@ -951,6 +951,22 @@
       "FullText": "Place Luke Cage adjacent to the nearest opposing fighter.\r\nGain 1 action."
     },
     {
+      "Text": "Choose 2 different effects:- each opponent discards 1 card.- move a friendly fighter up to 2 spaces.- put a card from your hand on the bottom of your deck to gain 1 action.- shuffle 2 random cards from your discard pile into your deck",
+      "FullText": "Choose 2 different effects:- each opponent discards 1 card.- move a friendly fighter up to 2 spaces.- put a card from your hand on the bottom of your deck to gain 1 action.- shuffle 2 random cards from your discard pile into your deck."
+    },
+    {
+      "Text": "Shuffle 2 random cards from your discard pile into your deck",
+      "FullText": "After combat: Shuffle 2 random cards from your discard pile into your deck."
+    },
+    {
+      "Text": "You may put out a card from your hand on the bottom of your deck to cancel all effects on your opponent\u0027s card",
+      "FullText": "Immediately: You may put out a card from your hand on the bottom of your deck to cancel all effects on your opponent\u0027s card.\nAfter combat: If your hand is empty, draw 2 cards."
+    },
+    {
+      "Text": "Add \u002B1 to this card\u0027s value for each other card you\u0027ve played this turn",
+      "FullText": "During combat: Add \u002B1 to this card\u0027s value for each other card you\u0027ve played this turn."
+    },
+    {
       "Text": "You may change to your next identity",
       "FullText": "After combat: You may change to your next identity."
     },
@@ -2005,6 +2021,10 @@
       "FullText": "Move each of your fighters up to 3 spaces. You may move them through spaces containing opposing fighters. Then, return a defeated Harpy (if any) to any space in Medusa\u0027s zone."
     },
     {
+      "Text": "You may put a card from your hand on the bottom of your deck to gain 1 action",
+      "FullText": "After combat: Deal 1 damage to an adjacent opposing fighter. You may put a card from your hand on the bottom of your deck to gain 1 action."
+    },
+    {
       "Text": "If you do, take 2 damage",
       "FullText": "After combat: You may draw 2 cards. If you do, take 2 damage."
     },
@@ -2349,6 +2369,10 @@
     {
       "Text": "you are Mr{DOTSPACE}Hyde and playing this card to attack",
       "FullText": "During combat: If you are Dr{DOTSPACE}Jekyll and playing this card to defend, this card\u0027s value is 6 instead. If you are Mr{DOTSPACE}Hyde and playing this card to attack, this card\u0027s value is 6 instead."
+    },
+    {
+      "Text": "you won the combat",
+      "FullText": "After combat: Gain 1 action. If you won the combat, gain 2 actions instead."
     },
     {
       "Text": "they do not have a card of the named value",
@@ -2749,6 +2773,10 @@
       "FullText": "After combat: If you won the combat, deal 8 damage to the opposing fighter."
     },
     {
+      "Text": "If your hand is empty, draw 2 cards",
+      "FullText": "Immediately: You may put out a card from your hand on the bottom of your deck to cancel all effects on your opponent\u0027s card.\nAfter combat: If your hand is empty, draw 2 cards."
+    },
+    {
       "Text": "If you won the combat, draw 1 card",
       "FullText": "After combat: If you won the combat, draw 1 card."
     },
@@ -2997,6 +3025,18 @@
     {
       "Text": "other friendly ",
       "FullText": "Move each other friendly fighter up to 3 spaces.\nDraw 1 card."
+    },
+    {
+      "Text": "friendly ",
+      "FullText": "Each friendly fighter recovers 1 health."
+    },
+    {
+      "Text": "friendly ",
+      "FullText": "After combat: Move a friendly fighter up to 3 spaces."
+    },
+    {
+      "Text": "adjacent opposing ",
+      "FullText": "After combat: Deal 1 damage to an adjacent opposing fighter. You may put a card from your hand on the bottom of your deck to gain 1 action."
     },
     {
       "Text": "opposing flanked ",

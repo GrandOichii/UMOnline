@@ -13648,7 +13648,152 @@
             "special": "Inventive\r\nWhen you maneuver, you may draw 2 cards instead of 1. If you do, put a card in your hand on the bottom of your deck.\r\n\r\nAfter you play an invention, tuck it under this card. For the rest of the game, its invention bonus applies."
         },
         {
-            "cards": [],
+            "cards": [
+                {
+                    "quantity": 2,
+                    "title": "Shell Insertion",
+                    "value": null,
+                    "characterName": "APRIL",
+                    "afterText": null,
+                    "basicText": "Choose two different effects:\n- each opponent discards 1 card.\n- move a friendly fighter up to 2 spaces.\n- put a card from your hand on the bottom of your deck to gain 1 action.\n- shuffle 2 random cards from your discard pile into your deck.",
+                    "duringText": null,
+                    "immediateText": null,
+                    "type": "scheme",
+                    "boost": 3
+                },
+                {
+                    "quantity": 2,
+                    "title": "Nunchaku",
+                    "value": null,
+                    "characterName": "MICHELANGELO",
+                    "afterText": null,
+                    "basicText": "Add +1 to the value of Michelangelo's attacks this turn.\nGain 1 action.",
+                    "duringText": null,
+                    "immediateText": null,
+                    "type": "scheme",
+                    "boost": 2
+                },
+                {
+                    "quantity": 2,
+                    "title": "Michelangelo Is A Party Dude!!",
+                    "value": null,
+                    "characterName": "MICHELANGELO",
+                    "afterText": null,
+                    "basicText": "Each friendly fighter recovers 1 health.",
+                    "duringText": null,
+                    "immediateText": null,
+                    "type": "scheme",
+                    "boost": 2
+                },
+                {
+                    "quantity": 2,
+                    "title": "Back For Seconds",
+                    "value": 2,
+                    "characterName": "ANY",
+                    "afterText": "Shuffle 2 random cards from your discard pile into your deck.",
+                    "basicText": null,
+                    "duringText": null,
+                    "immediateText": null,
+                    "type": "defense",
+                    "boost": 1
+                },
+                {
+                    "quantity": 2,
+                    "title": "Heroes In A Half Shell",
+                    "value": 5,
+                    "characterName": "MICHELANGELO",
+                    "afterText": null,
+                    "basicText": null,
+                    "duringText": null,
+                    "immediateText": null,
+                    "type": "defense",
+                    "boost": 2
+                },
+                {
+                    "quantity": 3,
+                    "title": "Guaranteed Delivery",
+                    "value": 3,
+                    "characterName": "ANY",
+                    "afterText": "If your hand is empty, draw 2 cards.",
+                    "basicText": null,
+                    "duringText": null,
+                    "immediateText": "You may put out a card from your hand on the bottom of your deck to cancel all effects on your opponent's card.",
+                    "type": "versatile",
+                    "boost": 1
+                },
+                {
+                    "quantity": 3,
+                    "title": "Cowabunga!!",
+                    "value": 3,
+                    "characterName": "MICHELANGELO",
+                    "afterText": null,
+                    "basicText": null,
+                    "duringText": "Add +1 to this card's value for each other card you've played this turn.",
+                    "immediateText": null,
+                    "type": "versatile",
+                    "boost": 2
+                },
+                {
+                    "quantity": 3,
+                    "title": "Let's Go!!",
+                    "value": 3,
+                    "characterName": "ANY",
+                    "afterText": "Move a friendly fighter up to 3 spaces.",
+                    "basicText": null,
+                    "duringText": null,
+                    "immediateText": null,
+                    "type": "versatile",
+                    "boost": 2
+                },
+                {
+                    "quantity": 3,
+                    "title": "Hard-Hitting Investigation",
+                    "value": 0,
+                    "characterName": "APRIL",
+                    "afterText": "Deal 1 damage to the opposing fighter. Gain 1 action.",
+                    "basicText": null,
+                    "duringText": null,
+                    "immediateText": null,
+                    "type": "attack",
+                    "boost": 3
+                },
+                {
+                    "quantity": 3,
+                    "title": "Boisterous Beatdown",
+                    "value": 2,
+                    "characterName": "MICHELANGELO",
+                    "afterText": "Gain 1 action. If you won the combat, gain 2 actions instead.",
+                    "basicText": null,
+                    "duringText": null,
+                    "immediateText": null,
+                    "type": "attack",
+                    "boost": 1
+                },
+                {
+                    "quantity": 2,
+                    "title": "Turtle Power!",
+                    "value": 3,
+                    "characterName": "MICHELANGELO",
+                    "afterText": null,
+                    "basicText": null,
+                    "duringText": "You may BOOST this attack.",
+                    "immediateText": null,
+                    "type": "attack",
+                    "boost": 3
+                },
+                {
+                    "quantity": 3,
+                    "title": "HI-YAAAAAH!!",
+                    "value": 4,
+                    "characterName": "MICHELANGELO",
+                    "afterText": "Deal 1 damage to an adjacent opposing fighter. You may put a card from your hand on the bottom of your deck to gain 1 action.",
+                    "basicText": null,
+                    "duringText": null,
+                    "immediateText": null,
+                    "type": "attack",
+                    "boost": 3
+                }
+            ],
             "heroes": [
                 {
                     "attack_type": "melee",

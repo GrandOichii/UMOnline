@@ -112,6 +112,8 @@ def get_allowed_fighters(af):
         'willow': 'Willow',
         'Leonardo': 'Leonardo',
         'Splinter': 'Splinter',
+        'April': 'April O\'Neil',
+        'Michelangelo': 'Michelangelo',
     }[name] for name in af.lower().capitalize().split('|')]
 
 def get_text(card):

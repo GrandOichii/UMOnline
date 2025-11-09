@@ -732,7 +732,7 @@ metadata/_custom_type_script = "uid://sccjfeeys1ki"
 
 [sub_resource type="Resource" id="Resource_olhb0"]
 script = ExtResource("1_gr0k2")
-fighter_key = "April O'neil"
+fighter_key = "April O'Neil"
 images = Array[CompressedTexture2D]([ExtResource("146_lpw8i")])
 metadata/_custom_type_script = "uid://sccjfeeys1ki"
 
