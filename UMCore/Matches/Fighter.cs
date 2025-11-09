@@ -447,6 +447,7 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
 
     public async Task<int> ProcessDamage(int amount, bool isCombatDamage = false)
     {
+        if (amount <= 0) return 0;
         if (!IsAlive()) return 0;
 
         amount = Match.ModifyDamage(this, isCombatDamage, amount);

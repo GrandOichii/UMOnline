@@ -130,6 +130,19 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
                         .Select(i => new MatchCard(this, card.Card))
                 );
             }
+
+            List<MatchCard> startsGameWith = [];
+            foreach (var cardKey in Loadout.StartsWithCards)
+            {
+                Match.Logger?.LogDebug(cardKey);
+                var card = Deck.Cards.First(c => c.Template.Key == cardKey);
+                await Deck.Remove(card);
+                startsGameWith.Add(card);
+            }
+
+            await Hand.Add(startsGameWith);
+            if (startsGameWith.Count > 0)
+                Match.Logs.Public($"{FormattedLogName} starts with {string.Join(" ,", startsGameWith.Select(c => c.FormattedLogName))} in their hand");
             Deck.Shuffle();
         }
 
@@ -403,7 +416,7 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
         var cards = await Deck.TakeFromTop(amount);
         await DiscardPile.Add(cards);
         Match.Logger?.LogDebug("Player {PlayerLogName} milled {amount} cards (wanted to mill: {wantedAmount})", LogName, cards.Count, amount);
-        Match.Logs.Public($"{LogName} discarded {cards.Count} cards from the top of their deck: {string.Join(" ,", cards.Select(c => c.LogName))}");
+        Match.Logs.Public($"{FormattedLogName} discarded {cards.Count} cards from the top of their deck: {string.Join(" ,", cards.Select(c => c.FormattedLogName))}");
         return cards;
     }
 

@@ -1,7 +1,4 @@
-using System.ComponentModel;
-using System.Threading.Tasks;
 using Shouldly;
-using UMCore.Tests.Setup;
 
 namespace UMCore.Tests.Matches;
 
@@ -1267,6 +1264,125 @@ public class SchemeTests
             .HasCardsInDiscardPile(1)
             .HasCardsInDeck(8)
             .HasUnspentActions(1);
+        match.AssertPlayer(1)
+            .SetupCalled()
+            .IsNotWinner();
+    }
+
+    [Fact]
+    public async Task CantPlaySchemeWithRequirement()
+    {
+        // Arrange
+        var config = new MatchConfigBuilder()
+            .InitialHandSize(1)
+            .ActionsPerTurn(2)
+            .Build();
+
+        var mapTemplate = MapTemplateBuilder.Build2x2();
+
+        var match = new TestMatchWrapper(
+            config,
+            mapTemplate
+        );
+
+        await match.AddMainPlayer(
+            new TestPlayerControllerBuilder()
+                .ConfigActions(a => a
+                    .Assert(a => a.CantScheme())
+                    .DeclareWinner()
+                    .CrashMatch()
+                )
+            .Build(),
+            new LoadoutTemplateBuilder("main")
+                .AddFighter(new FighterTemplateBuilder("main", "main").Build())
+                .ConfigDeck(d => d
+                    .Add(new LoadoutCardTemplateBuilder()
+                        .Scheme()
+                        .Script("""
+                        :SchemeRequirement(
+                        'Cant play this card',
+                        UM.Conditions:False()
+                        )
+                        """)
+                    .Build())
+                )
+                .Build()
+        );
+        await match.AddOpponent(
+            TestPlayerControllerBuilder.Crasher(),
+            LoadoutTemplateBuilder.Foo()
+        );
+
+        // Act
+        await match.Run();
+
+        // Assert
+        match.Assert()
+            .CrashedIntentionally();
+
+        match.AssertPlayer(0)
+            .SetupCalled()
+            .IsWinner();
+        match.AssertPlayer(1)
+            .SetupCalled()
+            .IsNotWinner();
+    }
+
+    [Fact]
+    public async Task CanPlaySchemeWithRequirement()
+    {
+        // Arrange
+        var config = new MatchConfigBuilder()
+            .InitialHandSize(1)
+            .ActionsPerTurn(2)
+            .Build();
+
+        var mapTemplate = MapTemplateBuilder.Build2x2();
+
+        var match = new TestMatchWrapper(
+            config,
+            mapTemplate
+        );
+
+        await match.AddMainPlayer(
+            new TestPlayerControllerBuilder()
+                .ConfigActions(a => a
+                    .Scheme()
+                    .DeclareWinner()
+                    .CrashMatch()
+                )
+                .ConfigHandCardChoices(c => c.First())
+            .Build(),
+            new LoadoutTemplateBuilder("main")
+                .AddFighter(new FighterTemplateBuilder("main", "main").Build())
+                .ConfigDeck(d => d
+                    .Add(new LoadoutCardTemplateBuilder()
+                        .Scheme()
+                        .Script("""
+                        :SchemeRequirement(
+                        'Cant play this card',
+                        UM.Conditions:True()
+                        )
+                        """)
+                    .Build())
+                )
+                .Build()
+        );
+        await match.AddOpponent(
+            TestPlayerControllerBuilder.Crasher(),
+            LoadoutTemplateBuilder.Foo()
+        );
+
+        // Act
+        await match.Run();
+
+        // Assert
+        match.Assert()
+            .CrashedIntentionally();
+
+        match.AssertPlayer(0)
+            .SetupCalled()
+            .IsWinner();
         match.AssertPlayer(1)
             .SetupCalled()
             .IsNotWinner();

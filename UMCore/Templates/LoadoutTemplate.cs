@@ -7,6 +7,7 @@ public class LoadoutTemplate
     public required List<FighterTemplate> Fighters { get; init; }
     public required List<LoadoutCardTemplate> Deck { get; init; }
     public required bool ChoosesSidekick { get; init; }
+    public required List<string> StartsWithCards { get; init; }
 }
 
 public class LoadoutCardTemplate

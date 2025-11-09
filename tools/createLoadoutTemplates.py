@@ -242,6 +242,7 @@ for deck in data['decks']:
         'Fighters': fighters,
         'ChoosesSidekick': deck['choosesSidekick'] if 'choosesSidekick' in deck else False,
         'StartsWithSidekicks': deck['startsWithSidekicks'] if 'startsWithSidekicks' in deck else True,
+        'StartsWithCards': deck['startsWithCards'] if 'startsWithCards' in deck else [],
         'Deck': cards
     }
 

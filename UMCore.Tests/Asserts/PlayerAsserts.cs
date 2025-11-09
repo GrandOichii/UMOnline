@@ -91,6 +91,12 @@ public class PlayerAsserts
         _player.Hand.Count.ShouldBe(amount);
         return this;
     }
+    
+    public PlayerAsserts HasCardInHand(string key)
+    {
+        _player.Hand.Cards.FirstOrDefault(c => c.Template.Key == key).ShouldNotBeNull();
+        return this;
+    }
 
     public PlayerAsserts HasCardsInDiscardPile(int amount)
     {

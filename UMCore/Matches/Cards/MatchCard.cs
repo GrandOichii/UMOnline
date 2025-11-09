@@ -15,6 +15,7 @@ public class MatchCard : IHasData<MatchCard.Data>
     public int Id { get; }
 
     public EffectCollection SchemeEffect { get; }
+    public List<SchemeRequirement> SchemeRequirements { get; }
     public CombatStepEffectsCollection CombatStepEffects { get; }
 
     public string LogName => $"({Id}){Template.Key}[{Owner.Idx}]";
@@ -55,9 +56,27 @@ public class MatchCard : IHasData<MatchCard.Data>
         try
         {
             CombatStepEffects = new(data);
-        } catch (Exception e)
+        }
+        catch (Exception e)
         {
             throw new MatchException($"Failed to get combat step effects for card {card.Name}", e);
+        }
+
+        SchemeRequirements = [];
+        try
+        {
+            var schemeRequirements = LuaUtility.TableGet<LuaTable>(data, "SchemeRequirements");
+            foreach (var value in schemeRequirements.Values)
+            {
+                var table = value as LuaTable;
+                // TODO check for null
+                var requirement = new SchemeRequirement(table!);
+                SchemeRequirements.Add(requirement);
+            }
+        }
+        catch (Exception e)
+        {
+            throw new MatchException($"Failed to get scheme requirements for card {card.Name}", e);
         }
 
     }
@@ -74,7 +93,10 @@ public class MatchCard : IHasData<MatchCard.Data>
 
     public bool CanBePlayedAsScheme(Fighter fighter)
     {
-        return Template.Type == "Scheme" && Template.CanBePlayedBy(fighter.GetName());
+        if (Template.Type != "Scheme") return false;
+        if (!Template.CanBePlayedBy(fighter.GetName())) return false;
+
+        return SchemeRequirements.All(req => req.ConditionsMet(fighter));
     }
 
     public bool CanBeUsedAsAttack(Fighter fighter)

@@ -118,6 +118,7 @@ function UM.Build:Card()
         text = '',
         effects = {},
     }
+    result.schemeRequirements = {}
 
     function result:Effect(text, ...)
         local effects = {...}
@@ -132,9 +133,19 @@ function UM.Build:Card()
         return result
     end
 
+    function result:SchemeRequirement(text, condition)
+        result.schemeRequirements[#result.schemeRequirements+1] = {
+            ['text'] = text,
+            ['checkFunc'] = condition
+        }
+
+        return result
+    end
+
     function result:Build()
         return {
             Scheme = result.scheme,
+            SchemeRequirements = result.schemeRequirements,
             CombatStepEffects = result.combatStepEffects,
         }
     end
@@ -560,6 +571,18 @@ end
 -- Conditions
 
 UM.Conditions = {}
+
+function UM.Conditions:True()
+    return function (args)
+        return true
+    end
+end
+
+function UM.Conditions:False()
+    return function (args)
+        return false
+    end
+end
 
 function UM.Conditions:Not(cond)
     return function (args)

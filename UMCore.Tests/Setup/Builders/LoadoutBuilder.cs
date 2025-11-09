@@ -20,6 +20,7 @@ public class LoadoutTemplateBuilder
             Name = name,
             StartsWithSidekicks = true,
             ChoosesSidekick = false,
+            StartsWithCards = [],
         };
     }
 
@@ -124,6 +125,7 @@ public class LoadoutTemplateBuilder
             Name = _name,
             StartsWithSidekicks = true,
             ChoosesSidekick = true,
+            StartsWithCards = [],
         };
         return this;
     }

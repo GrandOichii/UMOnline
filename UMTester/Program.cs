@@ -5,6 +5,7 @@ using UMCore.Matches;
 using UMCore.Matches.Attacks;
 using UMCore.Matches.Cards;
 using UMCore.Matches.Players;
+using UMCore.Matches.Tokens;
 using UMCore.Templates;
 
 public class ConsolePlayerController : IPlayerController
@@ -123,6 +124,16 @@ public class ConsolePlayerController : IPlayerController
     }
 
     public Task<Player> ChoosePlayer(Player player, Player[] options, string hint)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<UMCore.Matches.Path> ChoosePath(Player player, UMCore.Matches.Path[] options, string hint)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<PlacedToken> ChooseToken(Player player, PlacedToken[] options, string hint)
     {
         throw new NotImplementedException();
     }

@@ -1813,6 +1813,9 @@
                     "slug": "black-widow"
                 }
             ],
+            "startsWithCards": [
+                "Black Widow_The Moscow Protocol"
+            ],
             "movement": 2,
             "name": "Black Widow",
             "notes": null,

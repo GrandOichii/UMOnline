@@ -12,7 +12,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_lduew")
-PlayerDeck = "Philippa"
+PlayerDeck = "Black Widow"
 BotDeck = "Ciri"
 
 [node name="Match" parent="." node_paths=PackedStringArray("Connection") instance=ExtResource("2_7v5ud")]

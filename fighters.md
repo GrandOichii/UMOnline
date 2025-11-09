@@ -1,20 +1,19 @@
-- Rahpael
-- Michalangelo
-- Donatello
-- Leonardo
-- Yennefer & Triss
-- Eredin
-- Ciri (tests)
-- Geralt
-- Titania
-- The Wayward Sisters
-- William Shakespeare
-- T. Rex
-- Squirrel Girl
-- Spiderman
-- Hamlet
-- Ghost Rider
-- Black Panther
-- Black Widow
-- Elektra
-- Yennenga
+- Rahpael - need to download images
+- Michalangelo - need to download images
+- Donatello - need to download images
+- Leonardo - need to download images
+- Yennefer & Triss - need to add as a separate deck in decks.json (Yennefer & Triss AND Triss & Yennefer)
+- Eredin - "your move value is 3"
+- Ciri (tests) - can't really test without writing lua scripts in c# files
+- Geralt - could do a funny and make 27 different Geralt decks, but really need to make a system of adding cards to deck "mid-match"
+- Titania - separate deck (not really)
+- The Wayward Sisters - custom card zone
+- William Shakespeare - custom card zone
+- T. Rex - big fighter, doubt will even be able to implement it ever
+- Squirrel Girl - small fighters + i'm scared of the card Squirgility
+- Spiderman - "OnCombatCardChoice" effects
+- Hamlet - manoeuvre card draw amount modification
+- Ghost Rider - dealing damage to opponents when moving over them + cant boost card for movement when using hellfire?
+- Black Panther - custom card zone with custom rules
+- Elektra - hero resurrection
+- Yennenga - damage redistribution + very bad ruling about group damage
