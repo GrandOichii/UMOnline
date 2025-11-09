@@ -21,6 +21,7 @@ public class LoadoutTemplateBuilder
             StartsWithSidekicks = true,
             ChoosesSidekick = false,
             StartsWithCards = [],
+            CantBePlayedWith = [],
         };
     }
 
@@ -126,6 +127,7 @@ public class LoadoutTemplateBuilder
             StartsWithSidekicks = true,
             ChoosesSidekick = true,
             StartsWithCards = [],
+            CantBePlayedWith = [],
         };
         return this;
     }
@@ -149,6 +151,12 @@ public class LoadoutTemplateBuilder
         {
             action(this, o);
         }
+        return this;
+    }
+
+    public LoadoutTemplateBuilder CantBePlayedWith(string loadout)
+    {
+        Result.CantBePlayedWith.Add(loadout);
         return this;
     }
 

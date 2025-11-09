@@ -73,5 +73,10 @@ public class SchemeAction : IAction
         }
 
         await player.PlayScheme(chosen, fighter);
+
+        var effects = player.Match.GetAfterSchemeEffectsFor(fighter);
+        // TODO order effects
+        foreach (var effect in effects)
+            effect.Execute();
     }
 }

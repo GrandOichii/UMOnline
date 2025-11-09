@@ -1627,7 +1627,7 @@ image = ExtResource("175")
 
 [sub_resource type="Resource" id="Resource_176"]
 script = ExtResource("1_bskbv")
-card_key = "Ciri_Bane of the Aen Elle"
+card_key = "Ciri_Bane Of The Aen Elle"
 image = ExtResource("176")
 
 [sub_resource type="Resource" id="Resource_177"]
@@ -1637,17 +1637,17 @@ image = ExtResource("177")
 
 [sub_resource type="Resource" id="Resource_178"]
 script = ExtResource("1_bskbv")
-card_key = "Ciri_Channel the source"
+card_key = "Ciri_Channel The Source"
 image = ExtResource("178")
 
 [sub_resource type="Resource" id="Resource_179"]
 script = ExtResource("1_bskbv")
-card_key = "Ciri_Child of the Elder Blood"
+card_key = "Ciri_Child Of The Elder Blood"
 image = ExtResource("179")
 
 [sub_resource type="Resource" id="Resource_180"]
 script = ExtResource("1_bskbv")
-card_key = "Ciri_Lion cub of Cintra"
+card_key = "Ciri_Lion Cub Of Cintra"
 image = ExtResource("180")
 
 [sub_resource type="Resource" id="Resource_181"]
@@ -1657,22 +1657,22 @@ image = ExtResource("181")
 
 [sub_resource type="Resource" id="Resource_182"]
 script = ExtResource("1_bskbv")
-card_key = "Ciri_Pushed to the brink"
+card_key = "Ciri_Pushed To The Brink"
 image = ExtResource("182")
 
 [sub_resource type="Resource" id="Resource_183"]
 script = ExtResource("1_bskbv")
-card_key = "Ciri_Searching strike"
+card_key = "Ciri_Searching Strike"
 image = ExtResource("183")
 
 [sub_resource type="Resource" id="Resource_184"]
 script = ExtResource("1_bskbv")
-card_key = "Ciri_The lady of space and time"
+card_key = "Ciri_The Lady Of Space And Time"
 image = ExtResource("184")
 
 [sub_resource type="Resource" id="Resource_185"]
 script = ExtResource("1_bskbv")
-card_key = "Ciri_Unicorn ally"
+card_key = "Ciri_Unicorn Ally"
 image = ExtResource("185")
 
 [sub_resource type="Resource" id="Resource_186"]
@@ -4308,17 +4308,17 @@ image = ExtResource("711")
 
 [sub_resource type="Resource" id="Resource_712"]
 script = ExtResource("1_bskbv")
-card_key = "Yennefer & Triss_Advisor to the king"
+card_key = "Yennefer & Triss_Advisor To The King"
 image = ExtResource("712")
 
 [sub_resource type="Resource" id="Resource_713"]
 script = ExtResource("1_bskbv")
-card_key = "Yennefer & Triss_Ball lightning"
+card_key = "Yennefer & Triss_Ball Lightning"
 image = ExtResource("713")
 
 [sub_resource type="Resource" id="Resource_714"]
 script = ExtResource("1_bskbv")
-card_key = "Yennefer & Triss_Echoing blast"
+card_key = "Yennefer & Triss_Echoing Blast"
 image = ExtResource("714")
 
 [sub_resource type="Resource" id="Resource_715"]
@@ -4328,12 +4328,12 @@ image = ExtResource("715")
 
 [sub_resource type="Resource" id="Resource_716"]
 script = ExtResource("1_bskbv")
-card_key = "Yennefer & Triss_Lodge of sorceresses"
+card_key = "Yennefer & Triss_Lodge Of Sorceresses"
 image = ExtResource("716")
 
 [sub_resource type="Resource" id="Resource_717"]
 script = ExtResource("1_bskbv")
-card_key = "Yennefer & Triss_Magical barrier"
+card_key = "Yennefer & Triss_Magical Barrier"
 image = ExtResource("717")
 
 [sub_resource type="Resource" id="Resource_718"]
@@ -4348,12 +4348,12 @@ image = ExtResource("719")
 
 [sub_resource type="Resource" id="Resource_720"]
 script = ExtResource("1_bskbv")
-card_key = "Yennefer & Triss_Portal to anywhere"
+card_key = "Yennefer & Triss_Portal To Anywhere"
 image = ExtResource("720")
 
 [sub_resource type="Resource" id="Resource_721"]
 script = ExtResource("1_bskbv")
-card_key = "Yennefer & Triss_Quick and ready"
+card_key = "Yennefer & Triss_Quick And Ready"
 image = ExtResource("721")
 
 [sub_resource type="Resource" id="Resource_722"]

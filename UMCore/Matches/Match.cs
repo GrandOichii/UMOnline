@@ -83,6 +83,14 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
             {
                 return false;
             }
+            if (p.Loadout.CantBePlayedWith.Contains(loadout.Name))
+            {
+                return false;
+            }
+            if (loadout.CantBePlayedWith.Contains(p.Loadout.Name))
+            {
+                return false;
+            }
         }
 
         var team = GetTeam(teamIdx);
@@ -262,12 +270,17 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
 
     public IEnumerable<FighterPredicateEffect> GetAfterAttackEffectsFor(Fighter fighter)
     {
-        return Fighters.SelectMany(f => f.AfterAttackEffects.Where(e => e.Accepts(fighter)));
+        return GetAliveFighters().SelectMany(f => f.AfterAttackEffects.Where(e => e.Accepts(fighter)));
+    }
+
+    public IEnumerable<FighterPredicateEffect> GetAfterSchemeEffectsFor(Fighter fighter)
+    {
+        return GetAliveFighters().SelectMany(f => f.AfterSchemeEffects.Where(e => e.Accepts(fighter)));
     }
 
     public IEnumerable<ManoeuvreValueModifier> GetManoeuvreValueModifiersFor(Fighter fighter)
     {
-        return Fighters.SelectMany(f => f.ManoeuvreValueMods.Where(e => e.Accepts(fighter)));
+        return GetAliveFighters().SelectMany(f => f.ManoeuvreValueMods.Where(e => e.Accepts(fighter)));
     }
 
     public Movement SetCurrentMovement(Movement movement)

@@ -207,6 +207,7 @@ function UM.Build:Fighter()
     result.manoeuvreValueMods = {}
     result.onAttackEffects = {}
     result.afterAttackEffects = {}
+    result.afterSchemeEffects = {}
     result.gameStartEffects = {}
     result.movementNodeConnections = {}
     result.cardCancellingForbids = {}
@@ -228,6 +229,7 @@ function UM.Build:Fighter()
             ManoeuvreValueMods = result.manoeuvreValueMods,
             OnAttackEffects = result.onAttackEffects,
             AfterAttackEffects = result.afterAttackEffects,
+            AfterSchemeEffects = result.afterSchemeEffects,
             Tokens = result.tokens,
             GameStartEffects = result.gameStartEffects,
             MovementNodeConnections = result.movementNodeConnections,
@@ -321,6 +323,15 @@ function UM.Build:Fighter()
 
     function result:AfterAttack(text, fighterPredFunc, ...)
         result.afterAttackEffects[#result.afterAttackEffects+1] = {
+            text = text,
+            fighterPred = fighterPredFunc,
+            effects = {...}
+        }
+        return result
+    end
+
+    function result:AfterScheme(text, fighterPredFunc, ...)
+        result.afterSchemeEffects[#result.afterSchemeEffects+1] = {
             text = text,
             fighterPred = fighterPredFunc,
             effects = {...}
@@ -1344,6 +1355,10 @@ function UM.Select:Fighters()
         return result:_Add(function (args, fighter)
             return args.fighter == fighter
         end)
+    end
+
+    function result:YourFighter()
+        return result:Your()
     end
 
     function result:Named(...)

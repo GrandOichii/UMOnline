@@ -29,6 +29,7 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
     public List<ManoeuvreValueModifier> ManoeuvreValueMods { get; }
     public List<FighterPredicateEffect> OnAttackEffects { get; }
     public List<FighterPredicateEffect> AfterAttackEffects { get; }
+    public List<FighterPredicateEffect> AfterSchemeEffects { get; }
     public List<EffectCollection> GameStartEffects { get; }
     public List<MovementNodeConnection> MovementNodeConnections { get; }
     public List<CardCancellingForbid> CardCancellingForbids { get; }
@@ -191,21 +192,8 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
             throw new MatchException($"Failed to get on attack effects for fighter {template.Name}", e);
         }
 
-        AfterAttackEffects = [];
-        try
-        {
-            var onAttackEffects = LuaUtility.TableGet<LuaTable>(data, "AfterAttackEffects");
-            foreach (var value in onAttackEffects.Values)
-            {
-                var table = value as LuaTable;
-                // TODO check for null
-                AfterAttackEffects.Add(new(this, table!));
-            }
-        }
-        catch (Exception e)
-        {
-            throw new MatchException($"Failed to get after attack effects for fighter {template.Name}", e);
-        }
+        AfterAttackEffects = ExtractFighterPredicateEffects(this, data, "AfterAttackEffects");
+        AfterSchemeEffects = ExtractFighterPredicateEffects(this, data, "AfterSchemeEffects");
 
         // tokens
         try

@@ -174,6 +174,9 @@ def get_sidekick_name(plural):
         'Giles': 'Giles',
         'Xander': 'Xander',
         'Squirrel': 'Squirrel',
+        'Yennefer': 'Yennefer',
+        'TrissS': 'TrissS',
+        'YenneferS': 'YenneferS',
     }[plural]
 
 def get_card_name(title):
@@ -192,7 +195,7 @@ for deck in data['decks']:
     for fighter in deck['heroes']:
         fighters += [{
             'Name': fighter['name'],
-            'Key': fighter['name'],
+            'Key': fighter['key'] if 'key' in fighter else fighter['name'],
             'Amount': fighter['quantity'],
             'IsHero': True,
             'MaxHealth': fighter['hp'],
@@ -207,7 +210,7 @@ for deck in data['decks']:
     for fighter in deck['sidekicks']:
         fighters += [{
             'Name': get_sidekick_name(fighter['name']),
-            'Key': get_sidekick_name(fighter['name']),
+            'Key': get_sidekick_name(fighter['key'] if 'key' in fighter else fighter['name']),
             'Amount': fighter['quantity'],
             'IsHero': False,
             'MaxHealth': fighter['hp'],
@@ -243,6 +246,7 @@ for deck in data['decks']:
         'ChoosesSidekick': deck['choosesSidekick'] if 'choosesSidekick' in deck else False,
         'StartsWithSidekicks': deck['startsWithSidekicks'] if 'startsWithSidekicks' in deck else True,
         'StartsWithCards': deck['startsWithCards'] if 'startsWithCards' in deck else [],
+        'CantBePlayedWith': deck['cantBePlayedWith'] if 'cantBePlayedWith' in deck else [],
         'Deck': cards
     }
 

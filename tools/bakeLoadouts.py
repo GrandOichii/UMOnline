@@ -53,12 +53,12 @@ for path in listdir(LOADOUTS_DIR):
     makedirs(fighter_scripts_dir, exist_ok=True)
 
     for fighter in data['Fighters']:
-        fighter_script_path = join(FIGHTER_SCRIPTS, f'{fighter['Name']}.lua')
+        fighter_script_path = join(FIGHTER_SCRIPTS, f'{fighter['Key']}.lua')
         fighter_script = TODO_FIGHTER_SCRIPT
         if exists(fighter_script_path):
             fighter_script = open(fighter_script_path, 'r').read()
         
-        target_fighter_script_path = join(fighter_scripts_dir, f'{fighter['Name']}.lua')
+        target_fighter_script_path = join(fighter_scripts_dir, f'{fighter['Key']}.lua')
         open(target_fighter_script_path, 'w').write(fighter_script)
         fighter['Script'] = target_fighter_script_path
 

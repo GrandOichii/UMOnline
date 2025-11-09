@@ -2,7 +2,6 @@
 - Michalangelo - need to download images
 - Donatello - need to download images
 - Leonardo - need to download images
-- Yennefer & Triss - need to add as a separate deck in decks.json (Yennefer & Triss AND Triss & Yennefer)
 - Eredin - "your move value is 3"
 - Geralt - could do a funny and make 27 different Geralt decks, but really need to make a system of adding cards to deck "mid-match"
 - Titania - separate deck (not really)

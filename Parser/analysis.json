@@ -1379,6 +1379,30 @@
       "FullText": "During combat: Tomoe Gozen cannot take more than 2 combat damage this combat."
     },
     {
+      "Text": "This card\u0027s effects cannot be canceled",
+      "FullText": "This card\u0027s effects cannot be canceled.\nDuring combat: Your opponent may discard 2 cards to ignore this card\u0027s value."
+    },
+    {
+      "Text": "Your opponent may discard 2 cards to ignore this card\u0027s value",
+      "FullText": "This card\u0027s effects cannot be canceled.\nDuring combat: Your opponent may discard 2 cards to ignore this card\u0027s value."
+    },
+    {
+      "Text": "Your opponent chooses one: - they discard 2 cards - deal 3 damage to their hero - they discard the top 4 cards of their deck",
+      "FullText": "After combat: Your opponent chooses one: - they discard 2 cards - deal 3 damage to their hero - they discard the top 4 cards of their deck"
+    },
+    {
+      "Text": "Place a fighter in the combat in any space",
+      "FullText": "After combat: Place a fighter in the combat in any space. Gain 1 action."
+    },
+    {
+      "Text": "Place your fighter in any space in their zone",
+      "FullText": "After combat: Place your fighter in any space in their zone. Draw 1 card."
+    },
+    {
+      "Text": "Each player simultaneously reveals a card from their hand and draws card equal to their card\u0027s BOOST value",
+      "FullText": "Each player simultaneously reveals a card from their hand and draws card equal to their card\u0027s BOOST value. Then, the player(s) who drew the most cards deals that much damage to their hero."
+    },
+    {
       "Text": "LINE EFFECT: Deal 1 damage to the opposing fighter for each other card in your line",
       "FullText": "LINE EFFECT: Deal 1 damage to the opposing fighter for each other card in your line.\nDuring combat: Increase the value of this card by \u002B1 for each HORROR card in your line."
     },
@@ -1493,30 +1517,6 @@
     {
       "Text": "Choose 3 cards in your discard pile and shuffle them into your deck",
       "FullText": "After combat: Choose 3 cards in your discard pile and shuffle them into your deck."
-    },
-    {
-      "Text": "This card\u0027s effects cannot be canceled",
-      "FullText": "This card\u0027s effects cannot be canceled.\nDuring combat: Your opponent may discard 2 cards to ignore this card\u0027s value."
-    },
-    {
-      "Text": "Your opponent may discard 2 cards to ignore this card\u0027s value",
-      "FullText": "This card\u0027s effects cannot be canceled.\nDuring combat: Your opponent may discard 2 cards to ignore this card\u0027s value."
-    },
-    {
-      "Text": "Your opponent chooses one: - they discard 2 cards - deal 3 damage to their hero - they discard the top 4 cards of their deck",
-      "FullText": "After combat: Your opponent chooses one: - they discard 2 cards - deal 3 damage to their hero - they discard the top 4 cards of their deck"
-    },
-    {
-      "Text": "Place a fighter in the combat in any space",
-      "FullText": "After combat: Place a fighter in the combat in any space. Gain 1 action."
-    },
-    {
-      "Text": "Place your fighter in any space in their zone",
-      "FullText": "After combat: Place your fighter in any space in their zone. Draw 1 card."
-    },
-    {
-      "Text": "Each player simultaneously reveals a card from their hand and draws card equal to their card\u0027s BOOST value",
-      "FullText": "Each player simultaneously reveals a card from their hand and draws card equal to their card\u0027s BOOST value. Then, the player(s) who drew the most cards deals that much damage to their hero."
     },
     {
       "Text": "You may return a defeated Archer to a space in the opposing fighter\u0027s zone",
@@ -2229,14 +2229,6 @@
       "FullText": "Move Tomoe Gozen up to 3 spaces. She may move through sidekicks. Then, choose one:\r- Tomoe Gozen recovers 2 health\r- gain 1 action"
     },
     {
-      "Text": "Discard the top card of your deck",
-      "FullText": "\nAfter combat: (DARK) Move Willow to any space in her zone. Discard the top card of your deck."
-    },
-    {
-      "Text": "Place that fighter in any space in Willow\u0027s zone and set their health to 3",
-      "FullText": "Choose a friendly fighter who has been defeated. Place that fighter in any space in Willow\u0027s zone and set their health to 3."
-    },
-    {
       "Text": "If they don\u0027t cancel all effects on their card",
       "FullText": "Immediately: Your opponent may discard 1 card. If they don\u0027t cancel all effects on their card."
     },
@@ -2251,6 +2243,14 @@
     {
       "Text": "Then, the player(s) who drew the most cards deals that much damage to their hero",
       "FullText": "Each player simultaneously reveals a card from their hand and draws card equal to their card\u0027s BOOST value. Then, the player(s) who drew the most cards deals that much damage to their hero."
+    },
+    {
+      "Text": "Discard the top card of your deck",
+      "FullText": "\nAfter combat: (DARK) Move Willow to any space in her zone. Discard the top card of your deck."
+    },
+    {
+      "Text": "Place that fighter in any space in Willow\u0027s zone and set their health to 3",
+      "FullText": "Choose a friendly fighter who has been defeated. Place that fighter in any space in Willow\u0027s zone and set their health to 3."
     },
     {
       "Text": "If you do, that Archer is now the attacker",
@@ -2909,6 +2909,14 @@
       "FullText": "Immediately: Tomoe Gozen cannot leave her space for the rest of the turn.\nAfter combat: If the opposing fighter is adjacent, your opponent discards 1 card."
     },
     {
+      "Text": "If you won the combat, return this card to your hand",
+      "FullText": "After combat: If you won the combat, return this card to your hand."
+    },
+    {
+      "Text": "If you won the combat, your opponent discards 1 card",
+      "FullText": "After combat: If you won the combat, your opponent discards 1 card. Otherwise, both players discard 1 card."
+    },
+    {
       "Text": "If you lost the combat, Shakespeare recovers 1 health",
       "FullText": "LINE EFFECT: Draw 2 cards. Shakespeare recovers 2 health.\nAfter combat: If you lost the combat, Shakespeare recovers 1 health."
     },
@@ -2923,14 +2931,6 @@
     {
       "Text": "If you won the combat, Winter Soldier recovers 2 health",
       "FullText": "After combat: If you won the combat, Winter Soldier recovers 2 health."
-    },
-    {
-      "Text": "If you won the combat, return this card to your hand",
-      "FullText": "After combat: If you won the combat, return this card to your hand."
-    },
-    {
-      "Text": "If you won the combat, your opponent discards 1 card",
-      "FullText": "After combat: If you won the combat, your opponent discards 1 card. Otherwise, both players discard 1 card."
     },
     {
       "Text": "If your fighter is not in Yennenga\u0027s zone, the value of this card is a 4 instead",
@@ -3153,6 +3153,14 @@
       "FullText": "Gain 1 action and choose 1 effect:\r- draw 5 cards\r- for the rest of your turn, your cards\u0027 values are 4 and cannot be changed\r- each opponent discards 2 cards"
     },
     {
+      "Text": "Otherwise, both players ",
+      "FullText": "After combat: If you won the combat, your opponent discards 1 card. Otherwise, both players discard 1 card."
+    },
+    {
+      "Text": "Your opponent may ",
+      "FullText": "Immediately: Your opponent may discard 1 card. If they don\u0027t cancel all effects on their card."
+    },
+    {
       "Text": "LINE EFFECT: ",
       "FullText": "LINE EFFECT: Draw 1 card.\nAfter combat: Deal 1 damage to each other fighter in your zone."
     },
@@ -3175,14 +3183,6 @@
     {
       "Text": "{RED ROOM} Your opponent ",
       "FullText": "After combat: {RED ROOM} Your opponent may draw 1 card."
-    },
-    {
-      "Text": "Otherwise, both players ",
-      "FullText": "After combat: If you won the combat, your opponent discards 1 card. Otherwise, both players discard 1 card."
-    },
-    {
-      "Text": "Your opponent may ",
-      "FullText": "Immediately: Your opponent may discard 1 card. If they don\u0027t cancel all effects on their card."
     },
     {
       "Text": "Your opponent may ",
