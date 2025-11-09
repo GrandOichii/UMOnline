@@ -217,6 +217,7 @@ function UM.Build:Fighter()
     result.afterMovementEffects = {}
     result.boostedMovementReplacers = {}
     result.onMoveEffects = {}
+    result.manoeuvreDrawAmountModifiers = {}
     result.tokens = {}
 
     function result:Build()
@@ -238,9 +239,16 @@ function UM.Build:Fighter()
             DamageModifiers = result.damageModifiers,
             AfterMovementEffects = result.afterMovementEffects,
             BoostedMovementReplacers = result.boostedMovementReplacers,
+            ManoeuvreDrawAmountModifiers = result.manoeuvreDrawAmountModifiers,
             OnMoveEffects = result.onMoveEffects,
         }
         return fighter
+    end
+
+    function result:ModManoeuvreCardDraw(modFunc)
+        result.manoeuvreDrawAmountModifiers[#result.manoeuvreDrawAmountModifiers+1] = modFunc
+
+        return result
     end
 
     function result:OnMove(text, effectFunc)
@@ -1321,7 +1329,6 @@ function UM.Select:Fighters()
 
     function result:Your()
         return result:_Add(function (args, fighter)
-            -- TODO your fighters - all fighters
             return args.fighter == fighter
         end)
     end
@@ -1414,12 +1421,6 @@ function UM.Select:Fighters()
 
     function result:Friendly()
         return result:FriendlyTo(UM.Player:EffectOwner())
-    end
-
-    function result:YourFighter()
-        -- TODO
-
-        return result
     end
 
     return result

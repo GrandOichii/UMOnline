@@ -40,6 +40,7 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
     public List<FighterPredicateEffect> AfterMovementEffects { get; }
     public List<BoostedMovementReplacer> BoostedMovementReplacers { get; }
     public List<OnMoveEffect> OnMoveEffects { get; }
+    public List<ManoeuvreDrawAmountModifier> ManoeuvreDrawAmountModifiers { get; }
 
     public static List<FighterPredicateEffect> ExtractFighterPredicateEffects(Fighter fighter, LuaTable data, string key)
     {
@@ -373,6 +374,12 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
         {
             throw new MatchException($"Failed to get on fighter defeat effects for fighter {template.Name}", e);
         }
+
+        ManoeuvreDrawAmountModifiers = [ ..ExtractFunctionList(this, data, "ManoeuvreDrawAmountModifiers")
+            .Select(f =>
+                new ManoeuvreDrawAmountModifier(this, f)
+            )
+        ];
     }
     
     public void ExecuteGameStartEffects()

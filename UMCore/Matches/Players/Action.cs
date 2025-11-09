@@ -13,7 +13,13 @@ public class ManoeuvreAction : IAction
 
     public async Task Execute(Player player)
     {
-        await player.Hand.Draw(player.Match.Config.ManoeuvreDrawAmount);
+        var drawAmount = player.Match.Config.ManoeuvreDrawAmount;
+        var mods = player.Match.GetAliveFighters().SelectMany(f => f.ManoeuvreDrawAmountModifiers);
+        foreach (var mod in mods)
+        {
+            drawAmount = mod.Modify(player, drawAmount);
+        }
+        await player.Hand.Draw(drawAmount);
 
         await player.MoveFighters(isManoeuvre: true, canMoveOverFriendly: true);
     }

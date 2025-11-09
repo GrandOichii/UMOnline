@@ -12,7 +12,6 @@
 - T. Rex - big fighter, doubt will even be able to implement it ever
 - Squirrel Girl - small fighters + i'm scared of the card Squirgility
 - Spiderman - "OnCombatCardChoice" effects
-- Hamlet - manoeuvre card draw amount modification
 - Ghost Rider - dealing damage to opponents when moving over them + cant boost card for movement when using hellfire?
 - Black Panther - custom card zone with custom rules
 - Elektra - hero resurrection
