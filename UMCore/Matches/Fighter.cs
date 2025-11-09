@@ -39,6 +39,7 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
     public List<DamageModifier> DamageModifiers { get; }
     public List<FighterPredicateEffect> AfterMovementEffects { get; }
     public List<BoostedMovementReplacer> BoostedMovementReplacers { get; }
+    public List<OnMoveEffect> OnMoveEffects { get; }
 
     public static List<FighterPredicateEffect> ExtractFighterPredicateEffects(Fighter fighter, LuaTable data, string key)
     {
@@ -132,7 +133,7 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
             {
                 var modFunc = cardValueModifiers[keyRaw] as LuaFunction;
                 // TODO check for null
-                CardValueModifiers.Add(new(new(modFunc!)));
+                CardValueModifiers.Add(new(this, new(modFunc!)));
             }
         }
         catch (Exception e)
@@ -356,6 +357,22 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
                 new BoostedMovementReplacer(this, f)
             )
         ];
+
+        OnMoveEffects = [];
+        try
+        {
+            var onMoveEffects = LuaUtility.TableGet<LuaTable>(data, "OnMoveEffects");
+            foreach (var value in onMoveEffects.Values)
+            {
+                var table = value as LuaTable;
+                // TODO check for null
+                OnMoveEffects.Add(new(this, table!));
+            }
+        }
+        catch (Exception e)
+        {
+            throw new MatchException($"Failed to get on fighter defeat effects for fighter {template.Name}", e);
+        }
     }
     
     public void ExecuteGameStartEffects()
@@ -402,6 +419,11 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
     public bool IsFriendlyTo(Player player)
     {
         return !Owner.IsOpposingTo(player);
+    }
+
+    public bool IsOffBoard()
+    {
+        return GetStatus() == FighterStatus.OffBoard;
     }
 
     public bool IsAlive()
@@ -637,6 +659,11 @@ public class Health(Fighter fighter)
         var old = Current;
         Current = Max;
         return Current - old;
+    }
+
+    public void Set(int value)
+    {
+        Current = value;
     }
 }
 

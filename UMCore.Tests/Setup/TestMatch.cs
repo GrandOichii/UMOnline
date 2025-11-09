@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Shouldly;
 using UMCore.Matches.Players;
 using UMCore.Tests.Asserts;
 
@@ -67,6 +68,13 @@ public class TestMatchWrapper
     {
         var fighter = Match.Fighters.Single(f => f.Template.Key == fighterKey);
         return new(fighter);
+    }
+
+    public FighterAsserts AssertFighterInNode(int nodeId)
+    {
+        var node = Match.Map.Nodes.First(n => n.Id == nodeId);
+        node.Fighter.ShouldNotBeNull();
+        return new(node.Fighter);
     }
 
     public MultipleFighterAsserts AssertAllFighters()

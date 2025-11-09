@@ -11,6 +11,7 @@ function _Create()
         )
         :ModCardValue(
             -- Add +2 to the value of all Achilles' attacks.
+            UM.Select:Fighters():Named('Achilles'):BuildPredicate(),
             UM.Mod.Cards:AttackCards(UM.Number:Static(2)),
             UM.Conditions:FightersAreDefeated(
                 UM.Select:Fighters():Named('Patroclus'):Build()

@@ -69,6 +69,11 @@
         "GetOpponentOf",
         "GetCombatPart",
         "RemoveCombatPart",
-        "PutCardOnTheBottomOfDeck"
+        "PutCardOnTheBottomOfDeck",
+        "GetHealth",
+        "PerformedActionThisTurn",
+        "GetDeck",
+        "GetAttacker",
+        "FighterAttackedThisTurn"
     ]
 }

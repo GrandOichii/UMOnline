@@ -41,6 +41,8 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
     public DiscardPile DiscardPile { get; }
     public LoadoutTemplate Loadout { get; }
     public Attributes Attributes { get; }
+    public TurnHistory TurnHistory { get; }
+
 
     public int ActionCount { get; set; }
 
@@ -57,6 +59,7 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
         Deck = new(this);
         DiscardPile = new(this);
         Attributes = new(this);
+        TurnHistory = new(this);
 
         Fighters = [];
     }
@@ -165,6 +168,7 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
     public async Task EndTurn()
     {
         ActionCount = 0;
+        TurnHistory.Clear();
 
         while (Hand.Count > Match.Config.MaxHandSize)
         {
@@ -204,6 +208,7 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
         {
             var action = await ChooseAction();
             --ActionCount;
+            TurnHistory.PerformedAction(action);
             await action.Execute(this);
         }
     }
@@ -304,7 +309,7 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
             canMoveOverOpposing = fighter.Template.CanMoveOverOpposing;
         }
 
-        var movement = Match.SetCurrentMovement(new(fighter, distance, canMoveOverFriendly, canMoveOverOpposing));
+        var movement = Match.SetCurrentMovement(new(this, fighter, distance, canMoveOverFriendly, canMoveOverOpposing));
         if (
             !wasBoosted ||
             !await Match.ReplaceBoostedMovement()

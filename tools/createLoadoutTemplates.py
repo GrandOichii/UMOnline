@@ -69,7 +69,7 @@ def get_allowed_fighters(af):
         'The genie': 'The Genie',
         'Winter soldier': 'Winter Soldier',
         'Outlaw': 'Outlaw',
-        'Tesla': 'Tesla',
+        'Nikola tesla': 'Nikola Tesla',
         'Shakespeare': 'Shakespeare',
         'Actor': 'Actor',
         'Jill trent': 'Jill Trent',
@@ -199,7 +199,7 @@ for deck in data['decks']:
             'StartingHealth': fighter['hp'],
             'IsRanged': fighter['attack_type'] == 'ranged',
             'Text': deck['special'],
-            'Movement': deck['movement'],
+            'Movement': fighter['movement'] if 'movement' in fighter else deck['movement'],
             'CanMoveOverOpposing': fighter['canMoveOverOpposing'] if 'canMoveOverOpposing' in fighter else False,
             'MeleeRange': fighter['meleeRange'] if 'meleeRange' in fighter else 1
             # 'Script': FIGHTER_SCRIPTS_DIR_FORMAT.format(fighter['name'])
@@ -214,7 +214,7 @@ for deck in data['decks']:
             'StartingHealth': fighter['hp'],
             'IsRanged': fighter['attack_type'] == 'ranged',
             'Text': '',
-            'Movement': deck['movement'],
+            'Movement': fighter['movement'] if 'movement' in fighter else deck['movement'],
             'CanMoveOverOpposing': fighter['canMoveOverOpposing'] if 'canMoveOverOpposing' in fighter else False,
             'MeleeRange': fighter['meleeRange'] if 'meleeRange' in fighter else 1
             # 'Script': FIGHTER_SCRIPTS_DIR_FORMAT.format('Basic')

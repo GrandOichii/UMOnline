@@ -227,6 +227,7 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
         if (IsWinnerDetermined()) return;
 
         Combat = null;
+        player.TurnHistory.Attacked(attack.Fighter, attack.Target);
 
         // TODO add combat event
     }
@@ -245,6 +246,17 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
                 if (!e.Accepts(fighter)) continue;
                 e.Execute(f, f.Owner);
             }
+        }
+    }
+
+    public async Task ExecuteOnMoveEffects(Fighter fighter, MapNode fromNode, MapNode? toNode)
+    {
+        var effects = GetAliveFighters().SelectMany(f => f.OnMoveEffects);
+        // TODO order effects (bad, doesnt have a fighter predicate)
+
+        foreach (var effect in effects)
+        {
+            effect.Execute(fighter, fromNode, toNode);
         }
     }
 

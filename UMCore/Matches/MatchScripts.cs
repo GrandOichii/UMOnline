@@ -228,6 +228,12 @@ public class MatchScripts
     }
 
     [LuaCommand]
+    public int GetHealth(Fighter fighter)
+    {
+        return fighter.Health.Current;
+    }
+
+    [LuaCommand]
     public int RecoverHealth(Fighter fighter, int amount)
     {
         var result = fighter.RecoverHealth(amount)
@@ -385,6 +391,12 @@ public class MatchScripts
     }
 
     [LuaCommand]
+    public LuaTable GetDeck(Player player)
+    {
+        return LuaUtility.CreateTable(Match.LState, player.Deck.Cards);
+    }
+
+    [LuaCommand]
     public bool CardHasLabel(MatchCard card, string label)
     {
         return card.HasLabel(label);
@@ -456,6 +468,12 @@ public class MatchScripts
     public Fighter GetDefender()
     {
         return Match.Combat!.Defender;
+    }
+    
+    [LuaCommand]
+    public Fighter GetAttacker()
+    {
+        return Match.Combat!.Attacker;
     }
 
     [LuaCommand]
@@ -572,7 +590,7 @@ public class MatchScripts
     public LuaTable RemoveCombatPart(Player player)
     {
         var combat = Match.Combat
-            ?? throw new MatchException($"Called {nameof(GetCombatPart)} while there is no combat");
+            ?? throw new MatchException($"Called {nameof(RemoveCombatPart)} while there is no combat");
 
         var (part, fighter) = combat.RemoveCombatPart(player);
         return LuaUtility.CreateTable(Match.LState, new List<object?>() { part, fighter});
@@ -585,5 +603,17 @@ public class MatchScripts
             ?? throw new MatchException($"Called {nameof(GetMovingFighter)} while there is no movement");
 
         return movement.Fighter;
+    }
+
+    [LuaCommand]
+    public bool PerformedActionThisTurn(Player player, string action)
+    {
+        return player.TurnHistory.PerformedActions.Contains(action);
+    }
+
+    [LuaCommand]
+    public bool FighterAttackedThisTurn(Fighter fighter)
+    {
+        return fighter.Owner.TurnHistory.Attacks.Any((a) => a.Item1 == fighter);
     }
 }

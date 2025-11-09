@@ -107,12 +107,54 @@ public class TestPlayerControllerBuilder
             return this;
         }
 
-
         public ActionsBuilder DeclareWinner()
         {
             return Enqueue((match, player, options) =>
             {
                 match.SetWinner(player);
+                return Task.FromResult((TestPlayerController.NEXT_ACTION, true));
+            });
+        }
+
+        public ActionsBuilder Swap(string fighterKey1, string fighterKey2)
+        {
+            return Enqueue(async (match, player, options) =>
+            {
+                var f1 = match.Fighters.First(f => f.Template.Key == fighterKey1);
+                var f2 = match.Fighters.First(f => f.Template.Key == fighterKey2);
+                var node1 = match.Map.GetFighterLocation(f1);
+                var node2 = match.Map.GetFighterLocation(f2);
+                await node1.PlaceFighter(f2);
+                await node2.PlaceFighter(f1);
+                return (TestPlayerController.NEXT_ACTION, true);
+            });
+        }
+
+        public ActionsBuilder RemoveFromBoard(string fighterKey)
+        {
+            return Enqueue(async (match, player, options) =>
+            {
+                var f1 = match.Fighters.First(f => f.Template.Key == fighterKey);
+                await match.Map.RemoveFighterFromBoard(f1);
+                
+                return (TestPlayerController.NEXT_ACTION, true);
+            });
+        }
+
+        public ActionsBuilder SetIntAttr(int playerIdx, string key, int value)
+        {
+            return Enqueue((match, player, options) =>
+            {
+                match.GetPlayer(playerIdx).Attributes.Int.Set(key, value);
+                return Task.FromResult((TestPlayerController.NEXT_ACTION, true));
+            });
+        }
+
+        public ActionsBuilder SetStrAttr(int playerIdx, string key, string value)
+        {
+            return Enqueue((match, player, options) =>
+            {
+                match.GetPlayer(playerIdx).Attributes.String.Set(key, value);
                 return Task.FromResult((TestPlayerController.NEXT_ACTION, true));
             });
         }
@@ -127,6 +169,21 @@ public class TestPlayerControllerBuilder
                     : match.Fighters.First(f => f.Name == fighterNameOrKey)
                 ;
                 await fighter.ProcessDamage(amount);
+                return (TestPlayerController.NEXT_ACTION, true);
+            });
+        }
+
+        public ActionsBuilder SetHealth(string fighterNameOrKey, int value, bool byKey = false)
+        {
+            return Enqueue(async (match, player, options) =>
+            {
+
+                var fighter = byKey
+                    ? match.Fighters.First(f => f.Template.Key == fighterNameOrKey)
+                    : match.Fighters.First(f => f.Name == fighterNameOrKey)
+                ;
+
+                fighter.Health.Set(value);
                 return (TestPlayerController.NEXT_ACTION, true);
             });
         }
@@ -362,7 +419,17 @@ public class TestPlayerControllerBuilder
             return Enqueue((player, options) => (options.First(a => a.Target.Name == name), true));
         }
 
-        public AttackChoicesBuilder ByFighterInNodeWithId(int nodeId)
+        public AttackChoicesBuilder FirstTargetingFighterInNodeWithId(int nodeId)
+        {
+            return Enqueue((player, options) => {
+                var nodes = player.Match.Map.Nodes;
+                var fighter = nodes.First(n => n.Id == nodeId).Fighter;
+
+                return (options.First(a => a.Target == fighter), true);
+            });
+        }
+
+        public AttackChoicesBuilder FirstByFighterInNodeWithId(int nodeId)
         {
             return Enqueue((player, options) => {
                 var nodes = player.Match.Map.Nodes;
@@ -492,6 +559,22 @@ public class TestPlayerControllerBuilder
         public PathChoicesBuilder FirstStopsAtId(int id)
         {
             return Enqueue((player, options, hint) => (options.First(p => p.Nodes.Last().Id == id), true));
+        }
+
+        public PathChoicesBuilder Equivalent(List<int> ids)
+        {
+            return Enqueue((player, options, hint) => {
+                foreach (var option in options)
+                {
+                    if (ids.Count != option.Nodes.Count) continue;
+                    for (int i = 0; i < ids.Count; ++i)
+                    {
+                        if (option.Nodes[i].Id != ids[i]) continue;
+                    }
+                    return (option, true);
+                }
+                throw new Exception($"Equivalent path not found! (player: {player.LogName}, hint: {hint})");
+            });
         }
 
         public PathChoicesBuilder NTimes(int n, Action<PathChoicesBuilder> action)

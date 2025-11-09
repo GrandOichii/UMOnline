@@ -133,6 +133,8 @@ public class Map : IHasData<Map.Data>
     public async Task RemoveFighterFromBoard(Fighter fighter)
     {
         var node = GetFighterLocation(fighter);
+        await Match.ExecuteOnMoveEffects(fighter, node, null);
+        
         await node.RemoveFighter(true);
     }
 

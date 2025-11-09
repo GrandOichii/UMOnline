@@ -27,7 +27,8 @@ public class CombatPart : IHasData<CombatPart.Data>
 
     public void ApplyModifiers()
     {
-        foreach (var modifier in Fighter.CardValueModifiers)
+        var modifiers = Parent.Match.GetAliveFighters().SelectMany(f => f.CardValueModifiers);
+        foreach (var modifier in modifiers)
         {
             Value = modifier.Modify(this);
         }

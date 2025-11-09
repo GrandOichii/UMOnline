@@ -22,6 +22,12 @@ function UM.Player:EffectOwner()
     end
 end
 
+function UM.Player:Opponent()
+    return UM.Select:Players()
+        :YourOpponent()
+        :BuildOne()
+end
+
 -- function UM.Player:Opponent()
 --     return function (args)
 --         -- TODO combat opponent
@@ -41,6 +47,12 @@ end
 function UM.Fighter:Defender()
     return function (args)
         return GetDefender()
+    end
+end
+
+function UM.Fighter:Attacker()
+    return function (args)
+        return GetAttacker()
     end
 end
 
@@ -193,6 +205,7 @@ function UM.Build:Fighter()
     result.damageModifiers = {}
     result.afterMovementEffects = {}
     result.boostedMovementReplacers = {}
+    result.onMoveEffects = {}
     result.tokens = {}
 
     function result:Build()
@@ -214,8 +227,18 @@ function UM.Build:Fighter()
             DamageModifiers = result.damageModifiers,
             AfterMovementEffects = result.afterMovementEffects,
             BoostedMovementReplacers = result.boostedMovementReplacers,
+            OnMoveEffects = result.onMoveEffects,
         }
         return fighter
+    end
+
+    function result:OnMove(text, effectFunc)
+        result.onMoveEffects[#result.onMoveEffects+1] = {
+            text = text,
+            effect = effectFunc,
+        }
+
+        return result
     end
 
     function result:ReplaceBoostedMovement(replacerFunc)
@@ -294,12 +317,16 @@ function UM.Build:Fighter()
         return result
     end
 
-    function result:ModCardValue(modFunc, modCondition)
+    function result:ModCardValue(fighterPredFunc, modFunc, modCondition)
         modCondition = modCondition or function (...)
             return true
         end
 
         result.cardValueModifiers[#result.cardValueModifiers+1] = function (args, combatCard, resultValue)
+            if not fighterPredFunc(args, combatCard.Fighter) then
+                return resultValue
+            end
+
             if not modCondition(args) then
                 return resultValue
             end
@@ -469,12 +496,15 @@ UM.Effects = {}
 
 -- Control flow
 
-function UM.Effects:If(conditionalFunc, effectFunc)
+function UM.Effects:If(conditionalFunc, ...)
+    local effects = {...}
     return function (args)
         if not conditionalFunc(args) then
             return
         end
-        effectFunc(args)
+        for _, e in ipairs(effects) do
+            e(args)
+        end
     end
 end
 
@@ -505,9 +535,95 @@ function UM.Effects:Optional(hint, ...)
     end
 end
 
+-- Actions
+
+UM.Actions = {
+    MANOEUVRE = 'Manoeuvre'
+}
+
+-- Comparison operators
+
+UM.CmpOp = {}
+
+function UM.CmpOp:Lt()
+    return function (v1, v2)
+        return v1 < v2
+    end
+end
+
+function UM.CmpOp:Gt()
+    return function (v1, v2)
+        return v1 > v2
+    end
+end
+
 -- Conditions
 
 UM.Conditions = {}
+
+function UM.Conditions:Not(cond)
+    return function (args)
+        return not cond(args)
+    end
+end
+
+function UM.Conditions:IsAttacker(singlePlayer)
+    return function (args)
+        local part = GetCombatPart(singlePlayer(args))
+        return part[1] ~= nil and not part[1].IsDefence
+    end
+end
+
+function UM.Conditions:IsAttackingFighter(singleFighter)
+    return function (args)
+        local attacker = UM.Fighter:Attacker()(args)
+        return singleFighter(args) == attacker
+    end
+end
+
+function UM.Conditions:IsDefender(singlePlayer)
+    return function (args)
+        local part = GetCombatPart(singlePlayer(args))
+        return part[1] ~= nil and part[1].IsDefence
+    end
+end
+
+function UM.Conditions:PerformedActionThisTurn(action)
+    return function (args)
+        local player = args.owner
+        return PerformedActionThisTurn(player, action)
+    end
+end
+
+function UM.Conditions:FighterAttackedThisTurn(singleFighter)
+    return function (args)
+        local fighter = singleFighter(args)
+        return FighterAttackedThisTurn(fighter)
+    end
+end
+
+function UM.Conditions:CmpHealth(singleFighter1, singleFighter2, cmpOp)
+    return function (args)
+        -- TODO what if fighters are nil
+        local fighter1 = singleFighter1(args)
+        local fighter2 = singleFighter2(args)
+
+        return cmpOp(GetHealth(fighter1), GetHealth(fighter2))
+    end
+end
+
+function UM.Conditions:CmpCombatPrintedValue(singlePlayer1, singlePlayer2, cmpOp)
+    return function (args)
+        -- TODO what if fighters are nil
+        local p1 = singlePlayer1(args)
+        local p2 = singlePlayer2(args)
+
+        local p1Value = GetCombatPart(p1)[1].Value
+        local p2Value = GetCombatPart(p2)[1].Value
+
+        return cmpOp(p1Value, p2Value)
+    end
+end
 
 function UM.Conditions:FightersAreAdjacent(singleFighter1, singleFighter2)
     return function (args)
@@ -517,6 +633,9 @@ function UM.Conditions:FightersAreAdjacent(singleFighter1, singleFighter2)
         end
         local fighter2 = singleFighter2(args)
         if fighter2 == nil then
+            return false
+        end
+        if fighter1 == fighter2 then
             return false
         end
         return AreAdjacent(fighter1, fighter2)
@@ -685,6 +804,10 @@ function UM.Mod.Cards:AttackCards(numeric)
     return UM.Mod.Cards:_(numeric, true, false)
 end
 
+function UM.Mod.Cards:AllCards(numeric)
+    return UM.Mod.Cards:_(numeric, true, true)
+end
+
 function UM.Mod.Cards:DefenseCards(numeric)
     return UM.Mod.Cards:_(numeric, false, true)
 end
@@ -827,7 +950,6 @@ end
 function UM.Effects:DealDamage(manyFighters, numeric)
     return function (args)
         local fighters = manyFighters(args, 'Choose the target fighter for damage')
-
         for _, fighter in ipairs(fighters) do
             local amount = numeric:Choose(args, 'Choose how much damage to deal to '..fighter.Name)
             DealDamage(fighter, amount)
@@ -846,13 +968,34 @@ function UM.Effects:ReviveAndSummon(singleDefeatedFighter, singleNode)
     end
 end
 
-function UM.Effects:Recover(manyFighters, amount)
+function UM.Effects:Recover(manyFighters, number)
     return function (args)
         local fighters = manyFighters(args, 'Choose which fighter will recover health')
+        local amount = number:Choose(args, 'Choose how much health to recover')
 
         for _, fighter in ipairs(fighters) do
-            DealDamage(fighter, amount)
+            RecoverHealth(fighter, amount)
         end
+    end
+end
+
+function UM.Effects:RevealTopCardOfDeck(manyPlayers, ctxKey)
+    return function (args)
+        local players = manyPlayers(args, 'Choose who will reveal the top card of their deck')
+        local result = {}
+        for _, player in ipairs(players) do
+            local deck = GetDeck(player)
+            if #deck > 0 then
+                local card = deck[1]
+                result[#result+1] = card
+                LogPublic('Top card of player '..player.FormattedLogName..' is '..card.FormattedLogName)
+                DEBUG('Top card of player '..player.FormattedLogName..' is '..card.FormattedLogName)
+            end
+        end
+        if ctxKey == nil then
+            return
+        end
+        args.ctx[ctxKey] = result
     end
 end
 
@@ -1163,9 +1306,9 @@ function UM.Select:Fighters()
     function result:Only(fighterFunc)
         return result:_Add(function (args, fighter)
             local f = fighterFunc(args)
-            if not IsAlive(f) then
-                return false
-            end
+            -- if not IsAlive(f) then
+            --     return false
+            -- end
             return fighter == f
         end)
     end
@@ -1264,6 +1407,13 @@ function UM.Select:Players()
         return result:_Add(function (args, player)
             local owner = args.owner
             return GetOpponentOf(owner) == player
+        end)
+    end
+
+    function result:InCombat()
+        return result:_Add(function (args, player)
+            local part = GetCombatPart(player)[1]
+            return part ~= nil
         end)
     end
 

@@ -33,6 +33,7 @@ function _Create()
         )
         -- Khonshu
         :ModCardValue(
+            UM.Select:Fighters():Named('Khonshu'):BuildPredicate(),
             UM.Mod.Cards:AttackCards(UM.Number:Static(2)),
             UM.Conditions.CharacterSpecific:MNIdentityEq('Khonshu')
         )
@@ -50,6 +51,7 @@ function _Create()
         )
         -- Mr. Knight
         :ModCardValue(
+            UM.Select:Fighters():Named('Mr. Knight'):BuildPredicate(),
             UM.Mod.Cards:DefenseCards(UM.Number:Static(1)),
             UM.Conditions.CharacterSpecific:MNIdentityEq('Mr. Knight')
         )
