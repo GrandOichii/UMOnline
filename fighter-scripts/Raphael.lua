@@ -3,7 +3,8 @@ function _Create()
     return UM.Build:Fighter()
         :OnLostCombat(
             'On each of your turns, the first time you lose combat, gain 1 action.',
-            function (args, player)
+            function (args, subjects)
+                local player = subjects.player
                 if player ~= args.owner then
                     DEBUG('NOT OWNER')
                     return

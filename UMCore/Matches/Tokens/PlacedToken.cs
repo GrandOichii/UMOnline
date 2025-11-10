@@ -1,3 +1,5 @@
+using UMCore.Matches.Effects;
+
 namespace UMCore.Matches.Tokens;
 
 public class PlacedToken
@@ -16,10 +18,10 @@ public class PlacedToken
         return Original.Name;
     }
 
-    public IEnumerable<FighterPredicateEffect> GetOnStepEffects(Fighter fighter)
+    public IEnumerable<EffectCollection> GetOnStepEffects(Fighter fighter)
     {
         return Original
-            .OnStepEffects.Where(e => e.Accepts(fighter));
+            .OnStepEffects.Where(e => e.AcceptsFighter(Original.Originator, fighter));
     }
 
     public async Task Remove()

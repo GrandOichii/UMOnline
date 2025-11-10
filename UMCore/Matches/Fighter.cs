@@ -46,26 +46,6 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
     public List<ManoeuvreDrawAmountModifier> ManoeuvreDrawAmountModifiers { get; }
     public List<CombatResolutionEffect> OnLostCombatEffects { get; }
 
-    public static List<FighterPredicateEffect> ExtractFighterPredicateEffects(Fighter fighter, LuaTable data, string key)
-    {
-        try
-        {
-            List<FighterPredicateEffect> result = [];
-            var table = LuaUtility.TableGet<LuaTable>(data, key);
-            foreach (var value in table.Values)
-            {
-                var tableRaw = value as LuaTable;
-                // TODO check for null
-                result.Add(new(fighter, tableRaw!));
-            }
-            return result;
-        }
-        catch (Exception e)
-        {
-            throw new MatchException($"Failed extract {key} predicate effects for fighter {fighter.Name}", e);
-        }
-    }
-
     public static List<LuaFunction> ExtractFunctionList(Fighter fighter, LuaTable data, string key)
     {
         try

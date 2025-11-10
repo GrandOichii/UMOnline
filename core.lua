@@ -248,7 +248,6 @@ function UM.Build:Fighter()
 
     local isAliveCond = function ()
         return function (args)
-            DEBUG(tostring(args.fighter))
             return IsAlive(args.fighter)
         end
     end
@@ -337,7 +336,6 @@ function UM.Build:Fighter()
             text = text,
             fighterPred = fighterPredFunc,
             cond = function (args)
-                DEBUG('UNGATED')
                 return true
             end,
             effects = {...}
@@ -1132,7 +1130,6 @@ function UM.Effects:RevealTopCardOfDeck(manyPlayers, ctxKey)
                 local card = deck[1]
                 result[#result+1] = card
                 LogPublic('Top card of player '..player.FormattedLogName..' is '..card.FormattedLogName)
-                DEBUG('Top card of player '..player.FormattedLogName..' is '..card.FormattedLogName)
             end
         end
         if ctxKey == nil then

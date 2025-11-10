@@ -10,7 +10,7 @@ public class Token
     public string Name { get; }
     public int Amount { get; private set; }
     public List<EffectCollection> WhenReturnedToBoxEffects { get; }
-    public List<FighterPredicateEffect> OnStepEffects { get; }
+    public List<EffectCollection> OnStepEffects { get; }
     public Fighter Originator { get; }
 
     public Token(string name, Fighter fighter, LuaTable data)
@@ -38,12 +38,12 @@ public class Token
         OnStepEffects = [];
         try
         {
-            var onStepEffects = LuaUtility.TableGet<LuaTable>(data, "OnStepEffects");
-            foreach (var value in onStepEffects.Values)
+            var table = LuaUtility.TableGet<LuaTable>(data, "OnStepEffects");
+            foreach (var value in table.Values)
             {
-                var table = value as LuaTable;
+                var t = value as LuaTable;
                 // TODO check for null
-                OnStepEffects.Add(new(fighter, table!));
+                OnStepEffects.Add(new(t!));
             }
         }
         catch (Exception e)

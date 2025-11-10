@@ -81,51 +81,22 @@ public class EffectCollection : IHasText
     {
         if (!ConditionsMet(source)) return;
 
+        var subjectsTable = LuaUtility.CreateTable(source.Match.LState, new Dictionary<string, object?>()
+        {
+            { "fighter", subjects.Fighter },
+            { "player", subjects.Player },
+        });
+
         var args = MatchScripts.CreateArgs(source, source.Owner, token);
         foreach (var effect in Effects)
         {
-            effect.Execute(args, subjects);
+            effect.Execute(args, subjectsTable);
         }
     }
-
-    // private void Execute(LuaTable? args)
-    // {
-    //     if (!ConditionsMet(source)) return;
-
-    //     foreach (var effect in Effects)
-    //     {
-    //         effect.Execute(args);
-    //     }
-    // }
 
     public void Execute(Fighter source)
     {
         Execute(source, new());
-    }
-
-    // public void Execute(Fighter fighter, Player owner)
-    // {
-    //     Execute(MatchScripts.CreateArgs(fighter, owner));
-    // }
-
-    // public void Execute(Fighter fighter, PlacedToken token)
-    // {
-    //     Execute(MatchScripts.CreateArgs(fighter, fighter.Owner, token));
-    // }
-
-    /// <summary>
-    /// Executes the effect collection, arguments look like: (args, player)
-    /// </summary>
-    /// <param name="fighter">Effect originator</param>
-    /// <param name="owner">Effect originator owner</param>
-    /// <param name="player">Player subject</param>
-    public void Execute(Fighter fighter, Player owner, Player player)
-    {
-        var args = MatchScripts.CreateArgs(fighter, owner);
-        foreach (var effect in Effects)
-        {
-            effect.Execute(args, player);
-        }
     }
 }
 

@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using System.Security;
 using Microsoft.Extensions.Logging;
+using UMCore.Matches.Effects;
 using UMCore.Matches.Players;
 using UMCore.Matches.Tokens;
 using UMCore.Templates;
@@ -219,7 +220,7 @@ public class MapNode : IHasData<MapNode.Data>
 
     private async Task ResolveOnStepEffects()
     {
-        List<(PlacedToken, FighterPredicateEffect)> effects = [];
+        List<(PlacedToken, EffectCollection)> effects = [];
         foreach (var token in Tokens)
         {
             effects.AddRange(token.GetOnStepEffects(Fighter!).Select(s => (token, s)));
@@ -230,7 +231,7 @@ public class MapNode : IHasData<MapNode.Data>
         {
             var token = pair.Item1;
             var effect = pair.Item2;
-            effect.Execute(token);
+            effect.Execute(token.Original.Originator, new(), token);
         }
 
         await Parent.Match.UpdateClients();
