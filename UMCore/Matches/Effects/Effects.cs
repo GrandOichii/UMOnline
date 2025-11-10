@@ -27,6 +27,7 @@ public class EffectCollection : IHasText
     public List<Effect> Effects { get; }
     public Effect? FighterPredicate { get; } = null;
     public Effect? PlayerPredicate { get; } = null;
+    public Effect? Condition { get; } = null;
 
     public EffectCollection(LuaTable table)
     {
@@ -43,6 +44,8 @@ public class EffectCollection : IHasText
             Effects.Add(new(effectFunc!));
         }
 
+        Condition = new((table["cond"] as LuaFunction)!);
+
         LuaFunction? fighterPred = table["fighterPred"] as LuaFunction;
         if (fighterPred is not null)
         {
@@ -56,8 +59,16 @@ public class EffectCollection : IHasText
         }
     }
 
+    public bool ConditionsMet(Fighter source)
+    {
+        if (Condition is null) return true;
+        if (!Condition.ExecuteCheck(source)) return false;
+        return true;
+    }
+
     public bool AcceptsFighter(Fighter source, Fighter fighter)
     {
+        if (!ConditionsMet(source)) return false;
         return FighterPredicate is null || FighterPredicate.ExecuteFighterCheck(source, source.Owner, fighter);
     }
 
@@ -66,26 +77,30 @@ public class EffectCollection : IHasText
         return Text;
     }
 
-    public void Execute(Fighter source, EffectCollectionSubjects subjects)
+    public void Execute(Fighter source, EffectCollectionSubjects subjects, PlacedToken? token = null)
     {
-        var args = MatchScripts.CreateArgs(source, source.Owner);
+        if (!ConditionsMet(source)) return;
+
+        var args = MatchScripts.CreateArgs(source, source.Owner, token);
         foreach (var effect in Effects)
         {
             effect.Execute(args, subjects);
         }
     }
 
-    private void Execute(LuaTable? args)
-    {
-        foreach (var effect in Effects)
-        {
-            effect.Execute(args);
-        }
-    }
+    // private void Execute(LuaTable? args)
+    // {
+    //     if (!ConditionsMet(source)) return;
 
-    public void Execute(Fighter fighter)
+    //     foreach (var effect in Effects)
+    //     {
+    //         effect.Execute(args);
+    //     }
+    // }
+
+    public void Execute(Fighter source)
     {
-        Execute(MatchScripts.CreateArgs(fighter, fighter.Owner));
+        Execute(source, new());
     }
 
     // public void Execute(Fighter fighter, Player owner)
@@ -93,10 +108,10 @@ public class EffectCollection : IHasText
     //     Execute(MatchScripts.CreateArgs(fighter, owner));
     // }
 
-    public void Execute(Fighter fighter, Player owner, PlacedToken token)
-    {
-        Execute(MatchScripts.CreateArgs(fighter, owner, token));
-    }
+    // public void Execute(Fighter fighter, PlacedToken token)
+    // {
+    //     Execute(MatchScripts.CreateArgs(fighter, fighter.Owner, token));
+    // }
 
     /// <summary>
     /// Executes the effect collection, arguments look like: (args, player)
@@ -133,6 +148,12 @@ public class Effect
         return Execute(MatchScripts.CreateArgs(fighter, owner));
     }
 
+    public bool ExecuteCheck(Fighter source)
+    {
+        var result = Execute(MatchScripts.CreateArgs(source, source.Owner));
+        return LuaUtility.GetReturnAsBool(result);
+    }
+    
     public bool ExecuteFighterCheck(Fighter fighter, Player owner, Fighter checkedFighter)
     {
         var result = Execute(MatchScripts.CreateArgs(fighter, owner), checkedFighter);

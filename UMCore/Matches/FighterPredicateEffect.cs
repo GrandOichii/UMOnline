@@ -29,7 +29,7 @@ public class FighterPredicateEffect(Fighter fighter, LuaTable table) : IHasText
 
     public void Execute(PlacedToken token)
     {
-        _effects.Execute(_fighter, _fighter.Owner, token);
+        _effects.Execute(_fighter, new(), token);
     }
 
     public string GetText()

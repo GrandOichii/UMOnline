@@ -93,9 +93,16 @@ function UM.Build:_WithCombatSteps()
 
     result.combatStepEffects = {}
 
+    local isAliveCond = function ()
+        return function (args)
+            return IsAlive(args.fighter)
+        end
+    end
+
     function result:CombatStepEffect(step, text, ...)
         result.combatStepEffects[step] = {
             text = text,
+            cond = isAliveCond(),
             effects = {...}
         }
 
@@ -122,6 +129,9 @@ function UM.Build:Card()
 
     result.scheme = {
         text = '',
+        cond = function (args)
+            return IsAlive(args.fighter)
+        end,
         effects = {},
     }
     result.schemeRequirements = {}
@@ -168,6 +178,12 @@ function UM.Build:Token()
     result.whenReturnedToBox = {}
     result.onStepEffects = {}
 
+    local isAliveCond = function ()
+        return function (args)
+            return IsAlive(args.fighter)
+        end
+    end
+
     function result:Build()
         return {
             Amount = result.amount,
@@ -185,6 +201,7 @@ function UM.Build:Token()
     function result:WhenReturnedToBox(text, ...)
         result.whenReturnedToBox[#result.whenReturnedToBox+1] = {
             text = text,
+            cond = isAliveCond(),
             effects = {...}
         }
         return result
@@ -194,6 +211,7 @@ function UM.Build:Token()
         result.onStepEffects[#result.onStepEffects+1] = {
             text = text,
             fighterPred = fighterPredFunc,
+            cond = isAliveCond(),
             effects = {...}
         }
         return result
@@ -228,6 +246,13 @@ function UM.Build:Fighter()
     result.onLostCombatEffects = {}
     result.tokens = {}
 
+    local isAliveCond = function ()
+        return function (args)
+            DEBUG(tostring(args.fighter))
+            return IsAlive(args.fighter)
+        end
+    end
+
     function result:Build()
         local fighter = {
             TurnPhaseEffects = result.turnPhaseEffects,
@@ -258,6 +283,7 @@ function UM.Build:Fighter()
     function result:OnLostCombat(text, ...)
         result.onLostCombatEffects[#result.onLostCombatEffects+1] = {
             text = text,
+            cond = isAliveCond(),
             effects = {...},
         }
 
@@ -272,6 +298,7 @@ function UM.Build:Fighter()
 
     function result:OnMove(text, effectFunc)
         result.onMoveEffects[#result.onMoveEffects+1] = {
+            cond = isAliveCond(),
             text = text,
             effect = effectFunc,
         }
@@ -287,6 +314,7 @@ function UM.Build:Fighter()
 
     function result:AfterMove(text, fighterPredFunc, ...)
         result.afterMovementEffects[#result.afterMovementEffects+1] = {
+            cond = isAliveCond(),
             text = text,
             fighterPred = fighterPredFunc,
             effects = {...}
@@ -298,6 +326,20 @@ function UM.Build:Fighter()
         result.onFighterDefeatEffects[#result.onFighterDefeatEffects+1] = {
             text = text,
             fighterPred = fighterPredFunc,
+            cond = isAliveCond(),
+            effects = {...}
+        }
+        return result
+    end
+
+    function result:OnFighterDefeatUngated(text, fighterPredFunc, ...)
+        result.onFighterDefeatEffects[#result.onFighterDefeatEffects+1] = {
+            text = text,
+            fighterPred = fighterPredFunc,
+            cond = function (args)
+                DEBUG('UNGATED')
+                return true
+            end,
             effects = {...}
         }
         return result
@@ -333,6 +375,7 @@ function UM.Build:Fighter()
         result.onAttackEffects[#result.onAttackEffects+1] = {
             text = text,
             fighterPred = fighterPredFunc,
+            cond = isAliveCond(),
             effects = {...}
         }
         return result
@@ -341,6 +384,7 @@ function UM.Build:Fighter()
     function result:AfterAttack(text, fighterPredFunc, ...)
         result.afterAttackEffects[#result.afterAttackEffects+1] = {
             text = text,
+            cond = isAliveCond(),
             fighterPred = fighterPredFunc,
             effects = {...}
         }
@@ -350,6 +394,7 @@ function UM.Build:Fighter()
     function result:AfterScheme(text, fighterPredFunc, ...)
         result.afterSchemeEffects[#result.afterSchemeEffects+1] = {
             text = text,
+            cond = isAliveCond(),
             fighterPred = fighterPredFunc,
             effects = {...}
         }
@@ -406,6 +451,7 @@ function UM.Build:Fighter()
 
     function result:WhenPlaced(text, ...)
         result.whenPlaced[#result.whenPlaced+1] = {
+            cond = isAliveCond(),
             text = text,
             effects = {...}
         }
@@ -415,6 +461,7 @@ function UM.Build:Fighter()
     function result:AtTheStartOfTheGame(text, ...)
         result.gameStartEffects[#result.gameStartEffects+1] = {
             text = text,
+            cond = isAliveCond(),
             effects = {...}
         }
 
@@ -424,6 +471,7 @@ function UM.Build:Fighter()
     function result:AddTurnPhaseEffects(step, text, effects)
         result.turnPhaseEffects[step] = {
             text = text,
+            cond = isAliveCond(),
             effects = effects
         }
 
@@ -438,17 +486,21 @@ function UM.Build:Fighter()
         return result:AddTurnPhaseEffects(UM.TurnPhaseTriggers.END, text, {...})
     end
 
+    -- TODO add fighter predicate
     function result:OnManoeuvre(text, ...)
         result.onManoeuvreEffects[#result.onManoeuvreEffects+1] = {
             text = text,
+            cond = isAliveCond(),
             effects = {...}
         }
         return result
     end
 
+    -- TODO add fighter predicate
     function result:OnDamage(text, ...)
         result.onDamageEffects[#result.onDamageEffects+1] = {
             text = text,
+            cond = isAliveCond(),
             effects = {...}
         }
         return result

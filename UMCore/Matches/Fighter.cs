@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.Contracts;
 using Microsoft.Extensions.Logging;
 using NLua;
@@ -28,7 +29,7 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
     public List<CardValueModifier> CardValueModifiers { get; }
     public List<EffectCollection> WhenPlacedEffects { get; }
     public List<ManoeuvreValueModifier> ManoeuvreValueMods { get; }
-    public List<FighterPredicateEffect> OnAttackEffects { get; }
+    public List<EffectCollection> OnAttackEffects { get; }
     public List<EffectCollection> AfterAttackEffects { get; }
     public List<EffectCollection> AfterSchemeEffects { get; }
     public List<EffectCollection> GameStartEffects { get; }
@@ -36,7 +37,7 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
     public List<CardCancellingForbid> CardCancellingForbids { get; }
     public List<EffectCollection> OnManoeuvreEffects { get; }
     public List<EffectCollection> OnDamageEffects { get; }
-    public List<FighterPredicateEffect> OnFighterDefeatEffects { get; }
+    public List<EffectCollection> OnFighterDefeatEffects { get; }
     public CombatStepEffectsCollection CombatStepEffects { get; }
     public List<DamageModifier> DamageModifiers { get; }
     public List<EffectCollection> AfterMovementEffects { get; }
@@ -183,15 +184,9 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
             )
         ];
 
-        OnAttackEffects = [ ..ExtractTableList(this, data, "OnAttackEffects")
-            .Select(t =>
-                new FighterPredicateEffect(this, t)
-            )
-        ];
-
+        OnAttackEffects = ExtractEffectCollectionList(this, data, "OnAttackEffects");
         AfterAttackEffects = ExtractEffectCollectionList(this, data, "AfterAttackEffects");
         AfterSchemeEffects = ExtractEffectCollectionList(this, data, "AfterSchemeEffects");
-
 
         GameStartEffects = ExtractEffectCollectionList(this, data, "GameStartEffects");
 
@@ -210,11 +205,7 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
         OnManoeuvreEffects = ExtractEffectCollectionList(this, data, "OnManoeuvreEffects");
         OnDamageEffects = ExtractEffectCollectionList(this, data, "OnDamageEffects");
 
-        OnFighterDefeatEffects = [ ..ExtractTableList(this, data, "OnFighterDefeatEffects")
-            .Select(t =>
-                new FighterPredicateEffect(this, t)
-            )
-        ];
+        OnFighterDefeatEffects = ExtractEffectCollectionList(this, data, "OnFighterDefeatEffects");
 
         // combat step effects
         try

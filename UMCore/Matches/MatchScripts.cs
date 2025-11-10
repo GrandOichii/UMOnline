@@ -43,7 +43,7 @@ public class MatchScripts
 
     public static LuaTable CreateArgs(Fighter fighter, Player owner)
     {
-        return LuaUtility.CreateTable(owner.Match.LState, new Dictionary<string, object>()
+        return LuaUtility.CreateTable(owner.Match.LState, new Dictionary<string, object?>()
         {
             { "fighter", fighter },
             { "owner", owner },
@@ -51,13 +51,14 @@ public class MatchScripts
         });
     }
 
-    public static LuaTable CreateArgs(Fighter fighter, Player owner, PlacedToken token)
+    public static LuaTable CreateArgs(Fighter fighter, Player owner, PlacedToken? token)
     {
-        return LuaUtility.CreateTable(owner.Match.LState, new Dictionary<string, object>()
+        return LuaUtility.CreateTable(owner.Match.LState, new Dictionary<string, object?>()
         {
             { "fighter", fighter },
             { "owner", owner },
             { "token", token },
+            { "ctx", LuaUtility.CreateTable(owner.Match.LState) },
         });
     }
 

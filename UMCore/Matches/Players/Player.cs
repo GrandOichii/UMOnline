@@ -441,11 +441,11 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
 
     public async Task ExecuteOnAttackEffects(Fighter fighter)
     {
-        var onAttackEffects = Match.GetOnAttackEffectsFor(fighter);
-        foreach (var e in onAttackEffects)
+        var onAttackEffects = Match.GetEffectCollectionThatAccepts(fighter, f => f.OnAttackEffects);
+        // TODO order effects
+        foreach (var (source, effect) in onAttackEffects)
         {
-            e.Execute();
-            // e.Execute(fighter, this);
+            effect.Execute(source, new(fighter));
         }
     }
 

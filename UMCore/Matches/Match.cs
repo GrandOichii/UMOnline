@@ -66,7 +66,7 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
     public bool CheckForWinners()
     {
         // TODO! teams
-        var activePlayers = Players.Where(p => p.GetActiveFighters().Any()).ToList();
+        var activePlayers = GetActivePlayers().ToList();
         if (activePlayers.Count > 1) return false;
 
         Winner = activePlayers[0];
@@ -243,20 +243,12 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
         // TODO add combat event
     }
 
-    public IEnumerable<FighterPredicateEffect> GetOnAttackEffectsFor(Fighter fighter)
-    {
-        return Fighters.SelectMany(f => f.OnAttackEffects.Where(e => e.Accepts(fighter)));
-    }
-
     public void ExecuteOnFighterDefeatEffects(Fighter fighter)
     {
-        foreach (var f in Fighters)
+        var effects = GetEffectCollectionThatAccepts(fighter, f => f.OnFighterDefeatEffects);
+        foreach (var (source, effect) in effects)
         {
-            foreach (var e in f.OnFighterDefeatEffects)
-            {
-                if (!e.Accepts(fighter)) continue;
-                e.Execute();
-            }
+            effect.Execute(source, new(fighter));
         }
     }
 
@@ -279,9 +271,14 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
     //     );
     // }
 
+    public IEnumerable<Player> GetActivePlayers()
+    {
+        return Players.Where(p => p.GetActiveFighters().Any());
+    }
+
     public IEnumerable<(Fighter, EffectCollection)> GetEffectCollectionThatAccepts(Fighter fighter, Func<Fighter, List<EffectCollection>> extractor)
     {
-        return GetAliveFighters().SelectMany(f => extractor(f)
+        return Fighters.SelectMany(f => extractor(f)
             .Where(e => e.AcceptsFighter(f, fighter))
             .Select(e => (f, e))
         );

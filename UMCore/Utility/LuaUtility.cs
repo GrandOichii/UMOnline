@@ -62,7 +62,7 @@ static class LuaUtility {
     /// <param name="lState">Lua state</param>
     /// <param name="args">The dictionary used as a template</param>
     /// <returns>Lua table</returns>    
-    static public LuaTable CreateTable(Lua lState, Dictionary<string, object> args) {
+    static public LuaTable CreateTable(Lua lState, Dictionary<string, object?> args) {
         var result = CreateTable(lState);
         foreach (var pair in args)
             result[pair.Key] = pair.Value;

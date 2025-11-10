@@ -12,7 +12,7 @@ function _Create()
                 SetPlayerStringAttribute(args.owner, 'RESURRECTED', 'N')
             end
         )
-        :OnFighterDefeat(
+        :OnFighterDefeatUngated(
             'The first time Elektra would be defeated, remove her and all Hand from the board. She is not defeated. At the start of your next turn, Resurrect her.',
             UM.Select:Fighters():Named('Elektra'):BuildPredicate(),
             UM.Effects:If(
@@ -41,6 +41,9 @@ function _Create()
                         args.fighter,
                         {
                             text = 'At the start of your next turn, Resurrect Elektra',
+                            cond = function (_)
+                                return true
+                            end,
                             effects = {
                                 [1] = function (nargs)
                                     LogPublic(originalFLN..' resurrects!')
