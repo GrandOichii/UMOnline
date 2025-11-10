@@ -173,6 +173,16 @@ public class TestPlayerControllerBuilder
             });
         }
 
+        public ActionsBuilder DealDamageToAllFightersWithName(string fighterName, int amount)
+        {
+            return Enqueue(async (match, player, options) =>
+            {
+                foreach (var fighter in match.Fighters.Where(f => f.GetName() == fighterName))
+                    await fighter.ProcessDamage(amount);
+                return (TestPlayerController.NEXT_ACTION, true);
+            });
+        }
+
         public ActionsBuilder SetHealth(string fighterNameOrKey, int value, bool byKey = false)
         {
             return Enqueue(async (match, player, options) =>
@@ -246,23 +256,40 @@ public class TestPlayerControllerBuilder
             });
         }
 
-        public class Asserts(TestMatch match, Player player, string[] options)
+        public class Asserts : PlayerAsserts
         {
+            private readonly TestMatch _match;
+            private readonly Player _player;
+            private readonly string[] _options;
+
+            public Asserts(TestMatch match, Player player, string[] options) : base(player)
+            {
+                _match = match;
+                _player = player;
+                _options = options;
+            }
+            
             public Asserts CantScheme()
             {
-                options.ShouldNotContain(new SchemeAction().Name());
+                _options.ShouldNotContain(new SchemeAction().Name());
                 return this;
             }
 
             public Asserts CantAttack()
             {
-                options.ShouldNotContain(new AttackAction().Name());
+                _options.ShouldNotContain(new AttackAction().Name());
                 return this;
             }
 
             public Asserts CanAttack()
             {
-                options.ShouldContain(new AttackAction().Name());
+                _options.ShouldContain(new AttackAction().Name());
+                return this;
+            }
+
+            public Asserts That(Action<Match, Player, string[]> assert)
+            {
+                assert(_match, _player, _options);
                 return this;
             }
         }
@@ -388,6 +415,16 @@ public class TestPlayerControllerBuilder
             Queue.Enqueue((player, options, hint) =>
             {
                 options.Length.ShouldBe(amount);
+                return (null, false);
+            });
+            return this;
+        }
+
+        public NodeChoicesBuilder AssertOptionsEquivalent(int[] nodeIds)
+        {
+            Queue.Enqueue((player, options, hint) =>
+            {
+                options.Select(n => n.Id).ToArray().ShouldBeEquivalentTo(nodeIds);
                 return (null, false);
             });
             return this;

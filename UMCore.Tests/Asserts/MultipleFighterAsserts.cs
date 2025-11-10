@@ -13,4 +13,11 @@ public class MultipleFighterAsserts(List<Fighter> fighters)
             f.IsAtFullHealth();
         return this;
     }
+
+    public MultipleFighterAsserts HaveDamage(int amount)
+    {
+        foreach (var f in _fighters)
+            f.HasDamage(amount);
+        return this;
+    }
 }

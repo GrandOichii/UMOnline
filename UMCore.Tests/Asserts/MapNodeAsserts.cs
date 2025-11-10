@@ -24,7 +24,7 @@ public class MapNodeAsserts(MapNode node)
         return this;
     }
 
-    public MapNodeAsserts HasFighter(string name)
+    public MapNodeAsserts HasFighterWithName(string name)
     {
         node.Fighter.ShouldNotBeNull();
         node.Fighter.Name.ShouldBe(name);

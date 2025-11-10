@@ -58,6 +58,19 @@ public abstract class MatchCardCollection : IHasData<MatchCardCollection.Data>
         await Owner.Match.UpdateClients();
     }
 
+    public virtual async Task<List<MatchCard>> TakeFromTop(int amount)
+    {
+        var result = new List<MatchCard>();
+        while (Count > 0 && amount-- > 0)
+        {
+            var card = Cards[0];
+            result.Add(card);
+            Cards.Remove(card);
+        }
+        return result;
+    }
+
+
     public virtual Data GetData(Player player)
     {
         return new()

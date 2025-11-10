@@ -60,10 +60,14 @@ NAMES = [
     # 'Ciri',
     # 'Ancient Leshen',
     # 'Geralt of Rivia',
-    'Raphael',
-    'Michelangelo',
-    'Leonardo',
-    'Donatello',
+    # 'Raphael',
+    # 'Michelangelo',
+    # 'Leonardo',
+    # 'Donatello',
+    # 'Loki',
+    # 'Pandora',
+    # 'Chupacabra',
+    # 'Blackbeard',
 ]
 
 def format_hero(in_path, out_path):

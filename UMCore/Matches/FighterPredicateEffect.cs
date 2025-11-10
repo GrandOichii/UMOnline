@@ -22,14 +22,14 @@ public class FighterPredicateEffect(Fighter fighter, LuaTable table) : IHasText
         return _fighterPredicate.ExecuteFighterCheck(_fighter, _fighter.Owner, fighter);
     }
 
-    public void Execute(Fighter fighter, Player owner)
-    {
-        _effects.Execute(fighter, owner);
-    }
+    // public void Execute(Fighter fighter, Player owner)
+    // {
+    //     _effects.Execute(fighter, owner);
+    // }
 
-    public void Execute(Fighter fighter, Player owner, PlacedToken token)
+    public void Execute(PlacedToken token)
     {
-        _effects.Execute(fighter, owner, token);
+        _effects.Execute(_fighter, _fighter.Owner, token);
     }
 
     public string GetText()

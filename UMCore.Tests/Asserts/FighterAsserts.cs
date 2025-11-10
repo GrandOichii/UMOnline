@@ -5,6 +5,12 @@ namespace UMCore.Tests.Asserts;
 
 public class FighterAsserts(Fighter fighter)
 {
+    public FighterAsserts HasName(string name)
+    {
+        fighter.Name.ShouldBe(name);
+        return this;
+    }
+
     public FighterAsserts DoesntHaveName(string name)
     {
         fighter.Name.ShouldNotBe(name);
@@ -26,6 +32,12 @@ public class FighterAsserts(Fighter fighter)
     public FighterAsserts HasHealth(int v)
     {
         fighter.Health.Current.ShouldBe(v);
+        return this;
+    }
+
+    public FighterAsserts HasMaxHealth(int v)
+    {
+        fighter.Health.Max.ShouldBe(v);
         return this;
     }
 

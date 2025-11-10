@@ -9,9 +9,6 @@ public class LukeCage
         .ClearDeck();
 
     // TODO test:
-    // luke cage doesnt defend: 2 -> 0 => Luke Cage doesnt take damage
-    // luke cage doesnt defend: 3 -> 0 => Luke Cage takes 1 damage
-    // luke cage defends: 3 -> 1 => Luke Cage takes no damage
     // check non combat damage
 
     [Theory]
@@ -252,5 +249,85 @@ public class LukeCage
 
         match.AssertFighter("Misty Knight")
             .HasDamage(damage);
+    }
+
+    [Fact]
+    public async Task NonCombatDamage()
+    {
+        // Arrange
+        var config = new MatchConfigBuilder()
+            .InitialHandSize(1)
+            .ActionsPerTurn(2)
+            .Build();
+
+        var mapTemplate = new MapTemplateBuilder()
+            .AddNode(1, [0], spawnNumber: 2) // Luke Cage
+            .AddNode(0, [0])                 // Misty Knight
+            .AddNode(2, [0], spawnNumber: 1) // Foo
+            .ConnectAllAsLine()
+            .Build();
+
+        var match = new TestMatchWrapper(
+            config,
+            mapTemplate
+        );
+
+        await match.AddMainPlayer(
+            new TestPlayerControllerBuilder()
+                .ConfigActions(a => a
+                    .Scheme()
+                    .DeclareWinner()
+                    .CrashMatch()
+                )
+                .ConfigNodeChoices(c => c
+                    .WithId(0)
+                )
+                .ConfigHandCardChoices(c => c.First())
+                .ConfigFighterChoices(c => c.First())
+                .Build(),
+            GetLoadoutBuilder()
+                .ConfigDeck(d => d
+                    .Add(new LoadoutCardTemplateBuilder()
+                        .Scheme()
+                        .Amount(1)
+                        .Script("""
+                        :Effect(
+                            '',
+                            UM.Effects:DealDamage(
+                                UM.Select:Fighters():Build(),
+                                UM.Number:Static(3)
+                            )
+                        )
+                        """)
+                    .Build())
+                )
+                .Build()
+        );
+        await match.AddOpponent(
+            new TestPlayerControllerBuilder()
+                .Build(),
+            new LoadoutTemplateBuilder("Foo")
+                .AddFighter(new FighterTemplateBuilder("Foo", "Foo")
+                    .Build()
+                )
+                .Build()
+        );
+
+        // Act
+        await match.Run();
+
+        // Assert
+        match.Assert()
+            .CrashedIntentionally();
+
+        match.AssertPlayer(0)
+            .SetupCalled()
+            .IsWinner();
+        match.AssertPlayer(1)
+            .SetupCalled()
+            .IsNotWinner();
+
+        match.AssertAllFighters()
+            .HaveDamage(3);
     }
 }

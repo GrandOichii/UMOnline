@@ -9,14 +9,16 @@ public class EffectCollection : IHasText
 {
     public string Text { get; }
     public List<Effect> Effects { get; }
+    public Effect? FighterPredicate { get; } = null;
+    public Effect? PlayerPredicate { get; } = null;
 
     public EffectCollection(LuaTable table)
     {
         Effects = [];
 
         Text = LuaUtility.TableGet<string>(table, "text");
-        var effectsRaw = LuaUtility.TableGet<LuaTable>(table, "effects");
 
+        var effectsRaw = LuaUtility.TableGet<LuaTable>(table, "effects");
         foreach (var e in effectsRaw.Values)
         {
             var effectFunc = e as LuaFunction
@@ -24,6 +26,23 @@ public class EffectCollection : IHasText
 
             Effects.Add(new(effectFunc!));
         }
+
+        LuaFunction? fighterPred = table["fighterPred"] as LuaFunction;
+        if (fighterPred is not null)
+        {
+            FighterPredicate = new(fighterPred);
+        }
+
+        LuaFunction? playerPred = table["playerPred"] as LuaFunction;
+        if (playerPred is not null)
+        {
+            PlayerPredicate = new(playerPred);
+        }
+    }
+
+    public bool AcceptsFighter(Fighter source, Fighter fighter)
+    {
+        return FighterPredicate is null || FighterPredicate.ExecuteFighterCheck(source, source.Owner, fighter);
     }
 
     public string GetText()
@@ -32,12 +51,17 @@ public class EffectCollection : IHasText
     }
 
 
-    public void Execute(LuaTable? args = null)
+    private void Execute(LuaTable? args)
     {
         foreach (var effect in Effects)
         {
             effect.Execute(args);
         }
+    }
+
+    public void Execute(Fighter fighter)
+    {
+        Execute(MatchScripts.CreateArgs(fighter, fighter.Owner));
     }
 
     public void Execute(Fighter fighter, Player owner)
@@ -48,6 +72,21 @@ public class EffectCollection : IHasText
     public void Execute(Fighter fighter, Player owner, PlacedToken token)
     {
         Execute(MatchScripts.CreateArgs(fighter, owner, token));
+    }
+
+    /// <summary>
+    /// Executes the effect collection, arguments look like: (args, player)
+    /// </summary>
+    /// <param name="fighter">Effect originator</param>
+    /// <param name="owner">Effect originator owner</param>
+    /// <param name="player">Player subject</param>
+    public void Execute(Fighter fighter, Player owner, Player player)
+    {
+        var args = MatchScripts.CreateArgs(fighter, owner);
+        foreach (var effect in Effects)
+        {
+            effect.Execute(args, player);
+        }
     }
 }
 

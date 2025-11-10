@@ -45,6 +45,14 @@
       "FullText": "Mission: Black Widow is adjacent to an opposing hero.\r\nDeal 2 damage to each opposing fighter in Black Widow\u0027s zone. Acquire a new mission."
     },
     {
+      "Text": "up to 2 fighters adjacent to Chupacabra",
+      "FullText": "After combat: Deal 1 damage to up to 2 fighters adjacent to Chupacabra. Chupacabra recovers 1 health for each fighter damaged this way."
+    },
+    {
+      "Text": "Chupacabra",
+      "FullText": "After combat: Chupacabra recovers 1 health. If you won the combat, it recovers 2 instead."
+    },
+    {
       "Text": "If Dagger played this to attack, Cloak",
       "FullText": "After combat: If Cloak played this to defend, Dagger recovers 2 health. If Dagger played this to attack, Cloak recovers 2 health."
     },
@@ -397,6 +405,14 @@
     {
       "Text": "Draw 2 cards.If you won a combat this turn, draw 1 additional card and gain 1 action",
       "FullText": "Draw 2 cards.If you won a combat this turn, draw 1 additional card and gain 1 action."
+    },
+    {
+      "Text": "Choose an opponent with a fighter in Chupacabra\u0027s Zone",
+      "FullText": "Choose an opponent with a fighter in Chupacabra\u0027s Zone. They discard 1 card. You may deal 2 damage to Chupacabra to make them discard 2 cards instead."
+    },
+    {
+      "Text": "The value of this card is equal to 2 times the printed value of your opponent\u0027s card",
+      "FullText": "During combat: The value of this card is equal to 2 times the printed value of your opponent\u0027s card."
     },
     {
       "Text": "- 1\uD83D\uDD35 This card\u0027s value is 4 instead",
@@ -1079,6 +1095,18 @@
       "FullText": "During combat: Discard any number of cards from your hand. Add \u002B1 to this card\u0027s value for each card discarded."
     },
     {
+      "Text": "Cancel all DURING COMBAT and AFTER COMBAT effects on your opponent\u0027s card",
+      "FullText": "Immediately: Cancel all DURING COMBAT and AFTER COMBAT effects on your opponent\u0027s card.\nAfter combat: If no effects were cancelled this way, deal 2 damage to an adjacent opposing fighter."
+    },
+    {
+      "Text": "Shuffle this card into your deck",
+      "FullText": "After combat: Shuffle this card into your deck. Then, draw 1 card."
+    },
+    {
+      "Text": "Draw 1 card for each adjacent opposing fighter",
+      "FullText": "After combat: Draw 1 card for each adjacent opposing fighter. Deal 1 damage to each of those fighters."
+    },
+    {
       "Text": "Choose 1 of your Raptors",
       "FullText": "Choose 1 of your Raptors. You may place each of your other Raptors in any space in the chosen Raptor\u0027s zone."
     },
@@ -1713,6 +1741,22 @@
       "FullText": "After combat: Move Bullseye exactly 4 spaces. You may move through opposing fighters."
     },
     {
+      "Text": "You may deal 2 damage to Chupacabra to make them discard 2 cards instead",
+      "FullText": "Choose an opponent with a fighter in Chupacabra\u0027s Zone. They discard 1 card. You may deal 2 damage to Chupacabra to make them discard 2 cards instead."
+    },
+    {
+      "Text": "They may move through opposing fighters",
+      "FullText": "Move your fighter up to 4 spaces. They may move through opposing fighters. Gain 1 action."
+    },
+    {
+      "Text": "Chupacabra recovers 1 health for each fighter damaged this way",
+      "FullText": "After combat: Deal 1 damage to up to 2 fighters adjacent to Chupacabra. Chupacabra recovers 1 health for each fighter damaged this way."
+    },
+    {
+      "Text": "it recovers 2",
+      "FullText": "After combat: Chupacabra recovers 1 health. If you won the combat, it recovers 2 instead."
+    },
+    {
       "Text": "- 5\uD83D\uDD35 This card\u0027s value is 7 instead",
       "FullText": "During combat: - 1\uD83D\uDD35 This card\u0027s value is 4 instead. - 5\uD83D\uDD35 This card\u0027s value is 7 instead."
     },
@@ -2117,6 +2161,10 @@
       "FullText": "During combat: Discard any number of cards from your hand. Add \u002B1 to this card\u0027s value for each card discarded."
     },
     {
+      "Text": "Add \u002B2 to this card\u0027s value for each card discarded this way",
+      "FullText": "During combat: Discard any number of defense or versatile cards. Add \u002B2 to this card\u0027s value for each card discarded this way."
+    },
+    {
       "Text": "You may place each of your other Raptors in any space in the chosen Raptor\u0027s zone",
       "FullText": "Choose 1 of your Raptors. You may place each of your other Raptors in any space in the chosen Raptor\u0027s zone."
     },
@@ -2340,6 +2388,10 @@
     },
     {
       "Text": "you won the combat",
+      "FullText": "After combat: Chupacabra recovers 1 health. If you won the combat, it recovers 2 instead."
+    },
+    {
+      "Text": "you won the combat",
       "FullText": "After combat: Your opponent discards 1 card. If you won the combat, they discard 2 cards instead."
     },
     {
@@ -2547,6 +2599,22 @@
     {
       "Text": "If you already won a combat this turn, ignore the value of your opponent\u0027s card",
       "FullText": "Immediately: If you already won a combat this turn, ignore the value of your opponent\u0027s card."
+    },
+    {
+      "Text": "If you lost the combat, return this card to your hand",
+      "FullText": "After combat: If you lost the combat, return this card to your hand."
+    },
+    {
+      "Text": "If Chupacabra has 7 or less health, this card\u0027s value is 5 instead",
+      "FullText": "During combat: If Chupacabra has 7 or less health, this card\u0027s value is 5 instead."
+    },
+    {
+      "Text": "If Chupacabra has 7 or less health, gain 1 action and it recovers 1 health",
+      "FullText": "After combat: If Chupacabra has 7 or less health, gain 1 action and it recovers 1 health."
+    },
+    {
+      "Text": "If you already won a combat this turn, you may BOOST this card",
+      "FullText": "During combat: If you already won a combat this turn, you may BOOST this card."
     },
     {
       "Text": "If you won the combat, you may search your deck for a Source card, reveal it, and add it to your hand",
@@ -2829,6 +2897,22 @@
       "FullText": "After combat: If you haven\u0027t taken a maneuver action this turn, deal 1 damage to each opposing fighter in Philippa\u0027s zone."
     },
     {
+      "Text": "If Casey if adjacent to the opposing fighter, this card\u0027s value is 6 instead",
+      "FullText": "During combat: If Casey if adjacent to the opposing fighter, this card\u0027s value is 6 instead."
+    },
+    {
+      "Text": "If you lost a combat this turn, this card\u0027s value is 5 instead",
+      "FullText": "During combat: If you lost a combat this turn, this card\u0027s value is 5 instead."
+    },
+    {
+      "Text": "If no effects were cancelled this way, deal 2 damage to an adjacent opposing fighter",
+      "FullText": "Immediately: Cancel all DURING COMBAT and AFTER COMBAT effects on your opponent\u0027s card.\nAfter combat: If no effects were cancelled this way, deal 2 damage to an adjacent opposing fighter."
+    },
+    {
+      "Text": "If you won the combat, move the opposing fighter up to 3 spaces",
+      "FullText": "After combat: If you won the combat, move the opposing fighter up to 3 spaces."
+    },
+    {
       "Text": "If 1 or more of your Raptors is adjacent to the opposing fighter, gain 1 action",
       "FullText": "After combat: If 1 or more of your Raptors is adjacent to the opposing fighter, gain 1 action."
     },
@@ -3041,6 +3125,14 @@
     {
       "Text": "opposing flanked ",
       "FullText": "Deal 2 damage to each opposing flanked fighter."
+    },
+    {
+      "Text": "opposing fighter adjacent to at least 1 friendly ",
+      "FullText": "Deal 1 damage to each opposing fighter adjacent to at least 1 friendly fighter.\nDraw 1 card."
+    },
+    {
+      "Text": "of those ",
+      "FullText": "After combat: Draw 1 card for each adjacent opposing fighter. Deal 1 damage to each of those fighters."
     }
   ],
   "doSomethingThenAddBoostValueFrom": [
@@ -3058,7 +3150,7 @@
     },
     {
       "Text": "Your opponent discards 1 random card",
-      "FullText": "During combat: Your opponent discards 1 random card. Add its BOOST value to this card\u0027s attack value."
+      "FullText": "During combat: Your opponent discards 1 random card. Add its BOOST value to this card\u0027s value."
     },
     {
       "Text": "Discard the top card of your deck",
@@ -3083,8 +3175,8 @@
       "FullText": "During combat: Your opponent discards 1 random card. Add its BOOST value to this card\u0027s value.\nAfter combat: If this is your third action, draw 1 card."
     },
     {
-      "Text": "this card\u0027s attack value",
-      "FullText": "During combat: Your opponent discards 1 random card. Add its BOOST value to this card\u0027s attack value."
+      "Text": "this card\u0027s value",
+      "FullText": "During combat: Your opponent discards 1 random card. Add its BOOST value to this card\u0027s value."
     },
     {
       "Text": "this card\u0027s value",
@@ -3119,6 +3211,10 @@
     {
       "Text": "If you don\u0027t BOOST this attack, ",
       "FullText": "During combat: You may BOOST this attack. If you don\u0027t BOOST this attack, draw 1 card."
+    },
+    {
+      "Text": "They ",
+      "FullText": "Choose an opponent with a fighter in Chupacabra\u0027s Zone. They discard 1 card. You may deal 2 damage to Chupacabra to make them discard 2 cards instead."
     },
     {
       "Text": "[ONGOING]: After each combat your fighter is in, ",
@@ -3211,6 +3307,14 @@
     {
       "Text": "Your opponent may ",
       "FullText": "Immediately: Your opponent may discard 1 card. If they don\u0027t, ignore their card\u0027s value."
+    },
+    {
+      "Text": "Then, ",
+      "FullText": "After combat: Shuffle this card into your deck. Then, draw 1 card."
+    },
+    {
+      "Text": "If you won the combat, ",
+      "FullText": "After combat: Draw 1 card. If you won the combat, draw 2 cards."
     },
     {
       "Text": "They may choose to ",
@@ -3317,6 +3421,10 @@
     {
       "Text": "that",
       "FullText": "During combat: Reveal the top card of your opponent\u0027s deck. You may discharge coils: - 1 Coil: Discard that card. - 2 Coils: Also, add its boost value to this card\u0027s value."
+    },
+    {
+      "Text": "any number of defense or versatile",
+      "FullText": "During combat: Discard any number of defense or versatile cards. Add \u002B2 to this card\u0027s value for each card discarded this way."
     },
     {
       "Text": "1 more",

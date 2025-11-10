@@ -148,6 +148,7 @@ public class MatchScripts
         while (fighters.Count > 0)
         {
             var fighter = fighters[0];
+            Match.Logger?.LogDebug(fighter.LogName);
             if (fighters.Count > 1)
             {
                 fighter = player.Controller.ChooseFighter(player, [.. fighters], "Choose which fighter to move")
@@ -231,6 +232,18 @@ public class MatchScripts
     public int GetHealth(Fighter fighter)
     {
         return fighter.Health.Current;
+    }
+
+    [LuaCommand]
+    public void SetHealth(Fighter fighter, int value)
+    {
+        fighter.Health.Current = value;
+    }
+    
+    [LuaCommand]
+    public void SetMaxHealth(Fighter fighter, int value)
+    {
+        fighter.Health.Max = value;
     }
 
     [LuaCommand]
@@ -465,6 +478,14 @@ public class MatchScripts
     }
 
     [LuaCommand]
+    public async Task RemoveFighterFromBoard(Fighter fighter)
+    {
+        Match.Map.RemoveFighterFromBoard(fighter)
+            .Wait();
+
+    }
+
+    [LuaCommand]
     public Fighter GetDefender()
     {
         return Match.Combat!.Defender;
@@ -608,18 +629,48 @@ public class MatchScripts
     [LuaCommand]
     public bool PerformedActionThisTurn(Player player, string action)
     {
-        return player.TurnHistory.PerformedActions.Contains(action);
+        return player.TurnHistory.PerformedAction(action);
     }
 
     [LuaCommand]
     public bool FighterAttackedThisTurn(Fighter fighter)
     {
-        return fighter.Owner.TurnHistory.Attacks.Any((a) => a.Item1 == fighter);
+        return fighter.Owner.TurnHistory.AttackedWithFighter(fighter);
     }
 
     [LuaCommand]
     public bool IsWinnerDetermined()
     {
         return Match.IsWinnerDetermined();
+    }
+
+    [LuaCommand]
+    public Player GetCurrentPlayer()
+    {
+        return Match.CurrentPlayer();
+    }
+
+    [LuaCommand]
+    public int GetLostCounter(Player player)
+    {
+        return player.TurnHistory.GetLostCounter();
+    }
+
+    [LuaCommand]
+    public void AddAtTheStartOfNextTurnEffect(Player player, Fighter effectSource, Player effectOwner, LuaTable effects)
+    {
+        player.AtTheStartOfTurnTemporaryEffects.Add((effectSource, effectOwner, new(effects)));
+    }
+
+    [LuaCommand]
+    public async Task ShuffleDiscardIntoDeck(Player player)
+    {
+        var cards = player.DiscardPile.TakeFromTop(player.DiscardPile.Count)
+            .GetAwaiter().GetResult();
+
+        player.Deck.Add(cards)
+            .Wait();
+
+        player.Deck.Shuffle();
     }
 }

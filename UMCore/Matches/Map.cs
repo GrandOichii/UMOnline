@@ -230,7 +230,7 @@ public class MapNode : IHasData<MapNode.Data>
         {
             var token = pair.Item1;
             var effect = pair.Item2;
-            effect.Execute(Fighter!, token.Original.Originator.Owner, token);
+            effect.Execute(token);
         }
 
         await Parent.Match.UpdateClients();

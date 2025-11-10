@@ -42,6 +42,7 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
     public LoadoutTemplate Loadout { get; }
     public Attributes Attributes { get; }
     public TurnHistory TurnHistory { get; }
+    public List<(Fighter effectSource, Player effectOwner, EffectCollection effects)> AtTheStartOfTurnTemporaryEffects { get; }
 
 
     public int ActionCount { get; set; }
@@ -62,6 +63,7 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
         TurnHistory = new(this);
 
         Fighters = [];
+        AtTheStartOfTurnTemporaryEffects = [];
     }
 
     // public async Task InitialPlaceFighter(Fighter fighter)
@@ -156,6 +158,7 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
     public IEnumerable<Fighter> GetAliveFighters() => Fighters.Where(f => f.IsAlive());
 
     public IEnumerable<Fighter> GetAliveHeroes() => GetAliveFighters().Where(f => f.IsHero());
+    public IEnumerable<Fighter> GetActiveFighters() => Fighters.Where(f => f.GetStatus() != FighterStatus.Dead);
 
     public string LogName => $"{Name}[{Idx}]";
 
@@ -176,6 +179,13 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
         Match.Logs.Private(this, "You start your turn", $"Player {FormattedLogName} starts their turn");
         Match.Logger?.LogDebug("Player {LogName} starts their turn", LogName);
         ActionCount = Match.Config.ActionsPerTurn;
+        
+        // execute "at the start of ___ next turn, ..."
+        // TODO order effects
+        foreach (var (effectSource, effectOwner, effect) in AtTheStartOfTurnTemporaryEffects)
+        {
+            effect.Execute(effectSource, effectOwner);
+        }
     }
 
     public async Task EndTurn()
@@ -195,10 +205,18 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
         Match.Logger?.LogDebug("Player {LogName} ends their turn", LogName);
     }
 
+    public bool NoAliveFighters()
+    {
+        return Fighters.All(f => f.GetStatus() != FighterStatus.Alive);
+    }
+
     public bool CanTakeActions()
     {
         // TODO some cards disable taking actions until the end of turn
-        return ActionCount > 0 && !Match.IsWinnerDetermined();
+        if (ActionCount <= 0) return false;
+        if (Match.IsWinnerDetermined()) return false;
+        if (NoAliveFighters()) return false;
+        return true;
     }
 
     public IEnumerable<IAction> AvailableActions()
@@ -222,7 +240,7 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
         {
             var action = await ChooseAction();
             --ActionCount;
-            TurnHistory.PerformedAction(action);
+            TurnHistory.RecordPerformedAction(action);
             await action.Execute(this);
         }
     }
@@ -426,7 +444,8 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
         var onAttackEffects = Match.GetOnAttackEffectsFor(fighter);
         foreach (var e in onAttackEffects)
         {
-            e.Execute(fighter, this);
+            e.Execute();
+            // e.Execute(fighter, this);
         }
     }
 
@@ -435,7 +454,8 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
         var onAttackEffects = Match.GetAfterAttackEffectsFor(fighter);
         foreach (var e in onAttackEffects)
         {
-            e.Execute(fighter, this);
+            // e.Execute(fighter, this);
+            e.Execute();
         }
     }
 
@@ -444,6 +464,16 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
         foreach (var fighter in Fighters)
         {
             fighter.ExecuteGameStartEffects();
+        }
+    }
+
+    public async Task ExecuteOnLostCombatEffects()
+    {
+        var effects = Match.GetOnLostCombatEffectsFor(this);
+        // TODO order effects
+        foreach (var effect in effects)
+        {
+            effect.Execute(this);
         }
     }
 

@@ -3,7 +3,7 @@ function _Create()
     return UM.Build:Fighter()
         :ModCardValue(
             UM.Select:Fighters():Named('Eredin'):BuildPredicate(),
-            UM.Mod.Cards:AttackCards(UM.Number:Static(1)),
+            UM.Mod.Cards:AllCards(UM.Number:Static(1)),
             UM.Conditions.CharacterSpecific:EredinEnraged()
         )
         :ModManoeuvreValue(

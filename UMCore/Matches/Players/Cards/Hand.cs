@@ -19,7 +19,9 @@ public class Hand : MatchCardCollection
         Owner.Match.Logger?.LogDebug("Player {PlayerLogName} draws {Amount} cards (wanted to draw: {OriginalAmount})", Owner.LogName, newCards.Count(), amount);
         Owner.Match.Logs.Private(
             Owner,
-            string.Format("You drew cards: {0}", string.Join(", ", newCards.Select(c => c.FormattedLogName))),
+            newCards.Count > 0
+                ? string.Format("You drew cards: {0}", string.Join(", ", newCards.Select(c => c.FormattedLogName)))
+                : "You drew no cards", 
             $"Player {Owner.FormattedLogName} drew {newCards.Count} cards"
         );
         return newCards;

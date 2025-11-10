@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using NLua;
 using UMCore.Matches.Cards;
 using UMCore.Matches.Effects;
+using UMCore.Matches.Fighters;
 using UMCore.Matches.Players;
 using UMCore.Matches.Players.Cards;
 using UMCore.Templates;
@@ -29,7 +30,7 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
     public List<ManoeuvreValueModifier> ManoeuvreValueMods { get; }
     public List<FighterPredicateEffect> OnAttackEffects { get; }
     public List<FighterPredicateEffect> AfterAttackEffects { get; }
-    public List<FighterPredicateEffect> AfterSchemeEffects { get; }
+    public List<EffectCollection> AfterSchemeEffects { get; }
     public List<EffectCollection> GameStartEffects { get; }
     public List<MovementNodeConnection> MovementNodeConnections { get; }
     public List<CardCancellingForbid> CardCancellingForbids { get; }
@@ -42,6 +43,7 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
     public List<BoostedMovementReplacer> BoostedMovementReplacers { get; }
     public List<OnMoveEffect> OnMoveEffects { get; }
     public List<ManoeuvreDrawAmountModifier> ManoeuvreDrawAmountModifiers { get; }
+    public List<CombatResolutionEffect> OnLostCombatEffects { get; }
 
     public static List<FighterPredicateEffect> ExtractFighterPredicateEffects(Fighter fighter, LuaTable data, string key)
     {
@@ -80,6 +82,46 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
         catch (Exception e)
         {
             throw new MatchException($"Failed to extract function list {key} for fighter {fighter.Name}", e);
+        }
+    }
+
+    public static List<LuaTable> ExtractTableList(Fighter fighter, LuaTable data, string key)
+    {
+        try
+        {
+            List<LuaTable> result = [];
+            var table = LuaUtility.TableGet<LuaTable>(data, key);
+            foreach (var value in table.Values)
+            {
+                var t = value as LuaTable;
+                // TODO check for null
+                result.Add(t!);
+            }
+            return result;
+        }
+        catch (Exception e)
+        {
+            throw new MatchException($"Failed to extract table list {key} for fighter {fighter.Name}", e);
+        }
+    }
+
+    public static List<EffectCollection> ExtractEffectCollectionList(Fighter fighter, LuaTable data, string key)
+    {
+        try
+        {
+            List<EffectCollection> result = [];
+            var table = LuaUtility.TableGet<LuaTable>(data, key);
+            foreach (var value in table.Values)
+            {
+                var t = value as LuaTable;
+                // TODO check for null
+                result.Add(new(t!));
+            }
+            return result;
+        }
+        catch (Exception e)
+        {
+            throw new MatchException($"Failed to extract table list {key} for fighter {fighter.Name}", e);
         }
     }
 
@@ -127,73 +169,33 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
             throw new MatchException($"Failed to get turn step effects for fighter {template.Name}", e);
         }
 
-        CardValueModifiers = [];
-        try
-        {
-            var cardValueModifiers = LuaUtility.TableGet<LuaTable>(data, "CardValueModifiers");
-            foreach (var keyRaw in cardValueModifiers.Keys)
-            {
-                var modFunc = cardValueModifiers[keyRaw] as LuaFunction;
-                // TODO check for null
-                CardValueModifiers.Add(new(this, new(modFunc!)));
-            }
-        }
-        catch (Exception e)
-        {
-            throw new MatchException($"Failed to get card value modifiers for fighter {template.Name}", e);
-        }
+        CardValueModifiers = [ ..ExtractFunctionList(this, data, "CardValueModifiers")
+            .Select(f =>
+                new CardValueModifier(this, new(f))
+            )
+        ];
 
-        WhenPlacedEffects = [];
-        try
-        {
-            var whenPlacedEffects = LuaUtility.TableGet<LuaTable>(data, "WhenPlacedEffects");
-            foreach (var value in whenPlacedEffects.Values)
-            {
-                var table = value as LuaTable;
-                // TODO check for null
-                var effects = new EffectCollection(table!);
-                WhenPlacedEffects.Add(effects);
-            }
-        }
-        catch (Exception e)
-        {
-            throw new MatchException($"Failed to get initial fighter placement effects for fighter {template.Name}", e);
-        }
+        WhenPlacedEffects = [ ..ExtractTableList(this, data, "WhenPlacedEffects")
+            .Select(t =>
+                new EffectCollection(t)
+            )
+        ];
 
-        ManoeuvreValueMods = [];
-        try
-        {
-            var manoeuvreValueMods = LuaUtility.TableGet<LuaTable>(data, "ManoeuvreValueMods");
-            foreach (var value in manoeuvreValueMods.Values)
-            {
-                var table = value as LuaTable;
-                // TODO check for null
-                ManoeuvreValueMods.Add(new(this, table!));
-            }
-        }
-        catch (Exception e)
-        {
-            throw new MatchException($"Failed to get manoeuvre value modifiers for fighter {template.Name}", e);
-        }
+        ManoeuvreValueMods = [ ..ExtractTableList(this, data, "ManoeuvreValueMods")
+            .Select(t =>
+                new ManoeuvreValueModifier(this, t)
+            )
+        ];
 
-        OnAttackEffects = [];
-        try
-        {
-            var onAttackEffects = LuaUtility.TableGet<LuaTable>(data, "OnAttackEffects");
-            foreach (var value in onAttackEffects.Values)
-            {
-                var table = value as LuaTable;
-                // TODO check for null
-                OnAttackEffects.Add(new(this, table!));
-            }
-        }
-        catch (Exception e)
-        {
-            throw new MatchException($"Failed to get on attack effects for fighter {template.Name}", e);
-        }
+        OnAttackEffects = [ ..ExtractTableList(this, data, "OnAttackEffects")
+            .Select(t =>
+                new FighterPredicateEffect(this, t)
+            )
+        ];
 
         AfterAttackEffects = ExtractFighterPredicateEffects(this, data, "AfterAttackEffects");
-        AfterSchemeEffects = ExtractFighterPredicateEffects(this, data, "AfterSchemeEffects");
+        // AfterSchemeEffects = ExtractFighterPredicateEffects(this, data, "AfterSchemeEffects");
+        AfterSchemeEffects = ExtractEffectCollectionList(this, data, "AfterSchemeEffects");
 
         // tokens
         try
@@ -211,106 +213,41 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
             throw new MatchException($"Failed to get token declarations for fighter {template.Name}", e);
         }
 
-        GameStartEffects = [];
-        try
-        {
-            var gameStartEffects = LuaUtility.TableGet<LuaTable>(data, "GameStartEffects");
-            foreach (var value in gameStartEffects.Values)
-            {
-                var table = value as LuaTable;
-                // TODO check for null
-                var effects = new EffectCollection(table!);
-                GameStartEffects.Add(effects);
-            }
-        }
-        catch (Exception e)
-        {
-            throw new MatchException($"Failed to get game start effects for fighter {template.Name}", e);
-        }
+        GameStartEffects = [ ..ExtractTableList(this, data, "GameStartEffects")
+            .Select(t =>
+                new EffectCollection(t)
+            )
+        ];
 
-        MovementNodeConnections = [];
-        try
-        {
-            var movementNodeConnections = LuaUtility.TableGet<LuaTable>(data, "MovementNodeConnections");
-            foreach (var value in movementNodeConnections.Values)
-            {
-                var func = value as LuaFunction;
-                // TODO check for null
-                var effects = new MovementNodeConnection(this, func!);
-                MovementNodeConnections.Add(effects);
-            }
-        }
-        catch (Exception e)
-        {
-            throw new MatchException($"Failed to movement node connections for fighter {template.Name}", e);
-        }
+        MovementNodeConnections = [ ..ExtractFunctionList(this, data, "MovementNodeConnections")
+            .Select(f =>
+                new MovementNodeConnection(this, f)
+            )
+        ];
 
-        CardCancellingForbids = [];
-        try
-        {
-            var cardCancellingForbids = LuaUtility.TableGet<LuaTable>(data, "CardCancellingForbids");
-            foreach (var value in cardCancellingForbids.Values)
-            {
-                var func = value as LuaFunction;
-                // TODO check for null
-                var effects = new CardCancellingForbid(this, func!);
-                CardCancellingForbids.Add(effects);
-            }
-        }
-        catch (Exception e)
-        {
-            throw new MatchException($"Failed to movement node connections for fighter {template.Name}", e);
-        }
+        CardCancellingForbids = [ ..ExtractFunctionList(this, data, "CardCancellingForbids")
+            .Select(f =>
+                new CardCancellingForbid(this, f)
+            )
+        ];
 
-        OnManoeuvreEffects = [];
-        try
-        {
-            var onManoeuvreEffects = LuaUtility.TableGet<LuaTable>(data, "OnManoeuvreEffects");
-            foreach (var value in onManoeuvreEffects.Values)
-            {
-                var table = value as LuaTable;
-                // TODO check for null
-                var effects = new EffectCollection(table!);
-                OnManoeuvreEffects.Add(effects);
-            }
-        }
-        catch (Exception e)
-        {
-            throw new MatchException($"Failed to get on manoeuvre effects for fighter {template.Name}", e);
-        }
+        OnManoeuvreEffects = [ ..ExtractTableList(this, data, "OnManoeuvreEffects")
+            .Select(t =>
+                new EffectCollection(t)
+            )
+        ];
 
-        OnDamageEffects = [];
-        try
-        {
-            var onDamageEffects = LuaUtility.TableGet<LuaTable>(data, "OnDamageEffects");
-            foreach (var value in onDamageEffects.Values)
-            {
-                var table = value as LuaTable;
-                // TODO check for null
-                var effects = new EffectCollection(table!);
-                OnDamageEffects.Add(effects);
-            }
-        }
-        catch (Exception e)
-        {
-            throw new MatchException($"Failed to get on damage effects for fighter {template.Name}", e);
-        }
+        OnDamageEffects = [ ..ExtractTableList(this, data, "OnDamageEffects")
+            .Select(t =>
+                new EffectCollection(t)
+            )
+        ];
 
-        OnFighterDefeatEffects = [];
-        try
-        {
-            var onDefeatEffects = LuaUtility.TableGet<LuaTable>(data, "OnFighterDefeatEffects");
-            foreach (var value in onDefeatEffects.Values)
-            {
-                var table = value as LuaTable;
-                // TODO check for null
-                OnFighterDefeatEffects.Add(new(this, table!));
-            }
-        }
-        catch (Exception e)
-        {
-            throw new MatchException($"Failed to get on fighter defeat effects for fighter {template.Name}", e);
-        }
+        OnFighterDefeatEffects = [ ..ExtractTableList(this, data, "OnFighterDefeatEffects")
+            .Select(t =>
+                new FighterPredicateEffect(this, t)
+            )
+        ];
 
         // combat step effects
         try
@@ -322,22 +259,12 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
             throw new MatchException($"Failed to get combat step effects for fighter {Name}", e);
         }
         
-        DamageModifiers = [];
-        try
-        {
-            var damageModifiers = LuaUtility.TableGet<LuaTable>(data, "DamageModifiers");
-            foreach (var value in damageModifiers.Values)
-            {
-                var func = value as LuaFunction;
-                // TODO check for null
-                var effects = new DamageModifier(this, func!);
-                DamageModifiers.Add(effects);
-            }
-        }
-        catch (Exception e)
-        {
-            throw new MatchException($"Failed to damage modifiers for fighter {template.Name}", e);
-        }
+        DamageModifiers = [ ..ExtractFunctionList(this, data, "DamageModifiers")
+            .Select(f =>
+                new DamageModifier(this, f)
+            )
+        ];
+
     
         AfterMovementEffects = ExtractFighterPredicateEffects(this, data, "AfterMovementEffects");
 
@@ -347,25 +274,21 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
             )
         ];
 
-        OnMoveEffects = [];
-        try
-        {
-            var onMoveEffects = LuaUtility.TableGet<LuaTable>(data, "OnMoveEffects");
-            foreach (var value in onMoveEffects.Values)
-            {
-                var table = value as LuaTable;
-                // TODO check for null
-                OnMoveEffects.Add(new(this, table!));
-            }
-        }
-        catch (Exception e)
-        {
-            throw new MatchException($"Failed to get on fighter defeat effects for fighter {template.Name}", e);
-        }
+        OnMoveEffects = [ ..ExtractTableList(this, data, "OnMoveEffects")
+            .Select(t =>
+                new OnMoveEffect(this, t)
+            )
+        ];
 
         ManoeuvreDrawAmountModifiers = [ ..ExtractFunctionList(this, data, "ManoeuvreDrawAmountModifiers")
             .Select(f =>
                 new ManoeuvreDrawAmountModifier(this, f)
+            )
+        ];
+
+        OnLostCombatEffects = [ ..ExtractTableList(this, data, "OnLostCombatEffects")
+            .Select(f =>
+                new CombatResolutionEffect(this, f)
             )
         ];
     }
@@ -455,9 +378,9 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
         {
             Match.Logs.Public($"Fighter {FormattedLogName} dies!");
             Match.Logger?.LogDebug("Fighter {FighterLogName} dies", LogName);
-            Match.CheckForWinners();
-            await Match.Map.RemoveFighterFromBoard(this);
             Match.ExecuteOnFighterDefeatEffects(this);
+            await Match.Map.RemoveFighterFromBoard(this);
+            Match.CheckForWinners();
         }
         await Match.UpdateClients();
 
@@ -626,8 +549,8 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
 
 public class Health(Fighter fighter)
 {
-    public int Current { get; private set; } = fighter.Template.StartingHealth;
-    public int Max { get; private set; } = fighter.Template.MaxHealth;
+    public int Current { get; set; } = fighter.Template.StartingHealth;
+    public int Max { get; set; } = fighter.Template.MaxHealth;
     public bool IsDead => Current == 0;
 
     public int DealDamage(int amount)

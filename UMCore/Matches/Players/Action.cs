@@ -20,6 +20,8 @@ public class ManoeuvreAction : IAction
             drawAmount = mod.Modify(player, drawAmount);
         }
         await player.Hand.Draw(drawAmount);
+        if (player.Match.IsWinnerDetermined()) return;
+        if (player.NoAliveFighters()) return;
 
         await player.MoveFighters(isManoeuvre: true, canMoveOverFriendly: true);
     }
@@ -74,9 +76,9 @@ public class SchemeAction : IAction
 
         await player.PlayScheme(chosen, fighter);
 
-        var effects = player.Match.GetAfterSchemeEffectsFor(fighter);
+        var effects = player.Match.GetEffectCollectionThatAccepts(fighter, f => f.AfterSchemeEffects);
         // TODO order effects
-        foreach (var effect in effects)
-            effect.Execute();
+        foreach (var (source, effect) in effects)
+            effect.Execute(source);
     }
 }

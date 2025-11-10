@@ -169,7 +169,7 @@ public class SunWukongTests
             .IsNotWinner();
 
         match.AssertNode(1)
-            .HasFighter("Clone");
+            .HasFighterWithName("Clone");
 
         match.AssertFighter("Sun Wukong")
             .HasDamage(1);
@@ -259,11 +259,11 @@ public class SunWukongTests
             .IsNotWinner();
 
         match.AssertNode(1)
-            .HasFighter("Clone");
+            .HasFighterWithName("Clone");
         match.AssertNode(2)
-            .HasFighter("Clone");
+            .HasFighterWithName("Clone");
         match.AssertNode(3)
-            .HasFighter("Clone");
+            .HasFighterWithName("Clone");
         match.AssertNode(4)
             .IsEmpty();
 

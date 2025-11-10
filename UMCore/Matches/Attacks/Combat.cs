@@ -291,6 +291,14 @@ public class Combat : IHasData<Combat.Data>
         await card.AddBoost(boostCard);
     }
 
+    public Player? GetLoser()
+    {
+        if (Winner == null) return null;
+        if (Attacker.Owner == Winner) return Defender.Owner;
+        if (Defender.Owner == Winner) return Attacker.Owner;
+        throw new MatchException($"Something went very wrong in combat: Winner is not attacker nor defender when calling {GetLoser} ");
+    }
+
     public Data GetData(Player player)
     {
         return new()

@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="DeckColors" load_steps=70 format=3 uid="uid://0r366endf36k"]
+[gd_resource type="Resource" script_class="DeckColors" load_steps=74 format=3 uid="uid://0r366endf36k"]
 
 [ext_resource type="Script" uid="uid://dnuervsulkxmo" path="res://v1/Decks/DeckColor.gd" id="1_388kc"]
 [ext_resource type="Script" uid="uid://coahoij3ffuq0" path="res://v1/Decks/DeckColors.gd" id="2_3o2nn"]
@@ -341,6 +341,29 @@ DeckName = "Leonardo"
 DeckColor = Color(0.023529412, 0.38431373, 0.68235296, 1)
 metadata/_custom_type_script = "uid://dnuervsulkxmo"
 
+[sub_resource type="Resource" id="Resource_oc7kx"]
+script = ExtResource("1_388kc")
+DeckName = "Loki"
+DeckColor = Color(0.3529412, 0.47843137, 0.30980393, 1)
+metadata/_custom_type_script = "uid://dnuervsulkxmo"
+
+[sub_resource type="Resource" id="Resource_achk4"]
+script = ExtResource("1_388kc")
+DeckName = "Pandora"
+DeckColor = Color(0.92941177, 0.7764706, 0.41568628, 1)
+metadata/_custom_type_script = "uid://dnuervsulkxmo"
+
+[sub_resource type="Resource" id="Resource_kxq0d"]
+script = ExtResource("1_388kc")
+DeckName = "Chupacabra"
+DeckColor = Color(0.7607843, 0.20784314, 0.27058825, 1)
+metadata/_custom_type_script = "uid://dnuervsulkxmo"
+
+[sub_resource type="Resource" id="Resource_apg8o"]
+script = ExtResource("1_388kc")
+DeckName = "Blackbeard"
+metadata/_custom_type_script = "uid://dnuervsulkxmo"
+
 [resource]
 script = ExtResource("2_3o2nn")
-Decks = Array[ExtResource("1_388kc")]([SubResource("Resource_0"), SubResource("Resource_1"), SubResource("Resource_2"), SubResource("Resource_3"), SubResource("Resource_4"), SubResource("Resource_5"), SubResource("Resource_6"), SubResource("Resource_7"), SubResource("Resource_8"), SubResource("Resource_9"), SubResource("Resource_10"), SubResource("Resource_11"), SubResource("Resource_12"), SubResource("Resource_13"), SubResource("Resource_14"), SubResource("Resource_15"), SubResource("Resource_16"), SubResource("Resource_17"), SubResource("Resource_18"), SubResource("Resource_19"), SubResource("Resource_20"), SubResource("Resource_21"), SubResource("Resource_22"), SubResource("Resource_23"), SubResource("Resource_24"), SubResource("Resource_25"), SubResource("Resource_26"), SubResource("Resource_27"), SubResource("Resource_28"), SubResource("Resource_29"), SubResource("Resource_30"), SubResource("Resource_31"), SubResource("Resource_32"), SubResource("Resource_33"), SubResource("Resource_34"), SubResource("Resource_35"), SubResource("Resource_36"), SubResource("Resource_37"), SubResource("Resource_38"), SubResource("Resource_39"), SubResource("Resource_40"), SubResource("Resource_41"), SubResource("Resource_42"), SubResource("Resource_43"), SubResource("Resource_44"), SubResource("Resource_45"), SubResource("Resource_46"), SubResource("Resource_47"), SubResource("Resource_48"), SubResource("Resource_49"), SubResource("Resource_50"), SubResource("Resource_51"), SubResource("Resource_52"), SubResource("Resource_53"), SubResource("Resource_54"), SubResource("Resource_55"), SubResource("Resource_56"), SubResource("Resource_57"), SubResource("Resource_58"), SubResource("Resource_59"), SubResource("Resource_60"), SubResource("Resource_61"), SubResource("Resource_bxrhv"), SubResource("Resource_lmfq2"), SubResource("Resource_vhbij"), SubResource("Resource_83lmr"), SubResource("Resource_f5dld")])
+Decks = Array[ExtResource("1_388kc")]([SubResource("Resource_0"), SubResource("Resource_1"), SubResource("Resource_2"), SubResource("Resource_3"), SubResource("Resource_4"), SubResource("Resource_5"), SubResource("Resource_6"), SubResource("Resource_7"), SubResource("Resource_8"), SubResource("Resource_9"), SubResource("Resource_10"), SubResource("Resource_11"), SubResource("Resource_12"), SubResource("Resource_13"), SubResource("Resource_14"), SubResource("Resource_15"), SubResource("Resource_16"), SubResource("Resource_17"), SubResource("Resource_18"), SubResource("Resource_19"), SubResource("Resource_20"), SubResource("Resource_21"), SubResource("Resource_22"), SubResource("Resource_23"), SubResource("Resource_24"), SubResource("Resource_25"), SubResource("Resource_26"), SubResource("Resource_27"), SubResource("Resource_28"), SubResource("Resource_29"), SubResource("Resource_30"), SubResource("Resource_31"), SubResource("Resource_32"), SubResource("Resource_33"), SubResource("Resource_34"), SubResource("Resource_35"), SubResource("Resource_36"), SubResource("Resource_37"), SubResource("Resource_38"), SubResource("Resource_39"), SubResource("Resource_40"), SubResource("Resource_41"), SubResource("Resource_42"), SubResource("Resource_43"), SubResource("Resource_44"), SubResource("Resource_45"), SubResource("Resource_46"), SubResource("Resource_47"), SubResource("Resource_48"), SubResource("Resource_49"), SubResource("Resource_50"), SubResource("Resource_51"), SubResource("Resource_52"), SubResource("Resource_53"), SubResource("Resource_54"), SubResource("Resource_55"), SubResource("Resource_56"), SubResource("Resource_57"), SubResource("Resource_58"), SubResource("Resource_59"), SubResource("Resource_60"), SubResource("Resource_61"), SubResource("Resource_bxrhv"), SubResource("Resource_lmfq2"), SubResource("Resource_vhbij"), SubResource("Resource_83lmr"), SubResource("Resource_f5dld"), SubResource("Resource_oc7kx"), SubResource("Resource_achk4"), SubResource("Resource_kxq0d"), SubResource("Resource_apg8o")])

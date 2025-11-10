@@ -3,6 +3,8 @@ using Microsoft.Extensions.Logging;
 using NLua;
 using UMCore.Matches.Attacks;
 using UMCore.Matches.Cards;
+using UMCore.Matches.Effects;
+using UMCore.Matches.Fighters;
 using UMCore.Matches.Players;
 using UMCore.Matches.Tokens;
 using UMCore.Templates;
@@ -64,7 +66,7 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
     public bool CheckForWinners()
     {
         // TODO! teams
-        var activePlayers = Players.Where(p => p.GetAliveHeroes().Any()).ToList();
+        var activePlayers = Players.Where(p => p.GetActiveFighters().Any()).ToList();
         if (activePlayers.Count > 1) return false;
 
         Winner = activePlayers[0];
@@ -234,9 +236,10 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
         await Combat.Process();
         if (IsWinnerDetermined()) return;
 
+        player.TurnHistory.RecordAttack(Combat);
+        // await Combat.Winner.ExecuteOnWonCombatEffects();
+        await Combat.GetLoser()!.ExecuteOnLostCombatEffects();
         Combat = null;
-        player.TurnHistory.Attacked(attack.Fighter, attack.Target);
-
         // TODO add combat event
     }
 
@@ -252,7 +255,7 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
             foreach (var e in f.OnFighterDefeatEffects)
             {
                 if (!e.Accepts(fighter)) continue;
-                e.Execute(f, f.Owner);
+                e.Execute();
             }
         }
     }
@@ -273,15 +276,38 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
         return GetAliveFighters().SelectMany(f => f.AfterAttackEffects.Where(e => e.Accepts(fighter)));
     }
 
-    public IEnumerable<FighterPredicateEffect> GetAfterSchemeEffectsFor(Fighter fighter)
+    // public IEnumerable<(Fighter, EffectCollection)> GetAfterSchemeEffectsFor(Fighter fighter)
+    // {
+    //     return GetAliveFighters().SelectMany(f => f.AfterSchemeEffects
+    //         .Where(e => e.AcceptsFighter(f, fighter))
+    //         .Select(e => (f, e))
+    //     );
+    // }
+
+    public IEnumerable<(Fighter, EffectCollection)> GetEffectCollectionThatAccepts(Fighter fighter, Func<Fighter, List<EffectCollection>> extractor)
     {
-        return GetAliveFighters().SelectMany(f => f.AfterSchemeEffects.Where(e => e.Accepts(fighter)));
+        return GetAliveFighters().SelectMany(f => extractor(f)
+            .Where(e => e.AcceptsFighter(f, fighter))
+            .Select(e => (f, e))
+        );
     }
 
     public IEnumerable<ManoeuvreValueModifier> GetManoeuvreValueModifiersFor(Fighter fighter)
     {
         return GetAliveFighters().SelectMany(f => f.ManoeuvreValueMods.Where(e => e.Accepts(fighter)));
     }
+
+    public IEnumerable<CombatResolutionEffect> GetOnLostCombatEffectsFor(Player player)
+    {
+        // TODO this really needs a player predicate if players ever need to order effects
+        return GetAliveFighters().SelectMany(f => f.OnLostCombatEffects);
+    }
+
+    // public IEnumerable<T> GetFighterEffects<T>(Func<Fighter, T> extractor)
+    // {
+    //     return GetAliveFighters().SelectMany(f => f.ManoeuvreValueMods.Where(e => e.Accepts(fighter)));
+
+    // }
 
     public Movement SetCurrentMovement(Movement movement)
     {

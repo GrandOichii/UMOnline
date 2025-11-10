@@ -22,6 +22,12 @@ function UM.Player:EffectOwner()
     end
 end
 
+function UM.Player:Current()
+    return function (args)
+        return GetCurrentPlayer()
+    end
+end
+
 function UM.Player:Opponent()
     return UM.Select:Players()
         :YourOpponent()
@@ -219,6 +225,7 @@ function UM.Build:Fighter()
     result.boostedMovementReplacers = {}
     result.onMoveEffects = {}
     result.manoeuvreDrawAmountModifiers = {}
+    result.onLostCombatEffects = {}
     result.tokens = {}
 
     function result:Build()
@@ -242,9 +249,19 @@ function UM.Build:Fighter()
             AfterMovementEffects = result.afterMovementEffects,
             BoostedMovementReplacers = result.boostedMovementReplacers,
             ManoeuvreDrawAmountModifiers = result.manoeuvreDrawAmountModifiers,
+            OnLostCombatEffects = result.onLostCombatEffects,
             OnMoveEffects = result.onMoveEffects,
         }
         return fighter
+    end
+
+    function result:OnLostCombat(text, ...)
+        result.onLostCombatEffects[#result.onLostCombatEffects+1] = {
+            text = text,
+            effects = {...},
+        }
+
+        return result
     end
 
     function result:ModManoeuvreCardDraw(modFunc)
@@ -1503,6 +1520,12 @@ function UM.Select:Nodes()
     function result:Unoccupied()
         return result:_Add(function (args, node)
             return IsUnoccupied(node)
+        end)
+    end
+
+    function result:NotInZone(zone)
+        return result:_Add(function (args, node)
+            return not IsInZone(node, { [1] = zone })
         end)
     end
 

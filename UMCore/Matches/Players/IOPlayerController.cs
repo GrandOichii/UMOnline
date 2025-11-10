@@ -300,7 +300,7 @@ public class IOPlayerController : IPlayerController
     {
         MapNode[] nodes = [.. options.Select(p => p.Nodes.Last()).ToHashSet()];
 
-        var target = await ChooseNode(player, nodes, $"{hint} (path will be chosen at random)");
+        var target = await ChooseNode(player, nodes, hint);
         var path = options.First(p => p.Nodes.Last() == target);
         return path;
 

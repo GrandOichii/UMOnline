@@ -75,6 +75,13 @@
         "GetDeck",
         "GetAttacker",
         "FighterAttackedThisTurn",
-        "IsWinnerDetermined"
+        "IsWinnerDetermined",
+        "GetCurrentPlayer",
+        "GetLostCounter",
+        "SetMaxHealth",
+        "SetHealth",
+        "RemoveFighterFromBoard",
+        "AddAtTheStartOfNextTurnEffect",
+        "ShuffleDiscardIntoDeck"
     ]
 }
