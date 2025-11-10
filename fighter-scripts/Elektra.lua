@@ -39,7 +39,6 @@ function _Create()
                     AddAtTheStartOfNextTurnEffect(
                         args.owner,
                         args.fighter,
-                        args.owner,
                         {
                             text = 'At the start of your next turn, Resurrect Elektra',
                             effects = {

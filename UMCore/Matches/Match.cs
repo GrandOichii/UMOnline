@@ -271,11 +271,6 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
         }
     }
 
-    public IEnumerable<FighterPredicateEffect> GetAfterAttackEffectsFor(Fighter fighter)
-    {
-        return GetAliveFighters().SelectMany(f => f.AfterAttackEffects.Where(e => e.Accepts(fighter)));
-    }
-
     // public IEnumerable<(Fighter, EffectCollection)> GetAfterSchemeEffectsFor(Fighter fighter)
     // {
     //     return GetAliveFighters().SelectMany(f => f.AfterSchemeEffects
@@ -345,12 +340,12 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
         var fighter = CurrentMovement.Fighter;
 
         var fighters = GetAliveFighters();
-        var effects = fighters.SelectMany(f => f.AfterMovementEffects.Where(e => e.Accepts(fighter)));
+        var effects = GetEffectCollectionThatAccepts(fighter, f => f.AfterMovementEffects);
         // TODO order effects
 
-        foreach (var e in effects)
+        foreach (var (source, effect) in effects)
         {
-            e.Execute();
+            effect.Execute(source, new(fighter));
         }
     }
     

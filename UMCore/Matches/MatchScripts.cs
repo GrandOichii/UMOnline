@@ -657,9 +657,9 @@ public class MatchScripts
     }
 
     [LuaCommand]
-    public void AddAtTheStartOfNextTurnEffect(Player player, Fighter effectSource, Player effectOwner, LuaTable effects)
+    public void AddAtTheStartOfNextTurnEffect(Player player, Fighter effectSource, LuaTable effects)
     {
-        player.AtTheStartOfTurnTemporaryEffects.Add((effectSource, effectOwner, new(effects)));
+        player.AtTheStartOfTurnTemporaryEffects.Add((effectSource, new(effects)));
     }
 
     [LuaCommand]

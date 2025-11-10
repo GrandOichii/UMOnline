@@ -42,7 +42,7 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
     public LoadoutTemplate Loadout { get; }
     public Attributes Attributes { get; }
     public TurnHistory TurnHistory { get; }
-    public List<(Fighter effectSource, Player effectOwner, EffectCollection effects)> AtTheStartOfTurnTemporaryEffects { get; }
+    public List<(Fighter effectSource, EffectCollection effects)> AtTheStartOfTurnTemporaryEffects { get; }
 
 
     public int ActionCount { get; set; }
@@ -182,9 +182,9 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
         
         // execute "at the start of ___ next turn, ..."
         // TODO order effects
-        foreach (var (effectSource, effectOwner, effect) in AtTheStartOfTurnTemporaryEffects)
+        foreach (var (effectSource, effect) in AtTheStartOfTurnTemporaryEffects)
         {
-            effect.Execute(effectSource, effectOwner);
+            effect.Execute(effectSource);
         }
     }
 
@@ -278,7 +278,7 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
 
         foreach (var (effect, fighter) in effects)
         {
-            effect.Execute(fighter, this);
+            effect.Execute(fighter);
         }
 
         await Match.UpdateClients();
@@ -451,11 +451,11 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
 
     public async Task ExecuteAfterAttackEffects(Fighter fighter)
     {
-        var onAttackEffects = Match.GetAfterAttackEffectsFor(fighter);
-        foreach (var e in onAttackEffects)
+        var onAttackEffects = Match.GetEffectCollectionThatAccepts(fighter, f => f.AfterAttackEffects);
+        foreach (var (source, effect) in onAttackEffects)
         {
             // e.Execute(fighter, this);
-            e.Execute();
+            effect.Execute(source); // TODO add fighter?
         }
     }
 

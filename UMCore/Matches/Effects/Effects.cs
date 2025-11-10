@@ -5,6 +5,22 @@ using UMCore.Utility;
 
 namespace UMCore.Matches.Effects;
 
+public class EffectCollectionSubjects
+{
+    public Fighter? Fighter { get; }
+    public Player? Player { get; }
+
+    public EffectCollectionSubjects(Fighter? fighter, Player? player)
+    {
+        Fighter = fighter;
+        Player = player;
+    }
+
+    public EffectCollectionSubjects() : this(null, null) { }
+    public EffectCollectionSubjects(Fighter fighter) : this(fighter, null) { }
+    public EffectCollectionSubjects(Player player) : this(null, player) { }
+}
+
 public class EffectCollection : IHasText
 {
     public string Text { get; }
@@ -50,6 +66,14 @@ public class EffectCollection : IHasText
         return Text;
     }
 
+    public void Execute(Fighter source, EffectCollectionSubjects subjects)
+    {
+        var args = MatchScripts.CreateArgs(source, source.Owner);
+        foreach (var effect in Effects)
+        {
+            effect.Execute(args, subjects);
+        }
+    }
 
     private void Execute(LuaTable? args)
     {
@@ -64,10 +88,10 @@ public class EffectCollection : IHasText
         Execute(MatchScripts.CreateArgs(fighter, fighter.Owner));
     }
 
-    public void Execute(Fighter fighter, Player owner)
-    {
-        Execute(MatchScripts.CreateArgs(fighter, owner));
-    }
+    // public void Execute(Fighter fighter, Player owner)
+    // {
+    //     Execute(MatchScripts.CreateArgs(fighter, owner));
+    // }
 
     public void Execute(Fighter fighter, Player owner, PlacedToken token)
     {

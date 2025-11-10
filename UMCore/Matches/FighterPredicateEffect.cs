@@ -14,7 +14,7 @@ public class FighterPredicateEffect(Fighter fighter, LuaTable table) : IHasText
 
     public void Execute()
     {
-        _effects.Execute(_fighter, _fighter.Owner);
+        _effects.Execute(_fighter);
     }
 
     public bool Accepts(Fighter fighter)

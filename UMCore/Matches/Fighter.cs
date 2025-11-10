@@ -29,7 +29,7 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
     public List<EffectCollection> WhenPlacedEffects { get; }
     public List<ManoeuvreValueModifier> ManoeuvreValueMods { get; }
     public List<FighterPredicateEffect> OnAttackEffects { get; }
-    public List<FighterPredicateEffect> AfterAttackEffects { get; }
+    public List<EffectCollection> AfterAttackEffects { get; }
     public List<EffectCollection> AfterSchemeEffects { get; }
     public List<EffectCollection> GameStartEffects { get; }
     public List<MovementNodeConnection> MovementNodeConnections { get; }
@@ -39,7 +39,7 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
     public List<FighterPredicateEffect> OnFighterDefeatEffects { get; }
     public CombatStepEffectsCollection CombatStepEffects { get; }
     public List<DamageModifier> DamageModifiers { get; }
-    public List<FighterPredicateEffect> AfterMovementEffects { get; }
+    public List<EffectCollection> AfterMovementEffects { get; }
     public List<BoostedMovementReplacer> BoostedMovementReplacers { get; }
     public List<OnMoveEffect> OnMoveEffects { get; }
     public List<ManoeuvreDrawAmountModifier> ManoeuvreDrawAmountModifiers { get; }
@@ -175,11 +175,7 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
             )
         ];
 
-        WhenPlacedEffects = [ ..ExtractTableList(this, data, "WhenPlacedEffects")
-            .Select(t =>
-                new EffectCollection(t)
-            )
-        ];
+        WhenPlacedEffects = ExtractEffectCollectionList(this, data, "WhenPlacedEffects");
 
         ManoeuvreValueMods = [ ..ExtractTableList(this, data, "ManoeuvreValueMods")
             .Select(t =>
@@ -193,31 +189,11 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
             )
         ];
 
-        AfterAttackEffects = ExtractFighterPredicateEffects(this, data, "AfterAttackEffects");
-        // AfterSchemeEffects = ExtractFighterPredicateEffects(this, data, "AfterSchemeEffects");
+        AfterAttackEffects = ExtractEffectCollectionList(this, data, "AfterAttackEffects");
         AfterSchemeEffects = ExtractEffectCollectionList(this, data, "AfterSchemeEffects");
 
-        // tokens
-        try
-        {
-            var tokenDeclarations = LuaUtility.TableGet<LuaTable>(data, "Tokens");
-            foreach (string tokenName in tokenDeclarations.Keys)
-            {
-                var table = tokenDeclarations[tokenName] as LuaTable;
-                // TODO check for null
-                Match.Tokens.Declare(tokenName, this, table!);
-            }
-        }
-        catch (Exception e)
-        {
-            throw new MatchException($"Failed to get token declarations for fighter {template.Name}", e);
-        }
 
-        GameStartEffects = [ ..ExtractTableList(this, data, "GameStartEffects")
-            .Select(t =>
-                new EffectCollection(t)
-            )
-        ];
+        GameStartEffects = ExtractEffectCollectionList(this, data, "GameStartEffects");
 
         MovementNodeConnections = [ ..ExtractFunctionList(this, data, "MovementNodeConnections")
             .Select(f =>
@@ -231,17 +207,8 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
             )
         ];
 
-        OnManoeuvreEffects = [ ..ExtractTableList(this, data, "OnManoeuvreEffects")
-            .Select(t =>
-                new EffectCollection(t)
-            )
-        ];
-
-        OnDamageEffects = [ ..ExtractTableList(this, data, "OnDamageEffects")
-            .Select(t =>
-                new EffectCollection(t)
-            )
-        ];
+        OnManoeuvreEffects = ExtractEffectCollectionList(this, data, "OnManoeuvreEffects");
+        OnDamageEffects = ExtractEffectCollectionList(this, data, "OnDamageEffects");
 
         OnFighterDefeatEffects = [ ..ExtractTableList(this, data, "OnFighterDefeatEffects")
             .Select(t =>
@@ -258,15 +225,14 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
         {
             throw new MatchException($"Failed to get combat step effects for fighter {Name}", e);
         }
-        
+
         DamageModifiers = [ ..ExtractFunctionList(this, data, "DamageModifiers")
             .Select(f =>
                 new DamageModifier(this, f)
             )
         ];
 
-    
-        AfterMovementEffects = ExtractFighterPredicateEffects(this, data, "AfterMovementEffects");
+        AfterMovementEffects = ExtractEffectCollectionList(this, data, "AfterMovementEffects");
 
         BoostedMovementReplacers = [ ..ExtractFunctionList(this, data, "BoostedMovementReplacers")
             .Select(f =>
@@ -291,13 +257,31 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
                 new CombatResolutionEffect(this, f)
             )
         ];
+
+        // tokens
+        try
+        {
+            var tokenDeclarations = LuaUtility.TableGet<LuaTable>(data, "Tokens");
+            foreach (string tokenName in tokenDeclarations.Keys)
+            {
+                var table = tokenDeclarations[tokenName] as LuaTable;
+                // TODO check for null
+                Match.Tokens.Declare(tokenName, this, table!);
+            }
+        }
+        catch (Exception e)
+        {
+            throw new MatchException($"Failed to get token declarations for fighter {template.Name}", e);
+        }
+
+
     }
     
     public void ExecuteGameStartEffects()
     {
         foreach (var effect in GameStartEffects)
         {
-            effect.Execute(this, Owner);
+            effect.Execute(this);
         }
     }
 
@@ -305,7 +289,7 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
     {
         foreach (var effect in WhenPlacedEffects)
         {
-            effect.Execute(this, Owner);
+            effect.Execute(this);
         }
     }
 
@@ -448,7 +432,7 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
         List<EffectCollection> effects = [.. OnManoeuvreEffects];
         // TODO order effects
         foreach (var effect in effects)
-            effect.Execute(this, Owner);
+            effect.Execute(this);
     }
 
     public async Task ExecuteOnDamageEffects()
@@ -456,7 +440,7 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
         List<EffectCollection> effects = [.. OnDamageEffects];
         // TODO order effects
         foreach (var effect in effects)
-            effect.Execute(this, Owner);
+            effect.Execute(this);
     }
 
     public async Task Defend()
