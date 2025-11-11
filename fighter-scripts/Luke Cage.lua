@@ -9,7 +9,7 @@ function _Create()
                 if not isCombatDamage then
                     return damage
                 end
-                if not UM.Select:Fighters():Named('Luke Cage'):BuildPredicate()(args, fighter) then
+                if not UM.Select:Fighters():Named('Luke Cage'):BuildContains()(args, fighter) then
                     return damage
                 end
                 return damage - 2

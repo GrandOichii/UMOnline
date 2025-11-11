@@ -32,6 +32,6 @@ public class CombatStepEffectsCollection
             return;
         }
 
-        effects.Execute(by);
+        effects.Execute(new(by), new());
     }
 }

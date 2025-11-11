@@ -182,9 +182,9 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
         
         // execute "at the start of ___ next turn, ..."
         // TODO order effects
-        foreach (var (effectSource, effect) in AtTheStartOfTurnTemporaryEffects)
+        foreach (var (source, effect) in AtTheStartOfTurnTemporaryEffects)
         {
-            effect.Execute(effectSource);
+            effect.Execute(new(source), new());
         }
     }
 
@@ -278,7 +278,7 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
 
         foreach (var (effect, fighter) in effects)
         {
-            effect.Execute(fighter);
+            effect.Execute(new(fighter), new());
         }
 
         await Match.UpdateClients();
@@ -441,21 +441,21 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
 
     public async Task ExecuteOnAttackEffects(Fighter fighter)
     {
-        var onAttackEffects = Match.GetEffectCollectionThatAccepts(fighter, f => f.OnAttackEffects);
+        var onAttackEffects = Match.GetEffectCollectionThatAccepts(new(fighter), f => f.OnAttackEffects);
         // TODO order effects
         foreach (var (source, effect) in onAttackEffects)
         {
-            effect.Execute(source, new(fighter));
+            effect.Execute(new(source), new(fighter));
         }
     }
 
     public async Task ExecuteAfterAttackEffects(Fighter fighter)
     {
-        var onAttackEffects = Match.GetEffectCollectionThatAccepts(fighter, f => f.AfterAttackEffects);
+        var onAttackEffects = Match.GetEffectCollectionThatAccepts(new(fighter), f => f.AfterAttackEffects);
         foreach (var (source, effect) in onAttackEffects)
         {
             // e.Execute(fighter, this);
-            effect.Execute(source); // TODO add fighter?
+            effect.Execute(new(source), new(fighter));
         }
     }
 

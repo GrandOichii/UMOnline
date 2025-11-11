@@ -6,20 +6,15 @@ function _Create()
             function (args, subjects)
                 local player = subjects.player
                 if player ~= args.owner then
-                    DEBUG('NOT OWNER')
                     return
                 end
 
                 if UM.Player:Current()(args) ~= player then
-                    DEBUG('NOT CURRENT')
-
                     return
                 end
 
                 local lostCounter = GetLostCounter(args.owner)
                 if lostCounter > 1 then
-                    DEBUG('BAD LOST COUNTER '..tostring(lostCounter))
-
                     return
                 end
 

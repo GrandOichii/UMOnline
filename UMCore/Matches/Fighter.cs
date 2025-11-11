@@ -26,7 +26,7 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
 
     public string FormattedLogName => $"[{Id}:{GetName()}]";
 
-    public List<CardValueModifier> CardValueModifiers { get; }
+    public List<EffectCollection> CardValueModifiers { get; }
     public List<EffectCollection> WhenPlacedEffects { get; }
     public List<ManoeuvreValueModifier> ManoeuvreValueMods { get; }
     public List<EffectCollection> OnAttackEffects { get; }
@@ -150,11 +150,7 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
             throw new MatchException($"Failed to get turn step effects for fighter {template.Name}", e);
         }
 
-        CardValueModifiers = [ ..ExtractFunctionList(this, data, "CardValueModifiers")
-            .Select(f =>
-                new CardValueModifier(this, new(f))
-            )
-        ];
+        CardValueModifiers = ExtractEffectCollectionList(this, data, "CardValueModifiers");
 
         WhenPlacedEffects = ExtractEffectCollectionList(this, data, "WhenPlacedEffects");
 
@@ -252,7 +248,7 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
     {
         foreach (var effect in GameStartEffects)
         {
-            effect.Execute(this);
+            effect.Execute(new(this), new());
         }
     }
 
@@ -260,7 +256,7 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
     {
         foreach (var effect in WhenPlacedEffects)
         {
-            effect.Execute(this);
+            effect.Execute(new(this), new());
         }
     }
 
@@ -403,7 +399,7 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
         List<EffectCollection> effects = [.. OnManoeuvreEffects];
         // TODO order effects
         foreach (var effect in effects)
-            effect.Execute(this);
+            effect.Execute(new(this), new());
     }
 
     public async Task ExecuteOnDamageEffects()
@@ -411,7 +407,7 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
         List<EffectCollection> effects = [.. OnDamageEffects];
         // TODO order effects
         foreach (var effect in effects)
-            effect.Execute(this);
+            effect.Execute(new(this), new());
     }
 
     public async Task Defend()

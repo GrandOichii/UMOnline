@@ -17,7 +17,9 @@ function _Create()
                 DEBUG('TRUE')
                 return true
             end,
-            UM.Select:Players():BuildPredicate()
+            function (_)
+                return true
+            end
         )
     :Build()
 end

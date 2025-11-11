@@ -18,7 +18,7 @@ public class MatchConfig
         RandomMatch = false, // true
         Seed = 2,
         ActionsPerTurn = 2,
-        InitialHandSize = 20,
+        InitialHandSize = 5,
         ManoeuvreDrawAmount = 1,
         MaxHandSize = 7,
         FirstPlayerIdx = 0, // -1

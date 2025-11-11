@@ -32,8 +32,8 @@ function _Create()
             )
         )
         :ConnectNodesForMovement(
-            UM.Select:Fighters():Named('Invisible Man'):BuildPredicate(),
-            UM.Select:Nodes():WithToken('Fog'):BuildPredicate(),
+            UM.Select:Fighters():Named('Invisible Man'):BuildContains(),
+            UM.Select:Nodes():WithToken('Fog'):BuildContains(),
             UM.Select:Nodes():WithToken('Fog'):Build()
         )
     :Build()

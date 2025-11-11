@@ -17,7 +17,7 @@ function _Create()
     return UM.Build:Fighter()
         :ModManoeuvreValue(
             UM.Select:Fighters():AllYour():BuildPredicate(),
-            function (args, original)
+            function (args, subjects, original)
                 -- TODO too low-level
                 return original + UM.Select:CardsInDiscardPile(UM.Player:EffectOwner())
                     :WithLabel('voyage')

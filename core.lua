@@ -84,27 +84,74 @@ function UM.Token:Source()
     end
 end
 
--- Card creation
+-- Builders
 
 UM.Build = {}
+
+-- Effect collection
+
+function UM.Build:EffectCollection()
+    local result = {}
+
+    result.text = ''
+    result.effects = {}
+    result.conds = {}
+
+    function result:Build()
+        return {
+            text = result.text,
+            effects = result.effects,
+            cond = function (args, subjects)
+                for _, check in ipairs(result.conds) do
+                    if not check(args, subjects) then
+                        return false
+                    end
+                end
+                return true
+            end
+        }
+    end
+
+    function result:AddCond(cond)
+        result.conds[#result.conds+1] = cond
+
+        return result
+    end
+
+    function result:SourceIsAlive()
+        return result:AddCond(function (args)
+            return IsAlive(args.fighter)
+        end)
+    end
+
+    function result:Text(text)
+        result.text = text
+
+        return result
+    end
+
+    function result:Effects(effects)
+        result.effects = effects
+
+        return result
+    end
+
+    return result
+end
+
+-- Card creation
 
 function UM.Build:_WithCombatSteps()
     local result = {}
 
     result.combatStepEffects = {}
 
-    local isAliveCond = function ()
-        return function (args)
-            return IsAlive(args.fighter)
-        end
-    end
-
     function result:CombatStepEffect(step, text, ...)
-        result.combatStepEffects[step] = {
-            text = text,
-            cond = isAliveCond(),
-            effects = {...}
-        }
+        result.combatStepEffects[step] = UM.Build:EffectCollection()
+            :Text(text)
+            :SourceIsAlive()
+            :Effects({...})
+            :Build()
 
         return result
     end
@@ -127,24 +174,15 @@ end
 function UM.Build:Card()
     local result = UM.Build:_WithCombatSteps()
 
-    result.scheme = {
-        text = '',
-        cond = function (args)
-            return IsAlive(args.fighter)
-        end,
-        effects = {},
-    }
+    result.scheme = UM.Build:EffectCollection()
+        :SourceIsAlive()
+
     result.schemeRequirements = {}
 
     function result:Effect(text, ...)
-        local effects = {...}
-
-        result.scheme.text = text
-        result.scheme.effects = {}
-
-        for _, v in ipairs(effects) do
-            result.scheme.effects[#result.scheme.effects+1] = v
-        end
+        result.scheme = result.scheme
+            :Text(text)
+            :Effects({...})
 
         return result
     end
@@ -160,7 +198,7 @@ function UM.Build:Card()
 
     function result:Build()
         return {
-            Scheme = result.scheme,
+            Scheme = result.scheme:Build(),
             SchemeRequirements = result.schemeRequirements,
             CombatStepEffects = result.combatStepEffects,
         }
@@ -178,12 +216,6 @@ function UM.Build:Token()
     result.whenReturnedToBox = {}
     result.onStepEffects = {}
 
-    local isAliveCond = function ()
-        return function (args)
-            return IsAlive(args.fighter)
-        end
-    end
-
     function result:Build()
         return {
             Amount = result.amount,
@@ -199,21 +231,23 @@ function UM.Build:Token()
     end
 
     function result:WhenReturnedToBox(text, ...)
-        result.whenReturnedToBox[#result.whenReturnedToBox+1] = {
-            text = text,
-            cond = isAliveCond(),
-            effects = {...}
-        }
+        result.whenReturnedToBox[#result.whenReturnedToBox+1] = UM.Build:EffectCollection()
+            :SourceIsAlive()
+            :Text(text)
+            :Effects({...})
+            :Build()
+
         return result
     end
 
     function result:OnStep(text, fighterPredFunc, ...)
-        result.onStepEffects[#result.onStepEffects+1] = {
-            text = text,
-            fighterPred = fighterPredFunc,
-            cond = isAliveCond(),
-            effects = {...}
-        }
+        result.onStepEffects[#result.onStepEffects+1] = UM.Build:EffectCollection()
+            :SourceIsAlive()
+            :Text(text)
+            :Effects({...})
+            :AddCond(fighterPredFunc)
+            :Build()
+
         return result
     end
 
@@ -246,12 +280,6 @@ function UM.Build:Fighter()
     result.onLostCombatEffects = {}
     result.tokens = {}
 
-    local isAliveCond = function ()
-        return function (args)
-            return IsAlive(args.fighter)
-        end
-    end
-
     function result:Build()
         local fighter = {
             TurnPhaseEffects = result.turnPhaseEffects,
@@ -280,11 +308,11 @@ function UM.Build:Fighter()
     end
 
     function result:OnLostCombat(text, ...)
-        result.onLostCombatEffects[#result.onLostCombatEffects+1] = {
-            text = text,
-            cond = isAliveCond(),
-            effects = {...},
-        }
+        result.onLostCombatEffects[#result.onLostCombatEffects+1] = UM.Build:EffectCollection()
+            :SourceIsAlive()
+            :Text(text)
+            :Effects({...})
+            :Build()
 
         return result
     end
@@ -297,7 +325,7 @@ function UM.Build:Fighter()
 
     function result:OnMove(text, effectFunc)
         result.onMoveEffects[#result.onMoveEffects+1] = {
-            cond = isAliveCond(),
+            -- cond = isAliveCond(),
             text = text,
             effect = effectFunc,
         }
@@ -312,34 +340,35 @@ function UM.Build:Fighter()
     end
 
     function result:AfterMove(text, fighterPredFunc, ...)
-        result.afterMovementEffects[#result.afterMovementEffects+1] = {
-            cond = isAliveCond(),
-            text = text,
-            fighterPred = fighterPredFunc,
-            effects = {...}
-        }
+        result.afterMovementEffects[#result.afterMovementEffects+1] = UM.Build:EffectCollection()
+            :SourceIsAlive()
+            :Text(text)
+            :Effects({...})
+            :AddCond(fighterPredFunc)
+            :Build()
+
         return result
     end
 
     function result:OnFighterDefeat(text, fighterPredFunc, ...)
-        result.onFighterDefeatEffects[#result.onFighterDefeatEffects+1] = {
-            text = text,
-            fighterPred = fighterPredFunc,
-            cond = isAliveCond(),
-            effects = {...}
-        }
+        result.onFighterDefeatEffects[#result.onFighterDefeatEffects+1] = UM.Build:EffectCollection()
+            :SourceIsAlive()
+            :Text(text)
+            :Effects({...})
+            :AddCond(fighterPredFunc)
+            :Build()
+
         return result
     end
 
+    -- TODO rename
     function result:OnFighterDefeatUngated(text, fighterPredFunc, ...)
-        result.onFighterDefeatEffects[#result.onFighterDefeatEffects+1] = {
-            text = text,
-            fighterPred = fighterPredFunc,
-            cond = function (args)
-                return true
-            end,
-            effects = {...}
-        }
+        result.onFighterDefeatEffects[#result.onFighterDefeatEffects+1] = UM.Build:EffectCollection()
+            :Text(text)
+            :Effects({...})
+            :AddCond(fighterPredFunc)
+            :Build()
+
         return result
     end
 
@@ -370,32 +399,35 @@ function UM.Build:Fighter()
     end
 
     function result:OnAttack(text, fighterPredFunc, ...)
-        result.onAttackEffects[#result.onAttackEffects+1] = {
-            text = text,
-            fighterPred = fighterPredFunc,
-            cond = isAliveCond(),
-            effects = {...}
-        }
+        result.onAttackEffects[#result.onAttackEffects+1] = UM.Build:EffectCollection()
+            :SourceIsAlive()
+            :Text(text)
+            :Effects({...})
+            :AddCond(fighterPredFunc)
+            :Build()
+
         return result
     end
 
     function result:AfterAttack(text, fighterPredFunc, ...)
-        result.afterAttackEffects[#result.afterAttackEffects+1] = {
-            text = text,
-            cond = isAliveCond(),
-            fighterPred = fighterPredFunc,
-            effects = {...}
-        }
+        result.afterAttackEffects[#result.afterAttackEffects+1] = UM.Build:EffectCollection()
+            :SourceIsAlive()
+            :Text(text)
+            :Effects({...})
+            :AddCond(fighterPredFunc)
+            :Build()
+
         return result
     end
 
     function result:AfterScheme(text, fighterPredFunc, ...)
-        result.afterSchemeEffects[#result.afterSchemeEffects+1] = {
-            text = text,
-            cond = isAliveCond(),
-            fighterPred = fighterPredFunc,
-            effects = {...}
-        }
+        result.afterSchemeEffects[#result.afterSchemeEffects+1] = UM.Build:EffectCollection()
+            :SourceIsAlive()
+            :Text(text)
+            :Effects({...})
+            :AddCond(fighterPredFunc)
+            :Build()
+            
         return result
     end
 
@@ -408,20 +440,15 @@ function UM.Build:Fighter()
     end
 
     function result:ModCardValue(fighterPredFunc, modFunc, modCondition)
-        modCondition = modCondition or function (...)
-            return true
-        end
-
-        result.cardValueModifiers[#result.cardValueModifiers+1] = function (args, combatCard, resultValue)
-            if not fighterPredFunc(args, combatCard.Fighter) then
-                return resultValue
-            end
-
-            if not modCondition(args) then
-                return resultValue
-            end
-            return modFunc(args, combatCard, resultValue)
-        end
+        result.cardValueModifiers[#result.cardValueModifiers+1] = UM.Build:EffectCollection()
+            :SourceIsAlive()
+            :Text('TODO')
+            :Effects({
+                [1] = modFunc
+            })
+            :AddCond(fighterPredFunc)
+            :AddCond(modCondition)
+            :Build()
 
         return result
     end
@@ -448,30 +475,30 @@ function UM.Build:Fighter()
     end
 
     function result:WhenPlaced(text, ...)
-        result.whenPlaced[#result.whenPlaced+1] = {
-            cond = isAliveCond(),
-            text = text,
-            effects = {...}
-        }
+        result.whenPlaced[#result.whenPlaced+1] = UM.Build:EffectCollection()
+            :SourceIsAlive()
+            :Text(text)
+            :Effects({...})
+            :Build()
         return result
     end
 
     function result:AtTheStartOfTheGame(text, ...)
-        result.gameStartEffects[#result.gameStartEffects+1] = {
-            text = text,
-            cond = isAliveCond(),
-            effects = {...}
-        }
+        result.gameStartEffects[#result.gameStartEffects+1] = UM.Build:EffectCollection()
+            :SourceIsAlive()
+            :Text(text)
+            :Effects({...})
+            :Build()
 
         return result
     end
 
     function result:AddTurnPhaseEffects(step, text, effects)
-        result.turnPhaseEffects[step] = {
-            text = text,
-            cond = isAliveCond(),
-            effects = effects
-        }
+        result.turnPhaseEffects[step] = UM.Build:EffectCollection()
+            :SourceIsAlive()
+            :Text(text)
+            :Effects(effects)
+            :Build()
 
         return result
     end
@@ -486,21 +513,23 @@ function UM.Build:Fighter()
 
     -- TODO add fighter predicate
     function result:OnManoeuvre(text, ...)
-        result.onManoeuvreEffects[#result.onManoeuvreEffects+1] = {
-            text = text,
-            cond = isAliveCond(),
-            effects = {...}
-        }
+        result.onManoeuvreEffects[#result.onManoeuvreEffects+1] = UM.Build:EffectCollection()
+            :SourceIsAlive()
+            :Text(text)
+            :Effects({...})
+            :Build()
+
         return result
     end
 
     -- TODO add fighter predicate
     function result:OnDamage(text, ...)
-        result.onDamageEffects[#result.onDamageEffects+1] = {
-            text = text,
-            cond = isAliveCond(),
-            effects = {...}
-        }
+        result.onDamageEffects[#result.onDamageEffects+1] = UM.Build:EffectCollection()
+            :SourceIsAlive()
+            :Text(text)
+            :Effects({...})
+            :Build()
+
         return result
     end
 
@@ -910,12 +939,12 @@ UM.Mod = {}
 UM.Mod.Cards = {}
 
 function UM.Mod.Cards:_(numeric, boostsAttackCards, boostsDefenseCards)
-    return function (args, combatCard, result)
+    return function (args, subjects, result)
         local amount = numeric:Last(args)
-        if not boostsAttackCards and not combatCard.IsDefence then
+        if not boostsAttackCards and not subjects.combatPart.IsDefence then
             return result
         end
-        if not boostsDefenseCards and combatCard.IsDefence then
+        if not boostsDefenseCards and subjects.combatPart.IsDefence then
             return result
         end
         return result + amount
@@ -1223,7 +1252,7 @@ end
 
 UM.Select = {}
 
-function UM.Select:_Base(getAllFunc, chooseSingleFunc)
+function UM.Select:_Base(subjectKey, getAllFunc, chooseSingleFunc)
     local result = {}
 
     result.filters = {}
@@ -1293,6 +1322,18 @@ function UM.Select:_Base(getAllFunc, chooseSingleFunc)
     end
 
     function result:BuildPredicate()
+        return function (args, subjects)
+            local fighters = result:_Select(args)
+            for _, v in ipairs(fighters) do
+                if v == subjects[subjectKey] then
+                    return true
+                end
+            end
+            return false
+        end
+    end
+
+    function result:BuildContains()
         return function (args, obj)
             local fighters = result:_Select(args)
             for _, v in ipairs(fighters) do
@@ -1389,7 +1430,7 @@ function UM.Select:CardsInDiscardPile(ofPlayer)
 end
 
 function UM.Select:Fighters()
-    local result = UM.Select:_Base(GetFighters, ChooseFighter)
+    local result = UM.Select:_Base('fighter', GetFighters, ChooseFighter)
 
     function result:OwnedBy(playerFunc)
         return result:_Add(function (args, fighter)
@@ -1521,7 +1562,7 @@ function UM.Select:Fighters()
 end
 
 function UM.Select:Players()
-    local result = UM.Select:_Base(GetPlayers, ChoosePlayer)
+    local result = UM.Select:_Base('player', GetPlayers, ChoosePlayer)
 
     result.filters = {}
     result.single = false
@@ -1564,7 +1605,7 @@ function UM.Select:Players()
 end
 
 function UM.Select:Nodes()
-    local result = UM.Select:_Base(GetNodes, ChooseNode)
+    local result = UM.Select:_Base('node', GetNodes, ChooseNode)
 
     function result:Unoccupied()
         return result:_Add(function (args, node)
@@ -1626,7 +1667,7 @@ function UM.Select:Nodes()
 end
 
 function UM.Select:Tokens()
-    local result = UM.Select:_Base(GetTokens, ChooseToken)
+    local result = UM.Select:_Base('token', GetTokens, ChooseToken)
 
     function result:Only(singleToken)
         return result:_Add(function (args, token)

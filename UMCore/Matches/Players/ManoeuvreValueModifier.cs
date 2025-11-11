@@ -18,11 +18,11 @@ public class ManoeuvreValueModifier
 
     public bool Accepts(Fighter fighter)
     {
-        return _fighterPredicate.ExecuteFighterCheck(_fighter, _fighter.Owner, fighter);
+        return _fighterPredicate.ExecuteCheck(new(_fighter), new(fighter));
     }
 
     public int Modify(int original)
     {
-        return _modFunc.ExecuteReturnModified(_fighter, _fighter.Owner, original);
+        return _modFunc.Modify(new(_fighter), new(), original);
     }
 }

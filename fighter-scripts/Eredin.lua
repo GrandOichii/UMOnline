@@ -8,7 +8,7 @@ function _Create()
         )
         :ModManoeuvreValue(
             UM.Select:Fighters():AllYour():BuildPredicate(),
-            function (args, original)
+            function (args, subjects, original)
                 -- TODO too low-level
                 if not UM.Conditions.CharacterSpecific:EredinEnraged()(args) then
                     return original

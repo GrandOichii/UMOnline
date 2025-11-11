@@ -369,6 +369,12 @@ public class MatchScripts
     }
 
     [LuaCommand]
+    public void DEBUGTABLE(LuaTable table)
+    {
+        Match.Logger?.LogDebug(table.Keys.Count.ToString());
+    }
+
+    [LuaCommand]
     public void LogPublic(string msg)
     {
         Match.Logs.Public(msg);

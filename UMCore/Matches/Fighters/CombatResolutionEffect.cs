@@ -11,6 +11,6 @@ public class CombatResolutionEffect(Fighter fighter, LuaTable data)
 
     public void Execute(Player player)
     {
-        _effects.Execute(_fighter, new(player));
+        _effects.Execute(new(_fighter), new(player));
     }
 }

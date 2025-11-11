@@ -82,6 +82,7 @@
         "SetHealth",
         "RemoveFighterFromBoard",
         "AddAtTheStartOfNextTurnEffect",
-        "ShuffleDiscardIntoDeck"
+        "ShuffleDiscardIntoDeck",
+        "DEBUGTABLE"
     ]
 }

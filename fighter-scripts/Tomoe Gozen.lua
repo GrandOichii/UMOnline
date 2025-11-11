@@ -8,10 +8,8 @@ function _Create()
             function (args, fighter, fromNode, toNode)
                 if not UM.Select:Fighters()
                     :Opposing()
-                    :BuildPredicate()(args, fighter)
+                    :BuildContains()(args, fighter)
                 then
-                    DEBUG('FIRST')
-
                     return
                 end
 
@@ -19,10 +17,8 @@ function _Create()
                     :InZoneOfFighter(
                         UM.Fighter:Named('Tomoe Gozen')
                     )
-                    :BuildPredicate()(args, fromNode)
+                    :BuildContains()(args, fromNode)
                 then
-                    DEBUG('SECOND')
-
                     return
                 end
 
@@ -30,9 +26,8 @@ function _Create()
                     :InZoneOfFighter(
                         UM.Fighter:Named('Tomoe Gozen')
                     )
-                    :BuildPredicate()(args, toNode)
+                    :BuildContains()(args, toNode)
                 then
-                    DEBUG('THIRD')
                     return
                 end
 

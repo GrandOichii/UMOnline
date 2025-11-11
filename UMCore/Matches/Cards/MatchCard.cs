@@ -137,7 +137,7 @@ public class MatchCard : IHasData<MatchCard.Data>
     {
         Owner.Match.Logger?.LogDebug("Executing scheme effects of card {CardLogName} by fighter {FighterLogName}", LogName, by.LogName);
         Owner.Match.Logs.Public($"Player {by.Owner.FormattedLogName} played Scheme card {FormattedLogName}");
-        SchemeEffect.Execute(by);
+        SchemeEffect.Execute(new(by), new());
 
         await Owner.Match.UpdateClients();        
     }

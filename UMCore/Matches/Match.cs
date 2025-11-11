@@ -245,10 +245,10 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
 
     public void ExecuteOnFighterDefeatEffects(Fighter fighter)
     {
-        var effects = GetEffectCollectionThatAccepts(fighter, f => f.OnFighterDefeatEffects);
+        var effects = GetEffectCollectionThatAccepts(new(fighter), f => f.OnFighterDefeatEffects);
         foreach (var (source, effect) in effects)
         {
-            effect.Execute(source, new(fighter));
+            effect.Execute(new(source), new(fighter));
         }
     }
 
@@ -276,10 +276,18 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
         return Players.Where(p => p.GetActiveFighters().Any());
     }
 
-    public IEnumerable<(Fighter, EffectCollection)> GetEffectCollectionThatAccepts(Fighter fighter, Func<Fighter, List<EffectCollection>> extractor)
+    // public IEnumerable<(Fighter, EffectCollection)> GetEffectCollectionThatAccepts(Fighter fighter, Func<Fighter, List<EffectCollection>> extractor)
+    // {
+    //     return Fighters.SelectMany(f => extractor(f)
+    //         .Where(e => e.AcceptsFighter(f, fighter))
+    //         .Select(e => (f, e))
+    //     );
+    // }
+
+    public IEnumerable<(Fighter, EffectCollection)> GetEffectCollectionThatAccepts(EffectCollectionSubjects subjects, Func<Fighter, List<EffectCollection>> extractor)
     {
         return Fighters.SelectMany(f => extractor(f)
-            .Where(e => e.AcceptsFighter(f, fighter))
+            .Where(e => e.ConditionsMet(new(f), subjects))
             .Select(e => (f, e))
         );
     }
@@ -337,12 +345,12 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
         var fighter = CurrentMovement.Fighter;
 
         var fighters = GetAliveFighters();
-        var effects = GetEffectCollectionThatAccepts(fighter, f => f.AfterMovementEffects);
+        var effects = GetEffectCollectionThatAccepts(new(fighter), f => f.AfterMovementEffects);
         // TODO order effects
 
         foreach (var (source, effect) in effects)
         {
-            effect.Execute(source, new(fighter));
+            effect.Execute(new(source), new(fighter));
         }
     }
     

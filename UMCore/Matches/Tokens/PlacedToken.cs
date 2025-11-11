@@ -21,7 +21,7 @@ public class PlacedToken
     public IEnumerable<EffectCollection> GetOnStepEffects(Fighter fighter)
     {
         return Original
-            .OnStepEffects.Where(e => e.AcceptsFighter(Original.Originator, fighter));
+            .OnStepEffects.Where(e => e.ConditionsMet(new(Original.Originator), new(fighter)));
     }
 
     public async Task Remove()
@@ -42,7 +42,7 @@ public class PlacedToken
 
         foreach (var effect in effects)
         {
-            effect.Execute(Original.Originator, new(), this); // TODO? set fighter to null
+            effect.Execute(new(Original.Originator, this), new()); // TODO? set fighter to null
         }
         await Node.Parent.Match.UpdateClients();
     }

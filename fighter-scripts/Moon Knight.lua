@@ -43,7 +43,7 @@ function _Create()
                 if isCombatDamage then
                     return damage
                 end
-                if not UM.Select:Fighters():Named('Khonshu'):BuildPredicate()(args, fighter) then
+                if not UM.Select:Fighters():Named('Khonshu'):BuildContains()(args, fighter) then
                     return damage
                 end
                 return 0

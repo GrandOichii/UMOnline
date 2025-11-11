@@ -16,7 +16,9 @@ function _Create()
         )
         :ForbidCardCancelling(
             isCardOfCharacter('Winter Soldier'),
-            UM.Select:Players():BuildPredicate()
+            function (_)
+                return true
+            end
         )
     :Build()
 end

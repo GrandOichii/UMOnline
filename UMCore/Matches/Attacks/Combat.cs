@@ -25,12 +25,22 @@ public class CombatPart : IHasData<CombatPart.Data>
         Value = (int)card.Template.Value!;
     }
 
+    public async Task ExecuteCombatCardChoiceEffects()
+    {
+        // var effects = Parent.Match.GetEffectCollectionThatAccepts();
+
+        // // TODO order effects
+        // foreach (var (source, effect) in effects)
+        //     effect.Execute(source);
+    }
+
     public void ApplyModifiers()
     {
-        var modifiers = Parent.Match.GetAliveFighters().SelectMany(f => f.CardValueModifiers);
-        foreach (var modifier in modifiers)
+        var subs = new Effects.EffectCollectionSubjects(Fighter, null, this);
+        var modifiers = Parent.Match.GetEffectCollectionThatAccepts(subs, f => f.CardValueModifiers);
+        foreach (var (source, modifier) in modifiers)
         {
-            Value = modifier.Modify(this);
+            Value = modifier.Modify(new(source), subs, Value);
         }
     }
 
@@ -175,6 +185,8 @@ public class Combat : IHasData<Combat.Data>
     {
         await Initiator.Hand.Remove(AttackCard!.Card);
         await Match.UpdateClients();
+
+        await AttackCard.ExecuteCombatCardChoiceEffects();
 
         await Initiator.ExecuteOnAttackEffects(Attacker);
 
