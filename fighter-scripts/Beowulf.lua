@@ -11,6 +11,7 @@ function _Create()
         )
         :OnDamage(
             'When Beowulf is dealt damage, he gains 1 Rage.',
+            UM.Select:Fighters():Named('Beowulf'):BuildPredicate(),
             UM.Effects.CharacterSpecific:AddRage(1)
         )
     :Build()

@@ -529,7 +529,6 @@ function UM.Build:Fighter()
         return fighter:AddTurnPhaseEffects(UM.TurnPhaseTriggers.END, text, {...})
     end
 
-    -- TODO add fighter predicate
     function fighter:OnManoeuvre(text, fighterPred, ...)
         fighter.onManoeuvreEffects[#fighter.onManoeuvreEffects+1] = UM.Build:EffectCollection()
             :SourceIsAlive()
@@ -542,9 +541,10 @@ function UM.Build:Fighter()
     end
 
     -- TODO add fighter predicate
-    function fighter:OnDamage(text, ...)
+    function fighter:OnDamage(text, fighterPred, ...)
         fighter.onDamageEffects[#fighter.onDamageEffects+1] = UM.Build:EffectCollection()
             :SourceIsAlive()
+            :AddCond(fighterPred)
             :Text(text)
             :Effects({...})
             :Build()

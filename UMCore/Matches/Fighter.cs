@@ -342,7 +342,13 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
         // TODO does this go before death or after death
         if (dealt > 0)
         {
-            await ExecuteOnDamageEffects();            
+            // OnDamage effects
+            var effects = Match.GetEffectCollectionThatAccepts(new(this), f => f.OnDamageEffects);
+            // TODO order effects
+            foreach (var (source, effect) in effects)
+            {
+                effect.Execute(new(source), new(this));
+            }
         }
 
         return dealt;
@@ -396,14 +402,6 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
         }
 
         return result;
-    }
-
-    public async Task ExecuteOnDamageEffects()
-    {
-        List<EffectCollection> effects = [.. OnDamageEffects];
-        // TODO order effects
-        foreach (var effect in effects)
-            effect.Execute(new(this), new());
     }
 
     public async Task Defend()

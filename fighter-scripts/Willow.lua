@@ -18,6 +18,7 @@ function _Create()
         )
         :OnDamage(
             'When Willow is dealt damage, Willow becomes Dark Willow',
+            UM.Select:Fighters():Named('Willow'):BuildPredicate(),
             UM.Effects.CharacterSpecific:ToggleDarkWillow(true)
         )
 
