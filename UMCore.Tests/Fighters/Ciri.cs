@@ -54,7 +54,7 @@ public class CiriTests
                 .Build(),
             GetLoadoutBuilder()
                 .ConfigDeck(d => d
-                    .Add(new LoadoutCardTemplateBuilder()
+                    .Add(new CardTemplateBuilder()
                         .Name("sourcecard")
                         .Value(5)
                         .Versatile()
@@ -88,7 +88,7 @@ public class CiriTests
                 .AddFighter(new FighterTemplateBuilder("Foo", "Foo")
                 .Build())
                 .ConfigDeck(d => d
-                    .Add(new LoadoutCardTemplateBuilder()
+                    .Add(new CardTemplateBuilder()
                         .Feint()
                         .Versatile()
                         .Value(3)

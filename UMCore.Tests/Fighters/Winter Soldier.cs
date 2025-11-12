@@ -92,7 +92,7 @@ public class WinterSoldierTests
                 .Build(),
             GetLoadoutBuilder()
                 .ConfigDeck(d => d
-                    .Add(new LoadoutCardTemplateBuilder()
+                    .Add(new CardTemplateBuilder()
                         .Value(5)
                         .Versatile()
                         .CanBePlayedByAny()
@@ -183,7 +183,7 @@ public class WinterSoldierTests
                 .Build(),
             GetLoadoutBuilder()
                 .ConfigDeck(d => d
-                    .Add(new LoadoutCardTemplateBuilder()
+                    .Add(new CardTemplateBuilder()
                         .Value(5)
                         .Versatile()
                         .CanBePlayedBy("Winter Soldier")
@@ -273,7 +273,7 @@ public class WinterSoldierTests
                 .Build(),
             GetLoadoutBuilder()
                 .ConfigDeck(d => d
-                    .Add(new LoadoutCardTemplateBuilder()
+                    .Add(new CardTemplateBuilder()
                         .Value(5)
                         .Versatile()
                         .CanBePlayedByAny()
@@ -305,7 +305,7 @@ public class WinterSoldierTests
                 .AddFighter(new FighterTemplateBuilder("Foo", "Foo")
                 .Build())
                 .ConfigDeck(d => d
-                    .Add(new LoadoutCardTemplateBuilder()
+                    .Add(new CardTemplateBuilder()
                         .Feint()
                         .Versatile()
                         .Value(3)
@@ -369,7 +369,7 @@ public class WinterSoldierTests
                 .Build(),
             GetLoadoutBuilder()
                 .ConfigDeck(d => d
-                    .Add(new LoadoutCardTemplateBuilder()
+                    .Add(new CardTemplateBuilder()
                         .Value(5)
                         .Versatile()
                         .CanBePlayedBy("Winter Soldier")
@@ -401,7 +401,7 @@ public class WinterSoldierTests
                 .AddFighter(new FighterTemplateBuilder("Foo", "Foo")
                 .Build())
                 .ConfigDeck(d => d
-                    .Add(new LoadoutCardTemplateBuilder()
+                    .Add(new CardTemplateBuilder()
                         .Feint()
                         .Versatile()
                         .Value(3)

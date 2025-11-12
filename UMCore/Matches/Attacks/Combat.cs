@@ -27,11 +27,11 @@ public class CombatPart : IHasData<CombatPart.Data>
 
     public async Task ExecuteCombatCardChoiceEffects()
     {
-        // var effects = Parent.Match.GetEffectCollectionThatAccepts();
+        var effects = Parent.Match.GetEffectCollectionThatAccepts(new(this), f => f.OnCombatCardChoiceEffects);
 
-        // // TODO order effects
-        // foreach (var (source, effect) in effects)
-        //     effect.Execute(source);
+        // TODO order effects
+        foreach (var (source, effect) in effects)
+            effect.Execute(new(source), new(this));
     }
 
     public void ApplyModifiers()
@@ -253,7 +253,7 @@ public class Combat : IHasData<Combat.Data>
 
     public async Task CancelEffectsOfOpponent(Player player)
     {
-        var (card, fighter) = GetCombatPart(player);
+        var (card, fighter, _) = GetCombatPart(player);
         var (oppCard, _) = GetOpponent(card);
         if (oppCard is null) return;
         if (!oppCard.CanBeCancelled(player)) return;
@@ -263,14 +263,14 @@ public class Combat : IHasData<Combat.Data>
         await Match.UpdateClients();
     }
 
-    public (CombatPart?, Fighter) GetCombatPart(Player player) {
+    public (CombatPart?, Fighter, bool isDefense) GetCombatPart(Player player) {
         if (Defender.Owner == player)
         {
-            return (DefenceCard, Defender);
+            return (DefenceCard, Defender, true);
         }
         if (Attacker.Owner == player)
         {
-            return (AttackCard, Attacker);
+            return (AttackCard, Attacker, false);
         }
 
         throw new MatchException($"Failed to find combat part for player {player.LogName}");
@@ -295,7 +295,7 @@ public class Combat : IHasData<Combat.Data>
 
     public async Task AddBoostToPlayer(Player player, MatchCard boostCard)
     {
-        var (card, fighter) = GetCombatPart(player);
+        var (card, fighter, _) = GetCombatPart(player);
         if (card is null)
         {
             throw new MatchException($"Cannot boost empty card");

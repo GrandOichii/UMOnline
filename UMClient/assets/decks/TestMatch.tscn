@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://by0yw285ah0hh"]
+[gd_scene load_steps=5 format=3 uid="uid://by0yw285ah0hh"]
 
 [ext_resource type="Script" uid="uid://cc1jnxyc3fkth" path="res://v1/TestMatch.cs" id="1_lduew"]
 [ext_resource type="PackedScene" uid="uid://b1bxw4amdf8ns" path="res://v1/Matches/ConnectedMatch.tscn" id="2_7v5ud"]
 [ext_resource type="PackedScene" uid="uid://bgs8q8d8v44un" path="res://v1/Matches/LocalMatchConnection.tscn" id="3_wiolw"]
+[ext_resource type="PackedScene" uid="uid://c5tfro1iuqdqr" path="res://Storage/LoadoutStorage.tscn" id="4_7v5ud"]
 
 [node name="TestMatch" type="Control"]
 layout_mode = 3
@@ -13,7 +14,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_lduew")
 PlayerDeck = "Spider-Man"
-BotDeck = "Daredevil"
+BotDeck = "Golden Bat"
 
 [node name="Match" parent="." node_paths=PackedStringArray("Connection") instance=ExtResource("2_7v5ud")]
 unique_name_in_owner = true
@@ -22,5 +23,8 @@ Connection = NodePath("../Connection")
 
 [node name="Connection" parent="." instance=ExtResource("3_wiolw")]
 unique_name_in_owner = true
+
+[node name="LoadoutStorage" parent="." instance=ExtResource("4_7v5ud")]
+DataSource = "sqlite3.db"
 
 [connection signal="responded" from="Connection" to="." method="OnLocalMatchCollectionResponded"]

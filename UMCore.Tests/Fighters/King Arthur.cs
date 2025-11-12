@@ -308,7 +308,7 @@ public class KingArthurTests
                 .AddFighter(new FighterTemplateBuilder("Foo", "Foo")
                 .Build())
                 .ConfigDeck(d => d
-                    .Add(new LoadoutCardTemplateBuilder()
+                    .Add(new CardTemplateBuilder()
                         .Versatile()
                         .Feint()
                         .Value(3)
@@ -380,7 +380,7 @@ public class KingArthurTests
                 .Build(),
             GetLoadoutBuilder()
                 .ConfigDeck(d => d
-                    .Add(new LoadoutCardTemplateBuilder()
+                    .Add(new CardTemplateBuilder()
                         .Amount(2)
                         .Versatile()
                         .Value(5)
@@ -411,7 +411,7 @@ public class KingArthurTests
                 .AddFighter(new FighterTemplateBuilder("Foo", "Foo")
                 .Build())
                 .ConfigDeck(d => d
-                    .Add(new LoadoutCardTemplateBuilder()
+                    .Add(new CardTemplateBuilder()
                         .Versatile()
                         .Feint()
                         .Value(3)

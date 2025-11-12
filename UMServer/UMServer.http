@@ -1,0 +1,6 @@
+@UMServer_HostAddress = http://localhost:5156
+
+GET {{UMServer_HostAddress}}/Loadouts/Hello
+Accept: application/json
+
+###

@@ -105,14 +105,15 @@ public class LoadoutTemplateBuilder
     {
         var data = File.ReadAllText(path);
         var result = JsonSerializer.Deserialize<LoadoutTemplate>(data)!;
+        var dir = System.IO.Path.GetDirectoryName(path);
         foreach (var card in result.Deck)
         {
-            card.Card.Script = File.ReadAllText($"../../../../{card.Card.Script}");
+            card.Script = File.ReadAllText($"{dir}/{card.Script}");
         }
 
         foreach (var fighter in result.Fighters)
         {
-            fighter.Script = File.ReadAllText($"../../../../{fighter.Script}");
+            fighter.Script = File.ReadAllText($"{dir}/{fighter.Script}");
         }
         return result;
     }
@@ -209,7 +210,7 @@ public class LoadoutTemplateBuilder
             return this;
         }
 
-        public DeckBuilder Add(LoadoutCardTemplate card)
+        public DeckBuilder Add(CardTemplate card)
         {
             parent.Result.Deck.Add(card);
 
@@ -230,19 +231,16 @@ public class LoadoutTemplateBuilder
             parent.Result.Deck.Add(new()
             {
                 Amount = amount,
-                Card = new()
-                {
-                    Key = key ?? $"versatile{idx}",
-                    Name = $"versatile{idx}",
-                    Type = "Versatile",
-                    Value = value,
-                    Boost = boost,
-                    Text = "",
-                    Script = DEFAULT_CARD_TEXT,
-                    AllowedFighters = [],
-                    Labels = labels ?? [],
-                    IncludedInDeckWithSidekick = null,
-                }
+                Key = key ?? $"versatile{idx}",
+                Name = $"versatile{idx}",
+                Type = "Versatile",
+                Value = value,
+                Boost = boost,
+                Text = "",
+                Script = DEFAULT_CARD_TEXT,
+                AllowedFighters = [],
+                Labels = labels ?? [],
+                IncludedInDeckWithSidekick = null,
             });
             return this;
         }
@@ -253,19 +251,16 @@ public class LoadoutTemplateBuilder
             parent.Result.Deck.Add(new()
             {
                 Amount = amount,
-                Card = new()
-                {
-                    Key = key ?? $"attack{idx}",
-                    Name = $"attack{idx}",
-                    Type = "Attack",
-                    Value = value,
-                    Boost = boost,
-                    Text = "",
-                    Script = DEFAULT_CARD_TEXT,
-                    AllowedFighters = [],
-                    Labels = labels ?? [],
-                    IncludedInDeckWithSidekick = null,
-                }
+                Key = key ?? $"attack{idx}",
+                Name = $"attack{idx}",
+                Type = "Attack",
+                Value = value,
+                Boost = boost,
+                Text = "",
+                Script = DEFAULT_CARD_TEXT,
+                AllowedFighters = [],
+                Labels = labels ?? [],
+                IncludedInDeckWithSidekick = null,
             });
             return this;
         }
@@ -276,19 +271,16 @@ public class LoadoutTemplateBuilder
             parent.Result.Deck.Add(new()
             {
                 Amount = amount,
-                Card = new()
-                {
-                    Key = key ?? $"defense{idx}",
-                    Name = $"defense{idx}",
-                    Type = "Defense",
-                    Value = value,
-                    Boost = boost,
-                    Text = "",
-                    Script = DEFAULT_CARD_TEXT,
-                    AllowedFighters = [],
-                    Labels = labels ?? [],
-                    IncludedInDeckWithSidekick = null,
-                }
+                Key = key ?? $"defense{idx}",
+                Name = $"defense{idx}",
+                Type = "Defense",
+                Value = value,
+                Boost = boost,
+                Text = "",
+                Script = DEFAULT_CARD_TEXT,
+                AllowedFighters = [],
+                Labels = labels ?? [],
+                IncludedInDeckWithSidekick = null,
             });
             return this;
         }
@@ -300,19 +292,16 @@ public class LoadoutTemplateBuilder
             parent.Result.Deck.Add(new()
             {
                 Amount = amount,
-                Card = new()
-                {
-                    Key = $"scheme{idx}",
-                    Name = $"scheme{idx}",
-                    Type = "Scheme",
-                    Value = null,
-                    Boost = boost,
-                    Text = "",
-                    Script = DEFAULT_CARD_TEXT,
-                    AllowedFighters = [],
-                    Labels = labels ?? [],
-                    IncludedInDeckWithSidekick = null,
-                }
+                Key = $"scheme{idx}",
+                Name = $"scheme{idx}",
+                Type = "Scheme",
+                Value = null,
+                Boost = boost,
+                Text = "",
+                Script = DEFAULT_CARD_TEXT,
+                AllowedFighters = [],
+                Labels = labels ?? [],
+                IncludedInDeckWithSidekick = null,
             });
             return this;
         }
@@ -324,19 +313,16 @@ public class LoadoutTemplateBuilder
             parent.Result.Deck.Add(new()
             {
                 Amount = amount,
-                Card = new()
-                {
-                    Key = $"scheme{idx}",
-                    Name = $"scheme{idx}",
-                    Type = "Scheme",
-                    Value = null,
-                    Boost = boost,
-                    Text = "",
-                    Script = string.Format(SCHEME_CARD_DRAW_TEXT, draw),
-                    AllowedFighters = [],
-                    Labels = labels ?? [],
-                    IncludedInDeckWithSidekick = null,
-                }
+                Key = $"scheme{idx}",
+                Name = $"scheme{idx}",
+                Type = "Scheme",
+                Value = null,
+                Boost = boost,
+                Text = "",
+                Script = string.Format(SCHEME_CARD_DRAW_TEXT, draw),
+                AllowedFighters = [],
+                Labels = labels ?? [],
+                IncludedInDeckWithSidekick = null,
             });
             return this;
         }

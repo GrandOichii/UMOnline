@@ -60,15 +60,15 @@ for path in listdir(LOADOUTS_DIR):
         
         target_fighter_script_path = join(fighter_scripts_dir, f'{fighter['Key']}.lua')
         open(target_fighter_script_path, 'w').write(fighter_script)
-        fighter['Script'] = target_fighter_script_path
+        fighter['Script'] = join('fighters', f'{fighter['Key']}.lua')
 
     # cards
     card_scripts_path = join(target_dir, 'cards')
     makedirs(card_scripts_path, exist_ok=True)
 
     for card in data['Deck']:
-        card_key = card['Card']['Key'].replace('"', '').replace('?', '')
-        card_name = card['Card']['Name']
+        card_key = card['Key'].replace('"', '').replace('?', '')
+        card_name = card['Name']
         card_script = TODO_CARD_SCRIPT
 
         card_path = join(SCRIPTS_PATH, f'{card_name}.lua')
@@ -86,7 +86,7 @@ for path in listdir(LOADOUTS_DIR):
         
         target_card_path = join(card_scripts_path, f'{card_key}.lua')
         open(target_card_path, 'w').write(card_script)
-        card['Card']['Script'] = target_card_path
+        card['Script'] = join('cards', f'{card_key}.lua')
 
     # copy .json file to target
     open(join(target_dir, f'{deck_name}.json'), 'w').write(json.dumps(data, indent=4))

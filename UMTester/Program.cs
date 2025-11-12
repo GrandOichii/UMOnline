@@ -242,7 +242,7 @@ public class Program
         var result = JsonSerializer.Deserialize<LoadoutTemplate>(data)!;
         foreach (var card in result.Deck)
         {
-            card.Card.Script = File.ReadAllText(card.Card.Script);
+            card.Script = File.ReadAllText(card.Script);
         }
 
         foreach (var fighter in result.Fighters)

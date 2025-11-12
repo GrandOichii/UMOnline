@@ -153,7 +153,7 @@ public class JekyllHydeTests
             .Build(),
             GetLoadoutBuilder()
                 .ConfigDeck(d => d
-                    .Add(new LoadoutCardTemplateBuilder()
+                    .Add(new CardTemplateBuilder()
                         .Scheme()
                         .CanBePlayedBy(identityMap[isJekyll])
                     .Build())
@@ -217,7 +217,7 @@ public class JekyllHydeTests
             .Build(),
             GetLoadoutBuilder()
                 .ConfigDeck(d => d
-                    .Add(new LoadoutCardTemplateBuilder()
+                    .Add(new CardTemplateBuilder()
                         .Scheme()
                         .CanBePlayedBy(identityMap[!isJekyll])
                     .Build())

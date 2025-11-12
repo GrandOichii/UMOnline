@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://c5tfro1iuqdqr"]
+
+[ext_resource type="Script" uid="uid://i14k4dbfjvkb" path="res://Storage/LoadoutStorage.cs" id="1_o71ht"]
+
+[node name="LoadoutStorage" type="Node"]
+script = ExtResource("1_o71ht")

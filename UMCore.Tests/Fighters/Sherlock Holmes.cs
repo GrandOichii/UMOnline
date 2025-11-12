@@ -43,7 +43,7 @@ public class SherlockHolmesTests
                 .Build(),
             GetLoadoutBuilder()
                 .ConfigDeck(d => d
-                    .Add(new LoadoutCardTemplateBuilder()
+                    .Add(new CardTemplateBuilder()
                         .Value(5)
                         .Versatile()
                         .CanBePlayedByAny()
@@ -139,7 +139,7 @@ public class SherlockHolmesTests
                 .Build(),
             GetLoadoutBuilder()
                 .ConfigDeck(d => d
-                    .Add(new LoadoutCardTemplateBuilder()
+                    .Add(new CardTemplateBuilder()
                         .Value(5)
                         .Versatile()
                         .CanBePlayedBy(fighterName)
@@ -232,7 +232,7 @@ public class SherlockHolmesTests
                 .Build(),
             GetLoadoutBuilder()
                 .ConfigDeck(d => d
-                    .Add(new LoadoutCardTemplateBuilder()
+                    .Add(new CardTemplateBuilder()
                         .Value(5)
                         .Versatile()
                         .CanBePlayedByAny()
@@ -264,7 +264,7 @@ public class SherlockHolmesTests
                 .AddFighter(new FighterTemplateBuilder("Foo", "Foo")
                 .Build())
                 .ConfigDeck(d => d
-                    .Add(new LoadoutCardTemplateBuilder()
+                    .Add(new CardTemplateBuilder()
                         .Feint()
                         .Versatile()
                         .Value(3)
@@ -333,7 +333,7 @@ public class SherlockHolmesTests
                 .Build(),
             GetLoadoutBuilder()
                 .ConfigDeck(d => d
-                    .Add(new LoadoutCardTemplateBuilder()
+                    .Add(new CardTemplateBuilder()
                         .Value(5)
                         .Versatile()
                         .CanBePlayedBy(fighterName)
@@ -365,7 +365,7 @@ public class SherlockHolmesTests
                 .AddFighter(new FighterTemplateBuilder("Foo", "Foo")
                 .Build())
                 .ConfigDeck(d => d
-                    .Add(new LoadoutCardTemplateBuilder()
+                    .Add(new CardTemplateBuilder()
                         .Feint()
                         .Versatile()
                         .Value(3)

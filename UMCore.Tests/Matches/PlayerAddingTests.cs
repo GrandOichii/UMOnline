@@ -1376,7 +1376,7 @@ public class SchemeTests
             new LoadoutTemplateBuilder("main")
                 .AddFighter(new FighterTemplateBuilder("main", "main").Build())
                 .ConfigDeck(d => d
-                    .Add(new LoadoutCardTemplateBuilder()
+                    .Add(new CardTemplateBuilder()
                         .Scheme()
                         .Script("""
                         :SchemeRequirement(
@@ -1436,7 +1436,7 @@ public class SchemeTests
             new LoadoutTemplateBuilder("main")
                 .AddFighter(new FighterTemplateBuilder("main", "main").Build())
                 .ConfigDeck(d => d
-                    .Add(new LoadoutCardTemplateBuilder()
+                    .Add(new CardTemplateBuilder()
                         .Scheme()
                         .Script("""
                         :SchemeRequirement(

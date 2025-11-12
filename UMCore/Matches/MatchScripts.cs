@@ -83,6 +83,15 @@ public class MatchScripts
         return LuaUtility.CreateTable(Match.LState, Match.Fighters.ToList());
         // return LuaUtility.CreateTable(Match.LState, Match.Fighters.Where(f => f.IsAlive()).ToList());
     }
+    
+    [LuaCommand]
+    public LuaTable GetMovedThroughFighters()
+    {
+        var movement = Match.CurrentMovement
+            ?? throw new MatchException($"Called {nameof(GetMovedThroughFighters)} while there is no movement");
+
+        return LuaUtility.CreateTable(Match.LState, [.. movement.MovedThroughFighters]);
+    }
 
     [LuaCommand]
     public int DealDamage(Fighter fighter, int amount)
@@ -138,7 +147,7 @@ public class MatchScripts
     [LuaCommand]
     public void MoveFighter(Fighter fighter, int amount, bool canMoveOverOpposing)
     {
-        fighter.Owner.MoveFighter(fighter, amount, true, canMoveOverOpposing, false)
+        fighter.Owner.MoveFighter(fighter, amount, true, canMoveOverOpposing, false, false)
             .Wait();
     }
 
@@ -157,7 +166,7 @@ public class MatchScripts
             }
             fighters.Remove(fighter);
 
-            player.MoveFighter(fighter, amount, true, canMoveOverOpposing, false)
+            player.MoveFighter(fighter, amount, true, canMoveOverOpposing, false, false)
                 .Wait();
         }
     }
@@ -310,7 +319,7 @@ public class MatchScripts
         var combat = Match.Combat
             ?? throw new MatchException($"Called {nameof(GetOpponentOf)} while no combat is active");
 
-        var (part, fighter) = combat.GetCombatPart(player);
+        var (part, fighter, _) = combat.GetCombatPart(player);
         var (_, resultFighter) = combat.GetOpponent(part);
         return resultFighter?.Owner;
     }
@@ -363,9 +372,9 @@ public class MatchScripts
     }
 
     [LuaCommand]
-    public void DEBUG(string msg)
+    public void DEBUG(object o)
     {
-        Match.Logger?.LogDebug(msg);
+        Match.Logger?.LogDebug(o.ToString());
     }
 
     [LuaCommand]
@@ -427,6 +436,12 @@ public class MatchScripts
     {
         if (Match.CurrentMovement is null) return false;
         return Match.CurrentMovement.Fighter == fighter;
+    }
+
+    [LuaCommand]
+    public Movement? GetcurrentMovement()
+    {
+        return Match.CurrentMovement;
     }
 
     [LuaCommand]
@@ -580,7 +595,7 @@ public class MatchScripts
         var combat = Match.Combat
             ?? throw new MatchException($"Called {nameof(AddToCardValueInCombat)} while there is no combat");
 
-        var (card, _) = combat.GetCombatPart(player);
+        var (card, _, _) = combat.GetCombatPart(player);
         if (card is null) return;
 
         card.Value += amount;
@@ -591,8 +606,8 @@ public class MatchScripts
     {
         var combat = Match.Combat
             ?? throw new MatchException($"Called {nameof(GetCombatPart)} while there is no combat");
-        var (part, fighter) = combat.GetCombatPart(player);
-        return LuaUtility.CreateTable(Match.LState, new List<object?>() { part, fighter});
+        var (part, fighter, isDefense) = combat.GetCombatPart(player);
+        return LuaUtility.CreateTable(Match.LState, new List<object?>() { part, fighter, isDefense });
     }
 
     [LuaCommand]
@@ -670,7 +685,7 @@ public class MatchScripts
     }
 
     [LuaCommand]
-    public async Task ShuffleDiscardIntoDeck(Player player)
+    public void ShuffleDiscardIntoDeck(Player player)
     {
         var cards = player.DiscardPile.TakeFromTop(player.DiscardPile.Count)
             .GetAwaiter().GetResult();
@@ -679,5 +694,14 @@ public class MatchScripts
             .Wait();
 
         player.Deck.Shuffle();
+    }
+
+    [LuaCommand]
+    public void AddAtTheEndOfMovementEffect(Fighter fighter, LuaTable effectCollection)
+    {
+        var movement = Match.CurrentMovement
+            ?? throw new MatchException($"Called {nameof(AddAtTheEndOfMovementEffect)} while there is no movement");
+
+        movement.AtTheEndOfMovementEffects.Add((fighter, new(effectCollection)));
     }
 }

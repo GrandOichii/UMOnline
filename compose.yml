@@ -1,0 +1,16 @@
+services:
+  db:
+    container_name: um-db
+    image: postgres
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - um-db-data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+
+volumes:
+  um-db-data:
+  time-db-data:

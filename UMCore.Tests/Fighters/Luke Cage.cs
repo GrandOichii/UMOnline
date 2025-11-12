@@ -287,7 +287,7 @@ public class LukeCage
                 .Build(),
             GetLoadoutBuilder()
                 .ConfigDeck(d => d
-                    .Add(new LoadoutCardTemplateBuilder()
+                    .Add(new CardTemplateBuilder()
                         .Scheme()
                         .Amount(1)
                         .Script("""

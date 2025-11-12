@@ -642,7 +642,19 @@ public class TestPlayerControllerBuilder
 
             public Asserts CantReachNodeWithId(int id)
             {
-                options.Any(p => p.Nodes.FirstOrDefault(n => n.Id == id) is not null).ShouldBeFalse();
+                options.Any(p => p.Nodes.FirstOrDefault(n => n.Id == id) is not null).ShouldBeFalse($"Expected not to be able to reach node with Id = {id}");
+                return this;
+            }
+
+            public Asserts CanStopAtNodeWithId(int id)
+            {
+                options.Any(p => p.Nodes.Last().Id == id).ShouldBeTrue();
+                return this;
+            }
+
+            public Asserts CantStopAtNodeWithId(int id)
+            {
+                options.Any(p => p.Nodes.Last().Id == id).ShouldBeFalse($"Player {player.LogName} was expected not to be able to stop at node with Id = {id}");
                 return this;
             }
             

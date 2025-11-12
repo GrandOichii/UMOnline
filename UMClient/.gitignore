@@ -2,3 +2,5 @@
 .godot/
 /android/
 Build/
+sqlite3.exe
+*.db

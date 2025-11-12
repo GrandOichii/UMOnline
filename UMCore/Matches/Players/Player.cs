@@ -119,17 +119,17 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
 
         // create deck
         {
-            List<LoadoutCardTemplate> cards = [.. Loadout.Deck.Where(c => c.Card.IncludedInDeckWithSidekick is null)];
+            List<CardTemplate> cards = [.. Loadout.Deck.Where(c => c.IncludedInDeckWithSidekick is null)];
             foreach (var fighter in Fighters)
             {
-                cards.AddRange(Loadout.Deck.Where(c => c.Card.IncludedInDeckWithSidekick == fighter.Template.Key));
+                cards.AddRange(Loadout.Deck.Where(c => c.IncludedInDeckWithSidekick == fighter.Template.Key));
             }
 
             foreach (var card in cards)
             {
                 await Deck.Add(
                     Enumerable.Range(0, card.Amount)
-                        .Select(i => new MatchCard(this, card.Card))
+                        .Select(i => new MatchCard(this, card))
                 );
             }
 
@@ -325,7 +325,7 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
             }
             fighters.Remove(fighter);
 
-            await MoveFighter(fighter, movement + boostValue, canMoveOverFriendly, canMoveOverOpposing, wasBoosted);
+            await MoveFighter(fighter, movement + boostValue, canMoveOverFriendly, canMoveOverOpposing, wasBoosted, isManoeuvre);
 
             if (!isManoeuvre) continue;
 
@@ -333,7 +333,13 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
         }
     }
 
-    public async Task MoveFighter(Fighter fighter, int distance, bool canMoveOverFriendly, bool canMoveOverOpposing, bool wasBoosted)
+    public async Task MoveFighter(
+        Fighter fighter,
+        int distance,
+        bool canMoveOverFriendly,
+        bool canMoveOverOpposing,
+        bool wasBoosted,
+        bool isManoeuvre)
     {
         // TODO feels weird
         if (!canMoveOverOpposing)
@@ -342,6 +348,16 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
         }
 
         var movement = Match.SetCurrentMovement(new(this, fighter, distance, canMoveOverFriendly, canMoveOverOpposing));
+        if (isManoeuvre)
+        {
+            var effects = Match.GetEffectCollectionThatAccepts(new(fighter), f => f.WhenManoeuvreEffects);
+            // TODO order effects
+            foreach (var (source, effect) in effects)
+            {
+                effect.Execute(new(source), new(fighter));
+            }
+        }
+
         if (
             !wasBoosted ||
             !await Match.ReplaceBoostedMovement()

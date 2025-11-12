@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "TestScript": {
+      "commandName": "Project",
+      "commandLineArgs": "TestScript"
+    },
+    "ImportLoadouts": {
+      "commandName": "Project",
+      "commandLineArgs": "ImportLoadouts ../.generated/loadouts"
+    },
+  }
+}

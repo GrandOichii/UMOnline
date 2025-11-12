@@ -83,6 +83,9 @@
         "RemoveFighterFromBoard",
         "AddAtTheStartOfNextTurnEffect",
         "ShuffleDiscardIntoDeck",
-        "DEBUGTABLE"
+        "DEBUGTABLE",
+        "GetcurrentMovement",
+        "AddAtTheEndOfMovementEffect",
+        "GetMovedThroughFighters"
     ]
 }

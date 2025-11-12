@@ -1,8 +1,6 @@
-- Spiderman - "OnCombatCardChoice" effects
 - Blackbeard
 - Muhammad Ali (movement: 3, life: 16, melee) - Begin the game with your stance on Float Like a Butterfly. After you attack, if you won the combat, change stances. (Float Like A Butterfly: you can attack from 2 spaces away; Sting Like A Bee: add +2 to your attacks)
 - Geralt - could do a funny and make 27 different Geralt decks, but really need to make a system of adding cards to deck "mid-match"
-- Ghost Rider - dealing damage to opponents when moving over them + cant boost card for movement when using hellfire?
 - Squirrel Girl - small fighters + i'm scared of the card Squirgility
 - Loki - placing your cards in opponents hands - can be quite a game breaker with they way args are handled
 - Yennenga - damage redistribution + very bad ruling about group damage

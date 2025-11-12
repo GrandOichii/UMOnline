@@ -45,6 +45,8 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
     public List<OnMoveEffect> OnMoveEffects { get; }
     public List<ManoeuvreDrawAmountModifier> ManoeuvreDrawAmountModifiers { get; }
     public List<CombatResolutionEffect> OnLostCombatEffects { get; }
+    public List<EffectCollection> OnCombatCardChoiceEffects { get; }
+    public List<EffectCollection> WhenManoeuvreEffects { get; }
 
     public static List<LuaFunction> ExtractFunctionList(Fighter fighter, LuaTable data, string key)
     {
@@ -163,6 +165,7 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
         OnAttackEffects = ExtractEffectCollectionList(this, data, "OnAttackEffects");
         AfterAttackEffects = ExtractEffectCollectionList(this, data, "AfterAttackEffects");
         AfterSchemeEffects = ExtractEffectCollectionList(this, data, "AfterSchemeEffects");
+        WhenManoeuvreEffects = ExtractEffectCollectionList(this, data, "WhenManoeuvreEffects");
 
         GameStartEffects = ExtractEffectCollectionList(this, data, "GameStartEffects");
 
@@ -200,6 +203,7 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
         ];
 
         AfterMovementEffects = ExtractEffectCollectionList(this, data, "AfterMovementEffects");
+        OnCombatCardChoiceEffects = ExtractEffectCollectionList(this, data, "OnCombatCardChoiceEffects");
 
         BoostedMovementReplacers = [ ..ExtractFunctionList(this, data, "BoostedMovementReplacers")
             .Select(f =>

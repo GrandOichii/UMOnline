@@ -91,18 +91,18 @@ UM.Build = {}
 -- Effect collection
 
 function UM.Build:EffectCollection()
-    local result = {}
+    local effectCollection = {}
 
-    result.text = ''
-    result.effects = {}
-    result.conds = {}
+    effectCollection.text = ''
+    effectCollection.effects = {}
+    effectCollection.conds = {}
 
-    function result:Build()
+    function effectCollection:Build()
         return {
-            text = result.text,
-            effects = result.effects,
+            text = effectCollection.text,
+            effects = effectCollection.effects,
             cond = function (args, subjects)
-                for _, check in ipairs(result.conds) do
+                for _, check in ipairs(effectCollection.conds) do
                     if not check(args, subjects) then
                         return false
                     end
@@ -112,274 +112,299 @@ function UM.Build:EffectCollection()
         }
     end
 
-    function result:AddCond(cond)
-        result.conds[#result.conds+1] = cond
+    function effectCollection:AddCond(cond)
+        effectCollection.conds[#effectCollection.conds+1] = cond
 
-        return result
+        return effectCollection
     end
 
-    function result:SourceIsAlive()
-        return result:AddCond(function (args)
+    function effectCollection:SourceIsAlive()
+        return effectCollection:AddCond(function (args)
             return IsAlive(args.fighter)
         end)
     end
 
-    function result:Text(text)
-        result.text = text
+    function effectCollection:Text(text)
+        effectCollection.text = text
 
-        return result
+        return effectCollection
     end
 
-    function result:Effects(effects)
-        result.effects = effects
+    function effectCollection:Effects(effects)
+        effectCollection.effects = effects
 
-        return result
+        return effectCollection
     end
 
-    return result
+    return effectCollection
 end
 
 -- Card creation
 
 function UM.Build:_WithCombatSteps()
-    local result = {}
+    local combatStepContainer = {}
 
-    result.combatStepEffects = {}
+    combatStepContainer.combatStepEffects = {}
 
-    function result:CombatStepEffect(step, text, ...)
-        result.combatStepEffects[step] = UM.Build:EffectCollection()
+    function combatStepContainer:CombatStepEffect(step, text, ...)
+        combatStepContainer.combatStepEffects[step] = UM.Build:EffectCollection()
             :Text(text)
             :SourceIsAlive()
             :Effects({...})
             :Build()
 
-        return result
+        return combatStepContainer
     end
 
-    function result:Immediately(text, ...)
-        return result:CombatStepEffect(UM.CombatSteps.IMMEDIATELY, text, ...)
+    function combatStepContainer:Immediately(text, ...)
+        return combatStepContainer:CombatStepEffect(UM.CombatSteps.IMMEDIATELY, text, ...)
     end
 
-    function result:DuringCombat(text, ...)
-        return result:CombatStepEffect(UM.CombatSteps.DURING_COMBAT, text, ...)
+    function combatStepContainer:DuringCombat(text, ...)
+        return combatStepContainer:CombatStepEffect(UM.CombatSteps.DURING_COMBAT, text, ...)
     end
 
-    function result:AfterCombat(text, ...)
-        return result:CombatStepEffect(UM.CombatSteps.AFTER_COMBAT, text, ...)
+    function combatStepContainer:AfterCombat(text, ...)
+        return combatStepContainer:CombatStepEffect(UM.CombatSteps.AFTER_COMBAT, text, ...)
     end
 
-    return result
+    return combatStepContainer
 end
 
 function UM.Build:Card()
-    local result = UM.Build:_WithCombatSteps()
+    local card = UM.Build:_WithCombatSteps()
 
-    result.scheme = UM.Build:EffectCollection()
+    card.scheme = UM.Build:EffectCollection()
         :SourceIsAlive()
 
-    result.schemeRequirements = {}
+    card.schemeRequirements = {}
 
-    function result:Effect(text, ...)
-        result.scheme = result.scheme
+    function card:Effect(text, ...)
+        card.scheme = card.scheme
             :Text(text)
             :Effects({...})
 
-        return result
+        return card
     end
 
-    function result:SchemeRequirement(text, condition)
-        result.schemeRequirements[#result.schemeRequirements+1] = {
-            ['text'] = text,
-            ['checkFunc'] = condition
+    function card:SchemeRequirement(text, condition)
+        card.schemeRequirements[#card.schemeRequirements+1] = {
+            text = text,
+            checkFunc = condition,
         }
 
-        return result
+        return card
     end
 
-    function result:Build()
+    function card:Build()
         return {
-            Scheme = result.scheme:Build(),
-            SchemeRequirements = result.schemeRequirements,
-            CombatStepEffects = result.combatStepEffects,
+            Scheme = card.scheme:Build(),
+            SchemeRequirements = card.schemeRequirements,
+            CombatStepEffects = card.combatStepEffects,
         }
     end
 
-    return result
+    return card
 end
 
 -- Token creation
 
 function UM.Build:Token()
-    local result = {}
+    local token = {}
 
-    result.amount = -1
-    result.whenReturnedToBox = {}
-    result.onStepEffects = {}
+    token.amount = -1
+    token.whenReturnedToBox = {}
+    token.onStepEffects = {}
 
-    function result:Build()
+    function token:Build()
         return {
-            Amount = result.amount,
-            WhenReturnedToBox = result.whenReturnedToBox,
-            OnStepEffects = result.onStepEffects,
+            Amount = token.amount,
+            WhenReturnedToBox = token.whenReturnedToBox,
+            OnStepEffects = token.onStepEffects,
         }
     end
 
-    function result:Amount(v)
-        result.amount = v
+    function token:Amount(v)
+        token.amount = v
 
-        return result
+        return token
     end
 
-    function result:WhenReturnedToBox(text, ...)
-        result.whenReturnedToBox[#result.whenReturnedToBox+1] = UM.Build:EffectCollection()
+    function token:WhenReturnedToBox(text, ...)
+        token.whenReturnedToBox[#token.whenReturnedToBox+1] = UM.Build:EffectCollection()
             :SourceIsAlive()
             :Text(text)
             :Effects({...})
             :Build()
 
-        return result
+        return token
     end
 
-    function result:OnStep(text, fighterPredFunc, ...)
-        result.onStepEffects[#result.onStepEffects+1] = UM.Build:EffectCollection()
+    function token:OnStep(text, fighterPredFunc, ...)
+        token.onStepEffects[#token.onStepEffects+1] = UM.Build:EffectCollection()
             :SourceIsAlive()
             :Text(text)
             :Effects({...})
             :AddCond(fighterPredFunc)
             :Build()
 
-        return result
+        return token
     end
 
-    return result
+    return token
 end
 
 -- Fighter creation
 
 function UM.Build:Fighter()
-    local result = UM.Build:_WithCombatSteps()
+    local fighter = UM.Build:_WithCombatSteps()
 
-    result.turnPhaseEffects = {}
-    result.cardValueModifiers = {}
-    result.whenPlaced = {}
-    result.manoeuvreValueMods = {}
-    result.onAttackEffects = {}
-    result.afterAttackEffects = {}
-    result.afterSchemeEffects = {}
-    result.gameStartEffects = {}
-    result.movementNodeConnections = {}
-    result.cardCancellingForbids = {}
-    result.onManoeuvreEffects = {}
-    result.onDamageEffects = {}
-    result.onFighterDefeatEffects = {}
-    result.damageModifiers = {}
-    result.afterMovementEffects = {}
-    result.boostedMovementReplacers = {}
-    result.onMoveEffects = {}
-    result.manoeuvreDrawAmountModifiers = {}
-    result.onLostCombatEffects = {}
-    result.tokens = {}
+    fighter.turnPhaseEffects = {}
+    fighter.cardValueModifiers = {}
+    fighter.whenPlaced = {}
+    fighter.manoeuvreValueMods = {}
+    fighter.onAttackEffects = {}
+    fighter.afterAttackEffects = {}
+    fighter.afterSchemeEffects = {}
+    fighter.gameStartEffects = {}
+    fighter.movementNodeConnections = {}
+    fighter.cardCancellingForbids = {}
+    fighter.onManoeuvreEffects = {}
+    fighter.onDamageEffects = {}
+    fighter.onFighterDefeatEffects = {}
+    fighter.damageModifiers = {}
+    fighter.afterMovementEffects = {}
+    fighter.boostedMovementReplacers = {}
+    fighter.onMoveEffects = {}
+    fighter.manoeuvreDrawAmountModifiers = {}
+    fighter.onLostCombatEffects = {}
+    fighter.onCombatCardChoiceEffects = {}
+    fighter.whenManoeuvreEffects = {}
+    fighter.tokens = {}
 
-    function result:Build()
-        local fighter = {
-            TurnPhaseEffects = result.turnPhaseEffects,
-            CardValueModifiers = result.cardValueModifiers,
-            WhenPlacedEffects = result.whenPlaced,
-            ManoeuvreValueMods = result.manoeuvreValueMods,
-            OnAttackEffects = result.onAttackEffects,
-            AfterAttackEffects = result.afterAttackEffects,
-            AfterSchemeEffects = result.afterSchemeEffects,
-            Tokens = result.tokens,
-            GameStartEffects = result.gameStartEffects,
-            MovementNodeConnections = result.movementNodeConnections,
-            CardCancellingForbids = result.cardCancellingForbids,
-            OnManoeuvreEffects = result.onManoeuvreEffects,
-            OnDamageEffects = result.onDamageEffects,
-            OnFighterDefeatEffects = result.onFighterDefeatEffects,
-            CombatStepEffects = result.combatStepEffects,
-            DamageModifiers = result.damageModifiers,
-            AfterMovementEffects = result.afterMovementEffects,
-            BoostedMovementReplacers = result.boostedMovementReplacers,
-            ManoeuvreDrawAmountModifiers = result.manoeuvreDrawAmountModifiers,
-            OnLostCombatEffects = result.onLostCombatEffects,
-            OnMoveEffects = result.onMoveEffects,
+    function fighter:Build()
+        local result = {
+            TurnPhaseEffects = fighter.turnPhaseEffects,
+            CardValueModifiers = fighter.cardValueModifiers,
+            WhenPlacedEffects = fighter.whenPlaced,
+            ManoeuvreValueMods = fighter.manoeuvreValueMods,
+            OnAttackEffects = fighter.onAttackEffects,
+            AfterAttackEffects = fighter.afterAttackEffects,
+            AfterSchemeEffects = fighter.afterSchemeEffects,
+            Tokens = fighter.tokens,
+            GameStartEffects = fighter.gameStartEffects,
+            MovementNodeConnections = fighter.movementNodeConnections,
+            CardCancellingForbids = fighter.cardCancellingForbids,
+            OnManoeuvreEffects = fighter.onManoeuvreEffects,
+            OnDamageEffects = fighter.onDamageEffects,
+            OnFighterDefeatEffects = fighter.onFighterDefeatEffects,
+            CombatStepEffects = fighter.combatStepEffects,
+            DamageModifiers = fighter.damageModifiers,
+            AfterMovementEffects = fighter.afterMovementEffects,
+            BoostedMovementReplacers = fighter.boostedMovementReplacers,
+            ManoeuvreDrawAmountModifiers = fighter.manoeuvreDrawAmountModifiers,
+            OnLostCombatEffects = fighter.onLostCombatEffects,
+            OnCombatCardChoiceEffects = fighter.onCombatCardChoiceEffects,
+            WhenManoeuvreEffects = fighter.whenManoeuvreEffects,
+            OnMoveEffects = fighter.onMoveEffects,
         }
+        return result
+    end
+
+    function fighter:WhenManoeuvre(text, fighterPredicate, ...)
+        fighter.whenManoeuvreEffects[#fighter.whenManoeuvreEffects+1] = UM.Build:EffectCollection()
+            :SourceIsAlive()
+            :Text(text)
+            :Effects({...})
+            :AddCond(fighterPredicate)
+            :Build()
+
         return fighter
     end
 
-    function result:OnLostCombat(text, ...)
-        result.onLostCombatEffects[#result.onLostCombatEffects+1] = UM.Build:EffectCollection()
+    function fighter:OnCombatCardChoice(text, ...)
+        fighter.onCombatCardChoiceEffects[#fighter.onCombatCardChoiceEffects+1] = UM.Build:EffectCollection()
             :SourceIsAlive()
             :Text(text)
             :Effects({...})
             :Build()
 
-        return result
+        return fighter
     end
 
-    function result:ModManoeuvreCardDraw(modFunc)
-        result.manoeuvreDrawAmountModifiers[#result.manoeuvreDrawAmountModifiers+1] = modFunc
+    function fighter:OnLostCombat(text, ...)
+        fighter.onLostCombatEffects[#fighter.onLostCombatEffects+1] = UM.Build:EffectCollection()
+            :SourceIsAlive()
+            :Text(text)
+            :Effects({...})
+            :Build()
 
-        return result
+        return fighter
     end
 
-    function result:OnMove(text, effectFunc)
-        result.onMoveEffects[#result.onMoveEffects+1] = {
+    function fighter:ModManoeuvreCardDraw(modFunc)
+        fighter.manoeuvreDrawAmountModifiers[#fighter.manoeuvreDrawAmountModifiers+1] = modFunc
+
+        return fighter
+    end
+
+    function fighter:OnMove(text, effectFunc)
+        fighter.onMoveEffects[#fighter.onMoveEffects+1] = {
             -- cond = isAliveCond(),
             text = text,
             effect = effectFunc,
         }
 
-        return result
+        return fighter
     end
 
-    function result:ReplaceBoostedMovement(replacerFunc)
-        result.boostedMovementReplacers[#result.boostedMovementReplacers+1] = replacerFunc
+    function fighter:ReplaceBoostedMovement(replacerFunc)
+        fighter.boostedMovementReplacers[#fighter.boostedMovementReplacers+1] = replacerFunc
 
-        return result
+        return fighter
     end
 
-    function result:AfterMove(text, fighterPredFunc, ...)
-        result.afterMovementEffects[#result.afterMovementEffects+1] = UM.Build:EffectCollection()
+    function fighter:AfterMove(text, fighterPredFunc, ...)
+        fighter.afterMovementEffects[#fighter.afterMovementEffects+1] = UM.Build:EffectCollection()
             :SourceIsAlive()
             :Text(text)
             :Effects({...})
             :AddCond(fighterPredFunc)
             :Build()
 
-        return result
+        return fighter
     end
 
-    function result:OnFighterDefeat(text, fighterPredFunc, ...)
-        result.onFighterDefeatEffects[#result.onFighterDefeatEffects+1] = UM.Build:EffectCollection()
+    function fighter:OnFighterDefeat(text, fighterPredFunc, ...)
+        fighter.onFighterDefeatEffects[#fighter.onFighterDefeatEffects+1] = UM.Build:EffectCollection()
             :SourceIsAlive()
             :Text(text)
             :Effects({...})
             :AddCond(fighterPredFunc)
             :Build()
 
-        return result
+        return fighter
     end
 
     -- TODO rename
-    function result:OnFighterDefeatUngated(text, fighterPredFunc, ...)
-        result.onFighterDefeatEffects[#result.onFighterDefeatEffects+1] = UM.Build:EffectCollection()
+    function fighter:OnFighterDefeatUngated(text, fighterPredFunc, ...)
+        fighter.onFighterDefeatEffects[#fighter.onFighterDefeatEffects+1] = UM.Build:EffectCollection()
             :Text(text)
             :Effects({...})
             :AddCond(fighterPredFunc)
             :Build()
 
-        return result
+        return fighter
     end
 
-    function result:ModifyDamage(damageModFunc)
-        result.damageModifiers[#result.damageModifiers+1] = damageModFunc
+    function fighter:ModifyDamage(damageModFunc)
+        fighter.damageModifiers[#fighter.damageModifiers+1] = damageModFunc
 
-        return result
+        return fighter
     end
 
-    function result:ForbidCardCancelling(cardPredicate, byPlayerPredicate)
-        result.cardCancellingForbids[#result.cardCancellingForbids+1] = function (args, card, player)
+    function fighter:ForbidCardCancelling(cardPredicate, byPlayerPredicate)
+        fighter.cardCancellingForbids[#fighter.cardCancellingForbids+1] = function (args, card, player)
             if not cardPredicate(args, card) then
                 return false
             end
@@ -389,58 +414,58 @@ function UM.Build:Fighter()
             return true
         end
 
-        return result
+        return fighter
     end
 
-    function result:DeclareToken(tokenName, tokenBehavior)
-        result.tokens[tokenName] = tokenBehavior
+    function fighter:DeclareToken(tokenName, tokenBehavior)
+        fighter.tokens[tokenName] = tokenBehavior
 
-        return result
+        return fighter
     end
 
-    function result:OnAttack(text, fighterPredFunc, ...)
-        result.onAttackEffects[#result.onAttackEffects+1] = UM.Build:EffectCollection()
+    function fighter:OnAttack(text, fighterPredFunc, ...)
+        fighter.onAttackEffects[#fighter.onAttackEffects+1] = UM.Build:EffectCollection()
             :SourceIsAlive()
             :Text(text)
             :Effects({...})
             :AddCond(fighterPredFunc)
             :Build()
 
-        return result
+        return fighter
     end
 
-    function result:AfterAttack(text, fighterPredFunc, ...)
-        result.afterAttackEffects[#result.afterAttackEffects+1] = UM.Build:EffectCollection()
+    function fighter:AfterAttack(text, fighterPredFunc, ...)
+        fighter.afterAttackEffects[#fighter.afterAttackEffects+1] = UM.Build:EffectCollection()
             :SourceIsAlive()
             :Text(text)
             :Effects({...})
             :AddCond(fighterPredFunc)
             :Build()
 
-        return result
+        return fighter
     end
 
-    function result:AfterScheme(text, fighterPredFunc, ...)
-        result.afterSchemeEffects[#result.afterSchemeEffects+1] = UM.Build:EffectCollection()
+    function fighter:AfterScheme(text, fighterPredFunc, ...)
+        fighter.afterSchemeEffects[#fighter.afterSchemeEffects+1] = UM.Build:EffectCollection()
             :SourceIsAlive()
             :Text(text)
             :Effects({...})
             :AddCond(fighterPredFunc)
             :Build()
             
-        return result
+        return fighter
     end
 
-    function result:ModManoeuvreValue(fighterPredFunc, modFunc)
-        result.manoeuvreValueMods[#result.manoeuvreValueMods+1] = {
+    function fighter:ModManoeuvreValue(fighterPredFunc, modFunc)
+        fighter.manoeuvreValueMods[#fighter.manoeuvreValueMods+1] = {
             fighterPred = fighterPredFunc,
             modFunc = modFunc,
         }
-        return result
+        return fighter
     end
 
-    function result:ModCardValue(fighterPredFunc, modFunc, modCondition)
-        result.cardValueModifiers[#result.cardValueModifiers+1] = UM.Build:EffectCollection()
+    function fighter:ModCardValue(fighterPredFunc, modFunc, modCondition)
+        fighter.cardValueModifiers[#fighter.cardValueModifiers+1] = UM.Build:EffectCollection()
             :SourceIsAlive()
             :Text('TODO')
             :Effects({
@@ -450,11 +475,11 @@ function UM.Build:Fighter()
             :AddCond(modCondition)
             :Build()
 
-        return result
+        return fighter
     end
 
-    function result:ConnectNodesForMovement(fighterPred, fromNodePred, manyNodesTo)
-        result.movementNodeConnections[#result.movementNodeConnections+1] = function (args, fighter, node)
+    function fighter:ConnectNodesForMovement(fighterPred, fromNodePred, manyNodesTo)
+        fighter.movementNodeConnections[#fighter.movementNodeConnections+1] = function (args, fighter, node)
             if not fighterPred(args, fighter) then
                 return {}
             end
@@ -462,78 +487,78 @@ function UM.Build:Fighter()
                 return {}
             end
             local nodes = manyNodesTo(args)
-            local resultNodes = {}
+            local result = {}
             for _, n in ipairs(nodes) do
                 if n ~= node then
-                    resultNodes[#resultNodes+1] = n
+                    result[#result+1] = n
                 end
             end
-            return resultNodes
+            return result
         end
 
-        return result
+        return fighter
     end
 
-    function result:WhenPlaced(text, ...)
-        result.whenPlaced[#result.whenPlaced+1] = UM.Build:EffectCollection()
+    function fighter:WhenPlaced(text, ...)
+        fighter.whenPlaced[#fighter.whenPlaced+1] = UM.Build:EffectCollection()
             :SourceIsAlive()
             :Text(text)
             :Effects({...})
             :Build()
-        return result
+        return fighter
     end
 
-    function result:AtTheStartOfTheGame(text, ...)
-        result.gameStartEffects[#result.gameStartEffects+1] = UM.Build:EffectCollection()
+    function fighter:AtTheStartOfTheGame(text, ...)
+        fighter.gameStartEffects[#fighter.gameStartEffects+1] = UM.Build:EffectCollection()
             :SourceIsAlive()
             :Text(text)
             :Effects({...})
             :Build()
 
-        return result
+        return fighter
     end
 
-    function result:AddTurnPhaseEffects(step, text, effects)
-        result.turnPhaseEffects[step] = UM.Build:EffectCollection()
+    function fighter:AddTurnPhaseEffects(step, text, effects)
+        fighter.turnPhaseEffects[step] = UM.Build:EffectCollection()
             :SourceIsAlive()
             :Text(text)
             :Effects(effects)
             :Build()
 
-        return result
+        return fighter
     end
 
-    function result:AtTheStartOfYourTurn(text, ...)
-        return result:AddTurnPhaseEffects(UM.TurnPhaseTriggers.START, text, {...})
+    function fighter:AtTheStartOfYourTurn(text, ...)
+        return fighter:AddTurnPhaseEffects(UM.TurnPhaseTriggers.START, text, {...})
     end
 
-    function result:AtTheEndOfYourTurn(text, ...)
-        return result:AddTurnPhaseEffects(UM.TurnPhaseTriggers.END, text, {...})
+    function fighter:AtTheEndOfYourTurn(text, ...)
+        return fighter:AddTurnPhaseEffects(UM.TurnPhaseTriggers.END, text, {...})
     end
 
     -- TODO add fighter predicate
-    function result:OnManoeuvre(text, ...)
-        result.onManoeuvreEffects[#result.onManoeuvreEffects+1] = UM.Build:EffectCollection()
+    function fighter:OnManoeuvre(text, ...)
+        fighter.onManoeuvreEffects[#fighter.onManoeuvreEffects+1] = UM.Build:EffectCollection()
             :SourceIsAlive()
             :Text(text)
             :Effects({...})
             :Build()
 
-        return result
+        return fighter
     end
 
     -- TODO add fighter predicate
-    function result:OnDamage(text, ...)
-        result.onDamageEffects[#result.onDamageEffects+1] = UM.Build:EffectCollection()
+    function fighter:OnDamage(text, ...)
+        fighter.onDamageEffects[#fighter.onDamageEffects+1] = UM.Build:EffectCollection()
             :SourceIsAlive()
             :Text(text)
             :Effects({...})
             :Build()
 
-        return result
+        return fighter
     end
 
-    return result
+    return fighter
 end
 
 -- Combat
@@ -563,23 +588,23 @@ end
 UM.Number = {}
 
 function UM.Number:_(optionsFunc)
-    local result = {}
+    local number = {}
 
-    function result:Choose(args, hint)
+    function number:Choose(args, hint)
         local values = optionsFunc(args)
-        local _result = values[1]
+        local result = values[1]
         if #values > 1 then
-            _result = ChooseNumber(args.owner, values, hint)
+            result = ChooseNumber(args.owner, values, hint)
         end
-        return _result
+        return result
     end
 
-    function result:Last(args)
+    function number:Last(args)
         local values = optionsFunc(args)
         return values[#values]
     end
 
-    return result
+    return number
 end
 
 function UM.Number:Count(many)
@@ -722,7 +747,7 @@ end
 function UM.Conditions:IsDefender(singlePlayer)
     return function (args)
         local part = GetCombatPart(singlePlayer(args))
-        return part[1] ~= nil and part[1].IsDefence
+        return part[3]
     end
 end
 
@@ -1253,29 +1278,29 @@ end
 UM.Select = {}
 
 function UM.Select:_Base(subjectKey, getAllFunc, chooseSingleFunc)
-    local result = {}
+    local selector = {}
 
-    result.filters = {}
-    result.single = false
-    result.chooseHint = 'Choose'
+    selector.filters = {}
+    selector.single = false
+    selector.chooseHint = 'Choose'
 
-    function result:_Add(filter)
-        result.filters[#result.filters+1] = filter
+    function selector:_Add(filter)
+        selector.filters[#selector.filters+1] = filter
 
-        return result
+        return selector
     end
 
-    function result:Single()
-        result.single = true
-        return result
+    function selector:Single()
+        selector.single = true
+        return selector
     end
 
-    function result:_Select(args)
+    function selector:_Select(args)
         local all = getAllFunc()
         local objs = {}
 
         local filterFunc = function (obj)
-            for _, filter in ipairs(result.filters) do
+            for _, filter in ipairs(selector.filters) do
                 if not filter(args, obj) then
                     return false
                 end
@@ -1291,11 +1316,11 @@ function UM.Select:_Base(subjectKey, getAllFunc, chooseSingleFunc)
 
         -- TODO check for 0
 
-        if result.single then
+        if selector.single then
             local obj = objs[1]
 
             if #objs > 1 then
-                obj = chooseSingleFunc(args.owner, objs, result.chooseHint)
+                obj = chooseSingleFunc(args.owner, objs, selector.chooseHint)
             end
 
             objs = {
@@ -1307,23 +1332,23 @@ function UM.Select:_Base(subjectKey, getAllFunc, chooseSingleFunc)
         return objs
     end
 
-    function result:Build()
+    function selector:Build()
         return function (args, chooseHint)
-            result.chooseHint = chooseHint or result.chooseHint
-            return result:_Select(args)
+            selector.chooseHint = chooseHint or selector.chooseHint
+            return selector:_Select(args)
         end
     end
 
-    function result:BuildFirst()
+    function selector:BuildFirst()
         return function (args, chooseHint)
-            local results =  result:_Select(args)
+            local results = selector:_Select(args)
             return results[1]
         end
     end
 
-    function result:BuildPredicate()
+    function selector:BuildPredicate()
         return function (args, subjects)
-            local fighters = result:_Select(args)
+            local fighters = selector:_Select(args)
             for _, v in ipairs(fighters) do
                 if v == subjects[subjectKey] then
                     return true
@@ -1333,9 +1358,9 @@ function UM.Select:_Base(subjectKey, getAllFunc, chooseSingleFunc)
         end
     end
 
-    function result:BuildContains()
+    function selector:BuildContains()
         return function (args, obj)
-            local fighters = result:_Select(args)
+            local fighters = selector:_Select(args)
             for _, v in ipairs(fighters) do
                 if v == obj then
                     return true
@@ -1345,38 +1370,38 @@ function UM.Select:_Base(subjectKey, getAllFunc, chooseSingleFunc)
         end
     end
 
-    function result:BuildOne()
-        result.single = true
-        -- TODO? cache result
+    function selector:BuildOne()
+        selector.single = true
+        -- TODO? cache selector
         return function (args, chooseHint)
-            result.chooseHint = chooseHint or result.chooseHint
-            local objs = result:_Select(args)
+            selector.chooseHint = chooseHint or selector.chooseHint
+            local objs = selector:_Select(args)
             -- TODO what if no objs
             return objs[1]
         end
     end
 
-    return result
+    return selector
 end
 
 function UM.Select:CardsInDiscardPile(ofPlayer)
-    local result = {}
+    local selector = {}
 
-    result.filters = {}
+    selector.filters = {}
 
-    function result:Count()
+    function selector:Count()
         return function (args)
-            return #result:_Select(args)
+            return #selector:_Select(args)
         end
     end
 
-    function result:_Select(args)
+    function selector:_Select(args)
         local player = ofPlayer(args)
         local allCards = GetCardsInDiscardPile(player)
         local cards = {}
 
         local filterFunc = function (card)
-            for _, filter in ipairs(result.filters) do
+            for _, filter in ipairs(selector.filters) do
                 if not filter(args, card) then
                     return false
                 end
@@ -1392,7 +1417,7 @@ function UM.Select:CardsInDiscardPile(ofPlayer)
 
         -- TODO check for 0
 
-        -- if result.single then
+        -- if selector.single then
         --     local fighter = fighters[1]
 
         --     if #fighters > 1 then
@@ -1408,70 +1433,70 @@ function UM.Select:CardsInDiscardPile(ofPlayer)
         return cards
     end
 
-    function result:_Add(func)
-        result.filters[#result.filters+1] = func
+    function selector:_Add(func)
+        selector.filters[#selector.filters+1] = func
 
-        return result
+        return selector
     end
 
-    function result:WithLabel(label)
-        return result:_Add(function (args, card)
+    function selector:WithLabel(label)
+        return selector:_Add(function (args, card)
             return CardHasLabel(card, label)
         end)
     end
 
-    function result:Build()
+    function selector:Build()
         return function (args)
-            return result:_Select(args)
+            return selector:_Select(args)
         end
     end
 
-    return result
+    return selector
 end
 
 function UM.Select:Fighters()
-    local result = UM.Select:_Base('fighter', GetFighters, ChooseFighter)
+    local selector = UM.Select:_Base('fighter', GetFighters, ChooseFighter)
 
-    function result:OwnedBy(playerFunc)
-        return result:_Add(function (args, fighter)
+    function selector:OwnedBy(playerFunc)
+        return selector:_Add(function (args, fighter)
             return fighter.Owner.Idx == playerFunc(args).Idx
         end)
     end
 
-    function result:OtherThanSource()
-        return result:Except(UM.Fighter:Source())
+    function selector:OtherThanSource()
+        return selector:Except(UM.Fighter:Source())
     end
 
-    function result:AllYour()
-        return result:OwnedBy(UM.Player:EffectOwner())
+    function selector:AllYour()
+        return selector:OwnedBy(UM.Player:EffectOwner())
     end
 
-    function result:Undefeated()
-        return result:_Add(function (args, fighter)
+    function selector:Undefeated()
+        return selector:_Add(function (args, fighter)
             return not IsDefeated(fighter)
         end)
     end
 
-    function result:Defeated()
-        return result:_Add(function (args, fighter)
+    function selector:Defeated()
+        return selector:_Add(function (args, fighter)
             return IsDefeated(fighter)
         end)
     end
 
-    function result:Your()
-        return result:_Add(function (args, fighter)
+    function selector:Your()
+        return selector:_Add(function (args, fighter)
             return args.fighter == fighter
         end)
     end
 
-    function result:YourFighter()
-        return result:Your()
+    function selector:YourFighter()
+        return selector:Your()
     end
 
-    function result:Named(...)
+    function selector:Named(...)
         local names = {...}
 
-        return result:_Add(function (args, fighter)
+        return selector:_Add(function (args, fighter)
             for _, name in ipairs(names) do
                 if IsCalled(fighter, name) then
                     return true
@@ -1481,20 +1506,20 @@ function UM.Select:Fighters()
         end)
     end
 
-    function result:Except(singleFighter)
-        return result:_Add(function (args, fighter)
+    function selector:Except(singleFighter)
+        return selector:_Add(function (args, fighter)
             return fighter ~= singleFighter(args)
         end)
     end
 
-    function result:InCombat()
-        return result:_Add(function (args, fighter)
+    function selector:InCombat()
+        return selector:_Add(function (args, fighter)
             return IsInCombat(fighter)
         end)
     end
 
-    function result:Only(fighterFunc)
-        return result:_Add(function (args, fighter)
+    function selector:Only(fighterFunc)
+        return selector:_Add(function (args, fighter)
             local f = fighterFunc(args)
             -- if not IsAlive(f) then
             --     return false
@@ -1503,8 +1528,8 @@ function UM.Select:Fighters()
         end)
     end
 
-    function result:AdjacentTo(singleFighter)
-        return result:_Add(function (args, fighter)
+    function selector:AdjacentTo(singleFighter)
+        return selector:_Add(function (args, fighter)
             local f = singleFighter(args)
             if not IsAlive(f) then
                 return false
@@ -1513,8 +1538,8 @@ function UM.Select:Fighters()
         end)
     end
 
-    function result:InSameZoneAs(singleFighter)
-        return result:_Add(function (args, fighter)
+    function selector:InSameZoneAs(singleFighter)
+        return selector:_Add(function (args, fighter)
             local f = singleFighter(args)
             if not IsAlive(f) then
                 return false
@@ -1523,8 +1548,8 @@ function UM.Select:Fighters()
         end)
     end
 
-    function result:OpposingInCombatTo(fighterFunc)
-        return result:_Add(function (args, fighter)
+    function selector:OpposingInCombatTo(fighterFunc)
+        return selector:_Add(function (args, fighter)
             local f = fighterFunc(args)
             if not IsAlive(f) then
                 return false
@@ -1532,126 +1557,138 @@ function UM.Select:Fighters()
         end)
     end
 
-    function result:MovingFighter()
-        return result:_Add(function (args, fighter)
+    function selector:MovingFighter()
+        return selector:_Add(function (args, fighter)
             return IsMoving(fighter)
         end)
     end
 
-    function result:OpposingTo(playerFunc)
-        return result:_Add(function (args, fighter)
+    function selector:OpposingTo(playerFunc)
+        return selector:_Add(function (args, fighter)
             return IsOpposingTo(fighter, playerFunc(args))
         end)
     end
 
-    function result:FriendlyTo(playerFunc)
-        return result:_Add(function (args, fighter)
+    function selector:FriendlyTo(playerFunc)
+        return selector:_Add(function (args, fighter)
             return not IsOpposingTo(fighter, playerFunc(args))
         end)
     end
 
-    function result:Opposing()
-        return result:OpposingTo(UM.Player:EffectOwner())
+    function selector:MovedThrough()
+        return selector:_Add(function (args, fighter)
+            local fighters = GetMovedThroughFighters()
+            for _, f in ipairs(fighters) do
+                if f == fighter then
+                    return true
+                end
+            end
+            return false
+        end)
     end
 
-    function result:Friendly()
-        return result:FriendlyTo(UM.Player:EffectOwner())
+    function selector:Opposing()
+        return selector:OpposingTo(UM.Player:EffectOwner())
     end
 
-    return result
+    function selector:Friendly()
+        return selector:FriendlyTo(UM.Player:EffectOwner())
+    end
+
+    return selector
 end
 
 function UM.Select:Players()
-    local result = UM.Select:_Base('player', GetPlayers, ChoosePlayer)
+    local selector = UM.Select:_Base('player', GetPlayers, ChoosePlayer)
 
-    result.filters = {}
-    result.single = false
+    selector.filters = {}
+    selector.single = false
 
-    -- function result:OpposingTo(playerFunc)
+    -- function selector:OpposingTo(playerFunc)
     --     -- TODO
-    --     result.filters[#result.filters+1] = function (args, player)
+    --     selector.filters[#selector.filters+1] = function (args, player)
     --         return AreOpposingPlayers(player, playerFunc(args))
     --     end
-    --     return result
+    --     return selector
     -- end
 
-    function result:You()
-        return result:_Add(function (args, player)
+    function selector:You()
+        return selector:_Add(function (args, player)
             return args.owner == player
         end)
     end
 
-    function result:Opponents()
-        return result:_Add(function (args, player)
+    function selector:Opponents()
+        return selector:_Add(function (args, player)
             return AreOpposingPlayers(args.owner, player)
         end)
     end
 
-    function result:YourOpponent()
-        return result:_Add(function (args, player)
+    function selector:YourOpponent()
+        return selector:_Add(function (args, player)
             local owner = args.owner
             return GetOpponentOf(owner) == player
         end)
     end
 
-    function result:InCombat()
-        return result:_Add(function (args, player)
+    function selector:InCombat()
+        return selector:_Add(function (args, player)
             local part = GetCombatPart(player)[1]
             return part ~= nil
         end)
     end
 
-    return result
+    return selector
 end
 
 function UM.Select:Nodes()
-    local result = UM.Select:_Base('node', GetNodes, ChooseNode)
+    local selector = UM.Select:_Base('node', GetNodes, ChooseNode)
 
-    function result:Unoccupied()
-        return result:_Add(function (args, node)
+    function selector:Unoccupied()
+        return selector:_Add(function (args, node)
             return IsUnoccupied(node)
         end)
     end
 
-    function result:NotInZone(zone)
-        return result:_Add(function (args, node)
+    function selector:NotInZone(zone)
+        return selector:_Add(function (args, node)
             return not IsInZone(node, { [1] = zone })
         end)
     end
 
-    function result:WithFighter(singleFighter)
-        return result:_Add(function (args, node)
+    function selector:WithFighter(singleFighter)
+        return selector:_Add(function (args, node)
             local fighter = singleFighter(args)
             return node.Fighter == fighter
         end)
     end
 
-    function result:Empty()
-        return result:_Add(function (args, node)
+    function selector:Empty()
+        return selector:_Add(function (args, node)
             return IsNodeEmpty(node)
         end)
     end
 
-    function result:InZoneOfFighter(singleFighter)
-        return result:_Add(function (args, node)
+    function selector:InZoneOfFighter(singleFighter)
+        return selector:_Add(function (args, node)
             return IsInZone(node, GetFighterZones(singleFighter(args)))
         end)
     end
 
-    function result:WithNoToken(tokenName)
-        return result:_Add(function (args, node)
+    function selector:WithNoToken(tokenName)
+        return selector:_Add(function (args, node)
             return not NodeContainsToken(node, tokenName)
         end)
     end
 
-    function result:WithToken(tokenName)
-        return result:_Add(function (args, node)
+    function selector:WithToken(tokenName)
+        return selector:_Add(function (args, node)
             return NodeContainsToken(node, tokenName)
         end)
     end
 
-    function result:AdjacentToFighters(manyFighters)
-        return result:_Add(function (args, node)
+    function selector:AdjacentToFighters(manyFighters)
+        return selector:_Add(function (args, node)
             local fighters = manyFighters(args)
             for _, fighter in ipairs(fighters) do
                 local fighterNode = GetFighterNode(fighter)
@@ -1663,25 +1700,25 @@ function UM.Select:Nodes()
         end)
     end
 
-    return result
+    return selector
 end
 
 function UM.Select:Tokens()
-    local result = UM.Select:_Base('token', GetTokens, ChooseToken)
+    local selector = UM.Select:_Base('token', GetTokens, ChooseToken)
 
-    function result:Only(singleToken)
-        return result:_Add(function (args, token)
+    function selector:Only(singleToken)
+        return selector:_Add(function (args, token)
             return token == singleToken(args)
         end)
     end
 
-    function result:Named(name)
-        return result:_Add(function (args, token)
+    function selector:Named(name)
+        return selector:_Add(function (args, token)
             return token.Original.Name == name
         end)
     end
 
-    return result
+    return selector
 end
 
 -- Character-specific

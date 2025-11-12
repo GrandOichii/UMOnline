@@ -43,13 +43,14 @@ public class FighterAsserts(Fighter fighter)
 
     public FighterAsserts HasDamage(int v)
     {
-        (fighter.Health.Max - fighter.Health.Current).ShouldBe(v);
+        var damage = fighter.Health.Max - fighter.Health.Current;
+        damage.ShouldBe(v, $"Expected {fighter.FormattedLogName} to have {v} damage, but it was {damage}");
         return this;
     }
 
     public FighterAsserts IsAtFullHealth()
     {
-        fighter.Health.Current.ShouldBe(fighter.Health.Max);
+        fighter.Health.Current.ShouldBe(fighter.Health.Max, $"Expected {fighter.LogName} to be at full health, but it has {fighter.Health.Max - fighter.Health.Current} damage");
         return this;
     }
 }

@@ -75,7 +75,7 @@ def get_allowed_fighters(af):
         'Jill trent': 'Jill Trent',
         'Dracula': 'Dracula',
         'Daisy': 'Daisy',
-        'Annie': 'Annie',
+        'Annie': 'Annie Christmas',
         'Charlie': 'Charlie',
         'Wong': 'Wong',
         'Geralt': 'Geralt',
@@ -233,18 +233,16 @@ for deck in data['decks']:
     for card in deck['cards']:
         cards += [{
             'Amount': card['quantity'],
-            'Card': {
-                'AllowedFighters': get_allowed_fighters(card['characterName']),
-                'Name': get_card_name(card['title']) ,
-                'Key': f'{deck_name}_{card['title']}',
-                'Type': card['type'].capitalize(),
-                'Value': card['value'],
-                'Boost': card['boost'],
-                'Text': get_text(card),
-                'Labels': card['labels'] if 'labels' in card else [],
-                'IncludedInDeckWithSidekick': card['includedInDeckWithSidekick'] if 'includedInDeckWithSidekick' in card else None,
-                'Script': CARD_SCRIPT_DIR_FORMAT.format(deck_name, card['title'])
-            }
+            'AllowedFighters': get_allowed_fighters(card['characterName']),
+            'Name': get_card_name(card['title']) ,
+            'Key': f'{deck_name}_{card['title']}',
+            'Type': card['type'].capitalize(),
+            'Value': card['value'],
+            'Boost': card['boost'],
+            'Text': get_text(card),
+            'Labels': card['labels'] if 'labels' in card else [],
+            'IncludedInDeckWithSidekick': card['includedInDeckWithSidekick'] if 'includedInDeckWithSidekick' in card else None,
+            'Script': CARD_SCRIPT_DIR_FORMAT.format(deck_name, card['title'])
         }]
 
     loadout = {

@@ -225,14 +225,15 @@ public partial class TestMatch : Control
 	{
 		var data = File.ReadAllText(path);
 		var result = JsonSerializer.Deserialize<LoadoutTemplate>(data)!;
+		var dir = System.IO.Path.GetDirectoryName(path);
 		foreach (var card in result.Deck)
 		{
-			card.Card.Script = File.ReadAllText($"../{card.Card.Script}");
+			card.Script = File.ReadAllText($"{dir}/{card.Script}");
 		}
 
 		foreach (var fighter in result.Fighters)
 		{
-			fighter.Script = File.ReadAllText($"../{fighter.Script}");
+			fighter.Script = File.ReadAllText($"{dir}/{fighter.Script}");
 		}
 		return result;
 	}
@@ -267,6 +268,11 @@ public partial class TestMatch : Control
 			var loadout1 = LoadLoadout($"../.generated/loadouts/{PlayerDeck}/{PlayerDeck}.json");
 			var loadout2 = LoadLoadout($"../.generated/loadouts/{BotDeck}/{BotDeck}.json");
 
+			var opponentController = new RandomPlayerController(0);
+			// var opponentController = new LuaPlayerController(
+			// 	File.ReadAllText("../bots/smart.lua")
+			// );
+
 			await match.AddPlayer(
 				"RealPlayer",
 				0,
@@ -278,7 +284,7 @@ public partial class TestMatch : Control
 				"Random",
 				1,
 				loadout2,
-				new DelayedControllerWrapper(TimeSpan.FromMilliseconds(10), new RandomPlayerController(0))
+				new DelayedControllerWrapper(TimeSpan.FromMilliseconds(10), opponentController)
 			);
 
 			await match.Run();
