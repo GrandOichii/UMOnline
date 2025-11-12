@@ -540,7 +540,6 @@ function UM.Build:Fighter()
         return fighter
     end
 
-    -- TODO add fighter predicate
     function fighter:OnDamage(text, fighterPred, ...)
         fighter.onDamageEffects[#fighter.onDamageEffects+1] = UM.Build:EffectCollection()
             :SourceIsAlive()
@@ -562,7 +561,7 @@ UM.Combat = {}
 function UM.Combat:DamageDealt()
     return UM.Number:_(function (args)
         local combat = GetCombat()
-        assert(combat ~= nil, 'TODO write this error')
+        assert(combat ~= nil, 'Tried to call UM.Combat:DamageDealt while no combat is active')
 
         local damage = combat.DamageDealt
         if damage == nil then
@@ -628,16 +627,6 @@ function UM.Number:UpTo(max)
 end
 
 UM.Effects = {}
-
--- function UM.Effects:Custom(effectF)
---     -- TODO create some metadata
---     return function (args)
---         -- TODO store metadata
---         local meta = {}
---         effectF(args, meta)
---         -- TODO? return something
---     end
--- end
 
 -- Control flow
 
@@ -805,24 +794,6 @@ function UM.Conditions:PlayedCombatCard(singlePlayer)
         return part[1] ~= nil
     end
 end
-
--- function UM.Conditions:AttackerOwnedBy(singlePlayer)
---     return function (args)
---         local combat = GetCombat()
---         assert(combat ~= nil, 'TODO write this error')
-
---         return combat.Attacker.Owner == singlePlayer(args)
---     end
--- end
-
--- function UM.Conditions:AttackerIs(singleFighter)
---     return function (args)
---         local combat = GetCombat()
---         assert(combat ~= nil, 'TODO write this error')
-
---         return combat.Attacker == singleFighter(args)
---     end
--- end
 
 function UM.Conditions:FightersAreDefeated(manyFighters)
     return function (args)
@@ -1026,7 +997,7 @@ function UM.Effects:MoveFighters(manyFighters, numeric, canMoveOverOpposing)
     return function (args)
         local fighters = manyFighters(args, 'Choose which fighter to move')
         local amount = numeric:Last(args)
-        MoveFighters(args.owner, fighters, amount, canMoveOverOpposing) -- TODO this threw an exception after playing Skirmish and defeating a Harpy
+        MoveFighters(args.owner, fighters, amount, canMoveOverOpposing)
     end
 end
 
@@ -1125,7 +1096,6 @@ function UM.Effects:AllowBoost(numeric, optional)
                 return
             end
             
-            -- TODO check hand size
             local card = GetCardInHand(
                 player,
                 ChooseCardInHand(player, player, 'Choose a card for boost')
@@ -1310,7 +1280,8 @@ function UM.Select:_Base(subjectKey, getAllFunc, chooseSingleFunc)
 
         -- TODO check for 0
 
-        if selector.single then
+
+        if selector.single and #objs > 0 then
             local obj = objs[1]
 
             if #objs > 1 then
@@ -1366,7 +1337,6 @@ function UM.Select:_Base(subjectKey, getAllFunc, chooseSingleFunc)
 
     function selector:BuildOne()
         selector.single = true
-        -- TODO? cache selector
         return function (args, chooseHint)
             selector.chooseHint = chooseHint or selector.chooseHint
             local objs = selector:_Select(args)

@@ -1,6 +1,4 @@
 
--- TODO dont think this actually places the cards on the bottom
-
 function _Create()
     return UM.Build:Fighter()
         :AfterCombat(

@@ -116,6 +116,20 @@ public class TestPlayerControllerBuilder
             });
         }
 
+        public ActionsBuilder MoveAllTokens(int fromNodeId, int toNodeId)
+        {
+            return Enqueue(async (match, player, options) =>
+            {
+                var fromNode = match.Map.Nodes.Single(n => n.Id == fromNodeId);
+                var toNode = match.Map.Nodes.Single(n => n.Id == toNodeId);
+                while (fromNode.Tokens.Count > 0)
+                {
+                    await fromNode.Tokens[0].MoveTo(toNode);
+                }
+                return (TestPlayerController.NEXT_ACTION, true);
+            });
+        }
+
         public ActionsBuilder Swap(string fighterKey1, string fighterKey2)
         {
             return Enqueue(async (match, player, options) =>

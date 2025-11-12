@@ -54,7 +54,7 @@ public abstract class MatchCardCollection : IHasData<MatchCardCollection.Data>
 
     public async Task PutOnBottom(MatchCard card)
     {
-        Cards.Insert(0, card);
+        Cards.Add(card);
         await Owner.Match.UpdateClients();
     }
 

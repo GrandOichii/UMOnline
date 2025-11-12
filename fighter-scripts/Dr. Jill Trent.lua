@@ -100,6 +100,7 @@ end
 function UM.Effects.CharacterSpecific:ActivateGadget(gadget)
     return function (args)
         SetPlayerStringAttribute(args.owner, 'GADGET', gadget)
-        LogPublic('Dr. Jill Trent activates '..gadget) -- TODO format name
+        local fighter = UM.Fighter:Named('Dr. Jill Trent')(args)
+        LogPublic(fighter.FormattedLogName..' activates '..gadget)
     end
 end

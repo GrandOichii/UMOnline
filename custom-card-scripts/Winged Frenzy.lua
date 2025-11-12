@@ -1,3 +1,5 @@
+-- TODO test
+
 function _Create()
     return UM.Build:Card()
         :Effect(
@@ -8,8 +10,25 @@ function _Create()
                     :Build(),
                 UM.Number:UpTo(3),
                 true
+            ),
+            UM.Effects:If(
+                UM.Conditions:CountGte(
+                    UM.Select:Fighters()
+                        :Defeated()
+                        :Named('Harpy')
+                        :Build(),
+                    0
+                ),
+                UM.Effects:ReviveAndSummon(
+                    UM.Select:Fighters()
+                        :Defeated()
+                        :Named('Harpy')
+                        :BuildFirst(),
+                    UM.Select:Nodes()
+                        :InZoneOfFighter(UM.Fighter:Named('Medusa'))
+                        :BuildOne()
+                )
             )
-            -- TODO resurrection
         )
         :Build()
 end

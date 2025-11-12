@@ -617,9 +617,9 @@ public class MatchScripts
             throw new MatchException($"Provided null card for {nameof(PutCardOnTheBottomOfDeck)}");
         try
         {
-        var deck = player.Deck;
-        deck.PutOnBottom(card)
-            .Wait();
+            var deck = player.Deck;
+            deck.PutOnBottom(card)
+                .Wait();
         }catch (Exception e)
         {
             Match.Logger?.LogError(e.Message);

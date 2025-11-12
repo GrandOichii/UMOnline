@@ -1,6 +1,3 @@
-using System.Reflection;
-using System.Text.Json;
-using Shouldly;
 
 namespace UMCore.Tests.Fighters;
 
@@ -11,10 +8,10 @@ public class InvisibleManTests
         .ClearDeck();
 
     [Theory]
-    [InlineData(0, 1, 2)]
     [InlineData(1, 2, 3)]
-    [InlineData(0, 2, 4)]
-    public async Task TokenPlacement(int token1NodeId, int token2NodeId, int token3NodeId)
+    [InlineData(2, 3, 4)]
+    [InlineData(1, 3, 4)]
+    public async Task ValidTokenPlacement(int token1NodeId, int token2NodeId, int token3NodeId)
     {
         // Arrange
         var config = new MatchConfigBuilder()
@@ -28,7 +25,8 @@ public class InvisibleManTests
             .AddNode(1, [0])
             .AddNode(2, [0])
             .AddNode(3, [0])
-            .AddNode(4, [0], spawnNumber: 2) // foo
+            .AddNode(4, [0])
+            .AddNode(5, [0], spawnNumber: 2) // foo
             .ConnectAllAsLine()
             .Build();
 
@@ -80,6 +78,75 @@ public class InvisibleManTests
     }
 
     [Fact]
+    public async Task InvalidTokenPlacement()
+    {
+        // Arrange
+        var config = new MatchConfigBuilder()
+            .InitialHandSize(0)
+            // .FirstPlayer(1)
+            .ActionsPerTurn(2)
+            .Build();
+
+        var mapTemplate = new MapTemplateBuilder()
+            .AddNode(0, [0], spawnNumber: 1) // invisible man
+            .AddNode(1, [0])
+            .AddNode(2, [0])
+            .AddNode(3, [0])
+            .AddNode(4, [1])
+            .AddNode(5, [0])
+            .AddNode(6, [0], spawnNumber: 2) // foo
+            .ConnectAllAsLine()
+            .Build();
+
+        var match = new TestMatchWrapper(
+            config,
+            mapTemplate
+        );
+
+        await match.AddMainPlayer(
+            new TestPlayerControllerBuilder()
+                .ConfigActions(a => a
+                    .DeclareWinner()
+                    .CrashMatch()
+                )
+                .ConfigNodeChoices(c => c
+                    .AssertOptionsEquivalent([1, 2, 3, 5])
+                    .WithId(1)
+                    .WithId(2)
+                    .WithId(3)
+                )
+                .Build(),
+            GetLoadoutBuilder().Build()
+        );
+        await match.AddOpponent(
+            TestPlayerControllerBuilder.Crasher(),
+            LoadoutTemplateBuilder.Foo()
+        );
+
+        // Act
+        await match.Run();
+
+        // Assert
+        match.Assert()
+            .CrashedIntentionally();
+
+        match.AssertPlayer(0)
+            .HasCardsInHand(0)
+            .SetupCalled()
+            .IsWinner();
+        match.AssertPlayer(1)
+            .SetupCalled()
+            .IsNotWinner();
+
+        match.AssertNode(1)
+            .HasToken("Fog");
+        match.AssertNode(2)
+            .HasToken("Fog");
+        match.AssertNode(3)
+            .HasToken("Fog");
+    }
+
+    [Fact]
     public async Task BaselineDefenseCheck()
     {
         // Arrange
@@ -90,6 +157,7 @@ public class InvisibleManTests
             .Build();
 
         var mapTemplate = new MapTemplateBuilder()
+            .AddNode(5, [0])
             .AddNode(1, [0])
             .AddNode(2, [0])
             .AddNode(3, [0])
@@ -180,6 +248,7 @@ public class InvisibleManTests
             .Build();
 
         var mapTemplate = new MapTemplateBuilder()
+            .AddNode(5, [0])
             .AddNode(1, [0])
             .AddNode(2, [0])
             .AddNode(3, [0])
@@ -203,7 +272,7 @@ public class InvisibleManTests
                     .First()
                 )
                 .ConfigNodeChoices(c => c
-                    .WithId(0)
+                    .WithId(3)
                     .WithId(1)
                     .WithId(2)
                 )
@@ -217,6 +286,7 @@ public class InvisibleManTests
         await match.AddOpponent(
             new TestPlayerControllerBuilder()
                 .ConfigActions(a => a
+                    .MoveAllTokens(3, 0)
                     .Attack()
                 )
                 .ConfigAttackChoices(c => c
@@ -294,6 +364,7 @@ public class InvisibleManTests
         await match.AddMainPlayer(
             new TestPlayerControllerBuilder()
                 .ConfigActions(a => a
+                    .MoveAllTokens(5, 6)
                     .Manoeuvre()
                     .DeclareWinner()
                     .CrashMatch()
@@ -323,7 +394,7 @@ public class InvisibleManTests
                 )
                 .ConfigNodeChoices(c => c
                     .WithId(0)
-                    .WithId(6)
+                    .WithId(5)
                     .WithId(12)
                 )
                 .Build(),
@@ -349,6 +420,5 @@ public class InvisibleManTests
             .SetupCalled()
             .IsNotWinner();
     }
-
 
 }
