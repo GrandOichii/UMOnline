@@ -255,7 +255,7 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
     public async Task ExecuteOnMoveEffects(Fighter fighter, MapNode fromNode, MapNode? toNode)
     {
         var effects = GetAliveFighters().SelectMany(f => f.OnMoveEffects);
-        // TODO order effects (bad, doesnt have a fighter predicate)
+        // TODO order effects
 
         foreach (var effect in effects)
         {

@@ -38,7 +38,7 @@ function UM.Effects.CharacterSpecific:WSEnableRedRoom()
 
         SetPlayerStringAttribute(args.owner, 'RED_ROOM_ACTIVE', 'Y')
 
-        LogPublic('Red room effects are now active for Winter Soldier') -- TODO format name
+        LogPublic('Red room effects are now active for '..args.fighter.FormattedLogName)
     end
 end
 

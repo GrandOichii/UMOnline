@@ -119,8 +119,6 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
 
         Health = new(this);
 
-        // TODO this is ugly
-
         LuaTable data;
         try
         {

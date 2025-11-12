@@ -348,7 +348,11 @@ public class TestPlayerControllerBuilder
 
         public class Asserts(Player player, int playerHandIdx, MatchCard[] options, string hint) : GeneralAsserts(player)
         {
-            
+            public Asserts OptionsEmpty()
+            {
+                options.Length.ShouldBe(0);
+                return this;
+            }
         }
     }
 

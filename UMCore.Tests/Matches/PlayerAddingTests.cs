@@ -354,8 +354,86 @@ public class TODOSortTheseTests
 
 public class MovementTests
 {
-    // TODO add tests where player cant discard cards for boost (they dont have boost values)
+    [Fact]
+    public async Task CantDiscardForBoost()
+    {
+        // Arrange
+        var config = new MatchConfigBuilder()
+            .ActionsPerTurn(2)
+            .Build();
 
+        // 0 - 1 - 2 - 3 - 4 - 5
+        var mapTemplate = new MapTemplateBuilder()
+            .AddNode(0, [0], spawnNumber: 1)
+            .AddNode(1, [0])
+            .AddNode(2, [0])
+            .AddNode(3, [0])
+            .AddNode(4, [0], spawnNumber: 2)
+            .AddNode(5, [0])
+            .Connect(0, 1)
+            .Connect(1, 2)
+            .Connect(2, 3)
+            .Connect(3, 4)
+            .Build();
+
+        var match = new TestMatchWrapper(
+            config,
+            mapTemplate
+        );
+
+        await match.AddMainPlayer(
+            new TestPlayerControllerBuilder()
+                .ConfigActions(a => a
+                    .Manoeuvre()
+                    .DeclareWinner()
+                    .CrashMatch()
+                )
+                .ConfigFighterChoices(c => c
+                    .First()
+                )
+                .ConfigHandCardChoices(c => c
+                    .Assert(a => a.OptionsEmpty())
+                    .Nothing()
+                )
+                .ConfigPathChoices(c => c
+                    .First()
+                )
+                .Build(),
+            new LoadoutTemplateBuilder("foo1")
+                .AddFighter(new FighterTemplateBuilder("foo1", "foo1")
+                    .Movement(1)
+                    .Build()
+                )
+                .ConfigDeck(d => d
+                    .Add(new CardTemplateBuilder()
+                        .Amount(1)
+                        .NoBoost()
+                        .Build()
+                    )
+                )
+                .Build()
+        );
+        await match.AddOpponent(
+            TestPlayerControllerBuilder.Crasher(),
+            LoadoutTemplateBuilder.Foo("foo2")
+        );
+
+        // Act
+        await match.Run();
+
+        // Assert
+        match.Assert()
+            .CrashedIntentionally();
+
+        match.AssertPlayer(0)
+            .SetupCalled()
+            .HasUnspentActions(1)
+            .IsWinner();
+        match.AssertPlayer(1)
+            .SetupCalled()
+            .IsNotWinner();
+    }
+    
     [Theory]
     [InlineData(0, 1)]
     [InlineData(1, 2)]

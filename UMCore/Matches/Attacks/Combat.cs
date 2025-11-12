@@ -248,7 +248,7 @@ public class Combat : IHasData<Combat.Data>
         if (part == AttackCard) return (DefenceCard, Defender);
         if (part == DefenceCard) return (AttackCard, Attacker);
 
-        throw new MatchException($"Stale CombatPart passed to {nameof(GetOpponent)}");// TODO type
+        throw new MatchException($"Stale CombatPart passed to {nameof(GetOpponent)}");
     }
 
     public async Task CancelEffectsOfOpponent(Player player)
@@ -259,7 +259,7 @@ public class Combat : IHasData<Combat.Data>
         if (!oppCard.CanBeCancelled(player)) return;
 
         await oppCard.CancelEffects();
-        Match.Logger?.LogDebug("Effects of card {CardLogName} of player {PlayerLogName} were cancelled", oppCard.Card.LogName, fighter.Owner.LogName); // TODO wrong {PlayerLogName}
+        Match.Logger?.LogDebug("Effects of card {CardLogName} of player {PlayerLogName} were cancelled", oppCard.Card.LogName, oppCard.Card.Owner.LogName);
         await Match.UpdateClients();
     }
 

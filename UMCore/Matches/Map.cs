@@ -215,7 +215,6 @@ public class MapNode : IHasData<MapNode.Data>
         await Parent.Match.UpdateClients();
 
         await ResolveOnStepEffects();
-        // TODO trigger OnStep effects of all tokens
     }
 
     private async Task ResolveOnStepEffects()
@@ -313,43 +312,6 @@ public class MapNode : IHasData<MapNode.Data>
 
         return result;
     }
-
-    // public void GetPossibleMovementResults(
-    //     Fighter fighter,
-    //     int movement,
-    //     bool canMoveOverFriendly,
-    //     bool canMoveOverOpposing,
-    //     in HashSet<MapNode> result)
-    // {
-    //     if (Fighter is not null && Fighter != fighter)
-    //     {
-    //         if (!canMoveOverOpposing && Fighter.IsOpposingTo(fighter.Owner)) return;
-    //         if (!canMoveOverFriendly && Fighter.IsFriendlyTo(fighter.Owner)) return;
-    //     }
-    //     else
-    //     {
-    //         result.Add(this);
-    //     }
-
-    //     if (movement == 0)
-    //     {
-    //         return;
-    //     }
-
-    //     foreach (var node in Adjacent)
-    //     {
-    //         node.GetPossibleMovementResults(fighter, movement - 1, canMoveOverFriendly, canMoveOverOpposing, result);
-    //     }
-    //     if (Template.HasSecretPassage)
-    //     {
-    //         foreach (var node in Parent.SecretPassageNodes)
-    //         {
-    //             if (node == this) continue;
-    //             node.GetPossibleMovementResults(fighter, movement - 1, canMoveOverFriendly, canMoveOverOpposing, result);
-    //         }
-    //     }
-    //     // TODO add support for fog token-like effects
-    // }
 
     public bool IsInZone(IEnumerable<int> zones)
     {

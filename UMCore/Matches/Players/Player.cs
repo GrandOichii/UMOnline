@@ -66,20 +66,6 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
         AtTheStartOfTurnTemporaryEffects = [];
     }
 
-    // public async Task InitialPlaceFighter(Fighter fighter)
-    // {
-    //     // TODO place in spawn location
-    //     // TODO if spawn location is taken, choose a node clearest to first hero or (if all are surrounded) to sidekick 
-    //     // var spawn = Match.Map.GetSpawnLocation(Idx + (Fighters.Count - 1) * Match.Players.Count);
-    //     // await spawn.PlaceFighter(fighter);
-
-    //     var nodes = Match.Map.Nodes;
-    //     var node = nodes.First(n => n.Fighter is null);
-    //     await node.PlaceFighter(fighter);
-
-    //     Match.Logs.Public($"Player {FormattedLogName} placed {fighter.FormattedLogName}");
-    // }
-
     public async Task InitialPlaceFighters(int spawnNumber)
     {
         // IPlayerInitialFighterPlacer placer = new PlayerInitialFighterPlacerNeighbors();

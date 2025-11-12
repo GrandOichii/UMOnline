@@ -6,7 +6,7 @@ public class CardTemplateBuilder
 
     private int _amount = 1;
     private List<string> _allowedFighters = [];
-    private int _boost = 1;
+    private int? _boost = 1;
     private string _key = "";
     private List<string> _labels = [];
     private string _name = "";
@@ -14,6 +14,12 @@ public class CardTemplateBuilder
     private string _text = "";
     private string _type = "";
     private int _value = 0;
+
+    public CardTemplateBuilder NoBoost()
+    {
+        _boost = null;
+        return this;
+    }
 
     public CardTemplateBuilder Amount(int amount)
     {

@@ -8,9 +8,6 @@ public class LukeCage
         .Load("../../../../.generated/loadouts/Luke Cage/Luke Cage.json")
         .ClearDeck();
 
-    // TODO test:
-    // check non combat damage
-
     [Theory]
     [InlineData(2, 0)]
     [InlineData(3, 1)]

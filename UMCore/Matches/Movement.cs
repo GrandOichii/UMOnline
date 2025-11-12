@@ -45,7 +45,6 @@ public class Movement(Player player, Fighter fighter, int movement, bool canMove
             prevNode = node;
         }
 
-        // TODO execute AtTheEndOfMovementEffects
         // TODO order effects
         foreach (var (source, effect) in AtTheEndOfMovementEffects)
             effect.Execute(new(source), new()); // TODO? subjects

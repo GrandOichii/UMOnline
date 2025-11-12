@@ -52,6 +52,6 @@ function UM.Effects.CharacterSpecific:ChargeCoil(amount)
         local charged = target - prev
         SetPlayerIntAttribute(args.owner, 'COILS', target)
 
-        LogPublic('Nikola Tesla charges '..tostring(charged)..' coils, charge is at '..tostring(target)) -- TODO format name
+        LogPublic(args.fighter.FormattedLogName..' charges '..tostring(charged)..' coils, charge is at '..tostring(target))
     end
 end

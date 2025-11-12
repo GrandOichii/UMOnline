@@ -74,7 +74,6 @@ public class SinbadTests
                     .WithId(13)
                 )
                 .ConfigPathChoices(c => c
-                    // TODO assert
                     .Assert(a => a
                         .OptionsCount(expectedMovementValue)
                     )
