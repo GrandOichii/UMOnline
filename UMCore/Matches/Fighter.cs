@@ -398,14 +398,6 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
         return result;
     }
 
-    public async Task ExecuteOnManoeuvreEffects()
-    {
-        List<EffectCollection> effects = [.. OnManoeuvreEffects];
-        // TODO order effects
-        foreach (var effect in effects)
-            effect.Execute(new(this), new());
-    }
-
     public async Task ExecuteOnDamageEffects()
     {
         List<EffectCollection> effects = [.. OnDamageEffects];

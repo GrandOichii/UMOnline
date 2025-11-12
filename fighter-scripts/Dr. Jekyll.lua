@@ -24,6 +24,7 @@ function _Create()
         )
         :OnManoeuvre(
             'While Mr. Hyde: After you Maneuver, take 1 damage.',
+            UM.Select:Fighters():Your():Build(),
             UM.Effects:If(
                 UM.Conditions:PlayerAttributeEqualTo('IDENTITY', hyde),
                 UM.Effects:DealDamage(

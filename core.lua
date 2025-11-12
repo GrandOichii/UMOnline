@@ -460,7 +460,7 @@ function UM.Build:Fighter()
     function fighter:ModCardValue(text, fighterPredFunc, modFunc, modCondition)
         fighter.cardValueModifiers[#fighter.cardValueModifiers+1] = UM.Build:EffectCollection()
             :SourceIsAlive()
-            :Text('TODO')
+            :Text(text)
             :Effects({
                 [1] = modFunc
             })
@@ -530,11 +530,12 @@ function UM.Build:Fighter()
     end
 
     -- TODO add fighter predicate
-    function fighter:OnManoeuvre(text, ...)
+    function fighter:OnManoeuvre(text, fighterPred, ...)
         fighter.onManoeuvreEffects[#fighter.onManoeuvreEffects+1] = UM.Build:EffectCollection()
             :SourceIsAlive()
             :Text(text)
             :Effects({...})
+            :AddCond(fighterPred)
             :Build()
 
         return fighter

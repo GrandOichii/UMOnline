@@ -329,7 +329,13 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
 
             if (!isManoeuvre) continue;
 
-            await fighter.ExecuteOnManoeuvreEffects();
+            // OnManoeuvre effects
+            var effects = Match.GetEffectCollectionThatAccepts(new(fighter), f => f.OnManoeuvreEffects);
+            // TODO order effects
+            foreach (var (source, effect) in effects)
+            {
+                effect.Execute(new(source), new(fighter));
+            }
         }
     }
 
