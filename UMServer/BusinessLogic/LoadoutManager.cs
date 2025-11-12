@@ -1,7 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using UMCore.Templates;
-using UMDto;
-using UMServer.Extensions;
 using UMServer.Repositories;
 
 namespace UMServer.BusinessLogic;

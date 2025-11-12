@@ -16,8 +16,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UMModel", "UMModel\UMModel.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UMModel.Scripts", "UMModel.Scripts\UMModel.Scripts.csproj", "{8ADCD3EA-902E-4C55-88CF-DAA1FEDB67F4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UMDto", "UMDto\UMDto.csproj", "{B17C1A69-3D7C-4231-8580-DBD1FCDDA8C0}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UMServer", "UMServer\UMServer.csproj", "{858CBE7C-2E1E-404F-9D56-78F77F501645}"
 EndProject
 Global
