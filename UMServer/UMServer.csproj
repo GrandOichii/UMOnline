@@ -13,7 +13,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\UMModel\UMModel.csproj" />
-    <ProjectReference Include="..\UMDto\UMDto.csproj" />
     <ProjectReference Include="..\UMCore\UMCore.csproj" />
   </ItemGroup>
 

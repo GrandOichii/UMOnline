@@ -235,7 +235,7 @@ for deck in data['decks']:
             'Amount': card['quantity'],
             'AllowedFighters': get_allowed_fighters(card['characterName']),
             'Name': get_card_name(card['title']) ,
-            'Key': f'{deck_name}_{card['title']}',
+            'Key': f"{deck_name}_{card['title']}",
             'Type': card['type'].capitalize(),
             'Value': card['value'],
             'Boost': card['boost'],
