@@ -1,9 +1,8 @@
 
--- Add +3 to the value of the Leshen's attacks if it already attacked this turn.
-
 function _Create()
     return UM.Build:Fighter()
         :ModCardValue(
+            'Add +3 to the value of the Leshen\'s attacks if it already attacked this turn.',
             UM.Select:Fighters():Named('Ancient Leshen'):BuildPredicate(),
             UM.Mod.Cards:AttackCards(
                 UM.Number:Static(3)

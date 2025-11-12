@@ -1,7 +1,7 @@
 
 -- 
 -- TO BE: When you maneuver, draw 1 additional card.
--- NOT TO BE: Add +2 to the value of Hamlet's attacks.
+-- 
 
 function _Create()
     return UM.Build:Fighter()
@@ -40,6 +40,7 @@ function _Create()
             end
         )
         :ModCardValue(
+            'NOT TO BE: Add +2 to the value of Hamlet\'s attacks.',
             UM.Select:Fighters():Named('Hamlet'):BuildPredicate(),
             UM.Mod.Cards:AllCards(UM.Number:Static(2)),
             UM.Conditions.CharacterSpecific:NotToBe()

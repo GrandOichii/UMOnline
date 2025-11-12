@@ -12,11 +12,13 @@ function _Create()
             end
         )
         :ModCardValue(
+            'When Alice is BIG, add 2 to the value of her attack cards.',
             UM.Select:Fighters():Named('Alice'):BuildPredicate(),
             UM.Mod.Cards:AttackCards(UM.Number:Static(2)),
             UM.Conditions:PlayerAttributeEqualTo('ALICE_SIZE', 'BIG')
         )
         :ModCardValue(
+            'When Alice is SMALL, add 1 to the value of her defense cards.',
             UM.Select:Fighters():Named('Alice'):BuildPredicate(),
             UM.Mod.Cards:DefenseCards(UM.Number:Static(1)),
             UM.Conditions:PlayerAttributeEqualTo('ALICE_SIZE', 'SMALL')

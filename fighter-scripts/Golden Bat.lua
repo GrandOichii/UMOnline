@@ -1,9 +1,8 @@
 
--- If you haven't taken a Maneuver action this turn, add +2 to the value of Golden Bat's attacks.
-
 function _Create()
     return UM.Build:Fighter()
         :ModCardValue(
+            'If you haven\'t taken a Maneuver action this turn, add +2 to the value of Golden Bat\'s attacks.',
             UM.Select:Fighters():Named('Golden Bat'):BuildPredicate(),
             UM.Mod.Cards:AttackCards(UM.Number:Static(2)),
             UM.Conditions:Not(

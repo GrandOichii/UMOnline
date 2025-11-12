@@ -23,7 +23,7 @@ function _Create()
             placeTokenEffect
         )
         :ModCardValue(
-            -- When Invisible Man is on a space with a fog token, add 1 to the value of his defense cards.
+            'When Invisible Man is on a space with a fog token, add 1 to the value of his defense cards.',
             UM.Select:Fighters():Named('Invisible Man'):BuildPredicate(),
             UM.Mod.Cards:DefenseCards(UM.Number:Static(1)),
             UM.Conditions:FighterStandsOnNode(

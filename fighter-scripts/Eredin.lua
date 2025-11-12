@@ -2,6 +2,7 @@
 function _Create()
     return UM.Build:Fighter()
         :ModCardValue(
+            'If Eredin is ENRAGED, add +1 to the value of your combat cards, and your move value is 3.',
             UM.Select:Fighters():Named('Eredin'):BuildPredicate(),
             UM.Mod.Cards:AllCards(UM.Number:Static(1)),
             UM.Conditions.CharacterSpecific:EredinEnraged()

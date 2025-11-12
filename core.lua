@@ -34,12 +34,6 @@ function UM.Player:Opponent()
         :BuildOne()
 end
 
--- function UM.Player:Opponent()
---     return function (args)
---         -- TODO combat opponent
---     end
--- end
-
 -- Single fighter
 
 UM.Fighter = {}
@@ -386,7 +380,6 @@ function UM.Build:Fighter()
         return fighter
     end
 
-    -- TODO rename
     function fighter:OnFighterDefeatUngated(text, fighterPredFunc, ...)
         fighter.onFighterDefeatEffects[#fighter.onFighterDefeatEffects+1] = UM.Build:EffectCollection()
             :Text(text)
@@ -464,7 +457,7 @@ function UM.Build:Fighter()
         return fighter
     end
 
-    function fighter:ModCardValue(fighterPredFunc, modFunc, modCondition)
+    function fighter:ModCardValue(text, fighterPredFunc, modFunc, modCondition)
         fighter.cardValueModifiers[#fighter.cardValueModifiers+1] = UM.Build:EffectCollection()
             :SourceIsAlive()
             :Text('TODO')
@@ -1509,6 +1502,12 @@ function UM.Select:Fighters()
     function selector:Except(singleFighter)
         return selector:_Add(function (args, fighter)
             return fighter ~= singleFighter(args)
+        end)
+    end
+
+    function selector:Source()
+        return selector:_Add(function (args, fighter)
+            return fighter == args.fighter
         end)
     end
 

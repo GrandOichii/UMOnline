@@ -33,6 +33,7 @@ function _Create()
         )
         -- Khonshu
         :ModCardValue(
+            'Khonshu adds +2 to the value of his attack cards',
             UM.Select:Fighters():Named('Khonshu'):BuildPredicate(),
             UM.Mod.Cards:AttackCards(UM.Number:Static(2)),
             UM.Conditions.CharacterSpecific:MNIdentityEq('Khonshu')
@@ -51,6 +52,7 @@ function _Create()
         )
         -- Mr. Knight
         :ModCardValue(
+            'Mr. Knight adds +1 to all his defense values.',
             UM.Select:Fighters():Named('Mr. Knight'):BuildPredicate(),
             UM.Mod.Cards:DefenseCards(UM.Number:Static(1)),
             UM.Conditions.CharacterSpecific:MNIdentityEq('Mr. Knight')
