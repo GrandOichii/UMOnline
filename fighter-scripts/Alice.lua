@@ -8,7 +8,7 @@ function _Create()
                     [1] = 'BIG',
                     [2] = 'SMALL',
                 }, 'Start the game BIG or SMALL?')
-                UM.Effects.CharacterSpecific._SetSize(args, choice)
+                UM.Effects.CharacterSpecific.SetAliceSize(args, choice)
             end
         )
         :ModCardValue(
@@ -26,7 +26,7 @@ function _Create()
     :Build()
 end
 
-function UM.Effects.CharacterSpecific._SetSize(args, size)
+function UM.Effects.CharacterSpecific.SetAliceSize(args, size)
     SetPlayerStringAttribute(args.owner, 'ALICE_SIZE', size)
     local fighter = UM.Fighter:Named('Alice')(args)
     LogPublic(fighter.FormattedLogName..' changes size!'..fighter.FormattedLogName..' is now '..size)
@@ -39,6 +39,6 @@ function UM.Effects.CharacterSpecific:ChangeSize()
         if attr == 'BIG' then
             newSize = 'SMALL'
         end
-        UM.Effects.CharacterSpecific._SetSize(args, newSize)
+        UM.Effects.CharacterSpecific.SetAliceSize(args, newSize)
     end
 end

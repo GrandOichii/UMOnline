@@ -185,6 +185,7 @@ def get_sidekick_name(plural):
         'Yennefer': 'Yennefer',
         'TrissS': 'TrissS',
         'YenneferS': 'YenneferS',
+        'Seadog': 'Seadog',
     }[plural]
 
 def get_card_name(title):

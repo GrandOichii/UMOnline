@@ -14115,6 +14115,31 @@
             "set": "Battle of Legends, Volume Three",
             "sidekicks": [],
             "special": "THE HUNGER\nAfter you attack, you may draw a card."
+        },
+        {
+            "cards": [
+
+            ],
+            "heroes": [
+                {
+                    "attack_type": "ranged",
+                    "hp": 13,
+                    "name": "Blackbeard",
+                    "quantity": 1
+                }
+            ],
+            "movement": 2,
+            "name": "Blackbeard",
+            "set": "Battle of Legends, Volume Three",
+            "sidekicks": [
+                {
+                    "attack_type": "melee",
+                    "hp": 1,
+                    "name": "Seadog",
+                    "quantity": 2
+                }
+            ],
+            "special": "PRIVATEER TURNED PIRATE\nStart the game with 1 doubloon in the treasury, you have the other 2.\n- At the start of your turn, you may pay 1 doubloon to gain 1 action.\n- When Blackbeard takes combat damage, pay 1 doubloon.\n\nBLACKBEARD'S DOUBLOONS\nDoubloons that Blackbeard doesn't have are kept in the Treasury."
         }
     ],
     "total": 67
