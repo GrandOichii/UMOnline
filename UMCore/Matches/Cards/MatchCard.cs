@@ -1,8 +1,10 @@
+using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging;
 using NLua;
 using UMCore.Matches.Attacks;
 using UMCore.Matches.Effects;
 using UMCore.Matches.Players;
+using UMCore.Matches.Players.Cards;
 using UMCore.Templates;
 using UMCore.Utility;
 
@@ -81,6 +83,12 @@ public class MatchCard : IHasData<MatchCard.Data>
 
     }
 
+    public void Move(ICardZone from, ICardZone to, ZoneChangeLocation location)
+    {
+        var zoneChange = new CardZoneChange(this, from, to, location);
+        zoneChange.Resolve();
+    }
+
     public bool HasEffects()
     {
         return CombatStepEffects.Count > 0;
@@ -142,10 +150,10 @@ public class MatchCard : IHasData<MatchCard.Data>
         await Owner.Match.UpdateClients();        
     }
 
-    public async Task PlaceIntoDiscard()
-    {
-        await Owner.DiscardPile.Add([this]);
-    }
+    // public async Task PlaceIntoDiscard()
+    // {
+    //     await Owner.DiscardPile.Add([this]);
+    // }
 
     public bool HasLabel(string label)
     {

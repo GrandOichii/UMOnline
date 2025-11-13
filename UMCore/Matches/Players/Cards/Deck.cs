@@ -5,7 +5,7 @@ namespace UMCore.Matches.Players.Cards;
 
 public class Deck : MatchCardCollection
 {
-    public Deck(Player owner) : base(owner) { }
+    public Deck(Player owner) : base(owner, "DECK") { }
 
     public override Data GetData(Player player)
     {
@@ -14,21 +14,5 @@ public class Deck : MatchCardCollection
             Cards = [],
             Count = Cards.Count,
         };
-    }
-    
-    public override async Task<List<MatchCard>> TakeFromTop(int amount)
-    {
-        var result = new List<MatchCard>();
-        while (Count > 0 && amount-- > 0)
-        {
-            var card = Cards[0];
-            result.Add(card);
-            Cards.Remove(card);
-        }
-        if (amount > 0)
-        {
-            await Owner.Exhaust(amount);
-        }
-        return result;
-    }
+    }    
 }

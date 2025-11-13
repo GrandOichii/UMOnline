@@ -1101,7 +1101,7 @@ function UM.Effects:AllowBoost(numeric, optional)
                 ChooseCardInHand(player, player, 'Choose a card for boost')
             )
 
-            BoostCardInCombat(player, card)
+            BoostCardInCombat(player, player.Hand, card)
         end
     end
 end

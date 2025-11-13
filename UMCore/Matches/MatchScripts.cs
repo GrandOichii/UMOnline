@@ -9,6 +9,7 @@ using NLua;
 using UMCore.Matches.Attacks;
 using UMCore.Matches.Cards;
 using UMCore.Matches.Players;
+using UMCore.Matches.Players.Cards;
 using UMCore.Matches.Tokens;
 using UMCore.Templates;
 using UMCore.Utility;
@@ -332,11 +333,9 @@ public class MatchScripts
     }
 
     [LuaCommand]
-    public void BoostCardInCombat(Player player, MatchCard card)
+    public void BoostCardInCombat(Player player, MatchCardCollection from, MatchCard card)
     {
-        player.Hand.Remove(card)
-            .Wait();
-        player.Match.Combat!.AddBoostToPlayer(player, card)
+        player.Match.Combat!.AddBoostToPlayer(player, from, card)
             .Wait();
     }
 
@@ -611,22 +610,11 @@ public class MatchScripts
     }
 
     [LuaCommand]
-    public void PutCardOnTheBottomOfDeck(Player player, MatchCard? card)
+    public void PutCardOnTheBottomOfDeck(Player player, ICardZone from, MatchCard card)
     {
-        if (card is null)
-            throw new MatchException($"Provided null card for {nameof(PutCardOnTheBottomOfDeck)}");
-        try
-        {
-            var deck = player.Deck;
-            deck.PutOnBottom(card)
-                .Wait();
-        }catch (Exception e)
-        {
-            Match.Logger?.LogError(e.Message);
-            Match.Logger?.LogError(e.StackTrace);
-            Match.Logger?.LogError(e.InnerException?.Message);
-            Match.Logger?.LogError(e.InnerException?.StackTrace);
-        }
+        card.Move(from, player.Deck, ZoneChangeLocation.BOTTOM);
+        Match.UpdateClients()
+            .Wait();
     }
     
     [LuaCommand]
@@ -636,7 +624,7 @@ public class MatchScripts
             ?? throw new MatchException($"Called {nameof(RemoveCombatPart)} while there is no combat");
 
         var (part, fighter) = combat.RemoveCombatPart(player);
-        return LuaUtility.CreateTable(Match.LState, new List<object?>() { part, fighter});
+        return LuaUtility.CreateTable(Match.LState, new List<object?>() { part, fighter });
     }
 
     [LuaCommand]
@@ -687,10 +675,7 @@ public class MatchScripts
     [LuaCommand]
     public void ShuffleDiscardIntoDeck(Player player)
     {
-        var cards = player.DiscardPile.TakeFromTop(player.DiscardPile.Count)
-            .GetAwaiter().GetResult();
-
-        player.Deck.Add(cards)
+        player.DiscardPile.MoveTopCardsTo(player.DiscardPile.Count, player.Deck, ZoneChangeLocation.BOTTOM)
             .Wait();
 
         player.Deck.Shuffle();

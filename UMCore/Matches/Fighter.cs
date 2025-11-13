@@ -424,7 +424,7 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
                 $"You use {defence.FormattedLogName} as defence",
                 $"Player {Owner.FormattedLogName} places a defend card");
 
-            await Owner.Hand.Remove(defence);
+            Owner.Hand.Remove(defence);
         }
 
         await Match.Combat.SetDefenceCard(defence);

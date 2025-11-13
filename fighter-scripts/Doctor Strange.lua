@@ -17,7 +17,7 @@ function _Create()
                     function (args)
                         local player = args.owner
                         local part = RemoveCombatPart(player)
-                        PutCardOnTheBottomOfDeck(player, part[1].Card)
+                        PutCardOnTheBottomOfDeck(player, part[1], part[1].Card)
                     end
                 )
             )

@@ -1665,7 +1665,7 @@ public class ExhaustionTests
             .HasCardsInDiscardPile(1)
             .IsWinner();
         match.AssertFighter(heroKey)
-            .HasHealth(8)
+            .HasDamage(2)
             .IsAlive();
         match.AssertPlayer(1)
             .SetupCalled()

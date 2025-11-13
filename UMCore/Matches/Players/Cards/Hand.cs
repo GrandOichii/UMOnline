@@ -6,15 +6,14 @@ namespace UMCore.Matches.Players.Cards;
 
 public class Hand : MatchCardCollection
 {
-    public Hand(Player owner) : base(owner)
+    public Hand(Player owner) : base(owner, "HAND")
     {
         ContentsVisibleTo.Add(owner.Idx);
     }
 
     public async Task<IEnumerable<MatchCard>> Draw(int amount)
     {
-        var newCards = await Owner.Deck.TakeFromTop(amount);
-        Cards.AddRange(newCards);
+        var newCards = await Owner.Deck.MoveTopCardsTo(amount, this, ZoneChangeLocation.BOTTOM);
 
         Owner.Match.Logger?.LogDebug("Player {PlayerLogName} draws {Amount} cards (wanted to draw: {OriginalAmount})", Owner.LogName, newCards.Count(), amount);
         Owner.Match.Logs.Private(
@@ -24,6 +23,13 @@ public class Hand : MatchCardCollection
                 : "You drew no cards", 
             $"Player {Owner.FormattedLogName} drew {newCards.Count} cards"
         );
+
+        var exhaustTimes = amount - newCards.Count;
+        if (exhaustTimes > 0)
+        {
+            await Owner.Exhaust(amount);
+        }
+        
         return newCards;
     }
 
@@ -39,18 +45,13 @@ public class Hand : MatchCardCollection
 
     public async Task Discard(MatchCard card, bool log=true)
     {
-        if (!Cards.Contains(card))
-        {
-            throw new MatchException($"Player {Owner.LogName} does not have card {card.LogName} in their hand for them to discard it");
-        }
+        card.Move(this, Owner.DiscardPile, ZoneChangeLocation.TOP);
+        await Owner.Match.UpdateClients();
 
         Owner.Match.Logger?.LogDebug("Player {PlayerLogName} discards {CardLogName} from their hand", Owner.LogName, card.LogName);
         if (log)
         {
             Owner.Match.Logs.Public($"Player {Owner.FormattedLogName} discards {card.FormattedLogName} from their hand");
         }
-
-        Cards.Remove(card);
-        await Owner.DiscardPile.Add([card]);
     }
 }

@@ -3,10 +3,11 @@ using System.Reflection;
 using Microsoft.Extensions.Logging;
 using UMCore.Matches.Cards;
 using UMCore.Matches.Players;
+using UMCore.Matches.Players.Cards;
 
 namespace UMCore.Matches.Attacks;
 
-public class CombatPart : IHasData<CombatPart.Data>
+public class CombatPart : IHasData<CombatPart.Data>, ICardZone
 {
     public bool IsDefence { get; }
     public MatchCard Card { get; }
@@ -71,20 +72,20 @@ public class CombatPart : IHasData<CombatPart.Data>
 
     public async Task DiscardBoostCards()
     {
-        foreach (var boost in Boosts)
-            await boost.PlaceIntoDiscard();
+        while (Boosts.Count > 0)
+            Boosts[0].Move(this, Boosts[0].Owner.DiscardPile, ZoneChangeLocation.TOP);
         Boosts.Clear();
     }
 
     public async Task Discard()
     {
-        await Card.PlaceIntoDiscard();
+        Card.Move(this, Card.Owner.DiscardPile, ZoneChangeLocation.TOP);
         await DiscardBoostCards();
     }
 
-    public async Task AddBoost(MatchCard card)
+    public async Task AddBoost(MatchCardCollection from, MatchCard card)
     {
-        Boosts.Add(card);
+        card.Move(from, this, ZoneChangeLocation.BOTTOM);
         await card.Owner.Match.UpdateClients();
     }
 
@@ -108,6 +109,29 @@ public class CombatPart : IHasData<CombatPart.Data>
             Boosts = [.. Boosts.Select<MatchCard, MatchCard.Data?>(b => null)],
         };
     }
+
+    public void Add(MatchCard card, ZoneChangeLocation location)
+    {
+        // this expects the provided card to already be the chosen card for combat
+        if (Card == card) return;
+        
+        Boosts.Add(card);
+    }
+
+    public void Remove(MatchCard card)
+    {
+        if (Card == card)
+        {
+            // all ok
+            return;
+        }
+        var removed = Boosts.Remove(card);
+        if (removed) return;
+
+        throw new MatchException($"Tried to remove card {card.LogName} from {nameof(CombatPart)} of player {Card.Owner.LogName}, while it is not the combat card and not a boost card");
+    }
+
+    public string GetName() => "COMBAT";
 
     public class Data
     {
@@ -183,7 +207,7 @@ public class Combat : IHasData<Combat.Data>
 
     public async Task Process()
     {
-        await Initiator.Hand.Remove(AttackCard!.Card);
+        AttackCard!.Card.Move(Initiator.Hand, AttackCard!, ZoneChangeLocation.TOP);
         await Match.UpdateClients();
 
         await AttackCard.ExecuteCombatCardChoiceEffects();
@@ -293,14 +317,14 @@ public class Combat : IHasData<Combat.Data>
         throw new MatchException($"Failed to find combat part for player {player.LogName}");
     }
 
-    public async Task AddBoostToPlayer(Player player, MatchCard boostCard)
+    public async Task AddBoostToPlayer(Player player, MatchCardCollection from, MatchCard boostCard)
     {
         var (card, fighter, _) = GetCombatPart(player);
         if (card is null)
         {
             throw new MatchException($"Cannot boost empty card");
         }
-        await card.AddBoost(boostCard);
+        await card.AddBoost(from, boostCard);
     }
 
     public Player? GetLoser()

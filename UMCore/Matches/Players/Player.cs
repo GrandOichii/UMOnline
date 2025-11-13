@@ -43,6 +43,7 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
     public Attributes Attributes { get; }
     public TurnHistory TurnHistory { get; }
     public List<(Fighter effectSource, EffectCollection effects)> AtTheStartOfTurnTemporaryEffects { get; }
+    public Dictionary<string, MatchCardCollection> CardZones { get; }
 
 
     public int ActionCount { get; set; }
@@ -64,6 +65,12 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
 
         Fighters = [];
         AtTheStartOfTurnTemporaryEffects = [];
+
+        CardZones = new() {
+            { "DECK", Deck },
+            { "HAND", Hand },
+            { "DISCARD", DiscardPile },
+        };
     }
 
     public async Task InitialPlaceFighters(int spawnNumber)
@@ -113,7 +120,7 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
 
             foreach (var card in cards)
             {
-                await Deck.Add(
+                await Deck.AddRaw(
                     Enumerable.Range(0, card.Amount)
                         .Select(i => new MatchCard(this, card))
                 );
@@ -122,13 +129,12 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
             List<MatchCard> startsGameWith = [];
             foreach (var cardKey in Loadout.StartsWithCards)
             {
-                Match.Logger?.LogDebug(cardKey);
-                var card = Deck.Cards.First(c => c.Template.Key == cardKey);
-                await Deck.Remove(card);
+                var card = Deck.GetFirstCardWithKey(cardKey);
+                Deck.Remove(card);
                 startsGameWith.Add(card);
             }
 
-            await Hand.Add(startsGameWith);
+            await Hand.AddRaw(startsGameWith);
             if (startsGameWith.Count > 0)
                 Match.Logs.Public($"{FormattedLogName} starts with {string.Join(" ,", startsGameWith.Select(c => c.FormattedLogName))} in their hand");
             Deck.Shuffle();
@@ -365,15 +371,14 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
 
     public async Task<MatchCard?> ChooseBoostCard()
     {
-        if (Hand.Cards.Count == 0) return null;
+        if (Hand.Count == 0) return null;
         var card = await Controller.ChooseCardInHandOrNothing(this, Idx, [.. Hand.Cards.Where(c => c.GetBoostValue() is not null)], "Choose a card to boost your movement");
         return card;
     }
 
     public async Task DiscardCardForBoost(MatchCard card)
     {
-        await Hand.Remove(card);
-        await card.PlaceIntoDiscard();
+        await Hand.Discard(card);
     }
 
     public async Task Exhaust(int times)
@@ -440,8 +445,7 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
 
     public async Task<List<MatchCard>> Mill(int amount)
     {
-        var cards = await Deck.TakeFromTop(amount);
-        await DiscardPile.Add(cards);
+        var cards = await Deck.MoveTopCardsTo(amount, DiscardPile);
         Match.Logger?.LogDebug("Player {PlayerLogName} milled {amount} cards (wanted to mill: {wantedAmount})", LogName, cards.Count, amount);
         Match.Logs.Public($"{FormattedLogName} discarded {cards.Count} cards from the top of their deck: {string.Join(" ,", cards.Select(c => c.FormattedLogName))}");
         return cards;
