@@ -47,6 +47,7 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
     public List<CombatResolutionEffect> OnLostCombatEffects { get; }
     public List<EffectCollection> OnCombatCardChoiceEffects { get; }
     public List<EffectCollection> WhenManoeuvreEffects { get; }
+    public List<CardZoneChangeRedirector> CardZoneChangeRedirectors { get; }
 
     public static List<LuaFunction> ExtractFunctionList(Fighter fighter, LuaTable data, string key)
     {
@@ -179,6 +180,12 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
             )
         ];
 
+        CardZoneChangeRedirectors = [ ..ExtractFunctionList(this, data, "CardZoneChangeRedirectors")
+            .Select(f =>
+                new CardZoneChangeRedirector(this, f)
+            )
+        ];
+
         OnManoeuvreEffects = ExtractEffectCollectionList(this, data, "OnManoeuvreEffects");
         OnDamageEffects = ExtractEffectCollectionList(this, data, "OnDamageEffects");
 
@@ -236,6 +243,23 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
                 var table = tokenDeclarations[tokenName] as LuaTable;
                 // TODO check for null
                 Match.Tokens.Declare(tokenName, this, table!);
+            }
+        }
+        catch (Exception e)
+        {
+            throw new MatchException($"Failed to get token declarations for fighter {template.Name}", e);
+        }
+
+        // card zones
+        try
+        {
+            var cardZonesDeclarations = LuaUtility.TableGet<LuaTable>(data, "CardZones");
+            foreach (string zoneName in cardZonesDeclarations.Keys)
+            {
+                var table = cardZonesDeclarations[zoneName] as LuaTable;
+                // TODO check for null
+                var zone = new CustomCardZone(Owner, zoneName, table!);
+                Owner.AddCustomCardZone(zone);
             }
         }
         catch (Exception e)

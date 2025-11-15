@@ -86,6 +86,10 @@
         "DEBUGTABLE",
         "GetcurrentMovement",
         "AddAtTheEndOfMovementEffect",
-        "GetMovedThroughFighters"
+        "GetMovedThroughFighters",
+        "GetZone",
+        "ChangeTargetZone",
+        "GetCardsInZone",
+        "MoveAllCards"
     ]
 }

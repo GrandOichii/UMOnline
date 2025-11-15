@@ -56,6 +56,8 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
         new MatchScripts(this);
     }
 
+    public IEnumerable<CardZoneChangeRedirector> GetCardZoneChangeRedirectors() => Fighters.SelectMany(f => f.CardZoneChangeRedirectors);
+
     public bool CanRun()
     {
         if (Teams.Count <= 1) return false;

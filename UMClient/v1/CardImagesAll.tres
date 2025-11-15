@@ -1354,37 +1354,37 @@ image = ExtResource("112")
 
 [sub_resource type="Resource" id="Resource_113"]
 script = ExtResource("1_bskbv")
-card_key = "Blackbeard_A brace of primed pistols"
+card_key = "Blackbeard_A Brace Of Primed Pistols"
 image = ExtResource("113")
 
 [sub_resource type="Resource" id="Resource_114"]
 script = ExtResource("1_bskbv")
-card_key = "Blackbeard_Avast Ye"
+card_key = "Blackbeard_Avast Ye!"
 image = ExtResource("114")
 
 [sub_resource type="Resource" id="Resource_115"]
 script = ExtResource("1_bskbv")
-card_key = "Blackbeard_Fearsome and calculating"
+card_key = "Blackbeard_Fearsome And Calculating"
 image = ExtResource("115")
 
 [sub_resource type="Resource" id="Resource_116"]
 script = ExtResource("1_bskbv")
-card_key = "Blackbeard_Give no quarter"
+card_key = "Blackbeard_Give No Quarter"
 image = ExtResource("116")
 
 [sub_resource type="Resource" id="Resource_117"]
 script = ExtResource("1_bskbv")
-card_key = "Blackbeard_Intimidating visage"
+card_key = "Blackbeard_Intimidating Visage"
 image = ExtResource("117")
 
 [sub_resource type="Resource" id="Resource_118"]
 script = ExtResource("1_bskbv")
-card_key = "Blackbeard_Light the fuse"
+card_key = "Blackbeard_Light The Fuse"
 image = ExtResource("118")
 
 [sub_resource type="Resource" id="Resource_119"]
 script = ExtResource("1_bskbv")
-card_key = "Blackbeard_No prey, no pay"
+card_key = "Blackbeard_No Prey, No Pay"
 image = ExtResource("119")
 
 [sub_resource type="Resource" id="Resource_120"]
@@ -1399,17 +1399,17 @@ image = ExtResource("121")
 
 [sub_resource type="Resource" id="Resource_122"]
 script = ExtResource("1_bskbv")
-card_key = "Blackbeard_Queen Anne's revenge"
+card_key = "Blackbeard_Queen Anne's Revenge"
 image = ExtResource("122")
 
 [sub_resource type="Resource" id="Resource_123"]
 script = ExtResource("1_bskbv")
-card_key = "Blackbeard_Scourge of the seven seas"
+card_key = "Blackbeard_Scourge Of The Seven Seas"
 image = ExtResource("123")
 
 [sub_resource type="Resource" id="Resource_124"]
 script = ExtResource("1_bskbv")
-card_key = "Blackbeard_Show a leg"
+card_key = "Blackbeard_Show A Leg!"
 image = ExtResource("124")
 
 [sub_resource type="Resource" id="Resource_125"]

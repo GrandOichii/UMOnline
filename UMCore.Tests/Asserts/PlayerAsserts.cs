@@ -35,6 +35,13 @@ public class PlayerAsserts
         return this;
     }
 
+    public PlayerAsserts CombinedFighterHealthEq(int amount)
+    {
+        var health = _player.Fighters.Sum(f => f.Health.Current);
+        health.ShouldBe(amount);
+        return this;
+    }
+
     public PlayerAsserts DoesntHaveFighterWithName(string name)
     {
         _player.Fighters.FirstOrDefault(f => f.Name == name).ShouldBeNull();
@@ -100,13 +107,30 @@ public class PlayerAsserts
 
     public PlayerAsserts HasCardsInDiscardPile(int amount)
     {
-        _player.DiscardPile.Count.ShouldBe(amount);
+        return HasCardsInZone("DISCARD", amount);
+    }
+
+    public PlayerAsserts HasCardsInZone(string zoneName, int amount)
+    {
+        var zone = _player.CardZones[zoneName];
+        zone.Count.ShouldBe(amount, $"Expected card zone {zoneName} of player {_player.LogName} to have {amount} cards, while it has {zone.Count}");
         return this;
     }
 
     public PlayerAsserts HasCardsInDeck(int amount)
     {
-        _player.Deck.Count.ShouldBe(amount);
+        return HasCardsInZone("DECK", amount);
+    }
+
+    public PlayerAsserts DoesntHaveCardZone(string name)
+    {
+        _player.CardZones.ShouldNotContainKey(name);
+        return this;
+    }
+
+    public PlayerAsserts HasCardZone(string name)
+    {
+        _player.CardZones.ShouldContainKey(name);
         return this;
     }
 }

@@ -248,6 +248,20 @@ function UM.Build:Token()
     return token
 end
 
+-- Card zone creation
+
+function UM.Build:CardZone()
+    local cardZone = {}
+
+    function cardZone:Build()
+        return {
+            
+        }
+    end
+
+    return cardZone
+end
+
 -- Fighter creation
 
 function UM.Build:Fighter()
@@ -274,7 +288,9 @@ function UM.Build:Fighter()
     fighter.onLostCombatEffects = {}
     fighter.onCombatCardChoiceEffects = {}
     fighter.whenManoeuvreEffects = {}
+    fighter.cardZoneChangeRedirectors = {}
     fighter.tokens = {}
+    fighter.cardZones = {}
 
     function fighter:Build()
         local result = {
@@ -286,6 +302,7 @@ function UM.Build:Fighter()
             AfterAttackEffects = fighter.afterAttackEffects,
             AfterSchemeEffects = fighter.afterSchemeEffects,
             Tokens = fighter.tokens,
+            CardZones = fighter.cardZones,
             GameStartEffects = fighter.gameStartEffects,
             MovementNodeConnections = fighter.movementNodeConnections,
             CardCancellingForbids = fighter.cardCancellingForbids,
@@ -300,9 +317,23 @@ function UM.Build:Fighter()
             OnLostCombatEffects = fighter.onLostCombatEffects,
             OnCombatCardChoiceEffects = fighter.onCombatCardChoiceEffects,
             WhenManoeuvreEffects = fighter.whenManoeuvreEffects,
+            CardZoneChangeRedirectors = fighter.cardZoneChangeRedirectors,
             OnMoveEffects = fighter.onMoveEffects,
         }
         return result
+    end
+
+    function fighter:DefineCardZone(cardZoneName, cardZone)
+        fighter.cardZones[cardZoneName] = cardZone
+
+        return fighter
+    end
+
+    function fighter:RedirectCardZoneChange(text, redirectorFunc)
+        -- TODO utilize text
+        fighter.cardZoneChangeRedirectors[#fighter.cardZoneChangeRedirectors+1] = redirectorFunc
+
+        return fighter
     end
 
     function fighter:WhenManoeuvre(text, fighterPredicate, ...)
@@ -627,6 +658,16 @@ function UM.Number:UpTo(max)
 end
 
 UM.Effects = {}
+
+function UM.Effects:Combine(...)
+    local effects = {...}
+
+    return function (args)
+        for _, effect in ipairs(effects) do
+            effect(args)
+        end
+    end
+end
 
 -- Control flow
 
@@ -1280,7 +1321,6 @@ function UM.Select:_Base(subjectKey, getAllFunc, chooseSingleFunc)
 
         -- TODO check for 0
 
-
         if selector.single and #objs > 0 then
             local obj = objs[1]
 
@@ -1420,6 +1460,18 @@ end
 
 function UM.Select:Fighters()
     local selector = UM.Select:_Base('fighter', GetFighters, ChooseFighter)
+
+    function selector:InSameZoneAsAny(manyFighters)
+        return selector:_Add(function (args, fighter)
+            local fighters = manyFighters(args)
+            for _, f in ipairs(fighters) do
+                if AreInSameZone(fighter, f) then
+                    return true
+                end
+            end
+            return false
+        end)
+    end
 
     function selector:OwnedBy(playerFunc)
         return selector:_Add(function (args, fighter)

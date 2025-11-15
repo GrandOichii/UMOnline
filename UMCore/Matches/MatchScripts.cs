@@ -689,4 +689,31 @@ public class MatchScripts
 
         movement.AtTheEndOfMovementEffects.Add((fighter, new(effectCollection)));
     }
+
+    [LuaCommand]
+    public ICardZone GetZone(Player player, string zoneName)
+    {
+        return player.CardZones[zoneName];
+    }
+
+    [LuaCommand]
+    public void ChangeTargetZone(CardZoneChange zoneChange, ICardZone targetZone)
+    {
+        zoneChange.TargetZone = targetZone;
+    }
+
+    [LuaCommand]
+    public LuaTable GetCardsInZone(Player player, string zoneName)
+    {
+        return LuaUtility.CreateTable(Match.LState, player.CardZones[zoneName].Cards);
+    }
+
+    [LuaCommand]
+    public void MoveAllCards(Player player, string fromZoneName, string toZoneName)
+    {
+        var from = player.CardZones[fromZoneName];
+        var to = player.CardZones[toZoneName];
+        from.MoveTopCardsTo(from.Count, to, ZoneChangeLocation.BOTTOM)
+            .Wait();
+    }
 }

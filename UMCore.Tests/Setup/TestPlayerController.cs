@@ -20,7 +20,7 @@ public class TestPlayerController : IPlayerController
     public delegate Task<(string, bool)> PlayerAction(TestMatch match, Player player, string[] options);
 
     public delegate Task<(MatchCard?, bool)> HandCardChoice(Player player, int playerHandIdx, MatchCard[] options, string hint);
-    public delegate Fighter FighterChoice(Player player, Fighter[] options, string hint);
+    public delegate (Fighter?, bool) FighterChoice(Player player, Fighter[] options, string hint);
     public delegate (MapNode?, bool) NodeChoice(Player player, MapNode[] options, string hint);
     public delegate (AvailableAttack?, bool) AttackChoice(Player player, AvailableAttack[] options);
     public delegate (string?, bool) StringChoice(Player player, string[] options, string hint);
@@ -105,13 +105,14 @@ public class TestPlayerController : IPlayerController
 
     public Task<Fighter> ChooseFighter(Player player, Fighter[] options, string hint)
     {
-        if (FighterChoices.Count == 0)
+        while (FighterChoices.Count > 0)
         {
-            throw new Exception($"No fighter choices left in queue for player {player.LogName} (hint: {hint})");
+            var choice = FighterChoices.Dequeue();
+            var (result, isResult) = choice(player, options, hint);
+            if (!isResult) continue;
+            return Task.FromResult(result!);
         }
-        var choiceFunc = FighterChoices.Dequeue();
-        var result = choiceFunc(player, options, hint);
-        return Task.FromResult(result);
+        throw new Exception($"No fighter choices left in queue for player {player.LogName} (hint: {hint})");
     }
 
     public Task<MapNode> ChooseNode(Player player, MapNode[] options, string hint)

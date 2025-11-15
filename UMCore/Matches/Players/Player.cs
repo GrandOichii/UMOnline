@@ -73,6 +73,17 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
         };
     }
 
+    public void AddCustomCardZone(CustomCardZone zone)
+    {
+        var name = zone.GetName();
+        if (CardZones.ContainsKey(name))
+        {
+            return;
+        }
+        
+        CardZones.Add(zone.GetName(), zone);
+    }
+
     public async Task InitialPlaceFighters(int spawnNumber)
     {
         // IPlayerInitialFighterPlacer placer = new PlayerInitialFighterPlacerNeighbors();

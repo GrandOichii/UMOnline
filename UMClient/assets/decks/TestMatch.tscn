@@ -13,7 +13,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_lduew")
-PlayerDeck = "Spider-Man"
+PlayerDeck = "Blackbeard"
 BotDeck = "Golden Bat"
 
 [node name="Match" parent="." node_paths=PackedStringArray("Connection") instance=ExtResource("2_7v5ud")]

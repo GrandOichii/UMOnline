@@ -5,8 +5,7 @@
 - Yennenga - damage redistribution + very bad ruling about group damage
 - Titania - separate deck (not really)
 - Donatello - custom card zone
-- Pandora - custom card zone
-- The Wayward Sisters - custom card zone
+- Pandora - custom card zone (not really)
 - William Shakespeare - custom card zone
 - Black Panther - custom card zone with custom rules
 - T. Rex - big fighter, doubt will even be able to implement it ever

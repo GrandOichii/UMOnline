@@ -45,6 +45,14 @@
       "FullText": "Mission: Black Widow is adjacent to an opposing hero.\r\nDeal 2 damage to each opposing fighter in Black Widow\u0027s zone. Acquire a new mission."
     },
     {
+      "Text": "opposing fighter in Blackbeard\u0027s zone unless $PAY{2}",
+      "FullText": "After combat: Deal 3 damage to an opposing fighter in Blackbeard\u0027s zone unless $PAY{2}"
+    },
+    {
+      "Text": "opposing fighter in Blackbeard\u0027s zone unless $PAY{1}",
+      "FullText": "Immediately: You opponent discards 1 random card unless $PAY{1}\nAfter combat: Deal 1 damage to each opposing fighter in Blackbeard\u0027s zone unless $PAY{1}"
+    },
+    {
       "Text": "up to 2 fighters adjacent to Chupacabra",
       "FullText": "After combat: Deal 1 damage to up to 2 fighters adjacent to Chupacabra. Chupacabra recovers 1 health for each fighter damaged this way."
     },
@@ -309,6 +317,54 @@
     {
       "Text": "The opposing fighter may not leave their space for the rest of the turn",
       "FullText": "Immediately: The opposing fighter may not leave their space for the rest of the turn."
+    },
+    {
+      "Text": "You opponent discards 1 random card unless $PAY{1}",
+      "FullText": "Immediately: You opponent discards 1 random card unless $PAY{1}\nAfter combat: Deal 1 damage to each opposing fighter in Blackbeard\u0027s zone unless $PAY{1}"
+    },
+    {
+      "Text": "Loot at your opponent\u0027s hand and choose 1 card for the to discard unless $PAY{1}",
+      "FullText": "Immediately: Loot at your opponent\u0027s hand and choose 1 card for the to discard unless $PAY{1}"
+    },
+    {
+      "Text": "Gain 1 action unless $PAY{1}",
+      "FullText": "During combat: If another friendly fighter is adjacent to the opposing fighter, this card\u0027s value is 5 instead.\nAfter combat: Gain 1 action unless $PAY{1}"
+    },
+    {
+      "Text": "You may BOOST this card",
+      "FullText": "During combat: You may BOOST this card.\nAfter combat: If you won the combat, draw 1 card."
+    },
+    {
+      "Text": "Cancel all effects on your opponent\u0027s card unless $PAY{2}",
+      "FullText": "Immediately: Cancel all effects on your opponent\u0027s card unless $PAY{2}"
+    },
+    {
+      "Text": "Steal 1 doubloon from the treasury",
+      "FullText": "Move each of your fighters up to 3 spaces. They may move through opposing fighters.\nSteal 1 doubloon from the treasury."
+    },
+    {
+      "Text": "This card\u0027s effects cannot be cancelled",
+      "FullText": "This card\u0027s effects cannot be cancelled.\nDuring combat: Subtract 2 from this card\u0027s value for each doubloon your opponent pays."
+    },
+    {
+      "Text": "Subtract 2 from this card\u0027s value for each doubloon your opponent pays",
+      "FullText": "This card\u0027s effects cannot be cancelled.\nDuring combat: Subtract 2 from this card\u0027s value for each doubloon your opponent pays."
+    },
+    {
+      "Text": "Blackbeard recovers 2 health unless $PAY{1}",
+      "FullText": "Blackbeard recovers 2 health unless $PAY{1}.\nSummon a Sea Dog in any space unless $PAY{1}.\nGain 1 action unless $PAY{1}."
+    },
+    {
+      "Text": "Summon a Sea Dog in any space unless $PAY{1}",
+      "FullText": "Blackbeard recovers 2 health unless $PAY{1}.\nSummon a Sea Dog in any space unless $PAY{1}.\nGain 1 action unless $PAY{1}."
+    },
+    {
+      "Text": "Gain 1 action unless $PAY{1}",
+      "FullText": "Blackbeard recovers 2 health unless $PAY{1}.\nSummon a Sea Dog in any space unless $PAY{1}.\nGain 1 action unless $PAY{1}."
+    },
+    {
+      "Text": "Summon a Sea Dog in Blackbeard\u0027s zone",
+      "FullText": "After combat: Summon a Sea Dog in Blackbeard\u0027s zone."
     },
     {
       "Text": "You may BOOST this attack",
@@ -1391,10 +1447,6 @@
       "FullText": " Cast any spell. Then, cast a different spell. "
     },
     {
-      "Text": " Look at the top 4 cards of your deck",
-      "FullText": " Look at the top 4 cards of your deck. Put 2 of them in your hand and the other 2 back on top of your deck in any order."
-    },
-    {
       "Text": "Increase the value of this card by \u002B1 for each glamour in your glamour discard pile",
       "FullText": "During combat: Increase the value of this card by \u002B1 for each glamour in your glamour discard pile."
     },
@@ -1703,6 +1755,14 @@
     {
       "Text": "\r",
       "FullText": "Mission: Black Widow is in an opponent\u0027s starting space. \r\nDeal 2 damage to each of that opponent\u0027s fighters. Acquire a new mission."
+    },
+    {
+      "Text": "Then, deal 1 damage to each fighter adjacent to them",
+      "FullText": "After combat: Move your fighter up to 2 spaces. Then, deal 1 damage to each fighter adjacent to them."
+    },
+    {
+      "Text": "They may move through opposing fighters",
+      "FullText": "Move each of your fighters up to 3 spaces. They may move through opposing fighters.\nSteal 1 doubloon from the treasury."
     },
     {
       "Text": "Your opponent may discard it",
@@ -2277,10 +2337,6 @@
       "FullText": "During combat: Reveal the top card of your deck. Your opponent chooses one: - put that card in your hand - put that card in your cauldron and add its BOOST value to this card\u0027s value."
     },
     {
-      "Text": "Put 2 of them in your hand and the other 2 back on top of your deck in any order",
-      "FullText": " Look at the top 4 cards of your deck. Put 2 of them in your hand and the other 2 back on top of your deck in any order."
-    },
-    {
       "Text": "You may discard your glamour to draw 2 cards instead",
       "FullText": "After combat: Draw 1 card. You may discard your glamour to draw 2 cards instead."
     },
@@ -2543,6 +2599,18 @@
     {
       "Text": "If you won the combat, your opponent discards 1 card",
       "FullText": "After combat: If you won the combat, your opponent discards 1 card."
+    },
+    {
+      "Text": "If another friendly fighter is adjacent to the opposing fighter, this card\u0027s value is 5 instead",
+      "FullText": "During combat: If another friendly fighter is adjacent to the opposing fighter, this card\u0027s value is 5 instead.\nAfter combat: Gain 1 action unless $PAY{1}"
+    },
+    {
+      "Text": "If Blackbeard is adjacent to an opposing fighter, he recovers 2 health",
+      "FullText": "After combat: If Blackbeard is adjacent to an opposing fighter, he recovers 2 health."
+    },
+    {
+      "Text": "If you won the combat, draw 1 card",
+      "FullText": "During combat: You may BOOST this card.\nAfter combat: If you won the combat, draw 1 card."
     },
     {
       "Text": "If this is your third action, draw 1 card",

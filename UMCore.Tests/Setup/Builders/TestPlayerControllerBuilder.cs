@@ -369,22 +369,25 @@ public class TestPlayerControllerBuilder
             return this;
         }
 
+        private FighterChoicesBuilder Enqueue(TestPlayerController.FighterChoice choice)
+        {
+            Queue.Enqueue(choice);
+            return this;
+        }
+
         public FighterChoicesBuilder First()
         {
-            Queue.Enqueue((player, options, hint) => options.First());
-            return this;
+            return Enqueue((player, options, hint) => (options.First(), true));
         }
 
         public FighterChoicesBuilder WithName(string name)
         {
-            Queue.Enqueue((player, options, hint) => options.First(f => f.Name == name));
-            return this;
+            return Enqueue((player, options, hint) => (options.First(f => f.Name == name), true));
         }
 
         public FighterChoicesBuilder InNodeWithId(int id)
         {
-            Queue.Enqueue((player, options, hint) => player.Match.Map.Nodes.Single(n => n.Id == id).Fighter!);
-            return this;
+            return Enqueue((player, options, hint) => (player.Match.Map.Nodes.Single(n => n.Id == id).Fighter!, true));
         }
     
         public FighterChoicesBuilder NTimes(int n, Action<FighterChoicesBuilder> action)
@@ -392,6 +395,31 @@ public class TestPlayerControllerBuilder
             for (int i = 0; i < n; ++i)
                 action(this);
             return this;
+        }
+
+        public FighterChoicesBuilder Assert(Action<Asserts> action)
+        {
+            return Enqueue((player, options, hint) =>
+            {
+                action(new Asserts(player, options, hint));
+                return (null, false);
+            });
+        }
+
+        public class Asserts(Player player, Fighter[] options, string hint) : GeneralAsserts(player)
+        {
+            public Asserts OptionsEmpty()
+            {
+                options.Length.ShouldBe(0);
+                return this;
+            }
+            
+            public Asserts OptionsCount(int count)
+            {
+                options.Length.ShouldBe(count);
+                return this;
+            }
+
         }
 
     }
@@ -564,6 +592,11 @@ public class TestPlayerControllerBuilder
         public StringChoicesBuilder First()
         {
             return Enqueue((player, options, hint) => (options.First(), true));
+        }
+
+        public StringChoicesBuilder Last()
+        {
+            return Enqueue((player, options, hint) => (options.Last(), true));
         }
 
         public StringChoicesBuilder Choose(string v)

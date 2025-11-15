@@ -5827,7 +5827,8 @@
                     "immediateText": null,
                     "quantity": 3,
                     "slug": "double-double",
-                    "title": "Double, Double \ud83e\udd8e",
+                    "labels": ["leg"],
+                    "title": "Double, Double",
                     "type": "attack",
                     "value": 3
                 },
@@ -5843,7 +5844,8 @@
                     "immediateText": "Return a card in your discard pile to your cauldron.",
                     "quantity": 2,
                     "slug": "all-seeing-familiar",
-                    "title": "All-Seeing Familiar \ud83e\udd8e",
+                    "labels": ["leg"],
+                    "title": "All-Seeing Familiar",
                     "type": "attack",
                     "value": 4
                 },
@@ -5858,8 +5860,9 @@
                     "image": "https://static.unmatched.cards/images/umdb/decks/the-wayward-sisters/hurly-burly.png",
                     "immediateText": null,
                     "quantity": 3,
+                    "labels": ["snake"],
                     "slug": "hurly-burly",
-                    "title": "Hurly-Burly \ud83d\udc0d",
+                    "title": "Hurly-Burly",
                     "type": "attack",
                     "value": 3
                 },
@@ -5875,7 +5878,8 @@
                     "immediateText": "Return a card in your discard pile to your cauldron.",
                     "quantity": 3,
                     "slug": "fire-burn-and-cauldron-bubble",
-                    "title": "Fire Burn And Cauldron Bubble \ud83e\udd87",
+                    "labels": ["bat"],
+                    "title": "Fire Burn And Cauldron Bubble",
                     "type": "versatile",
                     "value": 3
                 },
@@ -5891,7 +5895,8 @@
                     "immediateText": null,
                     "quantity": 3,
                     "slug": "the-stars-align",
-                    "title": "The Stars Align \ud83e\udd8e",
+                    "labels": ["leg"],
+                    "title": "The Stars Align",
                     "type": "versatile",
                     "value": 0
                 },
@@ -5907,7 +5912,8 @@
                     "immediateText": null,
                     "quantity": 2,
                     "slug": "curious-familiar",
-                    "title": "Curious Familiar \ud83e\udd87",
+                    "labels": ["bat"],
+                    "title": "Curious Familiar",
                     "type": "versatile",
                     "value": 2
                 },
@@ -5923,7 +5929,8 @@
                     "immediateText": null,
                     "quantity": 3,
                     "slug": "ward",
-                    "title": "Ward \ud83e\udd87",
+                    "labels": ["bat"],
+                    "title": "Ward",
                     "type": "versatile",
                     "value": 3
                 },
@@ -5939,7 +5946,8 @@
                     "immediateText": null,
                     "quantity": 3,
                     "slug": "toil-and-trouble",
-                    "title": "Toil And Trouble \ud83d\udc0d",
+                    "labels": ["snake"],
+                    "title": "Toil And Trouble",
                     "type": "defense",
                     "value": 2
                 },
@@ -5954,8 +5962,9 @@
                     "image": "https://static.unmatched.cards/images/umdb/decks/the-wayward-sisters/pricking-of-my-thumbs.png",
                     "immediateText": null,
                     "quantity": 2,
+                    "labels": ["snake"],
                     "slug": "pricking-of-my-thumbs",
-                    "title": "Pricking Of My Thumbs \ud83d\udc0d",
+                    "title": "Pricking Of My Thumbs",
                     "type": "defense",
                     "value": 2
                 },
@@ -5971,7 +5980,8 @@
                     "immediateText": "Discard up to 3 cards from your cauldron. For each one, choose a fighter to recover 1 health. (You may choose the same fighter more than once.)",
                     "quantity": 2,
                     "slug": "unnatural-remedy",
-                    "title": "Unnatural Remedy \ud83d\udc0d",
+                    "labels": ["snake"],
+                    "title": "Unnatural Remedy",
                     "type": "defense",
                     "value": 1
                 },
@@ -5986,6 +5996,7 @@
                     "image": "https://static.unmatched.cards/images/umdb/decks/the-wayward-sisters/something-wicked-this-way-comes.png",
                     "immediateText": null,
                     "quantity": 2,
+                    "labels": ["bat"],
                     "slug": "something-wicked-this-way-comes",
                     "title": "Something Wicked This Way Comes \ud83e\udd87",
                     "type": "scheme",
@@ -6003,7 +6014,8 @@
                     "immediateText": null,
                     "quantity": 2,
                     "slug": "sisters-prophecy",
-                    "title": "Prophecy \ud83e\udd8e",
+                    "labels": ["leg"],
+                    "title": "Prophecy",
                     "type": "scheme",
                     "value": null
                 }
@@ -14118,7 +14130,150 @@
         },
         {
             "cards": [
-
+                {
+                    "quantity": 2,
+                    "title": "A Brace Of Primed Pistols",
+                    "value": 2,
+                    "characterName": "BLACKBEARD",
+                    "afterText": "Deal 3 damage to an opposing fighter in Blackbeard's zone unless $PAY{2}",
+                    "basicText": null,
+                    "duringText": null,
+                    "immediateText": null,
+                    "type": "attack",
+                    "boost": 2
+                },
+                {
+                    "quantity": 2,
+                    "title": "Avast Ye!",
+                    "value": 5,
+                    "characterName": "BLACKBEARD",
+                    "afterText": "Deal 1 damage to each opposing fighter in Blackbeard's zone unless $PAY{1}",
+                    "basicText": null,
+                    "duringText": null,
+                    "immediateText": "You opponent discards 1 random card unless $PAY{1}",
+                    "type": "attack",
+                    "boost": 3
+                },
+                {
+                    "quantity": 3,
+                    "title": "Fearsome And Calculating",
+                    "value": 3,
+                    "characterName": "BLACKBEARD",
+                    "afterText": null,
+                    "basicText": null,
+                    "duringText": null,
+                    "immediateText": "Loot at your opponent's hand and choose 1 card for the to discard unless $PAY{1}",
+                    "type": "versatile",
+                    "boost": 1
+                },
+                {
+                    "quantity": 3,
+                    "title": "Give No Quarter",
+                    "value": 3,
+                    "characterName": "ANY",
+                    "afterText": "Gain 1 action unless $PAY{1}",
+                    "basicText": null,
+                    "duringText": "If another friendly fighter is adjacent to the opposing fighter, this card's value is 5 instead.",
+                    "immediateText": null,
+                    "type": "attack",
+                    "boost": 1
+                },
+                {
+                    "quantity": 2,
+                    "title": "Intimidating Visage",
+                    "value": 4,
+                    "characterName": "BLACKBEARD",
+                    "afterText": "If Blackbeard is adjacent to an opposing fighter, he recovers 2 health.",
+                    "basicText": null,
+                    "duringText": null,
+                    "immediateText": null,
+                    "type": "defense",
+                    "boost": 1
+                },
+                {
+                    "quantity": 3,
+                    "title": "Light The Fuse",
+                    "value": 2,
+                    "characterName": "SEADOG",
+                    "afterText": "Move your fighter up to 2 spaces. Then, deal 1 damage to each fighter adjacent to them.",
+                    "basicText": null,
+                    "duringText": null,
+                    "immediateText": null,
+                    "type": "attack",
+                    "boost": 3
+                },
+                {
+                    "quantity": 3,
+                    "title": "No Prey, No Pay",
+                    "value": 2,
+                    "characterName": "ANY",
+                    "afterText": "If you won the combat, draw 1 card.",
+                    "basicText": null,
+                    "duringText": "You may BOOST this card.",
+                    "immediateText": null,
+                    "type": "versatile",
+                    "boost": 2
+                },
+                {
+                    "quantity": 3,
+                    "title": "Parley",
+                    "value": 3,
+                    "characterName": "ANY",
+                    "afterText": null,
+                    "basicText": null,
+                    "duringText": null,
+                    "immediateText": "Cancel all effects on your opponent's card unless $PAY{2}",
+                    "type": "versatile",
+                    "boost": 2
+                },
+                {
+                    "quantity": 3,
+                    "title": "Plunder",
+                    "value": null,
+                    "characterName": "BLACKBEARD",
+                    "afterText": null,
+                    "basicText": "Move each of your fighters up to 3 spaces. They may move through opposing fighters.\nSteal 1 doubloon from the treasury.",
+                    "duringText": null,
+                    "immediateText": null,
+                    "type": "scheme",
+                    "boost": 2
+                },
+                {
+                    "quantity": 2,
+                    "title": "Queen Anne's Revenge",
+                    "value": 7,
+                    "characterName": "BLACKBEARD",
+                    "afterText": null,
+                    "basicText": "This card's effects cannot be cancelled.",
+                    "duringText": "Subtract 2 from this card's value for each doubloon your opponent pays.",
+                    "immediateText": null,
+                    "type": "versatile",
+                    "boost": 3
+                },
+                {
+                    "quantity": 2,
+                    "title": "Scourge Of The Seven Seas",
+                    "value": null,
+                    "characterName": "BLACKBEARD",
+                    "afterText": null,
+                    "basicText": "Blackbeard recovers 2 health unless $PAY{1}.\nSummon a Sea Dog in any space unless $PAY{1}.\nGain 1 action unless $PAY{1}.",
+                    "duringText": null,
+                    "immediateText": null,
+                    "type": "scheme",
+                    "boost": 2
+                },
+                {
+                    "quantity": 2,
+                    "title": "Show A Leg!",
+                    "value": 2,
+                    "characterName": "ANY",
+                    "afterText": "Summon a Sea Dog in Blackbeard's zone.",
+                    "basicText": null,
+                    "duringText": null,
+                    "immediateText": null,
+                    "type": "versatile",
+                    "boost": 2
+                }
             ],
             "heroes": [
                 {
