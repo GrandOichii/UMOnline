@@ -122,7 +122,7 @@ public class AliceTests
         );
         await match.AddOpponent(
             new TestPlayerControllerBuilder()
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .Nothing()
                 )
                 .Build(),
@@ -178,7 +178,7 @@ public class AliceTests
 
         await match.AddMainPlayer(
             new TestPlayerControllerBuilder()
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .First()
                 )
                 .ConfigStringChoices(c => c
@@ -265,7 +265,7 @@ public class AliceTests
 
         await match.AddMainPlayer(
             new TestPlayerControllerBuilder()
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .Nothing()
                 )
                 .ConfigStringChoices(c => c
@@ -380,7 +380,7 @@ public class AliceTests
         );
         await match.AddOpponent(
             new TestPlayerControllerBuilder()
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .Nothing()
                 )
                 .Build(),
@@ -436,7 +436,7 @@ public class AliceTests
 
         await match.AddMainPlayer(
             new TestPlayerControllerBuilder()
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .First()
                 )
                 .ConfigStringChoices(c => c

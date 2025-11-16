@@ -56,7 +56,7 @@ public class CloakTests
         );
         await match.AddOpponent(
             new TestPlayerControllerBuilder()
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .Nothing()
                     .NTimes(1 - expectedOpponentHandCount, nc => nc.First())
                 )

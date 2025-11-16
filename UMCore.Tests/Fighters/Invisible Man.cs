@@ -177,7 +177,7 @@ public class InvisibleManTests
                     .DeclareWinner()
                     .CrashMatch()
                 )
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .First()
                 )
                 .ConfigNodeChoices(c => c
@@ -268,7 +268,7 @@ public class InvisibleManTests
                     .DeclareWinner()
                     .CrashMatch()
                 )
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .First()
                 )
                 .ConfigNodeChoices(c => c

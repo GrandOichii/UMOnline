@@ -42,6 +42,7 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
     public LoadoutTemplate Loadout { get; }
     public Attributes Attributes { get; }
     public TurnHistory TurnHistory { get; }
+    public BoostManager BoostManager { get; }
     public List<(Fighter effectSource, EffectCollection effects)> AtTheStartOfTurnTemporaryEffects { get; }
     public Dictionary<string, MatchCardCollection> CardZones { get; }
 
@@ -62,6 +63,7 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
         DiscardPile = new(this);
         Attributes = new(this);
         TurnHistory = new(this);
+        BoostManager = new(this);
 
         Fighters = [];
         AtTheStartOfTurnTemporaryEffects = [];
@@ -97,7 +99,7 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
             var chosenHero = sidekickDict[choice];
             Fighters.RemoveAll(s => s.IsSidekick() && s != chosenHero);
         }
-        var sidekickQueue = new Queue<Fighter>(Fighters.Where(f => f.IsSidekick()));
+        var sidekickQueue = new Queue<Fighter>(Fighters.Where(f => f.IsSidekick() && !f.Template.IsSmall));
 
         if (!Loadout.StartsWithSidekicks) sidekickQueue = [];
         await placer.Run(this, spawnNumber, heroQueue, sidekickQueue);
@@ -148,14 +150,18 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
             await Hand.AddRaw(startsGameWith);
             if (startsGameWith.Count > 0)
                 Match.Logs.Public($"{FormattedLogName} starts with {string.Join(" ,", startsGameWith.Select(c => c.FormattedLogName))} in their hand");
-            Deck.Shuffle();
         }
+    }
+
+    public async Task DrawInitialHand()
+    {
+        Deck.Shuffle();
 
         // initial draw
         var amount = Loadout.StartingHandSize ?? Match.Config.InitialHandSize;
         await Hand.Draw(amount);
 
-        // Match.Logs.Public($"Player {FormattedLogName} drew their initial hand of {amount} cards");
+        Match.Logs.Public($"Player {FormattedLogName} drew their initial hand of {amount} cards");
     }
 
     public IEnumerable<Fighter> GetAliveFighters() => Fighters.Where(f => f.IsAlive());
@@ -165,7 +171,7 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
 
     public string LogName => $"{Name}[{Idx}]";
 
-    public string FormattedLogName => $"({Idx}:{Name})";
+    public string FormattedLogName => $"({Idx}${Name})";
 
     public void AddEvent(Event e)
     {
@@ -199,7 +205,7 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
         var maxHandSize = Loadout.MaximumHandSize ?? Match.Config.MaxHandSize;
         while (Hand.Count > maxHandSize)
         {
-            var card = await Controller.ChooseCardInHand(this, Idx, [.. Hand.Cards], $"Discard down to {maxHandSize} cards");
+            var card = await Controller.ChooseCard(this, [.. Hand.Cards], $"Discard down to {maxHandSize} cards");
             await Hand.Discard(card);
         }
 
@@ -297,16 +303,7 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
         var wasBoosted = false;
         if (isManoeuvre)
         {
-            // allow boost
-            var card = await ChooseBoostCard();
-            if (card is not null)
-            {
-                await DiscardCardForBoost(card);
-                boostValue = (int)card.GetBoostValue()!;
-                wasBoosted = true;
-
-                Match.Logs.Public($"Player {FormattedLogName} boosts their movement with {card.FormattedLogName}");
-            }
+            (boostValue, wasBoosted) = await BoostManager.TryBoostMovement();
         }
 
         var fighters = GetAliveFighters().ToList();
@@ -378,18 +375,6 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
         Match.FinishMovement();
 
         Match.Logs.Public($"Player {FormattedLogName} moves {fighter.FormattedLogName}");
-    }
-
-    public async Task<MatchCard?> ChooseBoostCard()
-    {
-        if (Hand.Count == 0) return null;
-        var card = await Controller.ChooseCardInHandOrNothing(this, Idx, [.. Hand.Cards.Where(c => c.GetBoostValue() is not null)], "Choose a card to boost your movement");
-        return card;
-    }
-
-    public async Task DiscardCardForBoost(MatchCard card)
-    {
-        await Hand.Discard(card);
     }
 
     public async Task Exhaust(int times)

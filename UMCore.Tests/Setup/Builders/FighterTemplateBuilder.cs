@@ -18,11 +18,24 @@ public class FighterTemplateBuilder(string name, string key)
         Script = DEFAULT_FIGHTER_SCRIPT,
         Text = "",
         CanMoveOverOpposing = false,
+        IsSmall = false,
     };
 
     public FighterTemplate Build()
     {
         return Result;
+    }
+
+    public FighterTemplateBuilder IsSmall()
+    {
+        Result.IsSmall = true;
+        return this;
+    }
+
+    public FighterTemplateBuilder Amount(int amount)
+    {
+        Result.Amount = amount;
+        return this;
     }
 
     public FighterTemplateBuilder Health(int health)

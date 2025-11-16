@@ -51,7 +51,7 @@ public class ConsolePlayerController : IPlayerController
         return nodes[int.Parse(result)];
     }
 
-    public async Task<MatchCard> ChooseCardInHand(Player player, int playerHandIdx, MatchCard[] options, string hint)
+    public async Task<MatchCard> ChooseCard(Player player, MatchCard[] options, string hint)
     {
         PrintInfo(player);
         System.Console.WriteLine(hint);
@@ -62,7 +62,7 @@ public class ConsolePlayerController : IPlayerController
         return cards[int.Parse(result)];
     }
     
-    public async Task<MatchCard?> ChooseCardInHandOrNothing(Player player, int playerHandIdx, MatchCard[] options, string hint)
+    public async Task<MatchCard?> ChooseCardOrNothing(Player player, MatchCard[] options, string hint)
     {
         PrintInfo(player);
         System.Console.WriteLine(hint);

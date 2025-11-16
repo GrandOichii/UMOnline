@@ -100,7 +100,7 @@ public class Map : IHasData<Map.Data>
 
     public MapNode? GetFighterLocationOrDefault(Fighter fighter)
     {
-        return Nodes.FirstOrDefault(node => node.Fighter == fighter);
+        return Nodes.FirstOrDefault(node => node.Fighter == fighter || node.SmallFighters.Contains(fighter));
     }
 
     public IEnumerable<MapNode> GetEmptyNodes() => Nodes.Where(n => n.IsEmpty());
@@ -135,8 +135,8 @@ public class Map : IHasData<Map.Data>
     {
         var node = GetFighterLocation(fighter);
         await Match.ExecuteOnMoveEffects(fighter, node, null);
-        
-        await node.RemoveFighter(true);
+
+        await node.RemoveFighter(fighter, true);
     }
 
     public Data GetData(Player player)
@@ -160,6 +160,7 @@ public class MapNode : IHasData<MapNode.Data>
     public List<MapNode> Adjacent { get; }
 
     public Fighter? Fighter { get; private set; }
+    public List<Fighter> SmallFighters { get; }
     public List<PlacedToken> Tokens { get; }
     public Map Parent { get; }
 
@@ -172,11 +173,12 @@ public class MapNode : IHasData<MapNode.Data>
 
         Adjacent = [];
         Tokens = [];
+        SmallFighters = [];
     }
 
     public IEnumerable<MapNode> GetAdjacentEmptyNodes() => [.. Adjacent.Where(n => n.IsEmpty())];
 
-    public bool IsEmpty() => Fighter == null;
+    public bool IsEmpty() => Fighter == null && SmallFighters.Count == 0;
 
     public IEnumerable<int> GetZones() => Template.Zones;
 
@@ -185,13 +187,15 @@ public class MapNode : IHasData<MapNode.Data>
         int range,
         in HashSet<Fighter> result)
     {
-        if (
-            Fighter is not null &&
-            Fighter != fighter &&
-            Fighter.IsOpposingTo(fighter.Owner)
-        )
+        foreach (var potentialTarget in GetFighters())
         {
-            result.Add(Fighter);
+            if (
+                potentialTarget != fighter &&
+                potentialTarget.IsOpposingTo(fighter.Owner)
+            )
+            {
+                result.Add(potentialTarget);
+            }
         }
 
         if (range == 0) return;
@@ -204,13 +208,25 @@ public class MapNode : IHasData<MapNode.Data>
 
     public async Task PlaceFighter(Fighter fighter)
     {
-        var existing = Parent.GetFighterLocationOrDefault(fighter);
-        if (existing is not null)
+        var prevNode = Parent.GetFighterLocationOrDefault(fighter);
+        if (prevNode is not null)
         {
-            await existing.RemoveFighter();
+            await prevNode.RemoveFighter(fighter);
         }
 
-        Fighter = fighter;
+        if (fighter.Template.IsSmall)
+        {
+            if (SmallFighters.Count >= 4)
+            {
+                throw new MatchException($"Tried to place a small fighter {fighter.LogName} in node with Id = {Id}, while it is full");
+            }
+            SmallFighters.Add(fighter);
+        }
+        else
+        {
+            Fighter = fighter;
+        }
+
         Parent.Match.Logger?.LogDebug("Placed fighter {LogName} in node {NodeId}", fighter.LogName, Id);
         await Parent.Match.UpdateClients();
 
@@ -236,9 +252,17 @@ public class MapNode : IHasData<MapNode.Data>
         await Parent.Match.UpdateClients();
     }
 
-    public async Task RemoveFighter(bool updateClients = false)
+    public async Task RemoveFighter(Fighter fighter, bool updateClients = false)
     {
-        Fighter = null;
+        if (Fighter == fighter)
+        {
+            Fighter = null;
+        }
+        else
+        {
+            var removed = SmallFighters.Remove(fighter);
+            if (!removed) throw new MatchException($"Tried to remove fighter {fighter.LogName} from node with Id = {Id}, while it was not there");
+        }
         if (!updateClients) return;
 
         await Parent.Match.UpdateClients();
@@ -246,6 +270,7 @@ public class MapNode : IHasData<MapNode.Data>
 
     private bool CanStepOver(Fighter fighter, bool canMoveOverFriendly, bool canMoveOverOpposing)
     {
+        if (fighter.Template.IsSmall) return true;
         if (Fighter is null || Fighter == fighter)
         {
             return true;
@@ -256,6 +281,22 @@ public class MapNode : IHasData<MapNode.Data>
             return false;
 
         return true;
+    }
+
+    public bool IsOccupied(Fighter forFighter)
+    {
+        if (forFighter.Template.IsSmall)
+            return !SmallFighters.Contains(forFighter) && SmallFighters.Count >= 4;
+
+        return Fighter is not null && Fighter != forFighter;
+    }
+
+    public IEnumerable<Fighter> GetFighters()
+    {
+        List<Fighter> result = [.. SmallFighters];
+        if (Fighter is not null)
+            result.Add(Fighter);
+        return result;
     }
 
     public List<Path> GetPossiblePaths(
@@ -270,7 +311,8 @@ public class MapNode : IHasData<MapNode.Data>
         // processed.Add(this);
 
         var canStepOver = CanStepOver(fighter, canMoveOverFriendly, canMoveOverOpposing);
-        var isOccupied = Fighter is not null && Fighter != fighter;
+        var isOccupied = IsOccupied(fighter);
+            
         if (!canStepOver)
         {
             return [];
@@ -297,10 +339,10 @@ public class MapNode : IHasData<MapNode.Data>
             });
         }
         List<MapNode> neighbors = [.. Adjacent];
-        if (Template.HasSecretPassage) 
+        if (Template.HasSecretPassage)
             neighbors.AddRange(Parent.SecretPassageNodes.Where(n => n != this));
         neighbors.AddRange(Parent.Match.GetAdditionalConnectedNodesFor(fighter, this));
-        
+
         foreach (var node in neighbors)
         {
             var paths = node.GetPossiblePaths(fighter, movement - 1, canMoveOverFriendly, canMoveOverOpposing, processed);

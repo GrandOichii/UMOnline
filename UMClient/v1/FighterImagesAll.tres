@@ -366,7 +366,7 @@ images = Array[CompressedTexture2D]([ExtResource("49"), ExtResource("50"), ExtRe
 
 [sub_resource type="Resource" id="Resource_43"]
 script = ExtResource("1_gr0k2")
-fighter_key = "Geralt of Rivia"
+fighter_key = "Geralt"
 images = Array[CompressedTexture2D]([ExtResource("55_bp8j7")])
 
 [sub_resource type="Resource" id="Resource_44"]

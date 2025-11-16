@@ -164,15 +164,29 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
         if (Config.RandomFirstPlayer)
             CurPlayerIdx = Random.Next(Players.Count);
 
+        // place fighters
         for (int i = 0; i < Players.Count; ++i)
         {
             var player = Players[(CurPlayerIdx + i) % Players.Count];
             await player.InitialPlaceFighters(i + 1);
+        }
+
+        // create decks
+        for (int i = 0; i < Players.Count; ++i)
+        {
+            var player = Players[(CurPlayerIdx + i) % Players.Count];
             await player.CreateDeck();
         }
 
-        Logs.Public("Match started!");
         ExecuteGameStartEffects();
+
+        for (int i = 0; i < Players.Count; ++i)
+        {
+            var player = Players[(CurPlayerIdx + i) % Players.Count];
+            await player.DrawInitialHand();
+        }
+
+        Logs.Public("Match started!");
 
         while (!IsWinnerDetermined())
         {

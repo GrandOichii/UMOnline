@@ -95,7 +95,7 @@ function UM.Effects.CharacterSpecific:CycleMNIdentity()
                 return i
             end
         end
-        error('Unrecognized Moon Knight identity: '..id)
+        error('Unrecognized Moon Knight identity: '..tostring(id))
     end
 
     return function (args)

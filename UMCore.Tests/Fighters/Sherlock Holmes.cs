@@ -68,7 +68,7 @@ public class SherlockHolmesTests
         );
         await match.AddOpponent(
             new TestPlayerControllerBuilder()
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .First()
                 )
             .Build(),
@@ -163,7 +163,7 @@ public class SherlockHolmesTests
         );
         await match.AddOpponent(
             new TestPlayerControllerBuilder()
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .First()
                 )
             .Build(),
@@ -256,7 +256,7 @@ public class SherlockHolmesTests
         );
         await match.AddOpponent(
             new TestPlayerControllerBuilder()
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .First()
                 )
             .Build(),
@@ -357,7 +357,7 @@ public class SherlockHolmesTests
         );
         await match.AddOpponent(
             new TestPlayerControllerBuilder()
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .First()
                 )
             .Build(),

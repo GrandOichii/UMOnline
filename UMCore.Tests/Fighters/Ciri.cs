@@ -80,7 +80,7 @@ public class CiriTests
         );
         await match.AddOpponent(
             new TestPlayerControllerBuilder()
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .First()
                 )
                 .Build(),

@@ -90,6 +90,9 @@
         "GetZone",
         "ChangeTargetZone",
         "GetCardsInZone",
-        "MoveAllCards"
+        "MoveAllCards",
+        "RemoveCardFromDeck",
+        "AddCardToDeck",
+        "IsNodeAdjacentToFighter"
     ]
 }

@@ -9,7 +9,7 @@ namespace UMCore.Tests.Setup.Builders;
 public class TestPlayerControllerBuilder
 {
     private readonly ActionsBuilder _actions = new();
-    private readonly HandCardChoicesBuilder _handCardChoices = new();
+    private readonly CardChoicesBuilder _handCardChoices = new();
     private readonly FighterChoicesBuilder _fighterChoices = new();
     private readonly NodeChoicesBuilder _nodeChoices = new();
     private readonly AttackChoicesBuilder _attackChoices = new();
@@ -51,7 +51,7 @@ public class TestPlayerControllerBuilder
         return this;
     }
 
-    public TestPlayerControllerBuilder ConfigHandCardChoices(Action<HandCardChoicesBuilder> choices)
+    public TestPlayerControllerBuilder ConfigCardChoices(Action<CardChoicesBuilder> choices)
     {
         choices(_handCardChoices);
         return this;
@@ -80,7 +80,7 @@ public class TestPlayerControllerBuilder
         return new TestPlayerController()
         {
             Actions = _actions.Queue,
-            HandCardChoices = _handCardChoices.Queue,
+            CardChoices = _handCardChoices.Queue,
             FighterChoices = _fighterChoices.Queue,
             NodeChoices = _nodeChoices.Queue,
             AttackChoices = _attackChoices.Queue,
@@ -105,6 +105,31 @@ public class TestPlayerControllerBuilder
             for (int i = 0; i < n; ++i)
                 action(this);
             return this;
+        }        
+
+        public ActionsBuilder PlaceOffboardFighterWithNameInNodeWithId(string fighterName, int nodeId)
+        {
+            return Enqueue((match, player, options) =>
+            {
+                var fighter = match.Fighters.First(f => f.Name == fighterName && match.Map.GetFighterLocationOrDefault(f) is null);
+                var node = match.Map.Nodes.First(n => n.Id == nodeId);
+                node.PlaceFighter(fighter)
+                    .Wait();
+                return Task.FromResult((TestPlayerController.NEXT_ACTION, true));
+            });
+        }
+
+        public ActionsBuilder MoveTopCards(int playerIdx, int amount, string zoneNameFrom, string zoneNameTo)
+        {
+            return Enqueue((match, player, options) =>
+            {
+                var p = match.GetPlayer(playerIdx);
+                var fromZone = p.CardZones[zoneNameFrom];
+                var toZone = p.CardZones[zoneNameTo];
+                fromZone.MoveTopCardsTo(amount, toZone)
+                    .Wait();
+                return Task.FromResult((TestPlayerController.NEXT_ACTION, true));
+            });
         }
 
         public ActionsBuilder DeclareWinner()
@@ -170,6 +195,19 @@ public class TestPlayerControllerBuilder
             {
                 match.GetPlayer(playerIdx).Attributes.String.Set(key, value);
                 return Task.FromResult((TestPlayerController.NEXT_ACTION, true));
+            });
+        }
+
+        public ActionsBuilder DealDamage(int nodeId, string fighterName, int amount)
+        {
+            return Enqueue(async (match, player, options) =>
+            {
+                
+                var node = match.Map.Nodes.Single(n => n.Id == nodeId);
+                var fighter = node.GetFighters().First(f => f.Name == fighterName);;
+                
+                await fighter.ProcessDamage(amount);
+                return (TestPlayerController.NEXT_ACTION, true);
             });
         }
 
@@ -309,44 +347,44 @@ public class TestPlayerControllerBuilder
         }
     }
 
-    public class HandCardChoicesBuilder
+    public class CardChoicesBuilder
     {
-        public Queue<TestPlayerController.HandCardChoice> Queue { get; } = new();
+        public Queue<TestPlayerController.CardChoice> Queue { get; } = new();
 
-        private HandCardChoicesBuilder Enqueue(TestPlayerController.HandCardChoice choice)
+        private CardChoicesBuilder Enqueue(TestPlayerController.CardChoice choice)
         {
             Queue.Enqueue(choice);
             return this;
         }
 
-        public HandCardChoicesBuilder NTimes(int n, Action<HandCardChoicesBuilder> action)
+        public CardChoicesBuilder NTimes(int n, Action<CardChoicesBuilder> action)
         {
             for (int i = 0; i < n; ++i)
                 action(this);
             return this;
         }
 
-        public HandCardChoicesBuilder Nothing()
+        public CardChoicesBuilder Nothing()
         {
-            return Enqueue((player, pIdx, options, hint) => Task.FromResult<(MatchCard?, bool)>((null, true)));
+            return Enqueue((player, options, hint) => Task.FromResult<(MatchCard?, bool)>((null, true)));
         }
 
-        public HandCardChoicesBuilder First()
+        public CardChoicesBuilder First()
         {
-            Queue.Enqueue((player, pIdx, options, hint) => Task.FromResult<(MatchCard?, bool)>((options.First(), true)));
+            Queue.Enqueue((player, options, hint) => Task.FromResult<(MatchCard?, bool)>((options.First(), true)));
             return this;
         }
 
-        public HandCardChoicesBuilder Assert(Action<Asserts> action)
+        public CardChoicesBuilder Assert(Action<Asserts> action)
         {
-            return Enqueue((player, pIdx, options, hint) =>
+            return Enqueue((player, options, hint) =>
             {
-                action(new Asserts(player, pIdx, options, hint));
+                action(new Asserts(player, options, hint));
                 return Task.FromResult<(MatchCard?, bool)>((null, false));
             });
         }
 
-        public class Asserts(Player player, int playerHandIdx, MatchCard[] options, string hint) : GeneralAsserts(player)
+        public class Asserts(Player player, MatchCard[] options, string hint) : GeneralAsserts(player)
         {
             public Asserts OptionsEmpty()
             {
@@ -387,7 +425,8 @@ public class TestPlayerControllerBuilder
 
         public FighterChoicesBuilder InNodeWithId(int id)
         {
-            return Enqueue((player, options, hint) => (player.Match.Map.Nodes.Single(n => n.Id == id).Fighter!, true));
+            return Enqueue((player, options, hint) => (player.Fighters.First(f => player.Match.Map.GetFighterLocation(f).Id == id), true));
+            // return Enqueue((player, options, hint) => (player.Match.Map.Nodes.Single(n => n.Id == id).Fighter!, true));
         }
     
         public FighterChoicesBuilder NTimes(int n, Action<FighterChoicesBuilder> action)

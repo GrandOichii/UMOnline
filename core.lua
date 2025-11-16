@@ -272,6 +272,7 @@ function UM.Build:Fighter()
     fighter.whenPlaced = {}
     fighter.manoeuvreValueMods = {}
     fighter.onAttackEffects = {}
+    fighter.onBoostEffects = {}
     fighter.afterAttackEffects = {}
     fighter.afterSchemeEffects = {}
     fighter.gameStartEffects = {}
@@ -291,6 +292,7 @@ function UM.Build:Fighter()
     fighter.cardZoneChangeRedirectors = {}
     fighter.tokens = {}
     fighter.cardZones = {}
+    fighter.boostSources = {}
 
     function fighter:Build()
         local result = {
@@ -299,6 +301,7 @@ function UM.Build:Fighter()
             WhenPlacedEffects = fighter.whenPlaced,
             ManoeuvreValueMods = fighter.manoeuvreValueMods,
             OnAttackEffects = fighter.onAttackEffects,
+            OnBoostEffects = fighter.onBoostEffects,
             AfterAttackEffects = fighter.afterAttackEffects,
             AfterSchemeEffects = fighter.afterSchemeEffects,
             Tokens = fighter.tokens,
@@ -319,8 +322,20 @@ function UM.Build:Fighter()
             WhenManoeuvreEffects = fighter.whenManoeuvreEffects,
             CardZoneChangeRedirectors = fighter.cardZoneChangeRedirectors,
             OnMoveEffects = fighter.onMoveEffects,
+            BoostSources = fighter.boostSources,
         }
         return result
+    end
+
+    function fighter:AddBoostSource(text, cardZoneName, boostTargets)
+        boostTargets = boostTargets or 1
+        fighter.boostSources[#fighter.boostSources+1] = {
+            text = text,
+            cardZoneName = cardZoneName,
+            boostTargets = boostTargets,
+        }
+
+        return fighter
     end
 
     function fighter:DefineCardZone(cardZoneName, cardZone)
@@ -453,6 +468,17 @@ function UM.Build:Fighter()
             :Text(text)
             :Effects({...})
             :AddCond(fighterPredFunc)
+            :Build()
+
+        return fighter
+    end
+
+    function fighter:OnBoost(text, playerPred, ...)
+        fighter.onBoostEffects[#fighter.onBoostEffects+1] = UM.Build:EffectCollection()
+            :SourceIsAlive()
+            :Text(text)
+            :Effects({...})
+            :AddCond(playerPred)
             :Build()
 
         return fighter
@@ -1073,7 +1099,11 @@ function UM.Effects:Discard(manyPlayers, fixedNumber, random, ctxKey)
                 end)
             else
                 discarded = discardCards(player, amount, function ()
-                    return ChooseCardInHand(player, player, 'Choose a card to discard')
+                    local cards = {}
+                    for i = 0, player.Hand.Count - 1 do
+                        cards[#cards+1] = player.Hand.Cards[i]
+                    end
+                    return ChooseCardInHand(player, cards, 'Choose a card to discard')
                 end)
             end
             if ctxKey == nil then
@@ -1115,34 +1145,25 @@ end
 
 function UM.Effects:AllowBoost(numeric, optional)
     return function (args)
-        local f = true
-        if optional then
-            local choice = ChooseString(args.owner, {
-                [1] = 'Yes',
-                [2] = 'No'
-            }, 'Boost your card?')
-            if choice ~= 'Yes' then
-                f = false
-            end
-        end
+        -- local f = true
+        -- if optional then
+        --     local choice = ChooseString(args.owner, {
+        --         [1] = 'Yes',
+        --         [2] = 'No'
+        --     }, 'Boost your card?')
+        --     if choice ~= 'Yes' then
+        --         f = false
+        --     end
+        -- end
 
-        if not f then
-            return
-        end
+        -- if not f then
+        --     return
+        -- end
 
         local amount = numeric:Choose(args, 'Boost how many times?')
         local player = args.owner
         for i = 1, amount do
-            if GetHandSize(player) == 0 then
-                return
-            end
-            
-            local card = GetCardInHand(
-                player,
-                ChooseCardInHand(player, player, 'Choose a card for boost')
-            )
-
-            BoostCardInCombat(player, player.Hand, card)
+            BoostCardInCombat(player)
         end
     end
 end
@@ -1713,8 +1734,7 @@ function UM.Select:Nodes()
         return selector:_Add(function (args, node)
             local fighters = manyFighters(args)
             for _, fighter in ipairs(fighters) do
-                local fighterNode = GetFighterNode(fighter)
-                if AreNodesAdjacent(fighterNode, node) then
+                if IsNodeAdjacentToFighter(node, fighter) then
                     return true
                 end
             end

@@ -188,6 +188,7 @@ def get_sidekick_name(plural):
         'TrissS': 'TrissS',
         'YenneferS': 'YenneferS',
         'Seadog': 'Seadog',
+        'Kakodaemon': 'Kakodaemon',
     }[plural]
 
 def get_card_name(title):
@@ -213,6 +214,7 @@ for deck in data['decks']:
             'StartingHealth': fighter['hp'],
             'IsRanged': fighter['attack_type'] == 'ranged',
             'Text': deck['special'],
+            'IsSmall': False,
             'Movement': fighter['movement'] if 'movement' in fighter else deck['movement'],
             'CanMoveOverOpposing': fighter['canMoveOverOpposing'] if 'canMoveOverOpposing' in fighter else False,
             'MeleeRange': fighter['meleeRange'] if 'meleeRange' in fighter else 1
@@ -228,6 +230,7 @@ for deck in data['decks']:
             'StartingHealth': fighter['hp'],
             'IsRanged': fighter['attack_type'] == 'ranged',
             'Text': '',
+            'IsSmall': fighter['isSmall'] if 'isSmall' in fighter else False,
             'Movement': fighter['movement'] if 'movement' in fighter else deck['movement'],
             'CanMoveOverOpposing': fighter['canMoveOverOpposing'] if 'canMoveOverOpposing' in fighter else False,
             'MeleeRange': fighter['meleeRange'] if 'meleeRange' in fighter else 1

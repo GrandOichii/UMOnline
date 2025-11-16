@@ -74,7 +74,7 @@ public class EredinTests
         );
         await match.AddOpponent(
             new TestPlayerControllerBuilder()
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .Nothing()
                 )
                 .Build(),
@@ -143,7 +143,7 @@ public class EredinTests
                     .WithId(7)
                     .WithId(8)
                 )
-                .ConfigHandCardChoices(c => c.First())
+                .ConfigCardChoices(c => c.First())
                 .Build(),
             GetLoadoutBuilder()
                 .ConfigDeck(d => d
@@ -253,7 +253,7 @@ public class EredinTests
         );
         await match.AddOpponent(
             new TestPlayerControllerBuilder()
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .Nothing()
                 )
                 .Build(),
@@ -322,7 +322,7 @@ public class EredinTests
                     .WithId(7)
                     .WithId(8)
                 )
-                .ConfigHandCardChoices(c => c.First())
+                .ConfigCardChoices(c => c.First())
                 .Build(),
             GetLoadoutBuilder()
                 .ConfigDeck(d => d

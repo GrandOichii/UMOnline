@@ -2,7 +2,7 @@ using System.Text.Json;
 
 namespace UMCore.Tests.Fighters;
 
-public class LukeCage
+public class LukeCageTests
 {
     private static LoadoutTemplateBuilder GetLoadoutBuilder() => new LoadoutTemplateBuilder("Luke Cage")
         .Load("../../../../.generated/loadouts/Luke Cage/Luke Cage.json")
@@ -38,7 +38,7 @@ public class LukeCage
                 .ConfigNodeChoices(c => c
                     .WithId(0)
                 )
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .Nothing()
                 )
                 .Build(),
@@ -120,7 +120,7 @@ public class LukeCage
                 .ConfigNodeChoices(c => c
                     .WithId(0)
                 )
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .First()
                 )
                 .Build(),
@@ -199,7 +199,7 @@ public class LukeCage
                 .ConfigNodeChoices(c => c
                     .WithId(0)
                 )
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .Nothing()
                 )
                 .Build(),
@@ -279,7 +279,7 @@ public class LukeCage
                 .ConfigNodeChoices(c => c
                     .WithId(0)
                 )
-                .ConfigHandCardChoices(c => c.First())
+                .ConfigCardChoices(c => c.First())
                 .ConfigFighterChoices(c => c.First())
                 .Build(),
             GetLoadoutBuilder()

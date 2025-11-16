@@ -87,6 +87,11 @@ public class CombatPart : IHasData<CombatPart.Data>, ICardZone
     {
         card.Move(from, this, ZoneChangeLocation.BOTTOM);
         await card.Owner.Match.UpdateClients();
+
+        var effects = Parent.Match.GetEffectCollectionThatAccepts(new(Fighter.Owner), f => f.OnBoostEffects);
+        // TODO order effects
+        foreach (var (source, effect) in effects)
+            effect.Execute(new(source), new(Fighter.Owner));
     }
 
     public Data GetData(Player player)
@@ -315,16 +320,6 @@ public class Combat : IHasData<Combat.Data>
         }
 
         throw new MatchException($"Failed to find combat part for player {player.LogName}");
-    }
-
-    public async Task AddBoostToPlayer(Player player, MatchCardCollection from, MatchCard boostCard)
-    {
-        var (card, fighter, _) = GetCombatPart(player);
-        if (card is null)
-        {
-            throw new MatchException($"Cannot boost empty card");
-        }
-        await card.AddBoost(from, boostCard);
     }
 
     public Player? GetLoser()

@@ -145,7 +145,7 @@ public class TheGenieTests
                 .ConfigStringChoices(c => c
                     .Yes()
                 )
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .First()
                 )
                 .Build(),

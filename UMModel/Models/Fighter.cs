@@ -17,6 +17,7 @@ public class Fighter
     public required string Script { get; set; }    
     public required bool CanMoveOverOpposing { get; set; }
     public required int MeleeRange { get; set; }
+    public required bool IsSmall { get; set; }
 
     public required string LoadoutName { get; set; }
     public required Loadout Loadout { get; set; }
@@ -37,6 +38,7 @@ public class Fighter
             Script = Script,
             CanMoveOverOpposing = CanMoveOverOpposing,
             MeleeRange = MeleeRange,
+            IsSmall = IsSmall,
         };
     }
 
@@ -57,6 +59,7 @@ public class Fighter
             Script = template.Script,
             CanMoveOverOpposing = template.CanMoveOverOpposing,
             MeleeRange = template.MeleeRange,
+            IsSmall = template.IsSmall,
             Loadout = loadout,
             LoadoutName = loadout.Name,
         };

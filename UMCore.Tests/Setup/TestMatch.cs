@@ -73,8 +73,25 @@ public class TestMatchWrapper
     public FighterAsserts AssertFighterInNode(int nodeId)
     {
         var node = Match.Map.Nodes.First(n => n.Id == nodeId);
-        node.Fighter.ShouldNotBeNull();
-        return new(node.Fighter);
+        var fighters = node.GetFighters();
+        var fighter = fighters.Single();
+        return new(fighter);
+    }
+
+    public FighterAsserts AssertFighterInNode(int nodeId, string fighterKey)
+    {
+        var node = Match.Map.Nodes.First(n => n.Id == nodeId);
+        var fighters = node.GetFighters();
+        var fighter = fighters.Single(f => f.Template.Key == fighterKey);
+        return new(fighter);
+    }
+
+    public MultipleFighterAsserts AssertAllFightersInNode(int nodeId, string fighterName)
+    {
+        var node = Match.Map.Nodes.First(n => n.Id == nodeId);
+        var fighters = node.GetFighters().Where(f => f.Name == fighterName);
+
+        return new([.. fighters]);
     }
 
     public MultipleFighterAsserts AssertAllFighters()

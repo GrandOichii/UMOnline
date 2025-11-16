@@ -42,7 +42,7 @@ public class BigfootTests
                     .First()
                     .First()
                 )
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .Nothing()
                 )
                 .ConfigStringChoices(c => c
@@ -115,7 +115,7 @@ public class BigfootTests
                     .First()
                     .First()
                 )
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .Nothing()
                 )
                 .ConfigStringChoices(c => c
@@ -189,7 +189,7 @@ public class BigfootTests
                     .First()
                     .First()
                 )
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .Nothing()
                 )
                 .ConfigStringChoices(c => c
@@ -262,7 +262,7 @@ public class BigfootTests
                     .First()
                     .First()
                 )
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .Nothing()
                 )
                 .Build(),
@@ -333,7 +333,7 @@ public class BigfootTests
                     .First()
                     .First()
                 )
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .Nothing()
                 )
                 .Build(),

@@ -62,7 +62,7 @@ public class SchemeAction : IAction
     {
         var options = player.Hand.GetPlayableSchemeCards();
 
-        var chosen = await player.Controller.ChooseCardInHand(player, player.Idx, [.. options], $"Choose a scheme card to play");
+        var chosen = await player.Controller.ChooseCard(player, [.. options], $"Choose a scheme card to play");
         var availableFighters = chosen.GetCanBePlayedBy().ToList();
         if (availableFighters.Count == 0)
         {

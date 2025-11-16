@@ -7796,6 +7796,7 @@
                 {
                     "attack_type": "melee",
                     "hp": 1,
+                    "isSmall": true,
                     "name": "Squirrel",
                     "quantity": 8,
                     "slug": "squirrels"
@@ -10810,7 +10811,8 @@
                     "immediateText": null,
                     "quantity": 5,
                     "slug": "horror",
-                    "title": "Horror 2\ufe0f\u20e3",
+                    "labels": ["SYLLABLE_2"],
+                    "title": "Horror",
                     "type": "attack",
                     "value": 4
                 },
@@ -10826,7 +10828,8 @@
                     "immediateText": null,
                     "quantity": 3,
                     "slug": "my-kingdom-for-a-horse",
-                    "title": "My Kingdom For A Horse 6\ufe0f\u20e3",
+                    "title": "My Kingdom For A Horse",
+                    "labels": ["SYLLABLE_6"],
                     "type": "attack",
                     "value": 5
                 },
@@ -10842,7 +10845,8 @@
                     "immediateText": null,
                     "quantity": 2,
                     "slug": "all-are-punished",
-                    "title": "All Are Punished 4\ufe0f\u20e3",
+                    "labels": ["SYLLABLE_4"],
+                    "title": "All Are Punished",
                     "type": "attack",
                     "value": 4
                 },
@@ -10858,7 +10862,8 @@
                     "immediateText": null,
                     "quantity": 2,
                     "slug": "places-places",
-                    "title": "Places, Places! 4\ufe0f\u20e3",
+                    "labels": ["SYLLABLE_4"],
+                    "title": "Places, Places!",
                     "type": "attack",
                     "value": 3
                 },
@@ -10873,8 +10878,9 @@
                     "image": "https://static.unmatched.cards/images/umdb/decks/william-shakespeare/once-more-unto-the-breach.png",
                     "immediateText": null,
                     "quantity": 2,
+                    "labels": ["SYLLABLE_6"],
                     "slug": "once-more-unto-the-breach",
-                    "title": "Once More Unto The Breach 6\ufe0f\u20e3",
+                    "title": "Once More Unto The Breach",
                     "type": "versatile",
                     "value": 3
                 },
@@ -10889,8 +10895,9 @@
                     "image": "https://static.unmatched.cards/images/umdb/decks/william-shakespeare/alas.png",
                     "immediateText": null,
                     "quantity": 2,
+                    "labels": ["SYLLABLE_2"],
                     "slug": "alas",
-                    "title": "Alas 2\ufe0f\u20e3",
+                    "title": "Alas",
                     "type": "versatile",
                     "value": 2
                 },
@@ -10904,9 +10911,10 @@
                     "duringText": null,
                     "image": "https://static.unmatched.cards/images/umdb/decks/william-shakespeare/the-ides-of-march.png",
                     "immediateText": null,
+                    "labels": ["SYLLABLE_4"],
                     "quantity": 2,
                     "slug": "the-ides-of-march",
-                    "title": "The Ides Of March 4\ufe0f\u20e3",
+                    "title": "The Ides Of March",
                     "type": "versatile",
                     "value": 2
                 },
@@ -10921,8 +10929,9 @@
                     "image": "https://static.unmatched.cards/images/umdb/decks/william-shakespeare/et-tu-brute.png",
                     "immediateText": null,
                     "quantity": 2,
+                    "labels": ["SYLLABLE_4"],
                     "slug": "et-tu-brute",
-                    "title": "Et Tu, Brute? 4\ufe0f\u20e3",
+                    "title": "Et Tu, Brute?",
                     "type": "versatile",
                     "value": 3
                 },
@@ -10937,8 +10946,9 @@
                     "image": "https://static.unmatched.cards/images/umdb/decks/william-shakespeare/deceive.png",
                     "immediateText": "Cancel all effects on your opponent's card.",
                     "quantity": 3,
+                    "labels": ["SYLLABLE_2"],
                     "slug": "deceive",
-                    "title": "Deceive 2\ufe0f\u20e3",
+                    "title": "Deceive",
                     "type": "versatile",
                     "value": 2
                 },
@@ -10954,7 +10964,8 @@
                     "immediateText": null,
                     "quantity": 2,
                     "slug": "revise",
-                    "title": "Revise 2\ufe0f\u20e3",
+                    "title": "Revise",
+                    "labels": ["SYLLABLE_2"],
                     "type": "versatile",
                     "value": 1
                 },
@@ -10969,8 +10980,9 @@
                     "image": "https://static.unmatched.cards/images/umdb/decks/william-shakespeare/such-sweet-sorrow.png",
                     "immediateText": null,
                     "quantity": 2,
+                    "labels": ["SYLLABLE_4"],
                     "slug": "such-sweet-sorrow",
-                    "title": "Such Sweet Sorrow 4\ufe0f\u20e3",
+                    "title": "Such Sweet Sorrow",
                     "type": "versatile",
                     "value": 4
                 },
@@ -10986,7 +10998,8 @@
                     "immediateText": null,
                     "quantity": 3,
                     "slug": "again",
-                    "title": "Again 2\ufe0f\u20e3",
+                    "labels": ["SYLLABLE_2"],
+                    "title": "Again",
                     "type": "versatile",
                     "value": 3
                 }
@@ -12906,6 +12919,7 @@
                     "immediateText": null,
                     "quantity": 2,
                     "slug": "gear-sword-of-steel",
+                    "labels": ["sword"],
                     "title": "GEAR: Sword of Steel",
                     "type": "attack",
                     "value": 4
@@ -12922,7 +12936,8 @@
                     "immediateText": "If the opposing fighter's card has a printed value of 4 or more, ignore its value.",
                     "quantity": 2,
                     "slug": "gear-sword-of-silver",
-                    "title": "Gear: Sword of Silver",
+                    "labels": ["sword"],
+                    "title": "GEAR: Sword of Silver",
                     "type": "attack",
                     "value": 4
                 },
@@ -12937,6 +12952,7 @@
                     "image": "https://static.unmatched.cards/images/umdb/decks/geralt-of-rivia/gear-wolf-medallion.png",
                     "immediateText": "Cancel all effects on your opponent's card.",
                     "quantity": 2,
+                    "labels": ["armor"],
                     "slug": "gear-wolf-medallion",
                     "title": "GEAR: Wolf Medallion",
                     "type": "defense",
@@ -12953,6 +12969,7 @@
                     "image": "https://static.unmatched.cards/images/umdb/decks/geralt-of-rivia/gear-armor-of-the-forgotten-wolf.png",
                     "immediateText": null,
                     "quantity": 2,
+                    "labels": ["armor"],
                     "slug": "gear-armor-of-the-forgotten-wolf",
                     "title": "GEAR: Armor Of The Forgotten Wolf",
                     "type": "defense",
@@ -12968,6 +12985,7 @@
                     "duringText": null,
                     "image": "https://static.unmatched.cards/images/umdb/decks/geralt-of-rivia/gear-blizzard.png",
                     "immediateText": null,
+                    "labels": ["potion"],
                     "quantity": 2,
                     "slug": "gear-blizzard",
                     "title": "GEAR: Blizzard",
@@ -12985,6 +13003,7 @@
                     "image": "https://static.unmatched.cards/images/umdb/decks/geralt-of-rivia/gear-tawny-owl.png",
                     "immediateText": null,
                     "quantity": 2,
+                    "labels": ["potion"],
                     "slug": "gear-tawny-owl",
                     "title": "GEAR: Tawny Owl",
                     "type": "scheme",
@@ -12995,7 +13014,7 @@
                 {
                     "attack_type": "melee",
                     "hp": 16,
-                    "name": "Geralt of Rivia",
+                    "name": "Geralt",
                     "quantity": 1,
                     "slug": "geralt-of-rivia"
                 }
@@ -14295,6 +14314,32 @@
                 }
             ],
             "special": "PRIVATEER TURNED PIRATE\nStart the game with 1 doubloon in the treasury, you have the other 2.\n- At the start of your turn, you may pay 1 doubloon to gain 1 action.\n- When Blackbeard takes combat damage, pay 1 doubloon.\n\nBLACKBEARD'S DOUBLOONS\nDoubloons that Blackbeard doesn't have are kept in the Treasury."
+        },
+        {
+            "cards": [
+
+            ],
+            "heroes": [
+                {
+                    "attack_type": "melee",
+                    "hp": 14,
+                    "name": "Pandora",
+                    "quantity": 1
+                }
+            ],
+            "movement": 2,
+            "startsWithSidekicks": false,
+            "name": "Pandora",
+            "set": "Battle of Legends, Volume Three",
+            "sidekicks": [
+                {
+                    "attack_type": "melee",
+                    "hp": 1,
+                    "name": "Kakodaemon",
+                    "quantity": 2
+                }
+            ],
+            "special": "PANDORA'S BOX\nDo not start with any Kakodamons on the board.\nAt the start of your turn, open Pandora's Box.\n\nPandora's Box is a deck of seven cards called MISERIES.\nWhen you open Pandora's Box, reveal the top card and resolve its effect if any). You may keep revealing and resolving additional cards, one at a time, until you choose to stop.\nIf there are three or more total feathers on revealed cards, you must stop revealing, then Pandora takes 1 damage for each revealed MISERY.\nAt the end of your turn, shuffle all revealed MISERIES back into Pandora's Box."
         }
     ],
     "total": 67

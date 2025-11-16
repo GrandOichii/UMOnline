@@ -31,14 +31,15 @@ public class Movement(Player player, Fighter fighter, int movement, bool canMove
         {
             var node = result.Nodes[i];
             // ! i dont like this
-            if (node.Fighter is null)
+            if (!node.IsOccupied(Fighter))
             {
                 await node.PlaceFighter(Fighter);
             }
             else
             {
                 if (node.Fighter != Fighter)
-                    MovedThroughFighters.Add(node.Fighter);
+                    foreach (var f in node.GetFighters())
+                        MovedThroughFighters.Add(f);
             }
 
             await Player.Match.ExecuteOnMoveEffects(Fighter, prevNode, node);

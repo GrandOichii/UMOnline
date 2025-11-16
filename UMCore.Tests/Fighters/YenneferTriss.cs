@@ -54,7 +54,7 @@ public class YenneferTrisTests
         );
         await match.AddOpponent(
             new TestPlayerControllerBuilder()
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .Nothing()
                 )
                 .Build(),
@@ -118,7 +118,7 @@ public class YenneferTrisTests
                 .ConfigStringChoices(c => c
                     .Yes()
                 )
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .First()
                 )
                 .ConfigNodeChoices(c => c
@@ -133,7 +133,7 @@ public class YenneferTrisTests
         );
         await match.AddOpponent(
             new TestPlayerControllerBuilder()
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .Nothing()
                 )
                 .Build(),
@@ -191,7 +191,7 @@ public class YenneferTrisTests
                     .DeclareWinner()
                     .CrashMatch()
                 )
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .First()
                 )
                 .ConfigNodeChoices(c => c

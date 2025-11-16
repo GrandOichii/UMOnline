@@ -24,10 +24,28 @@ public class MapNodeAsserts(MapNode node)
         return this;
     }
 
+    private bool HasNamedFighter(string name)
+    {
+        if (node.Fighter is not null && node.Fighter.Name == name) return true;
+        var small = node.SmallFighters.FirstOrDefault(f => f.Name == name);
+        return small is not null;
+    }
+
     public MapNodeAsserts HasFighterWithName(string name)
     {
-        node.Fighter.ShouldNotBeNull();
-        node.Fighter.Name.ShouldBe(name);
+        HasNamedFighter(name).ShouldBeTrue($"Expected node with Id = {node.Id} to contain fighter with name {name}");
+        return this;
+    }
+
+    public MapNodeAsserts FightersCount(int amount)
+    {
+        node.GetFighters().Count().ShouldBe(amount);
+        return this;
+    }
+
+    public MapNodeAsserts DoesntHaveFighterWithName(string name)
+    {
+        HasNamedFighter(name).ShouldBeFalse($"Expected node with Id = {node.Id} not to contain fighter with name {name}");
         return this;
     }
 }

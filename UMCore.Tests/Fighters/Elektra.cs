@@ -144,7 +144,7 @@ public class ElektraTests
                 .ConfigActions(a => a
                     .Manoeuvre()
                 )
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .Nothing()
                 )
                 .ConfigFighterChoices(c => c
@@ -236,7 +236,7 @@ public class ElektraTests
                     // turn should end after the manoeuvre
                     .CrashMatch()
                 )
-                .ConfigHandCardChoices(c => c.Nothing())
+                .ConfigCardChoices(c => c.Nothing())
                 .ConfigNodeChoices(c => c
                     .WithId(1)
                     .WithId(2)
@@ -269,7 +269,7 @@ public class ElektraTests
                     .Manoeuvre()
                     .Manoeuvre()
                 )
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .Nothing()
                     .Nothing()
                 )
@@ -392,7 +392,7 @@ public class ElektraTests
                 .ConfigActions(a => a
                     .Manoeuvre()
                 )
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .Nothing()
                 )
                 .ConfigFighterChoices(c => c

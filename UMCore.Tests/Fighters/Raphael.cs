@@ -53,7 +53,7 @@ public class RaphaelTests
         );
         await match.AddOpponent(
             new TestPlayerControllerBuilder()
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .First()
                 )
                 .Build(),
@@ -128,7 +128,7 @@ public class RaphaelTests
         );
         await match.AddOpponent(
             new TestPlayerControllerBuilder()
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .First()
                 )
                 .Build(),
@@ -187,7 +187,7 @@ public class RaphaelTests
                 .ConfigNodeChoices(c => c
                     .WithId(1)
                 )
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .First()
                 )
                 .Build(),

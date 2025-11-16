@@ -44,7 +44,7 @@ public class MoonKnightTests
                     .DeclareWinner()
                     .CrashMatch()
                 )
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .NTimes(amountOfTurns - 1, nc => nc.First())
                 )
                 .ConfigPathChoices(c => c
@@ -62,7 +62,7 @@ public class MoonKnightTests
                 .ConfigActions(c => c
                     .NTimes(amountOfTurns - 1, nc => nc.Scheme())
                 )
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .NTimes(amountOfTurns - 1, nc => nc.First())
                 )
             .Build(),
@@ -127,7 +127,7 @@ public class MoonKnightTests
                 .ConfigAttackChoices(c => c
                     .First()
                 )
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .NTimes(amountOfTurns - 1, nc => nc.First())
                 )
                 .ConfigPathChoices(c => c
@@ -148,7 +148,7 @@ public class MoonKnightTests
                     .DeclareWinner()
                     .CrashMatch()
                 )
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .NTimes(amountOfTurns - 1, nc => nc.First())
                     .Nothing()
                 )
@@ -211,7 +211,7 @@ public class MoonKnightTests
                 .ConfigAttackChoices(c => c
                     .First()
                 )
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .First()
                 )
                 .ConfigPathChoices(c => c
@@ -232,7 +232,7 @@ public class MoonKnightTests
                     .DeclareWinner()
                     .CrashMatch()
                 )
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .First()
                     .Nothing()
                 )
@@ -298,7 +298,7 @@ public class MoonKnightTests
                     .DeclareWinner()
                     .CrashMatch()
                 )
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .NTimes(amountOfTurns - 1, nc => nc.First())
                 )
                 .ConfigPathChoices(c => c
@@ -317,7 +317,7 @@ public class MoonKnightTests
                 .ConfigActions(c => c
                     .NTimes(amountOfTurns - 1, nc => nc.Scheme())
                 )
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .NTimes(amountOfTurns - 1, nc => nc.First())
                 )
             .Build(),
@@ -378,7 +378,7 @@ public class MoonKnightTests
                     .DeclareWinner()
                     .CrashMatch()
                 )
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .First()
                 )
                 .ConfigPathChoices(c => c
@@ -397,7 +397,7 @@ public class MoonKnightTests
                 .ConfigActions(c => c
                     .Scheme()
                 )
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .First()
                 )
             .Build(),
@@ -457,7 +457,7 @@ public class MoonKnightTests
                     .DeclareWinner()
                     .CrashMatch()
                 )
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .First()
                     .Nothing()
                 )
@@ -542,7 +542,7 @@ public class MoonKnightTests
                     .DeclareWinner()
                     .CrashMatch()
                 )
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .NTimes(amountOfTurns - 1, nc => nc.First())
                     .First()
                 )
@@ -564,7 +564,7 @@ public class MoonKnightTests
                     .NTimes(amountOfTurns - 1, nc => nc.Scheme())
                     .Attack()
                 )
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .NTimes(amountOfTurns - 1, nc => nc.First())
                 )
                 .ConfigAttackChoices(c => c
@@ -629,7 +629,7 @@ public class MoonKnightTests
                     .DeclareWinner()
                     .CrashMatch()
                 )
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .NTimes(2, nc => nc.First())
                     .First()
                 )
@@ -650,7 +650,7 @@ public class MoonKnightTests
                     .NTimes(1, nc => nc.Scheme())
                     .Attack()
                 )
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .NTimes(1, nc => nc.First())
                 )
                 .ConfigAttackChoices(c => c
@@ -723,7 +723,7 @@ public class MoonKnightTests
                     .DeclareWinner()
                     .CrashMatch()
                 )
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .NTimes(amountOfTurns - 1, nc => nc.First())
                     .Nothing()
                 )
@@ -744,7 +744,7 @@ public class MoonKnightTests
                     .NTimes(amountOfTurns - 1, nc => nc.Scheme())
                     .Attack()
                 )
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .NTimes(amountOfTurns - 1, nc => nc.First())
                 )
                 .ConfigAttackChoices(c => c

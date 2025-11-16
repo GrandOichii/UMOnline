@@ -16,8 +16,8 @@ public interface IPlayerController
     Task Update(Player player);
     Task<string> ChooseAction(Player player, string[] options);
     Task<MapNode> ChooseNode(Player player, MapNode[] options, string hint);
-    Task<MatchCard> ChooseCardInHand(Player player, int playerHandIdx, MatchCard[] options, string hint);
-    Task<MatchCard?> ChooseCardInHandOrNothing(Player player, int playerHandIdx, MatchCard[] options, string hint);
+    Task<MatchCard> ChooseCard(Player player, MatchCard[] options, string hint);
+    Task<MatchCard?> ChooseCardOrNothing(Player player, MatchCard[] options, string hint);
     Task<Fighter> ChooseFighter(Player player, Fighter[] options, string hint);
     Task<AvailableAttack> ChooseAttack(Player player, AvailableAttack[] options);
     Task<string> ChooseString(Player player, string[] options, string hint);
@@ -64,22 +64,22 @@ public class SafePlayerController(IPlayerController controller) : IPlayerControl
         return result;
     }
 
-    public async Task<MatchCard> ChooseCardInHand(Player player, int playerHandIdx, MatchCard[] options, string hint)
+    public async Task<MatchCard> ChooseCard(Player player, MatchCard[] options, string hint)
     {
-        var result = await Controller.ChooseCardInHand(player, playerHandIdx, options, hint);
+        var result = await Controller.ChooseCard(player, options, hint);
         if (!options.Contains(result))
         {
-            throw new UnsafeChoiceException($"Player {player.LogName} tried to choose {result.LogName} for {nameof(ChooseCardInHand)}, which is not one of the options (options: {string.Join(", ", options.Select(c => c.LogName))})");
+            throw new UnsafeChoiceException($"Player {player.LogName} tried to choose {result.LogName} for {nameof(ChooseCard)}, which is not one of the options (options: {string.Join(", ", options.Select(c => c.LogName))})");
         }
         return result;
     }
 
-    public async Task<MatchCard?> ChooseCardInHandOrNothing(Player player, int playerHandIdx, MatchCard[] options, string hint)
+    public async Task<MatchCard?> ChooseCardOrNothing(Player player, MatchCard[] options, string hint)
     {
-        var result = await Controller.ChooseCardInHandOrNothing(player, playerHandIdx, options, hint);
+        var result = await Controller.ChooseCardOrNothing(player, options, hint);
         if (result is not null && !options.Contains(result))
         {
-            throw new UnsafeChoiceException($"Player {player.LogName} tried to choose {result.LogName} for {nameof(ChooseCardInHandOrNothing)}, which is not one of the options (options: {string.Join(", ", options.Select(c => c.LogName))})");
+            throw new UnsafeChoiceException($"Player {player.LogName} tried to choose {result.LogName} for {nameof(ChooseCardOrNothing)}, which is not one of the options (options: {string.Join(", ", options.Select(c => c.LogName))})");
         }
         return result;
     }
@@ -195,13 +195,13 @@ public class RandomPlayerController(int seed) : IPlayerController
         return Task.FromResult(opts[_rnd.Next(opts.Count)]);
     }
 
-    public Task<MatchCard> ChooseCardInHand(Player player, int playerHandIdx, MatchCard[] options, string hint)
+    public Task<MatchCard> ChooseCard(Player player, MatchCard[] options, string hint)
     {
         var opts = options.ToList();
         return Task.FromResult(opts[_rnd.Next(opts.Count)]);
     }
 
-    public Task<MatchCard?> ChooseCardInHandOrNothing(Player player, int playerHandIdx, MatchCard[] options, string hint)
+    public Task<MatchCard?> ChooseCardOrNothing(Player player, MatchCard[] options, string hint)
     {
         var idx = _rnd.Next(options.Length + 1);
         if (idx == 0) return Task.FromResult<MatchCard?>(null);
@@ -278,16 +278,16 @@ public class DelayedControllerWrapper(TimeSpan delay, IPlayerController controll
         return await controller.ChooseAttack(player, options);
     }
 
-    public async Task<MatchCard> ChooseCardInHand(Player player, int playerHandIdx, MatchCard[] options, string hint)
+    public async Task<MatchCard> ChooseCard(Player player, MatchCard[] options, string hint)
     {
         await Task.Delay(delay);
-        return await controller.ChooseCardInHand(player, playerHandIdx, options, hint);
+        return await controller.ChooseCard(player, options, hint);
     }
 
-    public async Task<MatchCard?> ChooseCardInHandOrNothing(Player player, int playerHandIdx, MatchCard[] options, string hint)
+    public async Task<MatchCard?> ChooseCardOrNothing(Player player, MatchCard[] options, string hint)
     {
         await Task.Delay(delay);
-        return await controller.ChooseCardInHandOrNothing(player, playerHandIdx, options, hint);
+        return await controller.ChooseCardOrNothing(player, options, hint);
     }
 
     public async Task<Fighter> ChooseFighter(Player player, Fighter[] options, string hint)

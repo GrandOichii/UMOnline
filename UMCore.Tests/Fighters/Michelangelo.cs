@@ -107,7 +107,7 @@ public class MichelangeloTests
                 .ConfigNodeChoices(c => c
                     .WithId(1)
                 )
-                .ConfigHandCardChoices(c => c.First())
+                .ConfigCardChoices(c => c.First())
                 .ConfigFighterChoices(c => c.WithName(character))
                 .Build(),
             GetLoadoutBuilder()
@@ -190,7 +190,7 @@ public class MichelangeloTests
         );
         await match.AddOpponent(
             new TestPlayerControllerBuilder()
-                .ConfigHandCardChoices(c => c.Nothing())
+                .ConfigCardChoices(c => c.Nothing())
                 .Build(),
             new LoadoutTemplateBuilder("Foo")
                 .AddFighter(new FighterTemplateBuilder("Foo", "Foo")

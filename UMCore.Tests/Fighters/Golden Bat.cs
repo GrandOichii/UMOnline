@@ -47,7 +47,7 @@ public class GoldenBatTests
         );
         await match.AddOpponent(
             new TestPlayerControllerBuilder()
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .Nothing()
                 )
                 .Build(),
@@ -102,7 +102,7 @@ public class GoldenBatTests
                 )
                 .ConfigFighterChoices(c => c.First())
                 .ConfigPathChoices(c => c.First())
-                .ConfigHandCardChoices(c => c.Nothing())
+                .ConfigCardChoices(c => c.Nothing())
                 .ConfigAttackChoices(c => c
                     .First()
                 )
@@ -115,7 +115,7 @@ public class GoldenBatTests
         );
         await match.AddOpponent(
             new TestPlayerControllerBuilder()
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .Nothing()
                 )
                 .Build(),
@@ -167,7 +167,7 @@ public class GoldenBatTests
                     .DeclareWinner()
                     .CrashMatch()
                 )
-                .ConfigHandCardChoices(c => c.Nothing())
+                .ConfigCardChoices(c => c.Nothing())
                 .Build(),
             GetLoadoutBuilder()
                 .Build()

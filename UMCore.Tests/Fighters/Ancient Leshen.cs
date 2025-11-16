@@ -55,7 +55,7 @@ public class AncientLeshenTests
         );
         await match.AddOpponent(
             new TestPlayerControllerBuilder()
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .Nothing()
                     .Nothing()
                 )
@@ -132,7 +132,7 @@ public class AncientLeshenTests
         );
         await match.AddOpponent(
             new TestPlayerControllerBuilder()
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .Nothing()
                     .First()
                     .Nothing()
@@ -215,7 +215,7 @@ public class AncientLeshenTests
         );
         await match.AddOpponent(
             new TestPlayerControllerBuilder()
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .Nothing()
                     .Nothing()
                 )

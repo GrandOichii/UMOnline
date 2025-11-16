@@ -112,7 +112,7 @@ public class AchillesTests
         );
         await match.AddOpponent(
             new TestPlayerControllerBuilder()
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .First()
                 )
             .Build(),
@@ -188,7 +188,7 @@ public class AchillesTests
         );
         await match.AddOpponent(
             new TestPlayerControllerBuilder()
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .First()
                 )
             .Build(),
@@ -244,7 +244,7 @@ public class AchillesTests
 
         await match.AddMainPlayer(
             new TestPlayerControllerBuilder()
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .First()
                 )
                 .ConfigNodeChoices(c => c
@@ -321,7 +321,7 @@ public class AchillesTests
 
         await match.AddMainPlayer(
             new TestPlayerControllerBuilder()
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .First()
                 )
                 .ConfigNodeChoices(c => c
@@ -399,7 +399,7 @@ public class AchillesTests
 
         await match.AddMainPlayer(
             new TestPlayerControllerBuilder()
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .First()
                 )
                 .ConfigNodeChoices(c => c

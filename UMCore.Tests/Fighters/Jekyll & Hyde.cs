@@ -144,7 +144,7 @@ public class JekyllHydeTests
                     .DeclareWinner()
                     .CrashMatch()
                 )
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .First()
                 )
                 .ConfigStringChoices(c => c
@@ -267,7 +267,7 @@ public class JekyllHydeTests
                     .DeclareWinner()
                     .CrashMatch()
                 )
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .Nothing()
                 )
                 .ConfigFighterChoices(c => c
@@ -328,7 +328,7 @@ public class JekyllHydeTests
                     .DeclareWinner()
                     .CrashMatch()
                 )
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .Nothing()
                 )
                 .ConfigFighterChoices(c => c

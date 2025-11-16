@@ -39,15 +39,12 @@ public class KingArthurTests
                 .ConfigAttackChoices(a => a
                     .FirstByFighterWithName("King Arthur")
                 )
-                .ConfigStringChoices(c => c
-                    .No()
-                )
                 .ConfigNodeChoices(c => c
                     .WithId(0)
                 )
-                // .ConfigHandCardChoices(c => c
-                //     .First()
-                // )
+                .ConfigCardChoices(c => c
+                    .Nothing()
+                )
                 .Build(),
             GetLoadoutBuilder()
                 .ConfigDeck(d => d
@@ -57,7 +54,7 @@ public class KingArthurTests
         );
         await match.AddOpponent(
             new TestPlayerControllerBuilder()
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .First()
                 )
                 .Build(),
@@ -121,13 +118,10 @@ public class KingArthurTests
                 .ConfigAttackChoices(a => a
                     .FirstByFighterWithName("King Arthur")
                 )
-                .ConfigStringChoices(c => c
-                    .Yes()
-                )
                 .ConfigNodeChoices(c => c
                     .WithId(0)
                 )
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .First()
                 )
                 .Build(),
@@ -139,7 +133,7 @@ public class KingArthurTests
         );
         await match.AddOpponent(
             new TestPlayerControllerBuilder()
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .First()
                 )
                 .Build(),
@@ -203,9 +197,6 @@ public class KingArthurTests
                 .ConfigAttackChoices(a => a
                     .FirstByFighterWithName("King Arthur")
                 )
-                .ConfigStringChoices(c => c
-                    .Yes()
-                )
                 .ConfigNodeChoices(c => c
                     .WithId(0)
                 )
@@ -218,7 +209,7 @@ public class KingArthurTests
         );
         await match.AddOpponent(
             new TestPlayerControllerBuilder()
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .First()
                 )
                 .Build(),
@@ -282,13 +273,10 @@ public class KingArthurTests
                 .ConfigAttackChoices(a => a
                     .FirstByFighterWithName("King Arthur")
                 )
-                .ConfigStringChoices(c => c
-                    .Yes()
-                )
                 .ConfigNodeChoices(c => c
                     .WithId(0)
                 )
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .First()
                 )
                 .Build(),
@@ -300,7 +288,7 @@ public class KingArthurTests
         );
         await match.AddOpponent(
             new TestPlayerControllerBuilder()
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .First()
                 )
                 .Build(),
@@ -368,13 +356,10 @@ public class KingArthurTests
                 .ConfigAttackChoices(a => a
                     .FirstByFighterWithName("King Arthur")
                 )
-                .ConfigStringChoices(c => c
-                    .Yes()
-                )
                 .ConfigNodeChoices(c => c
                     .WithId(0)
                 )
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .First()
                 )
                 .Build(),
@@ -403,7 +388,7 @@ public class KingArthurTests
         );
         await match.AddOpponent(
             new TestPlayerControllerBuilder()
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .First()
                 )
                 .Build(),
@@ -483,7 +468,7 @@ public class KingArthurTests
         );
         await match.AddOpponent(
             new TestPlayerControllerBuilder()
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .First()
                 )
                 .Build(),

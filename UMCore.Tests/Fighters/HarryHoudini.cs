@@ -40,7 +40,7 @@ public class HarryHoudiniTests
                 .ConfigNodeChoices(c => c
                     .WithId(1)
                 )
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .Nothing()
                 )
                 .ConfigPathChoices(c => c
@@ -109,7 +109,7 @@ public class HarryHoudiniTests
                 .ConfigNodeChoices(c => c
                     .WithId(1)
                 )
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .First()
                 )
                 .ConfigStringChoices(c => c
@@ -183,7 +183,7 @@ public class HarryHoudiniTests
                     .WithId(1)
                     .WithId(4)
                 )
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .First()
                 )
                 .ConfigStringChoices(c => c

@@ -19,7 +19,7 @@ public class TestPlayerController : IPlayerController
     /// <returns>the action word and whether to remove the action from queue or not</returns>
     public delegate Task<(string, bool)> PlayerAction(TestMatch match, Player player, string[] options);
 
-    public delegate Task<(MatchCard?, bool)> HandCardChoice(Player player, int playerHandIdx, MatchCard[] options, string hint);
+    public delegate Task<(MatchCard?, bool)> CardChoice(Player player, MatchCard[] options, string hint);
     public delegate (Fighter?, bool) FighterChoice(Player player, Fighter[] options, string hint);
     public delegate (MapNode?, bool) NodeChoice(Player player, MapNode[] options, string hint);
     public delegate (AvailableAttack?, bool) AttackChoice(Player player, AvailableAttack[] options);
@@ -28,7 +28,7 @@ public class TestPlayerController : IPlayerController
     public delegate (PlacedToken?, bool) TokenChoice(Player player, PlacedToken[] options, string hint);
 
     public required Queue<PlayerAction> Actions { get; init; }
-    public required Queue<HandCardChoice> HandCardChoices { get; init; }
+    public required Queue<CardChoice> CardChoices { get; init; }
     public required Queue<FighterChoice> FighterChoices { get; init; }
     public required Queue<NodeChoice> NodeChoices { get; init; }
     public required Queue<AttackChoice> AttackChoices { get; init; }
@@ -83,24 +83,24 @@ public class TestPlayerController : IPlayerController
         throw new Exception($"No attack choices left in queue for player {player.LogName}");
     }
 
-    public async Task<MatchCard> ChooseCardInHand(Player player, int playerHandIdx, MatchCard[] options, string hint)
+    public async Task<MatchCard> ChooseCard(Player player, MatchCard[] options, string hint)
     {
-        var result = await ChooseCardInHandOrNothing(player, playerHandIdx, options, hint)
-            ?? throw new Exception($"Provided null as a card for {nameof(ChooseCardInHand)} (player: {player.LogName}, hint: {hint})");
+        var result = await ChooseCardOrNothing(player, options, hint)
+            ?? throw new Exception($"Provided null as a card for {nameof(ChooseCard)} (player: {player.LogName}, hint: {hint})");
         return result;
     }
 
-    public async Task<MatchCard?> ChooseCardInHandOrNothing(Player player, int playerHandIdx, MatchCard[] options, string hint)
+    public async Task<MatchCard?> ChooseCardOrNothing(Player player, MatchCard[] options, string hint)
     {
-        while (HandCardChoices.Count > 0)
+        while (CardChoices.Count > 0)
         {
-            var choice = HandCardChoices.Dequeue();
-            var (result, isResult) = await choice(player, playerHandIdx, options, hint);
+            var choice = CardChoices.Dequeue();
+            var (result, isResult) = await choice(player, options, hint);
             if (!isResult) continue;
             return result;
         }
         
-        throw new Exception($"No hand card choices left in queue for player {player.LogName} (hint: {hint})");
+        throw new Exception($"No card choices left in queue for player {player.LogName} (hint: {hint})");
     }
 
     public Task<Fighter> ChooseFighter(Player player, Fighter[] options, string hint)
@@ -189,7 +189,7 @@ public class TestPlayerController : IPlayerController
 
     public void AssertAllChoiceQueuesEmpty()
     {
-        HandCardChoices.Count.ShouldBe(0);
+        CardChoices.Count.ShouldBe(0);
         FighterChoices.Count.ShouldBe(0);
         NodeChoices.Count.ShouldBe(0);       
     }

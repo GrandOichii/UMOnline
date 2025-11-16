@@ -173,7 +173,7 @@ public class GhostRiderTests
                     )
                     .First()
                 )
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .Nothing()
                 )
                 .ConfigFighterChoices(c => c
@@ -253,7 +253,7 @@ public class GhostRiderTests
                     )
                     .First()
                 )
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .Nothing()
                 )
                 .ConfigFighterChoices(c => c
@@ -333,7 +333,7 @@ public class GhostRiderTests
                     )
                     .First()
                 )
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .First()
                 )
                 .ConfigFighterChoices(c => c
@@ -413,7 +413,7 @@ public class GhostRiderTests
                     )
                     .First()
                 )
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .Nothing()
                 )
                 .ConfigFighterChoices(c => c
@@ -485,7 +485,7 @@ public class GhostRiderTests
                 .ConfigPathChoices(c => c
                     .FirstStopsAtId(4)
                 )
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .Nothing()
                 )
                 .ConfigFighterChoices(c => c
@@ -564,7 +564,7 @@ public class GhostRiderTests
                 .ConfigPathChoices(c => c
                     .Equivalent([0, 1, 0, 1, 2])
                 )
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .Nothing()
                 )
                 .ConfigFighterChoices(c => c

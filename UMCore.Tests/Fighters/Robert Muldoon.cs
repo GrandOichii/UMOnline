@@ -1,6 +1,6 @@
 namespace UMCore.Tests.Fighters;
 
-public class RobertMuldoon
+public class RobertMuldoonTests
 {
     private static LoadoutTemplateBuilder GetLoadoutBuilder() => new LoadoutTemplateBuilder("InGen")
         .Load("../../../../.generated/loadouts/InGen/InGen.json")
@@ -380,7 +380,7 @@ public class RobertMuldoon
                 .ConfigPathChoices(c => c
                     .NTimes(4, nc => nc.First())
                 )
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .Nothing()
                 )
                 .ConfigFighterChoices(c => c
@@ -479,7 +479,7 @@ public class RobertMuldoon
                     .WithId(4) // trap
                 )
                 .ConfigPathChoices(c => c.NTimes(4, nc => nc.First()))
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .Nothing()
                 )
                 .ConfigFighterChoices(c => c
@@ -581,7 +581,7 @@ public class RobertMuldoon
                     .WithId(3)
                     .WithId(4) // place trap
                 )
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .Nothing()
                 )
                 .ConfigFighterChoices(c => c
@@ -676,7 +676,7 @@ public class RobertMuldoon
                     .FirstStopsAtId(4)
                     .NTimes(3, nc => nc.First())
                 )
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .Nothing()
                 )
                 .ConfigFighterChoices(c => c
@@ -767,7 +767,7 @@ public class RobertMuldoon
                     .FirstStopsAtId(4)
                     .NTimes(3, nc => nc.First())
                 )
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .Nothing()
                 )
                 .ConfigFighterChoices(c => c
@@ -859,7 +859,7 @@ public class RobertMuldoon
                     .FirstStopsAtId(4)
                     .NTimes(3, nc => nc.First())
                 )
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .Nothing()
                 )
                 .ConfigFighterChoices(c => c

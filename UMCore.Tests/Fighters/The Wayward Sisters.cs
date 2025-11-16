@@ -8,8 +8,6 @@ public class TheWaywardSistersTests
         .Load("../../../../.generated/loadouts/The Wayward Sisters/The Wayward Sisters.json")
         .ClearDeck();
 
-    // TODO test that if one sister is defeated the zone change still applies
-
     [Fact]
     public async Task MillMain()
     {
@@ -271,7 +269,7 @@ public class TheWaywardSistersTests
         );
         await match.AddOpponent(
             new TestPlayerControllerBuilder()
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .Nothing()
                 )
                 .Build(),
@@ -368,7 +366,7 @@ public class TheWaywardSistersTests
         );
         await match.AddOpponent(
             new TestPlayerControllerBuilder()
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .Nothing()
                 )
                 .Build(),
@@ -472,7 +470,7 @@ public class TheWaywardSistersTests
         );
         await match.AddOpponent(
             new TestPlayerControllerBuilder()
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .Nothing()
                 )
                 .Build(),
@@ -562,7 +560,7 @@ public class TheWaywardSistersTests
         );
         await match.AddOpponent(
             new TestPlayerControllerBuilder()
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .Nothing()
                 )
                 .Build(),
@@ -660,7 +658,7 @@ public class TheWaywardSistersTests
         );
         await match.AddOpponent(
             new TestPlayerControllerBuilder()
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .Nothing()
                 )
                 .Build(),
@@ -756,7 +754,7 @@ public class TheWaywardSistersTests
         );
         await match.AddOpponent(
             new TestPlayerControllerBuilder()
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .Nothing()
                 )
                 .ConfigNodeChoices(c => c
@@ -849,7 +847,7 @@ public class TheWaywardSistersTests
         );
         await match.AddOpponent(
             new TestPlayerControllerBuilder()
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .Nothing()
                 )
                 .ConfigNodeChoices(c => c

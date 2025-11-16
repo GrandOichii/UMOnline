@@ -14,4 +14,5 @@ public class FighterTemplate
     public required string Script { get; set; }    
     public required bool CanMoveOverOpposing { get; set; }
     public required int MeleeRange { get; set; }
+    public required bool IsSmall { get; set; }
 }

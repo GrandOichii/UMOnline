@@ -57,7 +57,7 @@ public class AnnieChristmasTests
         );
         await match.AddOpponent(
             new TestPlayerControllerBuilder()
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .Nothing()
                 )
                 .Build(),
@@ -113,7 +113,7 @@ public class AnnieChristmasTests
                 .ConfigNodeChoices(c => c
                     .WithId(1)
                 )
-                .ConfigHandCardChoices(
+                .ConfigCardChoices(
                     c => c.Nothing()
                 )
                 .Build(),
@@ -207,7 +207,7 @@ public class AnnieChristmasTests
         );
         await match.AddOpponent(
             new TestPlayerControllerBuilder()
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .Nothing()
                 )
                 .Build(),

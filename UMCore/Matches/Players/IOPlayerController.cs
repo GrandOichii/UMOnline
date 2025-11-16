@@ -153,14 +153,13 @@ public class IOPlayerController : IPlayerController
         return options.ToList()[idx];
     }
 
-    public async Task<MatchCard> ChooseCardInHand(Player player, int playerHandIdx, MatchCard[] options, string hint)
+    public async Task<MatchCard> ChooseCard(Player player, MatchCard[] options, string hint)
     {
-        // TODO use playerHandIdx
         await WriteData(new()
         {
             PlayerIdx = player.Idx,
             Match = player.Match.GetData(player),
-            Request = "ChooseCardInHand",
+            Request = "ChooseCard",
             NewLogs = PopLogs(),
             NewEvents = [.. PopEvents().Select<Event, object>(e => e)],
             Hint = hint,
@@ -172,12 +171,12 @@ public class IOPlayerController : IPlayerController
         return options.ToList()[idx];
     }
 
-    public async Task<MatchCard?> ChooseCardInHandOrNothing(Player player, int playerHandIdx, MatchCard[] options, string hint)
+    public async Task<MatchCard?> ChooseCardOrNothing(Player player, MatchCard[] options, string hint)
     {
         await WriteData(new() {
             PlayerIdx = player.Idx,
             Match = player.Match.GetData(player),
-            Request = "ChooseCardInHandOrNothing",
+            Request = "ChooseCardOrNothing",
             NewLogs = PopLogs(),
             NewEvents = PopEvents(),
             Hint = hint,
@@ -213,7 +212,7 @@ public class IOPlayerController : IPlayerController
         options = [.. options.Where(o => o.Fighter == attacker)];
         var defender = await ChooseFighter(player, [.. options.Select(a => a.Target)], "Choose attacked fighter");
         options = [.. options.Where(o => o.Target == defender)];
-        var card = await ChooseCardInHand(player, player.Idx, [.. options.Select(a => a.AttackCard)], "Choose attack card");
+        var card = await ChooseCard(player, [.. options.Select(a => a.AttackCard)], "Choose attack card");
         var option = options.First(a => a.AttackCard == card);
         return option;
         

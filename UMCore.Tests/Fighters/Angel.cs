@@ -53,7 +53,7 @@ public class AngelTests
         );
         await match.AddOpponent(
             new TestPlayerControllerBuilder()
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .First()
                 )
             .Build(),
@@ -126,7 +126,7 @@ public class AngelTests
         );
         await match.AddOpponent(
             new TestPlayerControllerBuilder()
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .First()
                 )
             .Build(),
@@ -182,7 +182,7 @@ public class AngelTests
 
         await match.AddMainPlayer(
             new TestPlayerControllerBuilder()
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .First()
                 )
                 .ConfigNodeChoices(c => c

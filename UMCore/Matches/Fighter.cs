@@ -24,12 +24,13 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
 
     public string LogName => $"({Owner.Idx}){GetName()}({(Template.IsHero ? 'h' : 's')})";
 
-    public string FormattedLogName => $"[{Id}:{GetName()}]";
+    public string FormattedLogName => $"[{Id}${GetName()}]";
 
     public List<EffectCollection> CardValueModifiers { get; }
     public List<EffectCollection> WhenPlacedEffects { get; }
     public List<ManoeuvreValueModifier> ManoeuvreValueMods { get; }
     public List<EffectCollection> OnAttackEffects { get; }
+    public List<EffectCollection> OnBoostEffects { get; }
     public List<EffectCollection> AfterAttackEffects { get; }
     public List<EffectCollection> AfterSchemeEffects { get; }
     public List<EffectCollection> GameStartEffects { get; }
@@ -162,6 +163,7 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
         ];
 
         OnAttackEffects = ExtractEffectCollectionList(this, data, "OnAttackEffects");
+        OnBoostEffects = ExtractEffectCollectionList(this, data, "OnBoostEffects");
         AfterAttackEffects = ExtractEffectCollectionList(this, data, "AfterAttackEffects");
         AfterSchemeEffects = ExtractEffectCollectionList(this, data, "AfterSchemeEffects");
         WhenManoeuvreEffects = ExtractEffectCollectionList(this, data, "WhenManoeuvreEffects");
@@ -267,7 +269,24 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
             throw new MatchException($"Failed to get token declarations for fighter {template.Name}", e);
         }
 
+        // boost sources
+        try
+        {
+            var boostSources = LuaUtility.TableGet<LuaTable>(data, "BoostSources");
+            foreach (LuaTable table in boostSources.Values)
+            {
+                var text = LuaUtility.TableGet<string>(table, "text"); // TODO use
+                var cardZoneName = LuaUtility.TableGet<string>(table, "cardZoneName");
+                var boostTargetsRaw = LuaUtility.GetInt(table, "boostTargets"); // TODO use, if == 1 then BoostTarget.ALL
 
+                var boostTargets = BoostTarget.ALL;
+                owner.BoostManager.AddBoostSource(owner.CardZones[cardZoneName], boostTargets);
+            }
+        }
+        catch (Exception e)
+        {
+            throw new MatchException($"Failed to get boost sources for fighter {template.Name}", e);
+        }
     }
     
     public void ExecuteGameStartEffects()
@@ -340,16 +359,17 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
         return FighterStatus.Alive;
     }
 
-    public async Task<int> ProcessDamage(int amount, bool isCombatDamage = false)
+    public async Task<int> ProcessDamage(int amount, bool isCombatDamage = false, bool spreadToSmallFighters = true)
     {
         if (amount <= 0) return 0;
         if (!IsAlive()) return 0;
 
-        amount = Match.ModifyDamage(this, isCombatDamage, amount);
+        var location = Match.Map.GetFighterLocation(this);
+        var modified = Match.ModifyDamage(this, isCombatDamage, amount);
 
-        var dealt = Health.DealDamage(amount);
-        Match.Logger?.LogDebug("{FighterLogName} is dealt {Amount} damage (original amount: {OriginalAmount})", LogName, dealt, amount);
-        Match.Logs.Public($"Fighter {FormattedLogName} is dealt {amount}{(isCombatDamage ? " combat" : "")} damage");
+        var dealt = Health.DealDamage(modified);
+        Match.Logger?.LogDebug("{FighterLogName} is dealt {Amount} damage (original modified: {OriginalAmount})", LogName, dealt, modified);
+        Match.Logs.Public($"Fighter {FormattedLogName} is dealt {modified}{(isCombatDamage ? " combat" : "")} damage");
 
         if (!IsAlive())
         {
@@ -370,6 +390,15 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
             foreach (var (source, effect) in effects)
             {
                 effect.Execute(new(source), new(this));
+            }
+        }
+
+        if (spreadToSmallFighters)
+        {
+            var others = location.SmallFighters.Where(f => f != this && f.Template.IsSmall && f.Name == Name);
+            foreach (var fighter in others)
+            {
+                await fighter.ProcessDamage(amount, isCombatDamage, false);
             }
         }
 
@@ -434,7 +463,7 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
         }
 
         var availableDefence = GetValidDefenceCards();
-        var defence = await Owner.Controller.ChooseCardInHandOrNothing(Owner, Owner.Idx, [.. availableDefence], "Choose defence card");
+        var defence = await Owner.Controller.ChooseCardOrNothing(Owner, [.. availableDefence], "Choose defence card");
         if (defence is null)
         {
             Match.Logger?.LogDebug("Player {PlayerLogName} decides not to defend", Owner.LogName);

@@ -22,7 +22,7 @@ public class MatchCard : IHasData<MatchCard.Data>
 
     public string LogName => $"({Id}){Template.Key}[{Owner.Idx}]";
 
-    public string FormattedLogName => $"{{{Template.Key}:{Id}:{Template.Name}}}";
+    public string FormattedLogName => $"{{{Template.Key}${Id}${Template.Name}}}";
 
     public MatchCard(Player owner, CardTemplate card)
     {
@@ -98,6 +98,8 @@ public class MatchCard : IHasData<MatchCard.Data>
     {
         return Template.Boost;
     }
+
+    public bool CanBeUsedAsBoost() => GetBoostValue() is not null;
 
     public bool CanBePlayedAsScheme(Fighter fighter)
     {

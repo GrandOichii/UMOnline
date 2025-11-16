@@ -59,7 +59,7 @@ public class HamletTests
         );
         await match.AddOpponent(
             new TestPlayerControllerBuilder()
-                .ConfigHandCardChoices(c => c.Nothing())
+                .ConfigCardChoices(c => c.Nothing())
                 .Build(),
             new LoadoutTemplateBuilder("Foo")
                 .AddFighter(new FighterTemplateBuilder("Foo", "Foo")
@@ -123,7 +123,7 @@ public class HamletTests
                 .ConfigStringChoices(c => c
                     .Choose("TO BE")
                 )
-                .ConfigHandCardChoices(c => c.Nothing())
+                .ConfigCardChoices(c => c.Nothing())
                 .ConfigFighterChoices(c => c.NTimes(2, nc => nc.First()))
                 .ConfigPathChoices(c => c.NTimes(2, nc => nc.First()))
                 .Build(),

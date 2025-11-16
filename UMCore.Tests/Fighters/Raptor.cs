@@ -53,7 +53,7 @@ public class RaptorTests
         );
         await match.AddOpponent(
             new TestPlayerControllerBuilder()
-            .ConfigHandCardChoices(c => c
+            .ConfigCardChoices(c => c
                 .Nothing()
             )
             .Build(),
@@ -123,7 +123,7 @@ public class RaptorTests
         );
         await match.AddOpponent(
             new TestPlayerControllerBuilder()
-            .ConfigHandCardChoices(c => c
+            .ConfigCardChoices(c => c
                 .Nothing()
             )
             .Build(),
@@ -187,7 +187,7 @@ public class RaptorTests
         );
         await match.AddOpponent(
             new TestPlayerControllerBuilder()
-            .ConfigHandCardChoices(c => c
+            .ConfigCardChoices(c => c
                 .Nothing()
             )
             .Build(),

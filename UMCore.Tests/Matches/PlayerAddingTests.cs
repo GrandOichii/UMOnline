@@ -391,7 +391,7 @@ public class MovementTests
                 .ConfigFighterChoices(c => c
                     .First()
                 )
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .Assert(a => a.OptionsEmpty())
                     .Nothing()
                 )
@@ -552,7 +552,7 @@ public class MovementTests
                     .DeclareWinner()
                     .CrashMatch()
                 )
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .First()
                 )
                 .ConfigFighterChoices(c => c
@@ -640,7 +640,7 @@ public class MovementTests
                     .DeclareWinner()
                     .CrashMatch()
                 )
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .First()
                 )
                 .ConfigFighterChoices(c => c
@@ -1073,7 +1073,7 @@ public class ManoeuvreTests
             .ConfigPathChoices(c => c
                 .NTimes(sidekickCount + 1, nc => nc.First())
             )
-            .ConfigHandCardChoices(c => c
+            .ConfigCardChoices(c => c
                 .Nothing()
             )
             .Build();
@@ -1170,7 +1170,7 @@ public class ManoeuvreTests
                 .NTimes(sidekickCount + 1, nc => nc.First())
                 .NTimes(sidekickCount + 1, nc => nc.First())
             )
-            .ConfigHandCardChoices(c => c
+            .ConfigCardChoices(c => c
                 .Nothing()
                 .Nothing()
             )
@@ -1289,7 +1289,7 @@ public class SchemeTests
                     .DeclareWinner()
                     .CrashMatch()
                 )
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .First()
                 )
             .Build(),
@@ -1342,7 +1342,7 @@ public class SchemeTests
                     .DeclareWinner()
                     .CrashMatch()
                 )
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .First()
                     .First()
                 )
@@ -1395,7 +1395,7 @@ public class SchemeTests
                     .DeclareWinner()
                     .CrashMatch()
                 )
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .First()
                 )
             .Build(),
@@ -1509,7 +1509,7 @@ public class SchemeTests
                     .DeclareWinner()
                     .CrashMatch()
                 )
-                .ConfigHandCardChoices(c => c.First())
+                .ConfigCardChoices(c => c.First())
             .Build(),
             new LoadoutTemplateBuilder("main")
                 .AddFighter(new FighterTemplateBuilder("main", "main").Build())
@@ -1637,7 +1637,7 @@ public class ExhaustionTests
                     .DeclareWinner()
                     .CrashMatch()
                 )
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .First()
                 )
             .Build(),
@@ -2022,7 +2022,7 @@ public class AttackTests
         );
         await match.AddOpponent(
             new TestPlayerControllerBuilder()
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .Nothing()
                 )
             .Build(),
@@ -2102,7 +2102,7 @@ public class AttackTests
         );
         await match.AddOpponent(
             new TestPlayerControllerBuilder()
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .Nothing()
                 )
             .Build(),
@@ -2184,7 +2184,7 @@ public class AttackTests
         );
         await match.AddOpponent(
             new TestPlayerControllerBuilder()
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .Nothing()
                 )
                 .ConfigNodeChoices(c => c
@@ -2274,7 +2274,7 @@ public class AttackTests
         );
         await match.AddOpponent(
             new TestPlayerControllerBuilder()
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .Nothing()
                 )
             .Build(),
@@ -2354,7 +2354,7 @@ public class AttackTests
         );
         await match.AddOpponent(
             new TestPlayerControllerBuilder()
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .Nothing()
                 )
             .Build(),
@@ -2434,7 +2434,7 @@ public class AttackTests
         );
         await match.AddOpponent(
             new TestPlayerControllerBuilder()
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .Nothing()
                 )
             .Build(),
@@ -2516,7 +2516,7 @@ public class AttackTests
         );
         await match.AddOpponent(
             new TestPlayerControllerBuilder()
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .Nothing()
                 )
             .Build(),
@@ -2601,7 +2601,7 @@ public class AttackTests
         );
         await match.AddOpponent(
             new TestPlayerControllerBuilder()
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .First()
                 )
             .Build(),

@@ -2,7 +2,7 @@ using System.Text.Json;
 
 namespace UMCore.Tests.Fighters;
 
-public class RobinHood
+public class RobinHoodTests
 {
     private static LoadoutTemplateBuilder GetLoadoutBuilder() => new LoadoutTemplateBuilder("Robin Hood")
         .Load("../../../../.generated/loadouts/Robin Hood/Robin Hood.json")
@@ -62,7 +62,7 @@ public class RobinHood
         );
         await match.AddOpponent(
             new TestPlayerControllerBuilder()
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .Nothing()
                 )
             .Build(),
@@ -138,7 +138,7 @@ public class RobinHood
         );
         await match.AddOpponent(
             new TestPlayerControllerBuilder()
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .Nothing()
                 )
             .Build(),

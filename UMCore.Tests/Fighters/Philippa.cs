@@ -2,7 +2,7 @@ using System.Text.Json;
 
 namespace UMCore.Tests.Fighters;
 
-public class Philippa
+public class PhilippaTests
 {
     private static LoadoutTemplateBuilder GetLoadoutBuilder() => new LoadoutTemplateBuilder("Philippa")
         .Load("../../../../.generated/loadouts/Philippa/Philippa.json")
@@ -37,7 +37,7 @@ public class Philippa
                 .ConfigActions(a => a
                     .Scheme()
                 )
-                .ConfigHandCardChoices(c => c.First())
+                .ConfigCardChoices(c => c.First())
                 .ConfigFighterChoices(c => c.First())
                 .ConfigNodeChoices(c => c
                     .WithId(1)
@@ -109,7 +109,7 @@ public class Philippa
                 .ConfigActions(a => a
                     .Scheme()
                 )
-                .ConfigHandCardChoices(c => c.First())
+                .ConfigCardChoices(c => c.First())
                 .ConfigFighterChoices(c => c.First())
                 .ConfigNodeChoices(c => c
                     .WithId(1)
@@ -184,7 +184,7 @@ public class Philippa
                 .ConfigActions(a => a
                     .Scheme()
                 )
-                .ConfigHandCardChoices(c => c.First())
+                .ConfigCardChoices(c => c.First())
                 .ConfigFighterChoices(c => c.First())
                 .ConfigNodeChoices(c => c
                     .WithId(1)
@@ -256,7 +256,7 @@ public class Philippa
                 .ConfigActions(a => a
                     .Scheme()
                 )
-                .ConfigHandCardChoices(c => c.First())
+                .ConfigCardChoices(c => c.First())
                 .ConfigFighterChoices(c => c.First())
                 .ConfigNodeChoices(c => c
                     .WithId(1)

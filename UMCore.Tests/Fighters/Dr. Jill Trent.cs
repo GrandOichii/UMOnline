@@ -127,7 +127,7 @@ public class DrJillTrentTests
         );
         await match.AddOpponent(
             new TestPlayerControllerBuilder()
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .First()
                 )
                 .Build(),
@@ -201,7 +201,7 @@ public class DrJillTrentTests
                     .WithId(1)
                 )
                 .ConfigStringChoices(c => c.First())
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .First()
                 )
                 .Build(),
@@ -308,7 +308,7 @@ public class DrJillTrentTests
         );
         await match.AddOpponent(
             new TestPlayerControllerBuilder()
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .First()
                 )
                 .Build(),
@@ -380,7 +380,7 @@ public class DrJillTrentTests
                     .WithId(1)
                 )
                 .ConfigStringChoices(c => c.First())
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .First()
                 )
                 .Build(),

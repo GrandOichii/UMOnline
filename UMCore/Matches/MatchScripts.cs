@@ -137,12 +137,13 @@ public class MatchScripts
     }
 
     [LuaCommand]
-    public int ChooseCardInHand(Player player, Player target, string hint)
+    public int ChooseCardInHand(Player player, LuaTable cards, string hint)
     {
-        var result = player.Controller.ChooseCardInHand(player, target.Idx, [.. target.Hand.Cards], hint)
+        var options = LuaUtility.ParseTable<MatchCard>(cards);
+        var result = player.Controller.ChooseCard(player, [.. options], hint)
             .GetAwaiter().GetResult();
-        return target.Hand.GetCardIdx(result);
-
+        // TODO this will break Loki
+        return result.Owner.Hand.GetCardIdx(result);
     }
 
     [LuaCommand]
@@ -276,8 +277,16 @@ public class MatchScripts
     [LuaCommand]
     public bool AreAdjacent(Fighter fighter1, Fighter fighter2)
     {
+        if (fighter1 == fighter2) return false;
+        
         var node1 = Match.Map.GetFighterLocation(fighter1);
         var node2 = Match.Map.GetFighterLocation(fighter2);
+        if (node1 == node2)
+        {
+            if (!fighter1.Template.IsSmall && !fighter2.Template.IsSmall)
+                throw new MatchException($"A call was made to {nameof(AreAdjacent)}, two fighters were provided that are on the same node, yet none of them are small");
+            return true;
+        }
 
         return node1.IsAdjecentTo(node2) || node2.IsAdjecentTo(node1);
     }
@@ -333,9 +342,15 @@ public class MatchScripts
     }
 
     [LuaCommand]
-    public void BoostCardInCombat(Player player, MatchCardCollection from, MatchCard card)
+    public void BoostCardInCombat(Player player)
     {
-        player.Match.Combat!.AddBoostToPlayer(player, from, card)
+        var (card, fighter, _) = player.Match.Combat!.GetCombatPart(player);
+        if (card is null)
+        {
+            throw new MatchException($"Cannot boost empty card");
+        }
+
+        player.BoostManager.TryBoostCombat(card)
             .Wait();
     }
 
@@ -715,5 +730,30 @@ public class MatchScripts
         var to = player.CardZones[toZoneName];
         from.MoveTopCardsTo(from.Count, to, ZoneChangeLocation.BOTTOM)
             .Wait();
+    }
+
+    [LuaCommand]
+    public void RemoveCardFromDeck(Player player, MatchCard card)
+    {
+        player.Deck.Remove(card);
+    }
+
+    [LuaCommand]
+    public void AddCardToDeck(Player player, MatchCard card)
+    {
+        player.Deck.Add(card, ZoneChangeLocation.BOTTOM);
+    }
+
+    [LuaCommand]
+    public bool IsNodeAdjacentToFighter(MapNode node, Fighter fighter)
+    {
+        var fighterLocation = node.Parent.GetFighterLocationOrDefault(fighter);
+        if (fighterLocation is null)
+            return false; // TODO hope this wont cause any trouble
+        if (fighter.Template.IsSmall && node == fighterLocation)
+        {
+            return true;
+        }
+        return node.IsAdjecentTo(fighterLocation);
     }
 }

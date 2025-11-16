@@ -26,9 +26,9 @@ var _connection: MatchConnection = null
 func _ready() -> void:
 	ConnectionControlsNode.hide()
 	LogsNode.clear()
-	_player_name_pattern.compile(r'\((.+?):(.+?)\)')
-	_fighter_name_pattern.compile(r'\[(.+?):(.+?)\]')
-	_card_name_pattern.compile(r'\{(.+?):(.+?):(.+?)\}')
+	_player_name_pattern.compile(r'\((.+?)\$(.+?)\)')
+	_fighter_name_pattern.compile(r'\[(.+?)\$(.+?)\]')
+	_card_name_pattern.compile(r'\{(.+?)\$(.+?)\$(.+?)\}')
 
 func _input(e: InputEvent) -> void:
 	if _connection.can_pick_action():
@@ -136,7 +136,7 @@ func load_connected_match(update_info):
 	%HintText.text = update_info.Hint
 	
 	if update_info.Request not in _controls_map:
-		if update_info.Request == 'ChooseCardInHandOrNothing':
+		if update_info.Request == 'ChooseCardOrNothing':
 			%ChooseNothingInHandButton.show()
 		return
 

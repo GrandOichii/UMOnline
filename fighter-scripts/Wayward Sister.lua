@@ -130,10 +130,12 @@ function UM.Effects.CharacterSpecific:PromptCastCauldronSpell(spells, clearCauld
             for ingredient, v in pairs(ingredientMap) do
                 if CardHasLabel(card, ingredient) then
                     ingredientMap[ingredient] = v + 1
-                    break
+                    -- break
                 end
             end
         end
+
+        DEBUGTABLE(ingredientMap)
 
         local result = {}
         for _, spell in ipairs(spells) do

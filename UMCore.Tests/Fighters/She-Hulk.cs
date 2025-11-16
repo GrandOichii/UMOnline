@@ -211,7 +211,7 @@ public class SheHulkTests
                 .ConfigStringChoices(c => c
                     .Yes()
                 )
-                .ConfigHandCardChoices(c => c
+                .ConfigCardChoices(c => c
                     .First()
                 )
                 .Build(),
