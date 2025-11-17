@@ -120,6 +120,7 @@ def get_allowed_fighters(af):
         'elektra resurrected': 'Elektra Resurrected',
         'Blackbeard': 'Blackbeard',
         'Seadog': 'Seadog',
+        'Loki': 'Loki',
     }[name] for name in af.lower().capitalize().split('|')]
 
 def get_text(card):

@@ -1,5 +1,4 @@
 - Muhammad Ali (movement: 3, life: 16, melee) - Begin the game with your stance on Float Like a Butterfly. After you attack, if you won the combat, change stances. (Float Like A Butterfly: you can attack from 2 spaces away; Sting Like A Bee: add +2 to your attacks)
-- Squirrel Girl - small fighters + i'm scared of the card Squirgility
 - Loki - placing your cards in opponents hands - can be quite a game breaker with they way args are handled
 - Yennenga - damage redistribution + very bad ruling about group damage
 - Titania - separate deck (not really)

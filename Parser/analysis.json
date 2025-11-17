@@ -109,6 +109,10 @@
       "FullText": "Splinter may swap spaces with another friendly fighter. If he does, they both recover 2 health. Gain 1 action."
     },
     {
+      "Text": "$NOTLOKI$: Loki",
+      "FullText": "During combat: $LOKI$: Swap the values of your card and your opponent\u0027s card.\nAfter combat: $NOTLOKI$: Loki recovers 3 health."
+    },
+    {
       "Text": "them and each opposing fighter they moved through",
       "FullText": "After combat: Move the opposing fighter up to 3 spaces. You may move them through other opposing fighters. Deal 1 damage to them and each opposing fighter they moved through."
     },
@@ -1009,6 +1013,42 @@
     {
       "Text": "$knife$ Deal 3 damage to the opposing fighter",
       "FullText": "After combat: $knife$ Deal 3 damage to the opposing fighter."
+    },
+    {
+      "Text": "$LOKI$: Place an opposing fighter adjacent to Loki",
+      "FullText": "$LOKI$: Place an opposing fighter adjacent to Loki.\n$NOTLOKI$: Loki reveals a card in your hand. Discard that card."
+    },
+    {
+      "Text": "$NOTLOKI$: Loki reveals a card in your hand",
+      "FullText": "$LOKI$: Place an opposing fighter adjacent to Loki.\n$NOTLOKI$: Loki reveals a card in your hand. Discard that card."
+    },
+    {
+      "Text": "$NOTLOKI$: Loki returns the top card of their discard pile to their hand",
+      "FullText": "During combat: $LOKI$: Your opponent may discard a card. If they don\u0027t, subtract 3 from their card\u0027s value.\nAfter combat: $NOTLOKI$: Loki returns the top card of their discard pile to their hand."
+    },
+    {
+      "Text": "Reveal a card in your opponent\u0027s hand",
+      "FullText": "During combat: Reveal a card in your opponent\u0027s hand. Add it\u0027s BOOST value to this card\u0027s value. If you reveal a TRICK, put it in your hand."
+    },
+    {
+      "Text": "$LOKI$: Swap the values of your card and your opponent\u0027s card",
+      "FullText": "During combat: $LOKI$: Swap the values of your card and your opponent\u0027s card.\nAfter combat: $NOTLOKI$: Loki recovers 3 health."
+    },
+    {
+      "Text": "This card\u0027s effects cannot be cancelled",
+      "FullText": "This card\u0027s effects cannot be cancelled.\nDuring combat: Add \u002B3 to this card\u0027s value for each TRICK in your opponent\u0027s hand."
+    },
+    {
+      "Text": "Add \u002B3 to this card\u0027s value for each TRICK in your opponent\u0027s hand",
+      "FullText": "This card\u0027s effects cannot be cancelled.\nDuring combat: Add \u002B3 to this card\u0027s value for each TRICK in your opponent\u0027s hand."
+    },
+    {
+      "Text": "Choose 1 effect:- add \u002B1 to this card\u0027s value for each card in your opponent\u0027s hand- gain 1 action",
+      "FullText": "During combat: Choose 1 effect:- add \u002B1 to this card\u0027s value for each card in your opponent\u0027s hand- gain 1 action"
+    },
+    {
+      "Text": "$NOTLOKI$: Deal 2 damage to your hero",
+      "FullText": "After combat: $LOKI$: Draw 1 card.\n$NOTLOKI$: Deal 2 damage to your hero."
     },
     {
       "Text": "You may BOOST this attack",
@@ -2113,6 +2153,22 @@
       "FullText": "After combat: Move both fighters in the combat up to 1 space each. You may discard 1 card to gain 1 action."
     },
     {
+      "Text": "If they don\u0027t, subtract 3 from their card\u0027s value",
+      "FullText": "During combat: $LOKI$: Your opponent may discard a card. If they don\u0027t, subtract 3 from their card\u0027s value.\nAfter combat: $NOTLOKI$: Loki returns the top card of their discard pile to their hand."
+    },
+    {
+      "Text": "Add it\u0027s BOOST value to this card\u0027s value",
+      "FullText": "During combat: Reveal a card in your opponent\u0027s hand. Add it\u0027s BOOST value to this card\u0027s value. If you reveal a TRICK, put it in your hand."
+    },
+    {
+      "Text": "If you reveal a TRICK, put it in your hand",
+      "FullText": "During combat: Reveal a card in your opponent\u0027s hand. Add it\u0027s BOOST value to this card\u0027s value. If you reveal a TRICK, put it in your hand."
+    },
+    {
+      "Text": "Otherwise, cancel all effects on your opponent\u0027s card",
+      "FullText": "Immediately: If your opponent played a TRICK, ignore that card\u0027s value. Otherwise, cancel all effects on your opponent\u0027s card."
+    },
+    {
       "Text": "You may move them through other opposing fighters",
       "FullText": "After combat: Move the opposing fighter up to 3 spaces. You may move them through other opposing fighters. Deal 1 damage to them and each opposing fighter they moved through."
     },
@@ -2477,6 +2533,10 @@
     {
       "Text": "you are Mr{DOTSPACE}Hyde and playing this card to attack",
       "FullText": "During combat: If you are Dr{DOTSPACE}Jekyll and playing this card to defend, this card\u0027s value is 6 instead. If you are Mr{DOTSPACE}Hyde and playing this card to attack, this card\u0027s value is 6 instead."
+    },
+    {
+      "Text": "your opponent played a TRICK",
+      "FullText": "After combat: Draw 1 card. If your opponent played a TRICK, draw 2 cards instead."
     },
     {
       "Text": "you won the combat",
@@ -2883,6 +2943,18 @@
     {
       "Text": "If the Huntsman is adjacent to the opposing fighter, the value of this card is 6 instead",
       "FullText": "During combat: If the Huntsman is adjacent to the opposing fighter, the value of this card is 6 instead."
+    },
+    {
+      "Text": "If your opponent played a TRICK, ignore that card\u0027s value",
+      "FullText": "Immediately: If your opponent played a TRICK, ignore that card\u0027s value. Otherwise, cancel all effects on your opponent\u0027s card."
+    },
+    {
+      "Text": "If your opponent has more cards in their hand than you, this card\u0027s value is 6 instead",
+      "FullText": "During combat: If your opponent has more cards in their hand than you, this card\u0027s value is 6 instead."
+    },
+    {
+      "Text": "If your oppponent played a card, return it to their hand, look at their hand, and choose a card for them to play",
+      "FullText": "Immediately: If your oppponent played a card, return it to their hand, look at their hand, and choose a card for them to play."
     },
     {
       "Text": "If you won the combat, draw 2 cards",
@@ -3345,6 +3417,14 @@
       "FullText": "$pelt$  Place Little Red in any space. Gain 1 action. \n$knife$ Deal 2 damage to each opposing fighter in Little Red\u0027s zone. \n$flower$ Draw 3 cards."
     },
     {
+      "Text": "$LOKI$: Your opponent may ",
+      "FullText": "During combat: $LOKI$: Your opponent may discard a card. If they don\u0027t, subtract 3 from their card\u0027s value.\nAfter combat: $NOTLOKI$: Loki returns the top card of their discard pile to their hand."
+    },
+    {
+      "Text": "$LOKI$: ",
+      "FullText": "After combat: $LOKI$: Draw 1 card.\n$NOTLOKI$: Deal 2 damage to your hero."
+    },
+    {
       "Text": "- 2 Coils: Also, ",
       "FullText": "After combat: You may discharge coils: - 1 Coil: Gain 1 action. - 2 Coils: Also, draw 1 card."
     },
@@ -3485,6 +3565,10 @@
     {
       "Text": "pile for the EXCALIBUR",
       "FullText": "Search your deck and discard pile for the EXCALIBUR card. Add it to your hand. If you searched your deck, shuffle it."
+    },
+    {
+      "Text": "that",
+      "FullText": "$LOKI$: Place an opposing fighter adjacent to Loki.\n$NOTLOKI$: Loki reveals a card in your hand. Discard that card."
     },
     {
       "Text": "that",

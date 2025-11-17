@@ -14317,7 +14317,7 @@
         },
         {
             "cards": [
-
+                
             ],
             "heroes": [
                 {
@@ -14340,6 +14340,159 @@
                 }
             ],
             "special": "PANDORA'S BOX\nDo not start with any Kakodamons on the board.\nAt the start of your turn, open Pandora's Box.\n\nPandora's Box is a deck of seven cards called MISERIES.\nWhen you open Pandora's Box, reveal the top card and resolve its effect if any). You may keep revealing and resolving additional cards, one at a time, until you choose to stop.\nIf there are three or more total feathers on revealed cards, you must stop revealing, then Pandora takes 1 damage for each revealed MISERY.\nAt the end of your turn, shuffle all revealed MISERIES back into Pandora's Box."
+        },
+        {
+            "cards": [
+                {
+                    "quantity": 2,
+                    "title": "TRICK: Svadilfari's Lure",
+                    "value": null,
+                    "characterName": "ANY",
+                    "afterText": null,
+                    "basicText": "$LOKI$: Place an opposing fighter adjacent to Loki.\n$NOTLOKI$: Loki reveals a card in your hand. Discard that card.",
+                    "duringText": null,
+                    "immediateText": null,
+                    "type": "scheme",
+                    "labels": ["trick"],
+                    "boost": null
+                },
+                {
+                    "quantity": 2,
+                    "title": "TRICK: Sindri's Bet",
+                    "value": 3,
+                    "characterName": "ANY",
+                    "afterText": "$NOTLOKI$: Loki returns the top card of their discard pile to their hand.",
+                    "basicText": null,
+                    "duringText": "$LOKI$: Your opponent may discard a card. If they don't, subtract 3 from their card's value.",
+                    "immediateText": null,
+                    "type": "defense",
+                    "labels": ["trick"],
+                    "boost": null
+                },
+                {
+                    "quantity": 3,
+                    "title": "Laevateinn",
+                    "value": 2,
+                    "characterName": "LOKI",
+                    "afterText": null,
+                    "basicText": null,
+                    "duringText": "Reveal a card in your opponent's hand. Add it's BOOST value to this card's value. If you reveal a TRICK, put it in your hand.",
+                    "immediateText": null,
+                    "type": "versatile",
+                    "boost": 3
+                },
+                {
+                    "quantity": 3,
+                    "title": "God Of Mischief",
+                    "value": 2,
+                    "characterName": "LOKI",
+                    "afterText": null,
+                    "basicText": null,
+                    "duringText": null,
+                    "immediateText": "If your opponent played a TRICK, ignore that card's value. Otherwise, cancel all effects on your opponent's card.",
+                    "type": "versatile",
+                    "boost": 3
+                },
+                {
+                    "quantity": 2,
+                    "title": "TRICK: Freyja's Rescue",
+                    "value": 2,
+                    "characterName": "ANY",
+                    "afterText": "$NOTLOKI$: Loki recovers 3 health.",
+                    "basicText": null,
+                    "duringText": "$LOKI$: Swap the values of your card and your opponent's card.",
+                    "immediateText": null,
+                    "type": "versatile",
+                    "labels": ["trick"],
+                    "boost": null
+                },
+                {
+                    "quantity": 3,
+                    "title": "Underhanded",
+                    "value": 3,
+                    "characterName": "LOKI",
+                    "afterText": null,
+                    "basicText": null,
+                    "duringText": "If your opponent has more cards in their hand than you, this card's value is 6 instead.",
+                    "immediateText": null,
+                    "type": "versatile",
+                    "boost": 2
+                },
+                {
+                    "quantity": 3,
+                    "title": "Malicious Flyting",
+                    "value": 3,
+                    "characterName": "LOKI",
+                    "afterText": "Draw 1 card. If your opponent played a TRICK, draw 2 cards instead.",
+                    "basicText": null,
+                    "duringText": null,
+                    "immediateText": null,
+                    "type": "versatile",
+                    "boost": 3
+                },
+                {
+                    "quantity": 2,
+                    "title": "Ragnarok",
+                    "value": 0,
+                    "characterName": "LOKI",
+                    "afterText": null,
+                    "basicText": "This card's effects cannot be cancelled.",
+                    "duringText": "Add +3 to this card's value for each TRICK in your opponent's hand.",
+                    "immediateText": null,
+                    "type": "attack",
+                    "boost": 3
+                },
+                {
+                    "quantity": 4,
+                    "title": "Shapeshifter",
+                    "value": 0,
+                    "characterName": "LOKI",
+                    "afterText": null,
+                    "basicText": null,
+                    "duringText": "Choose one effect:\n- add +1 to this card's value for each card in your opponent's hand\n- gain 1 action",
+                    "immediateText": null,
+                    "type": "attack",
+                    "boost": 2
+                },
+                {
+                    "quantity": 3,
+                    "title": "Looking For Trouble",
+                    "value": 4,
+                    "characterName": "LOKI",
+                    "afterText": null,
+                    "basicText": null,
+                    "duringText": null,
+                    "immediateText": "If your oppponent played a card, return it to their hand, look at their hand, and choose a card for them to play.",
+                    "type": "attack",
+                    "boost": 3
+                },
+                {
+                    "quantity": 3,
+                    "title": "TRICK: Baldr's Downfall",
+                    "value": 4,
+                    "characterName": "ANY",
+                    "afterText": "$LOKI$: Draw 1 card.\n$NOTLOKI$: Deal 2 damage to your hero.",
+                    "basicText": null,
+                    "duringText": null,
+                    "labels": ["trick"],
+                    "immediateText": null,
+                    "type": "attack",
+                    "boost": null
+                }
+            ],
+            "heroes": [
+                {
+                    "attack_type": "melee",
+                    "hp": 16,
+                    "name": "Loki",
+                    "quantity": 1
+                }
+            ],
+            "movement": 2,
+            "name": "Loki",
+            "set": "Battle of Legends, Volume Three",
+            "sidekicks": [],
+            "special": "MISCHIEF-MONGER\nAfter you play a TRICK, put that card into your opponent's hand instead of your discard pile.\nIf an opponent discards a TRICK from their hand, return that card to your hand or the top of your deck.\nAdd +1 to your move value for each TRICK in your opponents hands."
         }
     ],
     "total": 67
