@@ -756,4 +756,10 @@ public class MatchScripts
         }
         return node.IsAdjecentTo(fighterLocation);
     }
+
+    [LuaCommand]
+    public bool CanFitSmallFighter(MapNode node)
+    {
+        return node.SmallFighters.Count < 4;
+    }
 }

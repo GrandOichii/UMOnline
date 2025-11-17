@@ -425,8 +425,17 @@ public class TestPlayerControllerBuilder
 
         public FighterChoicesBuilder InNodeWithId(int id)
         {
+            // TODO what
             return Enqueue((player, options, hint) => (player.Fighters.First(f => player.Match.Map.GetFighterLocation(f).Id == id), true));
             // return Enqueue((player, options, hint) => (player.Match.Map.Nodes.Single(n => n.Id == id).Fighter!, true));
+        }
+
+        public FighterChoicesBuilder FirstSmallInNodeWithId(string name, int id)
+        {
+            return Enqueue((player, options, hint) => {
+                var node = player.Match.Map.Nodes.Single(n => n.Id == id);
+                return (node.GetFighters().First(f => f.Name == name), true);
+            });
         }
     
         public FighterChoicesBuilder NTimes(int n, Action<FighterChoicesBuilder> action)

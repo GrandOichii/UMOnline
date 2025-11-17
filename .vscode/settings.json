@@ -93,6 +93,7 @@
         "MoveAllCards",
         "RemoveCardFromDeck",
         "AddCardToDeck",
-        "IsNodeAdjacentToFighter"
+        "IsNodeAdjacentToFighter",
+        "CanFitSmallFighter"
     ]
 }

@@ -77,9 +77,7 @@ function _Create()
                                                 return fighter
                                             end,
                                             function (_)
-                                                return {
-                                                    [1] = targetNode
-                                                }
+                                                return targetNode
                                             end
                                         )(nargs)
 

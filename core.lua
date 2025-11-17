@@ -1219,23 +1219,10 @@ function UM.Effects:RevealTopCardOfDeck(manyPlayers, ctxKey)
     end
 end
 
-function UM.Effects:PlaceFighter(singleFighter, manySpaces)
+function UM.Effects:PlaceFighter(singleFighter, singleSpace)
     return function (args)
         local fighter = singleFighter(args, 'Choose which fighter to place')
-        local nodes = manySpaces(args)
-        local options = {}
-        for _, node in ipairs(nodes) do
-            if node.Fighter == nil or node.Fighter == fighter then
-                options[#options+1] = node
-            end
-        end
-        if #options == 0 then
-            return
-        end
-        local node = options[1]
-        if #options > 1 then
-            node = ChooseNode(args.owner, options, 'Choose where to place '..fighter.LogName)
-        end
+        local node = singleSpace(args, 'Choose where to place '..fighter.LogName)
         PlaceFighter(fighter, node)
     end
 end
@@ -1709,6 +1696,12 @@ function UM.Select:Nodes()
     function selector:Empty()
         return selector:_Add(function (args, node)
             return IsNodeEmpty(node)
+        end)
+    end
+
+    function selector:CanFitSmallFighter()
+        return selector:_Add(function (args, node)
+            return CanFitSmallFighter(node)
         end)
     end
 
