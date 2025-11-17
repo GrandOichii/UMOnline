@@ -49,12 +49,13 @@ function _Create()
                     local choiceMap = {}
                     local choices = {}
                     local logMsg = args.fighter.FormattedLogName..' chooses between '
+                    local names = {}
                     for cardName, matchCards in pairs(gearCards) do
                         choiceMap[cardName] = matchCards
                         choices[#choices+1] = cardName
-                        logMsg = logMsg..' '..matchCards[1].FormattedLogName -- TODO better log message
+                        names[#names+1] = matchCards[1].FormattedLogName
                     end
-                    logMsg = logMsg..' for gear type '..gearType
+                    logMsg = logMsg..table.concat(names, ', ')..' for gear type '..gearType
                     LogPublic(logMsg)
 
                     local choice = ChooseString(args.owner, choices, 'Add which '..gearType..' to your deck?')

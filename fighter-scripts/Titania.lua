@@ -1,3 +1,4 @@
+-- TODO finish
 -- If you do not have a face-up glamour at the start of your turn, flip the top card of your glamour deck face-up.
 -- Its effect is ongoing while it remains face-up.
 
@@ -8,3 +9,29 @@
 -- Glamour of Jealousy – When Titania or Oberon are attacked, before playing a card, they may swap spaces. If they do, your other fighter is now the defender.
 -- Glamour of Invisibility – Your fighters may move through opposing fighters.
 -- Glamour of Rhyme – After you play a scheme, gain 1 action.
+
+function _Create()
+    local fb = UM.Build:Fighter()
+
+    local _defineGlamour = function (name, fighterMod)
+        
+    end
+
+    local glamourCards = {
+        _defineGlamour(
+            'Glamour of Love',
+            fb
+            :AtTheEndOfYourTurn(
+
+            )
+        )
+    }
+
+    return fb:Build()
+end
+
+function UM.Conditions.CharacterSpecific:GlamourRevealed(name)
+    return function ()
+        
+    end
+end

@@ -18,6 +18,5 @@ function _Create()
             'Cards stored in your VIBRANIUM SUIT can only be used to BOOST.',
             'VIBRANIUM SUIT'
         )
-        -- TODO define vibranium suit custom card zone
     :Build()
 end

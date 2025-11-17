@@ -5,16 +5,13 @@ function _Create()
         :ForbidCardCancelling(
             function (args, card)
                 -- TODO too low level
-                
                 if not IsCardOfCharacter(card, 'Ciri') then
-                    DEBUG('NOT CIRI')
                     return false
                 end
                 if UM.Count.CharacterSpecific:CiriSource()(args) < 7 then
                     DEBUG(tostring(UM.Count.CharacterSpecific:CiriSource()(args)))
                     return false
                 end
-                DEBUG('TRUE')
                 return true
             end,
             function (_)

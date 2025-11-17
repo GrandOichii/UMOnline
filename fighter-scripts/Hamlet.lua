@@ -1,8 +1,4 @@
 
--- 
--- TO BE: When you maneuver, draw 1 additional card.
--- 
-
 function _Create()
     return UM.Build:Fighter()
         :AtTheStartOfYourTurn(

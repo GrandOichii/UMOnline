@@ -14493,7 +14493,24 @@
             "set": "Battle of Legends, Volume Three",
             "sidekicks": [],
             "special": "MISCHIEF-MONGER\nAfter you play a TRICK, put that card into your opponent's hand instead of your discard pile.\nIf an opponent discards a TRICK from their hand, return that card to your hand or the top of your deck.\nAdd +1 to your move value for each TRICK in your opponents hands."
+        },
+        {
+            "cards": [
+
+            ],
+            "heroes": [
+                {
+                    "attack_type": "melee",
+                    "hp": 16,
+                    "name": "Muhhamad Ali",
+                    "quantity": 1
+                }
+            ],
+            "movement": 3,
+            "name": "Muhammad Ali",
+            "set": "TODO",
+            "sidekicks": [],
+            "special": "Begin the game with your stance on Float Like a Butterfly. After you attack, if you won the combat, change stances. (Float Like A Butterfly: you can attack from 2 spaces away; Sting Like A Bee: add +2 to your attacks)"
         }
-    ],
-    "total": 67
+    ]
 }
