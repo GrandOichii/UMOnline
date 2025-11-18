@@ -17,6 +17,7 @@ function _Create()
     return UM.Build:Fighter()
         :AtTheStartOfYourTurn(
             'At the start of your turn, you may take 1 damage to summon a Clone in an empty space adjacent to Sun Wukong.',
+            {},
             UM.Effects:If(
                 UM.Conditions:And(
                     UM.Conditions:CountGte(defeatedFighterSelector():Build(), 1),

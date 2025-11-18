@@ -8,6 +8,7 @@ function _Create()
     return UM.Build:Fighter()
         :AtTheStartOfYourTurn(
             'At the start of your turn, you may deal 1 damage to an opposing fighter in Medusa\'s zone.',
+            {},
             UM.Effects:If(
                 UM.Conditions:CountGte(fighterSelector():Build(), 1),
                 UM.Effects:Optional(

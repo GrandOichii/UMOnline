@@ -6,7 +6,7 @@ function _Create()
             UM.Select:Players():You():BuildPredicate(),
             UM.Effects:Draw(
                 UM.Select:Players():You():Build(),
-                UM.Number:Static(1), false
+                UM.Number:Static(1)
             )
         )
         :DefineCardZone(

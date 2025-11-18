@@ -287,7 +287,7 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
 
         foreach (var (effect, fighter) in effects)
         {
-            effect.Execute(new(fighter), new());
+            effect.Execute(new(fighter), new(this));
         }
 
         await Match.UpdateClients();

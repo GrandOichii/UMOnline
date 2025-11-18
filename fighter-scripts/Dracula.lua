@@ -4,6 +4,7 @@ function _Create()
     return UM.Build:Fighter()
         :AtTheStartOfYourTurn(
             'At the start of your turn, you may deal 1 damage to a fighter adjacent to Dracula. If you do, draw a card.',
+            {},
             UM.Effects:If(
                 UM.Conditions:CountGte(
                     fighterSelector:Build(), 1
@@ -16,8 +17,7 @@ function _Create()
                     ),
                     UM.Effects:Draw(
                         UM.Select:Players():You():Build(),
-                        UM.Number:Static(1),
-                        false
+                        UM.Number:Static(1)
                     )
                 )
             )

@@ -105,8 +105,7 @@ public class WinterSoldierTests
                         UM.Select:Players()
                         :You()
                         :Build(), 
-                        UM.Number:Static(1), 
-                        false
+                        UM.Number:Static(1)
                         )
                         )
                         """)
@@ -195,8 +194,7 @@ public class WinterSoldierTests
                         UM.Select:Players()
                         :You()
                         :Build(), 
-                        UM.Number:Static(1), 
-                        false
+                        UM.Number:Static(1)
                         )
                         )
                         """)
@@ -285,8 +283,7 @@ public class WinterSoldierTests
                         UM.Select:Players()
                         :You()
                         :Build(), 
-                        UM.Number:Static(1), 
-                        false
+                        UM.Number:Static(1)
                         )
                         )
                         """)
@@ -381,8 +378,7 @@ public class WinterSoldierTests
                         UM.Select:Players()
                         :You()
                         :Build(), 
-                        UM.Number:Static(1), 
-                        false
+                        UM.Number:Static(1)
                         )
                         )
                         """)

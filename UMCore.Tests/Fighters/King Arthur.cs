@@ -377,8 +377,7 @@ public class KingArthurTests
                         UM.Select:Players()
                         :You()
                         :Build(), 
-                        UM.Number:Static(1), 
-                        false
+                        UM.Number:Static(1)
                         )
                         )
                         """)

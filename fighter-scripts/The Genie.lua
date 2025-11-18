@@ -4,6 +4,7 @@ function _Create()
     return UM.Build:Fighter()
         :AtTheStartOfYourTurn(
             'At the start of your turn, you may discard 1 card to gain 1 action.',
+            {},
             UM.Effects:If(
                 UM.Conditions:Gt(
                     UM.Count:CardsInHand(UM.Player:EffectOwner()),

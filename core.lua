@@ -515,12 +515,12 @@ function UM.Build:Fighter()
         return fighter
     end
 
-    function fighter:AfterScheme(text, fighterPredFunc, ...)
+    function fighter:AfterScheme(text, conds, ...)
         fighter.afterSchemeEffects[#fighter.afterSchemeEffects+1] = UM.Build:EffectCollection()
             :SourceIsAlive()
             :Text(text)
             :Effects({...})
-            :AddCond(fighterPredFunc)
+            :AddConds(conds)
             :Build()
             
         return fighter
@@ -597,22 +597,23 @@ function UM.Build:Fighter()
         return fighter
     end
 
-    function fighter:AddTurnPhaseEffects(step, text, effects)
+    function fighter:AddTurnPhaseEffects(step, text, conds, effects)
         fighter.turnPhaseEffects[step] = UM.Build:EffectCollection()
             :SourceIsAlive()
             :Text(text)
             :Effects(effects)
+            :AddConds(conds)
             :Build()
 
         return fighter
     end
 
-    function fighter:AtTheStartOfYourTurn(text, ...)
-        return fighter:AddTurnPhaseEffects(UM.TurnPhaseTriggers.START, text, {...})
+    function fighter:AtTheStartOfYourTurn(text, conds, ...)
+        return fighter:AddTurnPhaseEffects(UM.TurnPhaseTriggers.START, text, conds, {...})
     end
 
-    function fighter:AtTheEndOfYourTurn(text, ...)
-        return fighter:AddTurnPhaseEffects(UM.TurnPhaseTriggers.END, text, {...})
+    function fighter:AtTheEndOfYourTurn(text, conds, ...)
+        return fighter:AddTurnPhaseEffects(UM.TurnPhaseTriggers.END, text, conds, {...})
     end
 
     function fighter:OnManoeuvre(text, fighterPred, ...)
@@ -1038,15 +1039,15 @@ end
 
 -- Effects
 
-function UM.Effects:Draw(manyPlayers, numeric, optional)
+function UM.Effects:Draw(manyPlayers, numeric)
     return function (args)
         local players = manyPlayers(args, 'Choose a player who will draw the cards')
-        if optional then
-            local choice = ChooseString(args.owner, { 'Yes', 'No' }, 'Draw card(s)?')
-            if choice ~= 'Yes' then
-                return
-            end
-        end
+        -- if optional then
+        --     local choice = ChooseString(args.owner, { 'Yes', 'No' }, 'Draw card(s)?')
+        --     if choice ~= 'Yes' then
+        --         return
+        --     end
+        -- end
         for _, p in ipairs(players) do
             local amount = numeric:Choose(args, 'Choose how many cards to draw')
             DrawCards(p, amount)

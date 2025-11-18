@@ -8,6 +8,7 @@ function _Create()
         )
         :AtTheEndOfYourTurn(
             'At the end of your turn, if Dark Willow is adjacent to Tara, she becomes Willow.',
+            {},
             UM.Effects:If(
                 UM.Conditions:FightersAreAdjacent(
                     UM.Select:Fighters():Named('Dark Willow'):BuildOne(),

@@ -9,15 +9,17 @@ function _Create()
             UM.Select:Fighters():AllYour():BuildPredicate(),
             UM.Effects:Draw(
                 UM.Select:Players():You():Build(),
-                UM.Number:Static(1), false
+                UM.Number:Static(1)
             )
         )
         :AfterScheme(
             'After you scheme, draw 1 card.',
-            UM.Select:Fighters():AllYour():BuildPredicate(),
+            {
+                UM.Select:Fighters():AllYour():BuildPredicate()
+            },
             UM.Effects:Draw(
                 UM.Select:Players():You():Build(),
-                UM.Number:Static(1), false
+                UM.Number:Static(1)
             )
         )
     :Build()

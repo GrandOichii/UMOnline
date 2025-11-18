@@ -17,11 +17,13 @@ function _Create()
         )
         :AtTheEndOfYourTurn(
             'At the end of your turn, change to your next identity (In order, Moon Knight -> Khonshu -> Mr. Knight, repeating)',
+            {},
             UM.Effects.CharacterSpecific:CycleMNIdentity()
         )
         -- Moon Knight
         :AtTheStartOfYourTurn(
             'At the start of your turn, move up to 2 spaces.',
+            {},
             UM.Effects:If(
                 UM.Conditions.CharacterSpecific:MNIdentityEq('Moon Knight'),
                 UM.Effects:MoveFighters(

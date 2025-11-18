@@ -18,6 +18,7 @@ function _Create()
     return UM.Build:Fighter()
         :AtTheStartOfYourTurn(
             'At the start of your turn, summon a squirrel in a space adjacent to Squirrel Girl.',
+            {},
             UM.Effects:IfInstead(
                 UM.Conditions:CountGte(
                     UM.Select:Fighters():Defeated():Named('Squirrel'):Build(),

@@ -25,8 +25,7 @@ function _Create()
             UM.Effects:Combine(
                 UM.Effects:Draw(
                     UM.Select:Players():You():Build(),
-                    UM.Number:Static(1),
-                    false
+                    UM.Number:Static(1)
                 ),
                 UM.Effects:Recover(
                     UM.Select:Fighters():AllYour():Single():Build(),

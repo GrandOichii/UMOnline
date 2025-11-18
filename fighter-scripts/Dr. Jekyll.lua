@@ -10,6 +10,7 @@ function _Create()
         )
         :AtTheStartOfYourTurn(
             'At the start of your turn, you may transform into Dr. Jekyll or Mr. Hyde.',
+            {},
             function (args)
                 local prev = GetPlayerStringAttribute(args.owner, 'IDENTITY')
                 local newIdentity = jekyll

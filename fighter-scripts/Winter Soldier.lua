@@ -12,6 +12,7 @@ function _Create()
     return UM.Build:Fighter()
         :AtTheStartOfYourTurn(
             'Start your turn with {RED ROOM} effects active',
+            {},
             UM.Effects.CharacterSpecific:WSEnableRedRoom()
         )
         :ForbidCardCancelling(

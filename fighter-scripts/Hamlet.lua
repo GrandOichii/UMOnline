@@ -3,6 +3,7 @@ function _Create()
     return UM.Build:Fighter()
         :AtTheStartOfYourTurn(
             'At the start of your turn, choose TO BE or NOT TO BE. If you choose NOT TO BE, deal 2 damage to one of your fighters.',
+            {},
             function (args)
                 -- TODO too low-level
                 local choice = ChooseString(args.owner, {

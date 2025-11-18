@@ -11,6 +11,7 @@ function _Create()
         )
         :AtTheStartOfYourTurn(
             'At the start of your turn, you may pay 1 doubloon to gain 1 action.',
+            {},
             UM.Effects:If(
                 UM.Conditions.CharacterSpecific:HasDoubloons(),
                 UM.Effects:Optional(

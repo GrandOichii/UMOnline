@@ -87,7 +87,7 @@ function _Create()
             'Draw 1 card.',
             UM.Effects:Draw(
                 UM.Select:Players():You():Build(),
-                UM.Number:Static(1), false
+                UM.Number:Static(1)
             )
         )
     }

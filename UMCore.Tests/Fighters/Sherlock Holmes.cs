@@ -56,8 +56,7 @@ public class SherlockHolmesTests
                         UM.Select:Players()
                         :You()
                         :Build(), 
-                        UM.Number:Static(1), 
-                        false
+                        UM.Number:Static(1) 
                         )
                         )
                         """)
@@ -151,8 +150,7 @@ public class SherlockHolmesTests
                         UM.Select:Players()
                         :You()
                         :Build(), 
-                        UM.Number:Static(1), 
-                        false
+                        UM.Number:Static(1)
                         )
                         )
                         """)
@@ -244,8 +242,7 @@ public class SherlockHolmesTests
                         UM.Select:Players()
                         :You()
                         :Build(), 
-                        UM.Number:Static(1), 
-                        false
+                        UM.Number:Static(1)
                         )
                         )
                         """)
@@ -345,8 +342,7 @@ public class SherlockHolmesTests
                         UM.Select:Players()
                         :You()
                         :Build(), 
-                        UM.Number:Static(1), 
-                        false
+                        UM.Number:Static(1)
                         )
                         )
                         """)

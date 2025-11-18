@@ -11,6 +11,7 @@ function _Create()
     return UM.Build:Fighter()
         :AtTheStartOfYourTurn(
             'At the start of your turn, you may discard a card to deal damage equal to its BOOST value to a fighter in your zone.',
+            {},
             UM.Effects:If(
                 UM.Conditions:And(
                     UM.Conditions:CountGte(fighterSelect():Build(), 1),

@@ -2,9 +2,9 @@
 function _Create()
     local nodeFilter = function ()
         return UM.Select:Nodes()
-        :Unoccupied()
-        :InZoneOfFighter(UM.Fighter:Named('Robert Muldoon'))
-        :WithNoToken('Trap')
+            :Unoccupied()
+            :InZoneOfFighter(UM.Fighter:Named('Robert Muldoon'))
+            :WithNoToken('Trap')
     end
 
     local onStepEffect = {
@@ -21,6 +21,7 @@ function _Create()
     return UM.Build:Fighter()
         :AtTheStartOfYourTurn(
             'At the start of your turn, you may place a trap in an unoccupied node in Robert Muldoon\'s zone.',
+            {},
             UM.Effects:If(
                 UM.Conditions:And(
                     UM.Conditions:TokensLeft('Trap'),
@@ -45,8 +46,7 @@ function _Create()
                     'Whenever one of your traps is returned to the box, draw a card.',
                     UM.Effects:Draw(
                         UM.Select:Players():You():Build(),
-                        UM.Number:Static(1),
-                        false
+                        UM.Number:Static(1)
                     )
                 )
                 :OnStep(

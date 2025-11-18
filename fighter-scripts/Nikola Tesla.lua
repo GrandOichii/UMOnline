@@ -15,10 +15,12 @@ function _Create()
         )
         :AtTheEndOfYourTurn(
             'At the end of your turn, charge 1 coil.',
+            {},
             UM.Effects.CharacterSpecific:ChargeCoil(1)
         )
         :AtTheStartOfYourTurn(
             'At the start of your turn, if both coils are charged, deal 1 damage to each opposing fighter adjacent to Tesla and move them up to 1 space.',
+            {},
             UM.Effects:If(
                 UM.Conditions.CharacterSpecific:CoilsCharged(2),
                 UM.Effects:DealDamage(fighterSelect(), UM.Number:Static(1)),

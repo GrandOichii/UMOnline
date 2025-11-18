@@ -17,6 +17,7 @@ function _Create()
         )
         :AtTheStartOfYourTurn(
             'At the start of your turn, activate one of your gadgets.',
+            {},
             function (args)
                 local g1 = 'Hypnoray Blaster'
                 local g2 = 'Ultrabiotic Tonic'

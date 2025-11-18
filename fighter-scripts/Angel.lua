@@ -10,8 +10,7 @@ function _Create()
                 UM.Conditions:CombatLostBy(UM.Player:EffectOwner()),
                 UM.Effects:Draw(
                     UM.Select:Players():You():Build(),
-                    UM.Number:Static(1),
-                    false
+                    UM.Number:Static(1)
                 )
             )
         )

@@ -17,6 +17,7 @@ function _Create()
         )
         :AtTheStartOfYourTurn(
             'At the start of your turn, you may place a Shadow token in any space adjacent to Spike or Drusilla.',
+            {},
             UM.Effects:If(
                 UM.Conditions:CountGte(nodeSelector():Build(), 1),
                 UM.Effects:IfInstead(
