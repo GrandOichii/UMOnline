@@ -24,7 +24,7 @@ function _Create()
                             :SourceIsAlive()
                             :Text('Deal 1 damage to each opposing fighter he moved through.')
                             :Effects({
-                                [1] = UM.Effects:DealDamage(
+                                UM.Effects:DealDamage(
                                     UM.Select:Fighters():MovedThrough():Build(),
                                     UM.Number:Static(1)
                                 )

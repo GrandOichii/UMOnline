@@ -4,15 +4,23 @@ namespace UMCore.Matches.Players.Cards;
 
 public enum ZoneChangeLocation
 {
-    TOP,
-    BOTTOM
+    TOP = 1,
+    BOTTOM = 2,
 }
 
-public class CardZoneChange(MatchCard card, ICardZone fromZone, ICardZone targetZone, ZoneChangeLocation location) {
+public enum ZoneChangeType
+{
+    TODO = 0,
+    PLAYED = 1,
+    DISCARDED = 2,
+}
+
+public class CardZoneChange(MatchCard card, ICardZone fromZone, ICardZone targetZone, ZoneChangeLocation location, ZoneChangeType type) {
     public MatchCard Card { get; } = card;
     public ICardZone FromZone { get; } = fromZone;
     public ICardZone TargetZone { get; set; } = targetZone;
-    public ZoneChangeLocation Location { get; } = location;
+    public ZoneChangeLocation Location { get; set; } = location;
+    public ZoneChangeType Type { get; } = type;
 
     public void Resolve()
     {

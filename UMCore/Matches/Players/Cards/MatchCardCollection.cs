@@ -112,15 +112,16 @@ public abstract class MatchCardCollection : IHasData<MatchCardCollection.Data>, 
     }
 
     public string GetName() => _name;
+    public Player GetOwner() => Owner;
 
-    public async Task<List<MatchCard>> MoveTopCardsTo(int amount, MatchCardCollection targetZone, ZoneChangeLocation location = ZoneChangeLocation.BOTTOM)
+    public async Task<List<MatchCard>> MoveTopCardsTo(int amount, MatchCardCollection targetZone, ZoneChangeType type, ZoneChangeLocation location = ZoneChangeLocation.BOTTOM)
     {
         List<MatchCard> result = [];
 
         while (amount-- > 0 && Cards.Count > 0)
         {
             var card = Cards[0];
-            card.Move(this, targetZone, location);
+            card.Move(this, targetZone, location, type);
             result.Add(card);
         }
 

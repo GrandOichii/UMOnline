@@ -68,7 +68,7 @@ public class BoostManager(Player player)
         var card = await source.ChooseBoostCard(Player);
         if (card is null) return (0, false);
 
-        card.Move(source.Collection, card.Owner.DiscardPile, ZoneChangeLocation.BOTTOM);
+        card.Move(source.Collection, card.Owner.DiscardPile, ZoneChangeLocation.BOTTOM, ZoneChangeType.DISCARDED);
 
         var result = (int)card.GetBoostValue()!;
 

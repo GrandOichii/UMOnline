@@ -83,9 +83,9 @@ public class MatchCard : IHasData<MatchCard.Data>
 
     }
 
-    public void Move(ICardZone from, ICardZone to, ZoneChangeLocation location)
+    public void Move(ICardZone from, ICardZone to, ZoneChangeLocation location, ZoneChangeType type)
     {
-        var zoneChange = new CardZoneChange(this, from, to, location);
+        var zoneChange = new CardZoneChange(this, from, to, location, type);
         zoneChange.Resolve();
     }
 

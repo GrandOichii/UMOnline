@@ -1,5 +1,3 @@
-- Muhammad Ali (movement: 3, life: 16, melee) 
-- Loki - placing your cards in opponents hands - can be quite a game breaker with they way args are handled
 - Yennenga - damage redistribution + very bad ruling about group damage
 - Titania - separate deck (not really)
 - Donatello - custom card zone

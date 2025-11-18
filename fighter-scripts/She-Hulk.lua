@@ -33,14 +33,10 @@ function _Create()
                             function (args)
                                 local discarded = args.ctx['DISCARDED']
                                 if #discarded == 0 then
-                                    return {
-                                        [1] = 0
-                                    }
+                                    return { 0 }
                                 end
 
-                                return {
-                                    [1] = GetBoostValue(discarded[1])
-                                }
+                                return { GetBoostValue(discarded[1]) }
                             end
                         )
                     )

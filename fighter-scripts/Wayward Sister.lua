@@ -153,9 +153,7 @@ function UM.Effects.CharacterSpecific:PromptCastCauldronSpell(spells, clearCauld
             return
         end
 
-        local options = {
-            [1] = 'Nothing'
-        }
+        local options = { 'Nothing' }
         local spellMap = {}
         for _, spell in ipairs(castableSpells) do
             options[#options+1] = spell.name
@@ -180,6 +178,6 @@ end
 
 function UM.Effects.CharacterSpecific:ClearCauldron()
     return function (args)
-        MoveAllCards(args.owner, 'CAULDRON', 'DISCARD')
+        MoveAllCards(args.owner, 'CAULDRON', 'DISCARD', UM.ZoneChange.Types.DISCARDED)
     end
 end

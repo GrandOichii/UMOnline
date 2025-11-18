@@ -94,6 +94,9 @@
         "RemoveCardFromDeck",
         "AddCardToDeck",
         "IsNodeAdjacentToFighter",
-        "CanFitSmallFighter"
+        "CanFitSmallFighter",
+        "GetHand",
+        "GetZoneChangeType",
+        "SetZoneChangeLocation"
     ]
 }

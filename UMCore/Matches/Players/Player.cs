@@ -206,7 +206,7 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
         while (Hand.Count > maxHandSize)
         {
             var card = await Controller.ChooseCard(this, [.. Hand.Cards], $"Discard down to {maxHandSize} cards");
-            await Hand.Discard(card);
+            await Hand.Discard(card, ZoneChangeType.DISCARDED);
         }
 
         Match.Logs.Private(this, "You end your turn", $"Player {FormattedLogName} ends their turn");
@@ -395,7 +395,7 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
 
         await card.ExecuteSchemeEffects(fighter);
 
-        await Hand.Discard(card, false);
+        await Hand.Discard(card, ZoneChangeType.PLAYED, log: false);
     }
 
     public async Task GainActions(int amount)
@@ -441,7 +441,7 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
 
     public async Task<List<MatchCard>> Mill(int amount)
     {
-        var cards = await Deck.MoveTopCardsTo(amount, DiscardPile);
+        var cards = await Deck.MoveTopCardsTo(amount, DiscardPile, ZoneChangeType.DISCARDED);
         Match.Logger?.LogDebug("Player {PlayerLogName} milled {amount} cards (wanted to mill: {wantedAmount})", LogName, cards.Count, amount);
         Match.Logs.Public($"{FormattedLogName} discarded {cards.Count} cards from the top of their deck: {string.Join(" ,", cards.Select(c => c.FormattedLogName))}");
         return cards;

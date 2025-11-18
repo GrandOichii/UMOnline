@@ -9,10 +9,7 @@ function _Create()
                     return false
                 end
 
-                local choice = ChooseString(args.owner, {
-                    [1] = 'Yes',
-                    [2] = 'No'
-                }, 'Replace Houdini\'s movement?')
+                local choice = ChooseString(args.owner, { 'Yes', 'No' }, 'Replace Houdini\'s movement?')
                 if choice == 'No' then
                     return false
                 end

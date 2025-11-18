@@ -6,8 +6,8 @@ function _Create()
             function (args)
                 -- TODO too low-level
                 local choice = ChooseString(args.owner, {
-                    [1] = 'TO BE',
-                    [2] = 'NOT TO BE',
+                    'TO BE',
+                    'NOT TO BE',
                 }, 'TO BE or NOT TO BE?')
 
                 UM.Effects.CharacterSpecific:SetHamletAttr(choice)(args)

@@ -27,8 +27,8 @@ function _Create()
                 }
 
                 local choice = ChooseString(args.owner, {
-                    [1] = g1,
-                    [2] = g2,
+                    g1,
+                    g2,
                 }, 'Activate which gadget?')
 
                 local target = gadgetMap[choice]

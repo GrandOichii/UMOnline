@@ -8,12 +8,12 @@ function _Create()
     end
 
     local onStepEffect = {
-        [1] = UM.Effects:CancelCurrentMovement(),
-        [2] = UM.Effects:DealDamage(
+        UM.Effects:CancelCurrentMovement(),
+        UM.Effects:DealDamage(
             UM.Select:Fighters():MovingFighter():Build(),
             UM.Number:Static(1)
         ),
-        [3] = UM.Effects:RemoveTokens(
+        UM.Effects:RemoveTokens(
             UM.Select:Tokens():Only(UM.Token:Source()):Build()
         )
     }

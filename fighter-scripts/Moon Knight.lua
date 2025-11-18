@@ -84,9 +84,9 @@ end
 
 function UM.Effects.CharacterSpecific:CycleMNIdentity()
     local identities = {
-        [1] = 'Moon Knight',
-        [2] = 'Khonshu',
-        [3] = 'Mr. Knight',
+        'Moon Knight',
+        'Khonshu',
+        'Mr. Knight',
     }
 
     local getIdentityIdx = function (id)

@@ -1,4 +1,3 @@
--- .  (Float Like A Butterfly: you can attack from 2 spaces away; Sting Like A Bee: add +2 to your attacks)
 
 local floatLikeAButterfly = 'Float Like A Butterfly'
 local stingLikeABee = 'Sting Like A Bee'
@@ -7,7 +6,7 @@ function _Create()
     return UM.Build:Fighter()
         :AtTheStartOfTheGame(
             'Begin the game with your stance on Float Like a Butterfly.',
-            UM.Effects.CharacterSpecific:SetStance('blaster')
+            UM.Effects.CharacterSpecific:SetStance(floatLikeAButterfly)
         )
         :AfterAttack(
             'After you attack, if you won the combat, change stances.',
@@ -17,7 +16,30 @@ function _Create()
                 UM.Effects.CharacterSpecific:ChangeStance()
             )
         )
+        :ModCardValue(
+            'Sting Like A Bee: add +2 to your attacks.',
+            UM.Select:Fighters():Named('Muhammad Ali'):BuildPredicate(),
+            UM.Mod.Cards:AttackCards(UM.Number:Static(2)),
+            UM.Conditions.CharacterSpecific:StanceIsActive(stingLikeABee)
+        )
+        :ModMeleeRange(
+            'Float Like A Butterfly: you can attack from 2 spaces away',
+            {
+                UM.Select:Fighters():Named('Muhammad Ali'):BuildPredicate(),
+                UM.Conditions.CharacterSpecific:StanceIsActive(floatLikeAButterfly)
+            },
+            function (args, subjects, original)
+                -- TODO too low-level
+                return 2
+            end
+        )
     :Build()
+end
+
+function UM.Conditions.CharacterSpecific:StanceIsActive(stance)
+    return function (args)
+        return GetPlayerStringAttribute(args.owner, 'STANCE') == stance
+    end
 end
 
 function UM.Effects.CharacterSpecific:SetStance(stance)

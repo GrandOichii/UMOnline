@@ -73,19 +73,19 @@ public class CombatPart : IHasData<CombatPart.Data>, ICardZone
     public async Task DiscardBoostCards()
     {
         while (Boosts.Count > 0)
-            Boosts[0].Move(this, Boosts[0].Owner.DiscardPile, ZoneChangeLocation.TOP);
+            Boosts[0].Move(this, Boosts[0].Owner.DiscardPile, ZoneChangeLocation.TOP, ZoneChangeType.DISCARDED);
         Boosts.Clear();
     }
 
     public async Task Discard()
     {
-        Card.Move(this, Card.Owner.DiscardPile, ZoneChangeLocation.TOP);
+        Card.Move(this, Card.Owner.DiscardPile, ZoneChangeLocation.TOP, ZoneChangeType.PLAYED);
         await DiscardBoostCards();
     }
 
     public async Task AddBoost(MatchCardCollection from, MatchCard card)
     {
-        card.Move(from, this, ZoneChangeLocation.BOTTOM);
+        card.Move(from, this, ZoneChangeLocation.BOTTOM, ZoneChangeType.TODO);
         await card.Owner.Match.UpdateClients();
 
         var effects = Parent.Match.GetEffectCollectionThatAccepts(new(Fighter.Owner), f => f.OnBoostEffects);
@@ -137,6 +137,7 @@ public class CombatPart : IHasData<CombatPart.Data>, ICardZone
     }
 
     public string GetName() => "COMBAT";
+    public Player GetOwner() => Fighter.Owner;
 
     public class Data
     {
@@ -212,7 +213,7 @@ public class Combat : IHasData<Combat.Data>
 
     public async Task Process()
     {
-        AttackCard!.Card.Move(Initiator.Hand, AttackCard!, ZoneChangeLocation.TOP);
+        AttackCard!.Card.Move(Initiator.Hand, AttackCard!, ZoneChangeLocation.TOP, ZoneChangeType.TODO);
         await Match.UpdateClients();
 
         await AttackCard.ExecuteCombatCardChoiceEffects();

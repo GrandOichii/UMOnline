@@ -27,6 +27,7 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
     public string FormattedLogName => $"[{Id}${GetName()}]";
 
     public List<EffectCollection> CardValueModifiers { get; }
+    public List<EffectCollection> MeleeRangeModifiers { get; }
     public List<EffectCollection> WhenPlacedEffects { get; }
     public List<ManoeuvreValueModifier> ManoeuvreValueMods { get; }
     public List<EffectCollection> OnAttackEffects { get; }
@@ -153,6 +154,7 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
         }
 
         CardValueModifiers = ExtractEffectCollectionList(this, data, "CardValueModifiers");
+        MeleeRangeModifiers = ExtractEffectCollectionList(this, data, "MeleeRangeModifiers");
 
         WhenPlacedEffects = ExtractEffectCollectionList(this, data, "WhenPlacedEffects");
 
@@ -439,7 +441,11 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
 
     public int GetMeleeRange()
     {
-        return Template.MeleeRange;
+        var result = Template.MeleeRange;
+        var modifiers = Match.GetEffectCollectionThatAccepts(new(this), f => f.MeleeRangeModifiers);
+        foreach (var (source, mod) in modifiers)
+            result = mod.Modify(new(source), new(this), result);
+        return result;
     }
 
     public IEnumerable<Fighter> GetReachableFighters()

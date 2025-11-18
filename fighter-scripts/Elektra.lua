@@ -45,7 +45,7 @@ function _Create()
                                 return true
                             end,
                             effects = {
-                                [1] = function (nargs)
+                                function (nargs)
                                     LogPublic(originalFLN..' resurrects!')
 
                                     ShuffleDiscardIntoDeck(nargs.owner)

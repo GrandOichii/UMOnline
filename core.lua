@@ -11,6 +11,16 @@ UM.TurnPhaseTriggers = {
     END = 1,
 }
 
+-- Zone changing
+
+UM.ZoneChange = {}
+
+UM.ZoneChange.Types = {
+    TODO = 0,
+    PLAYED = 1,
+    DISCARDED = 2,
+}
+
 -- Single player
 
 
@@ -108,6 +118,14 @@ function UM.Build:EffectCollection()
 
     function effectCollection:AddCond(cond)
         effectCollection.conds[#effectCollection.conds+1] = cond
+
+        return effectCollection
+    end
+
+    function effectCollection:AddConds(conds)
+        for _, cond in ipairs(conds) do
+            effectCollection:AddCond(cond)
+        end
 
         return effectCollection
     end
@@ -271,6 +289,7 @@ function UM.Build:Fighter()
     fighter.cardValueModifiers = {}
     fighter.whenPlaced = {}
     fighter.manoeuvreValueMods = {}
+    fighter.meleeRangeModifiers = {}
     fighter.onAttackEffects = {}
     fighter.onBoostEffects = {}
     fighter.afterAttackEffects = {}
@@ -318,6 +337,7 @@ function UM.Build:Fighter()
             BoostedMovementReplacers = fighter.boostedMovementReplacers,
             ManoeuvreDrawAmountModifiers = fighter.manoeuvreDrawAmountModifiers,
             OnLostCombatEffects = fighter.onLostCombatEffects,
+            MeleeRangeModifiers = fighter.meleeRangeModifiers,
             OnCombatCardChoiceEffects = fighter.onCombatCardChoiceEffects,
             WhenManoeuvreEffects = fighter.whenManoeuvreEffects,
             CardZoneChangeRedirectors = fighter.cardZoneChangeRedirectors,
@@ -514,13 +534,22 @@ function UM.Build:Fighter()
         return fighter
     end
 
+    function fighter:ModMeleeRange(text, conditions, modFunc)
+        fighter.meleeRangeModifiers[#fighter.meleeRangeModifiers+1] = UM.Build:EffectCollection()
+            :SourceIsAlive()
+            :Text(text)
+            :Effects({modFunc})
+            :AddConds(conditions)
+            :Build()
+
+        return fighter
+    end
+
     function fighter:ModCardValue(text, fighterPredFunc, modFunc, modCondition)
         fighter.cardValueModifiers[#fighter.cardValueModifiers+1] = UM.Build:EffectCollection()
             :SourceIsAlive()
             :Text(text)
-            :Effects({
-                [1] = modFunc
-            })
+            :Effects({modFunc})
             :AddCond(fighterPredFunc)
             :AddCond(modCondition)
             :Build()
@@ -622,14 +651,10 @@ function UM.Combat:DamageDealt()
 
         local damage = combat.DamageDealt
         if damage == nil then
-            return {
-                [1] = 0
-            }
+            return {0}
         end
 
-        return {
-            [1] = damage
-        }
+        return {damage}
     end)
 end
 
@@ -659,17 +684,13 @@ end
 
 function UM.Number:Count(many)
     return UM.Number:_(function (args)
-        return {
-            [1] = #many(args)
-        }
+        return {#many(args)}
     end)
 end
 
 function UM.Number:Static(v)
     return UM.Number:_(function (args)
-        return {
-            [1] = v
-        }
+        return {v}
     end)
 end
 
@@ -723,10 +744,7 @@ function UM.Effects:Optional(hint, ...)
     local effectFuncs = {...}
 
     return function (args)
-        local choice = ChooseString(args.owner, {
-            [1] = 'Yes',
-            [2] = 'No'
-        }, hint)
+        local choice = ChooseString(args.owner, { 'Yes', 'No' }, hint)
 
         if choice == 'Yes' then
             for _, effectFunc in ipairs(effectFuncs) do
@@ -982,9 +1000,7 @@ UM.Count = {}
 
 function UM.Count:CardsInHand(singlePlayer)
     return UM.Number:_(function (args)
-        return {
-            [1] = GetHandSize(singlePlayer(args))
-        }
+        return { GetHandSize(singlePlayer(args)) }
     end)
 end
 
@@ -1026,10 +1042,7 @@ function UM.Effects:Draw(manyPlayers, numeric, optional)
     return function (args)
         local players = manyPlayers(args, 'Choose a player who will draw the cards')
         if optional then
-            local choice = ChooseString(args.owner, {
-                [1] = 'Yes',
-                [2] = 'No'
-            }, 'Draw card(s)?')
+            local choice = ChooseString(args.owner, { 'Yes', 'No' }, 'Draw card(s)?')
             if choice ~= 'Yes' then
                 return
             end
@@ -1148,8 +1161,8 @@ function UM.Effects:AllowBoost(numeric, optional)
         -- local f = true
         -- if optional then
         --     local choice = ChooseString(args.owner, {
-        --         [1] = 'Yes',
-        --         [2] = 'No'
+        --         'Yes',
+        --         'No'
         --     }, 'Boost your card?')
         --     if choice ~= 'Yes' then
         --         f = false
@@ -1336,9 +1349,7 @@ function UM.Select:_Base(subjectKey, getAllFunc, chooseSingleFunc)
                 obj = chooseSingleFunc(args.owner, objs, selector.chooseHint)
             end
 
-            objs = {
-                [1] = obj
-            }
+            objs = { obj }
 
         end
 
@@ -1437,7 +1448,7 @@ function UM.Select:CardsInDiscardPile(ofPlayer)
         --     end
 
         --     fighters = {
-        --         [1] = fighter
+        --         fighter
         --     }
 
         -- end
@@ -1657,7 +1668,11 @@ function UM.Select:Players()
     function selector:YourOpponent()
         return selector:_Add(function (args, player)
             local owner = args.owner
-            return GetOpponentOf(owner) == player
+            local opp = GetOpponentOf(owner)
+            if opp == nil then
+                return player ~= owner
+            end
+            return opp == player
         end)
     end
 
@@ -1682,7 +1697,7 @@ function UM.Select:Nodes()
 
     function selector:NotInZone(zone)
         return selector:_Add(function (args, node)
-            return not IsInZone(node, { [1] = zone })
+            return not IsInZone(node, { zone })
         end)
     end
 

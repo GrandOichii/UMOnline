@@ -2,6 +2,7 @@ using Shouldly;
 using UMCore.Matches.Attacks;
 using UMCore.Matches.Cards;
 using UMCore.Matches.Players;
+using UMCore.Matches.Players.Cards;
 using UMCore.Matches.Tokens;
 
 namespace UMCore.Tests.Setup.Builders;
@@ -126,7 +127,7 @@ public class TestPlayerControllerBuilder
                 var p = match.GetPlayer(playerIdx);
                 var fromZone = p.CardZones[zoneNameFrom];
                 var toZone = p.CardZones[zoneNameTo];
-                fromZone.MoveTopCardsTo(amount, toZone)
+                fromZone.MoveTopCardsTo(amount, toZone, ZoneChangeType.TODO)
                     .Wait();
                 return Task.FromResult((TestPlayerController.NEXT_ACTION, true));
             });
@@ -587,6 +588,26 @@ public class TestPlayerControllerBuilder
                 return this;
             }
 
+            public Asserts CanAttack(string attackerKey, string defenderKey)
+            {
+                var attack = options.FirstOrDefault(a =>
+                    a.Fighter.Template.Key == attackerKey &&
+                    a.Target.Template.Key == defenderKey
+                );
+                attack.ShouldNotBeNull($"Expected player {player.LogName} to be able to attack fighter {defenderKey} using fighter {attackerKey}");
+                return this;
+            }
+
+            public Asserts CantAttack(string attackerKey, string defenderKey)
+            {
+                var attack = options.FirstOrDefault(a =>
+                    a.Fighter.Template.Key == attackerKey &&
+                    a.Target.Template.Key == defenderKey
+                );
+                attack.ShouldBeNull($"Expected player {player.LogName} not to be able to attack fighter {defenderKey} using fighter {attackerKey}");
+                return this;
+            }
+
             public Asserts CanAttack(string attackerKey, string defenderKey, string attackCardKey)
             {
                 var attack = options.FirstOrDefault(a =>
@@ -747,7 +768,7 @@ public class TestPlayerControllerBuilder
 
             public Asserts CanStopAtNodeWithId(int id)
             {
-                options.Any(p => p.Nodes.Last().Id == id).ShouldBeTrue();
+                options.Any(p => p.Nodes.Last().Id == id).ShouldBeTrue($"Expected player {player.LogName} to be able to stop fighter at node with Id = {id}");
                 return this;
             }
 

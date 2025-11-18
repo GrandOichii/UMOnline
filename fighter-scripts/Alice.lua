@@ -5,8 +5,8 @@ function _Create()
             'When you place Alice, choose whether she starts the game BIG or SMALL',
             function (args)
                 local choice = ChooseString(args.owner, {
-                    [1] = 'BIG',
-                    [2] = 'SMALL',
+                    'BIG',
+                    'SMALL',
                 }, 'Start the game BIG or SMALL?')
                 UM.Effects.CharacterSpecific.SetAliceSize(args, choice)
             end

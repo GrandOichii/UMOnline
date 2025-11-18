@@ -119,7 +119,7 @@ public class MatchScripts
     public MatchCard DiscardCard(Player player, int idx)
     {
         var card = player.Hand.Cards[idx];
-        player.Hand.Discard(card)
+        player.Hand.Discard(card, ZoneChangeType.DISCARDED)
             .Wait();
         return card;
     }
@@ -326,8 +326,11 @@ public class MatchScripts
     [LuaCommand]
     public Player? GetOpponentOf(Player player)
     {
-        var combat = Match.Combat
-            ?? throw new MatchException($"Called {nameof(GetOpponentOf)} while no combat is active");
+        var combat = Match.Combat;
+        if (combat is null)
+        {
+            return null;
+        }
 
         var (part, fighter, _) = combat.GetCombatPart(player);
         var (_, resultFighter) = combat.GetOpponent(part);
@@ -627,7 +630,7 @@ public class MatchScripts
     [LuaCommand]
     public void PutCardOnTheBottomOfDeck(Player player, ICardZone from, MatchCard card)
     {
-        card.Move(from, player.Deck, ZoneChangeLocation.BOTTOM);
+        card.Move(from, player.Deck, ZoneChangeLocation.BOTTOM, ZoneChangeType.TODO);
         Match.UpdateClients()
             .Wait();
     }
@@ -690,7 +693,7 @@ public class MatchScripts
     [LuaCommand]
     public void ShuffleDiscardIntoDeck(Player player)
     {
-        player.DiscardPile.MoveTopCardsTo(player.DiscardPile.Count, player.Deck, ZoneChangeLocation.BOTTOM)
+        player.DiscardPile.MoveTopCardsTo(player.DiscardPile.Count, player.Deck, ZoneChangeType.TODO, ZoneChangeLocation.BOTTOM)
             .Wait();
 
         player.Deck.Shuffle();
@@ -724,11 +727,11 @@ public class MatchScripts
     }
 
     [LuaCommand]
-    public void MoveAllCards(Player player, string fromZoneName, string toZoneName)
+    public void MoveAllCards(Player player, string fromZoneName, string toZoneName, int type)
     {
         var from = player.CardZones[fromZoneName];
         var to = player.CardZones[toZoneName];
-        from.MoveTopCardsTo(from.Count, to, ZoneChangeLocation.BOTTOM)
+        from.MoveTopCardsTo(from.Count, to, (ZoneChangeType)type, ZoneChangeLocation.BOTTOM)
             .Wait();
     }
 
@@ -761,5 +764,23 @@ public class MatchScripts
     public bool CanFitSmallFighter(MapNode node)
     {
         return node.SmallFighters.Count < 4;
+    }
+
+    [LuaCommand]
+    public LuaTable GetHand(Player player)
+    {
+        return LuaUtility.CreateTable(Match.LState, player.Hand.Cards);
+    }
+
+    [LuaCommand]
+    public int GetZoneChangeType(CardZoneChange zoneChange)
+    {
+        return (int)zoneChange.Type;
+    }
+
+    [LuaCommand]
+    public void SetZoneChangeLocation(CardZoneChange zoneChange, int value)
+    {
+        zoneChange.Location = (ZoneChangeLocation)value;
     }
 }

@@ -6,5 +6,6 @@ public interface ICardZone {
     void Add(MatchCard card, ZoneChangeLocation location);
     void Remove(MatchCard card);
 
+    Player GetOwner();
     string GetName();
 }

@@ -13,7 +13,7 @@ public class Hand : MatchCardCollection
 
     public async Task<IEnumerable<MatchCard>> Draw(int amount)
     {
-        var newCards = await Owner.Deck.MoveTopCardsTo(amount, this, ZoneChangeLocation.BOTTOM);
+        var newCards = await Owner.Deck.MoveTopCardsTo(amount, this, ZoneChangeType.TODO, ZoneChangeLocation.BOTTOM);
 
         Owner.Match.Logger?.LogDebug("Player {PlayerLogName} draws {Amount} cards (wanted to draw: {OriginalAmount})", Owner.LogName, newCards.Count(), amount);
         Owner.Match.Logs.Private(
@@ -43,9 +43,9 @@ public class Hand : MatchCardCollection
         return result.ToHashSet();
     }
 
-    public async Task Discard(MatchCard card, bool log=true)
+    public async Task Discard(MatchCard card, ZoneChangeType type, bool log=true)
     {
-        card.Move(this, Owner.DiscardPile, ZoneChangeLocation.TOP);
+        card.Move(this, Owner.DiscardPile, ZoneChangeLocation.TOP, type);
         await Owner.Match.UpdateClients();
 
         Owner.Match.Logger?.LogDebug("Player {PlayerLogName} discards {CardLogName} from their hand", Owner.LogName, card.LogName);
