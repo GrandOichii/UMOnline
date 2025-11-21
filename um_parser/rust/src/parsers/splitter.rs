@@ -1,6 +1,6 @@
 use regex::Regex;
 
-use crate::parser::*;
+use crate::parsers::parser::*;
 
 static SPLITTER_SCRIPT: &str = r#"
 function _Create(text, children)

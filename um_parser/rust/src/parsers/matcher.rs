@@ -1,6 +1,6 @@
 use regex::Regex;
 
-use crate::parser::*;
+use crate::parsers::parser::*;
 
 pub struct Matcher {
     pub script: String,

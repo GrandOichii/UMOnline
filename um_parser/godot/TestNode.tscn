@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://01jnsfvg354y"]
+
+[node name="TestNode" type="TestNode" node_paths=PackedStringArray("label")]
+label = NodePath("Label")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "this should be replaced"

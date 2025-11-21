@@ -1,16 +1,40 @@
-use std::fs;
-use std::vec;
-
+use godot::prelude::*;
 use regex::Regex;
+use godot::classes::*;
 
-mod matcher;
-mod parser;
-mod selector;
-mod splitter;
+pub mod parsers;
+pub mod nodes;
+pub mod model;
+pub mod traits;
+pub mod repo;
 
-use crate::parser::*;
+use crate::parsers::parser::*;
 
-fn main() {
+struct UMParserExtension;
+
+#[gdextension]
+unsafe impl ExtensionLibrary for UMParserExtension {}
+
+
+#[derive(GodotClass)]
+#[class(init,base=Control)]
+struct TestNode {
+    base: Base<Control>,
+
+    #[export]
+    label: OnEditor<Gd<Label>>,
+}
+
+// impl ParserRepository for SQLiteParserRepository {}
+
+#[godot_api]
+impl IControl for TestNode {
+    fn ready(&mut self) {
+        self.label.set_text("Hello peter");
+    }
+}
+
+fn _foo() {
     let static_amount = ParserNode::matcher(
         String::from("static_amount"),
         Regex::new("[0-9]").unwrap(),
@@ -36,12 +60,23 @@ fn main() {
         // "draw 1 card",
         // "draw up to 4 cards"
     ];
+
     for text in texts {
         root.parse(text);
     }
 }
 
-fn read_script(from: &str) -> String {
-    let result = fs::read_to_string(from).expect("Failed to read input");
-    return result;
-}
+// pub fn add(left: u64, right: u64) -> u64 {
+//     left + right
+// }
+
+// #[cfg(test)]
+// mod tests {
+//     use super::*;
+
+//     // #[test]
+//     // fn it_works() {
+//     //     let result = add(2, 2);
+//     //     assert_eq!(result, 4);
+//     // }
+// }
