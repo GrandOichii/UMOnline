@@ -28,7 +28,8 @@ public class CombatPart : IHasData<CombatPart.Data>, ICardZone
 
     public async Task ExecuteCombatCardChoiceEffects()
     {
-        var effects = Parent.Match.GetEffectCollectionThatAccepts(new(this), f => f.OnCombatCardChoiceEffects);
+        var effects = Parent.Match.GetEffectCollectionThatAccepts(new(this), f => f.OnCombatCardChoiceEffects).ToList();
+        Parent.Match.Logger?.LogDebug("Executing combat card choice effects, expected to execute: {EffectsCount}", effects.Count);
 
         // TODO order effects
         foreach (var (source, effect) in effects)
@@ -38,7 +39,8 @@ public class CombatPart : IHasData<CombatPart.Data>, ICardZone
     public void ApplyModifiers()
     {
         var subs = new Effects.EffectCollectionSubjects(Fighter, null, this);
-        var modifiers = Parent.Match.GetEffectCollectionThatAccepts(subs, f => f.CardValueModifiers);
+        var modifiers = Parent.Match.GetEffectCollectionThatAccepts(subs, f => f.CardValueModifiers).ToList();
+        Parent.Match.Logger?.LogDebug("Applying card value modifiers to combat part of player {PlayerLogName}, expected to execute: {ModifiersCount}", GetOwner().LogName, modifiers.Count);
         foreach (var (source, modifier) in modifiers)
         {
             Value = modifier.Modify(new(source), subs, Value);
@@ -79,6 +81,7 @@ public class CombatPart : IHasData<CombatPart.Data>, ICardZone
 
     public async Task Discard()
     {
+        Parent.Match.Logger?.LogDebug("Discarding combat cards of combat part of player {PlayerLogName}", GetOwner().FormattedLogName);
         Card.Move(this, Card.Owner.DiscardPile, ZoneChangeLocation.TOP, ZoneChangeType.PLAYED);
         await DiscardBoostCards();
     }
@@ -88,7 +91,9 @@ public class CombatPart : IHasData<CombatPart.Data>, ICardZone
         card.Move(from, this, ZoneChangeLocation.BOTTOM, ZoneChangeType.TODO);
         await card.Owner.Match.UpdateClients();
 
-        var effects = Parent.Match.GetEffectCollectionThatAccepts(new(Fighter.Owner), f => f.OnBoostEffects);
+        var effects = Parent.Match.GetEffectCollectionThatAccepts(new(Fighter.Owner), f => f.OnBoostEffects).ToList();
+        Parent.Match.Logger?.LogDebug("Executing on boost effects of combat part of player {PlayerLogName}, expected to execute: {EffectsCount}", GetOwner().LogName, effects.Count);
+
         // TODO order effects
         foreach (var (source, effect) in effects)
             effect.Execute(new(source), new(Fighter.Owner));
@@ -189,11 +194,13 @@ public class Combat : IHasData<Combat.Data>
     public async Task EmitTrigger(CombatStepTrigger trigger)
     {
         // cards
+        Match.Logger?.LogDebug("Emitting combat step trigger: {CombatStepTrigger}", trigger);
         List<(CombatPart?, Fighter)> cards = [(DefenceCard, Defender), (AttackCard, Attacker)];
         foreach (var (card, fighter) in cards)
         {
             if (card is null) continue;
             
+            // TODO is this the correct order?
             List<CombatStepEffectsCollection> effects = [
                 fighter.CombatStepEffects,
             ];
@@ -201,12 +208,13 @@ public class Combat : IHasData<Combat.Data>
             if (!card.EffectsCancelled)
                 effects.Add(card.Card.CombatStepEffects);
 
+            Match.Logger?.LogDebug("Executing combat step trigger effects ({CombatStepTrigger}) for fighter {FighterLogName}, expected to execute: {EffectsCount}", trigger, fighter.LogName, effects.Count);
             foreach (var effect in effects)
             {
                 await effect.Execute(trigger, fighter);
                 await Match.UpdateClients();
             }
-            // await .Execute(trigger, fighter);
+
             if (Match.IsWinnerDetermined()) return;
         }
     }
@@ -290,6 +298,7 @@ public class Combat : IHasData<Combat.Data>
 
         await oppCard.CancelEffects();
         Match.Logger?.LogDebug("Effects of card {CardLogName} of player {PlayerLogName} were cancelled", oppCard.Card.LogName, oppCard.Card.Owner.LogName);
+        Match.Logs.Public($"Effects of card {oppCard.Card.LogName} were cancelled!");
         await Match.UpdateClients();
     }
 

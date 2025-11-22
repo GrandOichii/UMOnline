@@ -101,7 +101,7 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
             {
                 var t = value as LuaTable;
                 // TODO check for null
-                result.Add(new(t!));
+                result.Add(new(fighter.Match, t!));
             }
             return result;
         }
@@ -144,7 +144,7 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
                 var key = (TurnPhaseTrigger)Convert.ToInt32(keyRaw);
                 var table = turnPhaseEffects[keyRaw] as LuaTable;
                 // TODO check for null
-                var effects = new EffectCollection(table!);
+                var effects = new EffectCollection(Match, table!);
                 TurnPhaseEffects.Add(key, effects);
             }
         }
@@ -198,7 +198,7 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
         // combat step effects
         try
         {
-            CombatStepEffects = new(data);
+            CombatStepEffects = new(Match, data);
         }
         catch (Exception e)
         {

@@ -687,7 +687,7 @@ public class MatchScripts
     [LuaCommand]
     public void AddAtTheStartOfNextTurnEffect(Player player, Fighter effectSource, LuaTable effects)
     {
-        player.AtTheStartOfTurnTemporaryEffects.Add((effectSource, new(effects)));
+        player.AtTheStartOfTurnTemporaryEffects.Add((effectSource, new(player.Match, effects)));
     }
 
     [LuaCommand]
@@ -705,7 +705,7 @@ public class MatchScripts
         var movement = Match.CurrentMovement
             ?? throw new MatchException($"Called {nameof(AddAtTheEndOfMovementEffect)} while there is no movement");
 
-        movement.AtTheEndOfMovementEffects.Add((fighter, new(effectCollection)));
+        movement.AtTheEndOfMovementEffects.Add((fighter, new(fighter.Match, effectCollection)));
     }
 
     [LuaCommand]

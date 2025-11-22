@@ -32,6 +32,7 @@ public class MatchCard : IHasData<MatchCard.Data>
         var match = owner.Match;
         Id = match.AddCard(this);
 
+        owner.Match.Logger?.LogDebug("Constructing card {CardKey}", card.Key);
         // effects
         LuaTable data;
         try
@@ -48,7 +49,7 @@ public class MatchCard : IHasData<MatchCard.Data>
 
         try
         {
-            SchemeEffect = new(LuaUtility.TableGet<LuaTable>(data, "Scheme"));
+            SchemeEffect = new(owner.Match, LuaUtility.TableGet<LuaTable>(data, "Scheme"));
         }
         catch (Exception e)
         {
@@ -57,7 +58,7 @@ public class MatchCard : IHasData<MatchCard.Data>
 
         try
         {
-            CombatStepEffects = new(data);
+            CombatStepEffects = new(owner.Match, data);
         }
         catch (Exception e)
         {
@@ -151,11 +152,6 @@ public class MatchCard : IHasData<MatchCard.Data>
 
         await Owner.Match.UpdateClients();        
     }
-
-    // public async Task PlaceIntoDiscard()
-    // {
-    //     await Owner.DiscardPile.Add([this]);
-    // }
 
     public bool HasLabel(string label)
     {

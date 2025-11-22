@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using UMCore.Matches.Attacks;
 using UMCore.Matches.Cards;
 using UMCore.Matches.Players.Cards;
@@ -40,6 +41,7 @@ public class BoostManager(Player player)
 
     public void AddBoostSource(MatchCardCollection collection, BoostTarget allowedTargets)
     {
+        Player.Match.Logger?.LogDebug("Adding additional boost source for player {PlayerLogName}: {ZoneLogName} (allowed targets: {AllowedBoostTargets})", Player.LogName, collection.ZoneLogName, allowedTargets);
         Sources.Add(collection.GetName(), new(collection, allowedTargets));
     }
 
@@ -86,6 +88,8 @@ public class BoostManager(Player player)
         var card = await source.ChooseBoostCard(Player);
         if (card is null) return null;
 
+        Match.Logs.Public($"Player {Player.FormattedLogName} boosts their combat with {card.FormattedLogName}");
+
         await combatPart.AddBoost(source.Collection, card);
         
         ExecuteOnBoostEffects();
@@ -95,7 +99,9 @@ public class BoostManager(Player player)
 
     private void ExecuteOnBoostEffects()
     {
-        var effects = Match.GetEffectCollectionThatAccepts(new(Player), f => f.OnBoostEffects);
+        var effects = Match.GetEffectCollectionThatAccepts(new(Player), f => f.OnBoostEffects).ToList();
+        Match.Logger?.LogDebug("Executing on boost effects for player {PlayerLogName}, expected to execute: {EffectsCount}", Player.LogName, effects.Count);
+
         // TODO order effects
         foreach (var (source, effect) in effects)
             effect.Execute(new(source), new(Player));

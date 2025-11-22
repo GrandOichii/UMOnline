@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Logging;
 using UMCore.Matches.Cards;
 
 namespace UMCore.Matches.Players.Cards;
@@ -8,6 +9,8 @@ public abstract class MatchCardCollection : IHasData<MatchCardCollection.Data>, 
     public List<MatchCard> Cards { get; private set; }
     public List<int> ContentsVisibleTo { get; }
     private readonly string _name;
+
+    public string ZoneLogName => ((ICardZone)this).ZoneLogName; // TODO this feels wrong
 
     public MatchCardCollection(Player owner, string name)
     {
@@ -21,25 +24,12 @@ public abstract class MatchCardCollection : IHasData<MatchCardCollection.Data>, 
 
     public int Count => Cards.Count;
 
-    // public void MoveCard(MatchCard card, ICardZone from) {
-
-    // }
-
     public async Task AddRaw(IEnumerable<MatchCard> cards)
     {
         Cards.AddRange(cards);
 
         await Owner.Match.UpdateClients();
     }
-
-    // public async Task<bool> Remove(MatchCard card)
-    // {
-    //     var result = Cards.Remove(card);
-
-    //     await Owner.Match.UpdateClients();
-
-    //     return result;
-    // }
 
     public int GetCardIdx(MatchCard card)
     {
@@ -57,27 +47,9 @@ public abstract class MatchCardCollection : IHasData<MatchCardCollection.Data>, 
 
     public void Shuffle()
     {
+        Owner.Match.Logger?.LogDebug("Shuffling MatchCardCollection {ZoneLogName}", ZoneLogName);
         Cards = [.. Cards.OrderBy(_ => Owner.Match.Random.Next())];
     }
-
-    // public async Task PutOnBottom(MatchCard card)
-    // {
-    //     Cards.Add(card);
-    //     await Owner.Match.UpdateClients();
-    // }
-
-    // public virtual async Task<List<MatchCard>> TakeFromTop(int amount)
-    // {
-    //     var result = new List<MatchCard>();
-    //     while (Count > 0 && amount-- > 0)
-    //     {
-    //         var card = Cards[0];
-    //         result.Add(card);
-    //         Cards.Remove(card);
-    //     }
-    //     return result;
-    // }
-
 
     public virtual Data GetData(Player player)
     {

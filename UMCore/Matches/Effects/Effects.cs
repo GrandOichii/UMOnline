@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Logging;
 using NLua;
 using UMCore.Matches.Attacks;
 using UMCore.Matches.Players;
@@ -64,14 +65,16 @@ public class EffectCollectionSubjects
 
 public class EffectCollection : IHasText
 {
+    public Match Match { get; }
     public string Text { get; }
     public List<Effect> Effects { get; }
     // public Effect? FighterPredicate { get; } = null;
     // public Effect? PlayerPredicate { get; } = null;
     public Effect Condition { get; }
 
-    public EffectCollection(LuaTable table)
+    public EffectCollection(Match match, LuaTable table)
     {
+        Match = match;
         Effects = [];
 
         Text = LuaUtility.TableGet<string>(table, "text");
@@ -102,6 +105,7 @@ public class EffectCollection : IHasText
     {
         if (!ConditionsMet(args, subjects)) return;
 
+        Match.Logger?.LogDebug("Executing EffectCollection with text {EffectCollectionText}, effect count: {EffectCount}", Text, Effects.Count);
         foreach (var effect in Effects)
         {
             effect.Execute(args, subjects);
@@ -113,11 +117,16 @@ public class EffectCollection : IHasText
         var subs = subjects ?? new();
         if (!ConditionsMet(args, subs)) return value;
 
+        Match.Logger?.LogDebug("Modyfing value {InitialValue} using EffectCollection with text {EffectCollectionText}, effect count: {EffectCount}", value, Text, Effects.Count);
+
         var result = value;
         foreach (var effect in Effects)
         {
             result = effect.Modify(args, subs, result);
         }
+
+        Match.Logger?.LogDebug("Value modification result: {ResultValue} ({EffectCollectionText})", value, Text);
+
         return result;
     }
 }

@@ -9,7 +9,7 @@ public class CombatStepEffectsCollection
 {
     public Dictionary<CombatStepTrigger, EffectCollection> Effects { get; }
 
-    public CombatStepEffectsCollection(LuaTable data)
+    public CombatStepEffectsCollection(Match match, LuaTable data)
     {
         Effects = [];
         var combatStepEffectMappingRaw = LuaUtility.TableGet<LuaTable>(data, "CombatStepEffects");
@@ -18,7 +18,7 @@ public class CombatStepEffectsCollection
             var key = (CombatStepTrigger)Convert.ToInt32(keyRaw);
             var table = combatStepEffectMappingRaw[keyRaw] as LuaTable;
             // TODO check for null
-            var effects = new EffectCollection(table!);
+            var effects = new EffectCollection(match, table!);
             Effects.Add(key, effects);
         }
     }

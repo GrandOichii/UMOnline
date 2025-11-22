@@ -46,7 +46,6 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
     public List<(Fighter effectSource, EffectCollection effects)> AtTheStartOfTurnTemporaryEffects { get; }
     public Dictionary<string, MatchCardCollection> CardZones { get; }
 
-
     public int ActionCount { get; set; }
 
     public Player(Match match, int idx, string name, int teamIdx, LoadoutTemplate loadout, IPlayerController controller)
@@ -80,15 +79,16 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
         var name = zone.GetName();
         if (CardZones.ContainsKey(name))
         {
+            Match.Logger?.LogDebug("Skipping adding new card zone to player {PlayerLogName}: {ZoneLogName} (it is already defined)", LogName, zone.ZoneLogName);
             return;
         }
         
         CardZones.Add(zone.GetName(), zone);
+        Match.Logger?.LogDebug("Added additional card zone to player {PlayerLogName}: {ZoneLogName}", LogName, zone.ZoneLogName);
     }
 
     public async Task InitialPlaceFighters(int spawnNumber)
     {
-        // IPlayerInitialFighterPlacer placer = new PlayerInitialFighterPlacerNeighbors();
         IPlayerInitialFighterPlacer placer = new PlayerInitialFighterPlacerInZone();
 
         var heroQueue = new Queue<Fighter>(Fighters.Where(f => f.IsHero()));
@@ -107,50 +107,48 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
 
     public async Task CreateFighters()
     {
-        // create and place fighters
+        Match.Logger?.LogDebug("Creating fighters of player {PlayerLogName}", LogName);
+        foreach (var template in Loadout.Fighters)
         {
-            foreach (var template in Loadout.Fighters)
+            for (int i = 0; i < template.Amount; ++i)
             {
-                for (int i = 0; i < template.Amount; ++i)
-                {
-                    var fighter = new Fighter(this, template);
-                    Fighters.Add(fighter);
-                }
+                var fighter = new Fighter(this, template);
+                Fighters.Add(fighter);
             }
         }
     }
 
     public async Task CreateDeck()
     {
-
         // create deck
+        Match.Logger?.LogDebug("Creating main deck of {PlayerLogName}", LogName);
+
+        List<CardTemplate> cards = [.. Loadout.Deck.Where(c => c.IncludedInDeckWithSidekick is null)];
+        foreach (var fighter in Fighters)
         {
-            List<CardTemplate> cards = [.. Loadout.Deck.Where(c => c.IncludedInDeckWithSidekick is null)];
-            foreach (var fighter in Fighters)
-            {
-                cards.AddRange(Loadout.Deck.Where(c => c.IncludedInDeckWithSidekick == fighter.Template.Key));
-            }
-
-            foreach (var card in cards)
-            {
-                await Deck.AddRaw(
-                    Enumerable.Range(0, card.Amount)
-                        .Select(i => new MatchCard(this, card))
-                );
-            }
-
-            List<MatchCard> startsGameWith = [];
-            foreach (var cardKey in Loadout.StartsWithCards)
-            {
-                var card = Deck.GetFirstCardWithKey(cardKey);
-                Deck.Remove(card);
-                startsGameWith.Add(card);
-            }
-
-            await Hand.AddRaw(startsGameWith);
-            if (startsGameWith.Count > 0)
-                Match.Logs.Public($"{FormattedLogName} starts with {string.Join(" ,", startsGameWith.Select(c => c.FormattedLogName))} in their hand");
+            cards.AddRange(Loadout.Deck.Where(c => c.IncludedInDeckWithSidekick == fighter.Template.Key));
         }
+
+        foreach (var card in cards)
+        {
+            await Deck.AddRaw(
+                Enumerable.Range(0, card.Amount)
+                    .Select(i => new MatchCard(this, card))
+            );
+        }
+
+        List<MatchCard> startsGameWith = [];
+        foreach (var cardKey in Loadout.StartsWithCards)
+        {
+            var card = Deck.GetFirstCardWithKey(cardKey);
+            Deck.Remove(card);
+            startsGameWith.Add(card);
+        }
+
+        Match.Logger?.LogDebug("Adding initial hand cards to {PlayerLogName}, expected to add: {CardsCount}", LogName, startsGameWith.Count);
+        await Hand.AddRaw(startsGameWith);
+        if (startsGameWith.Count > 0)
+            Match.Logs.Public($"{FormattedLogName} starts with {string.Join(" ,", startsGameWith.Select(c => c.FormattedLogName))} in their hand");
     }
 
     public async Task DrawInitialHand()
@@ -162,10 +160,10 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
         await Hand.Draw(amount);
 
         Match.Logs.Public($"Player {FormattedLogName} drew their initial hand of {amount} cards");
+        Match.Logger?.LogDebug("Player {PlayerLogName} drew their initial hand", LogName);
     }
 
     public IEnumerable<Fighter> GetAliveFighters() => Fighters.Where(f => f.IsAlive());
-
     public IEnumerable<Fighter> GetAliveHeroes() => GetAliveFighters().Where(f => f.IsHero());
     public IEnumerable<Fighter> GetActiveFighters() => Fighters.Where(f => f.GetStatus() != FighterStatus.Dead);
 
@@ -190,6 +188,7 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
         ActionCount = Match.Config.ActionsPerTurn;
         
         // execute "at the start of ___ next turn, ..."
+        Match.Logger?.LogDebug("Executing \"at the start of ___ next turn\" effects for player {PlayerLogName}, expected to execute: {EffectsCount}", LogName, AtTheStartOfTurnTemporaryEffects.Count);
         // TODO order effects
         foreach (var (source, effect) in AtTheStartOfTurnTemporaryEffects)
         {
@@ -203,6 +202,10 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
         TurnHistory.Clear();
 
         var maxHandSize = Loadout.MaximumHandSize ?? Match.Config.MaxHandSize;
+        if (Hand.Count > maxHandSize)
+        {
+            Match.Logger?.LogDebug("Forcing player {PlayerLogName} to discard to their max hand size = {MaxHandSize}", LogName, maxHandSize);
+        }
         while (Hand.Count > maxHandSize)
         {
             var card = await Controller.ChooseCard(this, [.. Hand.Cards], $"Discard down to {maxHandSize} cards");
@@ -283,6 +286,7 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
         }
 
         // TODO order effects
+        Match.Logger?.LogDebug("Executing turn phase trigger effects of trigger {TurnPhaseTrigger} of player {PlayerLogName}, expected to execute: {EffectsCount}", trigger, LogName, effects.Count);
         // await OrderEffects(in effects);
 
         foreach (var (effect, fighter) in effects)
@@ -309,12 +313,6 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
         var fighters = GetAliveFighters().ToList();
         while (fighters.Count > 0)
         {
-            // var fighter = fighters[0];
-            // if (fighters.Count > 1)
-            // {
-            //     fighter = await Controller.ChooseFighter(this, [..fighters], "Choose which fighter to move");
-            // }
-
             var fighter = await Controller.ChooseFighter(this, [.. fighters], "Choose which fighter to move");
             var movement = fighter.Movement();
             if (isManoeuvre)
@@ -326,16 +324,6 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
             fighters.Remove(fighter);
 
             await MoveFighter(fighter, movement + boostValue, canMoveOverFriendly, canMoveOverOpposing, wasBoosted, isManoeuvre);
-
-            if (!isManoeuvre) continue;
-
-            // OnManoeuvre effects
-            var effects = Match.GetEffectCollectionThatAccepts(new(fighter), f => f.OnManoeuvreEffects);
-            // TODO order effects
-            foreach (var (source, effect) in effects)
-            {
-                effect.Execute(new(source), new(fighter));
-            }
         }
     }
 
@@ -356,9 +344,10 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
         var movement = Match.SetCurrentMovement(new(this, fighter, distance, canMoveOverFriendly, canMoveOverOpposing));
         if (isManoeuvre)
         {
-            var effects = Match.GetEffectCollectionThatAccepts(new(fighter), f => f.WhenManoeuvreEffects);
+            var whenManoeuvreEffects = Match.GetEffectCollectionThatAccepts(new(fighter), f => f.WhenManoeuvreEffects).ToList();
+            Match.Logger?.LogDebug("Executing when manoeuvre effects for fighter {FighterLogName}, expected to execute: {EffectsCount}", fighter.LogName, whenManoeuvreEffects.Count);
             // TODO order effects
-            foreach (var (source, effect) in effects)
+            foreach (var (source, effect) in whenManoeuvreEffects)
             {
                 effect.Execute(new(source), new(fighter));
             }
@@ -375,11 +364,23 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
         Match.FinishMovement();
 
         Match.Logs.Public($"Player {FormattedLogName} moves {fighter.FormattedLogName}");
+
+        if (!isManoeuvre) return;
+
+        // OnManoeuvre effects
+        var onManouevreEffects = Match.GetEffectCollectionThatAccepts(new(fighter), f => f.OnManoeuvreEffects).ToList();
+        Match.Logger?.LogDebug("Executing on manoeuvre effects for fighter {FighterLogName}, expected to execute: {EffectsCount}", fighter.LogName, onManouevreEffects.Count);
+        // TODO order effects
+        foreach (var (source, effect) in onManouevreEffects)
+        {
+            effect.Execute(new(source), new(fighter));
+        }
     }
 
     public async Task Exhaust(int times)
     {
         Match.Logs.Public($"Fighters of player {FormattedLogName} are exhausted {times} times!");
+        Match.Logger?.LogDebug("Fighters of player {PlayerLogName} are exhausted {ExhaustAmount} times", LogName, times);
 
         foreach (var fighter in GetAliveFighters())
         {
@@ -405,17 +406,9 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
         await Match.UpdateClients();
     }
 
-    public IEnumerable<Fighter> GetFightersThatCanAttack()
+    public List<AvailableAttack> GetAvailableAttacks()
     {
-        foreach (var fighter in GetAliveFighters())
-        {
-
-            yield return fighter;
-        }
-    }
-
-    public IEnumerable<AvailableAttack> GetAvailableAttacks()
-    {
+        List<AvailableAttack> result = [];
         foreach (var fighter in GetAliveFighters())
         {
             var reachable = fighter.GetReachableFighters();
@@ -427,16 +420,16 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
             {
                 foreach (var card in cards)
                 {
-                    yield return new()
+                    result.Add(new()
                     {
                         Fighter = fighter,
                         Target = target,
                         AttackCard = card
-                    };
+                    });
                 }
             }
-
         }
+        return result;
     }
 
     public async Task<List<MatchCard>> Mill(int amount)

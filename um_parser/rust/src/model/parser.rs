@@ -1,0 +1,5 @@
+
+struct ParserModel {
+    name: String,
+    
+}

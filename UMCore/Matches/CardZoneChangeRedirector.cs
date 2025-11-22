@@ -6,9 +6,11 @@ namespace UMCore.Matches;
 
 public class CardZoneChangeRedirector(Fighter fighter, LuaFunction function)
 {
+    public Fighter Fighter { get; } = fighter;
+
     public bool Redirect(CardZoneChange zoneChange)
     {
-        var args = MatchScripts.CreateArgs(fighter, fighter.Owner);
+        var args = MatchScripts.CreateArgs(Fighter, Fighter.Owner);
 
         var returned = function.Call(args, zoneChange);
 

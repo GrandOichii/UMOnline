@@ -1,3 +1,5 @@
+using Microsoft.Extensions.Logging;
+
 namespace UMCore.Matches.Players;
 
 public class TypedAttributes<T>(Player player)
@@ -12,6 +14,7 @@ public class TypedAttributes<T>(Player player)
     {
         Values.TryGetValue(key, out T? result);
         Values[key] = value;
+        player.Match.Logger?.LogDebug("Set player attribute {AttributeKey} to {AttributeValue}", key, value);
         return result;
     }   
 }

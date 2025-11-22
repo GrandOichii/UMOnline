@@ -27,7 +27,7 @@ public class Token
             {
                 var table = value as LuaTable;
                 // TODO check for null
-                WhenReturnedToBoxEffects.Add(new(table!));
+                WhenReturnedToBoxEffects.Add(new(fighter.Match, table!));
             }
         }
         catch (Exception e)
@@ -43,7 +43,7 @@ public class Token
             {
                 var t = value as LuaTable;
                 // TODO check for null
-                OnStepEffects.Add(new(t!));
+                OnStepEffects.Add(new(fighter.Match, t!));
             }
         }
         catch (Exception e)
