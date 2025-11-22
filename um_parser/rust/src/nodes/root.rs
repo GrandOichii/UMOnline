@@ -122,7 +122,6 @@ impl RootNode {
         self.delete_confirmation_dialog.set_text(format!("Delete project {}", &selected.name).as_str());
         self.delete_confirmation_dialog.show();
         godot_print!("DELETE PROJECT {}", selected.name);
-        // TODO
     }
 
     fn edit_active_project(&mut self) {

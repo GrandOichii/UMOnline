@@ -6,6 +6,7 @@ use godot::prelude::*;
 use rusqlite::Connection;
 
 use crate::model::card::CardModel;
+use crate::model::editor::EditorModel;
 use crate::model::project::ProjectModel;
 use crate::traits::*;
 
@@ -13,22 +14,22 @@ pub trait ParserRepository {
     // TODO
     // fn get_projects(&mut self) -> Vec<ProjectModel>;
     // fn insert_project(&mut self, project: &ProjectModel);
+
     fn get_project(
         &mut self,
         project_name: &String,
     ) -> Result<Option<ProjectModel>, Box<dyn Error>>;
 
-    fn delete_project(
-        &mut self,
-        project_name: &String
-    ) -> Result<(), Box<dyn Error>>;
+    fn delete_project(&mut self, project_name: &String) -> Result<(), Box<dyn Error>>;
+
+    fn get_editor(&mut self) -> Result<EditorModel, Box<dyn Error>>;
 }
 
 #[derive(GodotClass)]
 #[class(init,base=Node)]
 pub struct SQLiteParserRepository {
     #[export]
-    delete_tables_on_launch: bool,
+    drop_tables_on_launch: bool,
 
     #[export]
     file_path: GString,
@@ -56,11 +57,8 @@ impl ParserRepository for SQLiteParserRepository {
 
         Ok::<Option<ProjectModel>, Box<dyn Error>>(Some(project))
     }
-    
-    fn delete_project(
-        &mut self,
-        project_name: &String
-    ) -> Result<(), Box<dyn Error>> {
+
+    fn delete_project(&mut self, project_name: &String) -> Result<(), Box<dyn Error>> {
         let sql = ProjectModel::sql_delete()
             .where_clause(format!("name = '{}'", project_name).as_str())
             .as_string();
@@ -68,6 +66,33 @@ impl ParserRepository for SQLiteParserRepository {
         self.get_connection().execute(&sql, [])?;
 
         Ok(())
+    }
+
+    fn get_editor(&mut self) -> Result<EditorModel, Box<dyn Error>> {
+        let sql = ProjectModel::sql_select().as_string();
+        let connection = self.get_connection();
+        let mut stmt = connection.prepare(&sql)?;
+
+        let rows = stmt.query_map([], |row| {
+            Ok(EditorModel {
+                last_project_name: row.get(0)?,
+            })
+        })?;
+
+        let mut editors: Vec<EditorModel> =
+            rows.map(|p| p.expect("Failed to parse editor")).collect();
+
+        Ok(match editors.pop() {
+            Some(result) => result,
+            None => {
+                let editor = EditorModel {
+                    last_project_name: String::from(""),
+                };
+                let insert_sql = editor.sql_insert().to_string();
+                let _ = connection.execute(&insert_sql, [])?;
+                editor
+            }
+        })
     }
 }
 
@@ -83,24 +108,27 @@ impl SQLiteParserRepository {
         godot_print!("Creating tables");
 
         connection
-            .execute(ProjectModel::sql_create().as_str(), [])
+            .execute(ProjectModel::sql_create().as_string().as_str(), [])
             .expect("Failed to create project table!");
         connection
-            .execute(CardModel::sql_create().as_str(), [])
+            .execute(CardModel::sql_create().as_string().as_str(), [])
             .expect("Failed to create cards table!");
         godot_print!("Tables created");
     }
 
-    fn delete_tables(&mut self) {
+    fn drop_tables(&mut self) {
         let connection = self.get_connection();
         godot_print!("Deleting tables");
 
         connection
-            .execute(CardModel::sql_drop().as_str(), [])
+            .execute(CardModel::sql_drop().as_string().as_str(), [])
             .expect("Failed to create cards table!");
         connection
-            .execute(ProjectModel::sql_drop().as_str(), [])
+            .execute(ProjectModel::sql_drop().as_string().as_str(), [])
             .expect("Failed to create project table!");
+        connection
+            .execute(EditorModel::sql_drop().as_string().as_str(), [])
+            .expect("Failed to create editor table!");
         godot_print!("Tables deleted");
     }
 
@@ -145,7 +173,7 @@ impl SQLiteParserRepository {
     }
 
     pub fn insert_project(&mut self, project: &ProjectModel) -> Result<(), Box<dyn Error>> {
-        let sql = project.sql_insert();
+        let sql = project.sql_insert().as_string();
         godot_print!("Inserting project {:?}", project);
         let _ = self.get_connection().execute(&sql, [])?;
 
@@ -154,7 +182,7 @@ impl SQLiteParserRepository {
     }
 
     pub fn insert_card(&mut self, card: &CardModel) -> Result<(), Box<dyn Error>> {
-        let sql = card.sql_insert();
+        let sql = card.sql_insert().as_string();
         godot_print!("Inserting card {:?}", card);
         let _ = self.get_connection().execute(&sql, [])?;
 
@@ -168,8 +196,8 @@ impl INode for SQLiteParserRepository {
     fn ready(&mut self) {
         godot_print!("Hello from SQLiteParserRepository");
 
-        if self.delete_tables_on_launch {
-            self.delete_tables();
+        if self.drop_tables_on_launch {
+            self.drop_tables();
         }
         self.create_tables();
 
@@ -212,10 +240,6 @@ impl INode for SQLiteParserRepository {
         }
     }
 }
-
-// impl ParserRepository for SQLiteParserRepository {
-
-// }
 
 // let tx = conn.transaction()?;
 

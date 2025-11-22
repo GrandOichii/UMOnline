@@ -1,21 +1,21 @@
-use sql_query_builder::{Delete, Select};
+use sql_query_builder as sql;
 
 pub trait SQLCreate {
-    fn sql_create() -> String;    
+    fn sql_create() -> sql::CreateTable;    
 }
 
 pub trait SQLDrop {
-    fn sql_drop() -> String;
+    fn sql_drop() -> sql::DropTable;
 }
 
 pub trait SQLSelect {
-    fn sql_select() -> Select;
+    fn sql_select() -> sql::Select;
 }
 
 pub trait SQLInsert {
-    fn sql_insert(&self) -> String;
+    fn sql_insert(&self) -> sql::Insert;
 }
 
 pub trait SQLDelete {
-    fn sql_delete() -> Delete;
+    fn sql_delete() -> sql::Delete;
 }

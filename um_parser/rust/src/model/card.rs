@@ -1,5 +1,5 @@
-use sql_query_builder::{self as sql, Select};
-use crate::traits::{SQLCreate, SQLDrop, SQLInsert, SQLSelect};
+use sql_query_builder as sql;
+use crate::traits::*;
 
 #[derive(Debug)]
 pub struct CardModel {
@@ -9,7 +9,7 @@ pub struct CardModel {
 }
 
 impl SQLCreate for CardModel {
-    fn sql_create() -> String {
+    fn sql_create() -> sql::CreateTable {
         sql::CreateTable::new()
             .create_table_if_not_exists("cards")
             .column("name TEXT NOT NULL")
@@ -17,21 +17,19 @@ impl SQLCreate for CardModel {
             .column("project_name TEXT NOT NULL")
             .foreign_key("(project_name) REFERENCES projects(name)")
             .primary_key("name")
-            .as_string()
     }
 }
 
 
 impl SQLDrop for CardModel {
-    fn sql_drop() -> String {
+    fn sql_drop() -> sql::DropTable {
         sql::DropTable::new()
             .drop_table_if_exists("cards")
-            .as_string()
     }
 }
 
 impl SQLSelect for CardModel {
-    fn sql_select() -> Select {
+    fn sql_select() -> sql::Select {
         sql::Select::new()
             .select("*")
             .from("cards")
@@ -39,11 +37,10 @@ impl SQLSelect for CardModel {
 }
 
 impl SQLInsert for CardModel {
-    fn sql_insert(&self) -> String {
+    fn sql_insert(&self) -> sql::Insert {
         let values = format!("('{}', '{}', '{}')", self.name, self.text, self.project_name);
         sql::Insert::new()
             .insert_into("cards (name, text, project_name)")
             .values(values.as_str())
-            .as_string()
     }
 }
