@@ -7,10 +7,7 @@ use rusqlite::Connection;
 
 use crate::model::card::CardModel;
 use crate::model::project::ProjectModel;
-use crate::traits::SQLCreate;
-use crate::traits::SQLDrop;
-use crate::traits::SQLInsert;
-use crate::traits::SQLSelect;
+use crate::traits::*;
 
 pub trait ParserRepository {
     // TODO
@@ -20,6 +17,11 @@ pub trait ParserRepository {
         &mut self,
         project_name: &String,
     ) -> Result<Option<ProjectModel>, Box<dyn Error>>;
+
+    fn delete_project(
+        &mut self,
+        project_name: &String
+    ) -> Result<(), Box<dyn Error>>;
 }
 
 #[derive(GodotClass)]
@@ -53,6 +55,19 @@ impl ParserRepository for SQLiteParserRepository {
         })?;
 
         Ok::<Option<ProjectModel>, Box<dyn Error>>(Some(project))
+    }
+    
+    fn delete_project(
+        &mut self,
+        project_name: &String
+    ) -> Result<(), Box<dyn Error>> {
+        let sql = ProjectModel::sql_delete()
+            .where_clause(format!("name = '{}'", project_name).as_str())
+            .as_string();
+
+        self.get_connection().execute(&sql, [])?;
+
+        Ok(())
     }
 }
 
@@ -201,3 +216,11 @@ impl INode for SQLiteParserRepository {
 // impl ParserRepository for SQLiteParserRepository {
 
 // }
+
+// let tx = conn.transaction()?;
+
+//     tx.execute("delete from cat_colors", NO_PARAMS)?;
+//     tx.execute("insert into cat_colors (name) values (?1)", &[&"lavender"])?;
+//     tx.execute("insert into cat_colors (name) values (?1)", &[&"blue"])?;
+
+//     tx.commit()

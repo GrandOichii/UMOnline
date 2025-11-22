@@ -1,6 +1,4 @@
-use sql_query_builder::Select;
-
-
+use sql_query_builder::{Delete, Select};
 
 pub trait SQLCreate {
     fn sql_create() -> String;    
@@ -16,4 +14,8 @@ pub trait SQLSelect {
 
 pub trait SQLInsert {
     fn sql_insert(&self) -> String;
+}
+
+pub trait SQLDelete {
+    fn sql_delete() -> Delete;
 }

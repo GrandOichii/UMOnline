@@ -43,3 +43,10 @@ impl SQLInsert for ProjectModel {
             .as_string()
     }
 }
+
+impl SQLDelete for ProjectModel {
+    fn sql_delete() -> sql_query_builder::Delete {
+        sql::Delete::new()
+            .delete_from("projects")
+    }
+}

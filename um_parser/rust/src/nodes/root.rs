@@ -10,6 +10,7 @@ use crate::repo::SQLiteParserRepository;
 struct RootNode {
     base: Base<Control>,
 
+    #[export_group(name="Nodes")]
     #[export]
     repo: OnEditor<Gd<SQLiteParserRepository>>,
     #[export]
@@ -26,6 +27,8 @@ struct RootNode {
     edit_button: OnEditor<Gd<Button>>,
     #[export]
     delete_button: OnEditor<Gd<Button>>,
+    #[export]
+    delete_confirmation_dialog: OnEditor<Gd<ConfirmationDialog>>,
 }
 
 #[godot_api]
@@ -59,13 +62,36 @@ impl IControl for RootNode {
         self.delete_button
             .signals()
             .pressed()
-            .connect_other(self, RootNode::on_delete_button_pressed);
+            .connect_other(self, Self::on_delete_button_pressed);
+        self.delete_confirmation_dialog
+            .signals()
+            .confirmed()
+            .connect_other(self, Self::on_delete_confirmation_accept);
+        self.delete_confirmation_dialog
+            .signals()
+            .canceled()
+            .connect_other(self, Self::on_delete_confirmation_cancel);
 
         self.fill_project_names();
+
+        self.delete_confirmation_dialog.hide();
     }
 }
 
 impl RootNode {
+    fn on_delete_confirmation_accept(&mut self) {
+        // TODO
+        godot_print!("DELETE CONFIRM");
+        let project = self.selected_project();
+        self.repo.bind_mut().delete_project(&project.name)
+            .expect("Failed to delete project");
+
+        self.fill_project_names();
+    }
+
+    fn on_delete_confirmation_cancel(&mut self) {
+    }
+
     fn selected_project(&mut self) -> ProjectModel {
         let idx = self.project_list.get_selected_items()[0];
         let project_name: String = self.project_list.get_item_metadata(idx).to();
@@ -93,6 +119,8 @@ impl RootNode {
 
     fn on_delete_button_pressed(&mut self) {
         let selected = self.selected_project();
+        self.delete_confirmation_dialog.set_text(format!("Delete project {}", &selected.name).as_str());
+        self.delete_confirmation_dialog.show();
         godot_print!("DELETE PROJECT {}", selected.name);
         // TODO
     }

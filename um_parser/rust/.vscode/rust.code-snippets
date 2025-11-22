@@ -1,0 +1,48 @@
+{
+	"common godot imports": {
+		"prefix": "usegd",
+		"body": [
+			"use godot::classes::*;",
+			"use godot::prelude::*;",
+			"",
+			"$0",
+		]
+	},
+	"godot node": {
+		"prefix": "godotnode",
+		"body": [
+			"#[derive(GodotClass)]",
+			"#[class(init,base=$1)]",
+			"struct $2Node {",
+			"    base: Base<$1>,",
+			"",
+    		"    //#[export_group(name=\"Nodes\")]",
+			"    $0",
+			"}",
+			"",
+			"#[godot_api]",
+			"impl I$1 for $2Node {",
+			"    fn ready(&mut self) {",
+			"",
+			"    }",
+			"}"
+		]
+	},
+	"export node": {
+		"prefix": "exportnode",
+		"body": [
+			"#[export]",
+			"${2:node_name}: OnEditor<Gd<$1>>,",
+			"$0"
+		]
+	},
+	"connect signal": {
+		"prefix": "connectsignal",
+		"body": [
+			"self.${1:node_name}",
+	        "    .signals()",
+    	    "    .${2:signal_name}()",
+        	"    .connect_other(self, Self::${3:signal_connection});",
+		]
+	}
+}
