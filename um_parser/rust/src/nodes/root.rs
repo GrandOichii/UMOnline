@@ -4,6 +4,7 @@ use godot::prelude::*;
 use crate::model::project::ProjectModel;
 use crate::repo::ParserRepository;
 use crate::repo::SQLiteParserRepository;
+use crate::traits::*;
 
 #[derive(GodotClass)]
 #[class(init,base=Control)]
@@ -36,6 +37,9 @@ impl IControl for RootNode {
     fn ready(&mut self) {
         self.toggle_project_ui(false);
         self.project_info_container.set_visible(false);
+
+        // open previous project
+        self.open_last_project();
 
         // -== connect signals ==-
         // project_list.item_selected
@@ -79,6 +83,20 @@ impl IControl for RootNode {
 }
 
 impl RootNode {
+    fn open_last_project(&mut self) {
+        let mut repo = self.repo.bind_mut();
+        let editor = repo.get_editor()
+            .expect("Failed to load editor config from DB");
+
+        let project = repo.get_project(&editor.last_project_name)
+            .expect("Failed to read last opened project from DB");
+        
+        match project {
+            Some(p) => godot_print!("Opening last project: {}", &p.name),
+            None => godot_print!("Failed to find last project: {}", &editor.last_project_name),
+        };
+    }
+
     fn on_delete_confirmation_accept(&mut self) {
         // TODO
         godot_print!("DELETE CONFIRM");

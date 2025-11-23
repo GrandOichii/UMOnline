@@ -48,14 +48,16 @@ impl ParserRepository for SQLiteParserRepository {
             .as_string();
         let mut stmt = self.get_connection().prepare(&sql)?;
 
-        let project = stmt.query_one([], |row| {
+        let rows = stmt.query_map([], |row| {
             Ok(ProjectModel {
                 name: row.get(0)?,
                 description: row.get(1)?,
             })
         })?;
+        let mut projects: Vec<ProjectModel> =
+            rows.map(|p| p.expect("Failed to parse project")).collect();
 
-        Ok::<Option<ProjectModel>, Box<dyn Error>>(Some(project))
+        Ok(projects.pop())
     }
 
     fn delete_project(&mut self, project_name: &String) -> Result<(), Box<dyn Error>> {
@@ -69,7 +71,7 @@ impl ParserRepository for SQLiteParserRepository {
     }
 
     fn get_editor(&mut self) -> Result<EditorModel, Box<dyn Error>> {
-        let sql = ProjectModel::sql_select().as_string();
+        let sql = EditorModel::sql_select().as_string();
         let connection = self.get_connection();
         let mut stmt = connection.prepare(&sql)?;
 
@@ -113,6 +115,9 @@ impl SQLiteParserRepository {
         connection
             .execute(CardModel::sql_create().as_string().as_str(), [])
             .expect("Failed to create cards table!");
+        connection
+            .execute(EditorModel::sql_create().as_string().as_str(), [])
+            .expect("Failed to create editors table!");
         godot_print!("Tables created");
     }
 
@@ -122,13 +127,13 @@ impl SQLiteParserRepository {
 
         connection
             .execute(CardModel::sql_drop().as_string().as_str(), [])
-            .expect("Failed to create cards table!");
+            .expect("Failed to drop cards table!");
         connection
             .execute(ProjectModel::sql_drop().as_string().as_str(), [])
-            .expect("Failed to create project table!");
+            .expect("Failed to drop project table!");
         connection
             .execute(EditorModel::sql_drop().as_string().as_str(), [])
-            .expect("Failed to create editor table!");
+            .expect("Failed to drop editor table!");
         godot_print!("Tables deleted");
     }
 

@@ -27,7 +27,7 @@ impl SQLDrop for ProjectModel {
 impl SQLSelect for ProjectModel {
     fn sql_select() -> Select {
         sql::Select::new()
-            .select("last_project_name")
+            .select("*")
             .from("projects")
     }
 }

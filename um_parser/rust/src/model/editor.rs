@@ -19,7 +19,6 @@ impl SQLCreate for EditorModel {
             .column("id SERIAL")
             .column("last_project_name TEXT NOT NULL")
             .primary_key("id")
-            .foreign_key("last_project_name REFERENCESE project projects(name)")
     }
 }
 
@@ -29,5 +28,13 @@ impl SQLInsert for EditorModel {
         sql::Insert::new()
             .insert_into("editors (last_project_name)")
             .values(values.as_str())
+    }
+}
+
+impl SQLSelect for EditorModel {
+    fn sql_select() -> sql_query_builder::Select {
+        sql::Select::new()
+            .select("last_project_name")
+            .from("editors")
     }
 }
