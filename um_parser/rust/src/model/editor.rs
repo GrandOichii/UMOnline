@@ -1,5 +1,5 @@
-use sql_query_builder as sql;
 use crate::traits::*;
+use sql_query_builder as sql;
 
 pub struct EditorModel {
     pub last_project_name: String,
@@ -7,8 +7,7 @@ pub struct EditorModel {
 
 impl SQLDrop for EditorModel {
     fn sql_drop() -> sql::DropTable {
-        sql::DropTable::new()
-            .drop_table("editors")
+        sql::DropTable::new().drop_table("editors")
     }
 }
 

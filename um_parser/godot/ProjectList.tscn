@@ -1,0 +1,110 @@
+[gd_scene load_steps=3 format=3 uid="uid://csrs1dkcmtao6"]
+
+[ext_resource type="Theme" uid="uid://c45jkqnuck6q4" path="res://assets/themes/double.tres" id="1_1gfcw"]
+[ext_resource type="Theme" uid="uid://cq4d5h0xc2j0a" path="res://assets/themes/basic.tres" id="2_gwjtv"]
+
+[node name="ProjectList" type="ProjectListNode" node_paths=PackedStringArray("project_list", "project_info_container", "project_name_label", "project_description_label", "create_button", "edit_button", "delete_button", "delete_confirmation_dialog", "new_project_name_edit", "new_project_description_edit", "name_taken_dialog")]
+project_list = NodePath("HBoxContainer/ProjectList")
+project_info_container = NodePath("HBoxContainer/VBoxContainer2/PanelCotnainer/ProjectInfoContainer")
+project_name_label = NodePath("HBoxContainer/VBoxContainer2/PanelCotnainer/ProjectInfoContainer/ProjectNameLabel")
+project_description_label = NodePath("HBoxContainer/VBoxContainer2/PanelCotnainer/ProjectInfoContainer/ProjectDescriptionLabel")
+create_button = NodePath("HBoxContainer/VBoxContainer2/CreateButton")
+edit_button = NodePath("HBoxContainer/VBoxContainer2/EditButton")
+delete_button = NodePath("HBoxContainer/VBoxContainer2/DeleteButton")
+delete_confirmation_dialog = NodePath("DeleteProjectConfirmationDialog")
+new_project_name_edit = NodePath("HBoxContainer/VBoxContainer2/VBoxContainer/NewProjectNameEdit")
+new_project_description_edit = NodePath("HBoxContainer/VBoxContainer2/VBoxContainer/NewProjectDescriptionEdit")
+name_taken_dialog = NodePath("NameTakenDialog")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_right = 2304.0
+offset_bottom = 1296.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+
+[node name="ProjectList" type="ItemList" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 7.0
+theme = ExtResource("1_1gfcw")
+item_count = 2
+item_0/text = "Project 1"
+item_1/text = "Project 2"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer2/VBoxContainer"]
+layout_mode = 2
+text = "Create a new project"
+
+[node name="NewProjectNameEdit" type="LineEdit" parent="HBoxContainer/VBoxContainer2/VBoxContainer"]
+layout_mode = 2
+placeholder_text = "Enter project name"
+
+[node name="NewProjectDescriptionEdit" type="TextEdit" parent="HBoxContainer/VBoxContainer2/VBoxContainer"]
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 2
+placeholder_text = "Enter project 
+description"
+wrap_mode = 1
+
+[node name="CreateButton" type="Button" parent="HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Create"
+
+[node name="HSeparator" type="HSeparator" parent="HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+
+[node name="EditButton" type="Button" parent="HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Edit"
+
+[node name="DeleteButton" type="Button" parent="HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Delete"
+
+[node name="PanelCotnainer" type="PanelContainer" parent="HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ProjectInfoContainer" type="VBoxContainer" parent="HBoxContainer/VBoxContainer2/PanelCotnainer"]
+layout_mode = 2
+
+[node name="ProjectNameLabel" type="Label" parent="HBoxContainer/VBoxContainer2/PanelCotnainer/ProjectInfoContainer"]
+layout_mode = 2
+text = "PROJECT NAME HERE"
+
+[node name="ProjectDescriptionLabel" type="RichTextLabel" parent="HBoxContainer/VBoxContainer2/PanelCotnainer/ProjectInfoContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "PROJECT DESCRIPTION HERE PROJECT DESCRIPTION HERE PROJECT DESCRIPTION HERE"
+
+[node name="DeleteProjectConfirmationDialog" type="ConfirmationDialog" parent="."]
+oversampling_override = 1.0
+title = "Delete project"
+initial_position = 2
+size = Vector2i(300, 102)
+theme = ExtResource("2_gwjtv")
+
+[node name="NameTakenDialog" type="AcceptDialog" parent="."]
+oversampling_override = 1.0
+initial_position = 2
+size = Vector2i(475, 102)
+theme = ExtResource("2_gwjtv")
+dialog_text = "A project with that name already exists!"

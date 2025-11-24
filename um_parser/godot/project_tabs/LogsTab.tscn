@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://3y3fwa2divkq"]
+
+[node name="LogsTab" type="LogsTabNode" node_paths=PackedStringArray("clear_button", "logs_label")]
+clear_button = NodePath("VBoxContainer2/ClearButton")
+logs_label = NodePath("VBoxContainer2/Logs")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+
+[node name="Logs" type="RichTextLabel" parent="VBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 3
+bbcode_enabled = true
+
+[node name="ClearButton" type="Button" parent="VBoxContainer2"]
+layout_mode = 2
+text = "Clear"

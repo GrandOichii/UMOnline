@@ -513,5 +513,4 @@ layout_mode = 2
 text = "Clear"
 
 [node name="SQLiteParserRepository" type="SQLiteParserRepository" parent="."]
-delete_tables_on_launch = true
 file_path = "dev.db"

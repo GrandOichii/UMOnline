@@ -4,6 +4,7 @@ use std::error::Error;
 use godot::classes::*;
 use godot::prelude::*;
 use rusqlite::Connection;
+use rusqlite::params;
 
 use crate::model::card::CardModel;
 use crate::model::editor::EditorModel;
@@ -154,7 +155,7 @@ impl SQLiteParserRepository {
         Ok::<Vec<ProjectModel>, Box<dyn Error>>(result)
     }
 
-    pub fn get_cards_for_project(
+    pub fn get_cards_from_project(
         &mut self,
         project_name: &str,
     ) -> Result<Vec<CardModel>, Box<dyn Error>> {
@@ -194,6 +195,19 @@ impl SQLiteParserRepository {
         godot_print!("Inserted card {:?}", card);
         Ok(())
     }
+
+    pub fn update_project_description(
+        &mut self,
+        project_name: &String,
+        new_description: &String,
+    ) -> usize {
+        let sql = ProjectModel::sql_update_description(new_description)
+            .where_clause(format!("name = '{}'", &project_name).as_str())
+            .as_string();
+        self.get_connection()
+            .execute(&sql, [])
+            .expect("Failed to update project description")
+    }
 }
 
 #[godot_api]
@@ -206,6 +220,7 @@ impl INode for SQLiteParserRepository {
         }
         self.create_tables();
 
+        // * insert dummy data
         // self.insert_project(&ProjectModel {
         //     name: String::from("p1"),
         //     description: String::from("description"),
@@ -225,24 +240,25 @@ impl INode for SQLiteParserRepository {
 
         // self.insert_card(&card).expect("Failed to insert card");
 
-        let projects = self.get_projects().expect("Failed to read project models");
-        godot_print!("Found {:?} projects", projects.len());
-        for project in projects {
-            godot_print!("Found project {:?}", project);
+        // * debug print db contents
+        // let projects = self.get_projects().expect("Failed to read project models");
+        // godot_print!("Found {:?} projects", projects.len());
+        // for project in projects {
+        //     godot_print!("Found project {:?}", project);
 
-            let cards = self
-                .get_cards_for_project(&project.name)
-                .expect(format!("Failed to get cards for project {}", &project.name).as_str());
+        //     let cards = self
+        //         .get_cards_from_project(&project.name)
+        //         .expect(format!("Failed to get cards for project {}", &project.name).as_str());
 
-            godot_print!(
-                "Found {:?} cards for project {:?}",
-                cards.len(),
-                &project.name
-            );
-            for card in cards {
-                godot_print!("\tFound card {:?}", card);
-            }
-        }
+        //     godot_print!(
+        //         "Found {:?} cards for project {:?}",
+        //         cards.len(),
+        //         &project.name
+        //     );
+        //     for card in cards {
+        //         godot_print!("\tFound card {:?}", card);
+        //     }
+        // }
     }
 }
 

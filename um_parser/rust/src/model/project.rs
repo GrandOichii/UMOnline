@@ -1,5 +1,5 @@
-use sql_query_builder::{self as sql, Select};
 use crate::traits::*;
+use sql_query_builder::{self as sql, Select};
 
 #[derive(Debug)]
 pub struct ProjectModel {
@@ -19,16 +19,13 @@ impl SQLCreate for ProjectModel {
 
 impl SQLDrop for ProjectModel {
     fn sql_drop() -> sql::DropTable {
-        sql::DropTable::new()
-            .drop_table_if_exists("projects")
+        sql::DropTable::new().drop_table_if_exists("projects")
     }
 }
 
 impl SQLSelect for ProjectModel {
     fn sql_select() -> Select {
-        sql::Select::new()
-            .select("*")
-            .from("projects")
+        sql::Select::new().select("*").from("projects")
     }
 }
 
@@ -42,8 +39,15 @@ impl SQLInsert for ProjectModel {
 }
 
 impl SQLDelete for ProjectModel {
-    fn sql_delete() -> sql_query_builder::Delete {
-        sql::Delete::new()
-            .delete_from("projects")
+    fn sql_delete() -> sql::Delete {
+        sql::Delete::new().delete_from("projects")
+    }
+}
+
+impl ProjectModel {
+    pub fn sql_update_description(new_description: &String) -> sql::Update {
+        sql::Update::new()
+            .update("projects")
+            .set(format!("description = '{}'", new_description).as_str())
     }
 }

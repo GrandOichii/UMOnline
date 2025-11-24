@@ -12,3 +12,4 @@ rusqlite = { version = "0.37.0", features = ["bundled"] }
 mlua = { version = "0.11.4", features=["lua54", "vendored"]}
 regex = "1.11.3"
 sql_query_builder = { version = "2.x.x", features = ["postgresql"] }
+chrono = "0.4.42"

@@ -1,0 +1,205 @@
+[gd_scene format=3 uid="uid://ch0pnwcteh3kn"]
+
+[node name="CardsTab" type="CardsTabNode" node_paths=PackedStringArray("import_cards_button")]
+import_cards_button = NodePath("HBoxContainer/VBoxContainer/ImportCardsButton")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="CardTextFilterEdit" type="LineEdit" parent="HBoxContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Search by text"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="ParsedFilterCheck" type="CheckButton" parent="HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+button_pressed = true
+text = "Parsed"
+
+[node name="UnparsedFilterCheck" type="CheckButton" parent="HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+button_pressed = true
+text = "Unparsed"
+
+[node name="HSeparator" type="HSeparator" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="ParsedCountLabel" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "#PARSED"
+horizontal_alignment = 2
+
+[node name="Label2" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "/"
+
+[node name="UnparsedCountLabel" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "#TOTAL"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 2
+
+[node name="CardsList" type="ItemList" parent="HBoxContainer/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+item_count = 2
+item_0/text = "Card1"
+item_1/text = "Card2"
+
+[node name="ImportCardsButton" type="Button" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Import cards"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 3.0
+
+[node name="CardTabs" type="TabContainer" parent="HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 3
+current_tab = 0
+
+[node name="Card1" type="TabBar" parent="HBoxContainer/VBoxContainer2/CardTabs"]
+layout_mode = 2
+tab_close_display_policy = 2
+drag_to_rearrange_enabled = true
+metadata/_tab_index = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/VBoxContainer2/CardTabs/Card1"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/VBoxContainer2/CardTabs/Card1/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="HBoxContainer/VBoxContainer2/CardTabs/Card1/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer2/CardTabs/Card1/VBoxContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "Name: "
+
+[node name="Label2" type="Label" parent="HBoxContainer/VBoxContainer2/CardTabs/Card1/VBoxContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "CARD NAME HERE"
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="HBoxContainer/VBoxContainer2/CardTabs/Card1/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer2/CardTabs/Card1/VBoxContainer/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+text = "Type: "
+
+[node name="Label2" type="Label" parent="HBoxContainer/VBoxContainer2/CardTabs/Card1/VBoxContainer/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "CARD TYPE HERE"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer2/CardTabs/Card1/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/VBoxContainer2/CardTabs/Card1/VBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer2/CardTabs/Card1/VBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Card text"
+
+[node name="TextEdit" type="TextEdit" parent="HBoxContainer/VBoxContainer2/CardTabs/Card1/VBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "CARD TEXT HERE
+CARD TEXT HERE
+CARD TEXT HERE"
+editable = false
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer/VBoxContainer2/CardTabs/Card1/VBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer2/CardTabs/Card1/VBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+text = "Generated script"
+
+[node name="TextEdit" type="CodeEdit" parent="HBoxContainer/VBoxContainer2/CardTabs/Card1/VBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "CARD SCRIPT HERE
+CARD SCRIPT HERE
+CARD SCRIPT HERE"
+editable = false
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer/VBoxContainer2/CardTabs/Card1/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer2/CardTabs/Card1/VBoxContainer/VBoxContainer2"]
+layout_mode = 2
+text = "Parser info"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer2/CardTabs/Card1/VBoxContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/VBoxContainer2/CardTabs/Card1/VBoxContainer/VBoxContainer2/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="CheckBox" type="CheckButton" parent="HBoxContainer/VBoxContainer2/CardTabs/Card1/VBoxContainer/VBoxContainer2/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+button_pressed = true
+text = "Only successfull"
+
+[node name="Tree" type="Tree" parent="HBoxContainer/VBoxContainer2/CardTabs/Card1/VBoxContainer/VBoxContainer2/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="TextEdit" type="TextEdit" parent="HBoxContainer/VBoxContainer2/CardTabs/Card1/VBoxContainer/VBoxContainer2/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "PARSER DEBUG INFO"

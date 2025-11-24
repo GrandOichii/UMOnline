@@ -1,0 +1,99 @@
+[gd_scene load_steps=4 format=3 uid="uid://dtnrhy5nnt63w"]
+
+[ext_resource type="Theme" uid="uid://cq4d5h0xc2j0a" path="res://assets/themes/basic.tres" id="1_0m84x"]
+[ext_resource type="PackedScene" uid="uid://ch0pnwcteh3kn" path="res://project_tabs/CardsTab.tscn" id="2_2stwp"]
+[ext_resource type="PackedScene" uid="uid://3y3fwa2divkq" path="res://project_tabs/LogsTab.tscn" id="3_34bhn"]
+
+[node name="ProjectEditor" type="ProjectEditorNode" node_paths=PackedStringArray("project_name_label", "project_description_edit", "cards_tab", "logs_tab")]
+project_name_label = NodePath("VBoxContainer/TabContainer/Project/VBoxContainer/HBoxContainer/PanelContainer/ProjectNameLabel")
+project_description_edit = NodePath("VBoxContainer/TabContainer/Project/VBoxContainer/ProjectDescriptionEdit")
+cards_tab = NodePath("VBoxContainer/TabContainer/Cards/Cards")
+logs_tab = NodePath("VBoxContainer/TabContainer/Logs/Logs")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_0m84x")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TabContainer" type="TabContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+current_tab = 3
+
+[node name="Project" type="TabBar" parent="VBoxContainer/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/TabContainer/Project"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/Project/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/TabContainer/Project/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Project name: "
+
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/TabContainer/Project/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="ProjectNameLabel" type="Label" parent="VBoxContainer/TabContainer/Project/VBoxContainer/HBoxContainer/PanelContainer"]
+layout_mode = 2
+text = "PROJECT NAME HERE"
+
+[node name="Label" type="Label" parent="VBoxContainer/TabContainer/Project/VBoxContainer"]
+layout_mode = 2
+text = "Project description:"
+
+[node name="ProjectDescriptionEdit" type="TextEdit" parent="VBoxContainer/TabContainer/Project/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "PROJECT DESCRIPTION HERE"
+
+[node name="Cards" type="TabBar" parent="VBoxContainer/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="Cards" parent="VBoxContainer/TabContainer/Cards" instance=ExtResource("2_2stwp")]
+layout_mode = 1
+
+[node name="Parsers" type="TabBar" parent="VBoxContainer/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 2
+
+[node name="Logs" type="TabBar" parent="VBoxContainer/TabContainer"]
+layout_mode = 2
+metadata/_tab_index = 3
+
+[node name="Logs" parent="VBoxContainer/TabContainer/Logs" instance=ExtResource("3_34bhn")]
+layout_mode = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Parsing progress:"
+
+[node name="ParsingProgressBar" type="ProgressBar" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 600.0
+value = 80.0

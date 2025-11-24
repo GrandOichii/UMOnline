@@ -1,5 +1,5 @@
-use sql_query_builder as sql;
 use crate::traits::*;
+use sql_query_builder as sql;
 
 #[derive(Debug)]
 pub struct CardModel {
@@ -20,25 +20,24 @@ impl SQLCreate for CardModel {
     }
 }
 
-
 impl SQLDrop for CardModel {
     fn sql_drop() -> sql::DropTable {
-        sql::DropTable::new()
-            .drop_table_if_exists("cards")
+        sql::DropTable::new().drop_table_if_exists("cards")
     }
 }
 
 impl SQLSelect for CardModel {
     fn sql_select() -> sql::Select {
-        sql::Select::new()
-            .select("*")
-            .from("cards")
+        sql::Select::new().select("*").from("cards")
     }
 }
 
 impl SQLInsert for CardModel {
     fn sql_insert(&self) -> sql::Insert {
-        let values = format!("('{}', '{}', '{}')", self.name, self.text, self.project_name);
+        let values = format!(
+            "('{}', '{}', '{}')",
+            self.name, self.text, self.project_name
+        );
         sql::Insert::new()
             .insert_into("cards (name, text, project_name)")
             .values(values.as_str())

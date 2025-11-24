@@ -13,7 +13,7 @@
 		"body": [
 			"#[derive(GodotClass)]",
 			"#[class(init,base=$1)]",
-			"struct $2Node {",
+			"pub struct $2Node {",
 			"    base: Base<$1>,",
 			"",
     		"    //#[export_group(name=\"Nodes\")]",
