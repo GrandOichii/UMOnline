@@ -4,7 +4,6 @@ use godot::prelude::*;
 use crate::model::project::ProjectModel;
 use crate::repo::ParserRepository;
 use crate::repo::SQLiteParserRepository;
-use crate::traits::*;
 
 #[derive(GodotClass)]
 #[class(init,base=Control)]
@@ -30,6 +29,12 @@ struct RootNode {
     delete_button: OnEditor<Gd<Button>>,
     #[export]
     delete_confirmation_dialog: OnEditor<Gd<ConfirmationDialog>>,
+    #[export]
+    new_project_name_edit: OnEditor<Gd<LineEdit>>,
+    #[export]
+    new_project_description_edit: OnEditor<Gd<TextEdit>>,
+    #[export]
+    name_taken_dialog: OnEditor<Gd<AcceptDialog>>,
 }
 
 #[godot_api]
@@ -75,14 +80,31 @@ impl IControl for RootNode {
             .signals()
             .canceled()
             .connect_other(self, Self::on_delete_confirmation_cancel);
+        // self.create_project_window
+        //     .signals()
+        //     .submitted()
+        //     .connect_other(self, Self::on_create_project_submitted);
 
         self.fill_project_names();
 
+        // self.create_project_window.hide();
         self.delete_confirmation_dialog.hide();
     }
 }
 
 impl RootNode {
+    fn on_create_project_submitted(&mut self) {
+        // self.create_project_window.hide();
+        // let window = self.create_project_window.bind_mut();
+        // // window.hide();
+        // match &window.built_project {
+        //     None => panic!("Submitted a built project yet built_project is None"),
+        //     Some(p) => {
+        //        
+        //     }
+        // };
+    }
+
     fn open_last_project(&mut self) {
         let mut repo = self.repo.bind_mut();
         let editor = repo.get_editor()
@@ -90,7 +112,7 @@ impl RootNode {
 
         let project = repo.get_project(&editor.last_project_name)
             .expect("Failed to read last opened project from DB");
-        
+
         match project {
             Some(p) => godot_print!("Opening last project: {}", &p.name),
             None => godot_print!("Failed to find last project: {}", &editor.last_project_name),
@@ -98,8 +120,6 @@ impl RootNode {
     }
 
     fn on_delete_confirmation_accept(&mut self) {
-        // TODO
-        godot_print!("DELETE CONFIRM");
         let project = self.selected_project();
         self.repo.bind_mut().delete_project(&project.name)
             .expect("Failed to delete project");
@@ -113,7 +133,6 @@ impl RootNode {
     fn selected_project(&mut self) -> ProjectModel {
         let idx = self.project_list.get_selected_items()[0];
         let project_name: String = self.project_list.get_item_metadata(idx).to();
-        godot_print!("{project_name}");
 
         self.repo.bind_mut().get_project(&project_name)
             .expect("Failed to get projects from DB")
@@ -127,8 +146,29 @@ impl RootNode {
     }
 
     fn on_create_button_pressed(&mut self) {
-        godot_print!("CREATE PROJECT");
-        // TODO
+        let project = ProjectModel {
+            description: self.new_project_description_edit.get_text().to_string(),
+            name: self.new_project_name_edit.get_text().to_string(),
+        };
+
+        let existing = self
+            .repo
+            .bind_mut()
+            .get_project(&project.name)
+            .expect("Failed to fetch project from DB");
+
+        match existing {
+            Some(_) => {
+                self.name_taken_dialog.show();
+            }
+            None => {
+                self.repo.bind_mut().insert_project(&project)
+                    .expect("Failed to insert project to DB");
+                self.fill_project_names();
+                self.new_project_name_edit.clear();
+                self.new_project_description_edit.clear();
+            }
+        }
     }
 
     fn on_edit_button_pressed(&mut self) {
@@ -139,12 +179,10 @@ impl RootNode {
         let selected = self.selected_project();
         self.delete_confirmation_dialog.set_text(format!("Delete project {}", &selected.name).as_str());
         self.delete_confirmation_dialog.show();
-        godot_print!("DELETE PROJECT {}", selected.name);
     }
 
     fn edit_active_project(&mut self) {
         let selected = self.selected_project();
-        godot_print!("EDIT PROJECT {}", selected.name);
         // TODO
     }
 
@@ -158,8 +196,6 @@ impl RootNode {
             .to();
 
         self.toggle_project_ui(true);
-
-        godot_print!("Activated {project_name}");
 
         let project = self.repo.bind_mut().get_project(&project_name)
             .expect("Failed to get project from DB")
