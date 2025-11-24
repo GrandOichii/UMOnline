@@ -20,6 +20,11 @@ pub trait ParserRepository {
         &mut self,
         project_name: &String,
     ) -> Result<Option<ProjectModel>, Box<dyn Error>>;
+    
+    fn get_card(
+        &mut self,
+        card_name: &String,
+    ) -> Result<Option<CardModel>, Box<dyn Error>>;
 
     fn delete_project(&mut self, project_name: &String) -> Result<(), Box<dyn Error>>;
 
@@ -57,6 +62,29 @@ impl ParserRepository for SQLiteParserRepository {
         })?;
         let mut projects: Vec<ProjectModel> =
             rows.map(|p| p.expect("Failed to parse project")).collect();
+
+        Ok(projects.pop())
+    }
+
+    fn get_card(
+        &mut self,
+        card_name: &String,
+    ) -> Result<Option<CardModel>, Box<dyn Error>> {
+        // TODO duplicated code
+        let sql = CardModel::sql_select()
+            .where_clause("name = ?1")
+            .as_string();
+        let mut stmt = self.get_connection().prepare(&sql)?;
+
+        let rows = stmt.query_map(params!(card_name), |row| {
+            Ok(CardModel {
+                name: row.get(0)?,
+                text: row.get(1)?,
+                project_name: row.get(2)?,
+            })
+        })?;
+        let mut projects: Vec<CardModel> =
+            rows.map(|p| p.expect("Failed to parse card")).collect();
 
         Ok(projects.pop())
     }
@@ -188,9 +216,8 @@ impl SQLiteParserRepository {
     }
 
     pub fn insert_card(&mut self, card: &CardModel) -> Result<(), Box<dyn Error>> {
-        let sql = card.sql_insert().as_string();
         godot_print!("Inserting card {:?}", card);
-        let _ = self.get_connection().execute(&sql, [])?;
+        card.sql_insert_into(self.get_connection());
 
         godot_print!("Inserted card {:?}", card);
         Ok(())

@@ -32,14 +32,27 @@ impl SQLSelect for CardModel {
     }
 }
 
-impl SQLInsert for CardModel {
-    fn sql_insert(&self) -> sql::Insert {
-        let values = format!(
-            "('{}', '{}', '{}')",
-            self.name, self.text, self.project_name
-        );
-        sql::Insert::new()
+// impl SQLInsert for CardModel {
+//     fn sql_insert(&self) -> sql::Insert {
+//         let values = format!(
+//             "('{}', '{}', '{}')",
+//             self.name, self.text, self.project_name
+//         );
+//         sql::Insert::new()
+//             .insert_into("cards (name, text, project_name)")
+//             .values(values.as_str())
+//     }
+// }
+
+
+impl SQLInsertInto for CardModel {
+    fn sql_insert_into(&self, conn: &rusqlite::Connection) {
+        let sql = sql::Insert::new()
             .insert_into("cards (name, text, project_name)")
-            .values(values.as_str())
+            .values("(?1, ?2, ?3)")
+            .as_string();
+
+        conn.execute(&sql, (&self.name, &self.text, &self.project_name))
+            .expect("Failed to insert card ");
     }
 }

@@ -54,4 +54,8 @@ impl LogsTabNode {
     pub fn format_count(count: usize) -> String {
         format!("[color=orange]{}[/color]", count)
     }
+
+    pub fn format_card_name(card_name: &String) -> String {
+        format!("[color=green]{}[/color]", card_name)
+    }
 }

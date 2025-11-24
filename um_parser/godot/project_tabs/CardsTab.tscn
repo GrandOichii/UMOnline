@@ -1,7 +1,10 @@
 [gd_scene format=3 uid="uid://ch0pnwcteh3kn"]
 
-[node name="CardsTab" type="CardsTabNode" node_paths=PackedStringArray("import_cards_button")]
+[node name="CardsTab" type="CardsTabNode" node_paths=PackedStringArray("import_cards_button", "cards_list", "card_tabs_container", "import_cards_file_dialog")]
 import_cards_button = NodePath("HBoxContainer/VBoxContainer/ImportCardsButton")
+cards_list = NodePath("HBoxContainer/VBoxContainer/ScrollContainer/CardsList")
+card_tabs_container = NodePath("HBoxContainer/VBoxContainer2/CardTabs")
+import_cards_file_dialog = NodePath("ImportCardsFileDialog")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -20,28 +23,35 @@ grow_vertical = 2
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/VBoxContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="CardTextFilterEdit" type="LineEdit" parent="HBoxContainer/VBoxContainer/VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/VBoxContainer/PanelContainer"]
+layout_mode = 2
+
+[node name="CardTextFilterEdit" type="LineEdit" parent="HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-placeholder_text = "Search by text"
+placeholder_text = "Search by name/text"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="ParsedFilterCheck" type="CheckButton" parent="HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="ParsedFilterCheck" type="CheckButton" parent="HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 button_pressed = true
 text = "Parsed"
 
-[node name="UnparsedFilterCheck" type="CheckButton" parent="HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="UnparsedFilterCheck" type="CheckButton" parent="HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 button_pressed = true
 text = "Unparsed"
+
+[node name="Button" type="Button" parent="HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Search"
 
 [node name="HSeparator" type="HSeparator" parent="HBoxContainer/VBoxContainer"]
 layout_mode = 2
@@ -52,7 +62,7 @@ layout_mode = 2
 [node name="ParsedCountLabel" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "#PARSED"
+text = "?"
 horizontal_alignment = 2
 
 [node name="Label2" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
@@ -203,3 +213,12 @@ size_flags_vertical = 3
 layout_mode = 2
 size_flags_horizontal = 3
 text = "PARSER DEBUG INFO"
+
+[node name="ImportCardsFileDialog" type="FileDialog" parent="."]
+oversampling_override = 1.0
+title = "Open a File"
+initial_position = 2
+size = Vector2i(800, 600)
+file_mode = 0
+access = 2
+use_native_dialog = true

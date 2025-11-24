@@ -1,3 +1,4 @@
+use rusqlite::Connection;
 use sql_query_builder as sql;
 
 pub trait SQLCreate {
@@ -18,4 +19,8 @@ pub trait SQLInsert {
 
 pub trait SQLDelete {
     fn sql_delete() -> sql::Delete;
+}
+
+pub trait SQLInsertInto {
+    fn sql_insert_into(&self, conn: &Connection);
 }

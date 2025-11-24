@@ -145,9 +145,14 @@ impl ProjectListNode {
     }
 
     fn on_create_button_pressed(&mut self) {
+        let name = self.new_project_name_edit.get_text().to_string();
+        if name.len() == 0 {
+            return;
+        }
+        
         let project = ProjectModel {
             description: self.new_project_description_edit.get_text().to_string(),
-            name: self.new_project_name_edit.get_text().to_string(),
+            name: name,
         };
 
         let existing = self
