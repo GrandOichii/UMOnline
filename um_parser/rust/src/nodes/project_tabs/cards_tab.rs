@@ -19,6 +19,9 @@ pub struct CardsTabNode {
     pub logs_tab: OnceCell<Gd<LogsTabNode>>,
     loaded_project_name: String,
 
+    #[export]
+    card_tab_scene: OnEditor<Gd<PackedScene>>,
+
     #[export_group(name = "Nodes")]
     #[export]
     import_cards_button: OnEditor<Gd<Button>>,
@@ -61,6 +64,40 @@ impl CardsTabNode {
             .signals()
             .file_selected()
             .connect_other(self, Self::on_import_cards_file_dialog_file_selected);
+        self.cards_list
+            .signals()
+            .item_activated()
+            .connect_other(self, Self::on_cards_list_item_activated);
+    }
+
+    fn on_cards_list_item_activated(&mut self, idx: i64) {
+        let card_name = self.cards_list.get_item_text(idx.try_into().unwrap());
+
+        self.open_card(&card_name.to_string());
+    }
+
+    fn open_card(&mut self, card_name: &String) {
+        godot_print!("Activated card {}", &card_name);
+        // TODO iterate over all opened tabs
+        // TODO ... if any match, focus on that tab
+        let prev_child_count = self.card_tabs_container.get_child_count();
+
+        for i in 0..=(prev_child_count-1) {
+            let child = self.card_tabs_container.get_child(i)
+                .expect("Failed to get child while iterating over get_children");
+            if child.get_name().to_string() != *card_name {
+                continue
+            }
+
+            self.card_tabs_container.set_current_tab(i);
+            return;
+        }
+        // for child in self.card_tabs_container.get_children()
+        let mut node = self.card_tab_scene.instantiate_as::<CardTabNode>();
+        node.set_name(card_name);
+
+        self.card_tabs_container.add_child(&node);
+        self.card_tabs_container.set_current_tab(prev_child_count);
     }
 
     fn on_import_cards_file_dialog_file_selected(&mut self, path: GString) {
@@ -98,12 +135,22 @@ impl CardsTabNode {
         drop(repo);
 
         let mut logs = self.get_logs_tab().bind_mut();
-        logs.log(format!("Imported {} cards from {}", added_cards.len(), path.to_string()));
+        logs.log(format!(
+            "Imported {} cards from {}",
+            added_cards.len(),
+            path.to_string()
+        ));
         for card_name in added_cards {
-            logs.log(format!("Added card {}", LogsTabNode::format_card_name(&card_name)));
+            logs.log(format!(
+                "Added card {}",
+                LogsTabNode::format_card_name(&card_name)
+            ));
         }
         for card_name in skipped_cards {
-            logs.log(format!("Skipped card {}, as it already exists", LogsTabNode::format_card_name(&card_name)));
+            logs.log(format!(
+                "Skipped card {}, as it already exists",
+                LogsTabNode::format_card_name(&card_name)
+            ));
         }
         drop(logs);
 
@@ -148,4 +195,16 @@ impl CardsTabNode {
             self.cards_list.add_item(&card.name);
         }
     }
+}
+
+#[derive(GodotClass)]
+#[class(init,base=Control)]
+pub struct CardTabNode {
+    base: Base<Control>,
+    //#[export_group(name="Nodes")]
+}
+
+#[godot_api]
+impl IControl for CardTabNode {
+    fn ready(&mut self) {}
 }

@@ -1,6 +1,9 @@
-[gd_scene format=3 uid="uid://ch0pnwcteh3kn"]
+[gd_scene load_steps=2 format=3 uid="uid://ch0pnwcteh3kn"]
+
+[ext_resource type="PackedScene" uid="uid://cfm7yf8xlxwr5" path="res://project_tabs/cards/CardTab.tscn" id="1_2ooo1"]
 
 [node name="CardsTab" type="CardsTabNode" node_paths=PackedStringArray("import_cards_button", "cards_list", "card_tabs_container", "import_cards_file_dialog")]
+card_tab_scene = ExtResource("1_2ooo1")
 import_cards_button = NodePath("HBoxContainer/VBoxContainer/ImportCardsButton")
 cards_list = NodePath("HBoxContainer/VBoxContainer/ScrollContainer/CardsList")
 card_tabs_container = NodePath("HBoxContainer/VBoxContainer2/CardTabs")
