@@ -11,26 +11,6 @@ use crate::model::editor::EditorModel;
 use crate::model::project::ProjectModel;
 use crate::traits::*;
 
-pub trait ParserRepository {
-    // TODO
-    // fn get_projects(&mut self) -> Vec<ProjectModel>;
-    // fn insert_project(&mut self, project: &ProjectModel);
-
-    fn get_project(
-        &mut self,
-        project_name: &String,
-    ) -> Result<Option<ProjectModel>, Box<dyn Error>>;
-    
-    fn get_card(
-        &mut self,
-        card_name: &String,
-    ) -> Result<Option<CardModel>, Box<dyn Error>>;
-
-    fn delete_project(&mut self, project_name: &String) -> Result<(), Box<dyn Error>>;
-
-    fn get_editor(&mut self) -> Result<EditorModel, Box<dyn Error>>;
-}
-
 #[derive(GodotClass)]
 #[class(init,base=Node)]
 pub struct SQLiteParserRepository {
@@ -43,8 +23,8 @@ pub struct SQLiteParserRepository {
     connection: OnceCell<Connection>,
 }
 
-impl ParserRepository for SQLiteParserRepository {
-    fn get_project(
+impl SQLiteParserRepository {
+    pub fn get_project(
         &mut self,
         project_name: &String,
     ) -> Result<Option<ProjectModel>, Box<dyn Error>> {
@@ -66,7 +46,7 @@ impl ParserRepository for SQLiteParserRepository {
         Ok(projects.pop())
     }
 
-    fn get_card(
+    pub fn get_card(
         &mut self,
         card_name: &String,
     ) -> Result<Option<CardModel>, Box<dyn Error>> {
@@ -89,7 +69,7 @@ impl ParserRepository for SQLiteParserRepository {
         Ok(projects.pop())
     }
 
-    fn delete_project(&mut self, project_name: &String) -> Result<(), Box<dyn Error>> {
+    pub fn delete_project(&mut self, project_name: &String) -> Result<(), Box<dyn Error>> {
         let sql = ProjectModel::sql_delete()
             .where_clause(format!("name = '{}'", project_name).as_str())
             .as_string();
@@ -99,7 +79,7 @@ impl ParserRepository for SQLiteParserRepository {
         Ok(())
     }
 
-    fn get_editor(&mut self) -> Result<EditorModel, Box<dyn Error>> {
+    pub fn get_editor(&mut self) -> Result<EditorModel, Box<dyn Error>> {
         let sql = EditorModel::sql_select().as_string();
         let connection = self.get_connection();
         let mut stmt = connection.prepare(&sql)?;
@@ -125,9 +105,7 @@ impl ParserRepository for SQLiteParserRepository {
             }
         })
     }
-}
 
-impl SQLiteParserRepository {
     fn get_connection(&mut self) -> &Connection {
         self.connection.get_or_init(|| {
             Connection::open(self.file_path.to_string()).expect("Failed to connect!")

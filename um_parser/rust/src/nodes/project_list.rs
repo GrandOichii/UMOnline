@@ -2,7 +2,6 @@ use godot::classes::*;
 use godot::prelude::*;
 
 use crate::model::project::ProjectModel;
-use crate::repo::ParserRepository;
 use crate::repo::SQLiteParserRepository;
 
 #[derive(GodotClass)]
