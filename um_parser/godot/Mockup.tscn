@@ -512,5 +512,5 @@ text = "[11/21/2025 08:36] Launched parser editor
 layout_mode = 2
 text = "Clear"
 
-[node name="SQLiteParserRepository" type="SQLiteParserRepository" parent="."]
+[node name="ParserRepositoryNode" type="ParserRepositoryNode" parent="."]
 file_path = "dev.db"

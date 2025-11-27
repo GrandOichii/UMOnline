@@ -2,7 +2,7 @@ use godot::classes::*;
 use godot::prelude::*;
 
 use crate::model::project::ProjectModel;
-use crate::repo::SQLiteParserRepository;
+use crate::repo::ParserRepositoryNode;
 
 #[derive(GodotClass)]
 #[class(init,base=Control)]
@@ -10,7 +10,7 @@ pub struct ProjectListNode {
     base: Base<Control>,
 
     #[export]
-    repo: OnEditor<Gd<SQLiteParserRepository>>,
+    repo: OnEditor<Gd<ParserRepositoryNode>>,
     #[export_group(name = "Nodes")]
     #[export]
     project_list: OnEditor<Gd<ItemList>>,

@@ -25,8 +25,6 @@ struct TestNode {
     label: OnEditor<Gd<Label>>,
 }
 
-// impl ParserRepository for SQLiteParserRepository {}
-
 #[godot_api]
 impl IControl for TestNode {
     fn ready(&mut self) {

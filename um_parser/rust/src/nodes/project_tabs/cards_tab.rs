@@ -15,7 +15,7 @@ use crate::repo::*;
 pub struct CardsTabNode {
     base: Base<Control>,
 
-    pub repo: OnceCell<Gd<SQLiteParserRepository>>,
+    pub repo: OnceCell<Gd<ParserRepositoryNode>>,
     pub logs_tab: OnceCell<Gd<LogsTabNode>>,
     loaded_project_name: String,
 
@@ -161,7 +161,7 @@ impl CardsTabNode {
         self.import_cards_file_dialog.show();
     }
 
-    fn get_repo(&mut self) -> &mut Gd<SQLiteParserRepository> {
+    fn get_repo(&mut self) -> &mut Gd<ParserRepositoryNode> {
         self.repo.get_mut().expect("repo was not initialized!")
     }
 

@@ -12,7 +12,7 @@ pub struct ProjectEditorNode {
     pub edited_project_name: String,
 
     #[export]
-    pub repo: OnEditor<Gd<SQLiteParserRepository>>,
+    pub repo: OnEditor<Gd<ParserRepositoryNode>>,
     #[export_group(name = "Nodes")]
     #[export]
     project_name_label: OnEditor<Gd<Label>>,

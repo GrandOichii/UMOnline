@@ -14,7 +14,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_gxo8o")
 
-[node name="Repository" type="SQLiteParserRepository" parent="."]
+[node name="Repository" type="ParserRepositoryNode" parent="."]
 file_path = "dev.db"
 
 [node name="Windows" type="Node" parent="."]

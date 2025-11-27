@@ -13,7 +13,7 @@ use crate::traits::*;
 
 #[derive(GodotClass)]
 #[class(init,base=Node)]
-pub struct SQLiteParserRepository {
+pub struct ParserRepositoryNode {
     #[export]
     drop_tables_on_launch: bool,
 
@@ -23,7 +23,7 @@ pub struct SQLiteParserRepository {
     connection: OnceCell<Connection>,
 }
 
-impl SQLiteParserRepository {
+impl ParserRepositoryNode {
     pub fn get_project(
         &mut self,
         project_name: &String,
@@ -216,10 +216,8 @@ impl SQLiteParserRepository {
 }
 
 #[godot_api]
-impl INode for SQLiteParserRepository {
+impl INode for ParserRepositoryNode {
     fn ready(&mut self) {
-        godot_print!("Hello from SQLiteParserRepository");
-
         if self.drop_tables_on_launch {
             self.drop_tables();
         }
