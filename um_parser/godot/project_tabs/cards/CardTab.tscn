@@ -1,6 +1,8 @@
 [gd_scene format=3 uid="uid://cfm7yf8xlxwr5"]
 
-[node name="CardTab" type="CardTabNode"]
+[node name="CardTab" type="CardTabNode" node_paths=PackedStringArray("name_label", "text_display")]
+name_label = NodePath("VBoxContainer/VBoxContainer/HBoxContainer2/NameLabel")
+text_display = NodePath("VBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/TextDisplay")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -26,22 +28,10 @@ layout_mode = 2
 layout_mode = 2
 text = "Name: "
 
-[node name="Label2" type="Label" parent="VBoxContainer/VBoxContainer/HBoxContainer2"]
+[node name="NameLabel" type="Label" parent="VBoxContainer/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "CARD NAME HERE"
-
-[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer/VBoxContainer"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="VBoxContainer/VBoxContainer/HBoxContainer3"]
-layout_mode = 2
-text = "Type: "
-
-[node name="Label2" type="Label" parent="VBoxContainer/VBoxContainer/HBoxContainer3"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "CARD TYPE HERE"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/VBoxContainer"]
 layout_mode = 2
@@ -55,7 +45,7 @@ size_flags_horizontal = 3
 layout_mode = 2
 text = "Card text"
 
-[node name="TextEdit" type="TextEdit" parent="VBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+[node name="TextDisplay" type="TextEdit" parent="VBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -63,6 +53,7 @@ text = "CARD TEXT HERE
 CARD TEXT HERE
 CARD TEXT HERE"
 editable = false
+wrap_mode = 1
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
@@ -80,6 +71,7 @@ text = "CARD SCRIPT HERE
 CARD SCRIPT HERE
 CARD SCRIPT HERE"
 editable = false
+wrap_mode = 1
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
@@ -111,3 +103,4 @@ size_flags_vertical = 3
 layout_mode = 2
 size_flags_horizontal = 3
 text = "PARSER DEBUG INFO"
+wrap_mode = 1

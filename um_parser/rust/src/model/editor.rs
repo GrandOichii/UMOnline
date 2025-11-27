@@ -7,7 +7,7 @@ pub struct EditorModel {
 
 impl SQLDrop for EditorModel {
     fn sql_drop() -> sql::DropTable {
-        sql::DropTable::new().drop_table("editors")
+        sql::DropTable::new().drop_table_if_exists("editors")
     }
 }
 

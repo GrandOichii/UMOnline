@@ -1,6 +1,7 @@
 use std::cell::OnceCell;
 use std::fs;
 
+use godot::classes::tab_bar::CloseButtonDisplayPolicy;
 use godot::classes::*;
 use godot::prelude::*;
 use serde::Deserialize;
@@ -31,6 +32,8 @@ pub struct CardsTabNode {
     card_tabs_container: OnEditor<Gd<TabContainer>>,
     #[export]
     import_cards_file_dialog: OnEditor<Gd<FileDialog>>,
+    #[export]
+    unparsed_count_label: OnEditor<Gd<Label>>,
 }
 
 #[godot_api]
@@ -39,6 +42,7 @@ impl IControl for CardsTabNode {
         self.connect_signals();
 
         self.cards_list.clear();
+        self.card_tabs_container.get_tab_bar().unwrap().set_tab_close_display_policy(CloseButtonDisplayPolicy::SHOW_ALWAYS);
 
         while self.card_tabs_container.get_child_count() > 0
             && let Some(node) = self.card_tabs_container.get_child(0)
@@ -68,36 +72,52 @@ impl CardsTabNode {
             .signals()
             .item_activated()
             .connect_other(self, Self::on_cards_list_item_activated);
+        self.card_tabs_container.get_tab_bar().unwrap()
+            .signals()
+            .tab_close_pressed()
+            .connect_other(self, Self::on_card_tabs_container_close_pressed);
+    }
+
+    fn on_card_tabs_container_close_pressed(&mut self, idx: i64) {
+        let child = self.card_tabs_container.get_child(idx.try_into().unwrap())
+            .expect("Tried to close a non-existant card tab");
+        self.card_tabs_container.remove_child(&child);
     }
 
     fn on_cards_list_item_activated(&mut self, idx: i64) {
-        let card_name = self.cards_list.get_item_text(idx.try_into().unwrap());
-
-        self.open_card(&card_name.to_string());
+        let card_id: i32 = self
+            .cards_list
+            .get_item_metadata(idx.try_into().unwrap())
+            .to::<i32>();
+        self.open_card(card_id);
     }
 
-    fn open_card(&mut self, card_name: &String) {
-        godot_print!("Activated card {}", &card_name);
-        // TODO iterate over all opened tabs
-        // TODO ... if any match, focus on that tab
+    fn open_card(&mut self, card_id: i32) {
+        godot_print!("Activated card {}", card_id);
         let prev_child_count = self.card_tabs_container.get_child_count();
+
+        let card = self.get_repo().bind_mut().get_card(card_id)
+            .expect("Failed to load card").expect("Tried to open a card tab with a card that doesnt exist");
 
         for i in 0..=(prev_child_count-1) {
             let child = self.card_tabs_container.get_child(i)
                 .expect("Failed to get child while iterating over get_children");
-            if child.get_name().to_string() != *card_name {
+            if child.get_name().to_string() != card.name {
                 continue
             }
 
             self.card_tabs_container.set_current_tab(i);
             return;
         }
-        // for child in self.card_tabs_container.get_children()
+
         let mut node = self.card_tab_scene.instantiate_as::<CardTabNode>();
-        node.set_name(card_name);
+        node.set_name(&card.name);
 
         self.card_tabs_container.add_child(&node);
         self.card_tabs_container.set_current_tab(prev_child_count);
+
+
+        node.bind_mut().load_card(&card);
     }
 
     fn on_import_cards_file_dialog_file_selected(&mut self, path: GString) {
@@ -105,30 +125,26 @@ impl CardsTabNode {
         let contents =
             fs::read_to_string(path.to_string()).expect("Failed to find file with cards");
         let cards: Vec<ImportedCard> =
-            serde_json::from_str(contents.as_str()).expect("Failed to parse cards json"); // TODO better error handling here
+            serde_json::from_str(contents.as_str()).expect("Failed to parse cards json"); // TODO tell user that json is invalid
 
         let mut added_cards = Vec::<String>::new();
         let mut skipped_cards = Vec::<String>::new();
 
         let mut repo = self.get_repo().bind_mut();
         for card in cards {
-            match repo
-                .get_card(&card.name)
-                .expect("Failed to read card from DB")
-            {
-                Some(c) => {
-                    // logs.log(format!("Card {} already present, skipping it", &c.name));
-                    skipped_cards.push(c.name);
-                }
-                None => {
+            match repo.insert_card(&CardModel {
+                id: -1,
+                name: card.name.to_string(),
+                text: card.text,
+                project_name: project_name.to_string(),
+            }) {
+                Ok(()) => {
                     // logs.log(format!("Adding card {}", &card.name));
-                    added_cards.push(card.name.to_string());
-                    repo.insert_card(&CardModel {
-                        name: card.name,
-                        text: card.text,
-                        project_name: project_name.to_string(),
-                    })
-                    .expect("Failed to insert card into DB");
+                    added_cards.push(card.name);
+                }
+                Err(e) => {
+                    // logs.log(format!("Card {} already present, skipping it", &c.name));
+                    skipped_cards.push(card.name);
                 }
             }
         }
@@ -177,6 +193,8 @@ impl CardsTabNode {
     }
 
     fn reload_cards(&mut self) {
+        self.cards_list.clear();
+        
         let project_name = self.loaded_project_name.to_string();
         let repo = self.get_repo();
         let cards = repo
@@ -191,9 +209,14 @@ impl CardsTabNode {
         drop(logs);
 
         self.cards_list.clear();
-        for card in cards {
-            self.cards_list.add_item(&card.name);
+        for card in &cards {
+            let idx = self.cards_list.add_item(&card.name);
+            self.cards_list
+                .set_item_metadata(idx, &card.id.to_variant());
         }
+
+        self.unparsed_count_label
+            .set_text(cards.len().to_string().as_str());
     }
 }
 
@@ -201,10 +224,21 @@ impl CardsTabNode {
 #[class(init,base=Control)]
 pub struct CardTabNode {
     base: Base<Control>,
-    //#[export_group(name="Nodes")]
+    #[export_group(name="Nodes")]
+    #[export]
+    name_label: OnEditor<Gd<Label>>,
+    #[export]
+    text_display: OnEditor<Gd<TextEdit>>,
 }
 
 #[godot_api]
 impl IControl for CardTabNode {
     fn ready(&mut self) {}
+}
+
+impl CardTabNode {
+    fn load_card(&mut self, card: &CardModel) {
+        self.name_label.set_text(&card.name);
+        self.text_display.set_text(&card.text);
+    }
 }

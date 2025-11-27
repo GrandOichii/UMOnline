@@ -48,19 +48,20 @@ impl ParserRepositoryNode {
 
     pub fn get_card(
         &mut self,
-        card_name: &String,
+        id: i32,
     ) -> Result<Option<CardModel>, Box<dyn Error>> {
         // TODO duplicated code
         let sql = CardModel::sql_select()
-            .where_clause("name = ?1")
+            .where_clause("id = ?1")
             .as_string();
         let mut stmt = self.get_connection().prepare(&sql)?;
 
-        let rows = stmt.query_map(params!(card_name), |row| {
+        let rows = stmt.query_map(params!(id), |row| {
             Ok(CardModel {
-                name: row.get(0)?,
-                text: row.get(1)?,
-                project_name: row.get(2)?,
+                id: row.get(0)?,
+                name: row.get(1)?,
+                text: row.get(2)?,
+                project_name: row.get(3)?,
             })
         })?;
         let mut projects: Vec<CardModel> =
@@ -172,9 +173,10 @@ impl ParserRepositoryNode {
 
         let projects = stmt.query_map([], |row| {
             Ok(CardModel {
-                name: row.get(0)?,
-                text: row.get(1)?,
-                project_name: row.get(2)?,
+                id: row.get(0)?,
+                name: row.get(1)?,
+                text: row.get(2)?,
+                project_name: row.get(3)?,
             })
         })?;
 
@@ -186,18 +188,18 @@ impl ParserRepositoryNode {
 
     pub fn insert_project(&mut self, project: &ProjectModel) -> Result<(), Box<dyn Error>> {
         let sql = project.sql_insert().as_string();
-        godot_print!("Inserting project {:?}", project);
+        // godot_print!("Inserting project {:?}", project);
         let _ = self.get_connection().execute(&sql, [])?;
 
-        godot_print!("Inserted project {:?}", project);
+        // godot_print!("Inserted project {:?}", project);
         Ok(())
     }
 
     pub fn insert_card(&mut self, card: &CardModel) -> Result<(), Box<dyn Error>> {
-        godot_print!("Inserting card {:?}", card);
-        card.sql_insert_into(self.get_connection());
+        // godot_print!("Inserting card {:?}", card);
+        card.sql_insert_into(self.get_connection())?;
 
-        godot_print!("Inserted card {:?}", card);
+        // godot_print!("Inserted card {:?}", card);
         Ok(())
     }
 

@@ -1,3 +1,5 @@
+use std::error::Error;
+
 use rusqlite::Connection;
 use sql_query_builder as sql;
 
@@ -22,5 +24,5 @@ pub trait SQLDelete {
 }
 
 pub trait SQLInsertInto {
-    fn sql_insert_into(&self, conn: &Connection);
+    fn sql_insert_into(&self, conn: &Connection) -> Result<usize, Box<dyn Error>>;
 }
