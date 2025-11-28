@@ -34,6 +34,14 @@ pub struct CardsTabNode {
     import_cards_file_dialog: OnEditor<Gd<FileDialog>>,
     #[export]
     unparsed_count_label: OnEditor<Gd<Label>>,
+    #[export]
+    card_filter_edit: OnEditor<Gd<LineEdit>>,
+    #[export]
+    parsed_filter_check: OnEditor<Gd<CheckButton>>,
+    #[export]
+    unparsed_filter_check: OnEditor<Gd<CheckButton>>,
+    #[export]
+    apply_filter_button: OnEditor<Gd<Button>>,
 }
 
 #[godot_api]
@@ -58,6 +66,34 @@ struct ImportedCard {
     text: String,
 }
 
+struct CardFilter {
+    filter: String,
+    allow_parsed: bool,
+    allow_unparsed: bool,
+}
+
+impl CardFilter {
+    fn empty() -> CardFilter {
+        CardFilter {
+            allow_parsed: true,
+            allow_unparsed: true,
+            filter: String::from(""),
+        }
+    }
+
+    fn allows(&self, card: &CardModel) -> bool {
+        if card.name.to_lowercase().contains(&self.filter) {
+            return true;
+        }
+        if card.text.to_lowercase().contains(&self.filter) {
+            return true;
+        }
+        // TODO allow_parsed and allow_unparsed
+
+        return false;
+    }
+}
+
 impl CardsTabNode {
     fn connect_signals(&mut self) {
         self.import_cards_button
@@ -76,6 +112,23 @@ impl CardsTabNode {
             .signals()
             .tab_close_pressed()
             .connect_other(self, Self::on_card_tabs_container_close_pressed);
+        self.apply_filter_button
+            .signals()
+            .pressed()
+            .connect_other(self, Self::apply_filters);
+    }
+
+    fn construct_filter(&mut self) -> CardFilter {
+        CardFilter{
+            allow_parsed: self.parsed_filter_check.is_pressed(),
+            allow_unparsed: self.unparsed_filter_check.is_pressed(),
+            filter: self.card_filter_edit.get_text().to_lower().to_string(),
+        }
+    }
+
+    fn apply_filters(&mut self) {
+        let filter = self.construct_filter();
+        self.reload_cards(&filter);
     }
 
     fn on_card_tabs_container_close_pressed(&mut self, idx: i64) {
@@ -170,7 +223,7 @@ impl CardsTabNode {
         }
         drop(logs);
 
-        self.reload_cards();
+        self.reload_cards(&CardFilter::empty());
     }
 
     fn on_import_cards_button_pressed(&mut self) {
@@ -189,10 +242,10 @@ impl CardsTabNode {
 
     pub fn load_project(&mut self, project: &ProjectModel) {
         self.loaded_project_name = project.name.to_string();
-        self.reload_cards();
+        self.reload_cards(&CardFilter::empty());
     }
 
-    fn reload_cards(&mut self) {
+    fn reload_cards(&mut self, filter: &CardFilter) {
         self.cards_list.clear();
         
         let project_name = self.loaded_project_name.to_string();
@@ -210,6 +263,10 @@ impl CardsTabNode {
 
         self.cards_list.clear();
         for card in &cards {
+            if !filter.allows(card) {
+                continue;
+            }
+
             let idx = self.cards_list.add_item(&card.name);
             self.cards_list
                 .set_item_metadata(idx, &card.id.to_variant());

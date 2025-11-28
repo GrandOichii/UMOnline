@@ -2,13 +2,17 @@
 
 [ext_resource type="PackedScene" uid="uid://cfm7yf8xlxwr5" path="res://project_tabs/cards/CardTab.tscn" id="1_2ooo1"]
 
-[node name="CardsTab" type="CardsTabNode" node_paths=PackedStringArray("import_cards_button", "cards_list", "card_tabs_container", "import_cards_file_dialog", "unparsed_count_label")]
+[node name="CardsTab" type="CardsTabNode" node_paths=PackedStringArray("import_cards_button", "cards_list", "card_tabs_container", "import_cards_file_dialog", "unparsed_count_label", "card_filter_edit", "parsed_filter_check", "unparsed_filter_check", "apply_filter_button")]
 card_tab_scene = ExtResource("1_2ooo1")
 import_cards_button = NodePath("HBoxContainer/VBoxContainer/ImportCardsButton")
 cards_list = NodePath("HBoxContainer/VBoxContainer/ScrollContainer/CardsList")
 card_tabs_container = NodePath("HBoxContainer/VBoxContainer2/CardTabs")
 import_cards_file_dialog = NodePath("ImportCardsFileDialog")
 unparsed_count_label = NodePath("HBoxContainer/VBoxContainer/HBoxContainer/UnparsedCountLabel")
+card_filter_edit = NodePath("HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/CardFilterEdit")
+parsed_filter_check = NodePath("HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/HBoxContainer/ParsedFilterCheck")
+unparsed_filter_check = NodePath("HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/HBoxContainer/UnparsedFilterCheck")
+apply_filter_button = NodePath("HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/ApplyFilterButton")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -33,7 +37,7 @@ layout_mode = 2
 [node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/VBoxContainer/PanelContainer"]
 layout_mode = 2
 
-[node name="CardTextFilterEdit" type="LineEdit" parent="HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer"]
+[node name="CardFilterEdit" type="LineEdit" parent="HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "Search by name/text"
@@ -53,7 +57,7 @@ size_flags_horizontal = 3
 button_pressed = true
 text = "Unparsed"
 
-[node name="Button" type="Button" parent="HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer"]
+[node name="ApplyFilterButton" type="Button" parent="HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer"]
 layout_mode = 2
 text = "Search"
 
