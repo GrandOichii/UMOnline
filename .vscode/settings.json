@@ -98,5 +98,13 @@
         "GetHand",
         "GetZoneChangeType",
         "SetZoneChangeLocation"
+    ],
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "database": "${workspaceFolder:UMOnline}/um_parser/godot/dev.db",
+            "name": "um_parser"
+        }
     ]
 }

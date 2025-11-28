@@ -52,11 +52,7 @@ impl IControl for CardsTabNode {
         self.cards_list.clear();
         self.card_tabs_container.get_tab_bar().unwrap().set_tab_close_display_policy(CloseButtonDisplayPolicy::SHOW_ALWAYS);
 
-        while self.card_tabs_container.get_child_count() > 0
-            && let Some(node) = self.card_tabs_container.get_child(0)
-        {
-            self.card_tabs_container.remove_child(&node);
-        }
+        self.close_card_tabs();
     }
 }
 
@@ -118,6 +114,14 @@ impl CardsTabNode {
             .connect_other(self, Self::apply_filters);
     }
 
+    fn close_card_tabs(&mut self) {
+        while self.card_tabs_container.get_child_count() > 0
+            && let Some(node) = self.card_tabs_container.get_child(0)
+        {
+            self.card_tabs_container.remove_child(&node);
+        }
+    }
+
     fn construct_filter(&mut self) -> CardFilter {
         CardFilter{
             allow_parsed: self.parsed_filter_check.is_pressed(),
@@ -146,7 +150,6 @@ impl CardsTabNode {
     }
 
     fn open_card(&mut self, card_id: i32) {
-        godot_print!("Activated card {}", card_id);
         let prev_child_count = self.card_tabs_container.get_child_count();
 
         let card = self.get_repo().bind_mut().get_card(card_id)
@@ -242,6 +245,7 @@ impl CardsTabNode {
 
     pub fn load_project(&mut self, project: &ProjectModel) {
         self.loaded_project_name = project.name.to_string();
+        self.close_card_tabs();
         self.reload_cards(&CardFilter::empty());
     }
 
@@ -256,7 +260,7 @@ impl CardsTabNode {
             .expect("Failed to load cards for project");
         let mut logs = self.get_logs_tab().bind_mut();
         logs.log(format!(
-            "Loaded {} cards",
+            "Loaded {} card(s)",
             LogsTabNode::format_count(cards.len())
         ));
         drop(logs);
@@ -270,6 +274,7 @@ impl CardsTabNode {
             let idx = self.cards_list.add_item(&card.name);
             self.cards_list
                 .set_item_metadata(idx, &card.id.to_variant());
+            // TODO mark if is root
         }
 
         self.unparsed_count_label

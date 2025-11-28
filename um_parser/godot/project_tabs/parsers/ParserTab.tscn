@@ -1,0 +1,83 @@
+[gd_scene load_steps=2 format=3 uid="uid://jgb6a68s720w"]
+
+[ext_resource type="Theme" uid="uid://c45jkqnuck6q4" path="res://assets/themes/double.tres" id="1_vhp6e"]
+
+[node name="ParserTab" type="ParserTabNode" node_paths=PackedStringArray("name_label", "type_label", "pattern_label", "description_label", "script_display", "pattern_container", "graph")]
+name_label = NodePath("VBoxContainer/VBoxContainer/HBoxContainer/NameLabel")
+type_label = NodePath("VBoxContainer/VBoxContainer/HBoxContainer2/TypeLabel")
+pattern_label = NodePath("VBoxContainer/VBoxContainer/PatternContainer/PatternLabel")
+description_label = NodePath("VBoxContainer/VBoxContainer/DescriptionLabel")
+script_display = NodePath("VBoxContainer/VBoxContainer/ScriptDisplay")
+pattern_container = NodePath("VBoxContainer/VBoxContainer/PatternContainer")
+graph = NodePath("VBoxContainer/Graph")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VSplitContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Graph" type="GraphEdit" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 1.5
+scroll_offset = Vector2(0, -642)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Parser name: "
+
+[node name="NameLabel" type="Label" parent="VBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "PARSER NAME HERE"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "Parser type: "
+
+[node name="TypeLabel" type="Label" parent="VBoxContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "PARSER NAME HERE"
+
+[node name="PatternContainer" type="HBoxContainer" parent="VBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/VBoxContainer/PatternContainer"]
+layout_mode = 2
+text = "Pattern: "
+
+[node name="PatternLabel" type="Label" parent="VBoxContainer/VBoxContainer/PatternContainer"]
+layout_mode = 2
+text = "PARSER NAME HERE"
+
+[node name="DescriptionLabel" type="Label" parent="VBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "NODE DESCRIPTION HERE
+NODE DESCRIPTION HERE
+NODE DESCRIPTION HERE"
+
+[node name="ScriptDisplay" type="CodeEdit" parent="VBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("1_vhp6e")
+text = "PARSER CODE HERE
+PARSER CODE HERE
+PARSER CODE HERE"
+editable = false

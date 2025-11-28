@@ -1,28 +1,18 @@
 use std::error::Error;
 
-use rusqlite::Connection;
+use rusqlite::{Connection, Row};
 use sql_query_builder as sql;
 
-pub trait SQLCreate {
+pub trait SQLModel {
     fn sql_create() -> sql::CreateTable;    
-}
 
-pub trait SQLDrop {
     fn sql_drop() -> sql::DropTable;
-}
 
-pub trait SQLSelect {
     fn sql_select() -> sql::Select;
-}
 
-pub trait SQLInsert {
-    fn sql_insert(&self) -> sql::Insert;
-}
-
-pub trait SQLDelete {
     fn sql_delete() -> sql::Delete;
-}
 
-pub trait SQLInsertInto {
     fn sql_insert_into(&self, conn: &Connection) -> Result<usize, Box<dyn Error>>;
+
+    fn get_fn_mut(row: &Row) -> Result<Self, rusqlite::Error> where Self: Sized;
 }

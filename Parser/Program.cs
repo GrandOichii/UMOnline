@@ -6,6 +6,8 @@ using YamlDotNet.Serialization.NamingConventions;
 
 using Parser;
 using Parser.Parsers;
+using System.Text;
+
 
 ParserBase ReadXMLParser()
 {
@@ -184,6 +186,19 @@ ParserBase ReadXMLParser()
             var parserNode = child.ToParserRecursive(nameToParser);
             parser.Children.Add(parserNode);
         }
+    }
+
+    // write sql file
+    {
+        var sqlOut = new StringBuilder();
+        sqlOut.AppendLine("delete from parsers;");
+
+        foreach (var pair in parserRoots)
+        {
+            sqlOut.AppendLine(pair.Key.ToSQLInsert(nameToParser));
+        }
+
+        File.WriteAllText("out.sql", sqlOut.ToString());
     }
 
     if (!nameToParser.TryGetValue("root", out ParserBase? result))

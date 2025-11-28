@@ -3,6 +3,7 @@ use godot::prelude::*;
 
 use crate::nodes::project_tabs::cards_tab::*;
 use crate::nodes::project_tabs::logs_tab::LogsTabNode;
+use crate::nodes::project_tabs::parsers_tab::ParsersTabNode;
 use crate::repo::*;
 
 #[derive(GodotClass)]
@@ -22,6 +23,8 @@ pub struct ProjectEditorNode {
     cards_tab: OnEditor<Gd<CardsTabNode>>,
     #[export]
     logs_tab: OnEditor<Gd<LogsTabNode>>,
+    #[export]
+    parsers_tab: OnEditor<Gd<ParsersTabNode>>,
 }
 
 #[godot_api]
@@ -29,12 +32,25 @@ impl IControl for ProjectEditorNode {
     fn ready(&mut self) {
         self.connect_signals();
 
+        // cards tab
         self.cards_tab
             .bind_mut()
             .repo
             .set(self.repo.clone())
             .expect("Failed to pass down repo node");
         self.cards_tab
+            .bind_mut()
+            .logs_tab
+            .set(self.logs_tab.clone())
+            .expect("Failed to pass down logs_tab node");
+
+        // parsers tab
+        self.parsers_tab
+            .bind_mut()
+            .repo
+            .set(self.repo.clone())
+            .expect("Failed to pass down repo node");
+        self.parsers_tab
             .bind_mut()
             .logs_tab
             .set(self.logs_tab.clone())
@@ -65,6 +81,7 @@ impl ProjectEditorNode {
 
         self.logs_tab.bind_mut().load_project(&project);
         self.cards_tab.bind_mut().load_project(&project);
+        self.parsers_tab.bind_mut().load_project(&project);
     }
 
     fn on_project_description_edit_text_changed(&mut self) {

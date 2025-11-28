@@ -1,3 +1,6 @@
+use rusqlite::Params;
+use sql_query_builder as sql;
+use sql_query_builder::Select;
 use std::cell::OnceCell;
 use std::error::Error;
 
@@ -8,6 +11,7 @@ use rusqlite::params;
 
 use crate::model::card::CardModel;
 use crate::model::editor::EditorModel;
+use crate::model::parser::ParserModel;
 use crate::model::project::ProjectModel;
 use crate::traits::*;
 
@@ -24,50 +28,46 @@ pub struct ParserRepositoryNode {
 }
 
 impl ParserRepositoryNode {
+    fn query<T: SQLModel>(
+        &mut self,
+        sql: sql::Select,
+        params: impl Params,
+    ) -> Result<Vec<T>, Box<dyn Error>> {
+        let sql = sql.as_string();
+        let mut stmt = self.get_connection().prepare(&sql)?;
+
+        let rows = stmt.query_map(params, T::get_fn_mut)?;
+
+        let result = rows.map(|p| p.expect("Failed to parse row")).collect();
+
+        Ok::<Vec<T>, Box<dyn Error>>(result)
+    }
+
+    fn query_first<T: SQLModel>(
+        &mut self,
+        sql: sql::Select,
+        params: impl Params,
+    ) -> Result<Option<T>, Box<dyn Error>> {
+        let mut rows = self.query(sql.limit("1"), params)?;
+        Ok(rows.pop())
+    }
+
     pub fn get_project(
         &mut self,
         project_name: &String,
     ) -> Result<Option<ProjectModel>, Box<dyn Error>> {
-        // TODO duplicated code
-        let sql = ProjectModel::sql_select()
-            .where_clause(format!("name = '{}'", project_name).as_str())
-            .as_string();
-        let mut stmt = self.get_connection().prepare(&sql)?;
-
-        let rows = stmt.query_map([], |row| {
-            Ok(ProjectModel {
-                name: row.get(0)?,
-                description: row.get(1)?,
-            })
-        })?;
-        let mut projects: Vec<ProjectModel> =
-            rows.map(|p| p.expect("Failed to parse project")).collect();
-
-        Ok(projects.pop())
+        self.query_first::<ProjectModel>(
+            ProjectModel::sql_select().where_clause("name = $1"),
+            params!(project_name),
+        )
     }
 
-    pub fn get_card(
-        &mut self,
-        id: i32,
-    ) -> Result<Option<CardModel>, Box<dyn Error>> {
-        // TODO duplicated code
-        let sql = CardModel::sql_select()
-            .where_clause("id = ?1")
-            .as_string();
-        let mut stmt = self.get_connection().prepare(&sql)?;
+    pub fn get_card(&mut self, id: i32) -> Result<Option<CardModel>, Box<dyn Error>> {
+        self.query_first(CardModel::sql_select().where_clause("id = $1"), params!(id))
+    }
 
-        let rows = stmt.query_map(params!(id), |row| {
-            Ok(CardModel {
-                id: row.get(0)?,
-                name: row.get(1)?,
-                text: row.get(2)?,
-                project_name: row.get(3)?,
-            })
-        })?;
-        let mut projects: Vec<CardModel> =
-            rows.map(|p| p.expect("Failed to parse card")).collect();
-
-        Ok(projects.pop())
+    pub fn get_parser(&mut self, id: i32) -> Result<Option<ParserModel>, Box<dyn Error>> {
+        self.query_first(ParserModel::sql_select().where_clause("id = $1"), params!(id))
     }
 
     pub fn delete_project(&mut self, project_name: &String) -> Result<(), Box<dyn Error>> {
@@ -81,30 +81,16 @@ impl ParserRepositoryNode {
     }
 
     pub fn get_editor(&mut self) -> Result<EditorModel, Box<dyn Error>> {
-        let sql = EditorModel::sql_select().as_string();
-        let connection = self.get_connection();
-        let mut stmt = connection.prepare(&sql)?;
-
-        let rows = stmt.query_map([], |row| {
-            Ok(EditorModel {
-                last_project_name: row.get(0)?,
-            })
-        })?;
-
-        let mut editors: Vec<EditorModel> =
-            rows.map(|p| p.expect("Failed to parse editor")).collect();
-
-        Ok(match editors.pop() {
-            Some(result) => result,
+        match self.query_first(EditorModel::sql_select(), [])? {
+            Some(e) => Ok(e),
             None => {
                 let editor = EditorModel {
                     last_project_name: String::from(""),
                 };
-                let insert_sql = editor.sql_insert().to_string();
-                let _ = connection.execute(&insert_sql, [])?;
-                editor
+                editor.sql_insert_into(self.get_connection())?;
+                return Ok(editor);
             }
-        })
+        }
     }
 
     fn get_connection(&mut self) -> &Connection {
@@ -126,6 +112,9 @@ impl ParserRepositoryNode {
         connection
             .execute(EditorModel::sql_create().as_string().as_str(), [])
             .expect("Failed to create editors table!");
+        connection
+            .execute(ParserModel::sql_create().as_string().as_str(), [])
+            .expect("Failed to create parsers table!");
         godot_print!("Tables created");
     }
 
@@ -134,72 +123,49 @@ impl ParserRepositoryNode {
         godot_print!("Deleting tables");
 
         connection
+            .execute(ParserModel::sql_drop().as_string().as_str(), [])
+            .expect("Failed to drop parsers table!");
+        connection
             .execute(CardModel::sql_drop().as_string().as_str(), [])
             .expect("Failed to drop cards table!");
         connection
             .execute(ProjectModel::sql_drop().as_string().as_str(), [])
-            .expect("Failed to drop project table!");
+            .expect("Failed to drop projects table!");
         connection
             .execute(EditorModel::sql_drop().as_string().as_str(), [])
-            .expect("Failed to drop editor table!");
+            .expect("Failed to drop editors table!");
         godot_print!("Tables deleted");
     }
 
     pub fn get_projects(&mut self) -> Result<Vec<ProjectModel>, Box<dyn Error>> {
-        let sql = ProjectModel::sql_select().as_string();
-        let mut stmt = self.get_connection().prepare(&sql)?;
+        self.query::<ProjectModel>(ProjectModel::sql_select(), ())
+    }
 
-        let projects = stmt.query_map([], |row| {
-            Ok(ProjectModel {
-                name: row.get(0)?,
-                description: row.get(1)?,
-            })
-        })?;
-
-        let result = projects
-            .map(|p| p.expect("Failed to parse project"))
-            .collect();
-        Ok::<Vec<ProjectModel>, Box<dyn Error>>(result)
+    pub fn get_templates(
+        &mut self,
+        project_name: &str,
+    ) -> Result<Vec<ParserModel>, Box<dyn Error>> {
+        self.query(ParserModel::sql_select()
+            .where_clause("project_name = ?1")
+            .where_clause("is_template = ?2"), (project_name, true))
     }
 
     pub fn get_cards_from_project(
         &mut self,
         project_name: &str,
     ) -> Result<Vec<CardModel>, Box<dyn Error>> {
-        let sql = CardModel::sql_select()
-            .where_clause(format!("project_name = '{}'", project_name).as_str())
-            .as_string();
-        let mut stmt = self.get_connection().prepare(&sql)?;
-
-        let projects = stmt.query_map([], |row| {
-            Ok(CardModel {
-                id: row.get(0)?,
-                name: row.get(1)?,
-                text: row.get(2)?,
-                project_name: row.get(3)?,
-            })
-        })?;
-
-        let result = projects
-            .map(|p| p.expect("Failed to parse project"))
-            .collect();
-        Ok::<Vec<CardModel>, Box<dyn Error>>(result)
+        self.query(CardModel::sql_select().where_clause("project_name = $1"), params!(project_name))
     }
 
     pub fn insert_project(&mut self, project: &ProjectModel) -> Result<(), Box<dyn Error>> {
-        let sql = project.sql_insert().as_string();
-        // godot_print!("Inserting project {:?}", project);
-        let _ = self.get_connection().execute(&sql, [])?;
+        project.sql_insert_into(self.get_connection())?;
 
-        // godot_print!("Inserted project {:?}", project);
         Ok(())
     }
 
     pub fn insert_card(&mut self, card: &CardModel) -> Result<(), Box<dyn Error>> {
-        // godot_print!("Inserting card {:?}", card);
         card.sql_insert_into(self.get_connection())?;
 
-        // godot_print!("Inserted card {:?}", card);
         Ok(())
     }
 
@@ -214,6 +180,28 @@ impl ParserRepositoryNode {
         self.get_connection()
             .execute(&sql, [])
             .expect("Failed to update project description")
+    }
+
+    pub fn get_parser_with_children(&mut self, parser_id: i32) -> Result<Option<ParserModel>, Box<dyn Error>> {
+        let result = self.get_parser(parser_id)?;
+        match result {
+            None => Ok(None),
+            Some(mut parser) => {
+                parser.children = self.get_parser_children_rec(parser.id)?;
+                Ok(Some(parser))
+            }
+        }
+    }
+
+    fn get_parser_children_rec(&mut self, parser_id: i32) -> Result<Vec<ParserModel>, Box<dyn Error>> {
+        let children = self.query::<ParserModel>(ParserModel::sql_select().where_clause("parent_id = ?1"), params!(parser_id))?;
+        let mut result: Vec<ParserModel> = Vec::with_capacity(children.len());
+        for mut child in children {
+            // TODO check if child has is_ref flag
+            child.children = self.get_parser_children_rec(child.id)?;
+            result.push(child);
+        }
+        return Ok(result);
     }
 }
 

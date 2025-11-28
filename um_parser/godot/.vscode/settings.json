@@ -1,0 +1,11 @@
+{
+    "sqltools.useNodeRuntime": true,
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "name": "um_parser",
+            "database": "${workspaceFolder:godot}/dev.db"
+        }
+    ]
+}

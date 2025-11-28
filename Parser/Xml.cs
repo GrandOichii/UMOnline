@@ -1,15 +1,55 @@
 
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml;
 using Parser.Parsers;
 
-
 namespace Parser;
+
+static class SQL
+{
+    public readonly static string INSERT_FORMAT = """
+    INSERT INTO parsers(
+        id,
+        name,
+        ptype,
+        pattern,
+        script,
+        project_name,
+        description,
+        is_template,
+        is_root,
+        parent_id,
+        is_ref
+    ) VALUES (
+        {0},   -- id
+        '{1}', -- name
+        {2},   -- ptype
+        '{3}', -- pattern
+        '{4}', -- script
+        '{5}', -- project_name
+        '{6}', -- description
+        {7},   -- is_template
+        {8},   -- is_root
+        {9},   -- parent_id
+        {10}    -- is_ref
+    );
+    """;
+
+    private static int _lastId = 0;
+    public static int CreateId() => ++_lastId;
+}
+
 
 class XmlParserRoot
 {
     public required string Name { get; init; }
     public XmlParserNode? Node { get; set; }
+
+    public string ToSQLInsert(Dictionary<string, ParserBase> parserRoots)
+    {
+        return Node!.ToSQLInsert(parserRoots, true, Name == "root");
+    }
 }
 
 class XmlParserNodeLine
@@ -23,6 +63,95 @@ partial class XmlParserNode
     public List<XmlParserNodeLine> Lines { get; } = [];
     public List<(int, XmlParserNode)> Children { get; } = [];
     public bool IsReference { get; init; } = false;
+
+    private static string GetPattern(ParserBase parser)
+    {
+        return parser switch
+        {
+            Matcher m => m.PatternString,
+            Splitter sp => sp.PatternString,
+            Selector => "",
+            _ => throw new Exception(),
+        };
+    }
+
+    private static int GetPType(ParserBase parser)
+    {
+        return parser switch
+        {
+            Matcher => 1,
+            Splitter => 2,
+            Selector => 3,
+            _ => throw new Exception(),
+        };
+    }
+
+    public string ToSQLInsert(Dictionary<string, ParserBase> parserRoots, bool isTemplate, bool isRoot, int? parentId = null)
+    {
+        var id = SQL.CreateId();
+
+        if (IsReference)
+        {
+            return string.Format(
+                SQL.INSERT_FORMAT,
+                id,
+                parserRoots[Name].Name,
+                GetPType(parserRoots[Name]),
+                "",
+                "",
+                "test",
+                "",
+                0,
+                0,
+                parentId is null ? "NULL" : parentId,
+                1
+            );
+        }
+
+        var parser = ToParser();
+        var result = new StringBuilder();
+        result.AppendLine(string.Format(
+            SQL.INSERT_FORMAT,
+            id,
+            Name,
+            GetPType(),
+            GetPattern(parser),
+            parser.Script.Replace("'", "''"),
+            "test",
+            "",
+            isTemplate ? 1 : 0,
+            isRoot ? 1 : 0,
+            parentId is null ? "NULL" : parentId,
+            0
+        ));
+
+        foreach (var child in GetChildren())
+        {
+            result.AppendLine(child.ToSQLInsert(parserRoots, false, false, id));
+        }
+
+        return result.ToString();
+    }
+
+    public int GetPType()
+    {
+        var matcherMatch = MatcherRegex().Match(Name);
+        if (matcherMatch.Success)
+        {
+            return 1;
+        }
+        var selectorMatch = SelectorRegex().Match(Name);
+        if (selectorMatch.Success)
+        {
+            return 2;
+        }
+        var splitterMatch = SplitterRegex().Match(Name);
+        if (splitterMatch.Success)
+        {
+            return 3;
+        }
+        throw new Exception(Name);
+    }
 
     public IEnumerable<XmlParserNode> GetChildren()
     {
@@ -68,7 +197,7 @@ partial class XmlParserNode
     {
         var matcherMatch = MatcherRegex().Match(Name);
         if (matcherMatch.Success)
-        {   
+        {
             return ToMatcher(matcherMatch.Groups[1].ToString());
         }
         var selectorMatch = SelectorRegex().Match(Name);
