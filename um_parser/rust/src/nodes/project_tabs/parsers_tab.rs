@@ -171,6 +171,9 @@ pub struct ParserTabNode {
 
     pub repo: OnceCell<Gd<ParserRepositoryNode>>,
 
+    #[export]
+    parser_graph_node_scene: OnEditor<Gd<PackedScene>>,
+
     #[export_group(name = "Nodes")]
     #[export]
     name_label: OnEditor<Gd<Label>>,
@@ -217,6 +220,50 @@ impl ParserTabNode {
             .expect("Failed to read parser with children from DB")
             .unwrap();
 
+        self.remove_graph_nodes();
+        self.add_nodes_for(&parser_with_children);
+        self.graph.arrange_nodes();
+
         godot_print!("Child count: {}", parser_with_children.children.len());
+    }
+
+    fn add_nodes_for(&mut self, parent: &ParserModel) {
+        let mut node = self.parser_graph_node_scene.instantiate_as::<ParserGraphNode>();
+
+        self.graph.add_child(&node);
+        node.bind_mut().load_parser(parent);
+
+        godot_print!("LOAD CHILDREN {}", parent.children.len());
+        for child in &parent.children {
+            self.add_nodes_for(child);
+        }
+    }
+
+    fn remove_graph_nodes(&mut self) {
+        while self.graph.get_child_count() > 1
+            && let Some(node) = self.graph.get_child(1)
+        {
+            self.graph.remove_child(&node);
+        }
+    }
+}
+
+
+#[derive(GodotClass)]
+#[class(init,base=GraphNode)]
+pub struct ParserGraphNode {
+    base: Base<GraphNode>,
+}
+
+#[godot_api]
+impl IGraphNode for ParserGraphNode {
+    fn ready(&mut self) {}
+}
+
+impl ParserGraphNode {
+    fn load_parser(&mut self, parser: &ParserModel) {
+        godot_print!("LOAD {}", parser.id);
+        self.base_mut().set_title(&parser.name);
+        // TODO
     }
 }

@@ -16,7 +16,11 @@ INSERT INTO parsers(
     'm:main', -- name
     1,   -- ptype
     '^(.*)$', -- pattern
-    'function _Create(text, children, data) return string.format(''function _Create()\nreturn UM.Build:Card()\n%s\n:Build()\nend'', children[1]) end', -- script
+    'function _Create(text, children, data) return string.format(''function _Create()
+return UM.Build:Card()
+%s
+:Build()
+end'', children[1]) end', -- script
     'test', -- project_name
     '', -- description
     1,   -- is_template
@@ -104,7 +108,8 @@ INSERT INTO parsers(
     for i, child in ipairs(children) do
         if child ~= '''' then
             if i ~= 1 then
-                result = result..'',\n''
+                result = result..'',
+''
             end
             result = result..child
         end
@@ -166,7 +171,10 @@ INSERT INTO parsers(
     'm:duringCombat', -- name
     1,   -- ptype
     '^During combat: (.+?)\.?$', -- pattern
-    'function _Create(text, children, data) return string.format('':DuringCombat(\n\"%s\",\n%s\n)'', text, children[1]) end', -- script
+    'function _Create(text, children, data) return string.format('':DuringCombat(
+\"%s\",
+%s
+)'', text, children[1]) end', -- script
     'test', -- project_name
     '', -- description
     0,   -- is_template
@@ -217,7 +225,10 @@ INSERT INTO parsers(
     'm:afterCombat', -- name
     1,   -- ptype
     '^After combat: (.+?)\.?$', -- pattern
-    'function _Create(text, children, data) return string.format('':AfterCombat(\n\"%s\",\n%s\n)'', text, children[1]) end', -- script
+    'function _Create(text, children, data) return string.format('':AfterCombat(
+\"%s\",
+%s
+)'', text, children[1]) end', -- script
     'test', -- project_name
     '', -- description
     0,   -- is_template
@@ -268,7 +279,10 @@ INSERT INTO parsers(
     'm:immediately', -- name
     1,   -- ptype
     '^Immediately: (.+?)\.?$', -- pattern
-    'function _Create(text, children, data) return string.format('':Immediately(\n\"%s\",\n%s\n)'', text, children[1]) end', -- script
+    'function _Create(text, children, data) return string.format('':Immediately(
+\"%s\",
+%s
+)'', text, children[1]) end', -- script
     'test', -- project_name
     '', -- description
     0,   -- is_template
@@ -319,7 +333,10 @@ INSERT INTO parsers(
     'm:scheme', -- name
     1,   -- ptype
     '^(.+?)\.?$', -- pattern
-    'function _Create(text, children, data) return string.format('':Effect(\n\"%s\",\n%s\n)'', text, children[1]) end', -- script
+    'function _Create(text, children, data) return string.format('':Effect(
+\"%s\",
+%s
+)'', text, children[1]) end', -- script
     'test', -- project_name
     '', -- description
     0,   -- is_template
@@ -430,7 +447,8 @@ INSERT INTO parsers(
     'm:2+sentence', -- name
     1,   -- ptype
     '^(.+)\. ([^\.]+)$', -- pattern
-    'function _Create(text, children, data) return children[1]..'',\n''..children[2] end', -- script
+    'function _Create(text, children, data) return children[1]..'',
+''..children[2] end', -- script
     'test', -- project_name
     '', -- description
     0,   -- is_template
@@ -1384,7 +1402,11 @@ INSERT INTO parsers(
     'm:moveMayMoveThroughOpposing', -- name
     1,   -- ptype
     '^[M|m]ove (.+) up to (.+) spaces\. .+ through spaces containing opposing fighters$', -- pattern
-    'function _Create(text, children, data) return string.format(''UM.Effects:MoveFighters(\n%s,\nUM.Number:UpTo(%s),\ntrue\n)'', children[1], children[2]) end', -- script
+    'function _Create(text, children, data) return string.format(''UM.Effects:MoveFighters(
+%s,
+UM.Number:UpTo(%s),
+true
+)'', children[1], children[2]) end', -- script
     'test', -- project_name
     '', -- description
     0,   -- is_template
@@ -1527,7 +1549,11 @@ INSERT INTO parsers(
     'm:draw', -- name
     1,   -- ptype
     '^(.+? )?(may )?[D|d]raws? (.+) cards?$', -- pattern
-    'function _Create(text, children, data) return string.format(''UM.Effects:Draw(\n%s, \n%s, \n%s\n)'', children[1], children[3], children[2]) end', -- script
+    'function _Create(text, children, data) return string.format(''UM.Effects:Draw(
+%s, 
+%s, 
+%s
+)'', children[1], children[3], children[2]) end', -- script
     'test', -- project_name
     '', -- description
     0,   -- is_template
@@ -1687,7 +1713,11 @@ INSERT INTO parsers(
     'm:discard', -- name
     1,   -- ptype
     '^(.+? )?[D|d]iscards? (.+?)( random)? cards?$', -- pattern
-    'function _Create(text, children, data) return string.format(''UM.Effects:Discard(\n%s, \n%s, \n%s\n)'', children[1], children[2], children[3]) end', -- script
+    'function _Create(text, children, data) return string.format(''UM.Effects:Discard(
+%s, 
+%s, 
+%s
+)'', children[1], children[2], children[3]) end', -- script
     'test', -- project_name
     '', -- description
     0,   -- is_template
@@ -1848,7 +1878,9 @@ INSERT INTO parsers(
     'm:multiplePlayers', -- name
     1,   -- ptype
     '^(.*)$', -- pattern
-    'function _Create(text, children, data) return string.format(''UM.Select:Players()\n%s\n:Build()'', children[1]) end', -- script
+    'function _Create(text, children, data) return string.format(''UM.Select:Players()
+%s
+:Build()'', children[1]) end', -- script
     'test', -- project_name
     '', -- description
     1,   -- is_template
@@ -2317,7 +2349,11 @@ INSERT INTO parsers(
     'm:move', -- name
     1,   -- ptype
     '^[M|m]oves? (.+) up to (.+) spaces$', -- pattern
-    'function _Create(text, children, data) return string.format(''UM.Effects:MoveFighters(\n%s,\nUM.Number:UpTo(%s),\nfalse\n)'', children[1], children[2]) end', -- script
+    'function _Create(text, children, data) return string.format(''UM.Effects:MoveFighters(
+%s,
+UM.Number:UpTo(%s),
+false
+)'', children[1], children[2]) end', -- script
     'test', -- project_name
     '', -- description
     0,   -- is_template
@@ -2395,7 +2431,9 @@ INSERT INTO parsers(
     'm:multipleFighters', -- name
     1,   -- ptype
     '^(.+)$', -- pattern
-    'function _Create(text, children, data) return string.format(''UM.Select:Fighters()\n%s\n:Build()'', children[1]) end', -- script
+    'function _Create(text, children, data) return string.format(''UM.Select:Fighters()
+%s
+:Build()'', children[1]) end', -- script
     'test', -- project_name
     '', -- description
     1,   -- is_template
@@ -2554,7 +2592,9 @@ INSERT INTO parsers(
     'm:multipleFightersYourOtherFighter', -- name
     1,   -- ptype
     '^[Y|y]our other fighter$', -- pattern
-    'function _Create(text, children, data) return '':OtherThanSource()\n:Your()\n:Single()'' end', -- script
+    'function _Create(text, children, data) return '':OtherThanSource()
+:Your()
+:Single()'' end', -- script
     'test', -- project_name
     '', -- description
     0,   -- is_template
@@ -2632,7 +2672,8 @@ INSERT INTO parsers(
     'm:anySingleFighter', -- name
     1,   -- ptype
     '^(?:any 1|1|an|a) (.+)$', -- pattern
-    'function _Create(text, children, data) return children[1]..''\n:Single()'' end', -- script
+    'function _Create(text, children, data) return children[1]..''
+:Single()'' end', -- script
     'test', -- project_name
     '', -- description
     0,   -- is_template
@@ -2935,7 +2976,10 @@ INSERT INTO parsers(
     'm:recover', -- name
     1,   -- ptype
     '^(.+)[R|r]ecovers? (.+) health$', -- pattern
-    'function _Create(text, children, data) return string.format(''UM.Effects:Recover(\n%s,\n%s\n)'', children[1], children[2]) end', -- script
+    'function _Create(text, children, data) return string.format(''UM.Effects:Recover(
+%s,
+%s
+)'', children[1], children[2]) end', -- script
     'test', -- project_name
     '', -- description
     0,   -- is_template
@@ -3096,7 +3140,10 @@ INSERT INTO parsers(
     'm:dealDamage', -- name
     1,   -- ptype
     '^[D|d]eal (.+) damage to (.+)$', -- pattern
-    'function _Create(text, children, data) return string.format(''UM.Effects:DealDamage(\n%s,\nUM.Number:Static(%s)\n)'', children[2], children[1]) end', -- script
+    'function _Create(text, children, data) return string.format(''UM.Effects:DealDamage(
+%s,
+UM.Number:Static(%s)
+)'', children[2], children[1]) end', -- script
     'test', -- project_name
     '', -- description
     0,   -- is_template
@@ -3367,7 +3414,8 @@ INSERT INTO parsers(
     'm:eachNamedFighter', -- name
     1,   -- ptype
     '^(of your )?(.+)$', -- pattern
-    'function _Create(text, children, data) return string.format(''%s\n:Named(\''%s\'')'', children[1], children[2]) end', -- script
+    'function _Create(text, children, data) return string.format(''%s
+:Named(\''%s\'')'', children[1], children[2]) end', -- script
     'test', -- project_name
     '', -- description
     0,   -- is_template

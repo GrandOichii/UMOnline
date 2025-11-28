@@ -29,7 +29,7 @@ impl ParserNode<'_> {
 impl Parser for Matcher {
     fn parse<'a>(&'a self, text: &str, node: &'a ParserNode<'a>, lua: &Lua) -> ParseResult<'a> {
         let m = self.pattern.captures(text);
-        let mut didnt_match = -1;
+        let mut didnt_match = 0;
         if m.is_none() {
             return ParseResult {
                 status: ParseResultStatus::DidntMatch,
@@ -76,12 +76,13 @@ impl Parser for Matcher {
                 result.status = ParseResultStatus::ChildFailed;
             }
             if child_result.status == ParseResultStatus::DidntMatch {
-                didnt_match = match didnt_match {
-                    -1 => 1,
-                    x => x + 1,
-                };
+                didnt_match += 1;
             }
             result.children.push(child_result);
+        }
+        // TODO use didnt_match
+        if didnt_match == node.children.len() {
+            result.status = ParseResultStatus::DidntMatch;
         }
         return result;
     }
