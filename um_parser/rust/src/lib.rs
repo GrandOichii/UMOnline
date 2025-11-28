@@ -32,7 +32,7 @@ impl IControl for TestNode {
     }
 }
 
-fn _foo() {
+pub fn foo() {
     let static_amount = ParserNode::matcher(
         String::from("static_amount"),
         Regex::new("[0-9]").unwrap(),
@@ -59,9 +59,12 @@ fn _foo() {
         // "draw up to 4 cards"
     ];
 
-    for text in texts {
-        root.parse(text);
-    }
+    // for text in texts {
+    //     let result = root.parse(text);
+    //     let _script = result.create_script()
+    //         .expect("Failed to create script");
+
+    // }
 }
 
 // pub fn add(left: u64, right: u64) -> u64 {

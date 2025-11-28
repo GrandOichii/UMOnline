@@ -192,7 +192,7 @@ impl ProjectListNode {
         self.signals().edit_project_request().emit(&selected.name);
     }
 
-    fn on_project_list_item_activated(&mut self, idx: i64) {
+    fn on_project_list_item_activated(&mut self, _idx: i64) {
         self.edit_active_project();
     }
 

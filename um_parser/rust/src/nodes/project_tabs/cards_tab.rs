@@ -195,7 +195,7 @@ impl CardsTabNode {
                     // logs.log(format!("Adding card {}", &card.name));
                     added_cards.push(card.name);
                 }
-                Err(e) => {
+                Err(_e) => {
                     // logs.log(format!("Card {} already present, skipping it", &c.name));
                     skipped_cards.push(card.name);
                 }

@@ -1,3 +1,4 @@
+use mlua::Lua;
 use regex::Regex;
 
 use crate::parsers::parser::*;
@@ -47,7 +48,7 @@ impl ParserNode<'_> {
 }
 
 impl Parser for Splitter {
-    fn parse<'a>(&'a self, text: &str, node: &ParserNode<'a>) -> ParseResult<'a> {
+    fn parse<'a>(&'a self, text: &str, node: &'a ParserNode<'a>, lua: &Lua) -> ParseResult<'a> {
         println!("Splitting {text}");
         let split = self.pattern.split(text);
         let mut status = ParseResultStatus::Success;
@@ -61,7 +62,7 @@ impl Parser for Splitter {
             if part.is_empty() {
                 continue;
             }
-            let part_result = child.parse(part);
+            let part_result = child.parse(part, lua);
             let s = part_result.status;
             children.push(part_result);
             if s == ParseResultStatus::Success {
@@ -80,8 +81,13 @@ impl Parser for Splitter {
         return ParseResult {
             status: status,
             text: text.to_string(),
-            parent: self,
+            parent: node,
             children: children,
+            parse_data: lua.create_table().expect("Failed to create arg table for splitter"),
         };
+    }
+    
+    fn get_script(&self) -> String {
+        return self.script.to_string()
     }
 }
