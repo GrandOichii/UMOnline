@@ -10,6 +10,7 @@ const SELECTOR_SCRIPT: &'static str = "function _Create(text, children)
             return child
         end
     end
+    error(\"Shouldn't reach this point\")
 end";
 
 impl ParserNode<'_> {
@@ -24,7 +25,6 @@ impl ParserNode<'_> {
 
 impl Parser for Selector {
     fn parse<'a>(&'a self, text: &str, node: &'a ParserNode<'a>, lua: &Lua) -> ParseResult<'a> {
-        println!("Selecting {}", text);
         let mut children: Vec<ParseResult> = Vec::new();
         let mut closest_to_match_idx: Option<usize> = None;
         let mut all_didnt_match = true;
@@ -65,11 +65,70 @@ impl Parser for Selector {
             parent: node,
             status: status,
             text: text.to_string(),
-            parse_data: lua.create_table().expect("Failed to create arg table for selector")
+            parse_data: lua
+                .create_table()
+                .expect("Failed to create arg table for selector"),
         };
     }
 
     fn get_script(&self) -> String {
         SELECTOR_SCRIPT.to_string()
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use regex::Regex;
+
+    use super::*;
+
+    #[test]
+    fn selector_test_success() {
+        let m1 = ParserNode::matcher(
+            String::from("m1"),
+            Regex::new("m1").unwrap(),
+            String::from("function _Create(text, children, data) return 'matcher1' end"),
+            vec![],
+        );
+        let m2 = ParserNode::matcher(
+            String::from("m2"),
+            Regex::new("m2").unwrap(),
+            String::from("function _Create(text, children, data) return 'matcher2' end"),
+            vec![],
+        );
+        let root = ParserNode::selector(String::from("selector1"), vec![&m1, &m2]);
+
+        let text = "m1";
+
+        let lua = Lua::new();
+        let parse_result = root.parse(text, &lua);
+        assert_eq!(parse_result.status, ParseResultStatus::Success);
+        let script = parse_result
+            .create_script(&lua)
+            .expect("Failed to generate script");
+        assert_eq!(script, "matcher1");
+    }
+
+    #[test]
+    fn selector_test_didnt_match() {
+        let m1 = ParserNode::matcher(
+            String::from("m1"),
+            Regex::new("m1").unwrap(),
+            String::from("function _Create(text, children, data) return 'matcher1' end"),
+            vec![],
+        );
+        let m2 = ParserNode::matcher(
+            String::from("m2"),
+            Regex::new("m2").unwrap(),
+            String::from("function _Create(text, children, data) return 'matcher2' end"),
+            vec![],
+        );
+        let root = ParserNode::selector(String::from("selector1"), vec![&m1, &m2]);
+
+        let text = "m3";
+
+        let lua = Lua::new();
+        let parse_result = root.parse(text, &lua);
+        assert_eq!(parse_result.status, ParseResultStatus::DidntMatch);
     }
 }

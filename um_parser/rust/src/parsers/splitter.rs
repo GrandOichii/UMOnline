@@ -24,7 +24,11 @@ pub struct Splitter {
 }
 
 impl ParserNode<'_> {
-    pub fn splitter<'a>(name: String, pattern: Regex, children: Vec<&'a ParserNode>) -> ParserNode<'a> {
+    pub fn splitter<'a>(
+        name: String,
+        pattern: Regex,
+        children: Vec<&'a ParserNode>,
+    ) -> ParserNode<'a> {
         ParserNode {
             name: name,
             parser: Box::new(Splitter {
@@ -32,10 +36,15 @@ impl ParserNode<'_> {
                 pattern: pattern,
             }),
             children: children,
-        }   
+        }
     }
 
-    pub fn new_with_script<'a>(name: String, pattern: Regex, script: String, children: Vec<&'a ParserNode>) -> ParserNode<'a> {
+    pub fn new_with_script<'a>(
+        name: String,
+        pattern: Regex,
+        script: String,
+        children: Vec<&'a ParserNode>,
+    ) -> ParserNode<'a> {
         ParserNode {
             name: name,
             parser: Box::new(Splitter {
@@ -43,13 +52,12 @@ impl ParserNode<'_> {
                 pattern: pattern,
             }),
             children: children,
-        }   
+        }
     }
 }
 
 impl Parser for Splitter {
     fn parse<'a>(&'a self, text: &str, node: &'a ParserNode<'a>, lua: &Lua) -> ParseResult<'a> {
-        println!("Splitting {text}");
         let split = self.pattern.split(text);
         let mut status = ParseResultStatus::Success;
         let mut children: Vec<ParseResult> = Vec::new();
@@ -83,11 +91,70 @@ impl Parser for Splitter {
             text: text.to_string(),
             parent: node,
             children: children,
-            parse_data: lua.create_table().expect("Failed to create arg table for splitter"),
+            parse_data: lua
+                .create_table()
+                .expect("Failed to create arg table for splitter"),
         };
     }
-    
+
     fn get_script(&self) -> String {
-        return self.script.to_string()
+        return self.script.to_string();
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use regex::Regex;
+
+    use super::*;
+
+    #[test]
+    fn selector_test_multiple() {
+        let m1 = ParserNode::matcher(
+            String::from("m1"),
+            Regex::new("m1").unwrap(),
+            String::from("function _Create(text, children, data) return 'MATCH' end"),
+            vec![],
+        );
+        let root = ParserNode::splitter(
+            String::from("selector1"),
+            Regex::new(" ").unwrap(),
+            vec![&m1],
+        );
+
+        let text = "m1 m1 m1";
+
+        let lua = Lua::new();
+        let parse_result = root.parse(text, &lua);
+        assert_eq!(parse_result.status, ParseResultStatus::Success);
+        let script = parse_result
+            .create_script(&lua)
+            .expect("Failed to generate script");
+        assert_eq!(script, "MATCH,\nMATCH,\nMATCH");
+    }
+
+    #[test]
+    fn selector_test_single() {
+        let m1 = ParserNode::matcher(
+            String::from("m1"),
+            Regex::new("m1").unwrap(),
+            String::from("function _Create(text, children, data) return 'MATCH' end"),
+            vec![],
+        );
+        let root = ParserNode::splitter(
+            String::from("selector1"),
+            Regex::new(" ").unwrap(),
+            vec![&m1],
+        );
+
+        let text = "m1";
+
+        let lua = Lua::new();
+        let parse_result = root.parse(text, &lua);
+        assert_eq!(parse_result.status, ParseResultStatus::Success);
+        let script = parse_result
+            .create_script(&lua)
+            .expect("Failed to generate script");
+        assert_eq!(script, "MATCH");
     }
 }

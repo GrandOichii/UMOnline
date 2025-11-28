@@ -774,7 +774,7 @@ var FIGHTER_NAMES = new string[] {
 //     Children = [
 //         effectSelector,
 //         conditionalSelector,
-//         effectSelector,
+//         effect1,
 //     ]
 // };
 
