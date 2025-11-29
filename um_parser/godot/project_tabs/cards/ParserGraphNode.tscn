@@ -1,19 +1,10 @@
 [gd_scene format=3 uid="uid://dq04bjl8d47r8"]
 
 [node name="ParserGraphNode" type="ParserGraphNode"]
+template_color = Color(0, 1, 1, 1)
+local_color = Color(1, 1, 1, 1)
+ref_color = Color(0, 1, 0, 1)
 custom_minimum_size = Vector2(200, 200)
 offset_right = 150.0
 offset_bottom = 55.0
 title = "NODE NAME HERE"
-slot/0/left_enabled = false
-slot/0/left_type = 0
-slot/0/left_color = Color(1, 1, 1, 1)
-slot/0/left_icon = null
-slot/0/right_enabled = false
-slot/0/right_type = 0
-slot/0/right_color = Color(1, 1, 1, 1)
-slot/0/right_icon = null
-slot/0/draw_stylebox = true
-
-[node name="Label" type="Label" parent="."]
-layout_mode = 2

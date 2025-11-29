@@ -3,10 +3,9 @@ use std::cell::OnceCell;
 use godot::classes::tab_bar::CloseButtonDisplayPolicy;
 use godot::classes::*;
 use godot::prelude::*;
+use regex::Regex;
 
-use crate::model::parser::ParserModel;
-use crate::model::parser::pmt_has_pattern;
-use crate::model::parser::pmt_to_string;
+use crate::model::parser::*;
 use crate::model::project::ProjectModel;
 use crate::nodes::project_tabs::logs_tab::LogsTabNode;
 use crate::repo::ParserRepositoryNode;
@@ -216,27 +215,46 @@ impl ParserTabNode {
     }
 
     fn load_nodes(&mut self, parser: &ParserModel) {
-        let parser_with_children = self.get_repo().bind_mut().get_parser_with_children(parser.id)
+        let parser_with_children = self
+            .get_repo()
+            .bind_mut()
+            .get_parser_with_children(parser.id)
             .expect("Failed to read parser with children from DB")
             .unwrap();
 
         self.remove_graph_nodes();
         self.add_nodes_for(&parser_with_children);
-        self.graph.arrange_nodes();
+        let mut timer = Timer::new_alloc();
+        self.base_mut().add_child(&timer);
+        timer.set_wait_time(0.1);
+        timer.set_one_shot(true);
+        timer.connect("timeout", &self.graph.callable("arrange_nodes"));
+        timer.start();
 
-        godot_print!("Child count: {}", parser_with_children.children.len());
+        self.graph.call_deferred("arrange_nodes", &[]);
     }
 
-    fn add_nodes_for(&mut self, parent: &ParserModel) {
-        let mut node = self.parser_graph_node_scene.instantiate_as::<ParserGraphNode>();
+    fn add_nodes_for(&mut self, parent: &ParserModel) -> Gd<ParserGraphNode> {
+        let mut result = self
+            .parser_graph_node_scene
+            .instantiate_as::<ParserGraphNode>();
+        self.graph.add_child(&result);
+        result
+            .bind_mut()
+            .graph
+            .set(self.graph.clone())
+            .expect("Failed to pass down graph node");
 
-        self.graph.add_child(&node);
-        node.bind_mut().load_parser(parent);
+        result.bind_mut().load_parser(parent);
 
-        godot_print!("LOAD CHILDREN {}", parent.children.len());
+        let mut children = Vec::<Gd<ParserGraphNode>>::with_capacity(parent.children.len());
+
         for child in &parent.children {
-            self.add_nodes_for(child);
+            children.push(self.add_nodes_for(child));
         }
+        result.bind_mut().connect_children(parent, children);
+
+        return result;
     }
 
     fn remove_graph_nodes(&mut self) {
@@ -248,11 +266,19 @@ impl ParserTabNode {
     }
 }
 
-
 #[derive(GodotClass)]
 #[class(init,base=GraphNode)]
 pub struct ParserGraphNode {
     base: Base<GraphNode>,
+
+    pub graph: OnceCell<Gd<GraphEdit>>,
+
+    #[export]
+    template_color: Color,
+    #[export]
+    local_color: Color,
+    #[export]
+    ref_color: Color,
 }
 
 #[godot_api]
@@ -262,8 +288,113 @@ impl IGraphNode for ParserGraphNode {
 
 impl ParserGraphNode {
     fn load_parser(&mut self, parser: &ParserModel) {
-        godot_print!("LOAD {}", parser.id);
         self.base_mut().set_title(&parser.name);
+
+        // set color
+        self.set_color(parser);
+        self.add_connection_slots(parser);
+    }
+
+    fn set_self_color(&mut self, color: Color) {
+        self.base_mut().set_self_modulate(color);
+    }
+
+    fn set_color(&mut self, parser: &ParserModel) {
+        if parser.is_ref {
+            self.set_self_color(self.ref_color);
+            return;
+        }
+        if parser.is_template {
+            self.set_self_color(self.template_color);
+            return;
+        }
+        self.set_self_color(self.local_color);
+    }
+
+    fn add_connection_slots(&mut self, parser: &ParserModel) {
+        self.add_in_connection_slot(parser);
+
+        if parser.is_ref {
+            return;
+        }
+
+        match parser.ptype {
+            PMT_MATCHER => self.add_matcher_connection_slots(parser),
+            PMT_SELECTOR => self.add_selector_connection_slots(parser),
+            PMT_SPLITTER => self.add_splitter_connection_slots(parser),
+            other => panic!("Unrecognized parser model type: {}", other),
+        }
+    }
+
+    fn add_in_connection_slot(&mut self, parser: &ParserModel) {
+        let node = Label::new_alloc();
+        self.base_mut().add_child(&node);
+
+        if parser.is_template {
+            return;
+        }
+
+        self.base_mut().set_slot_enabled_left(0, true);
+    }
+
+    fn add_matcher_connection_slots(&mut self, parser: &ParserModel) {
         // TODO
+        let re = Regex::new(&parser.pattern).expect("Faield to parse regex");
+        let capture_count = re.capture_locations().len();
+        if capture_count == 0 {
+            return;
+        }
+        for i in 0..capture_count - 1 {
+            if i != 0 {
+                let node = Label::new_alloc();
+                self.base_mut().add_child(&node);
+            }
+            self.base_mut()
+                .set_slot_enabled_right(i.try_into().unwrap(), true);
+        }
+
+        self.set_pattern(&parser.pattern);
+    }
+
+    fn set_pattern(&mut self, pattern: &String) {
+        let mut label: Gd<Label> = self.base().get_child(0).expect("msg").try_cast().unwrap();
+
+        label.set_text(pattern);
+    }
+
+    fn add_selector_connection_slots(&mut self, parser: &ParserModel) {
+        self.base_mut().set_slot_enabled_right(0, true);
+    }
+
+    fn add_splitter_connection_slots(&mut self, parser: &ParserModel) {
+        self.base_mut().set_slot_enabled_right(0, true);
+        self.set_pattern(&parser.pattern);
+    }
+
+    fn get_graph(&mut self) -> &mut Gd<GraphEdit> {
+        self.graph.get_mut().expect("graph was not initialized!")
+    }
+
+    fn connect_children(&mut self, parser: &ParserModel, child_nodes: Vec<Gd<ParserGraphNode>>) {
+        let mut slot_idx = 0;
+        let mut_slot_idx: fn(i32) -> i32 = match parser.ptype {
+            PMT_MATCHER => |idx| idx + 1,
+            PMT_SELECTOR => |idx| idx,
+            PMT_SPLITTER => |idx| idx,
+            // PMT_SPLITTER => |_| panic!("Tried to connect multiple children to splitter"),
+            other => panic!("Unrecognized parser model type: {}", other),
+        };
+        let self_name = &self.base().get_name();
+
+        godot_print!("CONNECTING");
+        for i in 0..child_nodes.len() {
+            // TODO connect
+            godot_print!("CONNECT {} WITH SLOT_IDX {}", &parser.name, slot_idx);
+            self.get_graph()
+                .connect_node_ex(self_name, slot_idx, &child_nodes[i].get_name(), 0)
+                .keep_alive(true)
+                .done();
+            slot_idx = mut_slot_idx(slot_idx);
+        }
     }
 }

@@ -3,10 +3,10 @@ use std::error::Error;
 use crate::traits::*;
 use sql_query_builder as sql;
 
-type ParserModelType = i32;
-const PMT_MATCHER: ParserModelType = 1;
-const PMT_SELECTOR: ParserModelType = 2;
-const PMT_SPLITTER: ParserModelType = 3;
+pub type ParserModelType = i32;
+pub const PMT_MATCHER: ParserModelType = 1;
+pub const PMT_SELECTOR: ParserModelType = 2;
+pub const PMT_SPLITTER: ParserModelType = 3;
 
 pub fn pmt_to_string(pmt: ParserModelType) -> String {
     match pmt {

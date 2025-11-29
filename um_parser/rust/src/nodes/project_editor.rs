@@ -85,7 +85,6 @@ impl ProjectEditorNode {
     }
 
     fn on_project_description_edit_text_changed(&mut self) {
-        godot_print!("Description changed");
         let updated_count = self.repo.bind_mut().update_project_description(
             &self.edited_project_name,
             &self.project_description_edit.get_text().to_string(),

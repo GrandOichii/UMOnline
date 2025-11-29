@@ -39,8 +39,6 @@ impl LogsTabNode {
 
     pub fn log(&mut self, msg: String) {
         self.logs_label.append_text(format!("[{}] {}\n", chrono::offset::Local::now().format("%Y-%m-%d %H:%M:%S"), &msg).as_str());
-
-        godot_print!("{}", self.logs_label.get_text());
     }
 
     pub fn load_project(&mut self, project: &ProjectModel) {

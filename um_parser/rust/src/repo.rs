@@ -101,7 +101,6 @@ impl ParserRepositoryNode {
 
     fn create_tables(&mut self) {
         let connection = self.get_connection();
-        godot_print!("Creating tables");
 
         connection
             .execute(ProjectModel::sql_create().as_string().as_str(), [])
@@ -115,12 +114,10 @@ impl ParserRepositoryNode {
         connection
             .execute(ParserModel::sql_create().as_string().as_str(), [])
             .expect("Failed to create parsers table!");
-        godot_print!("Tables created");
     }
 
     fn drop_tables(&mut self) {
         let connection = self.get_connection();
-        godot_print!("Deleting tables");
 
         connection
             .execute(ParserModel::sql_drop().as_string().as_str(), [])
@@ -134,7 +131,6 @@ impl ParserRepositoryNode {
         connection
             .execute(EditorModel::sql_drop().as_string().as_str(), [])
             .expect("Failed to drop editors table!");
-        godot_print!("Tables deleted");
     }
 
     pub fn get_projects(&mut self) -> Result<Vec<ProjectModel>, Box<dyn Error>> {
