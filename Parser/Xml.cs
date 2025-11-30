@@ -116,7 +116,7 @@ partial class XmlParserNode
             Name,
             GetPType(),
             GetPattern(parser),
-            parser.Script.Replace("'", "''").Replace("\\n", "\n"),
+            parser.Script.Replace("'", "''"),
             "test",
             "",
             isTemplate ? 1 : 0,
