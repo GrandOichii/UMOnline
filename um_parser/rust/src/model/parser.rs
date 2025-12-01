@@ -13,7 +13,7 @@ pub fn pmt_to_string(pmt: ParserModelType) -> String {
         PMT_MATCHER => String::from("Matcher"),
         PMT_SELECTOR => String::from("Selector"),
         PMT_SPLITTER => String::from("Splitter"),
-        _ => panic!("Unrecognized parser model type: {}", pmt)
+        _ => panic!("Unrecognized parser model type: {}", pmt),
     }
 }
 
@@ -22,10 +22,11 @@ pub fn pmt_has_pattern(pmt: ParserModelType) -> bool {
         PMT_MATCHER => true,
         PMT_SELECTOR => false,
         PMT_SPLITTER => true,
-        _ => panic!("Unrecognized parser model type: {}", pmt)
+        _ => panic!("Unrecognized parser model type: {}", pmt),
     }
 }
 
+#[derive(Clone)]
 pub struct ParserModel {
     pub name: String,
     pub ptype: ParserModelType,
@@ -40,7 +41,10 @@ pub struct ParserModel {
     pub parent_id: Option<i32>,
     pub is_ref: bool,
 
-    pub children: Vec<ParserModel>
+    pub editor_offset_x: f32,
+    pub editor_offset_y: f32,
+
+    pub children: Vec<ParserModel>,
 }
 
 impl SQLModel for ParserModel {
@@ -58,6 +62,8 @@ impl SQLModel for ParserModel {
             .column("is_root INTEGER NOT NULL")
             .column("parent_id INTEGER")
             .column("is_ref INTEGER NOT NULL")
+            .column("editor_offset_x REAL NOT NULL")
+            .column("editor_offset_y REAL NOT NULL")
             .primary_key("id")
             .foreign_key("(project_name) REFERENCES projects(name) ON DELETE CASCADE")
             .foreign_key("(parent_id) REFERENCES parsers(id) ON DELETE CASCADE")
@@ -73,8 +79,8 @@ impl SQLModel for ParserModel {
 
     fn sql_insert_into(&self, conn: &rusqlite::Connection) -> Result<usize, Box<dyn Error>> {
         let sql = sql::Insert::new()
-            .insert_into("parsers (name, ptype, pattern, script, project_name, description, is_template, is_root, parent_id, is_ref)")
-            .values("(?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10)")
+            .insert_into("parsers (name, ptype, pattern, script, project_name, description, is_template, is_root, parent_id, is_ref, editor_offset_x, editor_offset_y)")
+            .values("(?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12)")
             .as_string();
 
         let result = conn.execute(
@@ -90,6 +96,8 @@ impl SQLModel for ParserModel {
                 &self.is_root,
                 &self.parent_id,
                 &self.is_ref,
+                self.editor_offset_x,
+                self.editor_offset_y,
             ),
         )?;
         Ok(result)
@@ -115,7 +123,51 @@ impl SQLModel for ParserModel {
             is_root: row.get(8)?,
             parent_id: row.get(9)?,
             is_ref: row.get(10)?,
+            editor_offset_x: row.get(11)?,
+            editor_offset_y: row.get(12)?,
             children: vec![],
         })
+    }
+}
+
+impl SQLUpdateById for ParserModel {
+    fn sql_update_by_id(&self, conn: &rusqlite::Connection) -> Result<usize, Box<dyn Error>> {
+        let sql = sql::Update::new()
+            .update("parsers")
+            .set("name = ?2")
+            .set("ptype = ?3")
+            .set("pattern = ?4")
+            .set("script = ?5")
+            .set("project_name = ?6")
+            .set("description = ?7")
+            .set("is_template = ?8")
+            .set("is_root = ?9")
+            .set("parent_id = ?10")
+            .set("is_ref = ?11")
+            .set("editor_offset_x = ?12")
+            .set("editor_offset_y = ?13")
+            .where_clause("id = ?1")
+            .to_string();
+
+        let result = conn.execute(
+            &sql,
+            (
+                self.id,
+                &self.name,
+                &self.ptype,
+                &self.pattern,
+                &self.script,
+                &self.project_name,
+                &self.description,
+                &self.is_template,
+                &self.is_root,
+                &self.parent_id,
+                &self.is_ref,
+                self.editor_offset_x,
+                self.editor_offset_y,
+            ),
+        )?;        
+
+        return Ok(result);
     }
 }

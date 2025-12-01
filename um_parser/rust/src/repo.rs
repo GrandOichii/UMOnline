@@ -18,6 +18,8 @@ use crate::traits::*;
 #[derive(GodotClass)]
 #[class(init,base=Node)]
 pub struct ParserRepositoryNode {
+    base: Base<Node>,
+
     #[export]
     drop_tables_on_launch: bool,
 
@@ -25,6 +27,12 @@ pub struct ParserRepositoryNode {
     file_path: GString,
 
     connection: OnceCell<Connection>,
+}
+
+#[godot_api]
+impl ParserRepositoryNode {
+    #[signal]
+    pub fn parser_updated(parser_id: u32);
 }
 
 impl ParserRepositoryNode {
@@ -62,12 +70,22 @@ impl ParserRepositoryNode {
         )
     }
 
+    pub fn update_parser_by_id(&mut self, parser: &ParserModel) -> Result<(), Box<dyn Error>> {
+        // TODO call signal
+        let conn = self.get_connection();
+        parser.sql_update_by_id(conn)?;
+        Ok(())
+    }
+
     pub fn get_card(&mut self, id: i32) -> Result<Option<CardModel>, Box<dyn Error>> {
         self.query_first(CardModel::sql_select().where_clause("id = $1"), params!(id))
     }
 
     pub fn get_parser(&mut self, id: i32) -> Result<Option<ParserModel>, Box<dyn Error>> {
-        self.query_first(ParserModel::sql_select().where_clause("id = $1"), params!(id))
+        self.query_first(
+            ParserModel::sql_select().where_clause("id = $1"),
+            params!(id),
+        )
     }
 
     pub fn delete_project(&mut self, project_name: &String) -> Result<(), Box<dyn Error>> {
@@ -141,16 +159,22 @@ impl ParserRepositoryNode {
         &mut self,
         project_name: &str,
     ) -> Result<Vec<ParserModel>, Box<dyn Error>> {
-        self.query(ParserModel::sql_select()
-            .where_clause("project_name = ?1")
-            .where_clause("is_template = ?2"), (project_name, true))
+        self.query(
+            ParserModel::sql_select()
+                .where_clause("project_name = ?1")
+                .where_clause("is_template = ?2"),
+            (project_name, true),
+        )
     }
 
     pub fn get_cards_from_project(
         &mut self,
         project_name: &str,
     ) -> Result<Vec<CardModel>, Box<dyn Error>> {
-        self.query(CardModel::sql_select().where_clause("project_name = $1"), params!(project_name))
+        self.query(
+            CardModel::sql_select().where_clause("project_name = $1"),
+            params!(project_name),
+        )
     }
 
     pub fn insert_project(&mut self, project: &ProjectModel) -> Result<(), Box<dyn Error>> {
@@ -178,7 +202,10 @@ impl ParserRepositoryNode {
             .expect("Failed to update project description")
     }
 
-    pub fn get_parser_with_children(&mut self, parser_id: i32) -> Result<Option<ParserModel>, Box<dyn Error>> {
+    pub fn get_parser_with_children(
+        &mut self,
+        parser_id: i32,
+    ) -> Result<Option<ParserModel>, Box<dyn Error>> {
         let result = self.get_parser(parser_id)?;
         match result {
             None => Ok(None),
@@ -189,8 +216,14 @@ impl ParserRepositoryNode {
         }
     }
 
-    fn get_parser_children_rec(&mut self, parser_id: i32) -> Result<Vec<ParserModel>, Box<dyn Error>> {
-        let children = self.query::<ParserModel>(ParserModel::sql_select().where_clause("parent_id = ?1"), params!(parser_id))?;
+    fn get_parser_children_rec(
+        &mut self,
+        parser_id: i32,
+    ) -> Result<Vec<ParserModel>, Box<dyn Error>> {
+        let children = self.query::<ParserModel>(
+            ParserModel::sql_select().where_clause("parent_id = ?1"),
+            params!(parser_id),
+        )?;
         let mut result: Vec<ParserModel> = Vec::with_capacity(children.len());
         for mut child in children {
             // TODO check if child has is_ref flag

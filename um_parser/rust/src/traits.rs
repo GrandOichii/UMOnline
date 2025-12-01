@@ -16,3 +16,7 @@ pub trait SQLModel {
 
     fn get_fn_mut(row: &Row) -> Result<Self, rusqlite::Error> where Self: Sized;
 }
+
+pub trait SQLUpdateById {
+    fn sql_update_by_id(&self, conn: &Connection) -> Result<usize, Box<dyn Error>>;
+}

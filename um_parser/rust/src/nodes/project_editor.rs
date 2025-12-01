@@ -29,6 +29,12 @@ pub struct ProjectEditorNode {
 
 #[godot_api]
 impl IControl for ProjectEditorNode {
+    fn input(&mut self, event: Gd<InputEvent>) {
+        if event.is_action_pressed("parse") {
+            self.parse();
+        }
+    }
+
     fn ready(&mut self) {
         self.connect_signals();
 
@@ -59,6 +65,12 @@ impl IControl for ProjectEditorNode {
 }
 
 impl ProjectEditorNode {
+    fn parse(&mut self) {
+        godot_print!("PARSE START");
+
+        godot_print!("PARSE END");
+    }
+
     fn connect_signals(&mut self) {
         self.project_description_edit
             .signals()
