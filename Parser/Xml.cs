@@ -20,7 +20,9 @@ static class SQL
         is_template,
         is_root,
         parent_id,
-        is_ref
+        is_ref,
+        editor_offset_x,
+        editor_offset_y
     ) VALUES (
         {0},   -- id
         '{1}', -- name
@@ -32,7 +34,9 @@ static class SQL
         {7},   -- is_template
         {8},   -- is_root
         {9},   -- parent_id
-        {10}    -- is_ref
+        {10},   -- is_ref
+        0,
+        0
     );
     """;
 

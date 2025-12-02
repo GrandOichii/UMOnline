@@ -1,4 +1,4 @@
-use std::error::Error;
+use std::{cell::RefCell, error::Error, rc::Rc};
 
 use mlua::Lua;
 
@@ -13,15 +13,15 @@ pub enum ParseResultStatus {
     Ignored,
 }
 
-pub struct ParseResult<'a> {
+pub struct ParseResult {
     pub status: ParseResultStatus,
     pub text: String,
-    pub parent: &'a ParserNode<'a>,
-    pub children: Vec<ParseResult<'a>>,
+    pub parent: Rc<RefCell<ParserNode>>,
+    pub children: Vec<ParseResult>,
     pub parse_data: mlua::Table,
 }
 
-impl ParseResult<'_> {
+impl ParseResult {
     pub fn create_script(&self, lua: &Lua) -> Result<String, Box<dyn Error>> {
         if self.status != ParseResultStatus::Success {
             return Ok(String::from(""));
@@ -35,7 +35,7 @@ impl ParseResult<'_> {
                 .expect("Failed to add child script for childen_table");
         }
 
-        lua.load(self.parent.parser.get_script()).exec()?;
+        lua.load(self.parent.borrow().parser.get_script()).exec()?;
         let creation_func: mlua::Function = lua.globals().get("_Create")?;
         
         let result = creation_func.call::<String>((self.text.to_string(), &children_table, &self.parse_data))?;
@@ -44,21 +44,25 @@ impl ParseResult<'_> {
 }
 
 pub trait Parser {
-    fn parse<'a>(&'a self, text: &str, node: &'a ParserNode<'a>, lua: &Lua) -> ParseResult<'a>;
+    fn parse(&self, text: &str, node: Rc<RefCell<ParserNode>>, lua: &Lua) -> ParseResult;
 
     fn get_script(&self) -> String;
 }
 
 
-pub struct ParserNode<'a> {
+pub struct ParserNode {
     pub name: String,
     pub parser: Box<dyn Parser>,
-    pub children: Vec<&'a ParserNode<'a>>,
+    pub children: Vec<Rc<RefCell<ParserNode>>>,
 }
 
-impl<'a> ParserNode<'a> {
-    pub fn parse(&'_ self, text: &str, lua: &Lua) -> ParseResult<'_> {
-        let result = self.parser.parse(text, self, lua);
+impl ParserNode {
+    // pub fn parse() {
+
+    // }
+
+    pub fn parse(this: Rc<RefCell<Self>>, text: &str, lua: &Lua) -> ParseResult {
+        let result = this.borrow().parser.parse(text, this.clone(), lua);
         return result;
     }
 }

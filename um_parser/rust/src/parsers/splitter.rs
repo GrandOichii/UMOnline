@@ -1,3 +1,5 @@
+use std::{cell::RefCell, rc::Rc};
+
 use mlua::Lua;
 use regex::Regex;
 
@@ -23,12 +25,12 @@ pub struct Splitter {
     pub pattern: Regex,
 }
 
-impl ParserNode<'_> {
-    pub fn splitter<'a>(
+impl ParserNode {
+    pub fn splitter(
         name: String,
         pattern: Regex,
-        children: Vec<&'a ParserNode>,
-    ) -> ParserNode<'a> {
+        children: Vec<Rc<RefCell<ParserNode>>>,
+    ) -> ParserNode {
         ParserNode {
             name: name,
             parser: Box::new(Splitter {
@@ -43,8 +45,8 @@ impl ParserNode<'_> {
         name: String,
         pattern: Regex,
         script: String,
-        children: Vec<&'a ParserNode>,
-    ) -> ParserNode<'a> {
+        children: Vec<Rc<RefCell<ParserNode>>>,
+    ) -> ParserNode {
         ParserNode {
             name: name,
             parser: Box::new(Splitter {
@@ -57,11 +59,22 @@ impl ParserNode<'_> {
 }
 
 impl Parser for Splitter {
-    fn parse<'a>(&'a self, text: &str, node: &'a ParserNode<'a>, lua: &Lua) -> ParseResult<'a> {
+    fn parse(&self, text: &str, node: Rc<RefCell<ParserNode>>, lua: &Lua) -> ParseResult {
         let split = self.pattern.split(text);
         let mut status = ParseResultStatus::Success;
         let mut children: Vec<ParseResult> = Vec::new();
-        let child = node.children[0];
+        if node.borrow().children.len() == 0 {
+            return ParseResult {
+                status: ParseResultStatus::AllChildrenFailed,
+                text: text.to_string(),
+                parent: node,
+                children: children,
+                parse_data: lua
+                    .create_table()
+                    .expect("Failed to create arg table for splitter"),
+            };
+        }
+        let child = node.borrow().children[0].clone();
 
         let mut split_count: usize = 0;
         let mut failed = 0;
@@ -70,7 +83,7 @@ impl Parser for Splitter {
             if part.is_empty() {
                 continue;
             }
-            let part_result = child.parse(part, lua);
+            let part_result = ParserNode::parse(child.clone(), part, lua);
             let s = part_result.status;
             children.push(part_result);
             if s == ParseResultStatus::Success {
@@ -110,22 +123,22 @@ mod tests {
 
     #[test]
     fn selector_test_multiple() {
-        let m1 = ParserNode::matcher(
+        let m1 = Rc::new(RefCell::new(ParserNode::matcher(
             String::from("m1"),
             Regex::new("m1").unwrap(),
             String::from("function _Create(text, children, data) return 'MATCH' end"),
             vec![],
-        );
-        let root = ParserNode::splitter(
+        )));
+        let root = Rc::new(RefCell::new(ParserNode::splitter(
             String::from("selector1"),
             Regex::new(" ").unwrap(),
-            vec![&m1],
-        );
+            vec![m1],
+        )));
 
         let text = "m1 m1 m1";
 
         let lua = Lua::new();
-        let parse_result = root.parse(text, &lua);
+        let parse_result = ParserNode::parse(root, text, &lua);
         assert_eq!(parse_result.status, ParseResultStatus::Success);
         let script = parse_result
             .create_script(&lua)
@@ -135,22 +148,22 @@ mod tests {
 
     #[test]
     fn selector_test_single() {
-        let m1 = ParserNode::matcher(
+        let m1 = Rc::new(RefCell::new(ParserNode::matcher(
             String::from("m1"),
             Regex::new("m1").unwrap(),
             String::from("function _Create(text, children, data) return 'MATCH' end"),
             vec![],
-        );
-        let root = ParserNode::splitter(
+        )));
+        let root = Rc::new(RefCell::new(ParserNode::splitter(
             String::from("selector1"),
             Regex::new(" ").unwrap(),
-            vec![&m1],
-        );
+            vec![m1],
+        )));
 
         let text = "m1";
 
         let lua = Lua::new();
-        let parse_result = root.parse(text, &lua);
+        let parse_result = ParserNode::parse(root, text, &lua);
         assert_eq!(parse_result.status, ParseResultStatus::Success);
         let script = parse_result
             .create_script(&lua)

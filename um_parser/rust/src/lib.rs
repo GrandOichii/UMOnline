@@ -32,40 +32,40 @@ impl IControl for TestNode {
     }
 }
 
-pub fn foo() {
-    let static_amount = ParserNode::matcher(
-        String::from("static_amount"),
-        Regex::new("[0-9]").unwrap(),
-        String::from("value"),
-        vec![],
-    );
-    let amount_select = ParserNode::selector(String::from("amount_select"), vec![&static_amount]);
+// pub fn foo() {
+//     let static_amount = ParserNode::matcher(
+//         String::from("static_amount"),
+//         Regex::new("[0-9]").unwrap(),
+//         String::from("value"),
+//         vec![],
+//     );
+//     let amount_select = ParserNode::selector(String::from("amount_select"), vec![&static_amount]);
 
-    let draw = ParserNode::matcher(
-        String::from("root"),
-        Regex::new("[D|d]raw (.+) cards?").unwrap(),
-        String::from("function _Create(text, children, data) return 'TODO' end"),
-        vec![&amount_select],
-    );
-    let root = ParserNode::splitter(
-        String::from("sentence_splitter"),
-        Regex::new("\\. ").unwrap(),
-        vec![&draw],
-    );
+//     let draw = ParserNode::matcher(
+//         String::from("root"),
+//         Regex::new("[D|d]raw (.+) cards?").unwrap(),
+//         String::from("function _Create(text, children, data) return 'TODO' end"),
+//         vec![&amount_select],
+//     );
+//     let root = ParserNode::splitter(
+//         String::from("sentence_splitter"),
+//         Regex::new("\\. ").unwrap(),
+//         vec![&draw],
+//     );
 
-    let texts = vec![
-        "Draw 2 cards. Draw 1 card",
-        // "draw 1 card",
-        // "draw up to 4 cards"
-    ];
+//     let texts = vec![
+//         "Draw 2 cards. Draw 1 card",
+//         // "draw 1 card",
+//         // "draw up to 4 cards"
+//     ];
 
-    // for text in texts {
-    //     let result = root.parse(text);
-    //     let _script = result.create_script()
-    //         .expect("Failed to create script");
+//     // for text in texts {
+//     //     let result = root.parse(text);
+//     //     let _script = result.create_script()
+//     //         .expect("Failed to create script");
 
-    // }
-}
+//     // }
+// }
 
 // pub fn add(left: u64, right: u64) -> u64 {
 //     left + right

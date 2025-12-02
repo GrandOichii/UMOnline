@@ -1,4 +1,3 @@
-use std::cell::OnceCell;
 use std::fs;
 
 use godot::classes::tab_bar::CloseButtonDisplayPolicy;
@@ -16,8 +15,12 @@ use crate::repo::*;
 pub struct CardsTabNode {
     base: Base<Control>,
 
-    pub repo: OnceCell<Gd<ParserRepositoryNode>>,
-    pub logs_tab: OnceCell<Gd<LogsTabNode>>,
+    #[init(val = OnReady::manual())]
+    pub repo: OnReady<Gd<ParserRepositoryNode>>,
+
+    #[init(val = OnReady::manual())]
+    pub logs_tab: OnReady<Gd<LogsTabNode>>,
+    
     loaded_project_name: String,
 
     #[export]
@@ -152,7 +155,7 @@ impl CardsTabNode {
     fn open_card(&mut self, card_id: i32) {
         let prev_child_count = self.card_tabs_container.get_child_count();
 
-        let card = self.get_repo().bind_mut().get_card(card_id)
+        let card = self.repo.bind_mut().get_card(card_id)
             .expect("Failed to load card").expect("Tried to open a card tab with a card that doesnt exist");
 
         for i in 0..=(prev_child_count-1) {
@@ -186,7 +189,7 @@ impl CardsTabNode {
         let mut added_cards = Vec::<String>::new();
         let mut skipped_cards = Vec::<String>::new();
 
-        let mut repo = self.get_repo().bind_mut();
+        let mut repo = self.repo.bind_mut();
         for card in cards {
             match repo.insert_card(&CardModel {
                 id: -1,
@@ -206,7 +209,7 @@ impl CardsTabNode {
         }
         drop(repo);
 
-        let mut logs = self.get_logs_tab().bind_mut();
+        let mut logs = self.logs_tab.bind_mut();
         logs.log(format!(
             "Imported {} cards from {}",
             added_cards.len(),
@@ -233,15 +236,16 @@ impl CardsTabNode {
         self.import_cards_file_dialog.show();
     }
 
-    fn get_repo(&mut self) -> &mut Gd<ParserRepositoryNode> {
-        self.repo.get_mut().expect("repo was not initialized!")
-    }
+    // fn get_repo(&mut self) -> &mut Gd<ParserRepositoryNode> {
+    //     // self.repo.get_mut().expect("repo was not initialized!")
+    //     &mut self.repo
+    // }
 
-    fn get_logs_tab(&mut self) -> &mut Gd<LogsTabNode> {
-        self.logs_tab
-            .get_mut()
-            .expect("logs_tab was not initialized!")
-    }
+    // fn get_logs_tab(&mut self) -> &mut Gd<LogsTabNode> {
+    //     self.logs_tab
+    //         .get_mut()
+    //         .expect("logs_tab was not initialized!")
+    // }
 
     pub fn load_project(&mut self, project: &ProjectModel) {
         self.loaded_project_name = project.name.to_string();
@@ -253,12 +257,12 @@ impl CardsTabNode {
         self.cards_list.clear();
         
         let project_name = self.loaded_project_name.to_string();
-        let repo = self.get_repo();
-        let cards = repo
+        // let repo = self.get_repo();
+        let cards = self.repo
             .bind_mut()
-            .get_cards_from_project(&project_name)
+            .get_cards(&project_name)
             .expect("Failed to load cards for project");
-        let mut logs = self.get_logs_tab().bind_mut();
+        let mut logs = self.logs_tab.bind_mut();
         logs.log(format!(
             "Loaded {} card(s)",
             LogsTabNode::format_count(cards.len())

@@ -16,8 +16,12 @@ use crate::repo::ParserRepositoryNode;
 pub struct ParsersTabNode {
     base: Base<Control>,
 
-    pub repo: OnceCell<Gd<ParserRepositoryNode>>,
-    pub logs_tab: OnceCell<Gd<LogsTabNode>>,
+    #[init(val = OnReady::manual())]
+    pub repo: OnReady<Gd<ParserRepositoryNode>>,
+
+    #[init(val = OnReady::manual())]
+    pub logs_tab: OnReady<Gd<LogsTabNode>>,
+
     loaded_project_name: String,
 
     #[export]
@@ -67,16 +71,6 @@ impl ParsersTabNode {
         self.parser_tabs_container.remove_child(&child);
     }
 
-    fn get_repo(&mut self) -> &mut Gd<ParserRepositoryNode> {
-        self.repo.get_mut().expect("repo was not initialized!")
-    }
-
-    fn get_logs_tab(&mut self) -> &mut Gd<LogsTabNode> {
-        self.logs_tab
-            .get_mut()
-            .expect("logs_tab was not initialized!")
-    }
-
     fn close_parser_tabs(&mut self) {
         while self.parser_tabs_container.get_child_count() > 0
             && let Some(node) = self.parser_tabs_container.get_child(0)
@@ -94,14 +88,13 @@ impl ParsersTabNode {
     fn reload_templates(&mut self) {
         self.templates_list.clear();
         let project_name = self.loaded_project_name.to_string();
-        let repo = self.get_repo();
 
-        let templates = repo
+        let templates = self.repo
             .bind_mut()
             .get_templates(&project_name)
             .expect("Failed to load templates");
 
-        let mut logs = self.get_logs_tab().bind_mut();
+        let mut logs = self.logs_tab.bind_mut();
         logs.log(format!(
             "Loaded {} template(s)",
             LogsTabNode::format_count(templates.len())
@@ -130,7 +123,7 @@ impl ParsersTabNode {
         let prev_child_count = self.parser_tabs_container.get_child_count();
 
         let parser = self
-            .get_repo()
+            .repo
             .bind_mut()
             .get_parser(parser_id)
             .expect("Failed to load parser")
@@ -157,8 +150,7 @@ impl ParsersTabNode {
 
         node.bind_mut()
             .repo
-            .set(self.repo.get().unwrap().clone())
-            .expect("Failed to pass down repo node to parser tab");
+            .init(self.repo.clone());
 
         node.bind_mut().load_parser(&parser);
     }
@@ -169,7 +161,8 @@ impl ParsersTabNode {
 pub struct ParserTabNode {
     base: Base<Control>,
 
-    pub repo: OnceCell<Gd<ParserRepositoryNode>>,
+    #[init(val = OnReady::manual())]
+    pub repo: OnReady<Gd<ParserRepositoryNode>>,
 
     #[export]
     parser_graph_node_scene: OnEditor<Gd<PackedScene>>,
@@ -233,7 +226,7 @@ impl ParserTabNode {
         for mut child in parsers {
             let mut parser = child.bind_mut();
             parser.update_parser_offset();
-            self.get_repo().bind_mut().update_parser_by_id(parser.parser.as_ref().expect("Tried to update a parser that is None"))
+            self.repo.bind_mut().update_parser_by_id(parser.parser.as_ref().expect("Tried to update a parser that is None"))
                 .expect("Failed to update parser");
         }
     }
@@ -243,7 +236,6 @@ impl ParserTabNode {
     }
     
     fn load_parser(&mut self, parser: &ParserModel) {
-        // TODO
         self.name_label.set_text(&parser.name);
         self.type_label.set_text(&pmt_to_string(parser.ptype));
         self.pattern_label.set_text(&parser.pattern);
@@ -256,13 +248,9 @@ impl ParserTabNode {
         self.load_nodes(parser);
     }
 
-    fn get_repo(&mut self) -> &mut Gd<ParserRepositoryNode> {
-        self.repo.get_mut().expect("repo was not initialized!")
-    }
-
     fn load_nodes(&mut self, parser: &ParserModel) {
         let parser_with_children = self
-            .get_repo()
+            .repo
             .bind_mut()
             .get_parser_with_children(parser.id)
             .expect("Failed to read parser with children from DB")

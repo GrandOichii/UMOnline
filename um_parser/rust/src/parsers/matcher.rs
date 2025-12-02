@@ -1,3 +1,5 @@
+use std::{cell::RefCell, rc::Rc};
+
 use mlua::Lua;
 use regex::Regex;
 
@@ -8,13 +10,13 @@ pub struct Matcher {
     pub pattern: Regex,
 }
 
-impl ParserNode<'_> {
-    pub fn matcher<'a>(
+impl ParserNode {
+    pub fn matcher(
         name: String,
         pattern: Regex,
         script: String,
-        children: Vec<&'a ParserNode>,
-    ) -> ParserNode<'a> {
+        children: Vec<Rc<RefCell<ParserNode>>>,
+    ) -> ParserNode {
         ParserNode {
             name: name,
             children: children,
@@ -27,7 +29,7 @@ impl ParserNode<'_> {
 }
 
 impl Parser for Matcher {
-    fn parse<'a>(&'a self, text: &str, node: &'a ParserNode<'a>, lua: &Lua) -> ParseResult<'a> {
+    fn parse(&self, text: &str, node: Rc<RefCell<ParserNode>>, lua: &Lua) -> ParseResult {
         let m = self.pattern.captures(text);
         let mut didnt_match = 0;
         if m.is_none() {
@@ -59,18 +61,19 @@ impl Parser for Matcher {
         let mut result = ParseResult {
             status: ParseResultStatus::Success,
             text: text.to_string(),
-            parent: node,
+            parent: node.clone(),
             children: Vec::new(),
             parse_data: table,
         };
         let mut i = 1;
-        if node.children.len() == 0 {
+        if result.parent.borrow().children.len() == 0 {
             return result;
         }
-        
+
+        let n = node.borrow();
         for g in m.iter() {
-            let child = node.children[i - 1];
-            let child_result = child.parse(g.get(1).unwrap().as_str(), lua);
+            let child = n.children[i - 1].clone();
+            let child_result = ParserNode::parse(child, g.get(1).unwrap().as_str(), lua);
             i += 1;
             if child_result.status != ParseResultStatus::Success {
                 result.status = ParseResultStatus::ChildFailed;
@@ -81,7 +84,7 @@ impl Parser for Matcher {
             result.children.push(child_result);
         }
         // TODO use didnt_match
-        if didnt_match == node.children.len() {
+        if didnt_match == n.children.len() {
             result.status = ParseResultStatus::DidntMatch;
         }
         return result;
@@ -92,8 +95,6 @@ impl Parser for Matcher {
     }
 }
 
-
-
 #[cfg(test)]
 mod tests {
     use regex::Regex;
@@ -102,36 +103,37 @@ mod tests {
 
     #[test]
     fn matcher_test_success() {
-        let root = ParserNode::matcher(
+        let root = Rc::new(RefCell::new(ParserNode::matcher(
             String::from("matcher1"),
             Regex::new("Hello, (.+)").unwrap(),
             String::from("function _Create(text, children, data) return data[1] end"),
             vec![],
-        );
+        )));
 
         let text = "Hello, something";
 
         let lua = Lua::new();
-        let parse_result = root.parse(text, &lua);
+        let parse_result = ParserNode::parse(root, text, &lua);
         assert_eq!(parse_result.status, ParseResultStatus::Success);
-        let script = parse_result.create_script(&lua)
+        let script = parse_result
+            .create_script(&lua)
             .expect("Failed to generate script");
         assert_eq!(script, "something");
     }
 
     #[test]
     fn matcher_test_didnt_match() {
-        let root = ParserNode::matcher(
+        let root = Rc::new(RefCell::new(ParserNode::matcher(
             String::from("matcher1"),
             Regex::new("Not Hello, (.+)").unwrap(),
             String::from("function _Create(text, children, data) return data[1] end"),
             vec![],
-        );
+        )));
 
         let text = "Hello, something";
 
         let lua = Lua::new();
-        let parse_result = root.parse(text, &lua);
+        let parse_result = ParserNode::parse(root, text, &lua);
         assert_eq!(parse_result.status, ParseResultStatus::DidntMatch);
     }
 }

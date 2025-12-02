@@ -65,7 +65,9 @@ text = "Pattern: "
 
 [node name="PatternLabel" type="Label" parent="VBoxContainer/VBoxContainer/PatternContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
 text = "PARSER NAME HERE"
+autowrap_mode = 2
 
 [node name="DescriptionLabel" type="Label" parent="VBoxContainer/VBoxContainer"]
 layout_mode = 2

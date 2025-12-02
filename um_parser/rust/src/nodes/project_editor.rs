@@ -1,9 +1,19 @@
+use std::cell::OnceCell;
+use std::cell::RefCell;
+use std::collections::HashMap;
+use std::error::Error;
+use std::rc::Rc;
+
 use godot::classes::*;
 use godot::prelude::*;
+use mlua::Lua;
 
+use crate::model::parser::ParserModel;
 use crate::nodes::project_tabs::cards_tab::*;
 use crate::nodes::project_tabs::logs_tab::LogsTabNode;
 use crate::nodes::project_tabs::parsers_tab::ParsersTabNode;
+use crate::parsers::parser::ParseResultStatus;
+use crate::parsers::parser::ParserNode;
 use crate::repo::*;
 
 #[derive(GodotClass)]
@@ -38,40 +48,78 @@ impl IControl for ProjectEditorNode {
     fn ready(&mut self) {
         self.connect_signals();
 
-        // cards tab
-        self.cards_tab
-            .bind_mut()
-            .repo
-            .set(self.repo.clone())
-            .expect("Failed to pass down repo node");
+        self.cards_tab.bind_mut().repo.init(self.repo.clone());
         self.cards_tab
             .bind_mut()
             .logs_tab
-            .set(self.logs_tab.clone())
-            .expect("Failed to pass down logs_tab node");
+            .init(self.logs_tab.clone());
 
         // parsers tab
-        self.parsers_tab
-            .bind_mut()
-            .repo
-            .set(self.repo.clone())
-            .expect("Failed to pass down repo node");
+        self.parsers_tab.bind_mut().repo.init(self.repo.clone());
         self.parsers_tab
             .bind_mut()
             .logs_tab
-            .set(self.logs_tab.clone())
-            .expect("Failed to pass down logs_tab node");
+            .init(self.logs_tab.clone());
     }
 }
 
 impl ProjectEditorNode {
-    fn parse(&mut self) {
-        godot_print!("PARSE START");
+    fn parse(&self) {
+        let models = self
+            .get_repo()
+            .expect("Failed to get repo")
+            .bind_mut()
+            .get_parsers(&self.edited_project_name)
+            .expect("Failed to load templates");
 
-        godot_print!("PARSE END");
+        // Create all parsers
+        let mut parsers = Vec::<Rc<RefCell<ParserNode>>>::new();
+        let mut root_idx = OnceCell::<usize>::new();
+        for (idx, model) in models.iter().enumerate() {
+            if model.is_root {
+                root_idx.set(idx).expect("Failed to set root_idx");
+            }
+            parsers.push(Rc::new(RefCell::new(
+                model
+                    .to_parser_node()
+                    .expect("Failed to create parser node"),
+            )));
+        }
+
+        // Create parser_id_to_parser
+        let mut parser_id_to_parser = HashMap::<i32, Rc<RefCell<ParserNode>>>::new();
+        for (idx, parser) in models.iter().enumerate() {
+            parser_id_to_parser.insert(parser.id, Rc::clone(&parsers[idx]));
+        }
+
+        // Connect children
+        for model in models.iter() {
+            if let Some(parent_id) = model.parent_id {
+                let parent = parser_id_to_parser[&parent_id].clone();
+                let child = parser_id_to_parser[&model.id].clone();
+                parent.borrow_mut().children.push(child);
+            }
+        }
+
+        let root = parsers[*root_idx.get().expect("Failed to find root")].clone();
+
+        let cards = self.get_repo().expect("Failed to get repo").bind_mut().get_cards(&self.edited_project_name).expect("Failed to get cards");
+        let mut total = 0;
+        let mut parsed = 0;
+        for card in cards {
+            total += 1;
+            let lua = Lua::new();
+            let result = ParserNode::parse(root.clone(), &card.text, &lua);
+            if result.status == ParseResultStatus::Success {
+                parsed += 1;
+            }
+            // godot_print!("CARD TEXT: {}", &card.text);
+            // godot_print!("PARSE STATUS OF FIRST CARD: {:?}", &result.status);
+        }
+        godot_print!("{}/{}", parsed, total);
     }
 
-    fn connect_signals(&mut self) {
+    fn connect_signals(&self) {
         self.project_description_edit
             .signals()
             .text_changed()

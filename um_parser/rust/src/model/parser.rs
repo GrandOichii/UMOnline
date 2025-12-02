@@ -1,6 +1,8 @@
-use std::error::Error;
+use core::panic;
+use std::{error::Error, vec};
 
-use crate::traits::*;
+use crate::{parsers::{matcher::Matcher, parser::ParserNode, selector::Selector, splitter::Splitter}, traits::*};
+use regex::Regex;
 use sql_query_builder as sql;
 
 pub type ParserModelType = i32;
@@ -169,5 +171,38 @@ impl SQLUpdateById for ParserModel {
         )?;        
 
         return Ok(result);
+    }
+}
+
+impl ParserModel {
+    pub fn to_parser_node<'a>(&self) -> Result<ParserNode, Box<dyn Error>> {
+        Ok(ParserNode {
+            name: self.name.to_string(),
+            children: vec![],
+            parser: match self.ptype {
+                PMT_MATCHER => self.to_matcher()?,
+                PMT_SELECTOR => self.to_selector()?,
+                PMT_SPLITTER => self.to_splitter()?,
+                _ => panic!("Unrecognized PMT: {}", self.ptype)
+            }
+        })
+    }
+
+    fn to_matcher(&self) -> Result<Box<Matcher>, Box<dyn Error>> {
+        Ok(Box::new(Matcher {
+            pattern: Regex::new(&self.pattern)?,
+            script: self.script.to_string(),
+        }))
+    }
+
+    fn to_selector(&self) -> Result<Box<Selector>, Box<dyn Error>> {
+        Ok(Box::new(Selector))
+    }
+
+    fn to_splitter(&self) -> Result<Box<Splitter>, Box<dyn Error>> {
+        Ok(Box::new(Splitter {
+            pattern: Regex::new(&self.pattern)?,
+            script: self.script.to_string(),
+        }))
     }
 }

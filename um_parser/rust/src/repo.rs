@@ -155,6 +155,17 @@ impl ParserRepositoryNode {
         self.query::<ProjectModel>(ProjectModel::sql_select(), ())
     }
 
+    pub fn get_parsers(
+        &mut self,
+        project_name: &str,
+    ) -> Result<Vec<ParserModel>, Box<dyn Error>> {
+        self.query(
+            ParserModel::sql_select()
+                .where_clause("project_name = ?1"),
+            params!(project_name),
+        )
+    }
+
     pub fn get_templates(
         &mut self,
         project_name: &str,
@@ -167,7 +178,17 @@ impl ParserRepositoryNode {
         )
     }
 
-    pub fn get_cards_from_project(
+    pub fn get_parser_children(
+        &mut self,
+        parent_id: i32,
+    ) -> Result<Vec<ParserModel>, Box<dyn Error>> {
+        self.query(
+            ParserModel::sql_select().where_clause("parent_id = $1"),
+            params!(parent_id),
+        )
+    }
+
+    pub fn get_cards(
         &mut self,
         project_name: &str,
     ) -> Result<Vec<CardModel>, Box<dyn Error>> {

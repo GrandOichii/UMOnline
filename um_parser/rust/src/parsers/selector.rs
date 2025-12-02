@@ -1,3 +1,5 @@
+use std::{cell::RefCell, rc::Rc};
+
 use mlua::Lua;
 
 use crate::parsers::parser::*;
@@ -13,8 +15,8 @@ const SELECTOR_SCRIPT: &'static str = "function _Create(text, children)
     error(\"Shouldn't reach this point\")
 end";
 
-impl ParserNode<'_> {
-    pub fn selector<'a>(name: String, children: Vec<&'a ParserNode>) -> ParserNode<'a> {
+impl ParserNode {
+    pub fn selector<'a>(name: String, children: Vec<Rc<RefCell<ParserNode>>>) -> ParserNode {
         ParserNode {
             name: name,
             parser: Box::new(Selector),
@@ -24,13 +26,13 @@ impl ParserNode<'_> {
 }
 
 impl Parser for Selector {
-    fn parse<'a>(&'a self, text: &str, node: &'a ParserNode<'a>, lua: &Lua) -> ParseResult<'a> {
+    fn parse(&self, text: &str, node: Rc<RefCell<ParserNode>>, lua: &Lua) -> ParseResult {
         let mut children: Vec<ParseResult> = Vec::new();
         let mut closest_to_match_idx: Option<usize> = None;
         let mut all_didnt_match = true;
         let mut status = ParseResultStatus::AllChildrenFailed;
-        for child in node.children.iter() {
-            children.push(child.parse(text, lua));
+        for child in node.borrow().children.iter() {
+            children.push(ParserNode::parse(child.clone(), text, lua));
         }
         for (idx, child) in children.iter().enumerate() {
             if child.status == ParseResultStatus::DidntMatch {
@@ -84,24 +86,24 @@ mod tests {
 
     #[test]
     fn selector_test_success() {
-        let m1 = ParserNode::matcher(
+        let m1 = Rc::new(RefCell::new(ParserNode::matcher(
             String::from("m1"),
             Regex::new("m1").unwrap(),
             String::from("function _Create(text, children, data) return 'matcher1' end"),
             vec![],
-        );
-        let m2 = ParserNode::matcher(
+        )));
+        let m2 = Rc::new(RefCell::new(ParserNode::matcher(
             String::from("m2"),
             Regex::new("m2").unwrap(),
             String::from("function _Create(text, children, data) return 'matcher2' end"),
             vec![],
-        );
-        let root = ParserNode::selector(String::from("selector1"), vec![&m1, &m2]);
+        )));
+        let root = Rc::new(RefCell::new(ParserNode::selector(String::from("selector1"), vec![m1, m2])));
 
         let text = "m1";
 
         let lua = Lua::new();
-        let parse_result = root.parse(text, &lua);
+        let parse_result = ParserNode::parse(root, text, &lua);
         assert_eq!(parse_result.status, ParseResultStatus::Success);
         let script = parse_result
             .create_script(&lua)
@@ -111,24 +113,24 @@ mod tests {
 
     #[test]
     fn selector_test_didnt_match() {
-        let m1 = ParserNode::matcher(
+        let m1 = Rc::new(RefCell::new(ParserNode::matcher(
             String::from("m1"),
             Regex::new("m1").unwrap(),
             String::from("function _Create(text, children, data) return 'matcher1' end"),
             vec![],
-        );
-        let m2 = ParserNode::matcher(
+        )));
+        let m2 = Rc::new(RefCell::new(ParserNode::matcher(
             String::from("m2"),
             Regex::new("m2").unwrap(),
             String::from("function _Create(text, children, data) return 'matcher2' end"),
             vec![],
-        );
-        let root = ParserNode::selector(String::from("selector1"), vec![&m1, &m2]);
+        )));
+        let root = Rc::new(RefCell::new(ParserNode::selector(String::from("selector1"), vec![m1, m2])));
 
         let text = "m3";
 
         let lua = Lua::new();
-        let parse_result = root.parse(text, &lua);
+        let parse_result = ParserNode::parse(root, text, &lua);
         assert_eq!(parse_result.status, ParseResultStatus::DidntMatch);
     }
 }

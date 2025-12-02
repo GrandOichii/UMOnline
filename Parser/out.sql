@@ -10,23 +10,23 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     1,   -- id
     'm:main', -- name
     1,   -- ptype
     '^(.*)$', -- pattern
-    'function _Create(text, children, data) return string.format(''function _Create()
-return UM.Build:Card()
-%s
-:Build()
-end'', children[1]) end', -- script
+    'function _Create(text, children, data) return string.format(''function _Create()\nreturn UM.Build:Card()\n%s\n:Build()\nend'', children[1]) end', -- script
     'test', -- project_name
     '', -- description
     1,   -- is_template
     1,   -- is_root
     NULL,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 INSERT INTO parsers(
     id,
@@ -39,7 +39,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     2,   -- id
     's:mainSelector', -- name
@@ -57,7 +59,9 @@ end', -- script
     0,   -- is_template
     0,   -- is_root
     1,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 INSERT INTO parsers(
     id,
@@ -70,7 +74,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     3,   -- id
     'm:empty', -- name
@@ -82,7 +88,9 @@ INSERT INTO parsers(
     0,   -- is_template
     0,   -- is_root
     2,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 
 INSERT INTO parsers(
@@ -96,7 +104,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     4,   -- id
     'sp:mainSplitter', -- name
@@ -108,8 +118,7 @@ INSERT INTO parsers(
     for i, child in ipairs(children) do
         if child ~= '''' then
             if i ~= 1 then
-                result = result..'',
-''
+                result = result..'',\n''
             end
             result = result..child
         end
@@ -121,7 +130,9 @@ end', -- script
     0,   -- is_template
     0,   -- is_root
     2,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 INSERT INTO parsers(
     id,
@@ -134,7 +145,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     5,   -- id
     's:abilitySelector', -- name
@@ -152,7 +165,9 @@ end', -- script
     0,   -- is_template
     0,   -- is_root
     4,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 INSERT INTO parsers(
     id,
@@ -165,22 +180,23 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     6,   -- id
     'm:duringCombat', -- name
     1,   -- ptype
     '^During combat: (.+?)\.?$', -- pattern
-    'function _Create(text, children, data) return string.format('':DuringCombat(
-\"%s\",
-%s
-)'', text, children[1]) end', -- script
+    'function _Create(text, children, data) return string.format('':DuringCombat(\n\"%s\",\n%s\n)'', text, children[1]) end', -- script
     'test', -- project_name
     '', -- description
     0,   -- is_template
     0,   -- is_root
     5,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 INSERT INTO parsers(
     id,
@@ -193,7 +209,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     7,   -- id
     'lineSelector', -- name
@@ -205,7 +223,9 @@ INSERT INTO parsers(
     0,   -- is_template
     0,   -- is_root
     6,   -- parent_id
-    1    -- is_ref
+    1,   -- is_ref
+    0,
+    0
 );
 
 INSERT INTO parsers(
@@ -219,22 +239,23 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     8,   -- id
     'm:afterCombat', -- name
     1,   -- ptype
     '^After combat: (.+?)\.?$', -- pattern
-    'function _Create(text, children, data) return string.format('':AfterCombat(
-\"%s\",
-%s
-)'', text, children[1]) end', -- script
+    'function _Create(text, children, data) return string.format('':AfterCombat(\n\"%s\",\n%s\n)'', text, children[1]) end', -- script
     'test', -- project_name
     '', -- description
     0,   -- is_template
     0,   -- is_root
     5,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 INSERT INTO parsers(
     id,
@@ -247,7 +268,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     9,   -- id
     'lineSelector', -- name
@@ -259,7 +282,9 @@ INSERT INTO parsers(
     0,   -- is_template
     0,   -- is_root
     8,   -- parent_id
-    1    -- is_ref
+    1,   -- is_ref
+    0,
+    0
 );
 
 INSERT INTO parsers(
@@ -273,22 +298,23 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     10,   -- id
     'm:immediately', -- name
     1,   -- ptype
     '^Immediately: (.+?)\.?$', -- pattern
-    'function _Create(text, children, data) return string.format('':Immediately(
-\"%s\",
-%s
-)'', text, children[1]) end', -- script
+    'function _Create(text, children, data) return string.format('':Immediately(\n\"%s\",\n%s\n)'', text, children[1]) end', -- script
     'test', -- project_name
     '', -- description
     0,   -- is_template
     0,   -- is_root
     5,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 INSERT INTO parsers(
     id,
@@ -301,7 +327,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     11,   -- id
     'lineSelector', -- name
@@ -313,7 +341,9 @@ INSERT INTO parsers(
     0,   -- is_template
     0,   -- is_root
     10,   -- parent_id
-    1    -- is_ref
+    1,   -- is_ref
+    0,
+    0
 );
 
 INSERT INTO parsers(
@@ -327,22 +357,23 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     12,   -- id
     'm:scheme', -- name
     1,   -- ptype
     '^(.+?)\.?$', -- pattern
-    'function _Create(text, children, data) return string.format('':Effect(
-\"%s\",
-%s
-)'', text, children[1]) end', -- script
+    'function _Create(text, children, data) return string.format('':Effect(\n\"%s\",\n%s\n)'', text, children[1]) end', -- script
     'test', -- project_name
     '', -- description
     0,   -- is_template
     0,   -- is_root
     5,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 INSERT INTO parsers(
     id,
@@ -355,7 +386,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     13,   -- id
     'lineSelector', -- name
@@ -367,7 +400,9 @@ INSERT INTO parsers(
     0,   -- is_template
     0,   -- is_root
     12,   -- parent_id
-    1    -- is_ref
+    1,   -- is_ref
+    0,
+    0
 );
 
 
@@ -385,7 +420,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     14,   -- id
     's:lineSelector', -- name
@@ -403,7 +440,9 @@ end', -- script
     1,   -- is_template
     0,   -- is_root
     NULL,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 INSERT INTO parsers(
     id,
@@ -416,7 +455,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     15,   -- id
     'm-effects', -- name
@@ -428,7 +469,9 @@ INSERT INTO parsers(
     0,   -- is_template
     0,   -- is_root
     14,   -- parent_id
-    1    -- is_ref
+    1,   -- is_ref
+    0,
+    0
 );
 INSERT INTO parsers(
     id,
@@ -441,20 +484,23 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     16,   -- id
     'm:2+sentence', -- name
     1,   -- ptype
     '^(.+)\. ([^\.]+)$', -- pattern
-    'function _Create(text, children, data) return children[1]..'',
-''..children[2] end', -- script
+    'function _Create(text, children, data) return children[1]..'',\n''..children[2] end', -- script
     'test', -- project_name
     '', -- description
     0,   -- is_template
     0,   -- is_root
     14,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 INSERT INTO parsers(
     id,
@@ -467,7 +513,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     17,   -- id
     'lineSelector', -- name
@@ -479,7 +527,9 @@ INSERT INTO parsers(
     0,   -- is_template
     0,   -- is_root
     16,   -- parent_id
-    1    -- is_ref
+    1,   -- is_ref
+    0,
+    0
 );
 INSERT INTO parsers(
     id,
@@ -492,7 +542,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     18,   -- id
     'simpleEffects', -- name
@@ -504,7 +556,9 @@ INSERT INTO parsers(
     0,   -- is_template
     0,   -- is_root
     16,   -- parent_id
-    1    -- is_ref
+    1,   -- is_ref
+    0,
+    0
 );
 
 INSERT INTO parsers(
@@ -518,7 +572,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     19,   -- id
     'simpleEffects', -- name
@@ -530,7 +586,9 @@ INSERT INTO parsers(
     0,   -- is_template
     0,   -- is_root
     14,   -- parent_id
-    1    -- is_ref
+    1,   -- is_ref
+    0,
+    0
 );
 
 INSERT INTO parsers(
@@ -544,7 +602,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     20,   -- id
     's:m-effects', -- name
@@ -562,7 +622,9 @@ end', -- script
     1,   -- is_template
     0,   -- is_root
     NULL,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 INSERT INTO parsers(
     id,
@@ -575,7 +637,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     21,   -- id
     'controlFlow', -- name
@@ -587,7 +651,9 @@ INSERT INTO parsers(
     0,   -- is_template
     0,   -- is_root
     20,   -- parent_id
-    1    -- is_ref
+    1,   -- is_ref
+    0,
+    0
 );
 INSERT INTO parsers(
     id,
@@ -600,7 +666,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     22,   -- id
     'multiSentenceEffects', -- name
@@ -612,7 +680,9 @@ INSERT INTO parsers(
     0,   -- is_template
     0,   -- is_root
     20,   -- parent_id
-    1    -- is_ref
+    1,   -- is_ref
+    0,
+    0
 );
 INSERT INTO parsers(
     id,
@@ -625,7 +695,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     23,   -- id
     'complexCharacterSpecific', -- name
@@ -637,7 +709,9 @@ INSERT INTO parsers(
     0,   -- is_template
     0,   -- is_root
     20,   -- parent_id
-    1    -- is_ref
+    1,   -- is_ref
+    0,
+    0
 );
 
 INSERT INTO parsers(
@@ -651,7 +725,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     24,   -- id
     's:simpleEffects', -- name
@@ -669,7 +745,9 @@ end', -- script
     1,   -- is_template
     0,   -- is_root
     NULL,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 INSERT INTO parsers(
     id,
@@ -682,7 +760,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     25,   -- id
     'handManipulationSelector', -- name
@@ -694,7 +774,9 @@ INSERT INTO parsers(
     0,   -- is_template
     0,   -- is_root
     24,   -- parent_id
-    1    -- is_ref
+    1,   -- is_ref
+    0,
+    0
 );
 INSERT INTO parsers(
     id,
@@ -707,7 +789,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     26,   -- id
     'm:actionGain', -- name
@@ -719,7 +803,9 @@ INSERT INTO parsers(
     0,   -- is_template
     0,   -- is_root
     24,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 INSERT INTO parsers(
     id,
@@ -732,7 +818,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     27,   -- id
     'm:actionGainAmount', -- name
@@ -744,7 +832,9 @@ INSERT INTO parsers(
     0,   -- is_template
     0,   -- is_root
     26,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 
 
@@ -759,7 +849,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     28,   -- id
     'fighterManipulationSelector', -- name
@@ -771,7 +863,9 @@ INSERT INTO parsers(
     0,   -- is_template
     0,   -- is_root
     24,   -- parent_id
-    1    -- is_ref
+    1,   -- is_ref
+    0,
+    0
 );
 INSERT INTO parsers(
     id,
@@ -784,7 +878,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     29,   -- id
     'todoSortMeSelector', -- name
@@ -796,7 +892,9 @@ INSERT INTO parsers(
     0,   -- is_template
     0,   -- is_root
     24,   -- parent_id
-    1    -- is_ref
+    1,   -- is_ref
+    0,
+    0
 );
 INSERT INTO parsers(
     id,
@@ -809,7 +907,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     30,   -- id
     'simpleCharacterSpecific', -- name
@@ -821,7 +921,9 @@ INSERT INTO parsers(
     0,   -- is_template
     0,   -- is_root
     24,   -- parent_id
-    1    -- is_ref
+    1,   -- is_ref
+    0,
+    0
 );
 
 INSERT INTO parsers(
@@ -835,7 +937,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     31,   -- id
     's:controlFlow', -- name
@@ -853,7 +957,9 @@ end', -- script
     1,   -- is_template
     0,   -- is_root
     NULL,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 INSERT INTO parsers(
     id,
@@ -866,7 +972,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     32,   -- id
     'm:ifInsteadMatcher', -- name
@@ -878,7 +986,9 @@ INSERT INTO parsers(
     0,   -- is_template
     0,   -- is_root
     31,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 INSERT INTO parsers(
     id,
@@ -891,7 +1001,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     33,   -- id
     's:ifInsteadSelector', -- name
@@ -909,7 +1021,9 @@ end', -- script
     0,   -- is_template
     0,   -- is_root
     32,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 INSERT INTO parsers(
     id,
@@ -922,7 +1036,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     34,   -- id
     'm:ifInsteadTotal', -- name
@@ -934,7 +1050,9 @@ INSERT INTO parsers(
     0,   -- is_template
     0,   -- is_root
     33,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 INSERT INTO parsers(
     id,
@@ -947,7 +1065,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     35,   -- id
     'simpleEffects', -- name
@@ -959,7 +1079,9 @@ INSERT INTO parsers(
     0,   -- is_template
     0,   -- is_root
     34,   -- parent_id
-    1    -- is_ref
+    1,   -- is_ref
+    0,
+    0
 );
 INSERT INTO parsers(
     id,
@@ -972,7 +1094,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     36,   -- id
     's:ifInsteadTotalCondition', -- name
@@ -990,7 +1114,9 @@ end', -- script
     0,   -- is_template
     0,   -- is_root
     34,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 
 INSERT INTO parsers(
@@ -1004,7 +1130,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     37,   -- id
     'simpleEffects', -- name
@@ -1016,7 +1144,9 @@ INSERT INTO parsers(
     0,   -- is_template
     0,   -- is_root
     34,   -- parent_id
-    1    -- is_ref
+    1,   -- is_ref
+    0,
+    0
 );
 
 
@@ -1032,7 +1162,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     38,   -- id
     'm:if', -- name
@@ -1044,7 +1176,9 @@ INSERT INTO parsers(
     0,   -- is_template
     0,   -- is_root
     31,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 INSERT INTO parsers(
     id,
@@ -1057,7 +1191,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     39,   -- id
     's:ifSelector', -- name
@@ -1075,7 +1211,9 @@ end', -- script
     0,   -- is_template
     0,   -- is_root
     38,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 
 
@@ -1091,7 +1229,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     40,   -- id
     's:multiSentenceEffects', -- name
@@ -1109,7 +1249,9 @@ end', -- script
     1,   -- is_template
     0,   -- is_root
     NULL,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 INSERT INTO parsers(
     id,
@@ -1122,7 +1264,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     41,   -- id
     'm:doSomethingThenAddBoostValue', -- name
@@ -1134,7 +1278,9 @@ INSERT INTO parsers(
     0,   -- is_template
     0,   -- is_root
     40,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 INSERT INTO parsers(
     id,
@@ -1147,7 +1293,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     42,   -- id
     's:doSomethingThenAddBoostValueFrom', -- name
@@ -1165,7 +1313,9 @@ end', -- script
     0,   -- is_template
     0,   -- is_root
     41,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 
 INSERT INTO parsers(
@@ -1179,7 +1329,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     43,   -- id
     's:doSomethingThenAddBoostValueTo', -- name
@@ -1197,7 +1349,9 @@ end', -- script
     0,   -- is_template
     0,   -- is_root
     41,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 
 
@@ -1212,7 +1366,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     44,   -- id
     's:msFighterManipulation', -- name
@@ -1230,7 +1386,9 @@ end', -- script
     0,   -- is_template
     0,   -- is_root
     40,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 INSERT INTO parsers(
     id,
@@ -1243,7 +1401,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     45,   -- id
     's:msFighterPlacement', -- name
@@ -1261,7 +1421,9 @@ end', -- script
     0,   -- is_template
     0,   -- is_root
     44,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 INSERT INTO parsers(
     id,
@@ -1274,7 +1436,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     46,   -- id
     'm:chooseSpaceThenPlaceThere', -- name
@@ -1286,7 +1450,9 @@ INSERT INTO parsers(
     0,   -- is_template
     0,   -- is_root
     45,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 INSERT INTO parsers(
     id,
@@ -1299,7 +1465,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     47,   -- id
     's:chooseSpaceThenPlaceThereWhere', -- name
@@ -1317,7 +1485,9 @@ end', -- script
     0,   -- is_template
     0,   -- is_root
     46,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 
 INSERT INTO parsers(
@@ -1331,7 +1501,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     48,   -- id
     's:chooseSpaceThenPlaceThereWhat', -- name
@@ -1349,7 +1521,9 @@ end', -- script
     0,   -- is_template
     0,   -- is_root
     46,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 
 
@@ -1365,7 +1539,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     49,   -- id
     's:msFighterMovement', -- name
@@ -1383,7 +1559,9 @@ end', -- script
     0,   -- is_template
     0,   -- is_root
     44,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 INSERT INTO parsers(
     id,
@@ -1396,23 +1574,23 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     50,   -- id
     'm:moveMayMoveThroughOpposing', -- name
     1,   -- ptype
     '^[M|m]ove (.+) up to (.+) spaces\. .+ through spaces containing opposing fighters$', -- pattern
-    'function _Create(text, children, data) return string.format(''UM.Effects:MoveFighters(
-%s,
-UM.Number:UpTo(%s),
-true
-)'', children[1], children[2]) end', -- script
+    'function _Create(text, children, data) return string.format(''UM.Effects:MoveFighters(\n%s,\nUM.Number:UpTo(%s),\ntrue\n)'', children[1], children[2]) end', -- script
     'test', -- project_name
     '', -- description
     0,   -- is_template
     0,   -- is_root
     49,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 INSERT INTO parsers(
     id,
@@ -1425,7 +1603,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     51,   -- id
     'multipleFighters', -- name
@@ -1437,7 +1617,9 @@ INSERT INTO parsers(
     0,   -- is_template
     0,   -- is_root
     50,   -- parent_id
-    1    -- is_ref
+    1,   -- is_ref
+    0,
+    0
 );
 INSERT INTO parsers(
     id,
@@ -1450,7 +1632,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     52,   -- id
     'm:moveMayMoveThroughOpposingAmount', -- name
@@ -1462,7 +1646,9 @@ INSERT INTO parsers(
     0,   -- is_template
     0,   -- is_root
     50,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 
 
@@ -1480,7 +1666,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     53,   -- id
     's:complexCharacterSpecific', -- name
@@ -1498,7 +1686,9 @@ end', -- script
     1,   -- is_template
     0,   -- is_root
     NULL,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 
 INSERT INTO parsers(
@@ -1512,7 +1702,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     54,   -- id
     's:handManipulationSelector', -- name
@@ -1530,7 +1722,9 @@ end', -- script
     1,   -- is_template
     0,   -- is_root
     NULL,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 INSERT INTO parsers(
     id,
@@ -1543,23 +1737,23 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     55,   -- id
     'm:draw', -- name
     1,   -- ptype
     '^(.+? )?(may )?[D|d]raws? (.+) cards?$', -- pattern
-    'function _Create(text, children, data) return string.format(''UM.Effects:Draw(
-%s, 
-%s, 
-%s
-)'', children[1], children[3], children[2]) end', -- script
+    'function _Create(text, children, data) return string.format(''UM.Effects:Draw(\n%s, \n%s, \n%s\n)'', children[1], children[3], children[2]) end', -- script
     'test', -- project_name
     '', -- description
     0,   -- is_template
     0,   -- is_root
     54,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 INSERT INTO parsers(
     id,
@@ -1572,7 +1766,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     56,   -- id
     'multiplePlayers', -- name
@@ -1584,7 +1780,9 @@ INSERT INTO parsers(
     0,   -- is_template
     0,   -- is_root
     55,   -- parent_id
-    1    -- is_ref
+    1,   -- is_ref
+    0,
+    0
 );
 INSERT INTO parsers(
     id,
@@ -1597,7 +1795,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     57,   -- id
     's:drawIsOptional', -- name
@@ -1615,7 +1815,9 @@ end', -- script
     0,   -- is_template
     0,   -- is_root
     55,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 INSERT INTO parsers(
     id,
@@ -1628,7 +1830,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     58,   -- id
     'm:drawIsOptionalTrue', -- name
@@ -1640,7 +1844,9 @@ INSERT INTO parsers(
     0,   -- is_template
     0,   -- is_root
     57,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 
 INSERT INTO parsers(
@@ -1654,7 +1860,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     59,   -- id
     'm:drawIsOptionalFalse', -- name
@@ -1666,7 +1874,9 @@ INSERT INTO parsers(
     0,   -- is_template
     0,   -- is_root
     57,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 
 
@@ -1681,7 +1891,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     60,   -- id
     'numericSelector', -- name
@@ -1693,7 +1905,9 @@ INSERT INTO parsers(
     0,   -- is_template
     0,   -- is_root
     55,   -- parent_id
-    1    -- is_ref
+    1,   -- is_ref
+    0,
+    0
 );
 
 INSERT INTO parsers(
@@ -1707,23 +1921,23 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     61,   -- id
     'm:discard', -- name
     1,   -- ptype
     '^(.+? )?[D|d]iscards? (.+?)( random)? cards?$', -- pattern
-    'function _Create(text, children, data) return string.format(''UM.Effects:Discard(
-%s, 
-%s, 
-%s
-)'', children[1], children[2], children[3]) end', -- script
+    'function _Create(text, children, data) return string.format(''UM.Effects:Discard(\n%s, \n%s, \n%s\n)'', children[1], children[2], children[3]) end', -- script
     'test', -- project_name
     '', -- description
     0,   -- is_template
     0,   -- is_root
     54,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 INSERT INTO parsers(
     id,
@@ -1736,7 +1950,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     62,   -- id
     'multiplePlayers', -- name
@@ -1748,7 +1964,9 @@ INSERT INTO parsers(
     0,   -- is_template
     0,   -- is_root
     61,   -- parent_id
-    1    -- is_ref
+    1,   -- is_ref
+    0,
+    0
 );
 INSERT INTO parsers(
     id,
@@ -1761,7 +1979,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     63,   -- id
     'numericSelector', -- name
@@ -1773,7 +1993,9 @@ INSERT INTO parsers(
     0,   -- is_template
     0,   -- is_root
     61,   -- parent_id
-    1    -- is_ref
+    1,   -- is_ref
+    0,
+    0
 );
 INSERT INTO parsers(
     id,
@@ -1786,7 +2008,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     64,   -- id
     's:discardIsRandom', -- name
@@ -1804,7 +2028,9 @@ end', -- script
     0,   -- is_template
     0,   -- is_root
     61,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 INSERT INTO parsers(
     id,
@@ -1817,7 +2043,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     65,   -- id
     'm:discardIsRandomFalse', -- name
@@ -1829,7 +2057,9 @@ INSERT INTO parsers(
     0,   -- is_template
     0,   -- is_root
     64,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 
 INSERT INTO parsers(
@@ -1843,7 +2073,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     66,   -- id
     'm:discardIsRandomTrue', -- name
@@ -1855,7 +2087,9 @@ INSERT INTO parsers(
     0,   -- is_template
     0,   -- is_root
     64,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 
 
@@ -1872,21 +2106,23 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     67,   -- id
     'm:multiplePlayers', -- name
     1,   -- ptype
     '^(.*)$', -- pattern
-    'function _Create(text, children, data) return string.format(''UM.Select:Players()
-%s
-:Build()'', children[1]) end', -- script
+    'function _Create(text, children, data) return string.format(''UM.Select:Players()\n%s\n:Build()'', children[1]) end', -- script
     'test', -- project_name
     '', -- description
     1,   -- is_template
     0,   -- is_root
     NULL,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 INSERT INTO parsers(
     id,
@@ -1899,7 +2135,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     68,   -- id
     's:multiplePlayersSelector', -- name
@@ -1917,7 +2155,9 @@ end', -- script
     0,   -- is_template
     0,   -- is_root
     67,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 INSERT INTO parsers(
     id,
@@ -1930,7 +2170,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     69,   -- id
     'm:multiplePlayersEffectOwner', -- name
@@ -1942,7 +2184,9 @@ INSERT INTO parsers(
     0,   -- is_template
     0,   -- is_root
     68,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 
 INSERT INTO parsers(
@@ -1956,7 +2200,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     70,   -- id
     'm:multiplePlayersYou', -- name
@@ -1968,7 +2214,9 @@ INSERT INTO parsers(
     0,   -- is_template
     0,   -- is_root
     68,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 
 INSERT INTO parsers(
@@ -1982,7 +2230,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     71,   -- id
     'm:multiplePlayersYourOpponent', -- name
@@ -1994,7 +2244,9 @@ INSERT INTO parsers(
     0,   -- is_template
     0,   -- is_root
     68,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 
 INSERT INTO parsers(
@@ -2008,7 +2260,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     72,   -- id
     'm:multiplePlayersEach', -- name
@@ -2020,7 +2274,9 @@ INSERT INTO parsers(
     0,   -- is_template
     0,   -- is_root
     68,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 INSERT INTO parsers(
     id,
@@ -2033,7 +2289,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     73,   -- id
     's:multiplePlayersEachSelector', -- name
@@ -2051,7 +2309,9 @@ end', -- script
     0,   -- is_template
     0,   -- is_root
     72,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 INSERT INTO parsers(
     id,
@@ -2064,7 +2324,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     74,   -- id
     'm:multiplePlayersEach', -- name
@@ -2076,7 +2338,9 @@ INSERT INTO parsers(
     0,   -- is_template
     0,   -- is_root
     73,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 
 
@@ -2094,7 +2358,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     75,   -- id
     's:numericSelector', -- name
@@ -2112,7 +2378,9 @@ end', -- script
     1,   -- is_template
     0,   -- is_root
     NULL,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 INSERT INTO parsers(
     id,
@@ -2125,7 +2393,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     76,   -- id
     'm:numericStatic', -- name
@@ -2137,7 +2407,9 @@ INSERT INTO parsers(
     0,   -- is_template
     0,   -- is_root
     75,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 
 INSERT INTO parsers(
@@ -2151,7 +2423,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     77,   -- id
     'm:numericStaticA', -- name
@@ -2163,7 +2437,9 @@ INSERT INTO parsers(
     0,   -- is_template
     0,   -- is_root
     75,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 
 INSERT INTO parsers(
@@ -2177,7 +2453,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     78,   -- id
     'm:numericUpTo', -- name
@@ -2189,7 +2467,9 @@ INSERT INTO parsers(
     0,   -- is_template
     0,   -- is_root
     75,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 INSERT INTO parsers(
     id,
@@ -2202,7 +2482,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     79,   -- id
     'm:numericUpToNumber', -- name
@@ -2214,7 +2496,9 @@ INSERT INTO parsers(
     0,   -- is_template
     0,   -- is_root
     78,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 
 
@@ -2230,7 +2514,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     80,   -- id
     's:fighterManipulationSelector', -- name
@@ -2248,7 +2534,9 @@ end', -- script
     1,   -- is_template
     0,   -- is_root
     NULL,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 INSERT INTO parsers(
     id,
@@ -2261,7 +2549,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     81,   -- id
     'fighterMovementSelector', -- name
@@ -2273,7 +2563,9 @@ INSERT INTO parsers(
     0,   -- is_template
     0,   -- is_root
     80,   -- parent_id
-    1    -- is_ref
+    1,   -- is_ref
+    0,
+    0
 );
 INSERT INTO parsers(
     id,
@@ -2286,7 +2578,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     82,   -- id
     'healthManipulationSelector', -- name
@@ -2298,7 +2592,9 @@ INSERT INTO parsers(
     0,   -- is_template
     0,   -- is_root
     80,   -- parent_id
-    1    -- is_ref
+    1,   -- is_ref
+    0,
+    0
 );
 
 INSERT INTO parsers(
@@ -2312,7 +2608,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     83,   -- id
     's:fighterMovementSelector', -- name
@@ -2330,7 +2628,9 @@ end', -- script
     1,   -- is_template
     0,   -- is_root
     NULL,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 INSERT INTO parsers(
     id,
@@ -2343,23 +2643,23 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     84,   -- id
     'm:move', -- name
     1,   -- ptype
     '^[M|m]oves? (.+) up to (.+) spaces$', -- pattern
-    'function _Create(text, children, data) return string.format(''UM.Effects:MoveFighters(
-%s,
-UM.Number:UpTo(%s),
-false
-)'', children[1], children[2]) end', -- script
+    'function _Create(text, children, data) return string.format(''UM.Effects:MoveFighters(\n%s,\nUM.Number:UpTo(%s),\nfalse\n)'', children[1], children[2]) end', -- script
     'test', -- project_name
     '', -- description
     0,   -- is_template
     0,   -- is_root
     83,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 INSERT INTO parsers(
     id,
@@ -2372,7 +2672,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     85,   -- id
     'multipleFighters', -- name
@@ -2384,7 +2686,9 @@ INSERT INTO parsers(
     0,   -- is_template
     0,   -- is_root
     84,   -- parent_id
-    1    -- is_ref
+    1,   -- is_ref
+    0,
+    0
 );
 INSERT INTO parsers(
     id,
@@ -2397,7 +2701,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     86,   -- id
     'm:moveAmount', -- name
@@ -2409,7 +2715,9 @@ INSERT INTO parsers(
     0,   -- is_template
     0,   -- is_root
     84,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 
 
@@ -2425,21 +2733,23 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     87,   -- id
     'm:multipleFighters', -- name
     1,   -- ptype
     '^(.+)$', -- pattern
-    'function _Create(text, children, data) return string.format(''UM.Select:Fighters()
-%s
-:Build()'', children[1]) end', -- script
+    'function _Create(text, children, data) return string.format(''UM.Select:Fighters()\n%s\n:Build()'', children[1]) end', -- script
     'test', -- project_name
     '', -- description
     1,   -- is_template
     0,   -- is_root
     NULL,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 INSERT INTO parsers(
     id,
@@ -2452,7 +2762,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     88,   -- id
     's:multipleFightersSelector', -- name
@@ -2470,7 +2782,9 @@ end', -- script
     0,   -- is_template
     0,   -- is_root
     87,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 INSERT INTO parsers(
     id,
@@ -2483,7 +2797,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     89,   -- id
     'm:multipleFightersYourFighter', -- name
@@ -2495,7 +2811,9 @@ INSERT INTO parsers(
     0,   -- is_template
     0,   -- is_root
     88,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 
 INSERT INTO parsers(
@@ -2509,7 +2827,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     90,   -- id
     'm:multipleFightersOpposingFighter', -- name
@@ -2521,7 +2841,9 @@ INSERT INTO parsers(
     0,   -- is_template
     0,   -- is_root
     88,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 
 INSERT INTO parsers(
@@ -2535,7 +2857,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     91,   -- id
     'm:multipleFightersEach', -- name
@@ -2547,7 +2871,9 @@ INSERT INTO parsers(
     0,   -- is_template
     0,   -- is_root
     88,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 INSERT INTO parsers(
     id,
@@ -2560,7 +2886,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     92,   -- id
     'eachFighterSelector', -- name
@@ -2572,7 +2900,9 @@ INSERT INTO parsers(
     0,   -- is_template
     0,   -- is_root
     91,   -- parent_id
-    1    -- is_ref
+    1,   -- is_ref
+    0,
+    0
 );
 
 INSERT INTO parsers(
@@ -2586,21 +2916,23 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     93,   -- id
     'm:multipleFightersYourOtherFighter', -- name
     1,   -- ptype
     '^[Y|y]our other fighter$', -- pattern
-    'function _Create(text, children, data) return '':OtherThanSource()
-:Your()
-:Single()'' end', -- script
+    'function _Create(text, children, data) return '':OtherThanSource()\n:Your()\n:Single()'' end', -- script
     'test', -- project_name
     '', -- description
     0,   -- is_template
     0,   -- is_root
     88,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 
 INSERT INTO parsers(
@@ -2614,7 +2946,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     94,   -- id
     'm:multipleFightersAnyFighter', -- name
@@ -2626,7 +2960,9 @@ INSERT INTO parsers(
     0,   -- is_template
     0,   -- is_root
     88,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 
 INSERT INTO parsers(
@@ -2640,7 +2976,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     95,   -- id
     'm:multipleFightersAllOpposingFighters', -- name
@@ -2652,7 +2990,9 @@ INSERT INTO parsers(
     0,   -- is_template
     0,   -- is_root
     88,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 
 INSERT INTO parsers(
@@ -2666,20 +3006,23 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     96,   -- id
     'm:anySingleFighter', -- name
     1,   -- ptype
     '^(?:any 1|1|an|a) (.+)$', -- pattern
-    'function _Create(text, children, data) return children[1]..''
-:Single()'' end', -- script
+    'function _Create(text, children, data) return children[1]..''\n:Single()'' end', -- script
     'test', -- project_name
     '', -- description
     0,   -- is_template
     0,   -- is_root
     88,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 INSERT INTO parsers(
     id,
@@ -2692,7 +3035,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     97,   -- id
     'eachFighterSelector', -- name
@@ -2704,7 +3049,9 @@ INSERT INTO parsers(
     0,   -- is_template
     0,   -- is_root
     96,   -- parent_id
-    1    -- is_ref
+    1,   -- is_ref
+    0,
+    0
 );
 
 INSERT INTO parsers(
@@ -2718,7 +3065,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     98,   -- id
     'm:namedFighters', -- name
@@ -2730,7 +3079,9 @@ INSERT INTO parsers(
     0,   -- is_template
     0,   -- is_root
     88,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 INSERT INTO parsers(
     id,
@@ -2743,7 +3094,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     99,   -- id
     'fighterNames', -- name
@@ -2755,7 +3108,9 @@ INSERT INTO parsers(
     0,   -- is_template
     0,   -- is_root
     98,   -- parent_id
-    1    -- is_ref
+    1,   -- is_ref
+    0,
+    0
 );
 
 
@@ -2771,19 +3126,23 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     100,   -- id
     'm:fighterNames', -- name
     1,   -- ptype
-    '^(?:Harpy|Wolf|squirrel|Actor|Alice|Sinbad|Bigfoot|Dr{DOTSPACE}Jekyll|King Arthur|Faith|Holmes|Little Red|Ghost Rider|Daredevil|Bullseye|Elektra|Black Widow|Golden Bat|Ciri|Geralt|Buffy|Tesla|Raptors|InGen Workers|Shakespeare|Ihuarraquax|She-Hulk|the Jackalope|Shuri|The Genie|Squirrel Girl|Yennenga)$', -- pattern
+    '^(?:Harpy|Wolf|squirrel|Actor|Alice|Sinbad|Bigfoot|Dr\{DOTSPACE\}Jekyll|King Arthur|Faith|Holmes|Little Red|Ghost Rider|Daredevil|Bullseye|Elektra|Black Widow|Golden Bat|Ciri|Geralt|Buffy|Tesla|Raptors|InGen Workers|Shakespeare|Ihuarraquax|She-Hulk|the Jackalope|Shuri|The Genie|Squirrel Girl|Yennenga)$', -- pattern
     'function _Create(text, children, data) return text end', -- script
     'test', -- project_name
     '', -- description
     1,   -- is_template
     0,   -- is_root
     NULL,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 
 INSERT INTO parsers(
@@ -2797,7 +3156,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     101,   -- id
     's:todoSortMeSelector', -- name
@@ -2815,7 +3176,9 @@ end', -- script
     1,   -- is_template
     0,   -- is_root
     NULL,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 INSERT INTO parsers(
     id,
@@ -2828,7 +3191,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     102,   -- id
     'm:cancelAllEffectsOnOpponentsCard', -- name
@@ -2840,7 +3205,9 @@ INSERT INTO parsers(
     0,   -- is_template
     0,   -- is_root
     101,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 
 
@@ -2855,7 +3222,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     103,   -- id
     's:simpleCharacterSpecific', -- name
@@ -2873,7 +3242,9 @@ end', -- script
     1,   -- is_template
     0,   -- is_root
     NULL,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 INSERT INTO parsers(
     id,
@@ -2886,7 +3257,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     104,   -- id
     'm:changeSize', -- name
@@ -2898,7 +3271,9 @@ INSERT INTO parsers(
     0,   -- is_template
     0,   -- is_root
     103,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 
 INSERT INTO parsers(
@@ -2912,7 +3287,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     105,   -- id
     'm:acquireNewMission', -- name
@@ -2924,7 +3301,9 @@ INSERT INTO parsers(
     0,   -- is_template
     0,   -- is_root
     103,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 
 
@@ -2939,7 +3318,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     106,   -- id
     's:healthManipulationSelector', -- name
@@ -2957,7 +3338,9 @@ end', -- script
     1,   -- is_template
     0,   -- is_root
     NULL,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 INSERT INTO parsers(
     id,
@@ -2970,22 +3353,23 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     107,   -- id
     'm:recover', -- name
     1,   -- ptype
     '^(.+)[R|r]ecovers? (.+) health$', -- pattern
-    'function _Create(text, children, data) return string.format(''UM.Effects:Recover(
-%s,
-%s
-)'', children[1], children[2]) end', -- script
+    'function _Create(text, children, data) return string.format(''UM.Effects:Recover(\n%s,\n%s\n)'', children[1], children[2]) end', -- script
     'test', -- project_name
     '', -- description
     0,   -- is_template
     0,   -- is_root
     106,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 INSERT INTO parsers(
     id,
@@ -2998,7 +3382,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     108,   -- id
     's:recoverTargetSelector', -- name
@@ -3016,7 +3402,9 @@ end', -- script
     0,   -- is_template
     0,   -- is_root
     107,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 INSERT INTO parsers(
     id,
@@ -3029,7 +3417,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     109,   -- id
     'm:recoverTargetFighter', -- name
@@ -3041,7 +3431,9 @@ INSERT INTO parsers(
     0,   -- is_template
     0,   -- is_root
     108,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 
 INSERT INTO parsers(
@@ -3055,7 +3447,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     110,   -- id
     'm:recoverTargetMultipleFighters', -- name
@@ -3067,7 +3461,9 @@ INSERT INTO parsers(
     0,   -- is_template
     0,   -- is_root
     108,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 INSERT INTO parsers(
     id,
@@ -3080,7 +3476,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     111,   -- id
     'multipleFighters', -- name
@@ -3092,7 +3490,9 @@ INSERT INTO parsers(
     0,   -- is_template
     0,   -- is_root
     110,   -- parent_id
-    1    -- is_ref
+    1,   -- is_ref
+    0,
+    0
 );
 
 
@@ -3107,7 +3507,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     112,   -- id
     'm:recoverAmount', -- name
@@ -3119,7 +3521,9 @@ INSERT INTO parsers(
     0,   -- is_template
     0,   -- is_root
     107,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 
 
@@ -3134,22 +3538,23 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     113,   -- id
     'm:dealDamage', -- name
     1,   -- ptype
     '^[D|d]eal (.+) damage to (.+)$', -- pattern
-    'function _Create(text, children, data) return string.format(''UM.Effects:DealDamage(
-%s,
-UM.Number:Static(%s)
-)'', children[2], children[1]) end', -- script
+    'function _Create(text, children, data) return string.format(''UM.Effects:DealDamage(\n%s,\nUM.Number:Static(%s)\n)'', children[2], children[1]) end', -- script
     'test', -- project_name
     '', -- description
     0,   -- is_template
     0,   -- is_root
     106,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 INSERT INTO parsers(
     id,
@@ -3162,7 +3567,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     114,   -- id
     'm:dealDamageAmount', -- name
@@ -3174,7 +3581,9 @@ INSERT INTO parsers(
     0,   -- is_template
     0,   -- is_root
     113,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 
 INSERT INTO parsers(
@@ -3188,7 +3597,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     115,   -- id
     'multipleFighters', -- name
@@ -3200,7 +3611,9 @@ INSERT INTO parsers(
     0,   -- is_template
     0,   -- is_root
     113,   -- parent_id
-    1    -- is_ref
+    1,   -- is_ref
+    0,
+    0
 );
 
 
@@ -3215,7 +3628,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     116,   -- id
     's:eachFighterSelector', -- name
@@ -3233,7 +3648,9 @@ end', -- script
     1,   -- is_template
     0,   -- is_root
     NULL,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 INSERT INTO parsers(
     id,
@@ -3246,7 +3663,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     117,   -- id
     'm:eachFighter', -- name
@@ -3258,7 +3677,9 @@ INSERT INTO parsers(
     0,   -- is_template
     0,   -- is_root
     116,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 INSERT INTO parsers(
     id,
@@ -3271,7 +3692,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     118,   -- id
     's:allFightersSelector', -- name
@@ -3289,7 +3712,9 @@ end', -- script
     0,   -- is_template
     0,   -- is_root
     117,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 INSERT INTO parsers(
     id,
@@ -3302,7 +3727,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     119,   -- id
     'm:allFightersEmpty', -- name
@@ -3314,7 +3741,9 @@ INSERT INTO parsers(
     0,   -- is_template
     0,   -- is_root
     118,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 
 INSERT INTO parsers(
@@ -3328,7 +3757,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     120,   -- id
     'm:allYourFighters', -- name
@@ -3340,7 +3771,9 @@ INSERT INTO parsers(
     0,   -- is_template
     0,   -- is_root
     118,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 
 INSERT INTO parsers(
@@ -3354,7 +3787,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     121,   -- id
     'm:eachAdjacent', -- name
@@ -3366,7 +3801,9 @@ INSERT INTO parsers(
     0,   -- is_template
     0,   -- is_root
     118,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 
 
@@ -3382,7 +3819,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     122,   -- id
     'm:eachFighterInCombat', -- name
@@ -3394,7 +3833,9 @@ INSERT INTO parsers(
     0,   -- is_template
     0,   -- is_root
     116,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 
 INSERT INTO parsers(
@@ -3408,20 +3849,23 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     123,   -- id
     'm:eachNamedFighter', -- name
     1,   -- ptype
     '^(of your )?(.+)$', -- pattern
-    'function _Create(text, children, data) return string.format(''%s
-:Named(\''%s\'')'', children[1], children[2]) end', -- script
+    'function _Create(text, children, data) return string.format(''%s\n:Named(\''%s\'')'', children[1], children[2]) end', -- script
     'test', -- project_name
     '', -- description
     0,   -- is_template
     0,   -- is_root
     116,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 INSERT INTO parsers(
     id,
@@ -3434,7 +3878,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     124,   -- id
     's:eachNamedFighterOwned', -- name
@@ -3452,7 +3898,9 @@ end', -- script
     0,   -- is_template
     0,   -- is_root
     123,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 INSERT INTO parsers(
     id,
@@ -3465,7 +3913,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     125,   -- id
     'm:eachNamedFighterOwnedFalse', -- name
@@ -3477,7 +3927,9 @@ INSERT INTO parsers(
     0,   -- is_template
     0,   -- is_root
     124,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 
 INSERT INTO parsers(
@@ -3491,7 +3943,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     126,   -- id
     'm:eachNamedFighterOwnedTrue', -- name
@@ -3503,7 +3957,9 @@ INSERT INTO parsers(
     0,   -- is_template
     0,   -- is_root
     124,   -- parent_id
-    0    -- is_ref
+    0,   -- is_ref
+    0,
+    0
 );
 
 
@@ -3518,7 +3974,9 @@ INSERT INTO parsers(
     is_template,
     is_root,
     parent_id,
-    is_ref
+    is_ref,
+    editor_offset_x,
+    editor_offset_y
 ) VALUES (
     127,   -- id
     'fighterNames', -- name
@@ -3530,7 +3988,9 @@ INSERT INTO parsers(
     0,   -- is_template
     0,   -- is_root
     123,   -- parent_id
-    1    -- is_ref
+    1,   -- is_ref
+    0,
+    0
 );
 
 
