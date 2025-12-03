@@ -9,9 +9,12 @@ use godot::prelude::*;
 use mlua::Lua;
 
 use crate::model::parser::ParserModel;
+use crate::nodes::parsing_history::ParsingHistory;
+use crate::nodes::parsing_history::ParsingHistoryNode;
 use crate::nodes::project_tabs::cards_tab::*;
 use crate::nodes::project_tabs::logs_tab::LogsTabNode;
 use crate::nodes::project_tabs::parsers_tab::ParsersTabNode;
+use crate::parsers::parser::ParseResult;
 use crate::parsers::parser::ParseResultStatus;
 use crate::parsers::parser::ParserNode;
 use crate::repo::*;
@@ -35,6 +38,8 @@ pub struct ProjectEditorNode {
     logs_tab: OnEditor<Gd<LogsTabNode>>,
     #[export]
     parsers_tab: OnEditor<Gd<ParsersTabNode>>,
+    #[export]
+    completion_progress_bar: OnEditor<Gd<ProgressBar>>,
 }
 
 #[godot_api]
@@ -60,11 +65,24 @@ impl IControl for ProjectEditorNode {
             .bind_mut()
             .logs_tab
             .init(self.logs_tab.clone());
+
+        // self.on_new_history_added(ParsingHistory {
+        //     parse_results: vec![],
+        // });
+
+        self.completion_progress_bar.set_max(1.0);
+        self.completion_progress_bar.set_value(0.0);
     }
 }
 
 impl ProjectEditorNode {
-    fn parse(&self) {
+    fn parse(&mut self) {
+        let mut logs_tab = self.get_logs_tab().expect("Failed to get logs tab");
+
+        logs_tab
+            .bind_mut()
+            .log(String::from("Starting parsing process..."));
+
         let models = self
             .get_repo()
             .expect("Failed to get repo")
@@ -74,7 +92,7 @@ impl ProjectEditorNode {
 
         // Create all parsers
         let mut parsers = Vec::<Rc<RefCell<ParserNode>>>::new();
-        let mut root_idx = OnceCell::<usize>::new();
+        let root_idx = OnceCell::<usize>::new();
         for (idx, model) in models.iter().enumerate() {
             if model.is_root {
                 root_idx.set(idx).expect("Failed to set root_idx");
@@ -103,20 +121,50 @@ impl ProjectEditorNode {
 
         let root = parsers[*root_idx.get().expect("Failed to find root")].clone();
 
-        let cards = self.get_repo().expect("Failed to get repo").bind_mut().get_cards(&self.edited_project_name).expect("Failed to get cards");
+        let cards = self
+            .get_repo()
+            .expect("Failed to get repo")
+            .bind_mut()
+            .get_cards(&self.edited_project_name)
+            .expect("Failed to get cards");
         let mut total = 0;
         let mut parsed = 0;
+
+        let mut parse_results = Vec::<ParseResult>::new();
+
         for card in cards {
+            logs_tab
+                .bind_mut()
+                .log(format!("Parsing card {}", &card.name));
             total += 1;
             let lua = Lua::new();
             let result = ParserNode::parse(root.clone(), &card.text, &lua);
-            if result.status == ParseResultStatus::Success {
-                parsed += 1;
+            match result.status {
+                ParseResultStatus::Success => {
+                    parsed += 1;
+                    logs_tab.bind_mut().log(format!(
+                        "Parsed card {}",
+                        LogsTabNode::format_card_name(&card.name)
+                    ));
+                }
+                _other => {
+                    logs_tab.bind_mut().log(format!(
+                        "Failed to parse card {}",
+                        LogsTabNode::format_failed_to_parse_card_name(&card.name)
+                    ));
+                }
             }
-            // godot_print!("CARD TEXT: {}", &card.text);
-            // godot_print!("PARSE STATUS OF FIRST CARD: {:?}", &result.status);
+
+            parse_results.push(result);
         }
-        godot_print!("{}/{}", parsed, total);
+
+        logs_tab.bind_mut().log_important(format!(
+            "Finished parsing, parsed {}/{} cards",
+            LogsTabNode::format_count(parsed),
+            LogsTabNode::format_count(total)
+        ));
+
+        self.on_new_history_added(ParsingHistory::from_parse_results(parse_results));
     }
 
     fn connect_signals(&self) {
@@ -124,6 +172,23 @@ impl ProjectEditorNode {
             .signals()
             .text_changed()
             .connect_other(self, Self::on_project_description_edit_text_changed);
+    }
+
+    pub fn on_new_history_added(&mut self, ph: ParsingHistory) {
+        self.update_parsing_progress_bar(&ph);
+        // TODO update cards_tab
+        self.parsers_tab.bind_mut().update_parsing_history(&ph);
+
+        self.repo.bind_mut().set_current_parsing_history(self.edited_project_name.to_string(), ph);
+    }
+
+    fn update_parsing_progress_bar(&mut self, ph: &ParsingHistory) {
+        self.get_completion_progress_bar()
+            .expect("Failed to get progress bar")
+            .set_max(ph.total_len() as f64);
+        self.get_completion_progress_bar()
+            .expect("Failed to get progress bar")
+            .set_value(ph.parsed_len() as f64);
     }
 
     pub fn load_project(&mut self, project_name: &String) {

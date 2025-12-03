@@ -2,6 +2,7 @@ use rusqlite::Params;
 use sql_query_builder as sql;
 use sql_query_builder::Select;
 use std::cell::OnceCell;
+use std::collections::HashMap;
 use std::error::Error;
 
 use godot::classes::*;
@@ -13,6 +14,8 @@ use crate::model::card::CardModel;
 use crate::model::editor::EditorModel;
 use crate::model::parser::ParserModel;
 use crate::model::project::ProjectModel;
+use crate::nodes::parsing_history::ParserParsingHistory;
+use crate::nodes::parsing_history::ParsingHistory;
 use crate::traits::*;
 
 #[derive(GodotClass)]
@@ -27,6 +30,8 @@ pub struct ParserRepositoryNode {
     file_path: GString,
 
     connection: OnceCell<Connection>,
+
+    pub current_parsing_histories: HashMap::<String, ParsingHistory>,
 }
 
 #[godot_api]
@@ -86,6 +91,25 @@ impl ParserRepositoryNode {
             ParserModel::sql_select().where_clause("id = $1"),
             params!(id),
         )
+    }
+
+    pub fn set_current_parsing_history(&mut self, project_name: String, ph: ParsingHistory) {
+        self.current_parsing_histories.insert(project_name, ph);
+    }
+
+    pub fn get_parser_parsing_history(&self, project_name: &String, parser_name: &String) -> Option<&ParserParsingHistory> {
+        match self.current_parsing_histories.get(project_name) {
+            Some(ph) => {
+                ph.parse_result_map.get(parser_name)
+            },
+            None => {
+                None
+            }
+        }
+    }
+
+    pub fn get_parsing_history(&self, project_name: &String) -> Option<&ParsingHistory> {
+        self.current_parsing_histories.get(project_name)
     }
 
     pub fn delete_project(&mut self, project_name: &String) -> Result<(), Box<dyn Error>> {

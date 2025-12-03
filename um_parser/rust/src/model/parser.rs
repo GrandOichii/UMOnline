@@ -1,7 +1,7 @@
 use core::panic;
 use std::{error::Error, vec};
 
-use crate::{parsers::{matcher::Matcher, parser::ParserNode, selector::Selector, splitter::Splitter}, traits::*};
+use crate::{nodes::parsing_history::ParserParsingHistory, parsers::{matcher::Matcher, parser::ParserNode, selector::Selector, splitter::Splitter}, traits::*};
 use regex::Regex;
 use sql_query_builder as sql;
 

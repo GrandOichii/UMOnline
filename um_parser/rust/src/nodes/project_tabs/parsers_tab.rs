@@ -1,3 +1,4 @@
+use std::any::Any;
 use std::cell::Cell;
 use std::cell::OnceCell;
 
@@ -8,6 +9,8 @@ use regex::Regex;
 
 use crate::model::parser::*;
 use crate::model::project::ProjectModel;
+use crate::nodes::parsing_history::ParserParsingHistory;
+use crate::nodes::parsing_history::ParsingHistory;
 use crate::nodes::project_tabs::logs_tab::LogsTabNode;
 use crate::repo::ParserRepositoryNode;
 
@@ -63,6 +66,18 @@ impl ParsersTabNode {
             .connect_other(self, Self::on_parser_tabs_container_close_pressed);
     }
 
+    pub fn update_parsing_history(&mut self, ph: &ParsingHistory) {
+        for i in 0..self.parser_tabs_container.get_child_count() {
+            let mut child = self
+                .parser_tabs_container
+                .get_child(i)
+                .unwrap()
+                .try_cast::<ParserTabNode>()
+                .expect("Non-ParserTabNode detected in parser_tabs_container");
+            child.bind_mut().update_parsing_history(Some(ph));
+        }
+    }
+
     fn on_parser_tabs_container_close_pressed(&mut self, idx: i64) {
         let child = self
             .parser_tabs_container
@@ -89,7 +104,8 @@ impl ParsersTabNode {
         self.templates_list.clear();
         let project_name = self.loaded_project_name.to_string();
 
-        let templates = self.repo
+        let templates = self
+            .repo
             .bind_mut()
             .get_templates(&project_name)
             .expect("Failed to load templates");
@@ -148,10 +164,7 @@ impl ParsersTabNode {
         self.parser_tabs_container.add_child(&node);
         self.parser_tabs_container.set_current_tab(prev_child_count);
 
-        node.bind_mut()
-            .repo
-            .init(self.repo.clone());
-
+        node.bind_mut().repo.init(self.repo.clone());
         node.bind_mut().load_parser(&parser);
     }
 }
@@ -201,8 +214,21 @@ impl ParserTabNode {
             .signals()
             .end_node_move()
             .connect_other(self, Self::on_graph_end_node_move);
+    }
 
-        // TODO connect to repo's parser_updated signal, iterate over all displayed parsers, update each one
+    pub fn update_parsing_history(&mut self, ph: Option<&ParsingHistory>) {
+        for i in 0..self.graph.get_child_count() {
+            // let mut child = self.graph.get_child(i).unwrap().try_cast::<ParserTabNode>()
+            //     .expect("Non-ParserTabNode detected in parser_tabs_container");
+            let child = self.graph.get_child(i).unwrap();
+            match child.try_cast::<ParserGraphNode>() {
+                Ok(mut node) => {
+                    node.bind_mut().load_parsing_history(ph);
+                }
+                Err(_) => continue,
+            };
+            // child.bind_mut().update_parsing_history(ph);
+        }
     }
 
     fn get_displayed_parsers(&mut self) -> Vec<Gd<ParserGraphNode>> {
@@ -211,7 +237,9 @@ impl ParserTabNode {
         let mut result = Vec::new();
 
         for i in 0..child_count {
-            let child = self.graph.get_child(i)
+            let child = self
+                .graph
+                .get_child(i)
                 .expect("Failed to get child at expected idx");
             if let Ok(parser_node) = child.try_cast::<ParserGraphNode>() {
                 result.push(parser_node);
@@ -226,7 +254,14 @@ impl ParserTabNode {
         for mut child in parsers {
             let mut parser = child.bind_mut();
             parser.update_parser_offset();
-            self.repo.bind_mut().update_parser_by_id(parser.parser.as_ref().expect("Tried to update a parser that is None"))
+            self.repo
+                .bind_mut()
+                .update_parser_by_id(
+                    parser
+                        .parser
+                        .as_ref()
+                        .expect("Tried to update a parser that is None"),
+                )
                 .expect("Failed to update parser");
         }
     }
@@ -234,7 +269,7 @@ impl ParserTabNode {
     fn on_graph_node_selected(&mut self, node: Gd<Node>) {
         godot_print!("NODE SELECTED");
     }
-    
+
     fn load_parser(&mut self, parser: &ParserModel) {
         self.name_label.set_text(&parser.name);
         self.type_label.set_text(&pmt_to_string(parser.ptype));
@@ -280,7 +315,13 @@ impl ParserTabNode {
             .set(self.graph.clone())
             .expect("Failed to pass down graph node");
 
+        let binding = self.repo.bind_mut();
+        let ph = binding.get_parsing_history(&parent.project_name);
+        // let ph = binding.get_parser_parsing_history(&parent.project_name, &parent.name);
+
         result.bind_mut().load_parser(parent.clone());
+        result.bind_mut().load_parsing_history(ph);
+        drop(binding);
 
         let mut children = Vec::<Gd<ParserGraphNode>>::with_capacity(parent.children.len());
 
@@ -303,20 +344,27 @@ impl ParserTabNode {
 
 struct ParserNodeTitle {
     pub pattern: String,
-    pub parsed_count: u32,
-    pub unparsed_count: u32,
+    pub parsed_count: usize,
+    pub unparsed_count: usize,
 }
 
 impl ParserNodeTitle {
     pub fn to_string(&self) -> String {
-        format!("{}/{} {}", &self.parsed_count, &self.unparsed_count, &self.pattern)
+        format!(
+            "{}/{} {}",
+            &self.parsed_count, &self.unparsed_count, &self.pattern
+        )
         // format!("{}/{}", &self.parsed_count, &self.unparsed_count)
     }
 }
 
 impl Default for ParserNodeTitle {
     fn default() -> Self {
-        Self { pattern: String::from(""), parsed_count: 0, unparsed_count: 0 }
+        Self {
+            pattern: String::from(""),
+            parsed_count: 0,
+            unparsed_count: 0,
+        }
         // Self { parsed_count: 0, unparsed_count: 0 }
     }
 }
@@ -337,6 +385,14 @@ pub struct ParserGraphNode {
     local_color: Color,
     #[export]
     ref_color: Color,
+
+    #[export_group(name = "Nodes")]
+    #[export]
+    parsing_info_container: OnEditor<Gd<FoldableContainer>>,
+    #[export]
+    unparsed_texts_list: OnEditor<Gd<ItemList>>,
+    #[export]
+    parsed_texts_list: OnEditor<Gd<ItemList>>,
 }
 
 #[godot_api]
@@ -347,8 +403,7 @@ impl IGraphNode for ParserGraphNode {
 }
 
 impl ParserGraphNode {
-    fn connect_signals(&mut self) {
-    }
+    fn connect_signals(&mut self) {}
 
     fn load_parser(&mut self, parser: ParserModel) {
         self.base_mut().set_title(&parser.name);
@@ -358,9 +413,52 @@ impl ParserGraphNode {
         self.add_connection_slots(&parser);
         self.set_pattern(&parser.pattern);
 
-        self.base_mut().set_position_offset(Vector2::new(parser.editor_offset_x, parser.editor_offset_y));
+        self.base_mut()
+            .set_position_offset(Vector2::new(parser.editor_offset_x, parser.editor_offset_y));
 
+        // self.parsing_info_container.set_visible(!parser.is_ref);
         self.parser = Some(parser);
+    }
+
+    // fn load_parser_parsing_history(&mut self, pph: Option<&ParserParsingHistory>) {
+    //     let binding = ParserParsingHistory {
+    //         parsed_texts: vec![],
+    //         unparsed_texts: vec![],
+    //     };
+    //     let v = pph.unwrap_or(&binding);
+
+    //     self.title.parsed_count = v.parsed_texts.len();
+    //     self.title.unparsed_count = v.unparsed_texts.len();
+    //     self.update_title();
+
+    //     // unparsed texts
+    //     self.unparsed_texts_list.clear();
+    //     // for text in &v.unparsed_texts {
+    //     //     self.unparsed_texts_list.add_item(text);
+    //     //     // TODO set metadata
+    //     // }
+    // }
+    fn load_parsing_history(&mut self, ph: Option<&ParsingHistory>) {
+        let binding = ParserParsingHistory {
+            parsed_texts: vec![],
+            unparsed_texts: vec![],
+        };
+        let name = &self.parser.as_ref().unwrap().name;
+        let v = match ph {
+            Some(p) => p.get_for(name).unwrap_or(&binding),
+            None => &binding,
+        };
+
+        self.title.parsed_count = v.parsed_texts.len();
+        self.title.unparsed_count = v.unparsed_texts.len();
+        self.update_title();
+
+        // unparsed texts
+        self.unparsed_texts_list.clear();
+        // for text in &v.unparsed_texts {
+        //     self.unparsed_texts_list.add_item(text);
+        //     // TODO set metadata
+        // }
     }
 
     fn set_self_color(&mut self, color: Color) {
@@ -419,7 +517,6 @@ impl ParserGraphNode {
             self.base_mut()
                 .set_slot_enabled_right(i.try_into().unwrap(), true);
         }
-
     }
 
     fn set_pattern(&mut self, new_pattern: &String) {
@@ -431,8 +528,8 @@ impl ParserGraphNode {
     }
 
     fn update_title(&mut self) {
-        let mut display: Gd<FoldableContainer> = self.base().get_child(0).expect("msg").try_cast().unwrap();
-        display.set_title(&self.title.to_string());
+        self.parsing_info_container
+            .set_title(&self.title.to_string());
     }
 
     fn add_selector_connection_slots(&mut self, parser: &ParserModel) {
@@ -473,7 +570,10 @@ impl ParserGraphNode {
     fn update_parser_offset(&mut self) {
         let offset = self.base().get_position_offset();
 
-        let p = self.parser.as_mut().expect("Tried to update parser offset on None parser");
+        let p = self
+            .parser
+            .as_mut()
+            .expect("Tried to update parser offset on None parser");
         p.editor_offset_x = offset.x;
         p.editor_offset_y = offset.y;
     }
