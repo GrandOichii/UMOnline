@@ -1,10 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://dtnrhy5nnt63w"]
+[gd_scene load_steps=5 format=3 uid="uid://dtnrhy5nnt63w"]
 
 [ext_resource type="Theme" uid="uid://cq4d5h0xc2j0a" path="res://assets/themes/basic.tres" id="1_0m84x"]
 [ext_resource type="PackedScene" uid="uid://ch0pnwcteh3kn" path="res://project_tabs/CardsTab.tscn" id="2_2stwp"]
 [ext_resource type="PackedScene" uid="uid://3y3fwa2divkq" path="res://project_tabs/LogsTab.tscn" id="3_34bhn"]
 [ext_resource type="PackedScene" uid="uid://bjrlg2jv8o2wg" path="res://project_tabs/ParsersTab.tscn" id="3_d65ay"]
-[ext_resource type="PackedScene" uid="uid://e0xb0csp005o" path="res://ParsingHistory.tscn" id="5_emltd"]
 
 [node name="ProjectEditor" type="ProjectEditorNode" node_paths=PackedStringArray("project_name_label", "project_description_edit", "cards_tab", "logs_tab", "parsers_tab", "completion_progress_bar")]
 project_name_label = NodePath("VBoxContainer/TabContainer/Project/HBoxContainer/PanelContainer/ProjectNameLabel")
@@ -88,5 +87,3 @@ layout_mode = 2
 size_flags_horizontal = 3
 max_value = 600.0
 value = 80.0
-
-[node name="ParsingHistory" parent="." instance=ExtResource("5_emltd")]

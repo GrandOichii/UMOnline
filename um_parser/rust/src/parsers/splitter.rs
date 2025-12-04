@@ -5,7 +5,7 @@ use regex::Regex;
 
 use crate::parsers::parser::*;
 
-static SPLITTER_SCRIPT: &str = r#"
+pub static SPLITTER_SCRIPT: &str = r#"-- default splitter script
 function _Create(text, children)
     local result = ''
     for i, child in ipairs(children) do

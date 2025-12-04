@@ -9,6 +9,7 @@ use regex::Regex;
 
 use crate::model::parser::*;
 use crate::model::project::ProjectModel;
+use crate::nodes::parser_editor::ParserEditorWindowNode;
 use crate::nodes::parsing_history::ParserParsingHistory;
 use crate::nodes::parsing_history::ParsingHistory;
 use crate::nodes::project_tabs::logs_tab::LogsTabNode;
@@ -35,13 +36,21 @@ pub struct ParsersTabNode {
     templates_list: OnEditor<Gd<ItemList>>,
     #[export]
     parser_tabs_container: OnEditor<Gd<TabContainer>>,
+    #[export]
+    parser_editor_window: OnEditor<Gd<ParserEditorWindowNode>>,
+    #[export]
+    create_button: OnEditor<Gd<Button>>,
+    #[export]
+    delete_button: OnEditor<Gd<Button>>,
 }
+
 
 #[godot_api]
 impl IControl for ParsersTabNode {
     fn ready(&mut self) {
         self.connect_signals();
 
+        self.parser_editor_window.hide();
         self.templates_list.clear();
         self.parser_tabs_container
             .get_tab_bar()
@@ -64,6 +73,35 @@ impl ParsersTabNode {
             .signals()
             .tab_close_pressed()
             .connect_other(self, Self::on_parser_tabs_container_close_pressed);
+        self.create_button
+            .signals()
+            .pressed()
+            .connect_other(self, Self::on_create_button_pressed);
+        self.parser_editor_window
+            .signals()
+            .save_request()
+            .connect_other(self, Self::on_parser_editor_window_save_request);
+        self.parser_editor_window
+            .signals()
+            .cancel_request()
+            .connect_other(self, Self::on_parser_editor_window_cancel_request);
+    }
+
+    fn on_parser_editor_window_save_request(&mut self) {
+        // TODO
+        let model = self.parser_editor_window.bind_mut().build();
+        godot_print!("BUILD PARSER {}", &model.name);
+        self.parser_editor_window.hide();
+    }
+
+    fn on_parser_editor_window_cancel_request(&mut self) {
+        self.parser_editor_window.hide();
+    }
+
+    fn on_create_button_pressed(&mut self) {
+        self.parser_editor_window.bind_mut().clear();
+        self.parser_editor_window.set_title("Create a new parser");
+        self.parser_editor_window.show();
     }
 
     pub fn update_parsing_history(&mut self, ph: &ParsingHistory) {
@@ -165,6 +203,7 @@ impl ParsersTabNode {
         self.parser_tabs_container.set_current_tab(prev_child_count);
 
         node.bind_mut().repo.init(self.repo.clone());
+        node.bind_mut().parser_editor_window.init(self.parser_editor_window.clone());
         node.bind_mut().load_parser(&parser);
     }
 }
@@ -176,6 +215,8 @@ pub struct ParserTabNode {
 
     #[init(val = OnReady::manual())]
     pub repo: OnReady<Gd<ParserRepositoryNode>>,
+    #[init(val = OnReady::manual())]
+    parser_editor_window: OnReady<Gd<ParserEditorWindowNode>>,
 
     #[export]
     parser_graph_node_scene: OnEditor<Gd<PackedScene>>,
@@ -214,6 +255,10 @@ impl ParserTabNode {
             .signals()
             .end_node_move()
             .connect_other(self, Self::on_graph_end_node_move);
+        // self.graph
+        //     .signals()
+            // .node_ac()
+            // .connect_other(self, Self::signal_connection);
     }
 
     pub fn update_parsing_history(&mut self, ph: Option<&ParsingHistory>) {
@@ -309,11 +354,8 @@ impl ParserTabNode {
             .parser_graph_node_scene
             .instantiate_as::<ParserGraphNode>();
         self.graph.add_child(&result);
-        result
-            .bind_mut()
-            .graph
-            .set(self.graph.clone())
-            .expect("Failed to pass down graph node");
+        result.bind_mut().graph.init(self.graph.clone());
+        result.bind_mut().parser_editor_window.init(self.parser_editor_window.clone());
 
         let binding = self.repo.bind_mut();
         let ph = binding.get_parsing_history(&parent.project_name);
@@ -377,7 +419,11 @@ pub struct ParserGraphNode {
     title: ParserNodeTitle,
     parser: Option<ParserModel>,
 
-    pub graph: OnceCell<Gd<GraphEdit>>,
+    #[init(val = OnReady::manual())]
+    pub graph: OnReady<Gd<GraphEdit>>,
+    #[init(val = OnReady::manual())]
+    pub parser_editor_window: OnReady<Gd<ParserEditorWindowNode>>,
+
 
     #[export]
     template_color: Color,
@@ -403,7 +449,19 @@ impl IGraphNode for ParserGraphNode {
 }
 
 impl ParserGraphNode {
-    fn connect_signals(&mut self) {}
+    fn connect_signals(&mut self) {
+        self.base()
+            .signals()
+            .gui_input()
+            .connect_other(self, Self::on_gui_input);
+    }
+
+    fn on_gui_input(&mut self, e: Gd<InputEvent>) {
+        if e.is_action_pressed("edit_parser") {
+            // TODO
+            godot_print!("EDIT PARSER");
+        }
+    }
 
     fn load_parser(&mut self, parser: ParserModel) {
         self.base_mut().set_title(&parser.name);
@@ -540,10 +598,6 @@ impl ParserGraphNode {
         self.base_mut().set_slot_enabled_right(0, true);
     }
 
-    fn get_graph(&mut self) -> &mut Gd<GraphEdit> {
-        self.graph.get_mut().expect("graph was not initialized!")
-    }
-
     fn connect_children(&mut self, parser: &ParserModel, child_nodes: Vec<Gd<ParserGraphNode>>) {
         let mut slot_idx = 0;
         let mut_slot_idx: fn(i32) -> i32 = match parser.ptype {
@@ -559,10 +613,10 @@ impl ParserGraphNode {
         for i in 0..child_nodes.len() {
             // TODO connect
             // godot_print!("CONNECT {} WITH SLOT_IDX {}", &parser.name, slot_idx);
-            self.get_graph()
-                .connect_node_ex(self_name, slot_idx, &child_nodes[i].get_name(), 0)
-                .keep_alive(true)
-                .done();
+            self.graph
+                .connect_node(self_name, slot_idx, &child_nodes[i].get_name(), 0);
+                // .keep_alive(true)
+                // .done();
             slot_idx = mut_slot_idx(slot_idx);
         }
     }

@@ -1,14 +1,12 @@
-[gd_scene load_steps=5 format=3 uid="uid://b1vvxfbq8u1yf"]
+[gd_scene load_steps=4 format=3 uid="uid://b1vvxfbq8u1yf"]
 
 [ext_resource type="Theme" uid="uid://cq4d5h0xc2j0a" path="res://assets/themes/basic.tres" id="1_gxo8o"]
 [ext_resource type="PackedScene" uid="uid://csrs1dkcmtao6" path="res://ProjectList.tscn" id="2_170dk"]
 [ext_resource type="PackedScene" uid="uid://dtnrhy5nnt63w" path="res://ProjectEditor.tscn" id="3_170dk"]
-[ext_resource type="PackedScene" uid="uid://e0xb0csp005o" path="res://ParsingHistory.tscn" id="4_cwqeq"]
 
-[node name="Root" type="RootNode" node_paths=PackedStringArray("project_list_node", "project_editor_node", "parsing_history_node")]
+[node name="Root" type="RootNode" node_paths=PackedStringArray("project_list_node", "project_editor_node")]
 project_list_node = NodePath("Control/ProjectList")
 project_editor_node = NodePath("Control/ProjectEditor")
-parsing_history_node = NodePath("ParsingHistory")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -37,5 +35,3 @@ layout_mode = 1
 repo = NodePath("../../Repository")
 visible = false
 layout_mode = 1
-
-[node name="ParsingHistory" parent="." instance=ExtResource("4_cwqeq")]

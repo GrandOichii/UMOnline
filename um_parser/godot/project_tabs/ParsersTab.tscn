@@ -1,11 +1,15 @@
-[gd_scene load_steps=2 format=3 uid="uid://bjrlg2jv8o2wg"]
+[gd_scene load_steps=3 format=3 uid="uid://bjrlg2jv8o2wg"]
 
 [ext_resource type="PackedScene" uid="uid://jgb6a68s720w" path="res://project_tabs/parsers/ParserTab.tscn" id="1_sjifr"]
+[ext_resource type="PackedScene" uid="uid://d0osheeq02yj6" path="res://windows/ParserEditorWindow.tscn" id="2_qdeex"]
 
-[node name="ParsersTab" type="ParsersTabNode" node_paths=PackedStringArray("templates_list", "parser_tabs_container")]
+[node name="ParsersTab" type="ParsersTabNode" node_paths=PackedStringArray("templates_list", "parser_tabs_container", "parser_editor_window", "create_button", "delete_button")]
 parser_tab_scene = ExtResource("1_sjifr")
 templates_list = NodePath("HBoxContainer/VBoxContainer/TemplateList")
 parser_tabs_container = NodePath("HBoxContainer/VBoxContainer2/ParserTabs")
+parser_editor_window = NodePath("ParserEditorWindow")
+create_button = NodePath("HBoxContainer/VBoxContainer/HBoxContainer/CreateButton")
+delete_button = NodePath("HBoxContainer/VBoxContainer/HBoxContainer/DeleteButton")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -57,3 +61,5 @@ size_flags_stretch_ratio = 4.0
 [node name="ParserTabs" type="TabContainer" parent="HBoxContainer/VBoxContainer2"]
 layout_mode = 2
 size_flags_vertical = 3
+
+[node name="ParserEditorWindow" parent="." instance=ExtResource("2_qdeex")]

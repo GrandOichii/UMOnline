@@ -1,0 +1,121 @@
+[gd_scene load_steps=2 format=3 uid="uid://d0osheeq02yj6"]
+
+[ext_resource type="Theme" uid="uid://cq4d5h0xc2j0a" path="res://assets/themes/basic.tres" id="1_kr5vw"]
+
+[node name="ParserEditorWindow" type="ParserEditorWindowNode" node_paths=PackedStringArray("name_edit", "type_picker", "pattern_container", "pattern_edit", "description_edit", "script_edit", "save_button", "cancel_button", "save_error_dialog", "save_error_reasons_label")]
+name_edit = NodePath("MarginContainer/VBoxContainer/NameEdit")
+type_picker = NodePath("MarginContainer/VBoxContainer/HBoxContainer3/TypePicker")
+pattern_container = NodePath("MarginContainer/VBoxContainer/PatternContainer")
+pattern_edit = NodePath("MarginContainer/VBoxContainer/PatternContainer/PatternEdit")
+description_edit = NodePath("MarginContainer/VBoxContainer/DescriptionEdit")
+script_edit = NodePath("MarginContainer/VBoxContainer/ScriptEdit")
+save_button = NodePath("MarginContainer/VBoxContainer/HBoxContainer/SaveButton")
+cancel_button = NodePath("MarginContainer/VBoxContainer/HBoxContainer/CancelButton")
+save_error_dialog = NodePath("SaveErrorDialog")
+save_error_reasons_label = NodePath("SaveErrorDialog/VBoxContainer/SaveErrorReasonsLabel")
+oversampling_override = 1.0
+title = "Parser editor"
+initial_position = 2
+size = Vector2i(1000, 800)
+wrap_controls = true
+transient = true
+exclusive = true
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_kr5vw")
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="NameEdit" type="LineEdit" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+placeholder_text = "Enter parser name"
+
+[node name="PatternContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/PatternContainer"]
+layout_mode = 2
+text = "Pattern: "
+
+[node name="PatternEdit" type="LineEdit" parent="MarginContainer/VBoxContainer/PatternContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Enter matcher/splitter pattern"
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+text = "Type: "
+
+[node name="TypePicker" type="OptionButton" parent="MarginContainer/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 3
+selected = 1
+item_count = 3
+popup/item_0/text = "Matcher"
+popup/item_0/id = 0
+popup/item_1/text = "Selector"
+popup/item_1/id = 1
+popup/item_2/text = "Splitter"
+popup/item_2/id = 2
+
+[node name="DescriptionEdit" type="TextEdit" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.5
+placeholder_text = "Enter parser description"
+
+[node name="ScriptEdit" type="CodeEdit" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+placeholder_text = "Enter parser script"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="SaveButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Save	"
+
+[node name="CancelButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Cancel"
+
+[node name="SaveErrorDialog" type="AcceptDialog" parent="."]
+oversampling_override = 1.0
+title = "Cannot save parser"
+initial_position = 2
+size = Vector2i(200, 200)
+visible = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SaveErrorDialog"]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 192.0
+offset_bottom = 151.0
+
+[node name="Label" type="Label" parent="SaveErrorDialog/VBoxContainer"]
+layout_mode = 2
+text = "Cannot save parser:"
+
+[node name="SaveErrorReasonsLabel" type="Label" parent="SaveErrorDialog/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "REASON 1
+REASON 2
+REASON 3
+REASON 4"
