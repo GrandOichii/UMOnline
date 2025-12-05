@@ -1,7 +1,3 @@
-use std::any::Any;
-use std::cell::Cell;
-use std::cell::OnceCell;
-
 use godot::classes::tab_bar::CloseButtonDisplayPolicy;
 use godot::classes::*;
 use godot::prelude::*;
@@ -88,10 +84,10 @@ impl ParsersTabNode {
     }
 
     fn on_parser_editor_window_save_request(&mut self) {
-        // TODO
         let model = self.parser_editor_window.bind_mut().build();
-        godot_print!("BUILD PARSER {}", &model.name);
         self.parser_editor_window.hide();
+
+        // TODO 
     }
 
     fn on_parser_editor_window_cancel_request(&mut self) {
@@ -159,7 +155,10 @@ impl ParsersTabNode {
         for parser in &templates {
             // TODO filter
 
-            let idx = self.templates_list.add_item(&parser.name);
+            let idx = self.templates_list.add_item(&format!("{}{}", match parser.is_root {
+                true => "* ",
+                false => "",
+            }, &parser.name).to_string());
             self.templates_list
                 .set_item_metadata(idx, &parser.id.to_variant());
         }
@@ -478,24 +477,6 @@ impl ParserGraphNode {
         self.parser = Some(parser);
     }
 
-    // fn load_parser_parsing_history(&mut self, pph: Option<&ParserParsingHistory>) {
-    //     let binding = ParserParsingHistory {
-    //         parsed_texts: vec![],
-    //         unparsed_texts: vec![],
-    //     };
-    //     let v = pph.unwrap_or(&binding);
-
-    //     self.title.parsed_count = v.parsed_texts.len();
-    //     self.title.unparsed_count = v.unparsed_texts.len();
-    //     self.update_title();
-
-    //     // unparsed texts
-    //     self.unparsed_texts_list.clear();
-    //     // for text in &v.unparsed_texts {
-    //     //     self.unparsed_texts_list.add_item(text);
-    //     //     // TODO set metadata
-    //     // }
-    // }
     fn load_parsing_history(&mut self, ph: Option<&ParsingHistory>) {
         let binding = ParserParsingHistory {
             parsed_texts: vec![],
@@ -604,19 +585,14 @@ impl ParserGraphNode {
             PMT_MATCHER => |idx| idx + 1,
             PMT_SELECTOR => |idx| idx,
             PMT_SPLITTER => |idx| idx,
-            // PMT_SPLITTER => |_| panic!("Tried to connect multiple children to splitter"),
             other => panic!("Unrecognized parser model type: {}", other),
         };
         let self_name = &self.base().get_name();
 
         // godot_print!("CONNECTING");
         for i in 0..child_nodes.len() {
-            // TODO connect
-            // godot_print!("CONNECT {} WITH SLOT_IDX {}", &parser.name, slot_idx);
             self.graph
                 .connect_node(self_name, slot_idx, &child_nodes[i].get_name(), 0);
-                // .keep_alive(true)
-                // .done();
             slot_idx = mut_slot_idx(slot_idx);
         }
     }

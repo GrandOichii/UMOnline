@@ -7,6 +7,7 @@ use serde::Deserialize;
 
 use crate::model::card::CardModel;
 use crate::model::project::ProjectModel;
+use crate::nodes::parsing_history::ParsingHistory;
 use crate::nodes::project_tabs::logs_tab::LogsTabNode;
 use crate::repo::*;
 
@@ -116,6 +117,11 @@ impl CardsTabNode {
             .pressed()
             .connect_other(self, Self::apply_filters);
     }
+
+    pub fn update_parsing_history(&mut self, ph: &ParsingHistory) {
+        // TODO
+    }
+
 
     fn close_card_tabs(&mut self) {
         while self.card_tabs_container.get_child_count() > 0
@@ -278,7 +284,6 @@ impl CardsTabNode {
             let idx = self.cards_list.add_item(&card.name);
             self.cards_list
                 .set_item_metadata(idx, &card.id.to_variant());
-            // TODO mark if is root
         }
 
         self.unparsed_count_label

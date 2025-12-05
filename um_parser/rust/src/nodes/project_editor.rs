@@ -1,22 +1,17 @@
 use std::cell::OnceCell;
 use std::cell::RefCell;
 use std::collections::HashMap;
-use std::error::Error;
 use std::rc::Rc;
 
 use godot::classes::*;
 use godot::prelude::*;
 use mlua::Lua;
 
-use crate::model::parser::ParserModel;
-use crate::nodes::parsing_history::ParsingHistory;
-use crate::nodes::parsing_history::ParsingHistoryNode;
+use crate::nodes::parsing_history::*;
 use crate::nodes::project_tabs::cards_tab::*;
 use crate::nodes::project_tabs::logs_tab::LogsTabNode;
 use crate::nodes::project_tabs::parsers_tab::ParsersTabNode;
-use crate::parsers::parser::ParseResult;
-use crate::parsers::parser::ParseResultStatus;
-use crate::parsers::parser::ParserNode;
+use crate::parsers::parser::*;
 use crate::repo::*;
 
 #[derive(GodotClass)]
@@ -176,8 +171,8 @@ impl ProjectEditorNode {
 
     pub fn on_new_history_added(&mut self, ph: ParsingHistory) {
         self.update_parsing_progress_bar(&ph);
-        // TODO update cards_tab
         self.parsers_tab.bind_mut().update_parsing_history(&ph);
+        self.cards_tab.bind_mut().update_parsing_history(&ph);
 
         self.repo.bind_mut().set_current_parsing_history(self.edited_project_name.to_string(), ph);
     }

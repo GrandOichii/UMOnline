@@ -76,7 +76,6 @@ impl ParserRepositoryNode {
     }
 
     pub fn update_parser_by_id(&mut self, parser: &ParserModel) -> Result<(), Box<dyn Error>> {
-        // TODO call signal
         let conn = self.get_connection();
         parser.sql_update_by_id(conn)?;
         Ok(())
@@ -271,7 +270,6 @@ impl ParserRepositoryNode {
         )?;
         let mut result: Vec<ParserModel> = Vec::with_capacity(children.len());
         for mut child in children {
-            // TODO check if child has is_ref flag
             child.children = self.get_parser_children_rec(child.id)?;
             result.push(child);
         }

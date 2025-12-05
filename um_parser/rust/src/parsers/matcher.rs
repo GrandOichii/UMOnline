@@ -83,7 +83,6 @@ impl Parser for Matcher {
             }
             result.children.push(child_result);
         }
-        // TODO use didnt_match
         if didnt_match == n.children.len() {
             result.status = ParseResultStatus::DidntMatch;
         }
