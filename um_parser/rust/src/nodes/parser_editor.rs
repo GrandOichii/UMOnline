@@ -13,8 +13,7 @@ use crate::repo::ParserRepositoryNode;
 pub struct ParserEditorWindowNode {
     base: Base<Window>,
 
-    edited_parser_id: Option<i32>,
-    pub project_name: Option<String>,
+    edited_parser: Option<ParserModel>,
 
     #[init(val = OnReady::manual())]
     pub repo: OnReady<Gd<ParserRepositoryNode>>,
@@ -85,19 +84,29 @@ impl ParserEditorWindowNode {
         self.signals().cancel_request().emit();
     }
 
-    pub fn clear(&mut self, project_name: String) {
-        self.project_name = Some(project_name);
-        self.edited_parser_id = None;
-        self.name_edit.clear();
+    pub fn clear(&mut self, project_name: String, is_template: bool) {
         self.type_picker.select(1);
-        self.pattern_edit.clear();
-        self.description_edit.clear();
+        self.load(ParserModel {
+            children: vec![],
+            description: String::from(""),
+            editor_offset_x: 0.0,
+            editor_offset_y: 0.0,
+            id: -1,
+            is_root: false,
+            is_template: is_template,
+            name: String::from(""),
+            parent_id: None,
+            parent_slot: None,
+            pattern: String::from(""),
+            project_name: project_name,
+            ptype: 2,
+            ref_to_id: None,
+            script: String::from(""),
+        });
         self.display_default_script();
     }
 
-    pub fn load(&mut self, parser: &ParserModel) {
-        self.project_name = Some(parser.project_name.to_string());
-        self.edited_parser_id = Some(parser.id);
+    pub fn load(&mut self, parser: ParserModel) {
         self.name_edit.set_text(&parser.name);
         self.type_picker.select(match parser.ptype {
             PMT_MATCHER => 0,
@@ -108,7 +117,8 @@ impl ParserEditorWindowNode {
         self.pattern_edit.set_text(&parser.pattern);
         self.description_edit.set_text(&parser.description);
         self.script_edit.set_text(&parser.script);
-        self.on_type_picker_text_changed(-1);
+        self.check_pattern_visibility();
+        self.edited_parser = Some(parser);
     }
 
     fn display_default_script(&mut self) {
@@ -125,7 +135,7 @@ end"
         });
     }
 
-    fn on_type_picker_text_changed(&mut self, _v: i64) {
+    fn check_pattern_visibility(&mut self) {
         let ptype = self.get_ptype();
         self.pattern_container.set_visible(match ptype {
             PMT_SELECTOR => false,
@@ -133,6 +143,11 @@ end"
             PMT_SPLITTER => true,
             _ => panic!("Unrecognized ptype: {}", ptype),
         });
+
+    }
+
+    fn on_type_picker_text_changed(&mut self, _v: i64) {
+        self.check_pattern_visibility();
         self.display_default_script();
     }
 
@@ -147,12 +162,12 @@ end"
         let binding = self
             .repo
             .bind_mut()
-            .get_parsers_with_name(self.project_name.as_ref().unwrap(), &parser.name)
+            .get_parsers_with_name(&self.edited_parser.as_ref().unwrap().project_name, &parser.name)
             .expect("Failed to get parsers");
         let iter = binding.iter();
-        let amount = match self.edited_parser_id {
-            Some(id) => iter.filter(|p| p.id != id).count(),
-            None => iter.count(),
+        let amount = match self.edited_parser.as_ref().unwrap().id {
+            -1 => iter.count(),
+            id => iter.filter(|p| p.id != id).count(),
         };
 
         match amount {
@@ -208,26 +223,23 @@ end"
     }
 
     pub fn build(&self) -> ParserModel {
+        let edited = self.edited_parser.as_ref().unwrap();
         ParserModel {
             children: vec![],
             description: self.description_edit.get_text().to_string(),
             name: self.name_edit.get_text().to_string(),
-            pattern: self.pattern_edit.to_string(),
+            pattern: self.pattern_edit.get_text().to_string(),
             ptype: self.get_ptype(),
             script: self.script_edit.get_text().to_string(),
-            id: match self.edited_parser_id {
-                Some(id) => id,
-                None => -1
-            },
-
-            editor_offset_x: 0.0, // TODO 
-            editor_offset_y: 0.0, // TODO
+            id: edited.id,
+            editor_offset_x: edited.editor_offset_x,
+            editor_offset_y: edited.editor_offset_y,
             ref_to_id: None,
-            is_root: false, // TODO
-            is_template: false, // TODO
-            parent_id: None, // TODO
-            parent_slot: None, // TODO
-            project_name: String::from(""), // TODO
+            is_root: edited.is_root,
+            is_template: edited.is_template,
+            parent_id: edited.parent_id,
+            parent_slot: edited.parent_slot,
+            project_name: edited.project_name.to_string(),
         }
     }
 

@@ -92,10 +92,19 @@ impl ParserRepositoryNode {
         )
     }
 
-    // pub fn insert_or_update_parser(&mut self, parser: &ParserModel) -> Result<(), Box<dyn Error>> {
-    //     // TODO first, check if id is >= 0
-    //     // TODO if yes, find all parsers with is_ref = true and that have the same name
-    // }
+    pub fn insert_or_update_parser(&mut self, parser: &ParserModel) -> Result<(), Box<dyn Error>> {
+        let existing = self.get_parser(parser.id)?;
+        match existing {
+            Some(_) => self.update_parser_by_id(parser),
+            None => self.insert_parser(parser),
+        }
+    }
+
+    pub fn insert_parser(&mut self, parser: &ParserModel) -> Result<(), Box<dyn Error>> {
+        parser.sql_insert_into(self.get_connection())?;
+
+        Ok(())
+    }
 
     pub fn set_current_parsing_history(&mut self, project_name: String, ph: ParsingHistory) {
         self.current_parsing_histories.insert(project_name, ph);

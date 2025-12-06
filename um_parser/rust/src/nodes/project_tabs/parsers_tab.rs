@@ -85,19 +85,22 @@ impl ParsersTabNode {
     pub fn set_repo(&mut self, repo: Gd<ParserRepositoryNode>) {
         self.repo.init(repo.clone());
 
-        self.parser_editor_window
-            .bind_mut()
-            .repo
-            .init(repo.clone());
+        self.parser_editor_window.bind_mut().repo.init(repo.clone());
     }
 
     fn on_parser_editor_window_save_request(&mut self) {
         let model = self.parser_editor_window.bind_mut().build();
         self.parser_editor_window.hide();
 
-        // TODO
-        godot_print!("ID: {}", model.id);
-        
+        self.repo
+            .bind_mut()
+            .insert_or_update_parser(&model)
+            .expect("Failed to insert or update parser");
+
+
+        // TODO iterate over all parser tabs and update their names
+        // TODO in each tab reload graph
+        self.reload_templates();
     }
 
     fn on_parser_editor_window_cancel_request(&mut self) {
@@ -105,7 +108,9 @@ impl ParsersTabNode {
     }
 
     fn on_create_button_pressed(&mut self) {
-        self.parser_editor_window.bind_mut().clear(self.loaded_project_name.to_string());
+        self.parser_editor_window
+            .bind_mut()
+            .clear(self.loaded_project_name.to_string(), true);
         self.parser_editor_window.set_title("Create a new parser");
         self.parser_editor_window.show();
     }
@@ -200,6 +205,7 @@ impl ParsersTabNode {
             .expect("Tried to open a parser tab with a parser that doesnt exist");
 
         for i in 0..=(prev_child_count - 1) {
+            // TODO bad idea to check it this way, nodes can be renamed
             let child = self
                 .parser_tabs_container
                 .get_child(i)
@@ -219,7 +225,9 @@ impl ParsersTabNode {
         self.parser_tabs_container.set_current_tab(prev_child_count);
 
         node.bind_mut().repo.init(self.repo.clone());
-        node.bind_mut().parser_editor_window.init(self.parser_editor_window.clone());
+        node.bind_mut()
+            .parser_editor_window
+            .init(self.parser_editor_window.clone());
         node.bind_mut().load_parser(&parser);
     }
 }
@@ -413,7 +421,9 @@ impl ParserNodeTitle {
     pub fn to_string(&self) -> String {
         format!(
             "{}/{} {}",
-            &self.parsed_count, &self.unparsed_count, &self.pattern
+            self.parsed_count,
+            self.unparsed_count + self.parsed_count,
+            &self.pattern
         )
         // format!("{}/{}", &self.parsed_count, &self.unparsed_count)
     }
@@ -477,11 +487,12 @@ impl ParserGraphNode {
     fn on_gui_input(&mut self, e: Gd<InputEvent>) {
         if e.is_action_pressed("edit_parser") {
             if self.parser.as_ref().unwrap().ref_to_id.is_some() {
+                // TODO open referenced parser in new window
                 return;
             }
             self.parser_editor_window
                 .bind_mut()
-                .load(&self.parser.as_ref().unwrap());
+                .load(self.parser.as_ref().unwrap().clone());
             self.parser_editor_window.set_title(
                 &format!("Edit parser {}", &self.parser.as_ref().unwrap().name).to_string(),
             );

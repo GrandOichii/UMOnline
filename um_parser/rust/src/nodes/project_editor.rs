@@ -72,7 +72,6 @@ impl IControl for ProjectEditorNode {
 
 impl ProjectEditorNode {
     fn parse(&mut self) {
-        // TODO!!! this doesnt consider ref parsers
         let mut logs_tab = self.get_logs_tab().expect("Failed to get logs tab");
 
         logs_tab
