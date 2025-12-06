@@ -53,7 +53,14 @@ impl Parser for Matcher {
                 continue;
             }
             table
-                .set(i + 1, group.get(1).unwrap().as_str().to_string())
+                .set(
+                    i + 1,
+                    match group.get(1) {
+                        Some(s) => s.as_str(),
+                        None => "",
+                    }
+                    .to_string(),
+                )
                 // .set(i + 1, group.)
                 .expect("Failed to set arg table for matcher");
         }
@@ -73,7 +80,14 @@ impl Parser for Matcher {
         let n = node.borrow();
         for g in m.iter() {
             let child = n.children[i - 1].clone();
-            let child_result = ParserNode::parse(child, g.get(1).unwrap().as_str(), lua);
+            let child_result = ParserNode::parse(
+                child,
+                match g.get(1) {
+                    Some(s) => s.as_str(),
+                    None => "",
+                },
+                lua,
+            );
             i += 1;
             if child_result.status != ParseResultStatus::Success {
                 result.status = ParseResultStatus::ChildFailed;

@@ -13,6 +13,7 @@ public class ParserModel
     public required bool IsTemplate { get; set; }
     public required bool IsRoot { get; set; }
     public required int? ParentId { get; set; }
+    public required int? ParentSlot { get; set; }
     public required int? RefToId { get; set; }
 
     public string ToSQL()
@@ -29,6 +30,7 @@ public class ParserModel
             is_template,
             is_root,
             parent_id,
+            parent_slot,
             ref_to_id,
             editor_offset_x,
             editor_offset_y
@@ -43,9 +45,10 @@ public class ParserModel
             {(IsTemplate ? 1 : 0)},   -- is_template
             {(IsRoot ? 1 : 0)},   -- is_root
             {(ParentId is null ? "NULL" : ParentId)},   -- parent_id
+            {(ParentSlot is null ? "NULL" : ParentSlot)},   -- parent_slot
             {(RefToId is null ? "NULL" : RefToId)},   -- ref_to_id
-            0,
-            0
+            0, -- editor_offset_x
+            0 -- editor_offset_y
         );
         """;
     }
@@ -76,9 +79,10 @@ static class ParserModelInsert
         var childNodes = new List<ParserModel>();
         foreach (var pair in parserRoots)
         {
+            var childI = 0;
             foreach (var child in pair.Key.Node!.GetChildren())
             {
-                childNodes.AddRange(child.ToParserModels(nameToId, gen, nameToId[pair.Key.Name]));
+                childNodes.AddRange(child.ToParserModels(nameToId, gen, nameToId[pair.Key.Name], ++childI));
             }
         }
         foreach (var n in childNodes)

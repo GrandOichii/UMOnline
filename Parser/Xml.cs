@@ -76,6 +76,7 @@ class XmlParserRoot
                 Splitter => 3,
                 _ => throw new Exception(),
             },
+            ParentSlot = null,
         };
     }
 }
@@ -114,7 +115,7 @@ partial class XmlParserNode
         };
     }
 
-    public List<ParserModel> ToParserModels(Dictionary<string, int> templateNameToId, IDGenerator gen, int? parentId)
+    public List<ParserModel> ToParserModels(Dictionary<string, int> templateNameToId, IDGenerator gen, int? parentId, int? parentSlot)
     {
         if (IsReference)
         {
@@ -128,7 +129,8 @@ partial class XmlParserNode
                     Pattern = "",
                     PType = 1,
                     Script = "",
-                    RefToId = templateNameToId[Name]
+                    RefToId = templateNameToId[Name],
+                    ParentSlot = parentSlot,
                 }
             ];
         }
@@ -157,13 +159,15 @@ partial class XmlParserNode
                 Splitter => 3,
                 _ => throw new Exception(),
             }, 
+            ParentSlot = parentSlot,
             RefToId = null
         };
         result.Add(myModel);
 
         // children
+        int childI = 0;
         foreach (var child in GetChildren())
-            result.AddRange(child.ToParserModels(templateNameToId, gen, myModel.Id));
+            result.AddRange(child.ToParserModels(templateNameToId, gen, myModel.Id, ++childI));
 
         return result;
     }

@@ -31,7 +31,7 @@ pub struct ParserRepositoryNode {
 
     connection: OnceCell<Connection>,
 
-    pub current_parsing_histories: HashMap::<String, ParsingHistory>,
+    pub current_parsing_histories: HashMap<String, ParsingHistory>,
 }
 
 #[godot_api]
@@ -94,21 +94,21 @@ impl ParserRepositoryNode {
 
     // pub fn insert_or_update_parser(&mut self, parser: &ParserModel) -> Result<(), Box<dyn Error>> {
     //     // TODO first, check if id is >= 0
-    //     // TODO if yes, find all parsers with is_ref = true and that have the same name 
+    //     // TODO if yes, find all parsers with is_ref = true and that have the same name
     // }
 
     pub fn set_current_parsing_history(&mut self, project_name: String, ph: ParsingHistory) {
         self.current_parsing_histories.insert(project_name, ph);
     }
 
-    pub fn get_parser_parsing_history(&self, project_name: &String, parser_name: &String) -> Option<&ParserParsingHistory> {
+    pub fn get_parser_parsing_history(
+        &self,
+        project_name: &String,
+        parser_name: &String,
+    ) -> Option<&ParserParsingHistory> {
         match self.current_parsing_histories.get(project_name) {
-            Some(ph) => {
-                ph.parse_result_map.get(parser_name)
-            },
-            None => {
-                None
-            }
+            Some(ph) => ph.parse_result_map.get(parser_name),
+            None => None,
         }
     }
 
@@ -183,13 +183,9 @@ impl ParserRepositoryNode {
         self.query::<ProjectModel>(ProjectModel::sql_select(), ())
     }
 
-    pub fn get_parsers(
-        &mut self,
-        project_name: &str,
-    ) -> Result<Vec<ParserModel>, Box<dyn Error>> {
+    pub fn get_parsers(&mut self, project_name: &str) -> Result<Vec<ParserModel>, Box<dyn Error>> {
         self.query(
-            ParserModel::sql_select()
-                .where_clause("project_name = ?1"),
+            ParserModel::sql_select().where_clause("project_name = ?1"),
             params!(project_name),
         )
     }
@@ -218,11 +214,8 @@ impl ParserRepositoryNode {
             (project_name, true),
         )
     }
-    
-    pub fn get_cards(
-        &mut self,
-        project_name: &str,
-    ) -> Result<Vec<CardModel>, Box<dyn Error>> {
+
+    pub fn get_cards(&mut self, project_name: &str) -> Result<Vec<CardModel>, Box<dyn Error>> {
         self.query(
             CardModel::sql_select().where_clause("project_name = $1"),
             params!(project_name),
@@ -273,7 +266,9 @@ impl ParserRepositoryNode {
         parser_id: i32,
     ) -> Result<Vec<ParserModel>, Box<dyn Error>> {
         let children = self.query::<ParserModel>(
-            ParserModel::sql_select().where_clause("parent_id = ?1"),
+            ParserModel::sql_select()
+                .where_clause("parent_id = ?1")
+                .order_by("parent_slot asc"),
             params!(parser_id),
         )?;
         let mut result: Vec<ParserModel> = Vec::with_capacity(children.len());

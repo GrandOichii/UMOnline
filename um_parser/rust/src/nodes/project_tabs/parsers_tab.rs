@@ -366,7 +366,6 @@ impl ParserTabNode {
     }
 
     fn add_nodes_for(&mut self, parent: &ParserModel) -> Gd<ParserGraphNode> {
-        godot_print!("ADD NODES FOR: {} ({})", &parent.name, parent.children.len());
         let mut result = self
             .parser_graph_node_scene
             .instantiate_as::<ParserGraphNode>();

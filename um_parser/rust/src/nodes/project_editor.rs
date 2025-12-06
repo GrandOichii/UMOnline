@@ -72,11 +72,15 @@ impl IControl for ProjectEditorNode {
 
 impl ProjectEditorNode {
     fn parse(&mut self) {
+        // TODO!!! this doesnt consider ref parsers
         let mut logs_tab = self.get_logs_tab().expect("Failed to get logs tab");
 
         logs_tab
             .bind_mut()
-            .log(String::from("Starting parsing process..."));
+            .log(String::from("Starting parsing process"));
+        logs_tab
+            .bind_mut()
+            .log(String::from("Building parser tree"));
 
         let models = self
             .get_repo()
@@ -85,6 +89,9 @@ impl ProjectEditorNode {
             .get_parsers(&self.edited_project_name)
             .expect("Failed to load templates");
 
+        logs_tab
+            .bind_mut()
+            .log(String::from("Creating parsers"));
         // Create all parsers
         let mut parsers = Vec::<Rc<RefCell<ParserNode>>>::new();
         let root_idx = OnceCell::<usize>::new();
@@ -105,16 +112,44 @@ impl ProjectEditorNode {
             parser_id_to_parser.insert(parser.id, Rc::clone(&parsers[idx]));
         }
 
-        // Connect children
+        logs_tab
+            .bind_mut()
+            .log(String::from("Mapping parser relations"));
+
+        // Create parent-to-children mappings + resolve ref parsers
+        let mut parent_to_children = HashMap::<i32, Vec::<(i32, i32)>>::new();
         for model in models.iter() {
             if let Some(parent_id) = model.parent_id {
-                let parent = parser_id_to_parser[&parent_id].clone();
-                let child = parser_id_to_parser[&model.id].clone();
+                let list = parent_to_children.entry(parent_id).or_insert(vec![]);
+                let mut child_id = model.id;
+                if let Some(ref_id) = model.ref_to_id {
+                    child_id = ref_id;
+                }
+                list.push((child_id, model.parent_slot.expect("Found a parser that has a parent_id, but doesnt have parent_slot")));
+            }
+        }
+
+        for (_, value) in parent_to_children.iter_mut() {
+            value.sort_by(|a, b| a.1.cmp(&b.1));
+        }
+
+        logs_tab
+            .bind_mut()
+            .log(String::from("Connecting child parsers"));
+
+        // Connect children
+        for (parent_id, child_ids) in parent_to_children.iter() {
+            let parent = parser_id_to_parser[&parent_id].clone();
+            for (child_id, _) in child_ids {
+                let child = parser_id_to_parser[child_id].clone();
                 parent.borrow_mut().children.push(child);
             }
         }
 
         let root = parsers[*root_idx.get().expect("Failed to find root")].clone();
+        logs_tab
+            .bind_mut()
+            .log(String::from("Created parser tree, starting parsing process"));
 
         let cards = self
             .get_repo()
@@ -174,7 +209,9 @@ impl ProjectEditorNode {
         self.parsers_tab.bind_mut().update_parsing_history(&ph);
         self.cards_tab.bind_mut().update_parsing_history(&ph);
 
-        self.repo.bind_mut().set_current_parsing_history(self.edited_project_name.to_string(), ph);
+        self.repo
+            .bind_mut()
+            .set_current_parsing_history(self.edited_project_name.to_string(), ph);
     }
 
     fn update_parsing_progress_bar(&mut self, ph: &ParsingHistory) {

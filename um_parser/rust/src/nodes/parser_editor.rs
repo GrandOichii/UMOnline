@@ -211,21 +211,23 @@ end"
         ParserModel {
             children: vec![],
             description: self.description_edit.get_text().to_string(),
-            editor_offset_x: 0.0,
-            editor_offset_y: 0.0,
+            name: self.name_edit.get_text().to_string(),
+            pattern: self.pattern_edit.to_string(),
+            ptype: self.get_ptype(),
+            script: self.script_edit.get_text().to_string(),
             id: match self.edited_parser_id {
                 Some(id) => id,
                 None => -1
             },
+
+            editor_offset_x: 0.0, // TODO 
+            editor_offset_y: 0.0, // TODO
             ref_to_id: None,
-            is_root: false,
-            is_template: false,
-            name: self.name_edit.get_text().to_string(),
-            parent_id: None,
-            pattern: self.pattern_edit.to_string(),
-            project_name: String::from(""),
-            ptype: self.get_ptype(),
-            script: self.script_edit.get_text().to_string(),
+            is_root: false, // TODO
+            is_template: false, // TODO
+            parent_id: None, // TODO
+            parent_slot: None, // TODO
+            project_name: String::from(""), // TODO
         }
     }
 
@@ -238,7 +240,3 @@ end"
         }
     }
 }
-
-// trait SaveCheck {
-
-// }
