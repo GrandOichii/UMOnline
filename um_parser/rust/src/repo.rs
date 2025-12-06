@@ -92,6 +92,11 @@ impl ParserRepositoryNode {
         )
     }
 
+    // pub fn insert_or_update_parser(&mut self, parser: &ParserModel) -> Result<(), Box<dyn Error>> {
+    //     // TODO first, check if id is >= 0
+    //     // TODO if yes, find all parsers with is_ref = true and that have the same name 
+    // }
+
     pub fn set_current_parsing_history(&mut self, project_name: String, ph: ParsingHistory) {
         self.current_parsing_histories.insert(project_name, ph);
     }
@@ -189,6 +194,19 @@ impl ParserRepositoryNode {
         )
     }
 
+    pub fn get_parsers_with_name(
+        &mut self,
+        project_name: &str,
+        parser_name: &str,
+    ) -> Result<Vec<ParserModel>, Box<dyn Error>> {
+        self.query(
+            ParserModel::sql_select()
+                .where_clause("project_name = ?1")
+                .where_clause("name = ?2"),
+            (project_name, parser_name),
+        )
+    }
+
     pub fn get_templates(
         &mut self,
         project_name: &str,
@@ -200,17 +218,7 @@ impl ParserRepositoryNode {
             (project_name, true),
         )
     }
-
-    pub fn get_parser_children(
-        &mut self,
-        parent_id: i32,
-    ) -> Result<Vec<ParserModel>, Box<dyn Error>> {
-        self.query(
-            ParserModel::sql_select().where_clause("parent_id = $1"),
-            params!(parent_id),
-        )
-    }
-
+    
     pub fn get_cards(
         &mut self,
         project_name: &str,

@@ -20,7 +20,7 @@ static class SQL
         is_template,
         is_root,
         parent_id,
-        is_ref,
+        ref_to_id,
         editor_offset_x,
         editor_offset_y
     ) VALUES (
@@ -34,7 +34,7 @@ static class SQL
         {7},   -- is_template
         {8},   -- is_root
         {9},   -- parent_id
-        {10},   -- is_ref
+        {10},   -- ref_to_id
         0,
         0
     );
@@ -50,9 +50,33 @@ class XmlParserRoot
     public required string Name { get; init; }
     public XmlParserNode? Node { get; set; }
 
-    public string ToSQLInsert(Dictionary<string, ParserBase> parserRoots)
+    public ParserModel ToParserModel(int id)
     {
-        return Node!.ToSQLInsert(parserRoots, true, Name == "root");
+        var parser = Node!.ToParser();
+        return new ParserModel()
+        {
+            Id = id,
+            IsRoot = Name == "root",
+            IsTemplate = true,
+            Name = Name,
+            ParentId = null,
+            RefToId = null,
+            Script = parser.Script,
+            Pattern = parser switch
+            {
+                Matcher m => m.PatternString,
+                Splitter sp => sp.PatternString,
+                Selector => "",
+                _ => throw new Exception(),
+            },
+            PType = parser switch
+            {
+                Matcher => 1,
+                Selector => 2,
+                Splitter => 3,
+                _ => throw new Exception(),
+            },
+        };
     }
 }
 
@@ -90,51 +114,58 @@ partial class XmlParserNode
         };
     }
 
-    public string ToSQLInsert(Dictionary<string, ParserBase> parserRoots, bool isTemplate, bool isRoot, int? parentId = null)
+    public List<ParserModel> ToParserModels(Dictionary<string, int> templateNameToId, IDGenerator gen, int? parentId)
     {
-        var id = SQL.CreateId();
-
         if (IsReference)
         {
-            return string.Format(
-                SQL.INSERT_FORMAT,
-                id,
-                parserRoots[Name].Name,
-                GetPType(parserRoots[Name]),
-                "",
-                "",
-                "test",
-                "",
-                0,
-                0,
-                parentId is null ? "NULL" : parentId,
-                1
-            );
+            return [
+                new() {
+                    Id = gen.Next(),
+                    IsRoot = false,
+                    IsTemplate = false,
+                    Name = "REF_NAME",
+                    ParentId = parentId,
+                    Pattern = "",
+                    PType = 1,
+                    Script = "",
+                    RefToId = templateNameToId[Name]
+                }
+            ];
         }
+        List<ParserModel> result = [];
 
         var parser = ToParser();
-        var result = new StringBuilder();
-        result.AppendLine(string.Format(
-            SQL.INSERT_FORMAT,
-            id,
-            Name,
-            GetPType(),
-            GetPattern(parser).Replace("{", "\\{").Replace("}", "\\}"),
-            parser.Script.Replace("'", "''"),
-            "test",
-            "",
-            isTemplate ? 1 : 0,
-            isRoot ? 1 : 0,
-            parentId is null ? "NULL" : parentId,
-            0
-        ));
-
-        foreach (var child in GetChildren())
+        ParserModel myModel = new()
         {
-            result.AppendLine(child.ToSQLInsert(parserRoots, false, false, id));
-        }
+            Id = gen.Next(),
+            IsRoot = false,
+            IsTemplate = false,
+            Name = Name,
+            ParentId = parentId,
+            Script = parser.Script,
+            Pattern = parser switch
+            {
+                Matcher m => m.PatternString,
+                Splitter sp => sp.PatternString,
+                Selector => "",
+                _ => throw new Exception(),
+            },
+            PType = parser switch
+            {
+                Matcher => 1,
+                Selector => 2,
+                Splitter => 3,
+                _ => throw new Exception(),
+            }, 
+            RefToId = null
+        };
+        result.Add(myModel);
 
-        return result.ToString();
+        // children
+        foreach (var child in GetChildren())
+            result.AddRange(child.ToParserModels(templateNameToId, gen, myModel.Id));
+
+        return result;
     }
 
     public int GetPType()

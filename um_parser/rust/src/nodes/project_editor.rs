@@ -55,7 +55,7 @@ impl IControl for ProjectEditorNode {
             .init(self.logs_tab.clone());
 
         // parsers tab
-        self.parsers_tab.bind_mut().repo.init(self.repo.clone());
+        self.parsers_tab.bind_mut().set_repo(self.repo.clone());
         self.parsers_tab
             .bind_mut()
             .logs_tab

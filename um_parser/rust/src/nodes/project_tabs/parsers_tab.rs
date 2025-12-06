@@ -40,7 +40,6 @@ pub struct ParsersTabNode {
     delete_button: OnEditor<Gd<Button>>,
 }
 
-
 #[godot_api]
 impl IControl for ParsersTabNode {
     fn ready(&mut self) {
@@ -83,11 +82,22 @@ impl ParsersTabNode {
             .connect_other(self, Self::on_parser_editor_window_cancel_request);
     }
 
+    pub fn set_repo(&mut self, repo: Gd<ParserRepositoryNode>) {
+        self.repo.init(repo.clone());
+
+        self.parser_editor_window
+            .bind_mut()
+            .repo
+            .init(repo.clone());
+    }
+
     fn on_parser_editor_window_save_request(&mut self) {
         let model = self.parser_editor_window.bind_mut().build();
         self.parser_editor_window.hide();
 
-        // TODO 
+        // TODO
+        godot_print!("ID: {}", model.id);
+        
     }
 
     fn on_parser_editor_window_cancel_request(&mut self) {
@@ -95,7 +105,7 @@ impl ParsersTabNode {
     }
 
     fn on_create_button_pressed(&mut self) {
-        self.parser_editor_window.bind_mut().clear();
+        self.parser_editor_window.bind_mut().clear(self.loaded_project_name.to_string());
         self.parser_editor_window.set_title("Create a new parser");
         self.parser_editor_window.show();
     }
@@ -155,10 +165,17 @@ impl ParsersTabNode {
         for parser in &templates {
             // TODO filter
 
-            let idx = self.templates_list.add_item(&format!("{}{}", match parser.is_root {
-                true => "* ",
-                false => "",
-            }, &parser.name).to_string());
+            let idx = self.templates_list.add_item(
+                &format!(
+                    "{}{}",
+                    match parser.is_root {
+                        true => "* ",
+                        false => "",
+                    },
+                    &parser.name
+                )
+                .to_string(),
+            );
             self.templates_list
                 .set_item_metadata(idx, &parser.id.to_variant());
         }
@@ -256,8 +273,8 @@ impl ParserTabNode {
             .connect_other(self, Self::on_graph_end_node_move);
         // self.graph
         //     .signals()
-            // .node_ac()
-            // .connect_other(self, Self::signal_connection);
+        // .node_ac()
+        // .connect_other(self, Self::signal_connection);
     }
 
     pub fn update_parsing_history(&mut self, ph: Option<&ParsingHistory>) {
@@ -349,12 +366,16 @@ impl ParserTabNode {
     }
 
     fn add_nodes_for(&mut self, parent: &ParserModel) -> Gd<ParserGraphNode> {
+        godot_print!("ADD NODES FOR: {} ({})", &parent.name, parent.children.len());
         let mut result = self
             .parser_graph_node_scene
             .instantiate_as::<ParserGraphNode>();
         self.graph.add_child(&result);
         result.bind_mut().graph.init(self.graph.clone());
-        result.bind_mut().parser_editor_window.init(self.parser_editor_window.clone());
+        result
+            .bind_mut()
+            .parser_editor_window
+            .init(self.parser_editor_window.clone());
 
         let binding = self.repo.bind_mut();
         let ph = binding.get_parsing_history(&parent.project_name);
@@ -423,7 +444,6 @@ pub struct ParserGraphNode {
     #[init(val = OnReady::manual())]
     pub parser_editor_window: OnReady<Gd<ParserEditorWindowNode>>,
 
-
     #[export]
     template_color: Color,
     #[export]
@@ -457,8 +477,17 @@ impl ParserGraphNode {
 
     fn on_gui_input(&mut self, e: Gd<InputEvent>) {
         if e.is_action_pressed("edit_parser") {
-            // TODO
-            godot_print!("EDIT PARSER");
+            if self.parser.as_ref().unwrap().ref_to_id.is_some() {
+                return;
+            }
+            self.parser_editor_window
+                .bind_mut()
+                .load(&self.parser.as_ref().unwrap());
+            self.parser_editor_window.set_title(
+                &format!("Edit parser {}", &self.parser.as_ref().unwrap().name).to_string(),
+            );
+            self.parser_editor_window.show();
+            return;
         }
     }
 
@@ -473,7 +502,6 @@ impl ParserGraphNode {
         self.base_mut()
             .set_position_offset(Vector2::new(parser.editor_offset_x, parser.editor_offset_y));
 
-        // self.parsing_info_container.set_visible(!parser.is_ref);
         self.parser = Some(parser);
     }
 
@@ -505,7 +533,7 @@ impl ParserGraphNode {
     }
 
     fn set_color(&mut self, parser: &ParserModel) {
-        if parser.is_ref {
+        if parser.ref_to_id.is_some() {
             self.set_self_color(self.ref_color);
             return;
         }
@@ -519,14 +547,14 @@ impl ParserGraphNode {
     fn add_connection_slots(&mut self, parser: &ParserModel) {
         self.add_in_connection_slot(parser);
 
-        if parser.is_ref {
+        if parser.ref_to_id.is_some() {
             return;
         }
 
         match parser.ptype {
             PMT_MATCHER => self.add_matcher_connection_slots(parser),
-            PMT_SELECTOR => self.add_selector_connection_slots(parser),
-            PMT_SPLITTER => self.add_splitter_connection_slots(parser),
+            PMT_SELECTOR => self.add_selector_connection_slots(),
+            PMT_SPLITTER => self.add_splitter_connection_slots(),
             other => panic!("Unrecognized parser model type: {}", other),
         }
     }
@@ -571,11 +599,11 @@ impl ParserGraphNode {
             .set_title(&self.title.to_string());
     }
 
-    fn add_selector_connection_slots(&mut self, parser: &ParserModel) {
+    fn add_selector_connection_slots(&mut self) {
         self.base_mut().set_slot_enabled_right(0, true);
     }
 
-    fn add_splitter_connection_slots(&mut self, parser: &ParserModel) {
+    fn add_splitter_connection_slots(&mut self) {
         self.base_mut().set_slot_enabled_right(0, true);
     }
 

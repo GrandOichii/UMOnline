@@ -190,13 +190,7 @@ ParserBase ReadXMLParser()
 
     // write sql file
     {
-        var sqlOut = new StringBuilder();
-        sqlOut.AppendLine("delete from parsers;");
-
-        foreach (var pair in parserRoots)
-        {
-            sqlOut.AppendLine(pair.Key.ToSQLInsert(nameToParser));
-        }
+        var sqlOut = ParserModelInsert.GenerateSQLFile(parserRoots);
 
         File.WriteAllText("out.sql", sqlOut.ToString());
     }

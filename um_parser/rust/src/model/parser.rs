@@ -41,7 +41,7 @@ pub struct ParserModel {
     pub is_template: bool,
     pub is_root: bool,
     pub parent_id: Option<i32>,
-    pub is_ref: bool,
+    pub ref_to_id: Option<i32>,
 
     pub editor_offset_x: f32,
     pub editor_offset_y: f32,
@@ -63,12 +63,13 @@ impl SQLModel for ParserModel {
             .column("is_template INTEGER NOT NULL")
             .column("is_root INTEGER NOT NULL")
             .column("parent_id INTEGER")
-            .column("is_ref INTEGER NOT NULL")
+            .column("ref_to_id INTEGER")
             .column("editor_offset_x REAL NOT NULL")
             .column("editor_offset_y REAL NOT NULL")
             .primary_key("id")
             .foreign_key("(project_name) REFERENCES projects(name) ON DELETE CASCADE")
             .foreign_key("(parent_id) REFERENCES parsers(id) ON DELETE CASCADE")
+            .foreign_key("(ref_to_id) REFERENCES parsers(id) ON DELETE CASCADE")
     }
 
     fn sql_drop() -> sql_query_builder::DropTable {
@@ -81,7 +82,7 @@ impl SQLModel for ParserModel {
 
     fn sql_insert_into(&self, conn: &rusqlite::Connection) -> Result<usize, Box<dyn Error>> {
         let sql = sql::Insert::new()
-            .insert_into("parsers (name, ptype, pattern, script, project_name, description, is_template, is_root, parent_id, is_ref, editor_offset_x, editor_offset_y)")
+            .insert_into("parsers (name, ptype, pattern, script, project_name, description, is_template, is_root, parent_id, ref_to_id, editor_offset_x, editor_offset_y)")
             .values("(?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12)")
             .as_string();
 
@@ -97,7 +98,7 @@ impl SQLModel for ParserModel {
                 &self.is_template,
                 &self.is_root,
                 &self.parent_id,
-                &self.is_ref,
+                &self.ref_to_id,
                 self.editor_offset_x,
                 self.editor_offset_y,
             ),
@@ -124,7 +125,7 @@ impl SQLModel for ParserModel {
             is_template: row.get(7)?,
             is_root: row.get(8)?,
             parent_id: row.get(9)?,
-            is_ref: row.get(10)?,
+            ref_to_id: row.get(10)?,
             editor_offset_x: row.get(11)?,
             editor_offset_y: row.get(12)?,
             children: vec![],
@@ -145,7 +146,7 @@ impl SQLUpdateById for ParserModel {
             .set("is_template = ?8")
             .set("is_root = ?9")
             .set("parent_id = ?10")
-            .set("is_ref = ?11")
+            .set("ref_to_id = ?11")
             .set("editor_offset_x = ?12")
             .set("editor_offset_y = ?13")
             .where_clause("id = ?1")
@@ -164,7 +165,7 @@ impl SQLUpdateById for ParserModel {
                 &self.is_template,
                 &self.is_root,
                 &self.parent_id,
-                &self.is_ref,
+                &self.ref_to_id,
                 self.editor_offset_x,
                 self.editor_offset_y,
             ),

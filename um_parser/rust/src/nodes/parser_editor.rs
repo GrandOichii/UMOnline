@@ -6,11 +6,18 @@ use regex::Regex;
 use crate::model::parser::*;
 use crate::parsers::selector::SELECTOR_SCRIPT;
 use crate::parsers::splitter::SPLITTER_SCRIPT;
+use crate::repo::ParserRepositoryNode;
 
 #[derive(GodotClass)]
 #[class(init,base=Window)]
 pub struct ParserEditorWindowNode {
     base: Base<Window>,
+
+    edited_parser_id: Option<i32>,
+    pub project_name: Option<String>,
+
+    #[init(val = OnReady::manual())]
+    pub repo: OnReady<Gd<ParserRepositoryNode>>,
 
     #[export_group(name = "Nodes")]
     #[export]
@@ -34,7 +41,6 @@ pub struct ParserEditorWindowNode {
     #[export]
     save_error_reasons_label: OnEditor<Gd<Label>>,
 }
-
 
 #[godot_api]
 impl ParserEditorWindowNode {
@@ -63,24 +69,46 @@ impl ParserEditorWindowNode {
         self.cancel_button
             .signals()
             .pressed()
-            .connect_other(self, Self::on_cancel_button_pressed);
+            .connect_other(self, Self::cancel);
         self.type_picker
             .signals()
             .item_selected()
             .connect_other(self, Self::on_type_picker_text_changed);
+        self.base()
+            .signals()
+            .close_requested()
+            .connect_other(self, Self::cancel);
     }
 
-    fn on_cancel_button_pressed(&mut self) {
+    fn cancel(&mut self) {
         self.base_mut().hide();
         self.signals().cancel_request().emit();
     }
 
-    pub fn clear(&mut self) {
+    pub fn clear(&mut self, project_name: String) {
+        self.project_name = Some(project_name);
+        self.edited_parser_id = None;
         self.name_edit.clear();
         self.type_picker.select(1);
         self.pattern_edit.clear();
         self.description_edit.clear();
         self.display_default_script();
+    }
+
+    pub fn load(&mut self, parser: &ParserModel) {
+        self.project_name = Some(parser.project_name.to_string());
+        self.edited_parser_id = Some(parser.id);
+        self.name_edit.set_text(&parser.name);
+        self.type_picker.select(match parser.ptype {
+            PMT_MATCHER => 0,
+            PMT_SELECTOR => 1,
+            PMT_SPLITTER => 2,
+            other => panic!("Unrecognized parser type: {}", other),
+        });
+        self.pattern_edit.set_text(&parser.pattern);
+        self.description_edit.set_text(&parser.description);
+        self.script_edit.set_text(&parser.script);
+        self.on_type_picker_text_changed(-1);
     }
 
     fn display_default_script(&mut self) {
@@ -108,39 +136,62 @@ end"
         self.display_default_script();
     }
 
+    fn parser_empty_name_check(&mut self, parser: &ParserModel) -> Option<String> {
+        match parser.name.len() {
+            0 => Some(String::from("Name can't be empty")),
+            _ => None,
+        }
+    }
+
+    fn parser_taken_name_check(&mut self, parser: &ParserModel) -> Option<String> {
+        let binding = self
+            .repo
+            .bind_mut()
+            .get_parsers_with_name(self.project_name.as_ref().unwrap(), &parser.name)
+            .expect("Failed to get parsers");
+        let iter = binding.iter();
+        let amount = match self.edited_parser_id {
+            Some(id) => iter.filter(|p| p.id != id).count(),
+            None => iter.count(),
+        };
+
+        match amount {
+            0 => None,
+            _ => Some(String::from("Parser with that name already exists")),
+        }
+    }
+
+    fn parser_pattern_check(&mut self, parser: &ParserModel) -> Option<String> {
+        match Regex::new(&parser.pattern) {
+            Ok(_) => None,
+            Err(_) => Some(String::from("Failed to compile pattern")),
+            // Err(err) => Some(format!("Failed to compile pattern: {:?}", err)),
+        }
+    }
+
+    fn parser_script_check(&mut self, parser: &ParserModel) -> Option<String> {
+        let lua = Lua::new();
+
+        // TODO check that can extract _Create function
+        match lua.load(&parser.script).exec() {
+            Ok(_) => None,
+            // Err(err) => Some(format!("Lua parse error: {:?}", err)),
+            Err(_) => Some(String::from("Lua parse error")),
+        }
+    }
+
     fn on_save_request(&mut self) {
         let parser = self.build();
-        let checks: Vec<fn(parser: &ParserModel) -> Option<String>> = vec![
-            // empty name check
-            |parser: &ParserModel| -> Option<String> {
-                match parser.name.len() {
-                    0 => Some(String::from("Name can't be empty")),
-                    _ => None,
-                }
-            },
-            // pattern check
-            |parser: &ParserModel| -> Option<String> {
-                match Regex::new(&parser.pattern) {
-                    Ok(_) => None,
-                    Err(_) => Some(String::from("Failed to compile pattern")),
-                    // Err(err) => Some(format!("Failed to compile pattern: {:?}", err)),
-                }
-            },
-            // lua script check
-            |parser: &ParserModel| -> Option<String> {
-                let lua = Lua::new();
-                // lua
-                match lua.load(&parser.script).exec() {
-                    Ok(_) => None,
-                    // Err(err) => Some(format!("Lua parse error: {:?}", err)),
-                    Err(_) => Some(String::from("Lua parse error")),
-                }
-            },
+        let checks = vec![
+            ParserEditorWindowNode::parser_empty_name_check,
+            ParserEditorWindowNode::parser_taken_name_check,
+            ParserEditorWindowNode::parser_pattern_check,
+            ParserEditorWindowNode::parser_script_check,
         ];
 
         let mut errors = vec![];
         for check in checks {
-            match check(&parser) {
+            match check(self, &parser) {
                 None => continue,
                 Some(err) => errors.push(err),
             }
@@ -162,8 +213,11 @@ end"
             description: self.description_edit.get_text().to_string(),
             editor_offset_x: 0.0,
             editor_offset_y: 0.0,
-            id: 0,
-            is_ref: false,
+            id: match self.edited_parser_id {
+                Some(id) => id,
+                None => -1
+            },
+            ref_to_id: None,
             is_root: false,
             is_template: false,
             name: self.name_edit.get_text().to_string(),
