@@ -46,6 +46,7 @@ pub struct ParserModel {
     pub parent_id: Option<i32>,
     pub parent_slot: Option<i32>,
     pub ref_to_id: Option<i32>,
+    pub ref_name: Option<String>,
 
     pub editor_offset_x: f32,
     pub editor_offset_y: f32,
@@ -81,10 +82,6 @@ impl SQLModel for ParserModel {
         sql::DropTable::new().drop_table_if_exists("parsers")
     }
 
-    fn sql_select() -> sql::Select {
-        sql::Select::new().select("*").from("parsers")
-    }
-
     fn sql_insert_into(&self, conn: &rusqlite::Connection) -> Result<usize, Box<dyn Error>> {
         let sql = sql::Insert::new()
             .insert_into("parsers (name, ptype, pattern, script, project_name, description, is_template, is_root, parent_id, parent_slot, ref_to_id, editor_offset_x, editor_offset_y)")
@@ -116,6 +113,13 @@ impl SQLModel for ParserModel {
         sql::Delete::new().delete_from("parsers")
     }
 
+    fn sql_select() -> sql::Select {
+        sql::Select::new()
+            .select("p.*, refs.name")
+            .from("parsers p")
+            .left_join("parsers refs on p.ref_to_id = refs.id")
+    }
+
     fn get_fn_mut(row: &rusqlite::Row) -> Result<Self, rusqlite::Error>
     where
         Self: Sized,
@@ -135,6 +139,7 @@ impl SQLModel for ParserModel {
             ref_to_id: row.get(11)?,
             editor_offset_x: row.get(12)?,
             editor_offset_y: row.get(13)?,
+            ref_name: row.get(14)?,
             children: vec![],
         })
     }

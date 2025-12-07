@@ -87,7 +87,7 @@ impl ParserRepositoryNode {
 
     pub fn get_parser(&mut self, id: i32) -> Result<Option<ParserModel>, Box<dyn Error>> {
         self.query_first(
-            ParserModel::sql_select().where_clause("id = $1"),
+            ParserModel::sql_select().where_clause("p.id = $1"),
             params!(id),
         )
     }
@@ -194,7 +194,7 @@ impl ParserRepositoryNode {
 
     pub fn get_parsers(&mut self, project_name: &str) -> Result<Vec<ParserModel>, Box<dyn Error>> {
         self.query(
-            ParserModel::sql_select().where_clause("project_name = ?1"),
+            ParserModel::sql_select().where_clause("p.project_name = ?1"),
             params!(project_name),
         )
     }
@@ -206,8 +206,8 @@ impl ParserRepositoryNode {
     ) -> Result<Vec<ParserModel>, Box<dyn Error>> {
         self.query(
             ParserModel::sql_select()
-                .where_clause("project_name = ?1")
-                .where_clause("name = ?2"),
+                .where_clause("p.project_name = ?1")
+                .where_clause("p.name = ?2"),
             (project_name, parser_name),
         )
     }
@@ -218,8 +218,8 @@ impl ParserRepositoryNode {
     ) -> Result<Vec<ParserModel>, Box<dyn Error>> {
         self.query(
             ParserModel::sql_select()
-                .where_clause("project_name = ?1")
-                .where_clause("is_template = ?2"),
+                .where_clause("p.project_name = ?1")
+                .where_clause("p.is_template = ?2"),
             (project_name, true),
         )
     }
@@ -276,8 +276,8 @@ impl ParserRepositoryNode {
     ) -> Result<Vec<ParserModel>, Box<dyn Error>> {
         let children = self.query::<ParserModel>(
             ParserModel::sql_select()
-                .where_clause("parent_id = ?1")
-                .order_by("parent_slot asc"),
+                .where_clause("p.parent_id = ?1")
+                .order_by("p.parent_slot asc"),
             params!(parser_id),
         )?;
         let mut result: Vec<ParserModel> = Vec::with_capacity(children.len());

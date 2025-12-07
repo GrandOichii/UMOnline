@@ -97,7 +97,6 @@ impl ParsersTabNode {
             .insert_or_update_parser(&model)
             .expect("Failed to insert or update parser");
 
-
         // TODO iterate over all parser tabs and update their names
         // TODO in each tab reload graph
         self.reload_templates();
@@ -225,9 +224,7 @@ impl ParsersTabNode {
         self.parser_tabs_container.set_current_tab(prev_child_count);
 
         node.bind_mut().repo.init(self.repo.clone());
-        node.bind_mut()
-            .parser_editor_window
-            .init(self.parser_editor_window.clone());
+        node.bind_mut().parent.init(self.to_gd().clone());
         node.bind_mut().load_parser(&parser);
     }
 }
@@ -240,7 +237,7 @@ pub struct ParserTabNode {
     #[init(val = OnReady::manual())]
     pub repo: OnReady<Gd<ParserRepositoryNode>>,
     #[init(val = OnReady::manual())]
-    parser_editor_window: OnReady<Gd<ParserEditorWindowNode>>,
+    parent: OnReady<Gd<ParsersTabNode>>,
 
     #[export]
     parser_graph_node_scene: OnEditor<Gd<PackedScene>>,
@@ -379,10 +376,7 @@ impl ParserTabNode {
             .instantiate_as::<ParserGraphNode>();
         self.graph.add_child(&result);
         result.bind_mut().graph.init(self.graph.clone());
-        result
-            .bind_mut()
-            .parser_editor_window
-            .init(self.parser_editor_window.clone());
+        result.bind_mut().parent.init(self.parent.clone());
 
         let binding = self.repo.bind_mut();
         let ph = binding.get_parsing_history(&parent.project_name);
@@ -450,8 +444,10 @@ pub struct ParserGraphNode {
 
     #[init(val = OnReady::manual())]
     pub graph: OnReady<Gd<GraphEdit>>,
+    // #[init(val = OnReady::manual())]
+    // pub parser_editor_window: OnReady<Gd<ParserEditorWindowNode>>,
     #[init(val = OnReady::manual())]
-    pub parser_editor_window: OnReady<Gd<ParserEditorWindowNode>>,
+    pub parent: OnReady<Gd<ParsersTabNode>>,
 
     #[export]
     template_color: Color,
@@ -486,23 +482,27 @@ impl ParserGraphNode {
 
     fn on_gui_input(&mut self, e: Gd<InputEvent>) {
         if e.is_action_pressed("edit_parser") {
-            if self.parser.as_ref().unwrap().ref_to_id.is_some() {
-                // TODO open referenced parser in new window
+            if let Some(ref_id) = self.parser.as_ref().unwrap().ref_to_id {
+                self.parent.bind_mut().open_template(ref_id);
                 return;
             }
-            self.parser_editor_window
+            let editor_window = &mut self.parent.bind_mut().parser_editor_window;
+            editor_window
                 .bind_mut()
                 .load(self.parser.as_ref().unwrap().clone());
-            self.parser_editor_window.set_title(
+            editor_window.set_title(
                 &format!("Edit parser {}", &self.parser.as_ref().unwrap().name).to_string(),
             );
-            self.parser_editor_window.show();
+            editor_window.show();
             return;
         }
     }
 
     fn load_parser(&mut self, parser: ParserModel) {
-        self.base_mut().set_title(&parser.name);
+        self.base_mut().set_title(match parser.ref_to_id {
+            Some(_) => parser.ref_name.as_ref().unwrap(),
+            None => &parser.name,
+        });
 
         // set color
         self.set_color(&parser);

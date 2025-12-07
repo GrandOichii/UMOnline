@@ -102,6 +102,7 @@ impl ParserEditorWindowNode {
             ptype: 2,
             ref_to_id: None,
             script: String::from(""),
+            ref_name: None,
         });
         self.display_default_script();
     }
@@ -245,6 +246,7 @@ end"
             parent_id: edited.parent_id,
             parent_slot: edited.parent_slot,
             project_name: edited.project_name.to_string(),
+            ref_name: None,
         }
     }
 
