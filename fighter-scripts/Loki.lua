@@ -2,8 +2,6 @@
 
 -- Loki add +1 to their move value for each trick card in all of your opponent's hands.
 
--- TODO too low-level, cant be change really
-
 local function IsTrickCard(card)
     return CardHasLabel(card, 'trick')
 end

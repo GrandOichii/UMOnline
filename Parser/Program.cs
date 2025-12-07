@@ -136,7 +136,6 @@ ParserBase ReadXMLParser()
             {
                 throw new Exception($"Provided multiple node connections for root {r.Name}");
             }
-            // TODO idx can be empty
             // System.Console.WriteLine($"(ROOT){idToRoot[srcId].Name} -> (NODE){idToNode[tgtId].Name} [{idx}]");
             r.Node = idToNode[tgtId];
 
@@ -145,13 +144,11 @@ ParserBase ReadXMLParser()
         // node -> reference
         if (idToRef.ContainsKey(tgtId))
         {
-            // TODO idx cant be empty
             // System.Console.WriteLine($"(NODE){idToNode[srcId].Name} -> (REF){idToRef[tgtId].Name} p{idx}]");
             idToNode[srcId].AddChild(idToRef[tgtId], idx);
             continue;
         }
 
-        // TODO idx cant be empty
         // System.Console.WriteLine($"(NODE){idToNode[srcId].Name} -> (NODE){idToNode[tgtId].Name} [{idx}]");
         idToNode[srcId].AddChild(idToNode[tgtId], idx);
     }

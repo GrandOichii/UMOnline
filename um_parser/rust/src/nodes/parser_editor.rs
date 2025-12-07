@@ -189,7 +189,12 @@ end"
 
         // TODO check that can extract _Create function
         match lua.load(&parser.script).exec() {
-            Ok(_) => None,
+            Ok(_) => {
+                match lua.globals().get::<mlua::Function>("_Create") {
+                    Ok(_) => None,
+                    Err(_) => Some(String::from("Didn't find _Create function"))
+                }
+            },
             // Err(err) => Some(format!("Lua parse error: {:?}", err)),
             Err(_) => Some(String::from("Lua parse error")),
         }

@@ -56,7 +56,6 @@ end
 
 function UM.Effects.CharacterSpecific:LoseDoubloon()
     return  function (args)
-        -- TODO
         local prev = GetPlayerIntAttribute(args.owner, 'DOUBLOONS')
         if prev == 0 then
             error('Tried to lose doubloon when player has none')
