@@ -97,8 +97,25 @@ impl ParsersTabNode {
             .insert_or_update_parser(&model)
             .expect("Failed to insert or update parser");
 
-        // TODO iterate over all parser tabs and update their names
-        // TODO in each tab reload graph
+        for i in 0..self.parser_tabs_container.get_child_count() {
+            let mut child = self
+                .parser_tabs_container
+                .get_child(i)
+                .expect("Failed to get child while iterating over get_children")
+                .try_cast::<ParserTabNode>()
+                .unwrap();
+
+            // update name
+            let actual = self
+                .repo
+                .bind_mut()
+                .get_parser(*child.bind().loaded_id.as_ref().unwrap())
+                .expect("Failed to get parser")
+                .unwrap();
+            child.set_name(&actual.name);
+
+            child.bind_mut().load_parser(&actual);
+        }
         self.reload_templates();
     }
 
@@ -204,12 +221,14 @@ impl ParsersTabNode {
             .expect("Tried to open a parser tab with a parser that doesnt exist");
 
         for i in 0..=(prev_child_count - 1) {
-            // TODO bad idea to check it this way, nodes can be renamed
             let child = self
                 .parser_tabs_container
                 .get_child(i)
-                .expect("Failed to get child while iterating over get_children");
-            if child.get_name().to_string() != parser.name {
+                .expect("Failed to get child while iterating over get_children")
+                .try_cast::<ParserTabNode>()
+                .unwrap();
+
+            if *child.bind().loaded_id.as_ref().unwrap() != parser.id {
                 continue;
             }
 
@@ -233,6 +252,8 @@ impl ParsersTabNode {
 #[class(init,base=Control)]
 pub struct ParserTabNode {
     base: Base<Control>,
+
+    pub loaded_id: Option<i32>,
 
     #[init(val = OnReady::manual())]
     pub repo: OnReady<Gd<ParserRepositoryNode>>,
@@ -278,8 +299,22 @@ impl ParserTabNode {
             .connect_other(self, Self::on_graph_end_node_move);
         // self.graph
         //     .signals()
-        // .node_ac()
-        // .connect_other(self, Self::signal_connection);
+        //     .connection_request()
+        //     .connect_other(self, Self::on_graph_connection_request);
+        // self.graph
+        //     .signals()
+        //     .disconnection_request()
+        //     .connect_other(self, Self::on_graph_disconnection_request);
+    }
+
+    fn on_graph_connection_request(&mut self, from: StringName, from_slot: i64, to: StringName, to_slot: i64) {
+        // TODO
+        godot_print!("CONNECTION REQUEST");
+    }
+
+    fn on_graph_disconnection_request(&mut self, from: StringName, from_slot: i64, to: StringName, to_slot: i64) {
+        // TODO
+        godot_print!("DISCONNECTION REQUEST");
     }
 
     pub fn update_parsing_history(&mut self, ph: Option<&ParsingHistory>) {
@@ -336,7 +371,8 @@ impl ParserTabNode {
         godot_print!("NODE SELECTED");
     }
 
-    fn load_parser(&mut self, parser: &ParserModel) {
+    pub fn load_parser(&mut self, parser: &ParserModel) {
+        self.loaded_id = Some(parser.id);
         self.name_label.set_text(&parser.name);
         self.type_label.set_text(&pmt_to_string(parser.ptype));
         self.pattern_label.set_text(&parser.pattern);
@@ -444,8 +480,6 @@ pub struct ParserGraphNode {
 
     #[init(val = OnReady::manual())]
     pub graph: OnReady<Gd<GraphEdit>>,
-    // #[init(val = OnReady::manual())]
-    // pub parser_editor_window: OnReady<Gd<ParserEditorWindowNode>>,
     #[init(val = OnReady::manual())]
     pub parent: OnReady<Gd<ParsersTabNode>>,
 
@@ -478,6 +512,7 @@ impl ParserGraphNode {
             .signals()
             .gui_input()
             .connect_other(self, Self::on_gui_input);
+        
     }
 
     fn on_gui_input(&mut self, e: Gd<InputEvent>) {
@@ -530,12 +565,6 @@ impl ParserGraphNode {
         self.title.unparsed_count = v.unparsed_texts.len();
         self.update_title();
 
-        // unparsed texts
-        self.unparsed_texts_list.clear();
-        // for text in &v.unparsed_texts {
-        //     self.unparsed_texts_list.add_item(text);
-        //     // TODO set metadata
-        // }
     }
 
     fn set_self_color(&mut self, color: Color) {
@@ -627,7 +656,6 @@ impl ParserGraphNode {
         };
         let self_name = &self.base().get_name();
 
-        // godot_print!("CONNECTING");
         for i in 0..child_nodes.len() {
             self.graph
                 .connect_node(self_name, slot_idx, &child_nodes[i].get_name(), 0);

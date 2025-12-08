@@ -122,7 +122,6 @@ impl CardsTabNode {
         // TODO
     }
 
-
     fn close_card_tabs(&mut self) {
         while self.card_tabs_container.get_child_count() > 0
             && let Some(node) = self.card_tabs_container.get_child(0)

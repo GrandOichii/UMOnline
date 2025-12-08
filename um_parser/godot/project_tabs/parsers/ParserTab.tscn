@@ -1,9 +1,9 @@
 [gd_scene load_steps=2 format=3 uid="uid://jgb6a68s720w"]
 
-[ext_resource type="PackedScene" uid="uid://dq04bjl8d47r8" path="res://project_tabs/cards/ParserGraphNode.tscn" id="1_50k43"]
+[ext_resource type="PackedScene" uid="uid://dq04bjl8d47r8" path="res://project_tabs/parsers/ParserGraphNode.tscn" id="1_vhp6e"]
 
 [node name="ParserTab" type="ParserTabNode" node_paths=PackedStringArray("name_label", "type_label", "pattern_label", "description_label", "script_display", "pattern_container", "graph")]
-parser_graph_node_scene = ExtResource("1_50k43")
+parser_graph_node_scene = ExtResource("1_vhp6e")
 name_label = NodePath("VBoxContainer/VBoxContainer/HBoxContainer/NameLabel")
 type_label = NodePath("VBoxContainer/VBoxContainer/HBoxContainer2/TypeLabel")
 pattern_label = NodePath("VBoxContainer/VBoxContainer/PatternContainer/PatternLabel")

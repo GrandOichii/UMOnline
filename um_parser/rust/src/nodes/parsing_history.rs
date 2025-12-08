@@ -11,21 +11,26 @@ pub struct ParsingHistory {
     pub parse_results: Vec<ParseResult>,
 }
 
+pub struct ParsedText {
+    pub text: String,
+    pub full_text: String,
+}
+
 pub struct ParserParsingHistory {
-    pub parsed_texts: Vec<String>,
-    pub unparsed_texts: Vec<String>,
+    pub parsed_texts: Vec<ParsedText>,
+    pub unparsed_texts: Vec<ParsedText>,
 }
 
 impl ParserParsingHistory {
-    pub fn process_parse_result(&mut self, pr: &ParseResult) {
+    pub fn process_parse_result(&mut self, root: &ParseResult, pr: &ParseResult) {
         match pr.status {
-            ParseResultStatus::Success => {
-                self.parsed_texts.push(pr.text.to_string());
-            }
-            _other => {
-                self.unparsed_texts.push(pr.text.to_string());
-            }
+            ParseResultStatus::Success => &mut self.parsed_texts,
+            _other => &mut self.unparsed_texts,
         }
+        .push(ParsedText {
+            full_text: root.text.to_string(),
+            text: pr.text.to_string(),
+        })
     }
 }
 
@@ -37,7 +42,7 @@ impl ParsingHistory {
     pub fn from_parse_results(parse_results: Vec<ParseResult>) -> ParsingHistory {
         let mut parse_result_map = HashMap::<String, ParserParsingHistory>::new();
 
-        ParsingHistory::fill_name_me(&mut parse_result_map, &parse_results);
+        ParsingHistory::fill_parse_result_map(&mut parse_result_map, &parse_results, None);
 
         ParsingHistory {
             parse_result_map: parse_result_map,
@@ -45,15 +50,21 @@ impl ParsingHistory {
         }
     }
 
-    fn fill_name_me(
+    fn fill_parse_result_map(
         parse_result_map: &mut HashMap<String, ParserParsingHistory>,
         prs: &Vec<ParseResult>,
+        root_pr: Option<&ParseResult>,
     ) {
         for pr in prs {
+            let root = match root_pr {
+                None => Some(pr),
+                Some(root_p) => Some(root_p),
+            };
+
             let name = pr.parent.borrow().name.to_string();
             match parse_result_map.get_mut(&name) {
                 Some(pph) => {
-                    pph.process_parse_result(pr);
+                    pph.process_parse_result(pr, root.unwrap());
                 }
                 None => {
                     parse_result_map.insert(
@@ -65,7 +76,7 @@ impl ParsingHistory {
                     );
                 }
             };
-            ParsingHistory::fill_name_me(parse_result_map, &pr.children);
+            ParsingHistory::fill_parse_result_map(parse_result_map, &pr.children, root);
         }
     }
 

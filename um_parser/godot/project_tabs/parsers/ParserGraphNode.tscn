@@ -7,9 +7,9 @@ ref_color = Color(0, 1, 0, 1)
 parsing_info_container = NodePath("ParsingInfoContainer")
 unparsed_texts_list = NodePath("ParsingInfoContainer/HBoxContainer/UnparsedTextsList")
 parsed_texts_list = NodePath("ParsingInfoContainer/HBoxContainer/ParsedTextsList")
-custom_minimum_size = Vector2(500, 250)
-offset_right = 500.0
-offset_bottom = 274.0
+custom_minimum_size = Vector2(300, 50)
+offset_right = 200.0
+offset_bottom = 94.0
 title = "NODE NAME HERE"
 slot/0/left_enabled = false
 slot/0/left_type = 0
@@ -26,12 +26,10 @@ layout_mode = 2
 title = "12/20"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="ParsingInfoContainer"]
-custom_minimum_size = Vector2(0, 180)
 layout_mode = 2
 
 [node name="UnparsedTextsList" type="ItemList" parent="ParsingInfoContainer/HBoxContainer"]
 modulate = Color(1, 0, 0, 1)
-custom_minimum_size = Vector2(0, 180)
 layout_mode = 2
 size_flags_horizontal = 3
 item_count = 3
