@@ -1,12 +1,10 @@
 [gd_scene format=3 uid="uid://dq04bjl8d47r8"]
 
-[node name="ParserGraphNode" type="ParserGraphNode" node_paths=PackedStringArray("parsing_info_container", "unparsed_texts_list", "parsed_texts_list")]
+[node name="ParserGraphNode" type="ParserGraphNode" node_paths=PackedStringArray("completion_label")]
 template_color = Color(0, 1, 1, 1)
 local_color = Color(1, 1, 1, 1)
 ref_color = Color(0, 1, 0, 1)
-parsing_info_container = NodePath("ParsingInfoContainer")
-unparsed_texts_list = NodePath("ParsingInfoContainer/HBoxContainer/UnparsedTextsList")
-parsed_texts_list = NodePath("ParsingInfoContainer/HBoxContainer/ParsedTextsList")
+completion_label = NodePath("VBoxContainer/Completion")
 custom_minimum_size = Vector2(300, 50)
 offset_right = 200.0
 offset_bottom = 94.0
@@ -21,26 +19,13 @@ slot/0/right_color = Color(1, 1, 1, 1)
 slot/0/right_icon = null
 slot/0/draw_stylebox = true
 
-[node name="ParsingInfoContainer" type="FoldableContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2
-title = "12/20"
+size_flags_vertical = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="ParsingInfoContainer"]
+[node name="Completion" type="Label" parent="VBoxContainer"]
 layout_mode = 2
+text = "12/100"
 
-[node name="UnparsedTextsList" type="ItemList" parent="ParsingInfoContainer/HBoxContainer"]
-modulate = Color(1, 0, 0, 1)
+[node name="Pattern" type="Label" parent="VBoxContainer"]
 layout_mode = 2
-size_flags_horizontal = 3
-item_count = 3
-item_0/text = "Unparsed text 1 unparsed text un1"
-item_1/text = "Unparsed text "
-
-[node name="ParsedTextsList" type="ItemList" parent="ParsingInfoContainer/HBoxContainer"]
-modulate = Color(0, 1, 0, 1)
-layout_mode = 2
-size_flags_horizontal = 3
-item_count = 3
-item_0/text = "Parsed text 1"
-item_1/text = "Parsed text 2"
-item_2/text = "Parsed text 3 parsed text 3 parsed"

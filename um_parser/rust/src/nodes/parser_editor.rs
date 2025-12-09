@@ -188,7 +188,6 @@ end"
     fn parser_script_check(&mut self, parser: &ParserModel) -> Option<String> {
         let lua = Lua::new();
 
-        // TODO check that can extract _Create function
         match lua.load(&parser.script).exec() {
             Ok(_) => {
                 match lua.globals().get::<mlua::Function>("_Create") {

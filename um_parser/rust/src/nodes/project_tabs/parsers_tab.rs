@@ -307,12 +307,24 @@ impl ParserTabNode {
         //     .connect_other(self, Self::on_graph_disconnection_request);
     }
 
-    fn on_graph_connection_request(&mut self, from: StringName, from_slot: i64, to: StringName, to_slot: i64) {
+    fn on_graph_connection_request(
+        &mut self,
+        from: StringName,
+        from_slot: i64,
+        to: StringName,
+        to_slot: i64,
+    ) {
         // TODO
         godot_print!("CONNECTION REQUEST");
     }
 
-    fn on_graph_disconnection_request(&mut self, from: StringName, from_slot: i64, to: StringName, to_slot: i64) {
+    fn on_graph_disconnection_request(
+        &mut self,
+        from: StringName,
+        from_slot: i64,
+        to: StringName,
+        to_slot: i64,
+    ) {
         // TODO
         godot_print!("DISCONNECTION REQUEST");
     }
@@ -441,13 +453,13 @@ impl ParserTabNode {
     }
 }
 
-struct ParserNodeTitle {
+struct ParserNodeBrief {
     pub pattern: String,
     pub parsed_count: usize,
     pub unparsed_count: usize,
 }
 
-impl ParserNodeTitle {
+impl ParserNodeBrief {
     pub fn to_string(&self) -> String {
         format!(
             "{}/{} {}",
@@ -455,18 +467,24 @@ impl ParserNodeTitle {
             self.unparsed_count + self.parsed_count,
             &self.pattern
         )
-        // format!("{}/{}", &self.parsed_count, &self.unparsed_count)
+    }
+
+    pub fn get_completion_string(&self) -> String {
+        format!(
+            "{}/{}",
+            self.parsed_count,
+            self.unparsed_count + self.parsed_count
+        )
     }
 }
 
-impl Default for ParserNodeTitle {
+impl Default for ParserNodeBrief {
     fn default() -> Self {
         Self {
             pattern: String::from(""),
             parsed_count: 0,
             unparsed_count: 0,
         }
-        // Self { parsed_count: 0, unparsed_count: 0 }
     }
 }
 
@@ -475,7 +493,7 @@ impl Default for ParserNodeTitle {
 pub struct ParserGraphNode {
     base: Base<GraphNode>,
 
-    title: ParserNodeTitle,
+    brief: ParserNodeBrief,
     parser: Option<ParserModel>,
 
     #[init(val = OnReady::manual())]
@@ -492,11 +510,7 @@ pub struct ParserGraphNode {
 
     #[export_group(name = "Nodes")]
     #[export]
-    parsing_info_container: OnEditor<Gd<FoldableContainer>>,
-    #[export]
-    unparsed_texts_list: OnEditor<Gd<ItemList>>,
-    #[export]
-    parsed_texts_list: OnEditor<Gd<ItemList>>,
+    completion_label: OnEditor<Gd<Label>>,
 }
 
 #[godot_api]
@@ -512,7 +526,6 @@ impl ParserGraphNode {
             .signals()
             .gui_input()
             .connect_other(self, Self::on_gui_input);
-        
     }
 
     fn on_gui_input(&mut self, e: Gd<InputEvent>) {
@@ -534,20 +547,24 @@ impl ParserGraphNode {
     }
 
     fn load_parser(&mut self, parser: ParserModel) {
-        self.base_mut().set_title(match parser.ref_to_id {
-            Some(_) => parser.ref_name.as_ref().unwrap(),
-            None => &parser.name,
-        });
-
         // set color
         self.set_color(&parser);
         self.add_connection_slots(&parser);
-        self.set_pattern(&parser.pattern);
 
         self.base_mut()
             .set_position_offset(Vector2::new(parser.editor_offset_x, parser.editor_offset_y));
 
+        self.update_title(&parser);
         self.parser = Some(parser);
+
+        self.update_pattern();
+    }
+
+    fn update_title(&mut self, parser: &ParserModel) {
+        self.base_mut().set_title(match &parser.ref_name {
+            Some(ref_name) => &ref_name,
+            None => &parser.name,
+        });
     }
 
     fn load_parsing_history(&mut self, ph: Option<&ParsingHistory>) {
@@ -561,10 +578,9 @@ impl ParserGraphNode {
             None => &binding,
         };
 
-        self.title.parsed_count = v.parsed_texts.len();
-        self.title.unparsed_count = v.unparsed_texts.len();
-        self.update_title();
-
+        self.brief.parsed_count = v.parsed_texts.len();
+        self.brief.unparsed_count = v.unparsed_texts.len();
+        self.update_brief();
     }
 
     fn set_self_color(&mut self, color: Color) {
@@ -599,9 +615,6 @@ impl ParserGraphNode {
     }
 
     fn add_in_connection_slot(&mut self, parser: &ParserModel) {
-        // let node = Label::new_alloc();
-        // self.base_mut().add_child(&node);
-
         if parser.is_template {
             return;
         }
@@ -625,17 +638,20 @@ impl ParserGraphNode {
         }
     }
 
-    fn set_pattern(&mut self, new_pattern: &String) {
-        self.title = ParserNodeTitle {
-            pattern: new_pattern.to_string(),
-            ..self.title
+    fn update_pattern(&mut self) {
+        self.brief = ParserNodeBrief {
+            pattern: self.parser.as_ref().unwrap().pattern.to_string(),
+            ..self.brief
         };
-        self.update_title();
+        self.update_brief();
     }
 
-    fn update_title(&mut self) {
-        self.parsing_info_container
-            .set_title(&self.title.to_string());
+    fn update_brief(&mut self) {
+        let visible = self.parser.as_ref().unwrap().ref_to_id.is_none();
+        self.completion_label.set_visible(visible);
+
+        self.completion_label
+            .set_text(&self.brief.get_completion_string());
     }
 
     fn add_selector_connection_slots(&mut self) {
