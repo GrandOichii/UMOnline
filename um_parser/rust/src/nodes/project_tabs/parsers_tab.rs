@@ -380,10 +380,12 @@ impl ParserTabNode {
     }
 
     fn on_graph_node_selected(&mut self, node: Gd<Node>) {
-        godot_print!("NODE SELECTED");
+        let mut graph_node = node.try_cast::<ParserGraphNode>().unwrap();
+        self.load_parser_info(graph_node.bind_mut().parser.as_ref().unwrap())
     }
 
-    pub fn load_parser(&mut self, parser: &ParserModel) {
+    pub fn load_parser_info(&mut self, parser: &ParserModel) {
+        // TODO check if is reference
         self.loaded_id = Some(parser.id);
         self.name_label.set_text(&parser.name);
         self.type_label.set_text(&pmt_to_string(parser.ptype));
@@ -393,6 +395,10 @@ impl ParserTabNode {
 
         self.pattern_container
             .set_visible(pmt_has_pattern(parser.ptype));
+    }
+
+    pub fn load_parser(&mut self, parser: &ParserModel) {
+        self.load_parser_info(parser);
 
         self.load_nodes(parser);
     }
@@ -407,15 +413,6 @@ impl ParserTabNode {
 
         self.remove_graph_nodes();
         self.add_nodes_for(&parser_with_children);
-
-        // let mut timer = Timer::new_alloc();
-        // self.base_mut().add_child(&timer);
-        // timer.set_wait_time(0.1);
-        // timer.set_one_shot(true);
-        // timer.connect("timeout", &self.graph.callable("arrange_nodes"));
-        // timer.start();
-
-        // self.graph.call_deferred("arrange_nodes", &[]);
     }
 
     fn add_nodes_for(&mut self, parent: &ParserModel) -> Gd<ParserGraphNode> {
@@ -428,7 +425,6 @@ impl ParserTabNode {
 
         let binding = self.repo.bind_mut();
         let ph = binding.get_parsing_history(&parent.project_name);
-        // let ph = binding.get_parser_parsing_history(&parent.project_name, &parent.name);
 
         result.bind_mut().load_parser(parent.clone());
         result.bind_mut().load_parsing_history(ph);
@@ -460,15 +456,6 @@ struct ParserNodeBrief {
 }
 
 impl ParserNodeBrief {
-    pub fn to_string(&self) -> String {
-        format!(
-            "{}/{} {}",
-            self.parsed_count,
-            self.unparsed_count + self.parsed_count,
-            &self.pattern
-        )
-    }
-
     pub fn get_completion_string(&self) -> String {
         format!(
             "{}/{}",
