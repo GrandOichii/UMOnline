@@ -8,8 +8,8 @@ use godot::prelude::*;
 use mlua::Lua;
 
 use crate::nodes::parsing_history::*;
-use crate::nodes::project_tabs::cards_tab::*;
-use crate::nodes::project_tabs::logs_tab::LogsTabNode;
+use crate::nodes::project_tabs::cards::cards_tab::CardsTabNode;
+use crate::nodes::project_tabs::logs::logs_tab::LogsTabNode;
 use crate::nodes::project_tabs::parsers::parsers_tab::ParsersTabNode;
 use crate::parsers::parser::*;
 use crate::repo::*;

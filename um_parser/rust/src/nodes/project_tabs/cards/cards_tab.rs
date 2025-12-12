@@ -8,7 +8,8 @@ use serde::Deserialize;
 use crate::model::card::CardModel;
 use crate::model::project::ProjectModel;
 use crate::nodes::parsing_history::ParsingHistory;
-use crate::nodes::project_tabs::logs_tab::LogsTabNode;
+use crate::nodes::project_tabs::cards::card_tab::CardTabNode;
+use crate::nodes::project_tabs::logs::logs_tab::LogsTabNode;
 use crate::repo::*;
 
 #[derive(GodotClass)]
@@ -287,28 +288,5 @@ impl CardsTabNode {
 
         self.unparsed_count_label
             .set_text(cards.len().to_string().as_str());
-    }
-}
-
-#[derive(GodotClass)]
-#[class(init,base=Control)]
-pub struct CardTabNode {
-    base: Base<Control>,
-    #[export_group(name="Nodes")]
-    #[export]
-    name_label: OnEditor<Gd<Label>>,
-    #[export]
-    text_display: OnEditor<Gd<TextEdit>>,
-}
-
-#[godot_api]
-impl IControl for CardTabNode {
-    fn ready(&mut self) {}
-}
-
-impl CardTabNode {
-    fn load_card(&mut self, card: &CardModel) {
-        self.name_label.set_text(&card.name);
-        self.text_display.set_text(&card.text);
     }
 }

@@ -1,3 +1,3 @@
-pub mod cards_tab;
-pub mod logs_tab;
+pub mod cards;
 pub mod parsers;
+pub mod logs;

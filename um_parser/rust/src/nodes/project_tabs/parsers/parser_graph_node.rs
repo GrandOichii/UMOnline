@@ -1,18 +1,11 @@
-use godot::classes::tab_bar::CloseButtonDisplayPolicy;
 use godot::classes::*;
 use godot::prelude::*;
 use regex::Regex;
 
 use crate::model::parser::*;
-use crate::model::project::ProjectModel;
-use crate::nodes::parser_editor::ParserEditorWindowNode;
 use crate::nodes::parsing_history::ParserParsingHistory;
 use crate::nodes::parsing_history::ParsingHistory;
-use crate::nodes::project_tabs::logs_tab::LogsTabNode;
 use crate::nodes::project_tabs::parsers::parsers_tab::ParsersTabNode;
-use crate::repo::ParserRepositoryNode;
-
-
 
 struct ParserNodeBrief {
     pub pattern: String,
