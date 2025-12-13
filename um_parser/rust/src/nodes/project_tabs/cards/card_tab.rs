@@ -1,12 +1,9 @@
-use dprint_core::configuration::resolve_global_config;
-use dprint_core::formatting;
-use dprint_core::formatting::PrintItem;
-use dprint_core::formatting::PrintItems;
-use dprint_core::formatting::PrintOptions;
 use godot::classes::*;
 use godot::prelude::*;
 
-use dprint_core::configuration::{ConfigKeyMap, ConfigKeyValue, GlobalConfiguration};
+use stylua_lib::Config;
+use stylua_lib::OutputVerification;
+use stylua_lib::format_code;
 
 use crate::model::card::CardModel;
 use crate::nodes::parsing_history::ParsingHistory;
@@ -48,25 +45,8 @@ impl CardTabNode {
             },
         };
 
-        // let config = ConfigKeyMap::new();
-        // let global_config = GlobalConfiguration::default();
-        // // let config = resolve_global_config(global_);
-        // let result = format_text()
-
-        // let request = FormatRequest {
-        //     file_text: script.to_string(),
-        // };
-        // formatting::format(|| {
-        //     let result = PrintItems::new();
-        //     result.push_item(PrintItem);
-        //     script
-        // }, PrintOptions {
-        //     indent_width: 4,
-        //     max_width: 10,
-        //     use_tabs: false,
-        //     // newline_kind: "\n",
-        // })
-
-        self.script_display.set_text(&script);
+        let formatted = format_code(&script, Config::default(), None, OutputVerification::None)
+            .expect("Failed to format lua code");
+        self.script_display.set_text(&formatted);
     }
 }
