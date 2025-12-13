@@ -9,6 +9,7 @@ use crate::parsers::parser::{ParseResult, ParseResultStatus};
 pub struct ParsingHistory {
     pub parse_result_map: HashMap<String, ParserParsingHistory>,
     pub parse_results: Vec<ParseResult>,
+    pub card_scripts: HashMap<i32, String>,
 }
 
 pub struct ParsedText {
@@ -39,7 +40,10 @@ impl ParsingHistory {
         self.parse_result_map.get(parser_name)
     }
 
-    pub fn from_parse_results(parse_results: Vec<ParseResult>) -> ParsingHistory {
+    pub fn new(
+        card_scripts: HashMap<i32, String>,
+        parse_results: Vec<ParseResult>,
+    ) -> ParsingHistory {
         let mut parse_result_map = HashMap::<String, ParserParsingHistory>::new();
 
         ParsingHistory::fill_parse_result_map(&mut parse_result_map, &parse_results, None);
@@ -47,6 +51,7 @@ impl ParsingHistory {
         ParsingHistory {
             parse_result_map: parse_result_map,
             parse_results: parse_results,
+            card_scripts: card_scripts,
         }
     }
 
@@ -90,23 +95,11 @@ impl ParsingHistory {
             .filter(|pr| pr.status == ParseResultStatus::Success)
             .count()
     }
-}
 
-#[derive(GodotClass)]
-#[class(init,base=Node)]
-pub struct ParsingHistoryNode {
-    base: Base<Node>,
-    //#[export_group(name="Nodes")]
-}
-
-#[godot_api]
-impl ParsingHistoryNode {}
-
-#[godot_api]
-impl INode for ParsingHistoryNode {
-    fn ready(&mut self) {}
-}
-
-impl ParsingHistoryNode {
-    pub fn add_history(&mut self, ph: ParsingHistory) {}
+    pub fn get_script_for(&self, id: i32) -> Option<String> {
+        match self.card_scripts.get(&id) {
+            Some(script) => Some(script.to_string()),
+            None => None,
+        }
+    }
 }

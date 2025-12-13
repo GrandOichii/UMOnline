@@ -1,8 +1,9 @@
 [gd_scene format=3 uid="uid://cfm7yf8xlxwr5"]
 
-[node name="CardTab" type="CardTabNode" node_paths=PackedStringArray("name_label", "text_display")]
+[node name="CardTab" type="CardTabNode" node_paths=PackedStringArray("name_label", "text_display", "script_display")]
 name_label = NodePath("VBoxContainer/VBoxContainer/HBoxContainer2/NameLabel")
 text_display = NodePath("VBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/TextDisplay")
+script_display = NodePath("VBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer2/ScriptDisplay")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -63,7 +64,7 @@ size_flags_horizontal = 3
 layout_mode = 2
 text = "Generated script"
 
-[node name="TextEdit" type="CodeEdit" parent="VBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
+[node name="ScriptDisplay" type="CodeEdit" parent="VBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3

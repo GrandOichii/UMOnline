@@ -22,7 +22,7 @@ pub struct CardsTabNode {
 
     #[init(val = OnReady::manual())]
     pub logs_tab: OnReady<Gd<LogsTabNode>>,
-    
+
     loaded_project_name: String,
 
     #[export]
@@ -55,7 +55,10 @@ impl IControl for CardsTabNode {
         self.connect_signals();
 
         self.cards_list.clear();
-        self.card_tabs_container.get_tab_bar().unwrap().set_tab_close_display_policy(CloseButtonDisplayPolicy::SHOW_ALWAYS);
+        self.card_tabs_container
+            .get_tab_bar()
+            .unwrap()
+            .set_tab_close_display_policy(CloseButtonDisplayPolicy::SHOW_ALWAYS);
 
         self.close_card_tabs();
     }
@@ -109,7 +112,9 @@ impl CardsTabNode {
             .signals()
             .item_activated()
             .connect_other(self, Self::on_cards_list_item_activated);
-        self.card_tabs_container.get_tab_bar().unwrap()
+        self.card_tabs_container
+            .get_tab_bar()
+            .unwrap()
             .signals()
             .tab_close_pressed()
             .connect_other(self, Self::on_card_tabs_container_close_pressed);
@@ -120,7 +125,7 @@ impl CardsTabNode {
     }
 
     pub fn update_parsing_history(&mut self, ph: &ParsingHistory) {
-        // TODO
+        // TODO for each tab, update parsing histories
     }
 
     fn close_card_tabs(&mut self) {
@@ -132,7 +137,7 @@ impl CardsTabNode {
     }
 
     fn construct_filter(&mut self) -> CardFilter {
-        CardFilter{
+        CardFilter {
             allow_parsed: self.parsed_filter_check.is_pressed(),
             allow_unparsed: self.unparsed_filter_check.is_pressed(),
             filter: self.card_filter_edit.get_text().to_lower().to_string(),
@@ -145,7 +150,9 @@ impl CardsTabNode {
     }
 
     fn on_card_tabs_container_close_pressed(&mut self, idx: i64) {
-        let child = self.card_tabs_container.get_child(idx.try_into().unwrap())
+        let child = self
+            .card_tabs_container
+            .get_child(idx.try_into().unwrap())
             .expect("Tried to close a non-existant card tab");
         self.card_tabs_container.remove_child(&child);
     }
@@ -161,14 +168,20 @@ impl CardsTabNode {
     fn open_card(&mut self, card_id: i32) {
         let prev_child_count = self.card_tabs_container.get_child_count();
 
-        let card = self.repo.bind_mut().get_card(card_id)
-            .expect("Failed to load card").expect("Tried to open a card tab with a card that doesnt exist");
+        let card = self
+            .repo
+            .bind_mut()
+            .get_card(card_id)
+            .expect("Failed to load card")
+            .expect("Tried to open a card tab with a card that doesnt exist");
 
-        for i in 0..=(prev_child_count-1) {
-            let child = self.card_tabs_container.get_child(i)
+        for i in 0..=(prev_child_count - 1) {
+            let child = self
+                .card_tabs_container
+                .get_child(i)
                 .expect("Failed to get child while iterating over get_children");
             if child.get_name().to_string() != card.name {
-                continue
+                continue;
             }
 
             self.card_tabs_container.set_current_tab(i);
@@ -181,8 +194,12 @@ impl CardsTabNode {
         self.card_tabs_container.add_child(&node);
         self.card_tabs_container.set_current_tab(prev_child_count);
 
-
         node.bind_mut().load_card(&card);
+        node.bind_mut().update_parsing_history(
+            self.repo
+                .bind_mut()
+                .get_parsing_history(&self.loaded_project_name),
+        );
     }
 
     fn on_import_cards_file_dialog_file_selected(&mut self, path: GString) {
@@ -261,10 +278,11 @@ impl CardsTabNode {
 
     fn reload_cards(&mut self, filter: &CardFilter) {
         self.cards_list.clear();
-        
+
         let project_name = self.loaded_project_name.to_string();
         // let repo = self.get_repo();
-        let cards = self.repo
+        let cards = self
+            .repo
             .bind_mut()
             .get_cards(&project_name)
             .expect("Failed to load cards for project");

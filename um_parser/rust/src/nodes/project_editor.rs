@@ -88,9 +88,7 @@ impl ProjectEditorNode {
             .get_parsers(&self.edited_project_name)
             .expect("Failed to load templates");
 
-        logs_tab
-            .bind_mut()
-            .log(String::from("Creating parsers"));
+        logs_tab.bind_mut().log(String::from("Creating parsers"));
         // Create all parsers
         let mut parsers = Vec::<Rc<RefCell<ParserNode>>>::new();
         let root_idx = OnceCell::<usize>::new();
@@ -116,7 +114,7 @@ impl ProjectEditorNode {
             .log(String::from("Mapping parser relations"));
 
         // Create parent-to-children mappings + resolve ref parsers
-        let mut parent_to_children = HashMap::<i32, Vec::<(i32, i32)>>::new();
+        let mut parent_to_children = HashMap::<i32, Vec<(i32, i32)>>::new();
         for model in models.iter() {
             if let Some(parent_id) = model.parent_id {
                 let list = parent_to_children.entry(parent_id).or_insert(vec![]);
@@ -124,7 +122,12 @@ impl ProjectEditorNode {
                 if let Some(ref_id) = model.ref_to_id {
                     child_id = ref_id;
                 }
-                list.push((child_id, model.parent_slot.expect("Found a parser that has a parent_id, but doesnt have parent_slot")));
+                list.push((
+                    child_id,
+                    model
+                        .parent_slot
+                        .expect("Found a parser that has a parent_id, but doesnt have parent_slot"),
+                ));
             }
         }
 
@@ -146,9 +149,9 @@ impl ProjectEditorNode {
         }
 
         let root = parsers[*root_idx.get().expect("Failed to find root")].clone();
-        logs_tab
-            .bind_mut()
-            .log(String::from("Created parser tree, starting parsing process"));
+        logs_tab.bind_mut().log(String::from(
+            "Created parser tree, starting parsing process",
+        ));
 
         let cards = self
             .get_repo()
@@ -160,6 +163,7 @@ impl ProjectEditorNode {
         let mut parsed = 0;
 
         let mut parse_results = Vec::<ParseResult>::new();
+        let mut card_scripts = HashMap::<i32, String>::new();
 
         for card in cards {
             logs_tab
@@ -175,6 +179,17 @@ impl ProjectEditorNode {
                         "Parsed card {}",
                         LogsTabNode::format_card_name(&card.name)
                     ));
+
+                    match result.create_script(&lua) {
+                        Ok(script) => {
+                            card_scripts.insert(card.id, script);
+                            godot_print!("Generated script for {}", &card.name);
+                        }
+                        Err(_err) => {
+                            // TODO
+                            godot_print!("Failed to generate script for {}", &card.name);
+                        }
+                    };
                 }
                 _other => {
                     logs_tab.bind_mut().log(format!(
@@ -193,7 +208,7 @@ impl ProjectEditorNode {
             LogsTabNode::format_count(total)
         ));
 
-        self.on_new_history_added(ParsingHistory::from_parse_results(parse_results));
+        self.on_new_history_added(ParsingHistory::new(card_scripts, parse_results));
     }
 
     fn connect_signals(&self) {
