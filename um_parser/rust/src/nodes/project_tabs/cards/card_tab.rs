@@ -7,6 +7,7 @@ use stylua_lib::format_code;
 
 use crate::model::card::CardModel;
 use crate::nodes::parsing_history::ParsingHistory;
+use crate::nodes::script_display::ScriptDisplayNode;
 
 #[derive(GodotClass)]
 #[class(init,base=Control)]
@@ -21,7 +22,7 @@ pub struct CardTabNode {
     #[export]
     text_display: OnEditor<Gd<TextEdit>>,
     #[export]
-    script_display: OnEditor<Gd<CodeEdit>>,
+    script_display: OnEditor<Gd<ScriptDisplayNode>>,
 }
 
 #[godot_api]
@@ -47,6 +48,6 @@ impl CardTabNode {
 
         let formatted = format_code(&script, Config::default(), None, OutputVerification::None)
             .expect("Failed to format lua code");
-        self.script_display.set_text(&formatted);
+        self.script_display.bind_mut().set_script_text(&formatted);
     }
 }

@@ -4,3 +4,4 @@ pub mod project_list;
 pub mod project_tabs;
 pub mod parsing_history;
 pub mod parser_editor;
+pub mod script_display;

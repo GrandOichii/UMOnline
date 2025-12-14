@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://dcevm1s4kegaq"]
+
+[node name="ScriptDisplay" type="ScriptDisplayNode"]
+nil_color = Color(0, 0.5483641, 0.548364, 1)
+function_color = Color(0.44313726, 0, 0.44313726, 1)
+end_color = Color(0.44313726, 0, 0.44313726, 1)
+function_name_color = Color(0.5306589, 0.5306589, 1.92523e-07, 1)
+string_color = Color(0.85490197, 0.42745098, 0.25882354, 1)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+bbcode_enabled = true
+text = "SCRIPT HERE
+SCRIPT HERE"

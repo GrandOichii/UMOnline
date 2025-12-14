@@ -1,4 +1,6 @@
-[gd_scene format=3 uid="uid://cfm7yf8xlxwr5"]
+[gd_scene load_steps=2 format=3 uid="uid://cfm7yf8xlxwr5"]
+
+[ext_resource type="PackedScene" uid="uid://dcevm1s4kegaq" path="res://ScriptDisplay.tscn" id="1_lij3c"]
 
 [node name="CardTab" type="CardTabNode" node_paths=PackedStringArray("name_label", "text_display", "script_display")]
 name_label = NodePath("VBoxContainer/VBoxContainer/HBoxContainer2/NameLabel")
@@ -64,15 +66,9 @@ size_flags_horizontal = 3
 layout_mode = 2
 text = "Generated script"
 
-[node name="ScriptDisplay" type="CodeEdit" parent="VBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
+[node name="ScriptDisplay" parent="VBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer2" instance=ExtResource("1_lij3c")]
 layout_mode = 2
-size_flags_horizontal = 3
 size_flags_vertical = 3
-text = "CARD SCRIPT HERE
-CARD SCRIPT HERE
-CARD SCRIPT HERE"
-editable = false
-wrap_mode = 1
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
