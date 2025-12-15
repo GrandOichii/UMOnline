@@ -16,7 +16,13 @@ pub struct ScriptDisplayNode {
     #[export]
     function_name_color: Color,
     #[export]
+    return_color: Color,
+    #[export]
     string_color: Color,
+    #[export]
+    table_name_color: Color,
+    #[export]
+    number_color: Color,
 }
 
 #[godot_api]
@@ -39,18 +45,12 @@ impl ScriptDisplayNode {
     fn replace_chunks(&self, script: &String, format: &str, re: Regex, color: &Color) -> String {
         re.replace_all(
             script,
-            // "amogus $1"
             format.replace(
                 "{}",
                 format!("[color={}]$1[/color]", color.to_html()).as_str(),
             ),
         )
         .to_string()
-        // let mut result = script.to_string();
-        // while let Some(captures) = re.captures(&result) {
-
-        // }
-        // return result;
     }
 
     fn format_script(&self, script: &String) -> String {
@@ -58,6 +58,7 @@ impl ScriptDisplayNode {
             ("nil", &self.nil_color),
             ("end", &self.end_color),
             ("function", &self.function_color),
+            ("return", &self.return_color),
         ];
         let mut result = script.to_string();
         for pair in simple_replace_table {
@@ -72,11 +73,26 @@ impl ScriptDisplayNode {
 
         let chunks = vec![
             (r"(\w+)\(", "{}(", &self.function_name_color),
+            (r"(\w+)\.", "{}.", &self.table_name_color),
+            (r"(\w+\s*):", "{}:", &self.table_name_color),
+            (r"\b([0-9]+)\b", "{}", &self.number_color),
+
             ("('.+')", "{}", &self.string_color),
             ("(\".+\")", "{}", &self.string_color),
         ];
         for chunk in chunks {
             result = self.replace_chunks(&result, chunk.1, Regex::new(chunk.0).unwrap(), chunk.2);
+        }
+
+        // fix strings
+        let string_re = Regex::new("(\".+\")").unwrap();
+        let result_copy = result.to_string();
+        let matches = string_re.captures(&result_copy);
+        for (i, m) in matches.iter().enumerate() {
+            let original = m.get(1).unwrap().as_str();
+            let start_color_bbc_re = Regex::new(r"(\[color=.+?\]|\[\/color\])").unwrap();
+            let replace = start_color_bbc_re.replace_all(original, "").to_string();
+            result = result.replace(original, &replace);
         }
         return result.to_string();
     }

@@ -30,9 +30,9 @@ impl ParserNode {
 
 impl Parser for Matcher {
     fn parse(&self, text: &str, node: Rc<RefCell<ParserNode>>, lua: &Lua) -> ParseResult {
-        let m = self.pattern.captures(text);
+        let matches = self.pattern.captures(text);
         let mut didnt_match = 0;
-        if m.is_none() {
+        if matches.is_none() {
             return ParseResult {
                 status: ParseResultStatus::DidntMatch,
                 text: text.to_string(),
@@ -48,14 +48,14 @@ impl Parser for Matcher {
             .create_table()
             .expect("Failed to create arg table for matcher");
 
-        for (i, group) in m.iter().enumerate() {
-            if group.len() == 1 {
+        for (i, m) in matches.iter().enumerate() {
+            if m.len() == 1 {
                 continue;
             }
             table
                 .set(
                     i + 1,
-                    match group.get(1) {
+                    match m.get(1) {
                         Some(s) => s.as_str(),
                         None => "",
                     }
@@ -78,7 +78,7 @@ impl Parser for Matcher {
         }
 
         let n = node.borrow();
-        for g in m.iter() {
+        for g in matches.iter() {
             let child = n.children[i - 1].clone();
             let child_result = ParserNode::parse(
                 child,
