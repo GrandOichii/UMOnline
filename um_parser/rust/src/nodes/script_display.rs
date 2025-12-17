@@ -23,6 +23,10 @@ pub struct ScriptDisplayNode {
     table_name_color: Color,
     #[export]
     number_color: Color,
+    #[export]
+    true_color: Color,
+    #[export]
+    false_color: Color,
 }
 
 #[godot_api]
@@ -59,6 +63,8 @@ impl ScriptDisplayNode {
             ("end", &self.end_color),
             ("function", &self.function_color),
             ("return", &self.return_color),
+            ("true", &self.true_color),
+            ("false", &self.false_color),
         ];
         let mut result = script.to_string();
         for pair in simple_replace_table {
