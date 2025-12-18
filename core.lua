@@ -23,7 +23,6 @@ UM.ZoneChange.Types = {
 
 -- Single player
 
-
 UM.Player = {}
 
 function UM.Player:EffectOwner()

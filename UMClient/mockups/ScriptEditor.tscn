@@ -1,0 +1,350 @@
+[gd_scene load_steps=2 format=3 uid="uid://dahgh5eno1b6p"]
+
+[ext_resource type="Texture2D" uid="uid://fsvflmmii2hj" path="res://assets/decks/Alice/cards/Alice_Skirmish.png" id="1_a02du"]
+
+[node name="ScriptEditor" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GraphEdit" type="GraphEdit" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Card" type="GraphNode" parent="GraphEdit"]
+self_modulate = Color(0, 1, 1, 1)
+layout_mode = 0
+offset_right = 249.0
+offset_bottom = 157.0
+mouse_filter = 1
+title = "Card"
+slot/0/left_enabled = false
+slot/0/left_type = 0
+slot/0/left_color = Color(1, 1, 1, 1)
+slot/0/left_icon = null
+slot/0/right_enabled = true
+slot/0/right_type = 0
+slot/0/right_color = Color(1, 1, 1, 1)
+slot/0/right_icon = null
+slot/0/draw_stylebox = true
+slot/1/left_enabled = false
+slot/1/left_type = 0
+slot/1/left_color = Color(1, 1, 1, 1)
+slot/1/left_icon = null
+slot/1/right_enabled = true
+slot/1/right_type = 0
+slot/1/right_color = Color(1, 1, 1, 1)
+slot/1/right_icon = null
+slot/1/draw_stylebox = true
+slot/2/left_enabled = false
+slot/2/left_type = 0
+slot/2/left_color = Color(1, 1, 1, 1)
+slot/2/left_icon = null
+slot/2/right_enabled = true
+slot/2/right_type = 0
+slot/2/right_color = Color(1, 1, 1, 1)
+slot/2/right_icon = null
+slot/2/draw_stylebox = true
+slot/3/left_enabled = false
+slot/3/left_type = 0
+slot/3/left_color = Color(1, 1, 1, 1)
+slot/3/left_icon = null
+slot/3/right_enabled = true
+slot/3/right_type = 0
+slot/3/right_color = Color(1, 1, 1, 1)
+slot/3/right_icon = null
+slot/3/draw_stylebox = true
+
+[node name="Label" type="Label" parent="GraphEdit/Card"]
+layout_mode = 2
+text = "Scheme effect"
+horizontal_alignment = 2
+
+[node name="Label2" type="Label" parent="GraphEdit/Card"]
+layout_mode = 2
+text = "Immediately"
+horizontal_alignment = 2
+
+[node name="Label3" type="Label" parent="GraphEdit/Card"]
+layout_mode = 2
+text = "Before combat"
+horizontal_alignment = 2
+
+[node name="Label4" type="Label" parent="GraphEdit/Card"]
+layout_mode = 2
+text = "After combat"
+horizontal_alignment = 2
+
+[node name="AfterCombat1" type="GraphNode" parent="GraphEdit"]
+self_modulate = Color(0.99999136, 0.30395502, 0.51097715, 1)
+layout_mode = 0
+offset_left = 516.0
+offset_top = 27.0
+offset_right = 740.0
+offset_bottom = 130.0
+mouse_filter = 1
+position_offset = Vector2(516, 27)
+title = "If"
+slot/0/left_enabled = true
+slot/0/left_type = 0
+slot/0/left_color = Color(1, 1, 1, 1)
+slot/0/left_icon = null
+slot/0/right_enabled = true
+slot/0/right_type = 0
+slot/0/right_color = Color(1, 1, 1, 1)
+slot/0/right_icon = null
+slot/0/draw_stylebox = true
+slot/1/left_enabled = true
+slot/1/left_type = 0
+slot/1/left_color = Color(1, 1, 1, 1)
+slot/1/left_icon = null
+slot/1/right_enabled = true
+slot/1/right_type = 0
+slot/1/right_color = Color(1, 1, 1, 1)
+slot/1/right_icon = null
+slot/1/draw_stylebox = true
+
+[node name="Label" type="Label" parent="GraphEdit/AfterCombat1"]
+layout_mode = 2
+text = "True"
+horizontal_alignment = 2
+
+[node name="Label2" type="Label" parent="GraphEdit/AfterCombat1"]
+layout_mode = 2
+text = "False"
+horizontal_alignment = 2
+
+[node name="CombatWonBy" type="GraphNode" parent="GraphEdit"]
+layout_mode = 0
+offset_left = 300.0
+offset_top = 154.0
+offset_right = 491.0
+offset_bottom = 232.0
+mouse_filter = 1
+position_offset = Vector2(300, 154)
+title = "Combat won by player"
+slot/0/left_enabled = true
+slot/0/left_type = 0
+slot/0/left_color = Color(1, 1, 1, 1)
+slot/0/left_icon = null
+slot/0/right_enabled = true
+slot/0/right_type = 0
+slot/0/right_color = Color(1, 1, 1, 1)
+slot/0/right_icon = null
+slot/0/draw_stylebox = true
+
+[node name="Label" type="Label" parent="GraphEdit/CombatWonBy"]
+layout_mode = 2
+
+[node name="UpTo" type="GraphNode" parent="GraphEdit"]
+layout_mode = 0
+offset_left = 305.0
+offset_top = 492.0
+offset_right = 496.0
+offset_bottom = 578.0
+mouse_filter = 1
+position_offset = Vector2(305, 492)
+title = "Up to"
+slot/0/left_enabled = false
+slot/0/left_type = 0
+slot/0/left_color = Color(1, 1, 1, 1)
+slot/0/left_icon = null
+slot/0/right_enabled = true
+slot/0/right_type = 0
+slot/0/right_color = Color(1, 1, 1, 1)
+slot/0/right_icon = null
+slot/0/draw_stylebox = true
+
+[node name="Label" type="SpinBox" parent="GraphEdit/UpTo"]
+layout_mode = 2
+value = 2.0
+
+[node name="CombatWonBy5" type="GraphNode" parent="GraphEdit"]
+layout_mode = 0
+offset_left = 316.0
+offset_top = 307.0
+offset_right = 536.0
+offset_bottom = 459.0
+mouse_filter = 1
+position_offset = Vector2(316, 307)
+title = "Fighters"
+slot/0/left_enabled = true
+slot/0/left_type = 0
+slot/0/left_color = Color(1, 1, 1, 1)
+slot/0/left_icon = null
+slot/0/right_enabled = true
+slot/0/right_type = 0
+slot/0/right_color = Color(1, 1, 1, 1)
+slot/0/right_icon = null
+slot/0/draw_stylebox = true
+slot/1/left_enabled = false
+slot/1/left_type = 0
+slot/1/left_color = Color(1, 1, 1, 1)
+slot/1/left_icon = null
+slot/1/right_enabled = false
+slot/1/right_type = 0
+slot/1/right_color = Color(1, 1, 1, 1)
+slot/1/right_icon = null
+slot/1/draw_stylebox = true
+slot/2/left_enabled = false
+slot/2/left_type = 0
+slot/2/left_color = Color(1, 1, 1, 1)
+slot/2/left_icon = null
+slot/2/right_enabled = false
+slot/2/right_type = 0
+slot/2/right_color = Color(1, 1, 1, 1)
+slot/2/right_icon = null
+slot/2/draw_stylebox = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="GraphEdit/CombatWonBy5"]
+layout_mode = 2
+
+[node name="Label" type="LineEdit" parent="GraphEdit/CombatWonBy5/HBoxContainer"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Enter filter hint"
+
+[node name="Button" type="Button" parent="GraphEdit/CombatWonBy5/HBoxContainer"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+text = "X"
+
+[node name="Button" type="Button" parent="GraphEdit/CombatWonBy5"]
+layout_mode = 2
+text = "Add filter"
+
+[node name="CheckBox" type="CheckBox" parent="GraphEdit/CombatWonBy5"]
+layout_mode = 2
+button_pressed = true
+text = "Single"
+
+[node name="MoveFighters" type="GraphNode" parent="GraphEdit"]
+self_modulate = Color(1, 0.64705884, 0, 1)
+layout_mode = 0
+offset_left = 611.0
+offset_top = 368.0
+offset_right = 825.0
+offset_bottom = 552.0
+mouse_filter = 1
+position_offset = Vector2(611, 368)
+title = "Move fighters"
+slot/0/left_enabled = true
+slot/0/left_type = 0
+slot/0/left_color = Color(1, 1, 1, 1)
+slot/0/left_icon = null
+slot/0/right_enabled = true
+slot/0/right_type = 0
+slot/0/right_color = Color(1, 1, 1, 1)
+slot/0/right_icon = null
+slot/0/draw_stylebox = true
+slot/1/left_enabled = true
+slot/1/left_type = 0
+slot/1/left_color = Color(1, 1, 1, 1)
+slot/1/left_icon = null
+slot/1/right_enabled = false
+slot/1/right_type = 0
+slot/1/right_color = Color(1, 1, 1, 1)
+slot/1/right_icon = null
+slot/1/draw_stylebox = true
+slot/2/left_enabled = true
+slot/2/left_type = 0
+slot/2/left_color = Color(1, 1, 1, 1)
+slot/2/left_icon = null
+slot/2/right_enabled = false
+slot/2/right_type = 0
+slot/2/right_color = Color(1, 1, 1, 1)
+slot/2/right_icon = null
+slot/2/draw_stylebox = true
+slot/3/left_enabled = false
+slot/3/left_type = 0
+slot/3/left_color = Color(1, 1, 1, 1)
+slot/3/left_icon = null
+slot/3/right_enabled = false
+slot/3/right_type = 0
+slot/3/right_color = Color(1, 1, 1, 1)
+slot/3/right_icon = null
+slot/3/draw_stylebox = true
+
+[node name="Label" type="Label" parent="GraphEdit/MoveFighters"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="GraphEdit/MoveFighters"]
+layout_mode = 2
+text = "Fighters"
+
+[node name="Label4" type="Label" parent="GraphEdit/MoveFighters"]
+layout_mode = 2
+text = "Amount"
+
+[node name="Label3" type="CheckBox" parent="GraphEdit/MoveFighters"]
+layout_mode = 2
+text = "Can move
+over opposing"
+
+[node name="CombatWonBy2" type="GraphNode" parent="GraphEdit"]
+layout_mode = 0
+offset_left = 49.0
+offset_top = 200.0
+offset_right = 228.0
+offset_bottom = 286.0
+mouse_filter = 1
+position_offset = Vector2(49, 200)
+title = "Player"
+slot/0/left_enabled = false
+slot/0/left_type = 0
+slot/0/left_color = Color(1, 1, 1, 1)
+slot/0/left_icon = null
+slot/0/right_enabled = true
+slot/0/right_type = 0
+slot/0/right_color = Color(1, 1, 1, 1)
+slot/0/right_icon = null
+slot/0/draw_stylebox = true
+
+[node name="Label" type="OptionButton" parent="GraphEdit/CombatWonBy2"]
+layout_mode = 2
+selected = 0
+item_count = 3
+popup/item_0/text = "You"
+popup/item_0/id = 0
+popup/item_1/text = "Opponent"
+popup/item_1/id = 1
+popup/item_2/text = "Current"
+popup/item_2/id = 2
+
+[node name="CombatWonBy3" type="GraphNode" parent="GraphEdit"]
+layout_mode = 0
+offset_left = 38.0
+offset_top = 370.0
+offset_right = 229.0
+offset_bottom = 448.0
+mouse_filter = 1
+position_offset = Vector2(38, 370)
+title = "In combat"
+slot/0/left_enabled = false
+slot/0/left_type = 0
+slot/0/left_color = Color(1, 1, 1, 1)
+slot/0/left_icon = null
+slot/0/right_enabled = true
+slot/0/right_type = 0
+slot/0/right_color = Color(1, 1, 1, 1)
+slot/0/right_icon = null
+slot/0/draw_stylebox = true
+
+[node name="Label" type="Label" parent="GraphEdit/CombatWonBy3"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = -446.0
+offset_top = 20.0
+offset_right = -196.0
+offset_bottom = 369.0
+texture = ExtResource("1_a02du")
