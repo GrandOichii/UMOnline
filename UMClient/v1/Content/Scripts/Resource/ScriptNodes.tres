@@ -1,0 +1,91 @@
+[gd_resource type="Resource" script_class="ScriptNodeCollection" load_steps=17 format=3 uid="uid://dqgchyh35r4o5"]
+
+[ext_resource type="Script" uid="uid://dk4tqarec5j3a" path="res://v1/Content/Scripts/Resource/ScriptNodeArg.cs" id="1_d8a35"]
+[ext_resource type="Script" uid="uid://mreeoiaypmlb" path="res://v1/Content/Scripts/Resource/ScriptNodeCollection.cs" id="1_s7swh"]
+[ext_resource type="Script" uid="uid://12as40biuktg" path="res://v1/Content/Scripts/Resource/ScriptNodeSimpleArg.cs" id="2_2e8wd"]
+[ext_resource type="Script" uid="uid://cmhgojee80mqw" path="res://v1/Content/Scripts/Resource/ScriptNode.cs" id="3_nymo4"]
+[ext_resource type="Script" uid="uid://bec6auq8nf31u" path="res://v1/Content/Scripts/Resource/ScriptNodeSimpleArgDataElement.cs" id="4_2e8wd"]
+
+[sub_resource type="Resource" id="Resource_7q4gu"]
+script = ExtResource("1_d8a35")
+Key = "fighters"
+Label = "Fighters"
+Accepts = 4
+metadata/_custom_type_script = "uid://dk4tqarec5j3a"
+
+[sub_resource type="Resource" id="Resource_4adg2"]
+script = ExtResource("1_d8a35")
+Key = "amount"
+Label = "Amount"
+Accepts = 2
+metadata/_custom_type_script = "uid://dk4tqarec5j3a"
+
+[sub_resource type="Resource" id="Resource_xfxnm"]
+script = ExtResource("2_2e8wd")
+Key = "cmoo"
+Label = "Can move over opposing"
+Data = null
+metadata/_custom_type_script = "uid://12as40biuktg"
+
+[sub_resource type="Resource" id="Resource_4x55k"]
+script = ExtResource("3_nymo4")
+Name = "moveFighters"
+NodeArgs = Array[Object]([SubResource("Resource_7q4gu"), SubResource("Resource_4adg2")])
+SimpleArgs = Array[Object]([SubResource("Resource_xfxnm")])
+Script = "UM.Effects:MoveFighters($fighters, $amount, $cmoo)"
+metadata/_custom_type_script = "uid://cmhgojee80mqw"
+
+[sub_resource type="Resource" id="Resource_ynv01"]
+script = ExtResource("1_d8a35")
+Key = "player"
+Accepts = 5
+metadata/_custom_type_script = "uid://dk4tqarec5j3a"
+
+[sub_resource type="Resource" id="Resource_t61vh"]
+script = ExtResource("3_nymo4")
+Name = "combatWonByPlayer"
+Type = 1
+NodeArgs = Array[Object]([SubResource("Resource_ynv01")])
+SimpleArgs = null
+Script = "UM.Conditions:CombatWonBy($player)"
+metadata/_custom_type_script = "uid://cmhgojee80mqw"
+
+[sub_resource type="Resource" id="Resource_2xawd"]
+script = ExtResource("4_2e8wd")
+Label = "You"
+Value = "UM.Player:EffectOwner()"
+metadata/_custom_type_script = "uid://bec6auq8nf31u"
+
+[sub_resource type="Resource" id="Resource_xcmca"]
+script = ExtResource("4_2e8wd")
+Label = "Opponent"
+Value = "UM.Player:Opponent()"
+metadata/_custom_type_script = "uid://bec6auq8nf31u"
+
+[sub_resource type="Resource" id="Resource_40ps8"]
+script = ExtResource("4_2e8wd")
+Label = "Current"
+Value = "UM.Player:Current()"
+metadata/_custom_type_script = "uid://bec6auq8nf31u"
+
+[sub_resource type="Resource" id="Resource_slltv"]
+script = ExtResource("2_2e8wd")
+Key = "player"
+Type = 1
+Data = Array[Object]([SubResource("Resource_2xawd"), SubResource("Resource_xcmca"), SubResource("Resource_40ps8")])
+metadata/_custom_type_script = "uid://12as40biuktg"
+
+[sub_resource type="Resource" id="Resource_tontu"]
+script = ExtResource("3_nymo4")
+Name = "singlePlayer"
+Type = 5
+NodeArgs = null
+SimpleArgs = Array[Object]([SubResource("Resource_slltv")])
+Script = "$player"
+metadata/_custom_type_script = "uid://cmhgojee80mqw"
+
+[resource]
+script = ExtResource("1_s7swh")
+Effects = Array[Object]([SubResource("Resource_4x55k")])
+Sources = Array[Object]([SubResource("Resource_t61vh"), SubResource("Resource_tontu")])
+metadata/_custom_type_script = "uid://mreeoiaypmlb"
