@@ -1,6 +1,13 @@
-[gd_scene load_steps=2 format=3 uid="uid://dahgh5eno1b6p"]
+[gd_scene load_steps=3 format=3 uid="uid://dahgh5eno1b6p"]
 
 [ext_resource type="Texture2D" uid="uid://fsvflmmii2hj" path="res://assets/decks/Alice/cards/Alice_Skirmish.png" id="1_a02du"]
+
+[sub_resource type="GDScript" id="GDScript_a02du"]
+script/source = "extends Control
+
+func _on_graph_connection_request(from_node: StringName, from_port: int, to_node: StringName, to_port: int) -> void:
+	%Graph.connect_node(from_node, from_port, to_node, to_port)
+"
 
 [node name="ScriptEditor" type="Control"]
 layout_mode = 3
@@ -9,16 +16,26 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = SubResource("GDScript_a02du")
 
-[node name="GraphEdit" type="GraphEdit" parent="."]
+[node name="Graph" type="GraphEdit" parent="."]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+connections = Array[Dictionary]([{
+"from_node": &"%Card",
+"from_port": 0,
+"keep_alive": false,
+"to_node": &"%If",
+"to_port": 0
+}])
 
-[node name="Card" type="GraphNode" parent="GraphEdit"]
+[node name="Card" type="GraphNode" parent="Graph"]
+unique_name_in_owner = true
 self_modulate = Color(0, 1, 1, 1)
 layout_mode = 0
 offset_right = 249.0
@@ -62,27 +79,28 @@ slot/3/right_color = Color(1, 1, 1, 1)
 slot/3/right_icon = null
 slot/3/draw_stylebox = true
 
-[node name="Label" type="Label" parent="GraphEdit/Card"]
+[node name="Label" type="Label" parent="Graph/Card"]
 layout_mode = 2
 text = "Scheme effect"
 horizontal_alignment = 2
 
-[node name="Label2" type="Label" parent="GraphEdit/Card"]
+[node name="Label2" type="Label" parent="Graph/Card"]
 layout_mode = 2
 text = "Immediately"
 horizontal_alignment = 2
 
-[node name="Label3" type="Label" parent="GraphEdit/Card"]
+[node name="Label3" type="Label" parent="Graph/Card"]
 layout_mode = 2
 text = "Before combat"
 horizontal_alignment = 2
 
-[node name="Label4" type="Label" parent="GraphEdit/Card"]
+[node name="Label4" type="Label" parent="Graph/Card"]
 layout_mode = 2
 text = "After combat"
 horizontal_alignment = 2
 
-[node name="AfterCombat1" type="GraphNode" parent="GraphEdit"]
+[node name="If" type="GraphNode" parent="Graph"]
+unique_name_in_owner = true
 self_modulate = Color(0.99999136, 0.30395502, 0.51097715, 1)
 layout_mode = 0
 offset_left = 516.0
@@ -111,17 +129,18 @@ slot/1/right_color = Color(1, 1, 1, 1)
 slot/1/right_icon = null
 slot/1/draw_stylebox = true
 
-[node name="Label" type="Label" parent="GraphEdit/AfterCombat1"]
+[node name="Label" type="Label" parent="Graph/If"]
 layout_mode = 2
 text = "True"
 horizontal_alignment = 2
 
-[node name="Label2" type="Label" parent="GraphEdit/AfterCombat1"]
+[node name="Label2" type="Label" parent="Graph/If"]
 layout_mode = 2
 text = "False"
 horizontal_alignment = 2
 
-[node name="CombatWonBy" type="GraphNode" parent="GraphEdit"]
+[node name="CombatWonBy" type="GraphNode" parent="Graph"]
+unique_name_in_owner = true
 layout_mode = 0
 offset_left = 300.0
 offset_top = 154.0
@@ -140,10 +159,11 @@ slot/0/right_color = Color(1, 1, 1, 1)
 slot/0/right_icon = null
 slot/0/draw_stylebox = true
 
-[node name="Label" type="Label" parent="GraphEdit/CombatWonBy"]
+[node name="Label" type="Label" parent="Graph/CombatWonBy"]
 layout_mode = 2
 
-[node name="UpTo" type="GraphNode" parent="GraphEdit"]
+[node name="UpTo" type="GraphNode" parent="Graph"]
+unique_name_in_owner = true
 layout_mode = 0
 offset_left = 305.0
 offset_top = 492.0
@@ -162,11 +182,12 @@ slot/0/right_color = Color(1, 1, 1, 1)
 slot/0/right_icon = null
 slot/0/draw_stylebox = true
 
-[node name="Label" type="SpinBox" parent="GraphEdit/UpTo"]
+[node name="Label" type="SpinBox" parent="Graph/UpTo"]
 layout_mode = 2
 value = 2.0
 
-[node name="CombatWonBy5" type="GraphNode" parent="GraphEdit"]
+[node name="Fighters" type="GraphNode" parent="Graph"]
+unique_name_in_owner = true
 layout_mode = 0
 offset_left = 316.0
 offset_top = 307.0
@@ -203,30 +224,31 @@ slot/2/right_color = Color(1, 1, 1, 1)
 slot/2/right_icon = null
 slot/2/draw_stylebox = true
 
-[node name="HBoxContainer" type="HBoxContainer" parent="GraphEdit/CombatWonBy5"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Graph/Fighters"]
 layout_mode = 2
 
-[node name="Label" type="LineEdit" parent="GraphEdit/CombatWonBy5/HBoxContainer"]
+[node name="Label" type="LineEdit" parent="Graph/Fighters/HBoxContainer"]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "Enter filter hint"
 
-[node name="Button" type="Button" parent="GraphEdit/CombatWonBy5/HBoxContainer"]
+[node name="Button" type="Button" parent="Graph/Fighters/HBoxContainer"]
 custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
 text = "X"
 
-[node name="Button" type="Button" parent="GraphEdit/CombatWonBy5"]
+[node name="Button" type="Button" parent="Graph/Fighters"]
 layout_mode = 2
 text = "Add filter"
 
-[node name="CheckBox" type="CheckBox" parent="GraphEdit/CombatWonBy5"]
+[node name="CheckBox" type="CheckBox" parent="Graph/Fighters"]
 layout_mode = 2
 button_pressed = true
 text = "Single"
 
-[node name="MoveFighters" type="GraphNode" parent="GraphEdit"]
+[node name="MoveFighters" type="GraphNode" parent="Graph"]
+unique_name_in_owner = true
 self_modulate = Color(1, 0.64705884, 0, 1)
 layout_mode = 0
 offset_left = 611.0
@@ -273,23 +295,24 @@ slot/3/right_color = Color(1, 1, 1, 1)
 slot/3/right_icon = null
 slot/3/draw_stylebox = true
 
-[node name="Label" type="Label" parent="GraphEdit/MoveFighters"]
+[node name="Label" type="Label" parent="Graph/MoveFighters"]
 layout_mode = 2
 
-[node name="Label2" type="Label" parent="GraphEdit/MoveFighters"]
+[node name="Label2" type="Label" parent="Graph/MoveFighters"]
 layout_mode = 2
 text = "Fighters"
 
-[node name="Label4" type="Label" parent="GraphEdit/MoveFighters"]
+[node name="Label4" type="Label" parent="Graph/MoveFighters"]
 layout_mode = 2
 text = "Amount"
 
-[node name="Label3" type="CheckBox" parent="GraphEdit/MoveFighters"]
+[node name="Label3" type="CheckBox" parent="Graph/MoveFighters"]
 layout_mode = 2
 text = "Can move
 over opposing"
 
-[node name="CombatWonBy2" type="GraphNode" parent="GraphEdit"]
+[node name="Player" type="GraphNode" parent="Graph"]
+unique_name_in_owner = true
 layout_mode = 0
 offset_left = 49.0
 offset_top = 200.0
@@ -308,7 +331,7 @@ slot/0/right_color = Color(1, 1, 1, 1)
 slot/0/right_icon = null
 slot/0/draw_stylebox = true
 
-[node name="Label" type="OptionButton" parent="GraphEdit/CombatWonBy2"]
+[node name="Label" type="OptionButton" parent="Graph/Player"]
 layout_mode = 2
 selected = 0
 item_count = 3
@@ -319,7 +342,8 @@ popup/item_1/id = 1
 popup/item_2/text = "Current"
 popup/item_2/id = 2
 
-[node name="CombatWonBy3" type="GraphNode" parent="GraphEdit"]
+[node name="InCombat" type="GraphNode" parent="Graph"]
+unique_name_in_owner = true
 layout_mode = 0
 offset_left = 38.0
 offset_top = 370.0
@@ -338,7 +362,7 @@ slot/0/right_color = Color(1, 1, 1, 1)
 slot/0/right_icon = null
 slot/0/draw_stylebox = true
 
-[node name="Label" type="Label" parent="GraphEdit/CombatWonBy3"]
+[node name="Label" type="Label" parent="Graph/InCombat"]
 layout_mode = 2
 
 [node name="TextureRect" type="TextureRect" parent="."]
@@ -348,3 +372,5 @@ offset_top = 20.0
 offset_right = -196.0
 offset_bottom = 369.0
 texture = ExtResource("1_a02du")
+
+[connection signal="connection_request" from="Graph" to="." method="_on_graph_connection_request"]

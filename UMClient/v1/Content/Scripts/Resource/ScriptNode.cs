@@ -2,7 +2,7 @@ using Godot;
 using Godot.Collections;
 using System;
 
-public enum ScriptNodeType
+public enum ScriptNodeType : int
 {
     Effect = 0,
     Condition = 1,
@@ -28,6 +28,7 @@ public static class ScriptNodeTypeExtensions
         ScriptNodeType.ManyPlayers => "Many players",
         ScriptNodeType.FighterFilter => "Fighter filter",
         ScriptNodeType.PlayerFilter => "Player filter",
+        _ => throw new Exception($"{nameof(ToLabel)} not implemented for ScriptNodeType {t}")
     };
 }
 
@@ -46,4 +47,6 @@ public partial class ScriptNode : Resource
     public Array<ScriptNodeSimpleArg> SimpleArgs { get; set; } = [];
     [Export(PropertyHint.MultilineText)]
     public string Script { get; set; }
+    [Export(PropertyHint.MultilineText)]
+    public string Description { get; set; }
 }
