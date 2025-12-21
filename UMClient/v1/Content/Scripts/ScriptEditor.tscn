@@ -1,10 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://by0r2731rhmhg"]
+[gd_scene load_steps=5 format=3 uid="uid://by0r2731rhmhg"]
 
 [ext_resource type="Script" uid="uid://cgqbdt1mblkyp" path="res://v1/Content/Scripts/ScriptEditor.cs" id="1_w21rc"]
 [ext_resource type="Resource" uid="uid://dqgchyh35r4o5" path="res://v1/Content/Scripts/ScriptNodes.tres" id="2_4nh3u"]
-[ext_resource type="PackedScene" uid="uid://cqkmdnkfdl5cl" path="res://v1/Content/Scripts/ScriptNodeNode.tscn" id="2_4x55k"]
+[ext_resource type="PackedScene" uid="uid://bcryyip3mv2s2" path="res://v1/Content/Scripts/StartScriptNodeNode.tscn" id="4_7q4gu"]
+[ext_resource type="Resource" uid="uid://ei2ec6d55g4g" path="res://v1/Content/Scripts/CardStartScriptNode.tres" id="5_4adg2"]
 
-[node name="ScriptEditor" type="Control" node_paths=PackedStringArray("GraphNode", "AddNodeWindowNode", "NewNodeTreeListNode", "NewNodeInfoContainerNode", "NewScriptNodeNameLabel", "NewScriptNodeDescriptionLabel")]
+[node name="ScriptEditor" type="Control" node_paths=PackedStringArray("GraphNode", "AddNodeWindowNode", "NewNodeTreeListNode", "NewNodeInfoContainerNode", "NewScriptNodeNameLabel", "NewScriptNodeDescriptionLabel", "ScriptDisplay")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -12,7 +13,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_w21rc")
-ScriptNodeNodeScene = ExtResource("2_4x55k")
 ScriptNodes = ExtResource("2_4nh3u")
 GraphNode = NodePath("HBoxContainer/Graph")
 AddNodeWindowNode = NodePath("AddNodeWindow")
@@ -20,8 +20,9 @@ NewNodeTreeListNode = NodePath("AddNodeWindow/MarginContainer/VBoxContainer/HBox
 NewNodeInfoContainerNode = NodePath("AddNodeWindow/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/NewNodeInfoContainer")
 NewScriptNodeNameLabel = NodePath("AddNodeWindow/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/NewNodeInfoContainer/NewScriptNodeNameLabel")
 NewScriptNodeDescriptionLabel = NodePath("AddNodeWindow/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/NewNodeInfoContainer/NewScriptNodeDescriptionLabel")
+ScriptDisplay = NodePath("HBoxContainer/VBoxContainer/ScriptDisplay")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="HBoxContainer" type="HSplitContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -33,6 +34,12 @@ grow_vertical = 2
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 3.0
+right_disconnects = true
+
+[node name="Start" parent="HBoxContainer/Graph" instance=ExtResource("4_7q4gu")]
+layout_mode = 0
+mouse_filter = 1
+Value = ExtResource("5_4adg2")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
 layout_mode = 2
@@ -126,6 +133,9 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "Add"
 
+[connection signal="connection_request" from="HBoxContainer/Graph" to="." method="OnGraphConnectionRequest"]
+[connection signal="delete_nodes_request" from="HBoxContainer/Graph" to="." method="OnGraphDeleteNodesRequest"]
+[connection signal="disconnection_request" from="HBoxContainer/Graph" to="." method="OnGraphDisconnectionRequest"]
 [connection signal="gui_input" from="HBoxContainer/Graph" to="." method="OnGraphGuiInput"]
 [connection signal="close_requested" from="AddNodeWindow" to="." method="OnAddNodeWindowCloseRequested"]
 [connection signal="item_activated" from="AddNodeWindow/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/NewNodeTreeList" to="." method="OnNewNodeTreeListItemActivated"]

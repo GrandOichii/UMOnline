@@ -1,10 +1,16 @@
-[gd_resource type="Resource" script_class="ScriptNodeCollection" load_steps=22 format=3 uid="uid://dqgchyh35r4o5"]
+[gd_resource type="Resource" script_class="ScriptNodeCollection" load_steps=37 format=3 uid="uid://dqgchyh35r4o5"]
 
 [ext_resource type="Script" uid="uid://dk4tqarec5j3a" path="res://v1/Content/Scripts/Resource/ScriptNodeArg.cs" id="1_nlmxm"]
+[ext_resource type="PackedScene" uid="uid://cqkmdnkfdl5cl" path="res://v1/Content/Scripts/ScriptNodeNode.tscn" id="2_8cdlt"]
 [ext_resource type="Script" uid="uid://12as40biuktg" path="res://v1/Content/Scripts/Resource/ScriptNodeSimpleArg.cs" id="2_k6oso"]
 [ext_resource type="Script" uid="uid://cmhgojee80mqw" path="res://v1/Content/Scripts/Resource/ScriptNode.cs" id="3_p8n5k"]
 [ext_resource type="Script" uid="uid://bec6auq8nf31u" path="res://v1/Content/Scripts/Resource/ScriptNodeSimpleArgDataElement.cs" id="4_16an6"]
+[ext_resource type="Script" uid="uid://dg62s6ykk8a3e" path="res://v1/Content/Scripts/Resource/PrebuiltScriptNode.cs" id="4_k6oso"]
+[ext_resource type="PackedScene" uid="uid://06x8vgcloewt" path="res://v1/Content/Scripts/Prebuilt/AbilityScriptNodeNode.tscn" id="4_p8n5k"]
 [ext_resource type="Script" uid="uid://mreeoiaypmlb" path="res://v1/Content/Scripts/Resource/ScriptNodeCollection.cs" id="5_kdrxh"]
+[ext_resource type="PackedScene" uid="uid://62afnehh8agv" path="res://v1/Content/Scripts/Prebuilt/IfScriptNodeNode.tscn" id="6_16an6"]
+[ext_resource type="PackedScene" uid="uid://b7nk3q74ufvcs" path="res://v1/Content/Scripts/Prebuilt/Selects/SelectScriptNodeNode.tscn" id="7_kdrxh"]
+[ext_resource type="Script" uid="uid://beqd6jxan25d8" path="res://v1/Content/Scripts/Resource/SelectScriptNode.cs" id="9_5i4ix"]
 
 [sub_resource type="Resource" id="Resource_7q4gu"]
 script = ExtResource("1_nlmxm")
@@ -27,13 +33,17 @@ Label = "Can move over opposing"
 Data = null
 metadata/_custom_type_script = "uid://12as40biuktg"
 
-[sub_resource type="Resource" id="Resource_4x55k"]
+[sub_resource type="Resource" id="Resource_d1ayk"]
 script = ExtResource("3_p8n5k")
 Name = "moveFighters"
 Label = "Move fighters"
 NodeArgs = Array[Object]([SubResource("Resource_7q4gu"), SubResource("Resource_4adg2")])
 SimpleArgs = Array[Object]([SubResource("Resource_xfxnm")])
-Script = "UM.Effects:MoveFighters($fighters, $amount, $cmoo)"
+Script = "UM.Effects:MoveFighters(
+$fighters,
+$amount,
+$cmoo
+)"
 Description = "Moves many fighters"
 metadata/_custom_type_script = "uid://cmhgojee80mqw"
 
@@ -51,14 +61,16 @@ Label = "Amount"
 Accepts = 2
 metadata/_custom_type_script = "uid://dk4tqarec5j3a"
 
-[sub_resource type="Resource" id="Resource_p8n5k"]
+[sub_resource type="Resource" id="Resource_qnw5q"]
 script = ExtResource("3_p8n5k")
 Name = "draw"
 Label = "Draw"
 NodeArgs = Array[Object]([SubResource("Resource_16an6"), SubResource("Resource_kdrxh")])
 SimpleArgs = null
-Script = "UM.Effects:Draw($players, $amount)
-"
+Script = "UM.Effects:Draw(
+$players,
+$amount
+)"
 Description = "Force players to draw cards"
 metadata/_custom_type_script = "uid://cmhgojee80mqw"
 
@@ -68,7 +80,7 @@ Key = "player"
 Accepts = 5
 metadata/_custom_type_script = "uid://dk4tqarec5j3a"
 
-[sub_resource type="Resource" id="Resource_t61vh"]
+[sub_resource type="Resource" id="Resource_y4xd2"]
 script = ExtResource("3_p8n5k")
 Name = "combatWonByPlayer"
 Label = "Combat won by player"
@@ -104,7 +116,7 @@ Type = 1
 Data = Array[Object]([SubResource("Resource_2xawd"), SubResource("Resource_xcmca"), SubResource("Resource_40ps8")])
 metadata/_custom_type_script = "uid://12as40biuktg"
 
-[sub_resource type="Resource" id="Resource_tontu"]
+[sub_resource type="Resource" id="Resource_26evt"]
 script = ExtResource("3_p8n5k")
 Name = "player"
 Label = "Player"
@@ -122,7 +134,7 @@ Type = 2
 Data = null
 metadata/_custom_type_script = "uid://12as40biuktg"
 
-[sub_resource type="Resource" id="Resource_nlmxm"]
+[sub_resource type="Resource" id="Resource_ft61j"]
 script = ExtResource("3_p8n5k")
 Name = "constNumber"
 Label = "Const"
@@ -133,8 +145,82 @@ Script = "UM.Number:Static($number)"
 Description = "Constant numeric value"
 metadata/_custom_type_script = "uid://cmhgojee80mqw"
 
+[sub_resource type="Resource" id="Resource_wy76e"]
+script = ExtResource("4_16an6")
+Label = "You"
+Value = "You"
+metadata/_custom_type_script = "uid://bec6auq8nf31u"
+
+[sub_resource type="Resource" id="Resource_yw8xv"]
+script = ExtResource("4_16an6")
+Label = "Your opponent"
+Value = "YourOpponent"
+metadata/_custom_type_script = "uid://bec6auq8nf31u"
+
+[sub_resource type="Resource" id="Resource_hsey5"]
+script = ExtResource("4_16an6")
+Label = "Current"
+Value = "Current"
+metadata/_custom_type_script = "uid://bec6auq8nf31u"
+
+[sub_resource type="Resource" id="Resource_1nnbe"]
+script = ExtResource("2_k6oso")
+Key = "player"
+Type = 1
+Data = Array[Object]([SubResource("Resource_wy76e"), SubResource("Resource_yw8xv"), SubResource("Resource_hsey5")])
+metadata/_custom_type_script = "uid://12as40biuktg"
+
+[sub_resource type="Resource" id="Resource_utopq"]
+script = ExtResource("3_p8n5k")
+Name = "player_only"
+Label = "Only"
+Type = 8
+NodeArgs = null
+SimpleArgs = Array[Object]([SubResource("Resource_1nnbe")])
+Script = "$player()"
+Description = "Select only the specified player"
+metadata/_custom_type_script = "uid://cmhgojee80mqw"
+
+[sub_resource type="Resource" id="Resource_8cdlt"]
+script = ExtResource("4_k6oso")
+Name = "ability"
+Label = "Ability"
+Type = 9
+Description = "Card ability with a string label"
+Scene = ExtResource("4_p8n5k")
+metadata/_custom_type_script = "uid://dg62s6ykk8a3e"
+
+[sub_resource type="Resource" id="Resource_5i4ix"]
+script = ExtResource("4_k6oso")
+Name = "if"
+Label = "If"
+Description = "Conditional"
+Scene = ExtResource("6_16an6")
+metadata/_custom_type_script = "uid://dg62s6ykk8a3e"
+
+[sub_resource type="Resource" id="Resource_xrf5i"]
+script = ExtResource("9_5i4ix")
+Name = "fighters"
+Label = "Fighters"
+SelectType = 4
+FilterType = 7
+SelectMethod = "UM.Select:Fighters"
+Description = "Fighter selector"
+metadata/_custom_type_script = "uid://beqd6jxan25d8"
+
+[sub_resource type="Resource" id="Resource_oa26c"]
+script = ExtResource("9_5i4ix")
+Name = "players"
+Label = "Players"
+SelectType = 6
+FilterType = 8
+SelectMethod = "UM.Select:Players"
+Description = "Player selector"
+metadata/_custom_type_script = "uid://beqd6jxan25d8"
+
 [resource]
 script = ExtResource("5_kdrxh")
-Effects = Array[Object]([SubResource("Resource_4x55k"), SubResource("Resource_p8n5k")])
-Sources = Array[Object]([SubResource("Resource_t61vh"), SubResource("Resource_tontu"), SubResource("Resource_nlmxm")])
+Basic = Array[Object]([SubResource("Resource_d1ayk"), SubResource("Resource_qnw5q"), SubResource("Resource_y4xd2"), SubResource("Resource_26evt"), SubResource("Resource_ft61j"), SubResource("Resource_utopq")])
+Prebuilts = Array[Object]([SubResource("Resource_8cdlt"), SubResource("Resource_5i4ix")])
+Selects = Array[Object]([SubResource("Resource_xrf5i"), SubResource("Resource_oa26c")])
 metadata/_custom_type_script = "uid://mreeoiaypmlb"

@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://bcryyip3mv2s2"]
+
+[ext_resource type="Script" uid="uid://phnk3ew57dwg" path="res://v1/Content/Scripts/StartScriptNodeNode.cs" id="1_nc4xo"]
+
+[node name="StartScriptNodeNode" type="GraphNode"]
+offset_right = 9.0
+offset_bottom = 55.0
+script = ExtResource("1_nc4xo")
+EffectSlotColor = Color(0, 1, 0, 1)

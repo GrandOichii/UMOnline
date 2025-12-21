@@ -1,0 +1,39 @@
+[gd_scene load_steps=2 format=3 uid="uid://b7nk3q74ufvcs"]
+
+[ext_resource type="Script" uid="uid://d0yvjtt2dqopa" path="res://v1/Content/Scripts/Prebuilt/Selects/SelectScriptNodeNode.cs" id="1_2s6ap"]
+
+[node name="SelectScriptNodeNode" type="GraphNode" node_paths=PackedStringArray("AddFilterButton", "SingleCheckNode")]
+offset_right = 248.0
+offset_bottom = 143.0
+title = "TITLE HERE"
+slot/0/left_enabled = false
+slot/0/left_type = 0
+slot/0/left_color = Color(1, 1, 1, 1)
+slot/0/left_icon = null
+slot/0/right_enabled = false
+slot/0/right_type = 0
+slot/0/right_color = Color(1, 1, 1, 1)
+slot/0/right_icon = null
+slot/0/draw_stylebox = true
+slot/1/left_enabled = false
+slot/1/left_type = 0
+slot/1/left_color = Color(1, 1, 1, 1)
+slot/1/left_icon = null
+slot/1/right_enabled = false
+slot/1/right_type = 0
+slot/1/right_color = Color(1, 1, 1, 1)
+slot/1/right_icon = null
+slot/1/draw_stylebox = true
+script = ExtResource("1_2s6ap")
+AddFilterButton = NodePath("AddFilterButton")
+SingleCheckNode = NodePath("SingleCheck")
+
+[node name="AddFilterButton" type="Button" parent="."]
+layout_mode = 2
+text = "Add filter"
+
+[node name="SingleCheck" type="CheckBox" parent="."]
+layout_mode = 2
+text = "Single"
+
+[connection signal="pressed" from="AddFilterButton" to="." method="OnAddFilterButtonPressed"]
