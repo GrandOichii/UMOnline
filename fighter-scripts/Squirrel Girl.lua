@@ -25,15 +25,19 @@ function _Create()
                     1
                 ),
                 -- true
-                UM.Effects:ReviveAndSummon(
-                    UM.Select:Fighters():Defeated():Named('Squirrel'):BuildFirst(),
-                    nodeSelect():BuildOne()
-                ),
+                {
+                    UM.Effects:ReviveAndSummon(
+                        UM.Select:Fighters():Defeated():Named('Squirrel'):BuildFirst(),
+                        nodeSelect():BuildOne()
+                    ),
+                },
                 -- false
-                UM.Effects:PlaceFighter(
-                    UM.Select:Fighters():Undefeated():Named('Squirrel'):BuildOne(),
-                    nodeSelect():BuildOne()
-                )
+                {
+                    UM.Effects:PlaceFighter(
+                        UM.Select:Fighters():Undefeated():Named('Squirrel'):BuildOne(),
+                        nodeSelect():BuildOne()
+                    )
+                }
             )
         )
     :Build()

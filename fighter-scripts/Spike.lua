@@ -22,20 +22,24 @@ function _Create()
                 UM.Conditions:CountGte(nodeSelector():Build(), 1),
                 UM.Effects:IfInstead(
                     UM.Conditions:TokensLeft('Shadow'),
-                    UM.Effects:Optional(
-                        'Place a Shadow token in a space adjacent to Spike or Drusilla?',
-                        UM.Effects:PlaceTokens(
-                            'Shadow',
-                            nodeSelector():Single():Build()
+                    {
+                        UM.Effects:Optional(
+                            'Place a Shadow token in a space adjacent to Spike or Drusilla?',
+                            UM.Effects:PlaceTokens(
+                                'Shadow',
+                                nodeSelector():Single():Build()
+                            )
+                        ),
+                    },
+                    {
+                        UM.Effects:Optional(
+                            'Move a Shadow token to a space adjacent to Spike or Drusilla?',
+                            UM.Effects:MoveToken(
+                                UM.Select:Tokens():Named('Shadow'):BuildOne(),
+                                nodeSelector():Single():BuildOne()
+                            )
                         )
-                    ),
-                    UM.Effects:Optional(
-                        'Move a Shadow token to a space adjacent to Spike or Drusilla?',
-                        UM.Effects:MoveToken(
-                            UM.Select:Tokens():Named('Shadow'):BuildOne(),
-                            nodeSelector():Single():BuildOne()
-                        )
-                    )
+                    }
                 )
             )
         )

@@ -176,9 +176,8 @@ public partial class ScriptEditor : Control
 						// output
 						outputs[node].Add(fromPort, (GraphNode.GetNode(toNode) as IScriptNodeNode, toPort));
 					}
-
-					if (node.IsStart()) start = node;
 				}
+				if (node.IsStart()) start = node;
 			}
 
 			if (start is null)
@@ -270,6 +269,26 @@ public partial class ScriptEditor : Control
 		{
 			TryDelete(name);
 		}
+	}
+
+	public void OnGraphCopyNodesRequest()
+	{
+		GD.Print("COPY REQUEST");
+	}
+
+	public void OnGraphCutNodesRequest()
+	{
+		GD.Print("CUT REQUEST");
+	}
+
+	public void OnGraphDuplicateNodesRequest()
+	{
+		GD.Print("DUPLICATE REQUEST");
+	}
+
+	public void OnGraphPasteNodesRequest()
+	{
+		GD.Print("PASTE REQUEST");
 	}
 
 	#endregion

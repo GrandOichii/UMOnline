@@ -7,6 +7,7 @@ public enum ScriptNodeSimpleArgType
     Checkbox = 0,
     Option = 1,
     Number = 2,
+    String = 3,
 }
 
 

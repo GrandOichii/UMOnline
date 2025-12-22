@@ -36,7 +36,40 @@ public partial class IfScriptNodeNode : GraphNode, IScriptNodeNode
         Dictionary<IScriptNodeNode, Dictionary<int, (IScriptNodeNode to, int toPort)>> outputs
     )
     {
-        return "TODO";
+        var myOutputs = outputs[this];
+        var myInputs = inputs[this];
+
+        var conditionScript = "!missing connection!";
+        if (myInputs.TryGetValue(1, out var conditionPair))
+        {
+            conditionScript = conditionPair.from.Generate(inputs, outputs);
+        }
+        var trueEffects = "!missing connection!";
+        if (myOutputs.TryGetValue(1, out var truePair))
+        {
+            trueEffects = truePair.to.Generate(inputs, outputs);
+        }
+        var falseEffects = "!missing connection!";
+        if (myOutputs.TryGetValue(2, out var falsePair))
+        {
+            falseEffects = falsePair.to.Generate(inputs, outputs);
+        }
+
+        var result = $@"UM.Effects:IfInstead(
+{conditionScript}
+{{
+{trueEffects}
+}},
+{{
+{falseEffects}
+}}
+)";
+        if (myOutputs.TryGetValue(0, out var pair))
+        {
+            var next = pair.to.Generate(inputs, outputs);
+            result += $",\n{next}";
+        }
+        return result;
     }
 
     public void SetEssentials(ScriptEditor editor)

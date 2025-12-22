@@ -53,6 +53,7 @@ text = "Generated script:"
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+editable = false
 
 [node name="AddNodeWindow" type="Window" parent="."]
 oversampling_override = 1.0
@@ -134,9 +135,13 @@ size_flags_horizontal = 3
 text = "Add"
 
 [connection signal="connection_request" from="HBoxContainer/Graph" to="." method="OnGraphConnectionRequest"]
+[connection signal="copy_nodes_request" from="HBoxContainer/Graph" to="." method="OnGraphCopyNodesRequest"]
+[connection signal="cut_nodes_request" from="HBoxContainer/Graph" to="." method="OnGraphCutNodesRequest"]
 [connection signal="delete_nodes_request" from="HBoxContainer/Graph" to="." method="OnGraphDeleteNodesRequest"]
 [connection signal="disconnection_request" from="HBoxContainer/Graph" to="." method="OnGraphDisconnectionRequest"]
+[connection signal="duplicate_nodes_request" from="HBoxContainer/Graph" to="." method="OnGraphDuplicateNodesRequest"]
 [connection signal="gui_input" from="HBoxContainer/Graph" to="." method="OnGraphGuiInput"]
+[connection signal="paste_nodes_request" from="HBoxContainer/Graph" to="." method="OnGraphPasteNodesRequest"]
 [connection signal="close_requested" from="AddNodeWindow" to="." method="OnAddNodeWindowCloseRequested"]
 [connection signal="item_activated" from="AddNodeWindow/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/NewNodeTreeList" to="." method="OnNewNodeTreeListItemActivated"]
 [connection signal="item_selected" from="AddNodeWindow/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/NewNodeTreeList" to="." method="OnNewNodeTreeListItemSelected"]

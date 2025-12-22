@@ -69,12 +69,24 @@ public partial class ScriptNodeNode : GraphNode, IScriptNodeNode
             ScriptNodeSimpleArgType.Checkbox => CreateCheckBoxSimpleArg(arg),
             ScriptNodeSimpleArgType.Option => CreateOptionSimpleArg(arg),
             ScriptNodeSimpleArgType.Number => CreateNumberSimpleArg(arg),
+            ScriptNodeSimpleArgType.String => CreateStringSimpleArg(arg),
             // TODO default
         };
         AddChild(child);
     }
 
     #region Simple arg creation functions
+
+    private LineEdit CreateStringSimpleArg(ScriptNodeSimpleArg arg)
+    {
+        var result = new LineEdit()
+        {
+            PlaceholderText = "Enter value"
+        };
+        result.TextChanged += (_) => _editor.RegenerateScript();
+
+        return result;
+    }
 
     private CheckBox CreateCheckBoxSimpleArg(ScriptNodeSimpleArg arg)
     {
@@ -96,7 +108,7 @@ public partial class ScriptNodeNode : GraphNode, IScriptNodeNode
             result.AddItem(el.Label);
             result.SetItemMetadata(result.ItemCount - 1, el.Value);
         }
-        result.Pressed += _editor.RegenerateScript;
+        result.ItemSelected += (_) => _editor.RegenerateScript();
 
         return result;
     }
@@ -157,9 +169,6 @@ public partial class ScriptNodeNode : GraphNode, IScriptNodeNode
             var (nextEffect, _) = myOutputs[0];
             var next = nextEffect.Generate(inputs, outputs);
             result += $",\n{next}";
-
-            // output is another (optional) effect
-            // TODO
         }
 
 
@@ -172,6 +181,7 @@ public partial class ScriptNodeNode : GraphNode, IScriptNodeNode
             ScriptNodeSimpleArgType.Checkbox => (node as CheckBox).ButtonPressed ? "true" : "false",
             ScriptNodeSimpleArgType.Number => (node as SpinBox).Value.ToString(),
             ScriptNodeSimpleArgType.Option => GetOptionValue(node as OptionButton),
+            ScriptNodeSimpleArgType.String => (node as LineEdit).Text,
             _ => throw new Exception($"{nameof(GetSimpleValue)} not implemented for ScriptNodeSimpleArgType {type}")
         };
     }

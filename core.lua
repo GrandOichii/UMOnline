@@ -730,13 +730,15 @@ function UM.Effects:If(conditionalFunc, ...)
     end
 end
 
-function UM.Effects:IfInstead(conditionalFunc, trueEffectFunc, falseEffectFunc)
+function UM.Effects:IfInstead(conditionalFunc, trueEffectFuncs, falseEffectFuncs)
     return function (args)
-        if not conditionalFunc(args) then
-            falseEffectFunc(args)
-            return
+        local effects = falseEffectFuncs
+        if conditionalFunc(args) then
+            effects = trueEffectFuncs
         end
-        trueEffectFunc(args)
+        for _, e in ipairs(effects) do
+            e(args)
+        end
     end
 end
 

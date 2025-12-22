@@ -18,22 +18,22 @@ public partial class LoadoutStorage : Node
 		_connection = new SqliteConnection($"Data Source={DataSource}");
 		_connection.Open();
 
-		TryCreateDb();
+		// TryCreateDb();
 	}
 
-	private void TryCreateDb() {
-		List<string> createCommands = [
-			Loadout.GetCreateCommand(),
-		];
-		try {
-			foreach (var createCommand in createCommands)
-			{
-				var command = new SqliteCommand(createCommand, _connection);
-				command.ExecuteNonQuery();
-			}
-		} catch (SqliteException e) {
-			GD.PushWarning(e.Message);
-		}
-	}
+	// private void TryCreateDb() {
+	// 	List<string> createCommands = [
+	// 		Deck.GetCreateCommand(),
+	// 	];
+	// 	try {
+	// 		foreach (var createCommand in createCommands)
+	// 		{
+	// 			var command = new SqliteCommand(createCommand, _connection);
+	// 			command.ExecuteNonQuery();
+	// 		}
+	// 	} catch (SqliteException e) {
+	// 		GD.PushWarning(e.Message);
+	// 	}
+	// }
 
 }
