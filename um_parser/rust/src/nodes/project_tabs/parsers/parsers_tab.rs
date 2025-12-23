@@ -1,12 +1,9 @@
 use godot::classes::tab_bar::CloseButtonDisplayPolicy;
 use godot::classes::*;
 use godot::prelude::*;
-use regex::Regex;
 
-use crate::model::parser::*;
 use crate::model::project::ProjectModel;
 use crate::nodes::parser_editor::ParserEditorWindowNode;
-use crate::nodes::parsing_history::ParserParsingHistory;
 use crate::nodes::parsing_history::ParsingHistory;
 use crate::nodes::project_tabs::logs::logs_tab::LogsTabNode;
 use crate::nodes::project_tabs::parsers::parser_tab::ParserTabNode;
@@ -166,9 +163,15 @@ impl ParsersTabNode {
         self.reload_templates();
     }
 
-    fn reload_templates(&mut self) {
+    pub fn reload_templates(&mut self) {
         self.templates_list.clear();
         let project_name = self.loaded_project_name.to_string();
+        let project = self
+            .repo
+            .bind_mut()
+            .get_project(&project_name)
+            .expect("Failed to get project")
+            .expect("Failed to find project");
 
         let templates = self
             .repo
@@ -190,9 +193,9 @@ impl ParsersTabNode {
             let idx = self.templates_list.add_item(
                 &format!(
                     "{}{}",
-                    match parser.is_root {
-                        true => "* ",
-                        false => "",
+                    match project.root_parser_id {
+                        Some(root_id) if root_id == parser.id => "* ",
+                        _ => "",
                     },
                     &parser.name
                 )

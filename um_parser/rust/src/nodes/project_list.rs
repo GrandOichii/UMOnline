@@ -152,6 +152,7 @@ impl ProjectListNode {
         let project = ProjectModel {
             description: self.new_project_description_edit.get_text().to_string(),
             name: name,
+            root_parser_id: None,
         };
 
         let existing = self

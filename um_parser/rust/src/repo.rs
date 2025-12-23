@@ -1,6 +1,5 @@
 use rusqlite::Params;
 use sql_query_builder as sql;
-use sql_query_builder::Select;
 use std::cell::OnceCell;
 use std::collections::HashMap;
 use std::error::Error;
@@ -78,6 +77,12 @@ impl ParserRepositoryNode {
     pub fn update_parser_by_id(&mut self, parser: &ParserModel) -> Result<(), Box<dyn Error>> {
         let conn = self.get_connection();
         parser.sql_update_by_id(conn)?;
+        Ok(())
+    }
+    
+    pub fn update_project_by_id(&mut self, project: &ProjectModel) -> Result<(), Box<dyn Error>> {
+        let conn = self.get_connection();
+        project.sql_update_by_id(conn)?;
         Ok(())
     }
 

@@ -8,6 +8,7 @@ use sql_query_builder::{self as sql, Select};
 pub struct ProjectModel {
     pub name: String,
     pub description: String,
+    pub root_parser_id: Option<i32>,
 }
 
 impl SQLModel for ProjectModel {
@@ -16,6 +17,7 @@ impl SQLModel for ProjectModel {
             .create_table_if_not_exists("projects")
             .column("name TEXT NOT NULL")
             .column("description TEXT NOT NULL")
+            .column("root_parser_id INTEGER")
             .primary_key("name")
     }
 
@@ -35,6 +37,7 @@ impl SQLModel for ProjectModel {
         Ok(ProjectModel {
             name: row.get(0)?,
             description: row.get(1)?,
+            root_parser_id: row.get(2)?,
         })
     }
     
@@ -54,5 +57,28 @@ impl ProjectModel {
         sql::Update::new()
             .update("projects")
             .set(format!("description = '{}'", new_description).as_str())
+    }
+}
+
+
+impl SQLUpdateById for ProjectModel {
+    fn sql_update_by_id(&self, conn: &rusqlite::Connection) -> Result<usize, Box<dyn Error>> {
+        let sql = sql::Update::new()
+            .update("projects")
+            .set("description = ?2")
+            .set("root_parser_id = ?3")
+            .where_clause("name = ?1")
+            .to_string();
+
+        let result = conn.execute(
+            &sql,
+            (
+                &self.name,
+                &self.description,
+                self.root_parser_id,
+            ),
+        )?;
+
+        return Ok(result);
     }
 }

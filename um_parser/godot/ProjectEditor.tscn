@@ -5,13 +5,15 @@
 [ext_resource type="PackedScene" uid="uid://3y3fwa2divkq" path="res://project_tabs/LogsTab.tscn" id="3_34bhn"]
 [ext_resource type="PackedScene" uid="uid://bjrlg2jv8o2wg" path="res://project_tabs/ParsersTab.tscn" id="3_d65ay"]
 
-[node name="ProjectEditor" type="ProjectEditorNode" node_paths=PackedStringArray("project_name_label", "project_description_edit", "cards_tab", "logs_tab", "parsers_tab", "completion_progress_bar")]
-project_name_label = NodePath("VBoxContainer/TabContainer/Project/HBoxContainer/PanelContainer/ProjectNameLabel")
-project_description_edit = NodePath("VBoxContainer/TabContainer/Project/ProjectDescriptionEdit")
-cards_tab = NodePath("VBoxContainer/TabContainer/Cards")
-logs_tab = NodePath("VBoxContainer/TabContainer/Logs")
-parsers_tab = NodePath("VBoxContainer/TabContainer/Parsers")
+[node name="ProjectEditor" type="ProjectEditorNode" node_paths=PackedStringArray("project_name_label", "project_description_edit", "cards_tab", "logs_tab", "parsers_tab", "completion_progress_bar", "root_parser_option", "tabs_node")]
+project_name_label = NodePath("VBoxContainer/Tabs/Project/HBoxContainer/PanelContainer/ProjectNameLabel")
+project_description_edit = NodePath("VBoxContainer/Tabs/Project/ProjectDescriptionEdit")
+cards_tab = NodePath("VBoxContainer/Tabs/Cards")
+logs_tab = NodePath("VBoxContainer/Tabs/Logs")
+parsers_tab = NodePath("VBoxContainer/Tabs/Parsers")
 completion_progress_bar = NodePath("VBoxContainer/HBoxContainer/CompletionProgressBar")
+root_parser_option = NodePath("VBoxContainer/Tabs/Project/HBoxContainer2/RootParserOption")
+tabs_node = NodePath("VBoxContainer/Tabs")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -27,49 +29,60 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="TabContainer" type="TabContainer" parent="VBoxContainer"]
+[node name="Tabs" type="TabContainer" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-current_tab = 2
+current_tab = 0
 
-[node name="Project" type="VBoxContainer" parent="VBoxContainer/TabContainer"]
-visible = false
+[node name="Project" type="VBoxContainer" parent="VBoxContainer/Tabs"]
 layout_mode = 2
 metadata/_tab_index = 0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/Project"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Tabs/Project"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="VBoxContainer/TabContainer/Project/HBoxContainer"]
+[node name="Label" type="Label" parent="VBoxContainer/Tabs/Project/HBoxContainer"]
 layout_mode = 2
 text = "Project name: "
 
-[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/TabContainer/Project/HBoxContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/Tabs/Project/HBoxContainer"]
 layout_mode = 2
 
-[node name="ProjectNameLabel" type="Label" parent="VBoxContainer/TabContainer/Project/HBoxContainer/PanelContainer"]
+[node name="ProjectNameLabel" type="Label" parent="VBoxContainer/Tabs/Project/HBoxContainer/PanelContainer"]
 layout_mode = 2
 text = "PROJECT NAME HERE"
 
-[node name="Label" type="Label" parent="VBoxContainer/TabContainer/Project"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/Tabs/Project"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/Tabs/Project/HBoxContainer2"]
+layout_mode = 2
+text = "Root parser: "
+
+[node name="RootParserOption" type="OptionButton" parent="VBoxContainer/Tabs/Project/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="VBoxContainer/Tabs/Project"]
 layout_mode = 2
 text = "Project description:"
 
-[node name="ProjectDescriptionEdit" type="TextEdit" parent="VBoxContainer/TabContainer/Project"]
+[node name="ProjectDescriptionEdit" type="TextEdit" parent="VBoxContainer/Tabs/Project"]
 layout_mode = 2
 size_flags_vertical = 3
 text = "PROJECT DESCRIPTION HERE"
 
-[node name="Cards" parent="VBoxContainer/TabContainer" instance=ExtResource("2_2stwp")]
+[node name="Cards" parent="VBoxContainer/Tabs" instance=ExtResource("2_2stwp")]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 1
 
-[node name="Parsers" parent="VBoxContainer/TabContainer" instance=ExtResource("3_d65ay")]
+[node name="Parsers" parent="VBoxContainer/Tabs" instance=ExtResource("3_d65ay")]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 2
 
-[node name="Logs" parent="VBoxContainer/TabContainer" instance=ExtResource("3_34bhn")]
+[node name="Logs" parent="VBoxContainer/Tabs" instance=ExtResource("3_34bhn")]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 3

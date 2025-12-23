@@ -82,3 +82,6 @@ text = "PARSER CODE HERE
 PARSER CODE HERE
 PARSER CODE HERE"
 editable = false
+
+[node name="PopupMenu" type="PopupMenu" parent="."]
+oversampling_override = 1.0

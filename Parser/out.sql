@@ -9,7 +9,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -24,7 +23,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     1,   -- is_template
-    1,   -- is_root
     NULL,   -- parent_id
     NULL,   -- parent_slot
     NULL,   -- ref_to_id
@@ -40,7 +38,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -61,7 +58,6 @@ end', -- script
     'test', -- project_name
     '', -- description
     1,   -- is_template
-    0,   -- is_root
     NULL,   -- parent_id
     NULL,   -- parent_slot
     NULL,   -- ref_to_id
@@ -77,7 +73,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -98,7 +93,6 @@ end', -- script
     'test', -- project_name
     '', -- description
     1,   -- is_template
-    0,   -- is_root
     NULL,   -- parent_id
     NULL,   -- parent_slot
     NULL,   -- ref_to_id
@@ -114,7 +108,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -135,7 +128,6 @@ end', -- script
     'test', -- project_name
     '', -- description
     1,   -- is_template
-    0,   -- is_root
     NULL,   -- parent_id
     NULL,   -- parent_slot
     NULL,   -- ref_to_id
@@ -151,7 +143,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -172,7 +163,6 @@ end', -- script
     'test', -- project_name
     '', -- description
     1,   -- is_template
-    0,   -- is_root
     NULL,   -- parent_id
     NULL,   -- parent_slot
     NULL,   -- ref_to_id
@@ -188,7 +178,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -209,7 +198,6 @@ end', -- script
     'test', -- project_name
     '', -- description
     1,   -- is_template
-    0,   -- is_root
     NULL,   -- parent_id
     NULL,   -- parent_slot
     NULL,   -- ref_to_id
@@ -225,7 +213,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -246,7 +233,6 @@ end', -- script
     'test', -- project_name
     '', -- description
     1,   -- is_template
-    0,   -- is_root
     NULL,   -- parent_id
     NULL,   -- parent_slot
     NULL,   -- ref_to_id
@@ -262,7 +248,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -283,7 +268,6 @@ end', -- script
     'test', -- project_name
     '', -- description
     1,   -- is_template
-    0,   -- is_root
     NULL,   -- parent_id
     NULL,   -- parent_slot
     NULL,   -- ref_to_id
@@ -299,7 +283,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -314,7 +297,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     1,   -- is_template
-    0,   -- is_root
     NULL,   -- parent_id
     NULL,   -- parent_slot
     NULL,   -- ref_to_id
@@ -330,7 +312,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -351,7 +332,6 @@ end', -- script
     'test', -- project_name
     '', -- description
     1,   -- is_template
-    0,   -- is_root
     NULL,   -- parent_id
     NULL,   -- parent_slot
     NULL,   -- ref_to_id
@@ -367,7 +347,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -388,7 +367,6 @@ end', -- script
     'test', -- project_name
     '', -- description
     1,   -- is_template
-    0,   -- is_root
     NULL,   -- parent_id
     NULL,   -- parent_slot
     NULL,   -- ref_to_id
@@ -404,7 +382,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -425,7 +402,6 @@ end', -- script
     'test', -- project_name
     '', -- description
     1,   -- is_template
-    0,   -- is_root
     NULL,   -- parent_id
     NULL,   -- parent_slot
     NULL,   -- ref_to_id
@@ -441,7 +417,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -456,7 +431,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     1,   -- is_template
-    0,   -- is_root
     NULL,   -- parent_id
     NULL,   -- parent_slot
     NULL,   -- ref_to_id
@@ -472,7 +446,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -482,12 +455,11 @@ INSERT INTO parsers(
     14,   -- id
     'fighterNames', -- name
     1,   -- ptype
-    '^(?:Harpy|Wolf|squirrel|Actor|Alice|Sinbad|Bigfoot|Dr{{DOTSPACE}}Jekyll|King Arthur|Faith|Holmes|Little Red|Ghost Rider|Daredevil|Bullseye|Elektra|Black Widow|Golden Bat|Ciri|Geralt|Buffy|Tesla|Raptors|InGen Workers|Shakespeare|Ihuarraquax|She-Hulk|the Jackalope|Shuri|The Genie|Squirrel Girl|Yennenga)$', -- pattern
+    '^(?:Harpy|Wolf|squirrel|Actor|Alice|Sinbad|Bigfoot|Dr\{DOTSPACE\}Jekyll|King Arthur|Faith|Holmes|Little Red|Ghost Rider|Daredevil|Bullseye|Elektra|Black Widow|Golden Bat|Ciri|Geralt|Buffy|Tesla|Raptors|InGen Workers|Shakespeare|Ihuarraquax|She-Hulk|the Jackalope|Shuri|The Genie|Squirrel Girl|Yennenga)$', -- pattern
     'function _Create(text, children, data) return text end', -- script
     'test', -- project_name
     '', -- description
     1,   -- is_template
-    0,   -- is_root
     NULL,   -- parent_id
     NULL,   -- parent_slot
     NULL,   -- ref_to_id
@@ -503,7 +475,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -524,7 +495,6 @@ end', -- script
     'test', -- project_name
     '', -- description
     1,   -- is_template
-    0,   -- is_root
     NULL,   -- parent_id
     NULL,   -- parent_slot
     NULL,   -- ref_to_id
@@ -540,7 +510,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -561,7 +530,6 @@ end', -- script
     'test', -- project_name
     '', -- description
     1,   -- is_template
-    0,   -- is_root
     NULL,   -- parent_id
     NULL,   -- parent_slot
     NULL,   -- ref_to_id
@@ -577,7 +545,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -598,7 +565,6 @@ end', -- script
     'test', -- project_name
     '', -- description
     1,   -- is_template
-    0,   -- is_root
     NULL,   -- parent_id
     NULL,   -- parent_slot
     NULL,   -- ref_to_id
@@ -614,7 +580,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -635,7 +600,6 @@ end', -- script
     'test', -- project_name
     '', -- description
     1,   -- is_template
-    0,   -- is_root
     NULL,   -- parent_id
     NULL,   -- parent_slot
     NULL,   -- ref_to_id
@@ -651,7 +615,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -672,7 +635,6 @@ end', -- script
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     1,   -- parent_id
     1,   -- parent_slot
     NULL,   -- ref_to_id
@@ -688,7 +650,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -703,7 +664,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     19,   -- parent_id
     1,   -- parent_slot
     NULL,   -- ref_to_id
@@ -719,7 +679,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -746,7 +705,6 @@ end', -- script
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     19,   -- parent_id
     2,   -- parent_slot
     NULL,   -- ref_to_id
@@ -762,7 +720,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -783,7 +740,6 @@ end', -- script
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     21,   -- parent_id
     1,   -- parent_slot
     NULL,   -- ref_to_id
@@ -799,7 +755,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -814,7 +769,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     22,   -- parent_id
     1,   -- parent_slot
     NULL,   -- ref_to_id
@@ -830,7 +784,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -845,7 +798,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     23,   -- parent_id
     1,   -- parent_slot
     2,   -- ref_to_id
@@ -861,7 +813,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -876,7 +827,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     22,   -- parent_id
     2,   -- parent_slot
     NULL,   -- ref_to_id
@@ -892,7 +842,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -907,7 +856,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     25,   -- parent_id
     1,   -- parent_slot
     2,   -- ref_to_id
@@ -923,7 +871,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -938,7 +885,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     22,   -- parent_id
     3,   -- parent_slot
     NULL,   -- ref_to_id
@@ -954,7 +900,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -969,7 +914,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     27,   -- parent_id
     1,   -- parent_slot
     2,   -- ref_to_id
@@ -985,7 +929,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -1000,7 +943,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     22,   -- parent_id
     4,   -- parent_slot
     NULL,   -- ref_to_id
@@ -1016,7 +958,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -1031,7 +972,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     29,   -- parent_id
     1,   -- parent_slot
     2,   -- ref_to_id
@@ -1047,7 +987,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -1062,7 +1001,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     2,   -- parent_id
     1,   -- parent_slot
     3,   -- ref_to_id
@@ -1078,7 +1016,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -1093,7 +1030,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     2,   -- parent_id
     2,   -- parent_slot
     NULL,   -- ref_to_id
@@ -1109,7 +1045,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -1124,7 +1059,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     32,   -- parent_id
     1,   -- parent_slot
     2,   -- ref_to_id
@@ -1140,7 +1074,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -1155,7 +1088,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     32,   -- parent_id
     2,   -- parent_slot
     4,   -- ref_to_id
@@ -1171,7 +1103,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -1186,7 +1117,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     2,   -- parent_id
     3,   -- parent_slot
     4,   -- ref_to_id
@@ -1202,7 +1132,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -1217,7 +1146,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     3,   -- parent_id
     1,   -- parent_slot
     5,   -- ref_to_id
@@ -1233,7 +1161,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -1248,7 +1175,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     3,   -- parent_id
     2,   -- parent_slot
     6,   -- ref_to_id
@@ -1264,7 +1190,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -1279,7 +1204,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     3,   -- parent_id
     3,   -- parent_slot
     7,   -- ref_to_id
@@ -1295,7 +1219,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -1310,7 +1233,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     4,   -- parent_id
     1,   -- parent_slot
     8,   -- ref_to_id
@@ -1326,7 +1248,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -1341,7 +1262,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     4,   -- parent_id
     2,   -- parent_slot
     NULL,   -- ref_to_id
@@ -1357,7 +1277,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -1372,7 +1291,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     40,   -- parent_id
     1,   -- parent_slot
     NULL,   -- ref_to_id
@@ -1388,7 +1306,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -1403,7 +1320,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     4,   -- parent_id
     3,   -- parent_slot
     11,   -- ref_to_id
@@ -1419,7 +1335,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -1434,7 +1349,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     4,   -- parent_id
     4,   -- parent_slot
     15,   -- ref_to_id
@@ -1450,7 +1364,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -1465,7 +1378,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     4,   -- parent_id
     5,   -- parent_slot
     16,   -- ref_to_id
@@ -1481,7 +1393,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -1496,7 +1407,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     5,   -- parent_id
     1,   -- parent_slot
     NULL,   -- ref_to_id
@@ -1512,7 +1422,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -1533,7 +1442,6 @@ end', -- script
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     45,   -- parent_id
     1,   -- parent_slot
     NULL,   -- ref_to_id
@@ -1549,7 +1457,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -1564,7 +1471,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     46,   -- parent_id
     1,   -- parent_slot
     NULL,   -- ref_to_id
@@ -1580,7 +1486,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -1595,7 +1500,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     47,   -- parent_id
     1,   -- parent_slot
     4,   -- ref_to_id
@@ -1611,7 +1515,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -1632,7 +1535,6 @@ end', -- script
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     47,   -- parent_id
     2,   -- parent_slot
     NULL,   -- ref_to_id
@@ -1648,7 +1550,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -1663,7 +1564,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     47,   -- parent_id
     3,   -- parent_slot
     4,   -- ref_to_id
@@ -1679,7 +1579,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -1694,7 +1593,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     5,   -- parent_id
     2,   -- parent_slot
     NULL,   -- ref_to_id
@@ -1710,7 +1608,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -1731,7 +1628,6 @@ end', -- script
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     51,   -- parent_id
     1,   -- parent_slot
     NULL,   -- ref_to_id
@@ -1747,7 +1643,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -1762,7 +1657,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     6,   -- parent_id
     1,   -- parent_slot
     NULL,   -- ref_to_id
@@ -1778,7 +1672,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -1799,7 +1692,6 @@ end', -- script
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     53,   -- parent_id
     1,   -- parent_slot
     NULL,   -- ref_to_id
@@ -1815,7 +1707,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -1836,7 +1727,6 @@ end', -- script
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     53,   -- parent_id
     2,   -- parent_slot
     NULL,   -- ref_to_id
@@ -1852,7 +1742,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -1873,7 +1762,6 @@ end', -- script
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     6,   -- parent_id
     2,   -- parent_slot
     NULL,   -- ref_to_id
@@ -1889,7 +1777,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -1910,7 +1797,6 @@ end', -- script
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     56,   -- parent_id
     1,   -- parent_slot
     NULL,   -- ref_to_id
@@ -1926,7 +1812,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -1941,7 +1826,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     57,   -- parent_id
     1,   -- parent_slot
     NULL,   -- ref_to_id
@@ -1957,7 +1841,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -1978,7 +1861,6 @@ end', -- script
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     58,   -- parent_id
     1,   -- parent_slot
     NULL,   -- ref_to_id
@@ -1994,7 +1876,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -2015,7 +1896,6 @@ end', -- script
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     58,   -- parent_id
     2,   -- parent_slot
     NULL,   -- ref_to_id
@@ -2031,7 +1911,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -2052,7 +1931,6 @@ end', -- script
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     56,   -- parent_id
     2,   -- parent_slot
     NULL,   -- ref_to_id
@@ -2068,7 +1946,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -2083,7 +1960,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     61,   -- parent_id
     1,   -- parent_slot
     NULL,   -- ref_to_id
@@ -2099,7 +1975,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -2114,7 +1989,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     62,   -- parent_id
     1,   -- parent_slot
     13,   -- ref_to_id
@@ -2130,7 +2004,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -2145,7 +2018,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     62,   -- parent_id
     2,   -- parent_slot
     NULL,   -- ref_to_id
@@ -2161,7 +2033,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -2176,7 +2047,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     8,   -- parent_id
     1,   -- parent_slot
     NULL,   -- ref_to_id
@@ -2192,7 +2062,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -2207,7 +2076,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     65,   -- parent_id
     1,   -- parent_slot
     9,   -- ref_to_id
@@ -2223,7 +2091,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -2244,7 +2111,6 @@ end', -- script
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     65,   -- parent_id
     2,   -- parent_slot
     NULL,   -- ref_to_id
@@ -2260,7 +2126,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -2275,7 +2140,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     67,   -- parent_id
     1,   -- parent_slot
     NULL,   -- ref_to_id
@@ -2291,7 +2155,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -2306,7 +2169,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     67,   -- parent_id
     2,   -- parent_slot
     NULL,   -- ref_to_id
@@ -2322,7 +2184,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -2337,7 +2198,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     65,   -- parent_id
     3,   -- parent_slot
     10,   -- ref_to_id
@@ -2353,7 +2213,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -2368,7 +2227,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     8,   -- parent_id
     2,   -- parent_slot
     NULL,   -- ref_to_id
@@ -2384,7 +2242,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -2399,7 +2256,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     71,   -- parent_id
     1,   -- parent_slot
     9,   -- ref_to_id
@@ -2415,7 +2271,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -2430,7 +2285,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     71,   -- parent_id
     2,   -- parent_slot
     10,   -- ref_to_id
@@ -2446,7 +2300,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -2467,7 +2320,6 @@ end', -- script
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     71,   -- parent_id
     3,   -- parent_slot
     NULL,   -- ref_to_id
@@ -2483,7 +2335,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -2498,7 +2349,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     74,   -- parent_id
     1,   -- parent_slot
     NULL,   -- ref_to_id
@@ -2514,7 +2364,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -2529,7 +2378,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     74,   -- parent_id
     2,   -- parent_slot
     NULL,   -- ref_to_id
@@ -2545,7 +2393,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -2566,7 +2413,6 @@ end', -- script
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     9,   -- parent_id
     1,   -- parent_slot
     NULL,   -- ref_to_id
@@ -2582,7 +2428,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -2597,7 +2442,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     77,   -- parent_id
     1,   -- parent_slot
     NULL,   -- ref_to_id
@@ -2613,7 +2457,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -2628,7 +2471,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     77,   -- parent_id
     2,   -- parent_slot
     NULL,   -- ref_to_id
@@ -2644,7 +2486,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -2659,7 +2500,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     77,   -- parent_id
     3,   -- parent_slot
     NULL,   -- ref_to_id
@@ -2675,7 +2515,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -2690,7 +2529,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     77,   -- parent_id
     4,   -- parent_slot
     NULL,   -- ref_to_id
@@ -2706,7 +2544,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -2727,7 +2564,6 @@ end', -- script
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     81,   -- parent_id
     1,   -- parent_slot
     NULL,   -- ref_to_id
@@ -2743,7 +2579,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -2758,7 +2593,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     82,   -- parent_id
     1,   -- parent_slot
     NULL,   -- ref_to_id
@@ -2774,7 +2608,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -2789,7 +2622,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     10,   -- parent_id
     1,   -- parent_slot
     NULL,   -- ref_to_id
@@ -2805,7 +2637,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -2820,7 +2651,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     10,   -- parent_id
     2,   -- parent_slot
     NULL,   -- ref_to_id
@@ -2836,7 +2666,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -2851,7 +2680,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     10,   -- parent_id
     3,   -- parent_slot
     NULL,   -- ref_to_id
@@ -2867,7 +2695,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -2882,7 +2709,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     86,   -- parent_id
     1,   -- parent_slot
     NULL,   -- ref_to_id
@@ -2898,7 +2724,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -2913,7 +2738,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     11,   -- parent_id
     1,   -- parent_slot
     12,   -- ref_to_id
@@ -2929,7 +2753,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -2944,7 +2767,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     11,   -- parent_id
     2,   -- parent_slot
     17,   -- ref_to_id
@@ -2960,7 +2782,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -2975,7 +2796,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     12,   -- parent_id
     1,   -- parent_slot
     NULL,   -- ref_to_id
@@ -2991,7 +2811,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -3006,7 +2825,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     90,   -- parent_id
     1,   -- parent_slot
     13,   -- ref_to_id
@@ -3022,7 +2840,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -3037,7 +2854,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     90,   -- parent_id
     2,   -- parent_slot
     NULL,   -- ref_to_id
@@ -3053,7 +2869,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -3074,7 +2889,6 @@ end', -- script
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     13,   -- parent_id
     1,   -- parent_slot
     NULL,   -- ref_to_id
@@ -3090,7 +2904,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -3105,7 +2918,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     93,   -- parent_id
     1,   -- parent_slot
     NULL,   -- ref_to_id
@@ -3121,7 +2933,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -3136,7 +2947,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     93,   -- parent_id
     2,   -- parent_slot
     NULL,   -- ref_to_id
@@ -3152,7 +2962,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -3167,7 +2976,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     93,   -- parent_id
     3,   -- parent_slot
     NULL,   -- ref_to_id
@@ -3183,7 +2991,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -3198,7 +3005,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     96,   -- parent_id
     1,   -- parent_slot
     18,   -- ref_to_id
@@ -3214,7 +3020,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -3229,7 +3034,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     93,   -- parent_id
     4,   -- parent_slot
     NULL,   -- ref_to_id
@@ -3245,7 +3049,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -3260,7 +3063,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     93,   -- parent_id
     5,   -- parent_slot
     NULL,   -- ref_to_id
@@ -3276,7 +3078,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -3291,7 +3092,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     93,   -- parent_id
     6,   -- parent_slot
     NULL,   -- ref_to_id
@@ -3307,7 +3107,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -3322,7 +3121,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     93,   -- parent_id
     7,   -- parent_slot
     NULL,   -- ref_to_id
@@ -3338,7 +3136,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -3353,7 +3150,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     101,   -- parent_id
     1,   -- parent_slot
     18,   -- ref_to_id
@@ -3369,7 +3165,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -3384,7 +3179,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     93,   -- parent_id
     8,   -- parent_slot
     NULL,   -- ref_to_id
@@ -3400,7 +3194,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -3415,7 +3208,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     103,   -- parent_id
     1,   -- parent_slot
     14,   -- ref_to_id
@@ -3431,7 +3223,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -3446,7 +3237,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     15,   -- parent_id
     1,   -- parent_slot
     NULL,   -- ref_to_id
@@ -3462,7 +3252,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -3477,7 +3266,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     16,   -- parent_id
     1,   -- parent_slot
     NULL,   -- ref_to_id
@@ -3493,7 +3281,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -3508,7 +3295,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     16,   -- parent_id
     2,   -- parent_slot
     NULL,   -- ref_to_id
@@ -3524,7 +3310,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -3539,7 +3324,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     17,   -- parent_id
     1,   -- parent_slot
     NULL,   -- ref_to_id
@@ -3555,7 +3339,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -3576,7 +3359,6 @@ end', -- script
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     108,   -- parent_id
     1,   -- parent_slot
     NULL,   -- ref_to_id
@@ -3592,7 +3374,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -3607,7 +3388,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     109,   -- parent_id
     1,   -- parent_slot
     NULL,   -- ref_to_id
@@ -3623,7 +3403,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -3638,7 +3417,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     109,   -- parent_id
     2,   -- parent_slot
     NULL,   -- ref_to_id
@@ -3654,7 +3432,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -3669,7 +3446,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     111,   -- parent_id
     1,   -- parent_slot
     13,   -- ref_to_id
@@ -3685,7 +3461,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -3700,7 +3475,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     108,   -- parent_id
     2,   -- parent_slot
     NULL,   -- ref_to_id
@@ -3716,7 +3490,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -3731,7 +3504,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     17,   -- parent_id
     2,   -- parent_slot
     NULL,   -- ref_to_id
@@ -3747,7 +3519,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -3762,7 +3533,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     114,   -- parent_id
     1,   -- parent_slot
     NULL,   -- ref_to_id
@@ -3778,7 +3548,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -3793,7 +3562,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     114,   -- parent_id
     2,   -- parent_slot
     13,   -- ref_to_id
@@ -3809,7 +3577,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -3824,7 +3591,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     18,   -- parent_id
     1,   -- parent_slot
     NULL,   -- ref_to_id
@@ -3840,7 +3606,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -3861,7 +3626,6 @@ end', -- script
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     117,   -- parent_id
     1,   -- parent_slot
     NULL,   -- ref_to_id
@@ -3877,7 +3641,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -3892,7 +3655,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     118,   -- parent_id
     1,   -- parent_slot
     NULL,   -- ref_to_id
@@ -3908,7 +3670,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -3923,7 +3684,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     118,   -- parent_id
     2,   -- parent_slot
     NULL,   -- ref_to_id
@@ -3939,7 +3699,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -3954,7 +3713,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     118,   -- parent_id
     3,   -- parent_slot
     NULL,   -- ref_to_id
@@ -3970,7 +3728,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -3985,7 +3742,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     18,   -- parent_id
     2,   -- parent_slot
     NULL,   -- ref_to_id
@@ -4001,7 +3757,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -4016,7 +3771,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     18,   -- parent_id
     3,   -- parent_slot
     NULL,   -- ref_to_id
@@ -4032,7 +3786,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -4053,7 +3806,6 @@ end', -- script
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     123,   -- parent_id
     1,   -- parent_slot
     NULL,   -- ref_to_id
@@ -4069,7 +3821,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -4084,7 +3835,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     124,   -- parent_id
     1,   -- parent_slot
     NULL,   -- ref_to_id
@@ -4100,7 +3850,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -4115,7 +3864,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     124,   -- parent_id
     2,   -- parent_slot
     NULL,   -- ref_to_id
@@ -4131,7 +3879,6 @@ INSERT INTO parsers(
     project_name,
     description,
     is_template,
-    is_root,
     parent_id,
     parent_slot,
     ref_to_id,
@@ -4146,7 +3893,6 @@ INSERT INTO parsers(
     'test', -- project_name
     '', -- description
     0,   -- is_template
-    0,   -- is_root
     123,   -- parent_id
     2,   -- parent_slot
     14,   -- ref_to_id

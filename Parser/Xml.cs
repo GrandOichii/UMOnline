@@ -56,7 +56,6 @@ class XmlParserRoot
         return new ParserModel()
         {
             Id = id,
-            IsRoot = Name == "root",
             IsTemplate = true,
             Name = Name,
             ParentId = null,
@@ -122,7 +121,6 @@ partial class XmlParserNode
             return [
                 new() {
                     Id = gen.Next(),
-                    IsRoot = false,
                     IsTemplate = false,
                     Name = "REF_NAME",
                     ParentId = parentId,
@@ -140,7 +138,6 @@ partial class XmlParserNode
         ParserModel myModel = new()
         {
             Id = gen.Next(),
-            IsRoot = false,
             IsTemplate = false,
             Name = Name,
             ParentId = parentId,

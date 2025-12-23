@@ -11,7 +11,6 @@ public class ParserModel
     public required string Pattern { get; set; }
     public required string Script { get; set; }
     public required bool IsTemplate { get; set; }
-    public required bool IsRoot { get; set; }
     public required int? ParentId { get; set; }
     public required int? ParentSlot { get; set; }
     public required int? RefToId { get; set; }
@@ -28,7 +27,6 @@ public class ParserModel
             project_name,
             description,
             is_template,
-            is_root,
             parent_id,
             parent_slot,
             ref_to_id,
@@ -38,12 +36,11 @@ public class ParserModel
             {Id},   -- id
             '{Name}', -- name
             {PType},   -- ptype
-            '{Pattern.Replace("{", "{{").Replace("}", "}}").Replace("'", "''")}', -- pattern
+            '{Pattern.Replace("{", "\\{").Replace("}", "\\}").Replace("'", "''")}', -- pattern
             '{Script.Replace("'", "''")}', -- script
             'test', -- project_name
             '', -- description
             {(IsTemplate ? 1 : 0)},   -- is_template
-            {(IsRoot ? 1 : 0)},   -- is_root
             {(ParentId is null ? "NULL" : ParentId)},   -- parent_id
             {(ParentSlot is null ? "NULL" : ParentSlot)},   -- parent_slot
             {(RefToId is null ? "NULL" : RefToId)},   -- ref_to_id

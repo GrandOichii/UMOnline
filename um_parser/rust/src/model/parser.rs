@@ -42,7 +42,6 @@ pub struct ParserModel {
     pub project_name: String,
     pub description: String,
     pub is_template: bool,
-    pub is_root: bool,
     pub parent_id: Option<i32>,
     pub parent_slot: Option<i32>,
     pub ref_to_id: Option<i32>,
@@ -66,7 +65,6 @@ impl SQLModel for ParserModel {
             .column("project_name TEXT NOT NULL")
             .column("description TEXT NOT NULL")
             .column("is_template INTEGER NOT NULL")
-            .column("is_root INTEGER NOT NULL")
             .column("parent_id INTEGER")
             .column("parent_slot INTEGER")
             .column("ref_to_id INTEGER")
@@ -84,8 +82,8 @@ impl SQLModel for ParserModel {
 
     fn sql_insert_into(&self, conn: &rusqlite::Connection) -> Result<usize, Box<dyn Error>> {
         let sql = sql::Insert::new()
-            .insert_into("parsers (name, ptype, pattern, script, project_name, description, is_template, is_root, parent_id, parent_slot, ref_to_id, editor_offset_x, editor_offset_y)")
-            .values("(?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13)")
+            .insert_into("parsers (name, ptype, pattern, script, project_name, description, is_template, parent_id, parent_slot, ref_to_id, editor_offset_x, editor_offset_y)")
+            .values("(?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12)")
             .as_string();
 
         let result = conn.execute(
@@ -98,7 +96,6 @@ impl SQLModel for ParserModel {
                 &self.project_name,
                 &self.description,
                 &self.is_template,
-                &self.is_root,
                 &self.parent_id,
                 &self.parent_slot,
                 &self.ref_to_id,
@@ -133,13 +130,12 @@ impl SQLModel for ParserModel {
             project_name: row.get(5)?,
             description: row.get(6)?,
             is_template: row.get(7)?,
-            is_root: row.get(8)?,
-            parent_id: row.get(9)?,
-            parent_slot: row.get(10)?,
-            ref_to_id: row.get(11)?,
-            editor_offset_x: row.get(12)?,
-            editor_offset_y: row.get(13)?,
-            ref_name: row.get(14)?,
+            parent_id: row.get(8)?,
+            parent_slot: row.get(9)?,
+            ref_to_id: row.get(10)?,
+            editor_offset_x: row.get(11)?,
+            editor_offset_y: row.get(12)?,
+            ref_name: row.get(13)?,
             children: vec![],
         })
     }
@@ -156,12 +152,11 @@ impl SQLUpdateById for ParserModel {
             .set("project_name = ?6")
             .set("description = ?7")
             .set("is_template = ?8")
-            .set("is_root = ?9")
-            .set("parent_id = ?10")
-            .set("parent_slot = ?11")
-            .set("ref_to_id = ?12")
-            .set("editor_offset_x = ?13")
-            .set("editor_offset_y = ?14")
+            .set("parent_id = ?9")
+            .set("parent_slot = ?10")
+            .set("ref_to_id = ?11")
+            .set("editor_offset_x = ?12")
+            .set("editor_offset_y = ?13")
             .where_clause("id = ?1")
             .to_string();
 
@@ -176,7 +171,6 @@ impl SQLUpdateById for ParserModel {
                 &self.project_name,
                 &self.description,
                 &self.is_template,
-                &self.is_root,
                 &self.parent_id,
                 &self.parent_slot,
                 &self.ref_to_id,
