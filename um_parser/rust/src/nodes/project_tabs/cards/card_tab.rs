@@ -38,7 +38,7 @@ impl CardTabNode {
     }
 
     pub fn update_parsing_history(&mut self, ph: Option<&ParsingHistory>) {
-        let script = match ph {
+        let mut script = match ph {
             None => String::from(""),
             Some(history) => match history.get_script_for(self.card_id.unwrap()) {
                 Some(script) => script.to_string(),
@@ -46,8 +46,14 @@ impl CardTabNode {
             },
         };
 
-        let formatted = format_code(&script, Config::default(), None, OutputVerification::None)
-            .expect("Failed to format lua code");
-        self.script_display.bind_mut().set_script_text(&formatted);
+        let formatted = format_code(&script, Config::default(), None, OutputVerification::None);
+        match formatted {
+            Ok(new_script) => script = new_script,
+            Err(err) => {
+                // TODO
+                godot_print!("{}", err);
+            }
+        }
+        self.script_display.bind_mut().set_script_text(&script);
     }
 }

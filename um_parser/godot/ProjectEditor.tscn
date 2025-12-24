@@ -32,9 +32,10 @@ grow_vertical = 2
 [node name="Tabs" type="TabContainer" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-current_tab = 0
+current_tab = 2
 
 [node name="Project" type="VBoxContainer" parent="VBoxContainer/Tabs"]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 0
 
@@ -78,7 +79,6 @@ layout_mode = 2
 metadata/_tab_index = 1
 
 [node name="Parsers" parent="VBoxContainer/Tabs" instance=ExtResource("3_d65ay")]
-visible = false
 layout_mode = 2
 metadata/_tab_index = 2
 

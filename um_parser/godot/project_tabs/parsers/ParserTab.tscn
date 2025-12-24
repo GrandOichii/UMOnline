@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://dq04bjl8d47r8" path="res://project_tabs/parsers/ParserGraphNode.tscn" id="1_vhp6e"]
 
-[node name="ParserTab" type="ParserTabNode" node_paths=PackedStringArray("name_label", "type_label", "pattern_label", "description_label", "script_display", "pattern_container", "graph")]
+[node name="ParserTab" type="ParserTabNode" node_paths=PackedStringArray("name_label", "type_label", "pattern_label", "description_label", "script_display", "pattern_container", "graph", "new_node_menu", "matchers_popup_submenu", "selectors_popup_submenu", "splitters_popup_submenu")]
 parser_graph_node_scene = ExtResource("1_vhp6e")
 name_label = NodePath("VBoxContainer/VBoxContainer/HBoxContainer/NameLabel")
 type_label = NodePath("VBoxContainer/VBoxContainer/HBoxContainer2/TypeLabel")
@@ -11,9 +11,15 @@ description_label = NodePath("VBoxContainer/VBoxContainer/DescriptionLabel")
 script_display = NodePath("VBoxContainer/VBoxContainer/ScriptDisplay")
 pattern_container = NodePath("VBoxContainer/VBoxContainer/PatternContainer")
 graph = NodePath("VBoxContainer/Graph")
+new_node_menu = NodePath("NewNodeMenu")
+matchers_popup_submenu = NodePath("NewNodeMenu/MatchersPopupSubmenu")
+selectors_popup_submenu = NodePath("NewNodeMenu/SelectorsPopupSubmenu")
+splitters_popup_submenu = NodePath("NewNodeMenu/SplittersPopupSubmenu")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -1.0
+offset_right = -1.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -29,6 +35,7 @@ grow_vertical = 2
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 1.5
+right_disconnects = true
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
@@ -83,5 +90,34 @@ PARSER CODE HERE
 PARSER CODE HERE"
 editable = false
 
-[node name="PopupMenu" type="PopupMenu" parent="."]
+[node name="NewNodeMenu" type="PopupMenu" parent="."]
 oversampling_override = 1.0
+item_count = 2
+item_0/text = "New node"
+item_0/id = 0
+item_1/id = 1
+item_1/separator = true
+
+[node name="MatchersPopupSubmenu" type="PopupMenu" parent="NewNodeMenu"]
+oversampling_override = 1.0
+item_count = 2
+item_0/text = "amogus"
+item_0/id = 0
+item_1/text = "sus"
+item_1/id = 1
+
+[node name="SelectorsPopupSubmenu" type="PopupMenu" parent="NewNodeMenu"]
+oversampling_override = 1.0
+item_count = 2
+item_0/text = "amogus"
+item_0/id = 0
+item_1/text = "sus"
+item_1/id = 1
+
+[node name="SplittersPopupSubmenu" type="PopupMenu" parent="NewNodeMenu"]
+oversampling_override = 1.0
+item_count = 2
+item_0/text = "amogus"
+item_0/id = 0
+item_1/text = "sus"
+item_1/id = 1

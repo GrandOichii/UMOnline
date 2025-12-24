@@ -80,6 +80,8 @@ impl ParserGraphNode {
                 return;
             }
             let editor_window = &mut self.parent.bind_mut().parser_editor_window;
+            editor_window.bind_mut().mode = Some(crate::nodes::parser_editor::ParserEditorWindowNodeMode::Edit);
+
             editor_window
                 .bind_mut()
                 .load(self.parser.as_ref().unwrap().clone());
@@ -207,9 +209,9 @@ impl ParserGraphNode {
         self.base_mut().set_slot_enabled_right(0, true);
     }
 
-    pub fn connect_children(&mut self, parser: &ParserModel, child_nodes: Vec<Gd<ParserGraphNode>>) {
+    pub fn connect_children(&mut self, child_nodes: Vec<&Gd<ParserGraphNode>>) {
         let mut slot_idx = 0;
-        let mut_slot_idx: fn(i32) -> i32 = match parser.ptype {
+        let mut_slot_idx: fn(i32) -> i32 = match self.parser.as_ref().unwrap().ptype {
             PMT_MATCHER => |idx| idx + 1,
             PMT_SELECTOR => |idx| idx,
             PMT_SPLITTER => |idx| idx,

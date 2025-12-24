@@ -2,7 +2,7 @@
 
 [ext_resource type="Theme" uid="uid://cq4d5h0xc2j0a" path="res://assets/themes/basic.tres" id="1_kr5vw"]
 
-[node name="ParserEditorWindow" type="ParserEditorWindowNode" node_paths=PackedStringArray("name_edit", "type_picker", "pattern_container", "pattern_edit", "description_edit", "script_edit", "save_button", "cancel_button", "save_error_dialog", "save_error_reasons_label")]
+[node name="ParserEditorWindow" type="ParserEditorWindowNode" node_paths=PackedStringArray("name_edit", "type_picker", "pattern_container", "pattern_edit", "description_edit", "script_edit", "save_button", "cancel_button", "save_error_dialog", "save_error_reasons_label", "pattern_start_label", "pattern_end_label")]
 name_edit = NodePath("MarginContainer/VBoxContainer/NameEdit")
 type_picker = NodePath("MarginContainer/VBoxContainer/HBoxContainer3/TypePicker")
 pattern_container = NodePath("MarginContainer/VBoxContainer/PatternContainer")
@@ -13,6 +13,8 @@ save_button = NodePath("MarginContainer/VBoxContainer/HBoxContainer/SaveButton")
 cancel_button = NodePath("MarginContainer/VBoxContainer/HBoxContainer/CancelButton")
 save_error_dialog = NodePath("SaveErrorDialog")
 save_error_reasons_label = NodePath("SaveErrorDialog/VBoxContainer/SaveErrorReasonsLabel")
+pattern_start_label = NodePath("MarginContainer/VBoxContainer/PatternContainer/PatternStart")
+pattern_end_label = NodePath("MarginContainer/VBoxContainer/PatternContainer/PatternEnd")
 oversampling_override = 1.0
 title = "Parser editor"
 initial_position = 2
@@ -47,10 +49,18 @@ layout_mode = 2
 layout_mode = 2
 text = "Pattern: "
 
+[node name="PatternStart" type="Label" parent="MarginContainer/VBoxContainer/PatternContainer"]
+layout_mode = 2
+text = "^"
+
 [node name="PatternEdit" type="LineEdit" parent="MarginContainer/VBoxContainer/PatternContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "Enter matcher/splitter pattern"
+
+[node name="PatternEnd" type="Label" parent="MarginContainer/VBoxContainer/PatternContainer"]
+layout_mode = 2
+text = "$"
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2

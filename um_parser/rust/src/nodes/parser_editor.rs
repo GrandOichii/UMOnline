@@ -8,12 +8,21 @@ use crate::parsers::selector::SELECTOR_SCRIPT;
 use crate::parsers::splitter::SPLITTER_SCRIPT;
 use crate::repo::ParserRepositoryNode;
 
+#[derive(Eq, PartialEq)]
+pub enum ParserEditorWindowNodeMode {
+    Edit = 1,
+    CreateTemplate = 2,
+    CreateLocal = 3,
+}
+
 #[derive(GodotClass)]
 #[class(init,base=Window)]
 pub struct ParserEditorWindowNode {
     base: Base<Window>,
 
     edited_parser: Option<ParserModel>,
+
+    pub mode: Option<ParserEditorWindowNodeMode>,
 
     #[init(val = OnReady::manual())]
     pub repo: OnReady<Gd<ParserRepositoryNode>>,
@@ -39,6 +48,10 @@ pub struct ParserEditorWindowNode {
     save_error_dialog: OnEditor<Gd<AcceptDialog>>,
     #[export]
     save_error_reasons_label: OnEditor<Gd<Label>>,
+    #[export]
+    pattern_start_label: OnEditor<Gd<Label>>,
+    #[export]
+    pattern_end_label: OnEditor<Gd<Label>>,
 }
 
 #[godot_api]
@@ -64,7 +77,7 @@ impl ParserEditorWindowNode {
         self.save_button
             .signals()
             .pressed()
-            .connect_other(self, Self::on_save_request);
+            .connect_other(self, Self::request_save);
         self.cancel_button
             .signals()
             .pressed()
@@ -102,6 +115,7 @@ impl ParserEditorWindowNode {
             ref_to_id: None,
             script: String::from(""),
             ref_name: None,
+            parser_editor_id: -1,
         });
         self.display_default_script();
     }
@@ -118,6 +132,8 @@ impl ParserEditorWindowNode {
         self.description_edit.set_text(&parser.description);
         self.script_edit.set_text(&parser.script);
         self.check_pattern_visibility();
+        self.type_picker.set_disabled(parser.is_template && parser.id != -1);
+
         self.edited_parser = Some(parser);
     }
 
@@ -143,7 +159,12 @@ end"
             PMT_SPLITTER => true,
             _ => panic!("Unrecognized ptype: {}", ptype),
         });
-
+        let start_end_visible = match ptype {
+            PMT_MATCHER => true,
+            _ => false,
+        };
+        self.pattern_start_label.set_visible(start_end_visible);
+        self.pattern_end_label.set_visible(start_end_visible);
     }
 
     fn on_type_picker_text_changed(&mut self, _v: i64) {
@@ -199,7 +220,7 @@ end"
         }
     }
 
-    fn on_save_request(&mut self) {
+    fn request_save(&mut self) {
         let parser = self.build();
         let checks = vec![
             ParserEditorWindowNode::parser_empty_name_check,
@@ -244,6 +265,7 @@ end"
             parent_slot: edited.parent_slot,
             project_name: edited.project_name.to_string(),
             ref_name: None,
+            parser_editor_id: edited.parser_editor_id,
         }
     }
 

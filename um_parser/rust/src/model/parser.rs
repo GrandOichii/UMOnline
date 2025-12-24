@@ -46,6 +46,7 @@ pub struct ParserModel {
     pub parent_slot: Option<i32>,
     pub ref_to_id: Option<i32>,
     pub ref_name: Option<String>,
+    pub parser_editor_id: i32,
 
     pub editor_offset_x: f32,
     pub editor_offset_y: f32,
@@ -70,6 +71,7 @@ impl SQLModel for ParserModel {
             .column("ref_to_id INTEGER")
             .column("editor_offset_x REAL NOT NULL")
             .column("editor_offset_y REAL NOT NULL")
+            .column("parser_editor_id INTEGER NOT NULL")
             .primary_key("id")
             .foreign_key("(project_name) REFERENCES projects(name) ON DELETE CASCADE")
             .foreign_key("(parent_id) REFERENCES parsers(id) ON DELETE CASCADE")
@@ -82,8 +84,8 @@ impl SQLModel for ParserModel {
 
     fn sql_insert_into(&self, conn: &rusqlite::Connection) -> Result<usize, Box<dyn Error>> {
         let sql = sql::Insert::new()
-            .insert_into("parsers (name, ptype, pattern, script, project_name, description, is_template, parent_id, parent_slot, ref_to_id, editor_offset_x, editor_offset_y)")
-            .values("(?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12)")
+            .insert_into("parsers (name, ptype, pattern, script, project_name, description, is_template, parent_id, parent_slot, ref_to_id, editor_offset_x, editor_offset_y, parser_editor_id)")
+            .values("(?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13)")
             .as_string();
 
         let result = conn.execute(
@@ -101,6 +103,7 @@ impl SQLModel for ParserModel {
                 &self.ref_to_id,
                 self.editor_offset_x,
                 self.editor_offset_y,
+                self.parser_editor_id,
             ),
         )?;
         Ok(result)
@@ -135,7 +138,9 @@ impl SQLModel for ParserModel {
             ref_to_id: row.get(10)?,
             editor_offset_x: row.get(11)?,
             editor_offset_y: row.get(12)?,
-            ref_name: row.get(13)?,
+            parser_editor_id: row.get(13)?,
+            // reference
+            ref_name: row.get(14)?,
             children: vec![],
         })
     }
@@ -157,6 +162,7 @@ impl SQLUpdateById for ParserModel {
             .set("ref_to_id = ?11")
             .set("editor_offset_x = ?12")
             .set("editor_offset_y = ?13")
+            .set("parser_editor_id = ?14")
             .where_clause("id = ?1")
             .to_string();
 
@@ -176,6 +182,7 @@ impl SQLUpdateById for ParserModel {
                 &self.ref_to_id,
                 self.editor_offset_x,
                 self.editor_offset_y,
+                self.parser_editor_id,
             ),
         )?;
 
@@ -184,6 +191,31 @@ impl SQLUpdateById for ParserModel {
 }
 
 impl ParserModel {
+    fn get_matcher_pattern(&self) -> String {
+        format!("^{}$", self.pattern)
+    }
+
+    pub fn new_ref(ref_parser: &ParserModel) -> ParserModel {
+        ParserModel {
+            name: String::from("REF_NAME"),
+            children: vec![],
+            description: String::from(""),
+            editor_offset_x: 0.0,
+            editor_offset_y: 0.0,
+            id: -1,
+            is_template: false,
+            parent_id: None,
+            parent_slot: None,
+            pattern: String::from(""),
+            project_name: ref_parser.project_name.to_string(),
+            ptype: ref_parser.ptype,
+            ref_name: Some(ref_parser.name.to_string()),
+            ref_to_id: Some(ref_parser.id),
+            script: String::from(""),
+            parser_editor_id: -1,
+        }
+    }
+
     pub fn to_parser_node<'a>(&self) -> Result<ParserNode, Box<dyn Error>> {
         Ok(ParserNode {
             name: self.name.to_string(),
@@ -199,7 +231,7 @@ impl ParserModel {
 
     fn to_matcher(&self) -> Result<Box<Matcher>, Box<dyn Error>> {
         Ok(Box::new(Matcher {
-            pattern: Regex::new(&self.pattern)?,
+            pattern: Regex::new(&self.get_matcher_pattern())?,
             script: self.script.to_string(),
         }))
     }

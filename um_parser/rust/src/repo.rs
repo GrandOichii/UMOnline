@@ -2,6 +2,7 @@ use rusqlite::Params;
 use sql_query_builder as sql;
 use std::cell::OnceCell;
 use std::collections::HashMap;
+use std::collections::VecDeque;
 use std::error::Error;
 
 use godot::classes::*;
@@ -79,7 +80,7 @@ impl ParserRepositoryNode {
         parser.sql_update_by_id(conn)?;
         Ok(())
     }
-    
+
     pub fn update_project_by_id(&mut self, project: &ProjectModel) -> Result<(), Box<dyn Error>> {
         let conn = self.get_connection();
         project.sql_update_by_id(conn)?;
@@ -97,11 +98,35 @@ impl ParserRepositoryNode {
         )
     }
 
+    pub fn get_connected_parser(
+        &mut self,
+        parent_id: i32,
+        parent_slot: i32,
+    ) -> Result<Option<CardModel>, Box<dyn Error>> {
+        self.query_first(
+            ParserModel::sql_select().where_clause("p.parent_id = $1 AND p.parent_slot = $2"),
+            (parent_id, parent_slot),
+        )
+    }
+
     pub fn insert_or_update_parser(&mut self, parser: &ParserModel) -> Result<(), Box<dyn Error>> {
         let existing = self.get_parser(parser.id)?;
         match existing {
             Some(_) => self.update_parser_by_id(parser),
-            None => self.insert_parser(parser),
+            None => {
+                self.insert_parser(parser)?;
+                let id: i32 = self
+                    .get_connection()
+                    .last_insert_rowid()
+                    .try_into()
+                    .unwrap();
+                let mut inserted = self
+                    .get_parser(id)
+                    .expect("Failed to get inserted parser")
+                    .expect("Failed to find inserted parser");
+                inserted.parser_editor_id = id;
+                self.update_parser_by_id(&inserted)
+            }
         }
     }
 
@@ -133,6 +158,16 @@ impl ParserRepositoryNode {
     pub fn delete_project(&mut self, project_name: &String) -> Result<(), Box<dyn Error>> {
         let sql = ProjectModel::sql_delete()
             .where_clause(format!("name = '{}'", project_name).as_str())
+            .as_string();
+
+        self.get_connection().execute(&sql, [])?;
+
+        Ok(())
+    }
+
+    pub fn delete_parser(&mut self, parser_id: i32) -> Result<(), Box<dyn Error>> {
+        let sql = ParserModel::sql_delete()
+            .where_clause(format!("id = '{}'", parser_id).as_str())
             .as_string();
 
         self.get_connection().execute(&sql, [])?;
@@ -229,6 +264,16 @@ impl ParserRepositoryNode {
         )
     }
 
+    pub fn get_editor_parsers(
+        &mut self,
+        parser_editor_id: i32,
+    ) -> Result<Vec<ParserModel>, Box<dyn Error>> {
+        self.query(
+            ParserModel::sql_select().where_clause("p.parser_editor_id = ?1"),
+            params!(parser_editor_id),
+        )
+    }
+
     pub fn get_cards(&mut self, project_name: &str) -> Result<Vec<CardModel>, Box<dyn Error>> {
         self.query(
             CardModel::sql_select().where_clause("project_name = $1"),
@@ -273,6 +318,19 @@ impl ParserRepositoryNode {
                 Ok(Some(parser))
             }
         }
+    }
+
+    pub fn get_parser_children_ids(&mut self, parser_id: i32) -> Result<Vec<i32>, Box<dyn Error>> {
+        Ok(self
+            .query::<ParserModel>(
+                ParserModel::sql_select()
+                    .where_clause("p.parent_id = ?1")
+                    .order_by("p.parent_slot asc"),
+                params!(parser_id),
+            )?
+            .iter()
+            .map(|p| p.id)
+            .collect())
     }
 
     fn get_parser_children_rec(

@@ -4,6 +4,7 @@ use godot::prelude::*;
 
 use crate::model::project::ProjectModel;
 use crate::nodes::parser_editor::ParserEditorWindowNode;
+use crate::nodes::parser_editor::ParserEditorWindowNodeMode;
 use crate::nodes::parsing_history::ParsingHistory;
 use crate::nodes::project_tabs::logs::logs_tab::LogsTabNode;
 use crate::nodes::project_tabs::parsers::parser_tab::ParserTabNode;
@@ -20,7 +21,7 @@ pub struct ParsersTabNode {
     #[init(val = OnReady::manual())]
     pub logs_tab: OnReady<Gd<LogsTabNode>>,
 
-    loaded_project_name: String,
+    pub loaded_project_name: String,
 
     #[export]
     parser_tab_scene: OnEditor<Gd<PackedScene>>,
@@ -87,6 +88,11 @@ impl ParsersTabNode {
     }
 
     fn on_parser_editor_window_save_request(&mut self) {
+        if self.parser_editor_window.bind_mut().mode.as_ref().unwrap()
+            == &ParserEditorWindowNodeMode::CreateLocal
+        {
+            return;
+        }
         let model = self.parser_editor_window.bind_mut().build();
         self.parser_editor_window.hide();
 
@@ -122,10 +128,12 @@ impl ParsersTabNode {
     }
 
     fn on_create_button_pressed(&mut self) {
+        self.parser_editor_window.bind_mut().mode =
+            Some(crate::nodes::parser_editor::ParserEditorWindowNodeMode::CreateTemplate);
         self.parser_editor_window
             .bind_mut()
             .clear(self.loaded_project_name.to_string(), true);
-        self.parser_editor_window.set_title("Create a new parser");
+        self.parser_editor_window.set_title("Create a new template");
         self.parser_editor_window.show();
     }
 
@@ -248,6 +256,8 @@ impl ParsersTabNode {
 
         node.bind_mut().repo.init(self.repo.clone());
         node.bind_mut().parent.init(self.to_gd().clone());
+        node.bind_mut().connect_editor_window_signals(self.parser_editor_window.clone());
+        // node.bind_mut().connect_editor_window_signals();
         node.bind_mut().load_parser(&parser);
     }
 }
