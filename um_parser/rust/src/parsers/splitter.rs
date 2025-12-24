@@ -67,6 +67,7 @@ impl Parser for Splitter {
             return ParseResult {
                 status: ParseResultStatus::AllChildrenFailed,
                 text: text.to_string(),
+                generated: String::from(""),
                 parent: node,
                 children: children,
                 parse_data: lua
@@ -103,6 +104,7 @@ impl Parser for Splitter {
             status: status,
             text: text.to_string(),
             parent: node,
+            generated: String::from(""),
             children: children,
             parse_data: lua
                 .create_table()
@@ -139,11 +141,7 @@ mod tests {
 
         let lua = Lua::new();
         let parse_result = ParserNode::parse(root, text, &lua);
-        assert_eq!(parse_result.status, ParseResultStatus::Success);
-        let script = parse_result
-            .create_script(&lua)
-            .expect("Failed to generate script");
-        assert_eq!(script, "MATCH,\nMATCH,\nMATCH");
+        assert_eq!(parse_result.generated, "MATCH,\nMATCH,\nMATCH");
     }
 
     #[test]
@@ -165,9 +163,6 @@ mod tests {
         let lua = Lua::new();
         let parse_result = ParserNode::parse(root, text, &lua);
         assert_eq!(parse_result.status, ParseResultStatus::Success);
-        let script = parse_result
-            .create_script(&lua)
-            .expect("Failed to generate script");
-        assert_eq!(script, "MATCH");
+        assert_eq!(parse_result.generated, "MATCH");
     }
 }

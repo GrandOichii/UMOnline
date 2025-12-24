@@ -1,6 +1,5 @@
 use std::collections::HashMap;
 
-use godot::classes::*;
 use godot::prelude::*;
 
 use crate::parsers::parser::{ParseResult, ParseResultStatus};
@@ -13,8 +12,9 @@ pub struct ParsingHistory {
 }
 
 pub struct ParsedText {
-    pub text: String,
+    pub original: String,
     pub full_text: String,
+    pub generated: String,
 }
 
 pub struct ParserParsingHistory {
@@ -23,14 +23,17 @@ pub struct ParserParsingHistory {
 }
 
 impl ParserParsingHistory {
-    pub fn process_parse_result(&mut self, root: &ParseResult, pr: &ParseResult) {
+    pub fn process_parse_result(&mut self, pr: &ParseResult, root: &ParseResult) {
         match pr.status {
             ParseResultStatus::Success => &mut self.parsed_texts,
-            _other => &mut self.unparsed_texts,
+            ParseResultStatus::ChildFailed => &mut self.unparsed_texts,
+            ParseResultStatus::AllChildrenFailed => &mut self.unparsed_texts,
+            _ => return,
         }
         .push(ParsedText {
             full_text: root.text.to_string(),
-            text: pr.text.to_string(),
+            original: pr.text.to_string(),
+            generated: pr.generated.to_string(),
         })
     }
 }
@@ -67,21 +70,17 @@ impl ParsingHistory {
             };
 
             let name = pr.parent.borrow().name.to_string();
-            match parse_result_map.get_mut(&name) {
-                Some(pph) => {
-                    pph.process_parse_result(pr, root.unwrap());
-                }
-                None => {
-                    parse_result_map.insert(
-                        name,
-                        ParserParsingHistory {
-                            parsed_texts: vec![],
-                            unparsed_texts: vec![],
-                        },
-                    );
-                }
-            };
-            ParsingHistory::fill_parse_result_map(parse_result_map, &pr.children, root);
+            let pph = parse_result_map
+                .entry(name)
+                .or_insert(ParserParsingHistory {
+                    parsed_texts: vec![],
+                    unparsed_texts: vec![],
+                });
+            pph.process_parse_result(pr, root.unwrap());
+            match pr.status {
+                ParseResultStatus::Ignored | ParseResultStatus::DidntMatch => continue,
+                _ => ParsingHistory::fill_parse_result_map(parse_result_map, &pr.children, root)
+            }
         }
     }
 

@@ -1,0 +1,78 @@
+[gd_scene load_steps=2 format=3 uid="uid://deif5o7vxl4lw"]
+
+[ext_resource type="Texture2D" uid="uid://dhcifouxkatvp" path="res://assets/right-arrow.png" id="1_2pmwl"]
+
+[node name="ParsedText" type="ParsedTextNode" node_paths=PackedStringArray("original_text_label", "generated_text_label", "full_text_label", "card_ref_button")]
+original_text_label = NodePath("MarginContainer/VBoxContainer/HBoxContainer/MarginContainer/OriginalText")
+generated_text_label = NodePath("MarginContainer/VBoxContainer/HBoxContainer/MarginContainer2/GeneratedText")
+full_text_label = NodePath("MarginContainer/VBoxContainer/FullText")
+card_ref_button = NodePath("MarginContainer/VBoxContainer/CardRefButton")
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -94.5
+offset_bottom = 110.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_right = 8
+
+[node name="OriginalText" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "ORIGINAL TEXT HERE ORIGINAL TEXT HERE ORIGINAL TEXT HERE ORIGINAL TEXT HERE ORIGINAL TEXT HERE ORIGINAL TEXT HERE ORIGINAL TEXT HERE ORIGINAL TEXT HERE ORIGINAL TEXT HERE ORIGINAL TEXT HERE ORIGINAL TEXT HERE ORIGINAL TEXT HERE ORIGINAL TEXT HERE ORIGINAL TEXT HERE ORIGINAL TEXT HERE ORIGINAL TEXT HERE ORIGINAL TEXT HERE 
+ORIGINAL TEXT HERE"
+horizontal_alignment = 2
+text_overrun_behavior = 2
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+texture = ExtResource("1_2pmwl")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="MarginContainer2" type="MarginContainer" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_right = 8
+
+[node name="GeneratedText" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "GENERATED SCRIPT HERE GENERATED SCRIPT HERE GENERATED SCRIPT HERE GENERATED SCRIPT HERE GENERATED SCRIPT HERE GENERATED SCRIPT HERE GENERATED SCRIPT HERE GENERATED SCRIPT HERE GENERATED SCRIPT HERE GENERATED SCRIPT HERE GENERATED SCRIPT HERE 
+GENERATED SCRIPT HERE
+GENERATED SCRIPT HERE"
+text_overrun_behavior = 2
+
+[node name="FullText" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "FULL CARD TEXT HERE FULL CARD TEXT HERE FULL CARD TEXT HERE FULL CARD TEXT HERE FULL CARD TEXT HERE FULL CARD TEXT HERE FULL CARD TEXT HERE FULL CARD TEXT HERE FULL CARD TEXT HERE FULL CARD TEXT HERE FULL CARD TEXT HERE FULL CARD TEXT HERE FULL CARD TEXT HERE FULL CARD TEXT HERE FULL CARD TEXT HERE FULL CARD TEXT HERE FULL CARD TEXT HERE 
+FULL CARD TEXT HERE
+FULL CARD TEXT HERE"
+horizontal_alignment = 1
+text_overrun_behavior = 2
+
+[node name="CardRefButton" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "CARD NAME HERE"

@@ -35,6 +35,7 @@ impl Parser for Matcher {
         if matches.is_none() {
             return ParseResult {
                 status: ParseResultStatus::DidntMatch,
+                generated: String::from(""),
                 text: text.to_string(),
                 parent: node,
                 children: vec![],
@@ -43,19 +44,23 @@ impl Parser for Matcher {
                     .expect("Failed to create arg table for matcher"),
             };
         }
+        let matches = matches.unwrap();
+        // println!("{:?}", matches.as_ref().unwrap());
+        // println!("{}", matches.as_ref().unwrap().len());
 
         let table = lua
             .create_table()
             .expect("Failed to create arg table for matcher");
 
         for (i, m) in matches.iter().enumerate() {
-            if m.len() == 1 {
+            // println!("{:?}", m);
+            if i == 0 {
                 continue;
             }
             table
                 .set(
-                    i + 1,
-                    match m.get(1) {
+                    i,
+                    match m {
                         Some(s) => s.as_str(),
                         None => "",
                     }
@@ -68,27 +73,29 @@ impl Parser for Matcher {
         let mut result = ParseResult {
             status: ParseResultStatus::Success,
             text: text.to_string(),
+            generated: String::from(""),
             parent: node.clone(),
             children: Vec::new(),
             parse_data: table,
         };
-        let mut i = 1;
         if result.parent.borrow().children.len() == 0 {
             return result;
         }
 
         let n = node.borrow();
-        for g in matches.iter() {
+        for (i, m) in matches.iter().enumerate() {
+            if i == 0 {
+                continue;
+            }
             let child = n.children[i - 1].clone();
             let child_result = ParserNode::parse(
                 child,
-                match g.get(1) {
+                match m {
                     Some(s) => s.as_str(),
                     None => "",
                 },
                 lua,
             );
-            i += 1;
             if child_result.status != ParseResultStatus::Success {
                 result.status = ParseResultStatus::ChildFailed;
             }
@@ -96,10 +103,11 @@ impl Parser for Matcher {
                 didnt_match += 1;
             }
             result.children.push(child_result);
+            println!("PUSH");
         }
-        if didnt_match == n.children.len() {
-            result.status = ParseResultStatus::DidntMatch;
-        }
+        // if didnt_match == n.children.len() {
+        //     result.status = ParseResultStatus::DidntMatch;
+        // }
         return result;
     }
 
@@ -128,10 +136,7 @@ mod tests {
         let lua = Lua::new();
         let parse_result = ParserNode::parse(root, text, &lua);
         assert_eq!(parse_result.status, ParseResultStatus::Success);
-        let script = parse_result
-            .create_script(&lua)
-            .expect("Failed to generate script");
-        assert_eq!(script, "something");
+        assert_eq!(parse_result.generated, "something");
     }
 
     #[test]
@@ -148,5 +153,36 @@ mod tests {
         let lua = Lua::new();
         let parse_result = ParserNode::parse(root, text, &lua);
         assert_eq!(parse_result.status, ParseResultStatus::DidntMatch);
+    }
+
+    #[test]
+    fn generic_test1() {
+        let root = Rc::new(RefCell::new(ParserNode::matcher(
+            String::from("root"),
+            Regex::new("^If (.+), (.+)$").unwrap(),
+            String::from("function _Create(text, children, data) return children[1]..' '..children[2] end"),
+            // String::from("function _Create(text, children, data) return children[1] end"),
+            vec![
+                Rc::new(RefCell::new(ParserNode::matcher(
+                    String::from("c1"),
+                    Regex::new(".+").unwrap(),
+                    String::from("function _Create(text, children, data) return 'c1'..text end"),
+                    vec![]
+                ))),
+                Rc::new(RefCell::new(ParserNode::matcher(
+                    String::from("c2"),
+                    Regex::new(".+").unwrap(),
+                    String::from("function _Create(text, children, data) return 'c2'..text end"),
+                    vec![]
+                ))),
+            ]
+        )));
+
+        let text = "If A, B";
+
+        let lua = Lua::new();
+        let parse_result = ParserNode::parse(root, text, &lua);
+        assert_eq!(parse_result.status, ParseResultStatus::Success);
+        assert_eq!(parse_result.generated, "c1A c2B");
     }
 }

@@ -1,0 +1,265 @@
+[gd_scene load_steps=3 format=3 uid="uid://ducxjiuuf5afg"]
+
+[ext_resource type="Texture2D" uid="uid://dhcifouxkatvp" path="res://assets/right-arrow.png" id="1_gq2re"]
+[ext_resource type="Theme" uid="uid://cq4d5h0xc2j0a" path="res://assets/themes/basic.tres" id="1_o3kr1"]
+
+[node name="ParsersTabMockup" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_o3kr1")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ItemList" type="ItemList" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Control" type="Control" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 4.0
+
+[node name="VBoxContainer" type="VSplitContainer" parent="HBoxContainer/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GraphEdit" type="GraphEdit" parent="HBoxContainer/Control/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 1.5
+scroll_offset = Vector2(0, -611)
+
+[node name="TabContainer" type="TabContainer" parent="HBoxContainer/Control/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+tab_alignment = 2
+current_tab = 1
+tabs_position = 1
+
+[node name="General" type="Control" parent="HBoxContainer/Control/VBoxContainer/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/Control/VBoxContainer/TabContainer/General"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/Control/VBoxContainer/TabContainer/General/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/Control/VBoxContainer/TabContainer/General/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Parser name: "
+
+[node name="NameLabel" type="Label" parent="HBoxContainer/Control/VBoxContainer/TabContainer/General/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "root"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="HBoxContainer/Control/VBoxContainer/TabContainer/General/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/Control/VBoxContainer/TabContainer/General/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "Parser type: "
+
+[node name="TypeLabel" type="Label" parent="HBoxContainer/Control/VBoxContainer/TabContainer/General/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "Matcher"
+
+[node name="PatternContainer" type="HBoxContainer" parent="HBoxContainer/Control/VBoxContainer/TabContainer/General/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/Control/VBoxContainer/TabContainer/General/VBoxContainer/PatternContainer"]
+layout_mode = 2
+text = "Pattern: "
+
+[node name="PatternLabel" type="Label" parent="HBoxContainer/Control/VBoxContainer/TabContainer/General/VBoxContainer/PatternContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "After combat: (.+)"
+autowrap_mode = 2
+
+[node name="DescriptionLabel" type="Label" parent="HBoxContainer/Control/VBoxContainer/TabContainer/General/VBoxContainer"]
+layout_mode = 2
+text = "After combat matcher
+asd
+asd
+asd
+asd
+asd
+asd"
+max_lines_visible = 4
+
+[node name="ScriptDisplay" type="CodeEdit" parent="HBoxContainer/Control/VBoxContainer/TabContainer/General/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "function _Create(text, data)
+	return ':AfterCombat(\\n'..data[1]..'\\n)'
+end
+--
+--
+--
+--
+--
+v
+--
+--
+--
+--
+--
+--
+--"
+editable = false
+
+[node name="Parsed texts" type="Control" parent="HBoxContainer/Control/VBoxContainer/TabContainer"]
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/Control/VBoxContainer/TabContainer/Parsed texts"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/Control/VBoxContainer/TabContainer/Parsed texts/VBoxContainer"]
+layout_mode = 2
+
+[node name="LineEdit" type="LineEdit" parent="HBoxContainer/Control/VBoxContainer/TabContainer/Parsed texts/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Filter by text"
+
+[node name="Button" type="Button" parent="HBoxContainer/Control/VBoxContainer/TabContainer/Parsed texts/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Search"
+
+[node name="CheckBox" type="CheckBox" parent="HBoxContainer/Control/VBoxContainer/TabContainer/Parsed texts/VBoxContainer"]
+layout_mode = 2
+button_pressed = true
+text = "Unique"
+
+[node name="HSeparator" type="HSeparator" parent="HBoxContainer/Control/VBoxContainer/TabContainer/Parsed texts/VBoxContainer"]
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="HBoxContainer/Control/VBoxContainer/TabContainer/Parsed texts/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="ParsedTextsList" type="VBoxContainer" parent="HBoxContainer/Control/VBoxContainer/TabContainer/Parsed texts/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="PanelContainer2" type="PanelContainer" parent="HBoxContainer/Control/VBoxContainer/TabContainer/Parsed texts/VBoxContainer/ScrollContainer/ParsedTextsList"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/Control/VBoxContainer/TabContainer/Parsed texts/VBoxContainer/ScrollContainer/ParsedTextsList/PanelContainer2"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/Control/VBoxContainer/TabContainer/Parsed texts/VBoxContainer/ScrollContainer/ParsedTextsList/PanelContainer2/MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/Control/VBoxContainer/TabContainer/Parsed texts/VBoxContainer/ScrollContainer/ParsedTextsList/PanelContainer2/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="HBoxContainer/Control/VBoxContainer/TabContainer/Parsed texts/VBoxContainer/ScrollContainer/ParsedTextsList/PanelContainer2/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "2"
+horizontal_alignment = 2
+
+[node name="Label" type="TextureRect" parent="HBoxContainer/Control/VBoxContainer/TabContainer/Parsed texts/VBoxContainer/ScrollContainer/ParsedTextsList/PanelContainer2/MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+texture = ExtResource("1_gq2re")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Label3" type="Label" parent="HBoxContainer/Control/VBoxContainer/TabContainer/Parsed texts/VBoxContainer/ScrollContainer/ParsedTextsList/PanelContainer2/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "UM.Number.UpTo(2)"
+
+[node name="Button" type="Button" parent="HBoxContainer/Control/VBoxContainer/TabContainer/Parsed texts/VBoxContainer/ScrollContainer/ParsedTextsList/PanelContainer2/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Card name 1"
+
+[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer/Control/VBoxContainer/TabContainer/Parsed texts/VBoxContainer/ScrollContainer/ParsedTextsList"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/Control/VBoxContainer/TabContainer/Parsed texts/VBoxContainer/ScrollContainer/ParsedTextsList/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/Control/VBoxContainer/TabContainer/Parsed texts/VBoxContainer/ScrollContainer/ParsedTextsList/PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/Control/VBoxContainer/TabContainer/Parsed texts/VBoxContainer/ScrollContainer/ParsedTextsList/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="HBoxContainer/Control/VBoxContainer/TabContainer/Parsed texts/VBoxContainer/ScrollContainer/ParsedTextsList/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "After combat: draw 2 cards."
+horizontal_alignment = 2
+
+[node name="Label" type="TextureRect" parent="HBoxContainer/Control/VBoxContainer/TabContainer/Parsed texts/VBoxContainer/ScrollContainer/ParsedTextsList/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+texture = ExtResource("1_gq2re")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Label3" type="Label" parent="HBoxContainer/Control/VBoxContainer/TabContainer/Parsed texts/VBoxContainer/ScrollContainer/ParsedTextsList/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = ":AfterCombat(
+UM.Effects:Draw(
+UM.Select:Players()
+:You()
+:Build(),
+UM.Number:Static(2)
+)
+)"
+
+[node name="Button" type="Button" parent="HBoxContainer/Control/VBoxContainer/TabContainer/Parsed texts/VBoxContainer/ScrollContainer/ParsedTextsList/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Card name 1"
+
+[node name="Unparsed texts" type="Control" parent="HBoxContainer/Control/VBoxContainer/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 2

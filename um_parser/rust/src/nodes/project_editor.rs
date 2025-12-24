@@ -194,17 +194,7 @@ impl ProjectEditorNode {
                         "Parsed card {}",
                         LogsTabNode::format_card_name(&card.name)
                     ));
-
-                    match result.create_script(&lua) {
-                        Ok(script) => {
-                            card_scripts.insert(card.id, script);
-                            godot_print!("Generated script for {}", &card.name);
-                        }
-                        Err(_err) => {
-                            // TODO
-                            godot_print!("Failed to generate script for {}", &card.name);
-                        }
-                    };
+                    card_scripts.insert(card.id, result.generated.to_string());
                 }
                 _other => {
                     logs_tab.bind_mut().log(format!(
@@ -266,7 +256,9 @@ impl ProjectEditorNode {
             .expect("Failed to get project")
             .expect("Failed to find project");
         project.root_parser_id = Some(new_root_id);
-        self.repo.bind_mut().update_project_by_id(&project)
+        self.repo
+            .bind_mut()
+            .update_project_by_id(&project)
             .expect("Failed to update root_parser_id of project");
         // let old_root = self
         //     .repo
@@ -307,6 +299,7 @@ impl ProjectEditorNode {
         self.repo
             .bind_mut()
             .set_current_parsing_history(self.edited_project_name.to_string(), ph);
+        // TODO update displayed parsed and unparsed texts in parsers_tab
     }
 
     fn update_parsing_progress_bar(&mut self, ph: &ParsingHistory) {

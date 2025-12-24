@@ -46,14 +46,14 @@ impl CardTabNode {
             },
         };
 
-        let formatted = format_code(&script, Config::default(), None, OutputVerification::None);
-        match formatted {
-            Ok(new_script) => script = new_script,
-            Err(err) => {
-                // TODO
-                godot_print!("{}", err);
-            }
-        }
+        // let formatted = format_code(&script, Config::default(), None, OutputVerification::None);
+        // match formatted {
+        //     Ok(new_script) => script = new_script,
+        //     Err(err) => {
+        //         // TODO
+        //         godot_print!("{}", err);
+        //     }
+        // }
         self.script_display.bind_mut().set_script_text(&script);
     }
 }

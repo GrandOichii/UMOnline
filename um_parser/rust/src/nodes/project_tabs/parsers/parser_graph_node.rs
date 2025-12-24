@@ -5,6 +5,7 @@ use regex::Regex;
 use crate::model::parser::*;
 use crate::nodes::parsing_history::ParserParsingHistory;
 use crate::nodes::parsing_history::ParsingHistory;
+use crate::nodes::project_tabs::parsers::parser_tab::ParserTabNode;
 use crate::nodes::project_tabs::parsers::parsers_tab::ParsersTabNode;
 
 struct ParserNodeBrief {
@@ -44,7 +45,9 @@ pub struct ParserGraphNode {
     #[init(val = OnReady::manual())]
     pub graph: OnReady<Gd<GraphEdit>>,
     #[init(val = OnReady::manual())]
-    pub parent: OnReady<Gd<ParsersTabNode>>,
+    pub parsers_tab: OnReady<Gd<ParsersTabNode>>,
+    #[init(val = OnReady::manual())]
+    pub parent: OnReady<Gd<ParserTabNode>>,
 
     #[export]
     template_color: Color,
@@ -76,11 +79,12 @@ impl ParserGraphNode {
     fn on_gui_input(&mut self, e: Gd<InputEvent>) {
         if e.is_action_pressed("edit_parser") {
             if let Some(ref_id) = self.parser.as_ref().unwrap().ref_to_id {
-                self.parent.bind_mut().open_template(ref_id);
+                self.parsers_tab.bind_mut().open_template(ref_id);
                 return;
             }
-            let editor_window = &mut self.parent.bind_mut().parser_editor_window;
-            editor_window.bind_mut().mode = Some(crate::nodes::parser_editor::ParserEditorWindowNodeMode::Edit);
+            let editor_window = &mut self.parsers_tab.bind_mut().parser_editor_window;
+            editor_window.bind_mut().mode =
+                Some(crate::nodes::parser_editor::ParserEditorWindowNodeMode::Edit);
 
             editor_window
                 .bind_mut()
@@ -89,6 +93,13 @@ impl ParserGraphNode {
                 &format!("Edit parser {}", &self.parser.as_ref().unwrap().name).to_string(),
             );
             editor_window.show();
+            return;
+        }
+        if e.is_action_pressed("display_parser_info") {
+            godot_print!("DISPLAY");
+            self.parent
+                .bind_mut()
+                .load_parser_info(self.parser.as_ref().unwrap());
             return;
         }
     }
@@ -127,6 +138,7 @@ impl ParserGraphNode {
 
         self.brief.parsed_count = v.parsed_texts.len();
         self.brief.unparsed_count = v.unparsed_texts.len();
+        godot_print!(".unparsed_texts.len(): {}", v.unparsed_texts.len());
         self.update_brief();
     }
 

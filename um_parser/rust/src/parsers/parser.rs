@@ -16,6 +16,7 @@ pub enum ParseResultStatus {
 pub struct ParseResult {
     pub status: ParseResultStatus,
     pub text: String,
+    pub generated: String,
     pub parent: Rc<RefCell<ParserNode>>,
     pub children: Vec<ParseResult>,
     pub parse_data: mlua::Table,
@@ -23,6 +24,7 @@ pub struct ParseResult {
 
 impl ParseResult {
     pub fn create_script(&self, lua: &Lua) -> Result<String, Box<dyn Error>> {
+        println!("CREATE SCRIPT {}", &self.parent.borrow().name);
         if self.status != ParseResultStatus::Success {
             return Ok(String::from(""));
         }
@@ -31,6 +33,7 @@ impl ParseResult {
 
         for (i, child) in self.children.iter().enumerate() {
             let child_script = child.create_script(lua)?;
+            println!("{}: {}", &child.parent.borrow().name, &child_script);
             children_table.set(i+1, child_script)
                 .expect("Failed to add child script for childen_table");
         }
@@ -57,12 +60,14 @@ pub struct ParserNode {
 }
 
 impl ParserNode {
-    // pub fn parse() {
-
-    // }
-
     pub fn parse(this: Rc<RefCell<Self>>, text: &str, lua: &Lua) -> ParseResult {
-        let result = this.borrow().parser.parse(text, this.clone(), lua);
+        let parser = this.borrow();
+        let mut result = parser.parser.parse(text, this.clone(), lua);
+        let script = result.create_script(lua);
+        result.generated = match script {
+            Ok(s) => s,
+            Err(err) => err.to_string(),
+        };
         return result;
     }
 }

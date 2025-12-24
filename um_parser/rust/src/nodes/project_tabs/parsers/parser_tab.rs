@@ -7,6 +7,7 @@ use crate::model::parser::*;
 use crate::nodes::parser_editor::ParserEditorWindowNode;
 use crate::nodes::parser_editor::ParserEditorWindowNodeMode;
 use crate::nodes::parsing_history::ParsingHistory;
+use crate::nodes::project_tabs::parsers::parsed_text::ParsedTextNode;
 use crate::nodes::project_tabs::parsers::parser_graph_node::ParserGraphNode;
 use crate::nodes::project_tabs::parsers::parsers_tab::ParsersTabNode;
 use crate::repo::ParserRepositoryNode;
@@ -26,6 +27,8 @@ pub struct ParserTabNode {
 
     #[export]
     parser_graph_node_scene: OnEditor<Gd<PackedScene>>,
+    #[export]
+    parsed_text_scene: OnEditor<Gd<PackedScene>>,
 
     #[export_group(name = "Nodes")]
     #[export]
@@ -50,6 +53,8 @@ pub struct ParserTabNode {
     selectors_popup_submenu: OnEditor<Gd<PopupMenu>>,
     #[export]
     splitters_popup_submenu: OnEditor<Gd<PopupMenu>>,
+    #[export]
+    parsed_container: OnEditor<Gd<Container>>,
 }
 
 #[godot_api]
@@ -63,10 +68,10 @@ impl IControl for ParserTabNode {
 
 impl ParserTabNode {
     fn connect_signals(&mut self) {
-        self.graph
-            .signals()
-            .node_selected()
-            .connect_other(self, Self::on_graph_node_selected);
+        // self.graph
+        //     .signals()
+        //     .node_selected()
+        //     .connect_other(self, Self::on_graph_node_selected);
         self.graph
             .signals()
             .end_node_move()
@@ -200,15 +205,15 @@ impl ParserTabNode {
         if idx != 0 {
             return;
         }
-        godot_print!("Add local node request");
 
         let mut editor_window = self.parent.bind_mut().parser_editor_window.clone();
 
         editor_window.bind_mut().mode =
             Some(crate::nodes::parser_editor::ParserEditorWindowNodeMode::CreateLocal);
-        editor_window
-            .bind_mut()
-            .clear(self.parent.bind_mut().loaded_project_name.to_string(), false);
+        editor_window.bind_mut().clear(
+            self.parent.bind_mut().loaded_project_name.to_string(),
+            false,
+        );
         editor_window.set_title("Create a new local parser");
         editor_window.show();
     }
@@ -310,6 +315,12 @@ impl ParserTabNode {
             .bind_mut()
             .update_parser_by_id(&child_parser)
             .expect("Failed to save disconnected parser");
+        // self.graph.disconnect_node(
+        //     &from.to_string(),
+        //     from_slot.try_into().unwrap(),
+        //     &to.to_string(),
+        //     to_slot.try_into().unwrap(),
+        // );
         self.load_nodes();
     }
 
@@ -363,25 +374,33 @@ impl ParserTabNode {
         }
     }
 
-    fn on_graph_node_selected(&mut self, node: Gd<Node>) {
-        let mut graph_node = node.try_cast::<ParserGraphNode>().unwrap();
-        self.load_parser_info(graph_node.bind_mut().parser.as_ref().unwrap())
-    }
+    // fn on_graph_node_selected(&mut self, node: Gd<Node>) {
+    //     let mut graph_node = node.try_cast::<ParserGraphNode>().unwrap();
+    //     self.load_parser_info(graph_node.bind_mut().parser.as_ref().unwrap())
+    // }
 
     pub fn load_parser_info(&mut self, parser: &ParserModel) {
-        // TODO check if is reference
-        self.name_label.set_text(&parser.name);
-        self.type_label.set_text(&pmt_to_string(parser.ptype));
-        self.pattern_label.set_text(&parser.pattern);
-        self.description_label.set_text(&parser.description);
-        self.script_display.set_text(&parser.script);
+        let mut p = parser.clone();
+        if let Some(ref_id) = p.ref_to_id {
+            p = self
+                .repo
+                .bind_mut()
+                .get_parser(ref_id)
+                .expect("Failed to get ref parser")
+                .expect("Failed to find ref parser");
+        }
+        self.name_label.set_text(&p.name);
+        self.type_label.set_text(&pmt_to_string(p.ptype));
+        self.pattern_label.set_text(&p.pattern);
+        self.description_label.set_text(&p.description);
+        self.script_display.set_text(&p.script);
 
-        self.pattern_container
-            .set_visible(pmt_has_pattern(parser.ptype));
+        self.pattern_container.set_visible(pmt_has_pattern(p.ptype));
+
+        self.load_parsed_texts(&p);
     }
 
     pub fn load_parser(&mut self, parser: &ParserModel) {
-
         self.loaded_id = Some(parser.id);
 
         self.load_parser_info(parser);
@@ -406,7 +425,8 @@ impl ParserTabNode {
                 .instantiate_as::<ParserGraphNode>();
             self.graph.add_child(&result);
             result.bind_mut().graph.init(self.graph.clone());
-            result.bind_mut().parent.init(self.parent.clone());
+            result.bind_mut().parent.init(self.to_gd().clone());
+            result.bind_mut().parsers_tab.init(self.parent.clone());
 
             node_ids.push(node.id);
             node_map.insert(node.id, result.clone());
@@ -439,6 +459,28 @@ impl ParserTabNode {
             && let Some(node) = self.graph.get_child(1)
         {
             self.graph.remove_child(&node);
+        }
+    }
+
+    fn load_parsed_texts(&mut self, parser: &ParserModel) {
+        // remove old entries
+        while self.parsed_container.get_child_count() > 0
+            && let Some(node) = self.parsed_container.get_child(0)
+        {
+            self.parsed_container.remove_child(&node);
+        }
+
+        // add new entries
+        let repo = self.repo.bind_mut();
+
+        let pho = repo.get_parser_parsing_history(&parser.project_name, &parser.name);
+        if let Some(ph) = pho {
+            for parsed_text in ph.parsed_texts.iter() {
+                let mut node = self.parsed_text_scene.instantiate_as::<ParsedTextNode>();
+                self.parsed_container.add_child(&node);
+
+                node.bind_mut().load_parsed_text(&parsed_text);
+            }
         }
     }
 }

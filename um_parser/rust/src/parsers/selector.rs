@@ -66,6 +66,7 @@ impl Parser for Selector {
         return ParseResult {
             children: children,
             parent: node,
+            generated: String::from(""),
             status: status,
             text: text.to_string(),
             parse_data: lua
@@ -106,10 +107,7 @@ mod tests {
         let lua = Lua::new();
         let parse_result = ParserNode::parse(root, text, &lua);
         assert_eq!(parse_result.status, ParseResultStatus::Success);
-        let script = parse_result
-            .create_script(&lua)
-            .expect("Failed to generate script");
-        assert_eq!(script, "matcher1");
+        assert_eq!(parse_result.generated, "matcher1");
     }
 
     #[test]

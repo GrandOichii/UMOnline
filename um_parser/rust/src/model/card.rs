@@ -30,6 +30,7 @@ impl SQLModel for CardModel {
 
     fn sql_select() -> sql::Select {
         sql::Select::new().select("*").from("cards")
+        // .limit("1")
     }
 
     fn sql_insert_into(&self, conn: &rusqlite::Connection) -> Result<usize, Box<dyn Error>> {
@@ -41,7 +42,7 @@ impl SQLModel for CardModel {
         let result = conn.execute(&sql, (&self.name, &self.text, &self.project_name))?;
         Ok(result)
     }
-    
+
     fn get_fn_mut(row: &Row) -> Result<Self, rusqlite::Error> {
         Ok(CardModel {
             id: row.get(0)?,
@@ -50,9 +51,8 @@ impl SQLModel for CardModel {
             project_name: row.get(3)?,
         })
     }
-    
+
     fn sql_delete() -> sql_query_builder::Delete {
-        sql::Delete::new()
-            .delete_from("cards")
+        sql::Delete::new().delete_from("cards")
     }
 }

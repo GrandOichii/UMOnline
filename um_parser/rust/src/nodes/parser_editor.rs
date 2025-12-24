@@ -132,7 +132,8 @@ impl ParserEditorWindowNode {
         self.description_edit.set_text(&parser.description);
         self.script_edit.set_text(&parser.script);
         self.check_pattern_visibility();
-        self.type_picker.set_disabled(parser.is_template && parser.id != -1);
+        self.type_picker.set_disabled(parser.id != -1);
+        // self.type_picker.set_disabled(parser.is_template && parser.id != -1);
 
         self.edited_parser = Some(parser);
     }
