@@ -66,6 +66,14 @@ impl IControl for ParserTabNode {
     }
 }
 
+// #[godot_api]
+// impl ParserTabNode {
+//     #[func]
+//     fn gd_load_nodes(&mut self) {
+//         self.load_nodes();
+//     }
+// }
+
 impl ParserTabNode {
     fn connect_signals(&mut self) {
         // self.graph
@@ -143,7 +151,7 @@ impl ParserTabNode {
             .insert_parser(&parser)
             .expect("Failed to create a ref to parser");
 
-        self.load_nodes();
+        self.reload_nodes();
     }
 
     fn on_graph_delete_nodes_request(&mut self, node_names: Array<StringName>) {
@@ -163,7 +171,7 @@ impl ParserTabNode {
                 .delete_parser(parser.id)
                 .expect("Failed to delete parser");
         }
-        self.load_nodes();
+        self.reload_nodes();
     }
 
     fn on_new_node_submenu_index_pressed(&mut self, menu: Gd<PopupMenu>, idx: i32) {
@@ -293,7 +301,7 @@ impl ParserTabNode {
             .bind_mut()
             .update_parser_by_id(&child_parser)
             .expect("Failed to save parser with new parent");
-        self.load_nodes();
+        self.reload_nodes();
     }
 
     fn on_graph_disconnection_request(
@@ -303,10 +311,8 @@ impl ParserTabNode {
         to: StringName,
         to_slot: i64,
     ) {
-        // let parent_node = self.graph.get_node_as::<ParserGraphNode>(&from.to_string());
-        let child_node = self.graph.get_node_as::<ParserGraphNode>(&to.to_string());
+        let mut child_node = self.graph.get_node_as::<ParserGraphNode>(&to.to_string());
 
-        // let parent_parser = parent_node.bind().parser.as_ref().unwrap().clone();
         let mut child_parser = child_node.bind().parser.as_ref().unwrap().clone();
 
         child_parser.parent_id = None;
@@ -315,13 +321,15 @@ impl ParserTabNode {
             .bind_mut()
             .update_parser_by_id(&child_parser)
             .expect("Failed to save disconnected parser");
-        // self.graph.disconnect_node(
-        //     &from.to_string(),
-        //     from_slot.try_into().unwrap(),
-        //     &to.to_string(),
-        //     to_slot.try_into().unwrap(),
-        // );
-        self.load_nodes();
+        self.graph.disconnect_node(
+            &from.to_string(),
+            from_slot.try_into().unwrap(),
+            &to.to_string(),
+            to_slot.try_into().unwrap(),
+        );
+
+        child_node.bind_mut().load_parser(child_parser);
+        // self.base_mut().call_deferred("gd_load_nodes", &[]);
     }
 
     pub fn update_parsing_history(&mut self, ph: Option<&ParsingHistory>) {
@@ -405,10 +413,10 @@ impl ParserTabNode {
 
         self.load_parser_info(parser);
 
-        self.load_nodes();
+        self.reload_nodes();
     }
 
-    fn load_nodes(&mut self) {
+    fn reload_nodes(&mut self) {
         self.remove_graph_nodes();
 
         let nodes = self

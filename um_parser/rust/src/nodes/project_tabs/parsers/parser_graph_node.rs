@@ -138,7 +138,6 @@ impl ParserGraphNode {
 
         self.brief.parsed_count = v.parsed_texts.len();
         self.brief.unparsed_count = v.unparsed_texts.len();
-        godot_print!(".unparsed_texts.len(): {}", v.unparsed_texts.len());
         self.update_brief();
     }
 
@@ -222,19 +221,21 @@ impl ParserGraphNode {
     }
 
     pub fn connect_children(&mut self, child_nodes: Vec<&Gd<ParserGraphNode>>) {
-        let mut slot_idx = 0;
-        let mut_slot_idx: fn(i32) -> i32 = match self.parser.as_ref().unwrap().ptype {
-            PMT_MATCHER => |idx| idx + 1,
-            PMT_SELECTOR => |idx| idx,
-            PMT_SPLITTER => |idx| idx,
-            other => panic!("Unrecognized parser model type: {}", other),
-        };
+        // let mut slot_idx = 0;
+        // let mut_slot_idx: fn(i32) -> i32 = match self.parser.as_ref().unwrap().ptype {
+        //     PMT_MATCHER => |idx| idx + 1,
+        //     PMT_SELECTOR => |idx| idx,
+        //     PMT_SPLITTER => |idx| idx,
+        //     other => panic!("Unrecognized parser model type: {}", other),
+        // };
         let self_name = &self.base().get_name();
 
         for i in 0..child_nodes.len() {
+            let child = child_nodes[i];
+            let slot = child.bind().parser.as_ref().unwrap().parent_slot.unwrap();
             self.graph
-                .connect_node(self_name, slot_idx, &child_nodes[i].get_name(), 0);
-            slot_idx = mut_slot_idx(slot_idx);
+                .connect_node(self_name, slot, &child.get_name(), 0);
+            // slot_idx = mut_slot_idx(slot_idx);
         }
     }
 

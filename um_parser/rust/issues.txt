@@ -1,2 +1,2 @@
-- disconnecting a connection causes a godot error
 - selectors need to order their children
+- cyclycal connects are not checked

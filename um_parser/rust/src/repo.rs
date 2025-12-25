@@ -131,6 +131,7 @@ impl ParserRepositoryNode {
     }
 
     pub fn insert_parser(&mut self, parser: &ParserModel) -> Result<(), Box<dyn Error>> {
+        godot_print!("INSERT PARSER {}", &parser.name);
         parser.sql_insert_into(self.get_connection())?;
 
         Ok(())
