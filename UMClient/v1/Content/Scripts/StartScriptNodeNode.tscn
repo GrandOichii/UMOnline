@@ -6,4 +6,3 @@
 offset_right = 9.0
 offset_bottom = 55.0
 script = ExtResource("1_nc4xo")
-EffectSlotColor = Color(0, 1, 0, 1)

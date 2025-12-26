@@ -63,6 +63,8 @@ pub struct ParserTabNode {
     parsed_container: OnEditor<Gd<Container>>,
     #[export]
     unparsed_container: OnEditor<Gd<Container>>,
+    #[export]
+    parser_editor: OnEditor<Gd<ParserEditorWindowNode>>,
 }
 
 #[godot_api]
@@ -71,6 +73,8 @@ impl IControl for ParserTabNode {
         self.connect_signals();
 
         self.configure_new_node_menu();
+
+        self.parser_editor.hide();
     }
 }
 
@@ -124,30 +128,36 @@ impl ParserTabNode {
             .signals()
             .delete_nodes_request()
             .connect_other(self, Self::on_graph_delete_nodes_request);
-    }
-
-    pub fn connect_editor_window_signals(&mut self, editor_window: Gd<ParserEditorWindowNode>) {
-        editor_window
+        self.parser_editor
             .signals()
             .save_request()
             .connect_other(self, Self::on_parser_editor_window_save_request);
+        self.parser_editor
+            .signals()
+            .cancel_request()
+            .connect_other(self, Self::on_parser_editor_window_cancel_request);
+
     }
 
+    pub fn set_repo(&mut self, repo: Gd<ParserRepositoryNode>) {
+        self.repo.init(repo.clone());
+        self.parser_editor.bind_mut().repo.init(repo.clone());
+    }
+
+    fn on_parser_editor_window_cancel_request(&mut self) {
+        self.parser_editor.hide();
+    }
+    
     fn on_parser_editor_window_save_request(&mut self) {
-        let mut editor_window = self.parent.bind_mut().parser_editor_window.clone();
-        if editor_window.bind_mut().mode.as_ref().unwrap()
-            != &ParserEditorWindowNodeMode::CreateLocal
-        {
-            return;
-        }
-        let model = editor_window.bind_mut().build();
-        editor_window.hide();
+        let model = self.parser_editor.bind_mut().build();
+        self.parser_editor.hide();
 
         self.create_node(model);
     }
 
     fn create_node(&mut self, mut parser: ParserModel) {
         parser.parser_editor_id = self.loaded_id.unwrap();
+        // TODO last_popup_position can be None sometimes somehow
         parser.editor_offset_x = (self.last_popup_position.unwrap().x
             + self.graph.get_scroll_offset().x)
             / self.graph.get_zoom();
@@ -222,16 +232,12 @@ impl ParserTabNode {
             return;
         }
 
-        let mut editor_window = self.parent.bind_mut().parser_editor_window.clone();
-
-        editor_window.bind_mut().mode =
-            Some(crate::nodes::parser_editor::ParserEditorWindowNodeMode::CreateLocal);
-        editor_window.bind_mut().clear(
+        self.parser_editor.bind_mut().clear(
             self.parent.bind_mut().loaded_project_name.to_string(),
             false,
         );
-        editor_window.set_title("Create a new local parser");
-        editor_window.show();
+        self.parser_editor.set_title("Create a new local parser");
+        self.parser_editor.show();
     }
 
     fn configure_new_node_menu(&mut self) {

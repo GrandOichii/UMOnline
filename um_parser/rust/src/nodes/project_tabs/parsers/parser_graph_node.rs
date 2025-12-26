@@ -96,7 +96,6 @@ impl ParserGraphNode {
             return;
         }
         if e.is_action_pressed("display_parser_info") {
-            godot_print!("DISPLAY");
             self.parent
                 .bind_mut()
                 .load_parser_info(self.parser.as_ref().unwrap());
@@ -114,6 +113,8 @@ impl ParserGraphNode {
 
         self.update_title(&parser);
 
+        // additional type-specific control nodes
+        // TODO this will be readded when calling load_parser again
         if parser.ref_to_id.is_none() {
             match parser.ptype {
                 PMT_SELECTOR => {
@@ -124,7 +125,6 @@ impl ParserGraphNode {
                         .signals()
                         .pressed()
                         .connect_other(self, Self::on_add_slot_button_pressed);
-    
                 },
                 _ => {}         
             };
@@ -244,8 +244,8 @@ impl ParserGraphNode {
     }
 
     fn update_brief(&mut self) {
-        let visible = self.parser.as_ref().unwrap().ref_to_id.is_none();
-        self.completion_label.set_visible(visible);
+        // let visible = self.parser.as_ref().unwrap().ref_to_id.is_none();
+        // self.completion_label.set_visible(visible);
 
         self.completion_label
             .set_text(&self.brief.get_completion_string());

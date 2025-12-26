@@ -1158,7 +1158,8 @@ function UM.Effects:BlindBoost(numeric, manyPlayers)
     end
 end
 
-function UM.Effects:AllowBoost(numeric, optional)
+-- TODO allow opponent to boost their card
+function UM.Effects:AllowBoost(numeric)
     return function (args)
         -- local f = true
         -- if optional then
@@ -1180,6 +1181,12 @@ function UM.Effects:AllowBoost(numeric, optional)
         for i = 1, amount do
             BoostCardInCombat(player)
         end
+    end
+end
+
+function UM.Effects:ForceBoost(fixedNumber)
+    return function (args)
+        -- TODO
     end
 end
 

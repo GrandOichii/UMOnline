@@ -258,11 +258,10 @@ impl ParsersTabNode {
         self.parser_tabs_container.add_child(&node);
         self.parser_tabs_container.set_current_tab(prev_child_count);
 
-        node.bind_mut().repo.init(self.repo.clone());
+
+        node.bind_mut().set_repo(self.repo.clone());
         node.bind_mut().parent.init(self.to_gd().clone());
         node.bind_mut().cards_tab.init(self.cards_tab.clone());
-        node.bind_mut().connect_editor_window_signals(self.parser_editor_window.clone());
-        // node.bind_mut().connect_editor_window_signals();
         node.bind_mut().load_parser(&parser);
     }
 }

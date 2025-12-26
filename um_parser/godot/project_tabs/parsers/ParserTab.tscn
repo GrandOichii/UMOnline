@@ -1,11 +1,12 @@
-[gd_scene load_steps=5 format=3 uid="uid://jgb6a68s720w"]
+[gd_scene load_steps=6 format=3 uid="uid://jgb6a68s720w"]
 
 [ext_resource type="PackedScene" uid="uid://dq04bjl8d47r8" path="res://project_tabs/parsers/ParserGraphNode.tscn" id="1_vhp6e"]
 [ext_resource type="PackedScene" uid="uid://deif5o7vxl4lw" path="res://project_tabs/parsers/ParsedText.tscn" id="2_50k43"]
 [ext_resource type="PackedScene" uid="uid://d3onrpgpkocgb" path="res://project_tabs/parsers/UnparsedText.tscn" id="3_kppmc"]
 [ext_resource type="PackedScene" uid="uid://bvgd2bo5h76ep" path="res://project_tabs/parsers/TextFilter.tscn" id="4_jrwm0"]
+[ext_resource type="PackedScene" uid="uid://d0osheeq02yj6" path="res://windows/ParserEditorWindow.tscn" id="5_2alyd"]
 
-[node name="ParserTab" type="ParserTabNode" node_paths=PackedStringArray("name_label", "type_label", "pattern_label", "description_label", "script_display", "pattern_container", "graph", "new_node_menu", "matchers_popup_submenu", "selectors_popup_submenu", "splitters_popup_submenu", "parsed_container", "unparsed_container")]
+[node name="ParserTab" type="ParserTabNode" node_paths=PackedStringArray("name_label", "type_label", "pattern_label", "description_label", "script_display", "pattern_container", "graph", "new_node_menu", "matchers_popup_submenu", "selectors_popup_submenu", "splitters_popup_submenu", "parsed_container", "unparsed_container", "parser_editor")]
 parser_graph_node_scene = ExtResource("1_vhp6e")
 parsed_text_scene = ExtResource("2_50k43")
 unparsed_text_scene = ExtResource("3_kppmc")
@@ -22,6 +23,7 @@ selectors_popup_submenu = NodePath("NewNodeMenu/SelectorsPopupSubmenu")
 splitters_popup_submenu = NodePath("NewNodeMenu/SplittersPopupSubmenu")
 parsed_container = NodePath("VBoxContainer/Tabs/Parsed/VBoxContainer/ScrollContainer/ParsedContainer")
 unparsed_container = NodePath("VBoxContainer/Tabs/Unparsed/VBoxContainer2/ScrollContainer/UnparsedContainer")
+parser_editor = NodePath("ParserEditorWindow")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -201,3 +203,5 @@ item_0/text = "amogus"
 item_0/id = 0
 item_1/text = "sus"
 item_1/id = 1
+
+[node name="ParserEditorWindow" parent="." instance=ExtResource("5_2alyd")]

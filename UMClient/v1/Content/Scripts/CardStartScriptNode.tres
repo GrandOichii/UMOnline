@@ -17,8 +17,8 @@ metadata/_custom_type_script = "uid://8y8ftu12nrtg"
 
 [sub_resource type="Resource" id="Resource_cyvf6"]
 script = ExtResource("1_ojviu")
-Label = "Before combat"
-BuildMethod = "BeforeCombat"
+Label = "During combat"
+BuildMethod = "DuringCombat"
 metadata/_custom_type_script = "uid://8y8ftu12nrtg"
 
 [sub_resource type="Resource" id="Resource_fcy1t"]
