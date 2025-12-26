@@ -1,11 +1,14 @@
-[gd_scene load_steps=3 format=3 uid="uid://jgb6a68s720w"]
+[gd_scene load_steps=5 format=3 uid="uid://jgb6a68s720w"]
 
 [ext_resource type="PackedScene" uid="uid://dq04bjl8d47r8" path="res://project_tabs/parsers/ParserGraphNode.tscn" id="1_vhp6e"]
 [ext_resource type="PackedScene" uid="uid://deif5o7vxl4lw" path="res://project_tabs/parsers/ParsedText.tscn" id="2_50k43"]
+[ext_resource type="PackedScene" uid="uid://d3onrpgpkocgb" path="res://project_tabs/parsers/UnparsedText.tscn" id="3_kppmc"]
+[ext_resource type="PackedScene" uid="uid://bvgd2bo5h76ep" path="res://project_tabs/parsers/TextFilter.tscn" id="4_jrwm0"]
 
-[node name="ParserTab" type="ParserTabNode" node_paths=PackedStringArray("name_label", "type_label", "pattern_label", "description_label", "script_display", "pattern_container", "graph", "new_node_menu", "matchers_popup_submenu", "selectors_popup_submenu", "splitters_popup_submenu", "parsed_container")]
+[node name="ParserTab" type="ParserTabNode" node_paths=PackedStringArray("name_label", "type_label", "pattern_label", "description_label", "script_display", "pattern_container", "graph", "new_node_menu", "matchers_popup_submenu", "selectors_popup_submenu", "splitters_popup_submenu", "parsed_container", "unparsed_container")]
 parser_graph_node_scene = ExtResource("1_vhp6e")
 parsed_text_scene = ExtResource("2_50k43")
+unparsed_text_scene = ExtResource("3_kppmc")
 name_label = NodePath("VBoxContainer/Tabs/General/VBoxContainer/HBoxContainer/NameLabel")
 type_label = NodePath("VBoxContainer/Tabs/General/VBoxContainer/HBoxContainer2/TypeLabel")
 pattern_label = NodePath("VBoxContainer/Tabs/General/VBoxContainer/PatternContainer/PatternLabel")
@@ -18,6 +21,7 @@ matchers_popup_submenu = NodePath("NewNodeMenu/MatchersPopupSubmenu")
 selectors_popup_submenu = NodePath("NewNodeMenu/SelectorsPopupSubmenu")
 splitters_popup_submenu = NodePath("NewNodeMenu/SplittersPopupSubmenu")
 parsed_container = NodePath("VBoxContainer/Tabs/Parsed/VBoxContainer/ScrollContainer/ParsedContainer")
+unparsed_container = NodePath("VBoxContainer/Tabs/Unparsed/VBoxContainer2/ScrollContainer/UnparsedContainer")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -44,7 +48,7 @@ right_disconnects = true
 layout_mode = 2
 size_flags_vertical = 3
 tab_alignment = 2
-current_tab = 1
+current_tab = 2
 tabs_position = 1
 
 [node name="General" type="Control" parent="VBoxContainer/Tabs"]
@@ -112,6 +116,7 @@ PARSER CODE HERE"
 editable = false
 
 [node name="Parsed" type="Control" parent="VBoxContainer/Tabs"]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 1
 
@@ -123,21 +128,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/Tabs/Parsed/VBoxContainer"]
+[node name="ParsedTextFilter" parent="VBoxContainer/Tabs/Parsed/VBoxContainer" instance=ExtResource("4_jrwm0")]
 layout_mode = 2
-
-[node name="LineEdit" type="LineEdit" parent="VBoxContainer/Tabs/Parsed/VBoxContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-placeholder_text = "Filter by text"
-
-[node name="CheckBox" type="CheckBox" parent="VBoxContainer/Tabs/Parsed/VBoxContainer/VBoxContainer"]
-layout_mode = 2
-text = "Unique"
-
-[node name="Button" type="Button" parent="VBoxContainer/Tabs/Parsed/VBoxContainer/VBoxContainer"]
-layout_mode = 2
-text = "Filter"
 
 [node name="HSeparator" type="HSeparator" parent="VBoxContainer/Tabs/Parsed/VBoxContainer"]
 layout_mode = 2
@@ -152,9 +144,31 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="Unparsed" type="Control" parent="VBoxContainer/Tabs"]
-visible = false
 layout_mode = 2
 metadata/_tab_index = 2
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer/Tabs/Unparsed"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="UnparsedTextFilter" parent="VBoxContainer/Tabs/Unparsed/VBoxContainer2" instance=ExtResource("4_jrwm0")]
+layout_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer/Tabs/Unparsed/VBoxContainer2"]
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/Tabs/Unparsed/VBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="UnparsedContainer" type="VBoxContainer" parent="VBoxContainer/Tabs/Unparsed/VBoxContainer2/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
 
 [node name="NewNodeMenu" type="PopupMenu" parent="."]
 oversampling_override = 1.0

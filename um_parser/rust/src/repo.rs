@@ -29,7 +29,7 @@ pub struct ParserRepositoryNode {
     #[export]
     file_path: GString,
 
-    connection: OnceCell<Connection>,
+    connection: Option<Connection>,
 
     pub current_parsing_histories: HashMap<String, ParsingHistory>,
 }
@@ -42,7 +42,7 @@ impl ParserRepositoryNode {
 
 impl ParserRepositoryNode {
     fn query<T: SQLModel>(
-        &mut self,
+        &self,
         sql: sql::Select,
         params: impl Params,
     ) -> Result<Vec<T>, Box<dyn Error>> {
@@ -57,7 +57,7 @@ impl ParserRepositoryNode {
     }
 
     fn query_first<T: SQLModel>(
-        &mut self,
+        &self,
         sql: sql::Select,
         params: impl Params,
     ) -> Result<Option<T>, Box<dyn Error>> {
@@ -66,7 +66,7 @@ impl ParserRepositoryNode {
     }
 
     pub fn get_project(
-        &mut self,
+        &self,
         project_name: &String,
     ) -> Result<Option<ProjectModel>, Box<dyn Error>> {
         self.query_first::<ProjectModel>(
@@ -75,23 +75,23 @@ impl ParserRepositoryNode {
         )
     }
 
-    pub fn update_parser_by_id(&mut self, parser: &ParserModel) -> Result<(), Box<dyn Error>> {
+    pub fn update_parser_by_id(&self, parser: &ParserModel) -> Result<(), Box<dyn Error>> {
         let conn = self.get_connection();
         parser.sql_update_by_id(conn)?;
         Ok(())
     }
 
-    pub fn update_project_by_id(&mut self, project: &ProjectModel) -> Result<(), Box<dyn Error>> {
+    pub fn update_project_by_id(&self, project: &ProjectModel) -> Result<(), Box<dyn Error>> {
         let conn = self.get_connection();
         project.sql_update_by_id(conn)?;
         Ok(())
     }
 
-    pub fn get_card(&mut self, id: i32) -> Result<Option<CardModel>, Box<dyn Error>> {
+    pub fn get_card(&self, id: i32) -> Result<Option<CardModel>, Box<dyn Error>> {
         self.query_first(CardModel::sql_select().where_clause("id = $1"), params!(id))
     }
 
-    pub fn get_parser(&mut self, id: i32) -> Result<Option<ParserModel>, Box<dyn Error>> {
+    pub fn get_parser(&self, id: i32) -> Result<Option<ParserModel>, Box<dyn Error>> {
         self.query_first(
             ParserModel::sql_select().where_clause("p.id = $1"),
             params!(id),
@@ -99,7 +99,7 @@ impl ParserRepositoryNode {
     }
 
     pub fn get_connected_parser(
-        &mut self,
+        &self,
         parent_id: i32,
         parent_slot: i32,
     ) -> Result<Option<CardModel>, Box<dyn Error>> {
@@ -109,7 +109,7 @@ impl ParserRepositoryNode {
         )
     }
 
-    pub fn insert_or_update_parser(&mut self, parser: &ParserModel) -> Result<(), Box<dyn Error>> {
+    pub fn insert_or_update_parser(&self, parser: &ParserModel) -> Result<(), Box<dyn Error>> {
         let existing = self.get_parser(parser.id)?;
         match existing {
             Some(_) => self.update_parser_by_id(parser),
@@ -130,7 +130,7 @@ impl ParserRepositoryNode {
         }
     }
 
-    pub fn insert_parser(&mut self, parser: &ParserModel) -> Result<(), Box<dyn Error>> {
+    pub fn insert_parser(&self, parser: &ParserModel) -> Result<(), Box<dyn Error>> {
         godot_print!("INSERT PARSER {}", &parser.name);
         parser.sql_insert_into(self.get_connection())?;
 
@@ -156,7 +156,7 @@ impl ParserRepositoryNode {
         self.current_parsing_histories.get(project_name)
     }
 
-    pub fn delete_project(&mut self, project_name: &String) -> Result<(), Box<dyn Error>> {
+    pub fn delete_project(&self, project_name: &String) -> Result<(), Box<dyn Error>> {
         let sql = ProjectModel::sql_delete()
             .where_clause(format!("name = '{}'", project_name).as_str())
             .as_string();
@@ -166,7 +166,7 @@ impl ParserRepositoryNode {
         Ok(())
     }
 
-    pub fn delete_parser(&mut self, parser_id: i32) -> Result<(), Box<dyn Error>> {
+    pub fn delete_parser(&self, parser_id: i32) -> Result<(), Box<dyn Error>> {
         let sql = ParserModel::sql_delete()
             .where_clause(format!("id = '{}'", parser_id).as_str())
             .as_string();
@@ -176,7 +176,7 @@ impl ParserRepositoryNode {
         Ok(())
     }
 
-    pub fn get_editor(&mut self) -> Result<EditorModel, Box<dyn Error>> {
+    pub fn get_editor(&self) -> Result<EditorModel, Box<dyn Error>> {
         match self.query_first(EditorModel::sql_select(), [])? {
             Some(e) => Ok(e),
             None => {
@@ -189,13 +189,7 @@ impl ParserRepositoryNode {
         }
     }
 
-    fn get_connection(&mut self) -> &Connection {
-        self.connection.get_or_init(|| {
-            Connection::open(self.file_path.to_string()).expect("Failed to connect!")
-        })
-    }
-
-    fn create_tables(&mut self) {
+    fn create_tables(&self) {
         let connection = self.get_connection();
 
         connection
@@ -212,7 +206,7 @@ impl ParserRepositoryNode {
             .expect("Failed to create parsers table!");
     }
 
-    fn drop_tables(&mut self) {
+    fn drop_tables(&self) {
         let connection = self.get_connection();
 
         connection
@@ -229,11 +223,11 @@ impl ParserRepositoryNode {
             .expect("Failed to drop editors table!");
     }
 
-    pub fn get_projects(&mut self) -> Result<Vec<ProjectModel>, Box<dyn Error>> {
+    pub fn get_projects(&self) -> Result<Vec<ProjectModel>, Box<dyn Error>> {
         self.query::<ProjectModel>(ProjectModel::sql_select(), ())
     }
 
-    pub fn get_parsers(&mut self, project_name: &str) -> Result<Vec<ParserModel>, Box<dyn Error>> {
+    pub fn get_parsers(&self, project_name: &str) -> Result<Vec<ParserModel>, Box<dyn Error>> {
         self.query(
             ParserModel::sql_select().where_clause("p.project_name = ?1"),
             params!(project_name),
@@ -241,7 +235,7 @@ impl ParserRepositoryNode {
     }
 
     pub fn get_parsers_with_name(
-        &mut self,
+        &self,
         project_name: &str,
         parser_name: &str,
     ) -> Result<Vec<ParserModel>, Box<dyn Error>> {
@@ -253,10 +247,7 @@ impl ParserRepositoryNode {
         )
     }
 
-    pub fn get_templates(
-        &mut self,
-        project_name: &str,
-    ) -> Result<Vec<ParserModel>, Box<dyn Error>> {
+    pub fn get_templates(&self, project_name: &str) -> Result<Vec<ParserModel>, Box<dyn Error>> {
         self.query(
             ParserModel::sql_select()
                 .where_clause("p.project_name = ?1")
@@ -266,7 +257,7 @@ impl ParserRepositoryNode {
     }
 
     pub fn get_editor_parsers(
-        &mut self,
+        &self,
         parser_editor_id: i32,
     ) -> Result<Vec<ParserModel>, Box<dyn Error>> {
         self.query(
@@ -275,27 +266,27 @@ impl ParserRepositoryNode {
         )
     }
 
-    pub fn get_cards(&mut self, project_name: &str) -> Result<Vec<CardModel>, Box<dyn Error>> {
+    pub fn get_cards(&self, project_name: &str) -> Result<Vec<CardModel>, Box<dyn Error>> {
         self.query(
             CardModel::sql_select().where_clause("project_name = $1"),
             params!(project_name),
         )
     }
 
-    pub fn insert_project(&mut self, project: &ProjectModel) -> Result<(), Box<dyn Error>> {
+    pub fn insert_project(&self, project: &ProjectModel) -> Result<(), Box<dyn Error>> {
         project.sql_insert_into(self.get_connection())?;
 
         Ok(())
     }
 
-    pub fn insert_card(&mut self, card: &CardModel) -> Result<(), Box<dyn Error>> {
+    pub fn insert_card(&self, card: &CardModel) -> Result<(), Box<dyn Error>> {
         card.sql_insert_into(self.get_connection())?;
 
         Ok(())
     }
 
     pub fn update_project_description(
-        &mut self,
+        &self,
         project_name: &String,
         new_description: &String,
     ) -> usize {
@@ -308,7 +299,7 @@ impl ParserRepositoryNode {
     }
 
     pub fn get_parser_with_children(
-        &mut self,
+        &self,
         parser_id: i32,
     ) -> Result<Option<ParserModel>, Box<dyn Error>> {
         let result = self.get_parser(parser_id)?;
@@ -321,7 +312,7 @@ impl ParserRepositoryNode {
         }
     }
 
-    pub fn get_parser_children_ids(&mut self, parser_id: i32) -> Result<Vec<i32>, Box<dyn Error>> {
+    pub fn get_parser_children_ids(&self, parser_id: i32) -> Result<Vec<i32>, Box<dyn Error>> {
         Ok(self
             .query::<ParserModel>(
                 ParserModel::sql_select()
@@ -334,10 +325,7 @@ impl ParserRepositoryNode {
             .collect())
     }
 
-    fn get_parser_children_rec(
-        &mut self,
-        parser_id: i32,
-    ) -> Result<Vec<ParserModel>, Box<dyn Error>> {
+    fn get_parser_children_rec(&self, parser_id: i32) -> Result<Vec<ParserModel>, Box<dyn Error>> {
         let children = self.query::<ParserModel>(
             ParserModel::sql_select()
                 .where_clause("p.parent_id = ?1")
@@ -351,11 +339,17 @@ impl ParserRepositoryNode {
         }
         return Ok(result);
     }
+
+    fn get_connection(&self) -> &Connection {
+        self.connection.as_ref().unwrap()
+    }
 }
 
 #[godot_api]
 impl INode for ParserRepositoryNode {
     fn ready(&mut self) {
+        self.connection =
+            Some(Connection::open(self.file_path.to_string()).expect("Failed to connect!"));
         if self.drop_tables_on_launch {
             self.drop_tables();
         }

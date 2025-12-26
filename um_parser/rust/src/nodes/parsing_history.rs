@@ -1,13 +1,11 @@
 use std::collections::HashMap;
 
-use godot::prelude::*;
-
 use crate::parsers::parser::{ParseResult, ParseResultStatus};
 
 #[derive(Default)]
 pub struct ParsingHistory {
     pub parse_result_map: HashMap<String, ParserParsingHistory>,
-    pub parse_results: Vec<ParseResult>,
+    pub parse_results: Vec<(i32, ParseResult)>,
     pub card_scripts: HashMap<i32, String>,
 }
 
@@ -15,6 +13,7 @@ pub struct ParsedText {
     pub original: String,
     pub full_text: String,
     pub generated: String,
+    pub card_id: i32,
 }
 
 pub struct ParserParsingHistory {
@@ -23,7 +22,7 @@ pub struct ParserParsingHistory {
 }
 
 impl ParserParsingHistory {
-    pub fn process_parse_result(&mut self, pr: &ParseResult, root: &ParseResult) {
+    pub fn process_parse_result(&mut self, pr: &ParseResult, root: &ParseResult, card_id: i32) {
         match pr.status {
             ParseResultStatus::Success => &mut self.parsed_texts,
             ParseResultStatus::ChildFailed => &mut self.unparsed_texts,
@@ -34,6 +33,7 @@ impl ParserParsingHistory {
             full_text: root.text.to_string(),
             original: pr.text.to_string(),
             generated: pr.generated.to_string(),
+            card_id: card_id,
         })
     }
 }
@@ -45,11 +45,13 @@ impl ParsingHistory {
 
     pub fn new(
         card_scripts: HashMap<i32, String>,
-        parse_results: Vec<ParseResult>,
+        parse_results: Vec<(i32, ParseResult)>,
     ) -> ParsingHistory {
         let mut parse_result_map = HashMap::<String, ParserParsingHistory>::new();
 
-        ParsingHistory::fill_parse_result_map(&mut parse_result_map, &parse_results, None);
+        for (card_id, pr) in &parse_results {
+            ParsingHistory::fill_parse_result_map(&mut parse_result_map, vec![pr], None, *card_id);
+        }
 
         ParsingHistory {
             parse_result_map: parse_result_map,
@@ -60,8 +62,9 @@ impl ParsingHistory {
 
     fn fill_parse_result_map(
         parse_result_map: &mut HashMap<String, ParserParsingHistory>,
-        prs: &Vec<ParseResult>,
+        prs: Vec<&ParseResult>,
         root_pr: Option<&ParseResult>,
+        card_id: i32,
     ) {
         for pr in prs {
             let root = match root_pr {
@@ -76,10 +79,15 @@ impl ParsingHistory {
                     parsed_texts: vec![],
                     unparsed_texts: vec![],
                 });
-            pph.process_parse_result(pr, root.unwrap());
+            pph.process_parse_result(pr, root.unwrap(), card_id);
             match pr.status {
                 ParseResultStatus::Ignored | ParseResultStatus::DidntMatch => continue,
-                _ => ParsingHistory::fill_parse_result_map(parse_result_map, &pr.children, root)
+                _ => ParsingHistory::fill_parse_result_map(
+                    parse_result_map,
+                    pr.children.iter().map(|e| e).collect(),
+                    root,
+                    card_id,
+                ),
             }
         }
     }
@@ -91,7 +99,7 @@ impl ParsingHistory {
     pub fn parsed_len(&self) -> usize {
         self.parse_results
             .iter()
-            .filter(|pr| pr.status == ParseResultStatus::Success)
+            .filter(|pr| pr.1.status == ParseResultStatus::Success)
             .count()
     }
 

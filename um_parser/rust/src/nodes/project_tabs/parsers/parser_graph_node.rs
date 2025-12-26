@@ -113,9 +113,48 @@ impl ParserGraphNode {
             .set_position_offset(Vector2::new(parser.editor_offset_x, parser.editor_offset_y));
 
         self.update_title(&parser);
-        self.parser = Some(parser);
 
+        if parser.ref_to_id.is_none() {
+            match parser.ptype {
+                PMT_SELECTOR => {
+                    let mut add_slot_button = Button::new_alloc();
+                    add_slot_button.set_text("Add");
+                    self.base_mut().add_child(&add_slot_button);
+                    add_slot_button
+                        .signals()
+                        .pressed()
+                        .connect_other(self, Self::on_add_slot_button_pressed);
+    
+                },
+                _ => {}         
+            };
+        }
+
+        self.parser = Some(parser);
         self.update_pattern();
+    }
+
+    fn get_slot_count(&mut self) -> i32 {
+        let count = self.base_mut().get_child_count();
+        let mut result: i32 = 0;
+        for i in 0..count {
+            if self.base_mut().is_slot_enabled_right(i) {
+                result += 1;
+            }
+        }
+        return result;
+    }
+
+    fn create_out_slot(&mut self) {
+        let new_label = Label::new_alloc();
+        self.base_mut().add_child(&new_label);
+        self.base_mut().move_child(&new_label, 1);
+        let idx = self.base_mut().get_child_count() - 2;
+        self.base_mut().set_slot_enabled_right(idx, true);
+    }
+
+    fn on_add_slot_button_pressed(&mut self) {
+        self.create_out_slot();
     }
 
     fn update_title(&mut self, parser: &ParserModel) {
@@ -222,17 +261,17 @@ impl ParserGraphNode {
 
     pub fn connect_children(&mut self, child_nodes: Vec<&Gd<ParserGraphNode>>) {
         // let mut slot_idx = 0;
-        // let mut_slot_idx: fn(i32) -> i32 = match self.parser.as_ref().unwrap().ptype {
-        //     PMT_MATCHER => |idx| idx + 1,
-        //     PMT_SELECTOR => |idx| idx,
-        //     PMT_SPLITTER => |idx| idx,
-        //     other => panic!("Unrecognized parser model type: {}", other),
-        // };
         let self_name = &self.base().get_name();
 
         for i in 0..child_nodes.len() {
             let child = child_nodes[i];
             let slot = child.bind().parser.as_ref().unwrap().parent_slot.unwrap();
+
+            // add missing slots
+            while self.get_slot_count() <= slot {
+                self.create_out_slot();
+            }
+
             self.graph
                 .connect_node(self_name, slot, &child.get_name(), 0);
             // slot_idx = mut_slot_idx(slot_idx);

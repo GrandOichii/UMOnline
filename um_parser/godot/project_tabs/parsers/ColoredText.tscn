@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://cav7hi5uid2f1"]
+
+[node name="ColoredText" type="ColoredTextNode"]
+normal_color = Color(0.74509805, 0.74509805, 0.74509805, 1)
+highlight_color = Color(1, 0.64705884, 0, 1)
+offset_right = 411.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+bbcode_enabled = true
+text = "[color=gray]COLORED [color=orange]TEXT[/color] HERE[/color]
+[color=gray]COLORED [color=orange]TEXT[/color] HERE[/color]"
+fit_content = true
+horizontal_alignment = 1

@@ -7,9 +7,11 @@ use crate::model::parser::*;
 use crate::nodes::parser_editor::ParserEditorWindowNode;
 use crate::nodes::parser_editor::ParserEditorWindowNodeMode;
 use crate::nodes::parsing_history::ParsingHistory;
+use crate::nodes::project_tabs::cards::cards_tab::CardsTabNode;
 use crate::nodes::project_tabs::parsers::parsed_text::ParsedTextNode;
 use crate::nodes::project_tabs::parsers::parser_graph_node::ParserGraphNode;
 use crate::nodes::project_tabs::parsers::parsers_tab::ParsersTabNode;
+use crate::nodes::project_tabs::parsers::unparsed_text::UnparsedTextNode;
 use crate::repo::ParserRepositoryNode;
 
 #[derive(GodotClass)]
@@ -24,11 +26,15 @@ pub struct ParserTabNode {
     pub repo: OnReady<Gd<ParserRepositoryNode>>,
     #[init(val = OnReady::manual())]
     pub parent: OnReady<Gd<ParsersTabNode>>,
+    #[init(val = OnReady::manual())]
+    pub cards_tab: OnReady<Gd<CardsTabNode>>,
 
     #[export]
     parser_graph_node_scene: OnEditor<Gd<PackedScene>>,
     #[export]
     parsed_text_scene: OnEditor<Gd<PackedScene>>,
+    #[export]
+    unparsed_text_scene: OnEditor<Gd<PackedScene>>,
 
     #[export_group(name = "Nodes")]
     #[export]
@@ -55,6 +61,8 @@ pub struct ParserTabNode {
     splitters_popup_submenu: OnEditor<Gd<PopupMenu>>,
     #[export]
     parsed_container: OnEditor<Gd<Container>>,
+    #[export]
+    unparsed_container: OnEditor<Gd<Container>>,
 }
 
 #[godot_api]
@@ -294,6 +302,7 @@ impl ParserTabNode {
         child_parser.parent_id = Some(parent_parser.id);
         child_parser.parent_slot = Some(match parent_parser.ptype {
             PMT_MATCHER => from_slot.try_into().unwrap(),
+            PMT_SELECTOR => from_slot.try_into().unwrap(),
             _ => 0,
         });
 
@@ -406,6 +415,7 @@ impl ParserTabNode {
         self.pattern_container.set_visible(pmt_has_pattern(p.ptype));
 
         self.load_parsed_texts(&p);
+        self.load_unparsed_texts(&p);
     }
 
     pub fn load_parser(&mut self, parser: &ParserModel) {
@@ -479,16 +489,59 @@ impl ParserTabNode {
         }
 
         // add new entries
-        let repo = self.repo.bind_mut();
+        let mut repo_clone = self.repo.clone();
+        let repo = repo_clone.bind_mut();
 
         let pho = repo.get_parser_parsing_history(&parser.project_name, &parser.name);
-        if let Some(ph) = pho {
-            for parsed_text in ph.parsed_texts.iter() {
-                let mut node = self.parsed_text_scene.instantiate_as::<ParsedTextNode>();
-                self.parsed_container.add_child(&node);
+        let ph = match pho {
+            None => return,
+            Some(p) => p,
+        };
+        
+        for parsed_text in ph.parsed_texts.iter() {
+            let mut node = self.parsed_text_scene.instantiate_as::<ParsedTextNode>();
+            self.parsed_container.add_child(&node);
+            node.bind_mut().cards_tab.init(self.cards_tab.clone());
 
-                node.bind_mut().load_parsed_text(&parsed_text);
-            }
+            let card = repo
+                .get_card(parsed_text.card_id)
+                .expect("Failed to get card")
+                .expect("Failed to find card");
+
+            node.bind_mut().load_parsed_text(&parsed_text, &card);
+        }
+    }
+
+    fn load_unparsed_texts(&mut self, parser: &ParserModel) {
+        // TODO duplicated code
+        // remove old entries
+        while self.unparsed_container.get_child_count() > 0
+            && let Some(node) = self.unparsed_container.get_child(0)
+        {
+            self.unparsed_container.remove_child(&node);
+        }
+
+        // add new entries
+        let mut repo_clone = self.repo.clone();
+        let repo = repo_clone.bind_mut();
+
+        let pho = repo.get_parser_parsing_history(&parser.project_name, &parser.name);
+        let ph = match pho {
+            None => return,
+            Some(p) => p,
+        };
+        
+        for parsed_text in ph.unparsed_texts.iter() {
+            let mut node = self.unparsed_text_scene.instantiate_as::<UnparsedTextNode>();
+            self.unparsed_container.add_child(&node);
+            node.bind_mut().cards_tab.init(self.cards_tab.clone());
+
+            let card = repo
+                .get_card(parsed_text.card_id)
+                .expect("Failed to get card")
+                .expect("Failed to find card");
+
+            node.bind_mut().load_parsed_text(&parsed_text, &card);
         }
     }
 }

@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://deif5o7vxl4lw"]
+[gd_scene load_steps=3 format=3 uid="uid://deif5o7vxl4lw"]
 
 [ext_resource type="Texture2D" uid="uid://dhcifouxkatvp" path="res://assets/right-arrow.png" id="1_2pmwl"]
+[ext_resource type="PackedScene" uid="uid://cav7hi5uid2f1" path="res://project_tabs/parsers/ColoredText.tscn" id="2_gho6y"]
 
 [node name="ParsedText" type="ParsedTextNode" node_paths=PackedStringArray("original_text_label", "generated_text_label", "full_text_label", "card_ref_button")]
 original_text_label = NodePath("MarginContainer/VBoxContainer/HBoxContainer/MarginContainer/OriginalText")
@@ -65,13 +66,8 @@ GENERATED SCRIPT HERE
 GENERATED SCRIPT HERE"
 text_overrun_behavior = 2
 
-[node name="FullText" type="Label" parent="MarginContainer/VBoxContainer"]
+[node name="FullText" parent="MarginContainer/VBoxContainer" instance=ExtResource("2_gho6y")]
 layout_mode = 2
-text = "FULL CARD TEXT HERE FULL CARD TEXT HERE FULL CARD TEXT HERE FULL CARD TEXT HERE FULL CARD TEXT HERE FULL CARD TEXT HERE FULL CARD TEXT HERE FULL CARD TEXT HERE FULL CARD TEXT HERE FULL CARD TEXT HERE FULL CARD TEXT HERE FULL CARD TEXT HERE FULL CARD TEXT HERE FULL CARD TEXT HERE FULL CARD TEXT HERE FULL CARD TEXT HERE FULL CARD TEXT HERE 
-FULL CARD TEXT HERE
-FULL CARD TEXT HERE"
-horizontal_alignment = 1
-text_overrun_behavior = 2
 
 [node name="CardRefButton" type="Button" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2

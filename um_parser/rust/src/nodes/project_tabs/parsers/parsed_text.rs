@@ -1,20 +1,28 @@
 use godot::classes::*;
 use godot::prelude::*;
 
+use crate::model::card::CardModel;
 use crate::nodes::parsing_history::ParsedText;
+use crate::nodes::project_tabs::cards::cards_tab::CardsTabNode;
+use crate::nodes::project_tabs::parsers::colored_text::ColoredTextNode;
 
 #[derive(GodotClass)]
 #[class(init,base=PanelContainer)]
 pub struct ParsedTextNode {
     base: Base<PanelContainer>,
 
-    #[export_group(name="Nodes")]
+    card_id: Option<i32>,
+
+    #[init(val = OnReady::manual())]
+    pub cards_tab: OnReady<Gd<CardsTabNode>>,
+
+    #[export_group(name = "Nodes")]
     #[export]
     original_text_label: OnEditor<Gd<Label>>,
     #[export]
     generated_text_label: OnEditor<Gd<Label>>,
     #[export]
-    full_text_label: OnEditor<Gd<Label>>,
+    full_text_label: OnEditor<Gd<ColoredTextNode>>,
     #[export]
     card_ref_button: OnEditor<Gd<Button>>,
 }
@@ -35,14 +43,20 @@ impl ParsedTextNode {
     }
 
     fn on_card_ref_button_pressed(&mut self) {
-        // TODO open cards tab, open specific referenced card
+        self.cards_tab.bind_mut().open_card(self.card_id.unwrap());
+        self.cards_tab.set_visible(true);
     }
 
-    pub fn load_parsed_text(&mut self, parsed_text: &ParsedText) {
+    pub fn load_parsed_text(&mut self, parsed_text: &ParsedText, card: &CardModel) {
         self.original_text_label.set_text(&parsed_text.original);
         self.generated_text_label.set_text(&parsed_text.generated);
-        self.full_text_label.set_text(&parsed_text.full_text);
+        self.full_text_label.bind_mut().load_text(
+            parsed_text.full_text.to_string(),
+            parsed_text.original.to_string(),
+        );
 
-        // TODO card_id
+        self.card_ref_button.set_text(card.name.as_str());
+
+        self.card_id = Some(card.id);
     }
 }

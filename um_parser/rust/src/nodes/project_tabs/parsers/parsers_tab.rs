@@ -6,6 +6,7 @@ use crate::model::project::ProjectModel;
 use crate::nodes::parser_editor::ParserEditorWindowNode;
 use crate::nodes::parser_editor::ParserEditorWindowNodeMode;
 use crate::nodes::parsing_history::ParsingHistory;
+use crate::nodes::project_tabs::cards::cards_tab::CardsTabNode;
 use crate::nodes::project_tabs::logs::logs_tab::LogsTabNode;
 use crate::nodes::project_tabs::parsers::parser_tab::ParserTabNode;
 use crate::repo::ParserRepositoryNode;
@@ -25,6 +26,9 @@ pub struct ParsersTabNode {
 
     #[export]
     parser_tab_scene: OnEditor<Gd<PackedScene>>,
+    
+    #[export]
+    cards_tab: OnEditor<Gd<CardsTabNode>>,
 
     #[export_group(name = "Nodes")]
     #[export]
@@ -256,6 +260,7 @@ impl ParsersTabNode {
 
         node.bind_mut().repo.init(self.repo.clone());
         node.bind_mut().parent.init(self.to_gd().clone());
+        node.bind_mut().cards_tab.init(self.cards_tab.clone());
         node.bind_mut().connect_editor_window_signals(self.parser_editor_window.clone());
         // node.bind_mut().connect_editor_window_signals();
         node.bind_mut().load_parser(&parser);

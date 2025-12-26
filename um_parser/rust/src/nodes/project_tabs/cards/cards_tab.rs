@@ -165,7 +165,7 @@ impl CardsTabNode {
         self.open_card(card_id);
     }
 
-    fn open_card(&mut self, card_id: i32) {
+    pub fn open_card(&mut self, card_id: i32) {
         let prev_child_count = self.card_tabs_container.get_child_count();
 
         let card = self

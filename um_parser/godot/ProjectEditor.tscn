@@ -78,7 +78,8 @@ visible = false
 layout_mode = 2
 metadata/_tab_index = 1
 
-[node name="Parsers" parent="VBoxContainer/Tabs" instance=ExtResource("3_d65ay")]
+[node name="Parsers" parent="VBoxContainer/Tabs" node_paths=PackedStringArray("cards_tab") instance=ExtResource("3_d65ay")]
+cards_tab = NodePath("../Cards")
 layout_mode = 2
 metadata/_tab_index = 2
 

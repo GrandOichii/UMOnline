@@ -1,0 +1,32 @@
+[gd_scene load_steps=2 format=3 uid="uid://d3onrpgpkocgb"]
+
+[ext_resource type="PackedScene" uid="uid://cav7hi5uid2f1" path="res://project_tabs/parsers/ColoredText.tscn" id="1_2pmwl"]
+
+[node name="UnparsedText" type="UnparsedTextNode" node_paths=PackedStringArray("text_label", "card_ref_button")]
+text_label = NodePath("MarginContainer/VBoxContainer/ColoredText")
+card_ref_button = NodePath("MarginContainer/VBoxContainer/CardRefButton")
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -94.5
+offset_bottom = 110.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="ColoredText" parent="MarginContainer/VBoxContainer" instance=ExtResource("1_2pmwl")]
+layout_mode = 2
+
+[node name="CardRefButton" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "CARD NAME HERE"

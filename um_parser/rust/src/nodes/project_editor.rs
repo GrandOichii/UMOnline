@@ -177,7 +177,7 @@ impl ProjectEditorNode {
         let mut total = 0;
         let mut parsed = 0;
 
-        let mut parse_results = Vec::<ParseResult>::new();
+        let mut parse_results = Vec::<(i32, ParseResult)>::new();
         let mut card_scripts = HashMap::<i32, String>::new();
 
         for card in cards {
@@ -204,7 +204,7 @@ impl ProjectEditorNode {
                 }
             }
 
-            parse_results.push(result);
+            parse_results.push((card.id, result));
         }
 
         logs_tab.bind_mut().log_important(format!(
