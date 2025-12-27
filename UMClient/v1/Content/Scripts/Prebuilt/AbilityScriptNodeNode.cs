@@ -10,6 +10,7 @@ public partial class AbilityScriptNodeNode : GraphNode, IScriptNodeNode
     public TextEdit TextEditNode { get; set; }
 
     public string Generate(
+        int forSlot,
         Dictionary<IScriptNodeNode, Dictionary<int, (IScriptNodeNode from, int fromPort)>> inputs,
         Dictionary<IScriptNodeNode, Dictionary<int, (IScriptNodeNode to, int toPort)>> outputs
     )
@@ -19,8 +20,8 @@ public partial class AbilityScriptNodeNode : GraphNode, IScriptNodeNode
         {
             return "!missing connection!";
         }
-        var (child, _) = myOutputs[0];
-        var childScript = child.Generate(inputs, outputs);
+        var (child, port) = myOutputs[0];
+        var childScript = child.Generate(port, inputs, outputs);
         return $"""
         "{TextEditNode.Text}",
         {childScript}

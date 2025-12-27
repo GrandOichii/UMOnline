@@ -32,6 +32,7 @@ public partial class IfScriptNodeNode : GraphNode, IScriptNodeNode
     public bool IsStart() => false;
 
     public string Generate(
+        int forSlot,
         Dictionary<IScriptNodeNode, Dictionary<int, (IScriptNodeNode from, int fromPort)>> inputs,
         Dictionary<IScriptNodeNode, Dictionary<int, (IScriptNodeNode to, int toPort)>> outputs
     )
@@ -42,17 +43,17 @@ public partial class IfScriptNodeNode : GraphNode, IScriptNodeNode
         var conditionScript = "!missing connection!";
         if (myInputs.TryGetValue(1, out var conditionPair))
         {
-            conditionScript = conditionPair.from.Generate(inputs, outputs);
+            conditionScript = conditionPair.from.Generate(conditionPair.fromPort, inputs, outputs);
         }
-        var trueEffects = "!missing connection!";
+        var trueEffects = "";
         if (myOutputs.TryGetValue(1, out var truePair))
         {
-            trueEffects = truePair.to.Generate(inputs, outputs);
+            trueEffects = truePair.to.Generate(truePair.toPort, inputs, outputs);
         }
-        var falseEffects = "!missing connection!";
+        var falseEffects = "";
         if (myOutputs.TryGetValue(2, out var falsePair))
         {
-            falseEffects = falsePair.to.Generate(inputs, outputs);
+            falseEffects = falsePair.to.Generate(falsePair.toPort, inputs, outputs);
         }
 
         var result = $@"UM.Effects:IfInstead(
@@ -66,7 +67,7 @@ public partial class IfScriptNodeNode : GraphNode, IScriptNodeNode
 )";
         if (myOutputs.TryGetValue(0, out var pair))
         {
-            var next = pair.to.Generate(inputs, outputs);
+            var next = pair.to.Generate(pair.toPort, inputs, outputs);
             result += $",\n{next}";
         }
         return result;

@@ -20,6 +20,10 @@ public partial class SelectScriptNodeNode : GraphNode, IScriptNodeNode
         SetSlotEnabledRight(0, true);
         SetSlotTypeRight(0, (int)Value.SelectType);
         SetSlotColorRight(0, ScriptEditor.GetSlotColor(Value.SelectType));
+
+        SetSlotEnabledRight(1, true);
+        SetSlotTypeRight(1, (int)ScriptNodeType.Numeric);
+        SetSlotColorRight(1, ScriptEditor.GetSlotColor(ScriptNodeType.Numeric));
     }
 
     #region Signals connections
@@ -46,6 +50,7 @@ public partial class SelectScriptNodeNode : GraphNode, IScriptNodeNode
     public bool IsStart() => false;
 
     public string Generate(
+        int forSlot,
         Dictionary<IScriptNodeNode, Dictionary<int, (IScriptNodeNode from, int fromPort)>> inputs,
         Dictionary<IScriptNodeNode, Dictionary<int, (IScriptNodeNode to, int toPort)>> outputs
     )
@@ -60,18 +65,29 @@ public partial class SelectScriptNodeNode : GraphNode, IScriptNodeNode
             var filter = "!missing connection!";
             if (myInputs.TryGetValue(i, out var pair))
             {
-                filter = $":{pair.from.Generate(inputs, outputs)}";
+                filter = $":{pair.from.Generate(pair.fromPort, inputs, outputs)}";
             }
             filters.Add(filter);
         }
 
         var inner = string.Join("\n", filters);
 
-        return $"""
+        var result = $"""
         {Value.SelectMethod}()
         {inner}
         :Build()
         """;
+
+        if (forSlot == 1)
+        {
+            result = $"""
+            UM.Number:Count(
+            {result}
+            )
+            """;
+        }
+
+        return result;
     }
 
     public void SetEssentials(ScriptEditor editor)

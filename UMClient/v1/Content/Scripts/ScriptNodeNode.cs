@@ -127,6 +127,7 @@ public partial class ScriptNodeNode : GraphNode, IScriptNodeNode
     public bool IsStart() => false;
 
     public string Generate(
+        int forPort,
         Dictionary<IScriptNodeNode, Dictionary<int, (IScriptNodeNode from, int fromPort)>> inputs,
         Dictionary<IScriptNodeNode, Dictionary<int, (IScriptNodeNode to, int toPort)>> outputs
     )
@@ -143,7 +144,7 @@ public partial class ScriptNodeNode : GraphNode, IScriptNodeNode
             if (myInputs.TryGetValue(i + inSlotOffset, out var pair))
             {
                 var node = pair.from;
-                input = node.Generate(inputs, outputs);
+                input = node.Generate(pair.fromPort, inputs, outputs);
             }
             var key = $"${ScriptNode.NodeArgs[i].Key}";
             result = result.Replace(key, input);
@@ -166,8 +167,8 @@ public partial class ScriptNodeNode : GraphNode, IScriptNodeNode
 
         if (ScriptNode.Type == ScriptNodeType.Effect && myOutputs.Count == 1)
         {
-            var (nextEffect, _) = myOutputs[0];
-            var next = nextEffect.Generate(inputs, outputs);
+            var (nextEffect, port) = myOutputs[0];
+            var next = nextEffect.Generate(port, inputs, outputs);
             result += $",\n{next}";
         }
 

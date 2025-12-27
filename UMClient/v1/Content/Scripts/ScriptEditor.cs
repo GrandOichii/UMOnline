@@ -186,7 +186,7 @@ public partial class ScriptEditor : Control
 				throw new Exception("start not found");
 			}
 
-			var script = start.Generate(inputs, outputs);
+			var script = start.Generate(0, inputs, outputs);
 			ScriptDisplay.Text = script;
 		// } 
 		// catch (Exception e)

@@ -30,6 +30,7 @@ public partial class StartScriptNodeNode : GraphNode, IScriptNodeNode
 	public bool IsStart() => true;
 
 	public string Generate(
+        int forSlot,
 		Dictionary<IScriptNodeNode, Dictionary<int, (IScriptNodeNode from, int fromPort)>> inputs,
 		Dictionary<IScriptNodeNode, Dictionary<int, (IScriptNodeNode to, int toPort)>> outputs
 	)
@@ -40,9 +41,9 @@ public partial class StartScriptNodeNode : GraphNode, IScriptNodeNode
 		for (int i = 0; i < Value.Args.Count; ++i)
 		{
 			if (!myOutputs.ContainsKey(i)) continue;
-			var (toNode, _) = myOutputs[i];
+			var (toNode, toSlot) = myOutputs[i];
 			var arg = Value.Args[i];
-			var script = toNode.Generate(inputs, outputs);
+			var script = toNode.Generate(toSlot, inputs, outputs);
 			childScripts.Add($"""
 			:{arg.BuildMethod}(
 			{script}
