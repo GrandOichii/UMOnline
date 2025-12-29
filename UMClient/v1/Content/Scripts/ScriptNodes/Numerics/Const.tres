@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="ScriptNode" load_steps=5 format=3 uid="uid://ciom7asv7f8o8"]
+
+[ext_resource type="PackedScene" uid="uid://cqkmdnkfdl5cl" path="res://v1/Content/Scripts/ScriptNodeNode.tscn" id="1_1yc8a"]
+[ext_resource type="Script" uid="uid://12as40biuktg" path="res://v1/Content/Scripts/Resource/ScriptNodeSimpleArg.cs" id="2_v6llm"]
+[ext_resource type="Script" uid="uid://cmhgojee80mqw" path="res://v1/Content/Scripts/Resource/ScriptNode.cs" id="3_5v5ve"]
+
+[sub_resource type="Resource" id="Resource_k6oso"]
+script = ExtResource("2_v6llm")
+Key = "number"
+Type = 2
+Data = null
+metadata/_custom_type_script = "uid://12as40biuktg"
+
+[resource]
+script = ExtResource("3_5v5ve")
+Name = "ConstNumeric"
+Label = "Const"
+Type = 2
+NodeArgs = null
+SimpleArgs = Array[Object]([SubResource("Resource_k6oso")])
+Script = "UM.Number:Static($number)"
+Description = "Constant numeric value"
+metadata/_custom_type_script = "uid://cmhgojee80mqw"

@@ -1,0 +1,33 @@
+[gd_resource type="Resource" script_class="ScriptNode" load_steps=7 format=3 uid="uid://b4fjfx2cdrvve"]
+
+[ext_resource type="Script" uid="uid://dk4tqarec5j3a" path="res://v1/Content/Scripts/Resource/ScriptNodeArg.cs" id="1_ie0dq"]
+[ext_resource type="PackedScene" uid="uid://cqkmdnkfdl5cl" path="res://v1/Content/Scripts/ScriptNodeNode.tscn" id="2_wbyrv"]
+[ext_resource type="Script" uid="uid://12as40biuktg" path="res://v1/Content/Scripts/Resource/ScriptNodeSimpleArg.cs" id="3_j18il"]
+[ext_resource type="Script" uid="uid://cmhgojee80mqw" path="res://v1/Content/Scripts/Resource/ScriptNode.cs" id="4_cwhjj"]
+
+[sub_resource type="Resource" id="Resource_14jkg"]
+script = ExtResource("1_ie0dq")
+Key = "players"
+Label = "Players"
+Accepts = 6
+metadata/_custom_type_script = "uid://dk4tqarec5j3a"
+
+[sub_resource type="Resource" id="Resource_7i15k"]
+script = ExtResource("3_j18il")
+Key = "amount"
+Label = "Amount"
+Type = 2
+Data = null
+metadata/_custom_type_script = "uid://12as40biuktg"
+
+[resource]
+script = ExtResource("4_cwhjj")
+Name = "AllowBoostEffect"
+Label = "Allow BOOST"
+NodeArgs = Array[Object]([SubResource("Resource_14jkg")])
+SimpleArgs = Array[Object]([SubResource("Resource_7i15k")])
+Script = "UM.Effects:AllowBoost(
+$players,
+$amount
+)"
+metadata/_custom_type_script = "uid://cmhgojee80mqw"
