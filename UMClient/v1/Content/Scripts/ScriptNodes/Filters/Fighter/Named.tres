@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="ScriptNode" load_steps=5 format=3 uid="uid://cqku1dhv25cvq"]
+
+[ext_resource type="PackedScene" uid="uid://cqkmdnkfdl5cl" path="res://v1/Content/Scripts/ScriptNodeNode.tscn" id="1_muxex"]
+[ext_resource type="Script" uid="uid://12as40biuktg" path="res://v1/Content/Scripts/Resource/ScriptNodeSimpleArg.cs" id="2_5v28e"]
+[ext_resource type="Script" uid="uid://cmhgojee80mqw" path="res://v1/Content/Scripts/Resource/ScriptNode.cs" id="3_1yh8j"]
+
+[sub_resource type="Resource" id="Resource_ote58"]
+script = ExtResource("2_5v28e")
+Key = "name"
+Type = 3
+Data = null
+metadata/_custom_type_script = "uid://12as40biuktg"
+
+[resource]
+script = ExtResource("3_1yh8j")
+Name = "NamedFighterFilter"
+Label = "Named"
+Type = 7
+NodeArgs = null
+SimpleArgs = Array[Object]([SubResource("Resource_ote58")])
+Script = "Named('$name')"
+Description = "Select only fighters with specified name"
+metadata/_custom_type_script = "uid://cmhgojee80mqw"
