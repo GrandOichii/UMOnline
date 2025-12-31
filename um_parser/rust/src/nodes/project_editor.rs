@@ -39,6 +39,10 @@ pub struct ProjectEditorNode {
     root_parser_option: OnEditor<Gd<OptionButton>>,
     #[export]
     tabs_node: OnEditor<Gd<TabContainer>>,
+    #[export]
+    parse_button: OnEditor<Gd<Button>>,
+    #[export]
+    cannot_parse_dialog: OnEditor<Gd<AcceptDialog>>,
 }
 
 #[godot_api]
@@ -75,6 +79,11 @@ impl IControl for ProjectEditorNode {
 }
 
 impl ProjectEditorNode {
+    fn display_parse_error(&mut self, err_msg: &str) {
+        self.cannot_parse_dialog.set_text(err_msg);
+        self.cannot_parse_dialog.show();
+    }
+
     fn parse(&mut self) {
         let root_id = self
             .repo
@@ -103,12 +112,12 @@ impl ProjectEditorNode {
         logs_tab.bind_mut().log(String::from("Creating parsers"));
         // Create all parsers
         let mut parsers = Vec::<Rc<RefCell<ParserNode>>>::new();
-        let root_idx = OnceCell::<usize>::new();
+        let mut root_idx = None;
         for (idx, model) in models.iter().enumerate() {
             if let Some(rid) = root_id
                 && rid == model.id
             {
-                root_idx.set(idx).expect("Failed to set root_idx");
+                root_idx = Some(idx);
             }
             parsers.push(Rc::new(RefCell::new(
                 model
@@ -163,7 +172,19 @@ impl ProjectEditorNode {
         }
 
         // TODO notify user that root is not set
-        let root = parsers[*root_idx.get().expect("Failed to find root")].clone();
+        if root_idx.is_none() {
+            self.display_parse_error("Root is not set!");
+            godot_print!("Root is not set!");
+            return;
+        }
+        // let ridx = match root_idx {
+        //     Some(v) => v,
+        //     None => {
+        //         godot_print!("Root is not set!");
+        //         return;
+        //     }
+        // };
+        let root = parsers[*root_idx.as_ref().unwrap()].clone();
         logs_tab.bind_mut().log(String::from(
             "Created parser tree, starting parsing process",
         ));
@@ -229,6 +250,10 @@ impl ProjectEditorNode {
             .signals()
             .tab_changed()
             .connect_other(self, Self::on_tabs_tab_changed);
+        self.parse_button
+            .signals()
+            .pressed()
+            .connect_other(self, Self::parse);
     }
 
     fn on_tabs_tab_changed(&mut self, tab_idx: i64) {

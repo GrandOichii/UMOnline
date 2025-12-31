@@ -41,6 +41,7 @@ function UM.Effects.CharacterSpecific:SourceEffect(source, text, ...)
 end
 
 function UM.Effects.CharacterSpecific:SourceSwitch(...)
+    -- TODO not tested
     local sourceEffects = {...}
     return function (args)
         local source = UM.Count.CharacterSpecific:CiriSource()(args)

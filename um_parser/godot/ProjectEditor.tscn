@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://3y3fwa2divkq" path="res://project_tabs/LogsTab.tscn" id="3_34bhn"]
 [ext_resource type="PackedScene" uid="uid://bjrlg2jv8o2wg" path="res://project_tabs/ParsersTab.tscn" id="3_d65ay"]
 
-[node name="ProjectEditor" type="ProjectEditorNode" node_paths=PackedStringArray("project_name_label", "project_description_edit", "cards_tab", "logs_tab", "parsers_tab", "completion_progress_bar", "root_parser_option", "tabs_node")]
+[node name="ProjectEditor" type="ProjectEditorNode" node_paths=PackedStringArray("project_name_label", "project_description_edit", "cards_tab", "logs_tab", "parsers_tab", "completion_progress_bar", "root_parser_option", "tabs_node", "parse_button", "cannot_parse_dialog")]
 project_name_label = NodePath("VBoxContainer/Tabs/Project/HBoxContainer/PanelContainer/ProjectNameLabel")
 project_description_edit = NodePath("VBoxContainer/Tabs/Project/ProjectDescriptionEdit")
 cards_tab = NodePath("VBoxContainer/Tabs/Cards")
@@ -14,6 +14,8 @@ parsers_tab = NodePath("VBoxContainer/Tabs/Parsers")
 completion_progress_bar = NodePath("VBoxContainer/HBoxContainer/CompletionProgressBar")
 root_parser_option = NodePath("VBoxContainer/Tabs/Project/HBoxContainer2/RootParserOption")
 tabs_node = NodePath("VBoxContainer/Tabs")
+parse_button = NodePath("VBoxContainer/HBoxContainer/ParseButton")
+cannot_parse_dialog = NodePath("CannotParseDialog")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -91,13 +93,19 @@ metadata/_tab_index = 3
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer"]
-visible = false
+[node name="ParseButton" type="Button" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2
-text = "Parsed completion: "
+text = "Parse "
 
 [node name="CompletionProgressBar" type="ProgressBar" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 max_value = 600.0
 value = 80.0
+
+[node name="CannotParseDialog" type="AcceptDialog" parent="."]
+oversampling_override = 1.0
+title = "Cannot parse"
+initial_position = 2
+size = Vector2i(270, 102)
+dialog_text = "Root parser is not set!"
