@@ -111,7 +111,6 @@ impl ParserGraphNode {
         self.base_mut()
             .set_position_offset(Vector2::new(parser.editor_offset_x, parser.editor_offset_y));
 
-        self.update_title(&parser);
 
         // additional type-specific control nodes
         // TODO this will be readded when calling load_parser again
@@ -131,6 +130,8 @@ impl ParserGraphNode {
         }
 
         self.parser = Some(parser);
+
+        self.update_title();
         self.update_pattern();
     }
 
@@ -157,11 +158,17 @@ impl ParserGraphNode {
         self.create_out_slot();
     }
 
-    fn update_title(&mut self, parser: &ParserModel) {
-        self.base_mut().set_title(match &parser.ref_name {
-            Some(ref_name) => &ref_name,
-            None => &parser.name,
-        });
+    fn update_title(&mut self) {
+        let name = self.get_parser_name();
+        self.base_mut().set_title(name.as_str());
+    }
+
+    fn get_parser_name(&self) -> String {
+        let parser = self.parser.as_ref().unwrap();
+        match &parser.ref_name {
+            Some(ref_name) => ref_name.to_string(),
+            None => parser.name.to_string(),
+        }
     }
 
     pub fn load_parsing_history(&mut self, ph: Option<&ParsingHistory>) {
@@ -169,7 +176,7 @@ impl ParserGraphNode {
             parsed_texts: vec![],
             unparsed_texts: vec![],
         };
-        let name = &self.parser.as_ref().unwrap().name;
+        let name = &self.get_parser_name();
         let v = match ph {
             Some(p) => p.get_for(name).unwrap_or(&binding),
             None => &binding,
