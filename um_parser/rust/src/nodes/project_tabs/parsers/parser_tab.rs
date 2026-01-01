@@ -2,10 +2,10 @@ use std::collections::HashMap;
 
 use godot::classes::*;
 use godot::prelude::*;
+use mlua::ffi::lua_newuserdatauv;
 
 use crate::model::parser::*;
 use crate::nodes::parser_editor::ParserEditorWindowNode;
-use crate::nodes::parser_editor::ParserEditorWindowNodeMode;
 use crate::nodes::parsing_history::ParsingHistory;
 use crate::nodes::project_tabs::cards::cards_tab::CardsTabNode;
 use crate::nodes::project_tabs::parsers::parsed_text::ParsedTextNode;
@@ -88,10 +88,6 @@ impl IControl for ParserTabNode {
 
 impl ParserTabNode {
     fn connect_signals(&mut self) {
-        // self.graph
-        //     .signals()
-        //     .node_selected()
-        //     .connect_other(self, Self::on_graph_node_selected);
         self.graph
             .signals()
             .end_node_move()
@@ -108,6 +104,14 @@ impl ParserTabNode {
             .signals()
             .disconnection_request()
             .connect_other(self, Self::on_graph_disconnection_request);
+        self.graph
+            .signals()
+            .duplicate_nodes_request()
+            .connect_other(self, Self::on_graph_duplicate_nodes_request);
+        self.graph
+            .signals()
+            .delete_nodes_request()
+            .connect_other(self, Self::on_graph_delete_nodes_request);
         self.new_node_menu
             .signals()
             .index_pressed()
@@ -124,10 +128,6 @@ impl ParserTabNode {
             .signals()
             .index_pressed()
             .connect_other(self, Self::on_splitters_popup_submenu_index_pressed);
-        self.graph
-            .signals()
-            .delete_nodes_request()
-            .connect_other(self, Self::on_graph_delete_nodes_request);
         self.parser_editor
             .signals()
             .save_request()
@@ -168,6 +168,41 @@ impl ParserTabNode {
             .insert_parser(&parser)
             .expect("Failed to create a ref to parser");
 
+        self.reload_nodes();
+    }
+
+    fn on_graph_duplicate_nodes_request(&mut self) {
+        let nodes = self.get_displayed_parsers();
+        for mut node in nodes {
+            if !node.is_selected() {
+                continue;
+            }
+            let b= node.bind();
+            let parser = b.parser.as_ref().unwrap();
+            if parser.is_template {
+                continue;
+            }
+            let mut suffix = 1;
+            let new = loop {
+                if parser.ref_to_id.is_none() {
+                    let new = parser.duplicate(suffix);
+                    let existing = self
+                        .repo
+                        .bind_mut()
+                        .get_parsers_with_name(&new.project_name, &new.name)
+                        .expect("Failed to get existing nodes");
+                    if existing.len() == 0 {
+                        break new;
+                    }
+                    suffix += 1;
+                }
+                break parser.duplicate(suffix);
+            };
+            self.repo
+                .bind_mut()
+                .insert_parser(&new)
+                .expect("Failed to insert duplicate parser");
+        }
         self.reload_nodes();
     }
 

@@ -24,7 +24,6 @@ pub struct ParseResult {
 
 impl ParseResult {
     pub fn create_script(&self, lua: &Lua) -> Result<String, Box<dyn Error>> {
-        println!("CREATE SCRIPT {}", &self.parent.borrow().name);
         if self.status != ParseResultStatus::Success {
             return Ok(String::from(""));
         }
@@ -33,7 +32,6 @@ impl ParseResult {
 
         for (i, child) in self.children.iter().enumerate() {
             let child_script = child.create_script(lua)?;
-            println!("{}: {}", &child.parent.borrow().name, &child_script);
             children_table.set(i+1, child_script)
                 .expect("Failed to add child script for childen_table");
         }

@@ -103,7 +103,6 @@ impl Parser for Matcher {
                 didnt_match += 1;
             }
             result.children.push(child_result);
-            println!("PUSH");
         }
         // if didnt_match == n.children.len() {
         //     result.status = ParseResultStatus::DidntMatch;

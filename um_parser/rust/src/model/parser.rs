@@ -246,4 +246,30 @@ impl ParserModel {
             script: self.script.to_string(),
         }))
     }
+
+    pub fn duplicate(&self, suffix_idx: u32) -> ParserModel {
+        let name = match self.ref_to_id {
+            Some(_) => self.name.to_string(),
+            None => format!("{}{}", self.name, suffix_idx),
+        };
+
+        ParserModel {
+            children: vec![],
+            description: self.description.to_string(),
+            editor_offset_x: self.editor_offset_x + 40.0,
+            editor_offset_y: self.editor_offset_y + 40.0,
+            id: -1,
+            is_template: self.is_template,
+            name: name,
+            parent_id: None,
+            parent_slot: None,
+            parser_editor_id: self.parser_editor_id,
+            pattern: self.pattern.to_string(),
+            project_name: self.project_name.to_string(),
+            ptype: self.ptype,
+            ref_name: self.ref_name.clone(),
+            ref_to_id: self.ref_to_id.clone(),
+            script: self.script.to_string(),
+        }
+    }
 }
