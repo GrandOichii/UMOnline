@@ -174,7 +174,6 @@ impl ProjectEditorNode {
         // TODO notify user that root is not set
         if root_idx.is_none() {
             self.display_parse_error("Root is not set!");
-            godot_print!("Root is not set!");
             return;
         }
         // let ridx = match root_idx {

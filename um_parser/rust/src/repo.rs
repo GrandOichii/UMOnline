@@ -98,17 +98,6 @@ impl ParserRepositoryNode {
         )
     }
 
-    pub fn get_connected_parser(
-        &self,
-        parent_id: i32,
-        parent_slot: i32,
-    ) -> Result<Option<CardModel>, Box<dyn Error>> {
-        self.query_first(
-            ParserModel::sql_select().where_clause("p.parent_id = $1 AND p.parent_slot = $2"),
-            (parent_id, parent_slot),
-        )
-    }
-
     pub fn insert_or_update_parser(&self, parser: &ParserModel) -> Result<(), Box<dyn Error>> {
         let existing = self.get_parser(parser.id)?;
         match existing {
@@ -305,7 +294,7 @@ impl ParserRepositoryNode {
         match result {
             None => Ok(None),
             Some(mut parser) => {
-                parser.children = self.get_parser_children_rec(parser.id)?;
+                parser.children = self.get_parser_children(parser.id, true)?;
                 Ok(Some(parser))
             }
         }
@@ -324,7 +313,11 @@ impl ParserRepositoryNode {
             .collect())
     }
 
-    fn get_parser_children_rec(&self, parser_id: i32) -> Result<Vec<ParserModel>, Box<dyn Error>> {
+    pub fn get_parser_children(
+        &self,
+        parser_id: i32,
+        rec: bool,
+    ) -> Result<Vec<ParserModel>, Box<dyn Error>> {
         let children = self.query::<ParserModel>(
             ParserModel::sql_select()
                 .where_clause("p.parent_id = ?1")
@@ -333,7 +326,9 @@ impl ParserRepositoryNode {
         )?;
         let mut result: Vec<ParserModel> = Vec::with_capacity(children.len());
         for mut child in children {
-            child.children = self.get_parser_children_rec(child.id)?;
+            if rec {
+                child.children = self.get_parser_children(child.id, rec)?;
+            }
             result.push(child);
         }
         return Ok(result);

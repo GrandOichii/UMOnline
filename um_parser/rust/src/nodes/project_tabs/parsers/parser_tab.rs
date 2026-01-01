@@ -136,7 +136,6 @@ impl ParserTabNode {
             .signals()
             .cancel_request()
             .connect_other(self, Self::on_parser_editor_window_cancel_request);
-
     }
 
     pub fn set_repo(&mut self, repo: Gd<ParserRepositoryNode>) {
@@ -147,7 +146,7 @@ impl ParserTabNode {
     fn on_parser_editor_window_cancel_request(&mut self) {
         self.parser_editor.hide();
     }
-    
+
     fn on_parser_editor_window_save_request(&mut self) {
         let model = self.parser_editor.bind_mut().build();
         self.parser_editor.hide();
@@ -181,9 +180,21 @@ impl ParserTabNode {
             if parser.is_template {
                 continue;
             }
-            if parser.parent_id.is_some() {
-                continue;
+
+            let children = self
+                .repo
+                .bind_mut()
+                .get_parser_children(parser.id, false)
+                .expect("Failed to get parser children");
+            for mut child in children {
+                child.parent_id = None;
+                child.parent_slot = None;
+                self.repo
+                    .bind_mut()
+                    .update_parser_by_id(&child)
+                    .expect("Failed to update child parser");
             }
+
             self.repo
                 .bind_mut()
                 .delete_parser(parser.id)
@@ -503,7 +514,7 @@ impl ParserTabNode {
             None => return,
             Some(p) => p,
         };
-        
+
         for parsed_text in ph.parsed_texts.iter() {
             let mut node = self.parsed_text_scene.instantiate_as::<ParsedTextNode>();
             self.parsed_container.add_child(&node);
@@ -536,9 +547,11 @@ impl ParserTabNode {
             None => return,
             Some(p) => p,
         };
-        
+
         for parsed_text in ph.unparsed_texts.iter() {
-            let mut node = self.unparsed_text_scene.instantiate_as::<UnparsedTextNode>();
+            let mut node = self
+                .unparsed_text_scene
+                .instantiate_as::<UnparsedTextNode>();
             self.unparsed_container.add_child(&node);
             node.bind_mut().cards_tab.init(self.cards_tab.clone());
 
