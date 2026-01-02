@@ -1,2 +1,1 @@
-- selectors need to order their children
 - cyclycal connects are not checked
