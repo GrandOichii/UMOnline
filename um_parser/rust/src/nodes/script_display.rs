@@ -82,7 +82,6 @@ impl ScriptDisplayNode {
             (r"(\w+)\.", "{}.", &self.table_name_color),
             (r"(\w+\s*):", "{}:", &self.table_name_color),
             (r"\b([0-9]+)\b", "{}", &self.number_color),
-
             ("('.+')", "{}", &self.string_color),
             ("(\".+\")", "{}", &self.string_color),
         ];

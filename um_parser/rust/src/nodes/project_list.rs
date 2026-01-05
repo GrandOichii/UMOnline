@@ -148,7 +148,7 @@ impl ProjectListNode {
         if name.len() == 0 {
             return;
         }
-        
+
         let project = ProjectModel {
             description: self.new_project_description_edit.get_text().to_string(),
             name: name,

@@ -19,19 +19,20 @@ impl SQLModel for EditorModel {
             .primary_key("id")
     }
 
-
     fn sql_select() -> sql_query_builder::Select {
         sql::Select::new()
             .select("last_project_name")
             .from("editors")
     }
-    
+
     fn sql_delete() -> sql_query_builder::Delete {
-        sql::Delete::new()
-            .delete_from("editors")
+        sql::Delete::new().delete_from("editors")
     }
-    
-    fn sql_insert_into(&self, conn: &rusqlite::Connection) -> Result<usize, Box<dyn std::error::Error>> {
+
+    fn sql_insert_into(
+        &self,
+        conn: &rusqlite::Connection,
+    ) -> Result<usize, Box<dyn std::error::Error>> {
         let sql = sql::Insert::new()
             .insert_into("editors (last_project_name)")
             .values("(?1)")
@@ -40,8 +41,11 @@ impl SQLModel for EditorModel {
         let result = conn.execute(&sql, params!(&self.last_project_name))?;
         Ok(result)
     }
-        
-    fn get_fn_mut(row: &rusqlite::Row) -> Result<Self, rusqlite::Error> where Self: Sized {
+
+    fn get_fn_mut(row: &rusqlite::Row) -> Result<Self, rusqlite::Error>
+    where
+        Self: Sized,
+    {
         Ok(EditorModel {
             last_project_name: row.get(0)?,
         })

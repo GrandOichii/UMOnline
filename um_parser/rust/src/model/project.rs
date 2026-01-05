@@ -40,7 +40,7 @@ impl SQLModel for ProjectModel {
             root_parser_id: row.get(2)?,
         })
     }
-    
+
     fn sql_insert_into(&self, conn: &rusqlite::Connection) -> Result<usize, Box<dyn Error>> {
         let sql = sql::Insert::new()
             .insert_into("projects (name, description)")
@@ -60,7 +60,6 @@ impl ProjectModel {
     }
 }
 
-
 impl SQLUpdateById for ProjectModel {
     fn sql_update_by_id(&self, conn: &rusqlite::Connection) -> Result<usize, Box<dyn Error>> {
         let sql = sql::Update::new()
@@ -70,14 +69,7 @@ impl SQLUpdateById for ProjectModel {
             .where_clause("name = ?1")
             .to_string();
 
-        let result = conn.execute(
-            &sql,
-            (
-                &self.name,
-                &self.description,
-                self.root_parser_id,
-            ),
-        )?;
+        let result = conn.execute(&sql, (&self.name, &self.description, self.root_parser_id))?;
 
         return Ok(result);
     }

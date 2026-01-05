@@ -159,22 +159,24 @@ mod tests {
         let root = Rc::new(RefCell::new(ParserNode::matcher(
             String::from("root"),
             Regex::new("^If (.+), (.+)$").unwrap(),
-            String::from("function _Create(text, children, data) return children[1]..' '..children[2] end"),
+            String::from(
+                "function _Create(text, children, data) return children[1]..' '..children[2] end",
+            ),
             // String::from("function _Create(text, children, data) return children[1] end"),
             vec![
                 Rc::new(RefCell::new(ParserNode::matcher(
                     String::from("c1"),
                     Regex::new(".+").unwrap(),
                     String::from("function _Create(text, children, data) return 'c1'..text end"),
-                    vec![]
+                    vec![],
                 ))),
                 Rc::new(RefCell::new(ParserNode::matcher(
                     String::from("c2"),
                     Regex::new(".+").unwrap(),
                     String::from("function _Create(text, children, data) return 'c2'..text end"),
-                    vec![]
+                    vec![],
                 ))),
-            ]
+            ],
         )));
 
         let text = "If A, B";

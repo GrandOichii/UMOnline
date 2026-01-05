@@ -177,7 +177,7 @@ impl ParserTabNode {
             if !node.is_selected() {
                 continue;
             }
-            let b= node.bind();
+            let b = node.bind();
             let parser = b.parser.as_ref().unwrap();
             if parser.is_template {
                 continue;

@@ -112,7 +112,6 @@ impl ParserGraphNode {
         self.base_mut()
             .set_position_offset(Vector2::new(parser.editor_offset_x, parser.editor_offset_y));
 
-
         // additional type-specific control nodes
         // TODO this will be readded when calling load_parser again
         if parser.ref_to_id.is_none() {
@@ -125,8 +124,8 @@ impl ParserGraphNode {
                         .signals()
                         .pressed()
                         .connect_other(self, Self::on_add_slot_button_pressed);
-                },
-                _ => {}         
+                }
+                _ => {}
             };
         }
 

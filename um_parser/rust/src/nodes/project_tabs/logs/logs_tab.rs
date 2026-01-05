@@ -1,6 +1,6 @@
+use chrono;
 use godot::classes::*;
 use godot::prelude::*;
-use chrono;
 
 use crate::model::project::ProjectModel;
 
@@ -9,7 +9,7 @@ use crate::model::project::ProjectModel;
 pub struct LogsTabNode {
     base: Base<Control>,
 
-    #[export_group(name="Nodes")]
+    #[export_group(name = "Nodes")]
     #[export]
     clear_button: OnEditor<Gd<Button>>,
     #[export]
@@ -38,19 +38,29 @@ impl LogsTabNode {
     }
 
     fn format_msg(msg: String, color: String) -> String {
-        format!("[{}] [color={}]{}[/color]\n", chrono::offset::Local::now().format("%Y-%m-%d %H:%M:%S"), color, &msg)
+        format!(
+            "[{}] [color={}]{}[/color]\n",
+            chrono::offset::Local::now().format("%Y-%m-%d %H:%M:%S"),
+            color,
+            &msg
+        )
     }
 
     pub fn log(&mut self, msg: String) {
-        self.logs_label.append_text(LogsTabNode::format_msg(msg, "white".to_string()).as_str());
+        self.logs_label
+            .append_text(LogsTabNode::format_msg(msg, "white".to_string()).as_str());
     }
 
     pub fn log_important(&mut self, msg: String) {
-        self.logs_label.append_text(LogsTabNode::format_msg(msg, "cyan".to_string()).as_str());
+        self.logs_label
+            .append_text(LogsTabNode::format_msg(msg, "cyan".to_string()).as_str());
     }
 
     pub fn load_project(&mut self, project: &ProjectModel) {
-        self.log(format!("Loaded project {}", LogsTabNode::format_project_name(&project.name)));
+        self.log(format!(
+            "Loaded project {}",
+            LogsTabNode::format_project_name(&project.name)
+        ));
     }
 
     pub fn format_project_name(project_name: &String) -> String {

@@ -100,7 +100,10 @@ mod tests {
             String::from("function _Create(text, children, data) return 'matcher2' end"),
             vec![],
         )));
-        let root = Rc::new(RefCell::new(ParserNode::selector(String::from("selector1"), vec![m1, m2])));
+        let root = Rc::new(RefCell::new(ParserNode::selector(
+            String::from("selector1"),
+            vec![m1, m2],
+        )));
 
         let text = "m1";
 
@@ -124,7 +127,10 @@ mod tests {
             String::from("function _Create(text, children, data) return 'matcher2' end"),
             vec![],
         )));
-        let root = Rc::new(RefCell::new(ParserNode::selector(String::from("selector1"), vec![m1, m2])));
+        let root = Rc::new(RefCell::new(ParserNode::selector(
+            String::from("selector1"),
+            vec![m1, m2],
+        )));
 
         let text = "m3";
 

@@ -184,7 +184,10 @@ end"
         let binding = self
             .repo
             .bind_mut()
-            .get_parsers_with_name(&self.edited_parser.as_ref().unwrap().project_name, &parser.name)
+            .get_parsers_with_name(
+                &self.edited_parser.as_ref().unwrap().project_name,
+                &parser.name,
+            )
             .expect("Failed to get parsers");
         let iter = binding.iter();
         let amount = match self.edited_parser.as_ref().unwrap().id {
@@ -210,11 +213,9 @@ end"
         let lua = Lua::new();
 
         match lua.load(&parser.script).exec() {
-            Ok(_) => {
-                match lua.globals().get::<mlua::Function>("_Create") {
-                    Ok(_) => None,
-                    Err(_) => Some(String::from("Didn't find _Create function"))
-                }
+            Ok(_) => match lua.globals().get::<mlua::Function>("_Create") {
+                Ok(_) => None,
+                Err(_) => Some(String::from("Didn't find _Create function")),
             },
             // Err(err) => Some(format!("Lua parse error: {:?}", err)),
             Err(_) => Some(String::from("Lua parse error")),

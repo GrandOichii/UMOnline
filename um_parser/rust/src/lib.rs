@@ -1,11 +1,10 @@
 use godot::prelude::*;
-use godot::classes::*;
 
-pub mod parsers;
-pub mod nodes;
 pub mod model;
-pub mod traits;
+pub mod nodes;
+pub mod parsers;
 pub mod repo;
+pub mod traits;
 
 struct UMParserExtension;
 

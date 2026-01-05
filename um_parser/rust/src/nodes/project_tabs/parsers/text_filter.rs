@@ -5,9 +5,7 @@ use godot::prelude::*;
 #[class(init,base=VBoxContainer)]
 pub struct TextFilterNode {
     base: Base<VBoxContainer>,
-
     //#[export_group(name="Nodes")]
-    
 }
 
 #[godot_api]
@@ -18,7 +16,5 @@ impl IVBoxContainer for TextFilterNode {
 }
 
 impl TextFilterNode {
-    fn connect_signals(&mut self) {
-    
-    }
+    fn connect_signals(&mut self) {}
 }

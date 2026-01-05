@@ -2,9 +2,7 @@ use std::{cell::RefCell, error::Error, rc::Rc};
 
 use mlua::Lua;
 
-#[derive(Debug)]
-#[derive(PartialEq)]
-#[derive(Clone, Copy)]
+#[derive(Debug, PartialEq, Clone, Copy)]
 pub enum ParseResultStatus {
     Success,
     DidntMatch,
@@ -27,19 +25,23 @@ impl ParseResult {
         if self.status != ParseResultStatus::Success {
             return Ok(String::from(""));
         }
-        let children_table = lua.create_table()
-            .expect("Failed to create table");
+        let children_table = lua.create_table().expect("Failed to create table");
 
         for (i, child) in self.children.iter().enumerate() {
             let child_script = child.create_script(lua)?;
-            children_table.set(i+1, child_script)
+            children_table
+                .set(i + 1, child_script)
                 .expect("Failed to add child script for childen_table");
         }
 
         lua.load(self.parent.borrow().parser.get_script()).exec()?;
         let creation_func: mlua::Function = lua.globals().get("_Create")?;
-        
-        let result = creation_func.call::<String>((self.text.to_string(), &children_table, &self.parse_data))?;
+
+        let result = creation_func.call::<String>((
+            self.text.to_string(),
+            &children_table,
+            &self.parse_data,
+        ))?;
         return Ok(result);
     }
 }
@@ -49,7 +51,6 @@ pub trait Parser {
 
     fn get_script(&self) -> String;
 }
-
 
 pub struct ParserNode {
     pub name: String,

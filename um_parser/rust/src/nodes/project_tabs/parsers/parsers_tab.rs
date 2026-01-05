@@ -26,7 +26,7 @@ pub struct ParsersTabNode {
 
     #[export]
     parser_tab_scene: OnEditor<Gd<PackedScene>>,
-    
+
     #[export]
     cards_tab: OnEditor<Gd<CardsTabNode>>,
 
@@ -257,7 +257,6 @@ impl ParsersTabNode {
 
         self.parser_tabs_container.add_child(&node);
         self.parser_tabs_container.set_current_tab(prev_child_count);
-
 
         node.bind_mut().set_repo(self.repo.clone());
         node.bind_mut().parent.init(self.to_gd().clone());
