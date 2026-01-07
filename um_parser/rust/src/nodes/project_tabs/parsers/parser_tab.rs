@@ -316,18 +316,65 @@ impl ParserTabNode {
         return None;
     }
 
+    fn change_parser_editor_id(
+        mut parser: ParserModel,
+        new_parser_editor_id: i32,
+        repo: &ParserRepositoryNode,
+    ) {
+        parser.parser_editor_id = new_parser_editor_id;
+        repo.update_parser_by_id(&parser)
+            .expect("Failed to update parser_editor_id");
+        for child in parser.children {
+            ParserTabNode::change_parser_editor_id(child, new_parser_editor_id, repo);
+        }
+    }
+
+    fn change_node_to_template(&mut self, parser_id: i32) {
+        let repo = self.repo.bind_mut();
+        let mut parser = repo
+            .get_parser(parser_id)
+            .expect("Failed to get parser")
+            .expect("Failed to find parser");
+        
+        // 1. check if the specified node has a parent. If true, create a separate node that is a ref to this node and attach it to the parent (same slot)
+        if parser.parent_id.is_some() {
+            let mut ref_parser = ParserModel::new_ref(&parser);
+            ref_parser.parent_id = parser.parent_id;
+            ref_parser.parent_slot = parser.parent_slot;
+            ref_parser.editor_offset_x = parser.editor_offset_x;
+            ref_parser.editor_offset_y = parser.editor_offset_y;
+            ref_parser.parser_editor_id = parser.parser_editor_id;
+            repo.insert_parser(&ref_parser)
+                .expect("Failed to insert ref replacement");
+        }
+
+        // 2. change is_template of the specified parser to be true
+        parser.is_template = true;
+        parser.parent_id = None;
+        parser.parent_id = None;
+
+        // 3. get all children and grandchildren of the specified parser, change all of their parser_editor_ids to parser_id
+        let children = repo
+            .get_parser_children(parser_id, true)
+            .expect("Failed to get parser children");
+        parser.children = children;
+        ParserTabNode::change_parser_editor_id(parser, parser_id, &repo);
+
+        drop(repo);
+        self.parent.bind_mut().reload_templates();
+        self.reload_nodes();
+    }
+
     fn on_node_menu_index_pressed(&mut self, idx: i64) {
         let mut node = self
             .graph
             .get_node_as::<ParserGraphNode>(self.last_popup_node_name.as_ref().unwrap());
         match idx {
-            0 => {
-                node.bind_mut().edit_request();
+            0 => node.bind_mut().edit_request(),
+            1 => {
+                let parser_id = node.bind_mut().parser.as_ref().unwrap().id;
+                self.change_node_to_template(parser_id);
             }
-            1 => godot_print!(
-                "TO TEMPLATE REQUEST {}",
-                self.last_popup_node_name.as_ref().unwrap()
-            ), // TODO
             other => panic!("Unrecognized node_menu option idx: {}", other),
         }
     }
