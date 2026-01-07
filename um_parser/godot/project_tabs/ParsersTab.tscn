@@ -3,13 +3,15 @@
 [ext_resource type="PackedScene" uid="uid://jgb6a68s720w" path="res://project_tabs/parsers/ParserTab.tscn" id="1_sjifr"]
 [ext_resource type="PackedScene" uid="uid://d0osheeq02yj6" path="res://windows/ParserEditorWindow.tscn" id="2_qdeex"]
 
-[node name="ParsersTab" type="ParsersTabNode" node_paths=PackedStringArray("templates_list", "parser_tabs_container", "parser_editor_window", "create_button", "delete_button")]
+[node name="ParsersTab" type="ParsersTabNode" node_paths=PackedStringArray("templates_list", "parser_tabs_container", "parser_editor_window", "create_button", "delete_button", "template_filter", "clear_template_filter_button")]
 parser_tab_scene = ExtResource("1_sjifr")
 templates_list = NodePath("HBoxContainer/VBoxContainer/TemplateList")
 parser_tabs_container = NodePath("HBoxContainer/VBoxContainer2/ParserTabs")
 parser_editor_window = NodePath("ParserEditorWindow")
 create_button = NodePath("HBoxContainer/VBoxContainer/HBoxContainer/CreateButton")
 delete_button = NodePath("HBoxContainer/VBoxContainer/HBoxContainer/DeleteButton")
+template_filter = NodePath("HBoxContainer/VBoxContainer/HBoxContainer2/TemplateFilter")
+clear_template_filter_button = NodePath("HBoxContainer/VBoxContainer/HBoxContainer2/ClearTemplateFilterButton")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -27,6 +29,18 @@ grow_vertical = 2
 [node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="TemplateFilter" type="LineEdit" parent="HBoxContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Filter templates"
+
+[node name="ClearTemplateFilterButton" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = " X "
 
 [node name="TemplateList" type="ItemList" parent="HBoxContainer/VBoxContainer"]
 layout_mode = 2

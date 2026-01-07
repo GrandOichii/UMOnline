@@ -335,7 +335,7 @@ impl ParserTabNode {
             .get_parser(parser_id)
             .expect("Failed to get parser")
             .expect("Failed to find parser");
-        
+
         // 1. check if the specified node has a parent. If true, create a separate node that is a ref to this node and attach it to the parent (same slot)
         if parser.parent_id.is_some() {
             let mut ref_parser = ParserModel::new_ref(&parser);

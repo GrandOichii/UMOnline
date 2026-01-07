@@ -2,6 +2,7 @@ use godot::classes::tab_bar::CloseButtonDisplayPolicy;
 use godot::classes::*;
 use godot::prelude::*;
 
+use crate::model::parser::ParserModel;
 use crate::model::project::ProjectModel;
 use crate::nodes::parser_editor::ParserEditorWindowNode;
 use crate::nodes::parser_editor::ParserEditorWindowNodeMode;
@@ -23,6 +24,7 @@ pub struct ParsersTabNode {
     pub logs_tab: OnReady<Gd<LogsTabNode>>,
 
     pub loaded_project_name: String,
+    pub loaded_templates: Vec<ParserModel>,
 
     #[export]
     parser_tab_scene: OnEditor<Gd<PackedScene>>,
@@ -41,6 +43,10 @@ pub struct ParsersTabNode {
     create_button: OnEditor<Gd<Button>>,
     #[export]
     delete_button: OnEditor<Gd<Button>>,
+    #[export]
+    template_filter: OnEditor<Gd<LineEdit>>,
+    #[export]
+    clear_template_filter_button: OnEditor<Gd<Button>>,
 }
 
 #[godot_api]
@@ -83,6 +89,45 @@ impl ParsersTabNode {
             .signals()
             .cancel_request()
             .connect_other(self, Self::on_parser_editor_window_cancel_request);
+        self.template_filter
+            .signals()
+            .text_changed()
+            .connect_other(self, Self::on_template_filter_text_changed);
+        self.clear_template_filter_button
+            .signals()
+            .pressed()
+            .connect_other(self, Self::on_clear_template_filter_button_pressed);
+    }
+
+    fn display_templates_list(&mut self) {
+        self.templates_list.clear();
+        let filter = self.template_filter.get_text().to_string().to_lowercase();
+        for parser in &self.loaded_templates {
+            if filter.len() == 0 || parser.name.to_lowercase().contains(&filter) {
+                let idx = self.templates_list.add_item(&parser.name);
+                // let idx = self.templates_list.add_item(
+                //     &format!(
+                //         "{}{}",
+                //         match project.root_parser_id {
+                //             Some(root_id) if root_id == parser.id => "* ",
+                //             _ => "",
+                //         },
+                //         &parser.name
+                //     )
+                //     .to_string(),
+                // );
+                self.templates_list
+                    .set_item_metadata(idx, &parser.id.to_variant());
+            }
+            }
+    }
+
+    fn on_clear_template_filter_button_pressed(&mut self) {
+        self.template_filter.call_deferred("clear", &[]);
+    }
+
+    fn on_template_filter_text_changed(&mut self, new_text: GString) {
+        self.display_templates_list();
     }
 
     pub fn set_repo(&mut self, repo: Gd<ParserRepositoryNode>) {
@@ -176,16 +221,15 @@ impl ParsersTabNode {
     }
 
     pub fn reload_templates(&mut self) {
-        self.templates_list.clear();
         let project_name = self.loaded_project_name.to_string();
-        let project = self
-            .repo
-            .bind_mut()
-            .get_project(&project_name)
-            .expect("Failed to get project")
-            .expect("Failed to find project");
+        // let project = self
+        //     .repo
+        //     .bind_mut()
+        //     .get_project(&project_name)
+        //     .expect("Failed to get project")
+        //     .expect("Failed to find project");
 
-        let templates = self
+        self.loaded_templates = self
             .repo
             .bind_mut()
             .get_templates(&project_name)
@@ -194,28 +238,11 @@ impl ParsersTabNode {
         let mut logs = self.logs_tab.bind_mut();
         logs.log(format!(
             "Loaded {} template(s)",
-            LogsTabNode::format_count(templates.len())
+            LogsTabNode::format_count(self.loaded_templates.len())
         ));
         drop(logs);
 
-        self.templates_list.clear();
-        for parser in &templates {
-            // TODO filter
-
-            let idx = self.templates_list.add_item(
-                &format!(
-                    "{}{}",
-                    match project.root_parser_id {
-                        Some(root_id) if root_id == parser.id => "* ",
-                        _ => "",
-                    },
-                    &parser.name
-                )
-                .to_string(),
-            );
-            self.templates_list
-                .set_item_metadata(idx, &parser.id.to_variant());
-        }
+        self.display_templates_list();
     }
 
     fn on_templates_list_item_activated(&mut self, idx: i64) {
