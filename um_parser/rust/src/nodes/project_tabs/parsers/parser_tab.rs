@@ -2,7 +2,6 @@ use std::collections::HashMap;
 
 use godot::classes::*;
 use godot::prelude::*;
-use mlua::ffi::lua_newuserdatauv;
 
 use crate::model::parser::*;
 use crate::nodes::parser_editor::ParserEditorWindowNode;
@@ -21,6 +20,7 @@ pub struct ParserTabNode {
 
     pub loaded_id: Option<i32>,
     pub last_popup_position: Option<Vector2>,
+    pub last_popup_node_name: Option<String>,
 
     #[init(val = OnReady::manual())]
     pub repo: OnReady<Gd<ParserRepositoryNode>>,
@@ -65,6 +65,8 @@ pub struct ParserTabNode {
     unparsed_container: OnEditor<Gd<Container>>,
     #[export]
     parser_editor: OnEditor<Gd<ParserEditorWindowNode>>,
+    #[export]
+    node_menu: OnEditor<Gd<PopupMenu>>,
 }
 
 #[godot_api]
@@ -136,6 +138,10 @@ impl ParserTabNode {
             .signals()
             .cancel_request()
             .connect_other(self, Self::on_parser_editor_window_cancel_request);
+        self.node_menu
+            .signals()
+            .index_pressed()
+            .connect_other(self, Self::on_node_menu_index_pressed);
     }
 
     pub fn set_repo(&mut self, repo: Gd<ParserRepositoryNode>) {
@@ -249,7 +255,6 @@ impl ParserTabNode {
 
         let parser: ParserModel = ParserModel::new_ref(&parser);
         self.create_node(parser);
-        // self.add_nodes_for(&parser);
     }
 
     fn on_matchers_popup_submenu_index_pressed(&mut self, idx: i64) {
@@ -301,7 +306,49 @@ impl ParserTabNode {
         );
     }
 
+    fn get_node_at_graph_position(&mut self, pos: Vector2) -> Option<Gd<ParserGraphNode>> {
+        for child in self.get_displayed_parsers() {
+            if child.get_rect().contains_point(pos) {
+                return Some(child);
+            }
+        }
+
+        return None;
+    }
+
+    fn on_node_menu_index_pressed(&mut self, idx: i64) {
+        let mut node = self
+            .graph
+            .get_node_as::<ParserGraphNode>(self.last_popup_node_name.as_ref().unwrap());
+        match idx {
+            0 => {
+                node.bind_mut().edit_request();
+            }
+            1 => godot_print!(
+                "TO TEMPLATE REQUEST {}",
+                self.last_popup_node_name.as_ref().unwrap()
+            ), // TODO
+            other => panic!("Unrecognized node_menu option idx: {}", other),
+        }
+    }
+
     fn on_graph_popup_request(&mut self, at_position: Vector2) {
+        let popup_pos = Vector2i::from_tuple((
+            (at_position.x + self.graph.get_global_position().x) as i32,
+            (at_position.y + self.graph.get_global_position().y) as i32,
+        ));
+
+        if let Some(node) = self.get_node_at_graph_position(at_position) {
+            self.node_menu.popup();
+            self.node_menu.set_position(popup_pos);
+            self.last_popup_node_name = Some(node.get_name().to_string());
+            let node = node.bind();
+            let parser = node.parser.as_ref().unwrap();
+            self.node_menu
+                .set_item_disabled(1, parser.is_template || parser.ref_to_id.is_some());
+            return;
+        }
+
         self.last_popup_position = Some(at_position);
 
         self.matchers_popup_submenu.clear();
@@ -332,10 +379,7 @@ impl ParserTabNode {
             menu.set_item_metadata(idx, &template.id.to_variant());
         }
         self.new_node_menu.popup();
-        self.new_node_menu.set_position(Vector2i::from_tuple((
-            (at_position.x + self.graph.get_global_position().x) as i32,
-            (at_position.y + self.graph.get_global_position().y) as i32,
-        )));
+        self.new_node_menu.set_position(popup_pos);
     }
 
     fn on_graph_connection_request(

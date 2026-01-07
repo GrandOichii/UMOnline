@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://bvgd2bo5h76ep" path="res://project_tabs/parsers/TextFilter.tscn" id="4_jrwm0"]
 [ext_resource type="PackedScene" uid="uid://d0osheeq02yj6" path="res://windows/ParserEditorWindow.tscn" id="5_2alyd"]
 
-[node name="ParserTab" type="ParserTabNode" node_paths=PackedStringArray("name_label", "type_label", "pattern_label", "description_label", "script_display", "pattern_container", "graph", "new_node_menu", "matchers_popup_submenu", "selectors_popup_submenu", "splitters_popup_submenu", "parsed_container", "unparsed_container", "parser_editor")]
+[node name="ParserTab" type="ParserTabNode" node_paths=PackedStringArray("name_label", "type_label", "pattern_label", "description_label", "script_display", "pattern_container", "graph", "new_node_menu", "matchers_popup_submenu", "selectors_popup_submenu", "splitters_popup_submenu", "parsed_container", "unparsed_container", "parser_editor", "node_menu")]
 parser_graph_node_scene = ExtResource("1_vhp6e")
 parsed_text_scene = ExtResource("2_50k43")
 unparsed_text_scene = ExtResource("3_kppmc")
@@ -24,6 +24,7 @@ splitters_popup_submenu = NodePath("NewNodeMenu/SplittersPopupSubmenu")
 parsed_container = NodePath("VBoxContainer/Tabs/Parsed/VBoxContainer/ScrollContainer/ParsedContainer")
 unparsed_container = NodePath("VBoxContainer/Tabs/Unparsed/VBoxContainer2/ScrollContainer/UnparsedContainer")
 parser_editor = NodePath("ParserEditorWindow")
+node_menu = NodePath("NodeMenu")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -174,7 +175,6 @@ size_flags_horizontal = 3
 
 [node name="NewNodeMenu" type="PopupMenu" parent="."]
 oversampling_override = 1.0
-visible = true
 item_count = 2
 item_0/text = "New node"
 item_0/id = 0
@@ -206,3 +206,12 @@ item_1/text = "sus"
 item_1/id = 1
 
 [node name="ParserEditorWindow" parent="." instance=ExtResource("5_2alyd")]
+
+[node name="NodeMenu" type="PopupMenu" parent="."]
+oversampling_override = 1.0
+size = Vector2i(114, 100)
+item_count = 2
+item_0/text = "Edit"
+item_0/id = 0
+item_1/text = "To template"
+item_1/id = 1
