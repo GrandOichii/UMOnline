@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://bvgd2bo5h76ep" path="res://project_tabs/parsers/TextFilter.tscn" id="4_jrwm0"]
 [ext_resource type="PackedScene" uid="uid://d0osheeq02yj6" path="res://windows/ParserEditorWindow.tscn" id="5_2alyd"]
 
-[node name="ParserTab" type="ParserTabNode" node_paths=PackedStringArray("name_label", "type_label", "pattern_label", "description_label", "script_display", "pattern_container", "graph", "new_node_menu", "matchers_popup_submenu", "selectors_popup_submenu", "splitters_popup_submenu", "parsed_container", "unparsed_container", "parser_editor", "node_menu")]
+[node name="ParserTab" type="ParserTabNode" node_paths=PackedStringArray("name_label", "type_label", "pattern_label", "description_label", "script_display", "pattern_container", "graph", "new_node_menu", "matchers_popup_submenu", "selectors_popup_submenu", "splitters_popup_submenu", "parsed_container", "unparsed_container", "parser_editor", "node_menu", "unparsed_text_filter", "parsed_text_filter")]
 parser_graph_node_scene = ExtResource("1_vhp6e")
 parsed_text_scene = ExtResource("2_50k43")
 unparsed_text_scene = ExtResource("3_kppmc")
@@ -25,6 +25,8 @@ parsed_container = NodePath("VBoxContainer/Tabs/Parsed/VBoxContainer/ScrollConta
 unparsed_container = NodePath("VBoxContainer/Tabs/Unparsed/VBoxContainer2/ScrollContainer/UnparsedContainer")
 parser_editor = NodePath("ParserEditorWindow")
 node_menu = NodePath("NodeMenu")
+unparsed_text_filter = NodePath("VBoxContainer/Tabs/Unparsed/VBoxContainer2/UnparsedTextFilter")
+parsed_text_filter = NodePath("VBoxContainer/Tabs/Parsed/VBoxContainer/ParsedTextFilter")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0

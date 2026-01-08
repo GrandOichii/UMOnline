@@ -1,15 +1,21 @@
 use std::collections::HashMap;
 
 use godot::classes::*;
+use godot::obj::Bounds;
+use godot::obj::bounds;
 use godot::prelude::*;
 
 use crate::model::parser::*;
 use crate::nodes::parser_editor::ParserEditorWindowNode;
+use crate::nodes::parsing_history::ParsedText;
+use crate::nodes::parsing_history::ParserParsingHistory;
 use crate::nodes::parsing_history::ParsingHistory;
 use crate::nodes::project_tabs::cards::cards_tab::CardsTabNode;
 use crate::nodes::project_tabs::parsers::parsed_text::ParsedTextNode;
 use crate::nodes::project_tabs::parsers::parser_graph_node::ParserGraphNode;
 use crate::nodes::project_tabs::parsers::parsers_tab::ParsersTabNode;
+use crate::nodes::project_tabs::parsers::text::TextNode;
+use crate::nodes::project_tabs::parsers::text_filter::TextFilterNode;
 use crate::nodes::project_tabs::parsers::unparsed_text::UnparsedTextNode;
 use crate::repo::ParserRepositoryNode;
 
@@ -67,6 +73,10 @@ pub struct ParserTabNode {
     parser_editor: OnEditor<Gd<ParserEditorWindowNode>>,
     #[export]
     node_menu: OnEditor<Gd<PopupMenu>>,
+    #[export]
+    unparsed_text_filter: OnEditor<Gd<TextFilterNode>>,
+    #[export]
+    parsed_text_filter: OnEditor<Gd<TextFilterNode>>,
 }
 
 #[godot_api]
@@ -80,14 +90,7 @@ impl IControl for ParserTabNode {
     }
 }
 
-// #[godot_api]
-// impl ParserTabNode {
-//     #[func]
-//     fn gd_load_nodes(&mut self) {
-//         self.load_nodes();
-//     }
-// }
-
+// private methods
 impl ParserTabNode {
     fn connect_signals(&mut self) {
         self.graph
@@ -142,22 +145,14 @@ impl ParserTabNode {
             .signals()
             .index_pressed()
             .connect_other(self, Self::on_node_menu_index_pressed);
-    }
-
-    pub fn set_repo(&mut self, repo: Gd<ParserRepositoryNode>) {
-        self.repo.init(repo.clone());
-        self.parser_editor.bind_mut().repo.init(repo.clone());
-    }
-
-    fn on_parser_editor_window_cancel_request(&mut self) {
-        self.parser_editor.hide();
-    }
-
-    fn on_parser_editor_window_save_request(&mut self) {
-        let model = self.parser_editor.bind_mut().build();
-        self.parser_editor.hide();
-
-        self.create_node(model);
+        self.parsed_text_filter
+            .signals()
+            .filter_changed()
+            .connect_other(self, Self::on_parsed_text_filter_filter_changed);
+        self.unparsed_text_filter
+            .signals()
+            .filter_changed()
+            .connect_other(self, Self::on_unparsed_text_filter_filter_changed);
     }
 
     fn create_node(&mut self, mut parser: ParserModel) {
@@ -175,6 +170,328 @@ impl ParserTabNode {
             .expect("Failed to create a ref to parser");
 
         self.reload_nodes();
+    }
+
+    fn configure_new_node_menu(&mut self) {
+        self.new_node_menu.add_submenu_item(
+            "Matchers",
+            self.matchers_popup_submenu.get_name().to_string().as_str(),
+        );
+        self.new_node_menu.add_submenu_item(
+            "Selectors",
+            self.selectors_popup_submenu.get_name().to_string().as_str(),
+        );
+        self.new_node_menu.add_submenu_item(
+            "Splitters",
+            self.splitters_popup_submenu.get_name().to_string().as_str(),
+        );
+    }
+
+    fn get_node_at_graph_position(&mut self, pos: Vector2) -> Option<Gd<ParserGraphNode>> {
+        for child in self.get_displayed_parsers() {
+            if child.get_rect().contains_point(pos) {
+                return Some(child);
+            }
+        }
+
+        return None;
+    }
+
+    fn change_parser_editor_id(
+        mut parser: ParserModel,
+        new_parser_editor_id: i32,
+        repo: &ParserRepositoryNode,
+    ) {
+        parser.parser_editor_id = new_parser_editor_id;
+        repo.update_parser_by_id(&parser)
+            .expect("Failed to update parser_editor_id");
+        for child in parser.children {
+            ParserTabNode::change_parser_editor_id(child, new_parser_editor_id, repo);
+        }
+    }
+
+    fn change_node_to_template(&mut self, parser_id: i32) {
+        let repo = self.repo.bind_mut();
+        let mut parser = repo
+            .get_parser(parser_id)
+            .expect("Failed to get parser")
+            .expect("Failed to find parser");
+
+        // 1. check if the specified node has a parent. If true, create a separate node that is a ref to this node and attach it to the parent (same slot)
+        if parser.parent_id.is_some() {
+            let mut ref_parser = ParserModel::new_ref(&parser);
+            ref_parser.parent_id = parser.parent_id;
+            ref_parser.parent_slot = parser.parent_slot;
+            ref_parser.editor_offset_x = parser.editor_offset_x;
+            ref_parser.editor_offset_y = parser.editor_offset_y;
+            ref_parser.parser_editor_id = parser.parser_editor_id;
+            repo.insert_parser(&ref_parser)
+                .expect("Failed to insert ref replacement");
+        }
+
+        // 2. change is_template of the specified parser to be true
+        parser.is_template = true;
+        parser.parent_id = None;
+        parser.parent_id = None;
+
+        // 3. get all children and grandchildren of the specified parser, change all of their parser_editor_ids to parser_id
+        let children = repo
+            .get_parser_children(parser_id, true)
+            .expect("Failed to get parser children");
+        parser.children = children;
+        ParserTabNode::change_parser_editor_id(parser, parser_id, &repo);
+
+        drop(repo);
+        self.parent.bind_mut().reload_templates();
+        self.reload_nodes();
+    }
+
+    fn get_displayed_parsers(&mut self) -> Vec<Gd<ParserGraphNode>> {
+        let child_count = self.graph.get_child_count();
+
+        let mut result = Vec::new();
+
+        for i in 0..child_count {
+            let child = self
+                .graph
+                .get_child(i)
+                .expect("Failed to get child at expected idx");
+            if let Ok(parser_node) = child.try_cast::<ParserGraphNode>() {
+                result.push(parser_node);
+            }
+        }
+
+        result
+    }
+
+    fn reload_nodes(&mut self) {
+        self.remove_graph_nodes();
+
+        let nodes = self
+            .repo
+            .bind_mut()
+            .get_editor_parsers(self.loaded_id.unwrap())
+            .expect("Failed to get parser editor nodes");
+
+        let mut node_ids: Vec<i32> = vec![];
+        let mut node_map = HashMap::<i32, Gd<ParserGraphNode>>::new();
+        for node in nodes {
+            let mut result = self
+                .parser_graph_node_scene
+                .instantiate_as::<ParserGraphNode>();
+            self.graph.add_child(&result);
+            result.bind_mut().graph.init(self.graph.clone());
+            result.bind_mut().parent.init(self.to_gd().clone());
+            result.bind_mut().parsers_tab.init(self.parent.clone());
+
+            node_ids.push(node.id);
+            node_map.insert(node.id, result.clone());
+
+            let binding = self.repo.bind_mut();
+            let ph = binding.get_parsing_history(&node.project_name);
+
+            result.bind_mut().load_parser(node);
+            result.bind_mut().load_parsing_history(ph);
+        }
+
+        // add connections
+        for node_id in node_ids {
+            let children_ids = self
+                .repo
+                .bind_mut()
+                .get_parser_children_ids(node_id)
+                .expect("Failed to get children ids");
+            let mut node = node_map.get(&node_id).unwrap().clone();
+            let mut children = vec![];
+            for child_id in children_ids {
+                children.push(node_map.get(&child_id).unwrap());
+            }
+            node.bind_mut().connect_children(children);
+        }
+    }
+
+    fn remove_graph_nodes(&mut self) {
+        while self.graph.get_child_count() > 1
+            && let Some(node) = self.graph.get_child(1)
+        {
+            self.graph.remove_child(&node);
+        }
+    }
+
+    fn apply_text_filter<
+        T: TextNode
+            + Bounds<Declarer = bounds::DeclUser>
+            + godot::prelude::Inherits<godot::prelude::Node>
+            + IPanelContainer,
+    >(
+        &mut self,
+        mut text_filter: Gd<TextFilterNode>,
+        texts_container: Gd<Container>,
+    ) {
+        let text_filter_node = text_filter.bind_mut();
+        let mut filter = text_filter_node.create_text_filter_instance();
+
+        let child_count = texts_container.get_child_count();
+
+        for i in 0..child_count {
+            let mut child = texts_container
+                .get_child(i)
+                .expect("Failed to get child at expected idx")
+                .try_cast::<T>()
+                .unwrap();
+            let node = child.bind_mut();
+            let text = node.get_text();
+            let visible = filter.check(text);
+            drop(node);
+            child.set_visible(visible);
+        }
+    }
+
+    fn load_texts<
+        T: TextNode
+            + Bounds<Declarer = bounds::DeclUser>
+            + godot::prelude::Inherits<godot::prelude::Node>
+            + IPanelContainer,
+    >(
+        &mut self,
+        parser: &ParserModel,
+        mut container: Gd<Container>,
+        scene: Gd<PackedScene>,
+        text_filter: Gd<TextFilterNode>,
+        text_extractor: fn(&ParserParsingHistory) -> &Vec<ParsedText>,
+    ) {
+        // remove old entries
+        while container.get_child_count() > 0
+            && let Some(node) = container.get_child(0)
+        {
+            container.remove_child(&node);
+        }
+
+        // add new entries
+        let repo = self.repo.bind_mut();
+
+        let pho = repo.get_parser_parsing_history(&parser.project_name, &parser.name);
+        let ph = match pho {
+            None => return,
+            Some(p) => p,
+        };
+
+        for parsed_text in text_extractor(ph).iter() {
+            let mut node = scene.instantiate_as::<T>();
+            container.add_child(&node);
+            node.bind_mut().init_cards_tab(self.cards_tab.clone());
+
+            let card = repo
+                .get_card(parsed_text.card_id)
+                .expect("Failed to get card")
+                .expect("Failed to find card");
+
+            node.bind_mut().load_parsed_text(&parsed_text, &card);
+        }
+        drop(repo);
+
+        self.apply_text_filter::<T>(text_filter, container);
+    }
+
+    fn load_parsed_texts(&mut self, parser: &ParserModel) {
+        self.load_texts::<ParsedTextNode>(
+            parser,
+            self.parsed_container.clone(),
+            self.parsed_text_scene.clone(),
+            self.parsed_text_filter.clone(),
+            |pph| &pph.parsed_texts,
+        );
+    }
+
+    fn load_unparsed_texts(&mut self, parser: &ParserModel) {
+        self.load_texts::<UnparsedTextNode>(
+            parser,
+            self.unparsed_container.clone(),
+            self.unparsed_text_scene.clone(),
+            self.unparsed_text_filter.clone(),
+            |pph| &pph.unparsed_texts,
+        );
+    }
+}
+
+// public methods
+impl ParserTabNode {
+    pub fn set_repo(&mut self, repo: Gd<ParserRepositoryNode>) {
+        self.repo.init(repo.clone());
+        self.parser_editor.bind_mut().repo.init(repo.clone());
+    }
+
+    pub fn update_parsing_history(&mut self, ph: Option<&ParsingHistory>) {
+        for i in 0..self.graph.get_child_count() {
+            // let mut child = self.graph.get_child(i).unwrap().try_cast::<ParserTabNode>()
+            //     .expect("Non-ParserTabNode detected in parser_tabs_container");
+            let child = self.graph.get_child(i).unwrap();
+            match child.try_cast::<ParserGraphNode>() {
+                Ok(mut node) => {
+                    node.bind_mut().load_parsing_history(ph);
+                }
+                Err(_) => continue,
+            };
+            // child.bind_mut().update_parsing_history(ph);
+        }
+    }
+
+    pub fn load_parser_info(&mut self, parser: &ParserModel) {
+        let mut p = parser.clone();
+        if let Some(ref_id) = p.ref_to_id {
+            p = self
+                .repo
+                .bind_mut()
+                .get_parser(ref_id)
+                .expect("Failed to get ref parser")
+                .expect("Failed to find ref parser");
+        }
+        self.name_label.set_text(&p.name);
+        self.type_label.set_text(&pmt_to_string(p.ptype));
+        self.pattern_label.set_text(&p.pattern);
+        self.description_label.set_text(&p.description);
+        self.script_display.set_text(&p.script);
+
+        self.pattern_container.set_visible(pmt_has_pattern(p.ptype));
+
+        self.load_parsed_texts(&p);
+        self.load_unparsed_texts(&p);
+    }
+
+    pub fn load_parser(&mut self, parser: &ParserModel) {
+        self.loaded_id = Some(parser.id);
+
+        self.load_parser_info(parser);
+
+        self.reload_nodes();
+    }
+}
+
+// signal connections
+impl ParserTabNode {
+    fn on_parsed_text_filter_filter_changed(&mut self) {
+        self.apply_text_filter::<ParsedTextNode>(
+            self.parsed_text_filter.clone(),
+            self.parsed_container.clone(),
+        );
+    }
+
+    fn on_unparsed_text_filter_filter_changed(&mut self) {
+        self.apply_text_filter::<UnparsedTextNode>(
+            self.unparsed_text_filter.clone(),
+            self.unparsed_container.clone(),
+        );
+    }
+
+    fn on_parser_editor_window_cancel_request(&mut self) {
+        self.parser_editor.hide();
+    }
+
+    fn on_parser_editor_window_save_request(&mut self) {
+        let model = self.parser_editor.bind_mut().build();
+        self.parser_editor.hide();
+
+        self.create_node(model);
     }
 
     fn on_graph_duplicate_nodes_request(&mut self) {
@@ -289,80 +606,6 @@ impl ParserTabNode {
         );
         self.parser_editor.set_title("Create a new local parser");
         self.parser_editor.show();
-    }
-
-    fn configure_new_node_menu(&mut self) {
-        self.new_node_menu.add_submenu_item(
-            "Matchers",
-            self.matchers_popup_submenu.get_name().to_string().as_str(),
-        );
-        self.new_node_menu.add_submenu_item(
-            "Selectors",
-            self.selectors_popup_submenu.get_name().to_string().as_str(),
-        );
-        self.new_node_menu.add_submenu_item(
-            "Splitters",
-            self.splitters_popup_submenu.get_name().to_string().as_str(),
-        );
-    }
-
-    fn get_node_at_graph_position(&mut self, pos: Vector2) -> Option<Gd<ParserGraphNode>> {
-        for child in self.get_displayed_parsers() {
-            if child.get_rect().contains_point(pos) {
-                return Some(child);
-            }
-        }
-
-        return None;
-    }
-
-    fn change_parser_editor_id(
-        mut parser: ParserModel,
-        new_parser_editor_id: i32,
-        repo: &ParserRepositoryNode,
-    ) {
-        parser.parser_editor_id = new_parser_editor_id;
-        repo.update_parser_by_id(&parser)
-            .expect("Failed to update parser_editor_id");
-        for child in parser.children {
-            ParserTabNode::change_parser_editor_id(child, new_parser_editor_id, repo);
-        }
-    }
-
-    fn change_node_to_template(&mut self, parser_id: i32) {
-        let repo = self.repo.bind_mut();
-        let mut parser = repo
-            .get_parser(parser_id)
-            .expect("Failed to get parser")
-            .expect("Failed to find parser");
-
-        // 1. check if the specified node has a parent. If true, create a separate node that is a ref to this node and attach it to the parent (same slot)
-        if parser.parent_id.is_some() {
-            let mut ref_parser = ParserModel::new_ref(&parser);
-            ref_parser.parent_id = parser.parent_id;
-            ref_parser.parent_slot = parser.parent_slot;
-            ref_parser.editor_offset_x = parser.editor_offset_x;
-            ref_parser.editor_offset_y = parser.editor_offset_y;
-            ref_parser.parser_editor_id = parser.parser_editor_id;
-            repo.insert_parser(&ref_parser)
-                .expect("Failed to insert ref replacement");
-        }
-
-        // 2. change is_template of the specified parser to be true
-        parser.is_template = true;
-        parser.parent_id = None;
-        parser.parent_id = None;
-
-        // 3. get all children and grandchildren of the specified parser, change all of their parser_editor_ids to parser_id
-        let children = repo
-            .get_parser_children(parser_id, true)
-            .expect("Failed to get parser children");
-        parser.children = children;
-        ParserTabNode::change_parser_editor_id(parser, parser_id, &repo);
-
-        drop(repo);
-        self.parent.bind_mut().reload_templates();
-        self.reload_nodes();
     }
 
     fn on_node_menu_index_pressed(&mut self, idx: i64) {
@@ -484,39 +727,6 @@ impl ParserTabNode {
         // self.base_mut().call_deferred("gd_load_nodes", &[]);
     }
 
-    pub fn update_parsing_history(&mut self, ph: Option<&ParsingHistory>) {
-        for i in 0..self.graph.get_child_count() {
-            // let mut child = self.graph.get_child(i).unwrap().try_cast::<ParserTabNode>()
-            //     .expect("Non-ParserTabNode detected in parser_tabs_container");
-            let child = self.graph.get_child(i).unwrap();
-            match child.try_cast::<ParserGraphNode>() {
-                Ok(mut node) => {
-                    node.bind_mut().load_parsing_history(ph);
-                }
-                Err(_) => continue,
-            };
-            // child.bind_mut().update_parsing_history(ph);
-        }
-    }
-
-    fn get_displayed_parsers(&mut self) -> Vec<Gd<ParserGraphNode>> {
-        let child_count = self.graph.get_child_count();
-
-        let mut result = Vec::new();
-
-        for i in 0..child_count {
-            let child = self
-                .graph
-                .get_child(i)
-                .expect("Failed to get child at expected idx");
-            if let Ok(parser_node) = child.try_cast::<ParserGraphNode>() {
-                result.push(parser_node);
-            }
-        }
-
-        result
-    }
-
     fn on_graph_end_node_move(&mut self) {
         let parsers = self.get_displayed_parsers();
         for mut child in parsers {
@@ -531,162 +741,6 @@ impl ParserTabNode {
                         .expect("Tried to update a parser that is None"),
                 )
                 .expect("Failed to update parser");
-        }
-    }
-
-    // fn on_graph_node_selected(&mut self, node: Gd<Node>) {
-    //     let mut graph_node = node.try_cast::<ParserGraphNode>().unwrap();
-    //     self.load_parser_info(graph_node.bind_mut().parser.as_ref().unwrap())
-    // }
-
-    pub fn load_parser_info(&mut self, parser: &ParserModel) {
-        let mut p = parser.clone();
-        if let Some(ref_id) = p.ref_to_id {
-            p = self
-                .repo
-                .bind_mut()
-                .get_parser(ref_id)
-                .expect("Failed to get ref parser")
-                .expect("Failed to find ref parser");
-        }
-        self.name_label.set_text(&p.name);
-        self.type_label.set_text(&pmt_to_string(p.ptype));
-        self.pattern_label.set_text(&p.pattern);
-        self.description_label.set_text(&p.description);
-        self.script_display.set_text(&p.script);
-
-        self.pattern_container.set_visible(pmt_has_pattern(p.ptype));
-
-        self.load_parsed_texts(&p);
-        self.load_unparsed_texts(&p);
-    }
-
-    pub fn load_parser(&mut self, parser: &ParserModel) {
-        self.loaded_id = Some(parser.id);
-
-        self.load_parser_info(parser);
-
-        self.reload_nodes();
-    }
-
-    fn reload_nodes(&mut self) {
-        self.remove_graph_nodes();
-
-        let nodes = self
-            .repo
-            .bind_mut()
-            .get_editor_parsers(self.loaded_id.unwrap())
-            .expect("Failed to get parser editor nodes");
-
-        let mut node_ids: Vec<i32> = vec![];
-        let mut node_map = HashMap::<i32, Gd<ParserGraphNode>>::new();
-        for node in nodes {
-            let mut result = self
-                .parser_graph_node_scene
-                .instantiate_as::<ParserGraphNode>();
-            self.graph.add_child(&result);
-            result.bind_mut().graph.init(self.graph.clone());
-            result.bind_mut().parent.init(self.to_gd().clone());
-            result.bind_mut().parsers_tab.init(self.parent.clone());
-
-            node_ids.push(node.id);
-            node_map.insert(node.id, result.clone());
-
-            let binding = self.repo.bind_mut();
-            let ph = binding.get_parsing_history(&node.project_name);
-
-            result.bind_mut().load_parser(node);
-            result.bind_mut().load_parsing_history(ph);
-        }
-
-        // add connections
-        for node_id in node_ids {
-            let children_ids = self
-                .repo
-                .bind_mut()
-                .get_parser_children_ids(node_id)
-                .expect("Failed to get children ids");
-            let mut node = node_map.get(&node_id).unwrap().clone();
-            let mut children = vec![];
-            for child_id in children_ids {
-                children.push(node_map.get(&child_id).unwrap());
-            }
-            node.bind_mut().connect_children(children);
-        }
-    }
-
-    fn remove_graph_nodes(&mut self) {
-        while self.graph.get_child_count() > 1
-            && let Some(node) = self.graph.get_child(1)
-        {
-            self.graph.remove_child(&node);
-        }
-    }
-
-    fn load_parsed_texts(&mut self, parser: &ParserModel) {
-        // remove old entries
-        while self.parsed_container.get_child_count() > 0
-            && let Some(node) = self.parsed_container.get_child(0)
-        {
-            self.parsed_container.remove_child(&node);
-        }
-
-        // add new entries
-        let mut repo_clone = self.repo.clone();
-        let repo = repo_clone.bind_mut();
-
-        let pho = repo.get_parser_parsing_history(&parser.project_name, &parser.name);
-        let ph = match pho {
-            None => return,
-            Some(p) => p,
-        };
-
-        for parsed_text in ph.parsed_texts.iter() {
-            let mut node = self.parsed_text_scene.instantiate_as::<ParsedTextNode>();
-            self.parsed_container.add_child(&node);
-            node.bind_mut().cards_tab.init(self.cards_tab.clone());
-
-            let card = repo
-                .get_card(parsed_text.card_id)
-                .expect("Failed to get card")
-                .expect("Failed to find card");
-
-            node.bind_mut().load_parsed_text(&parsed_text, &card);
-        }
-    }
-
-    fn load_unparsed_texts(&mut self, parser: &ParserModel) {
-        // TODO duplicated code
-        // remove old entries
-        while self.unparsed_container.get_child_count() > 0
-            && let Some(node) = self.unparsed_container.get_child(0)
-        {
-            self.unparsed_container.remove_child(&node);
-        }
-
-        // add new entries
-        let mut repo_clone = self.repo.clone();
-        let repo = repo_clone.bind_mut();
-
-        let pho = repo.get_parser_parsing_history(&parser.project_name, &parser.name);
-        let ph = match pho {
-            None => return,
-            Some(p) => p,
-        };
-
-        for parsed_text in ph.unparsed_texts.iter() {
-            let mut node = self
-                .unparsed_text_scene
-                .instantiate_as::<UnparsedTextNode>();
-            self.unparsed_container.add_child(&node);
-            node.bind_mut().cards_tab.init(self.cards_tab.clone());
-
-            let card = repo
-                .get_card(parsed_text.card_id)
-                .expect("Failed to get card")
-                .expect("Failed to find card");
-
-            node.bind_mut().load_parsed_text(&parsed_text, &card);
         }
     }
 }

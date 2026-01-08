@@ -16,6 +16,17 @@ pub struct ParsedText {
     pub card_id: i32,
 }
 
+impl ParsedText {
+    pub fn from(original: &ParsedText) -> ParsedText {
+        ParsedText {
+            original: original.original.to_string(),
+            full_text: original.full_text.to_string(),
+            generated: original.generated.to_string(),
+            card_id: original.card_id,
+        }
+    }
+}
+
 pub struct ParserParsingHistory {
     pub parsed_texts: Vec<ParsedText>,
     pub unparsed_texts: Vec<ParsedText>,

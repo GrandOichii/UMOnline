@@ -1,6 +1,8 @@
 [gd_scene format=3 uid="uid://bvgd2bo5h76ep"]
 
-[node name="TextFilter" type="TextFilterNode"]
+[node name="TextFilter" type="TextFilterNode" node_paths=PackedStringArray("text_filter", "unique_check")]
+text_filter = NodePath("TextFilter")
+unique_check = NodePath("UniqueCheck")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -17,5 +19,6 @@ layout_mode = 2
 text = "Unique"
 
 [node name="FilterButton" type="Button" parent="."]
+visible = false
 layout_mode = 2
 text = "Filter"
