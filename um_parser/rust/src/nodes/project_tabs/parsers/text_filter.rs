@@ -85,20 +85,11 @@ impl TextFilterInstance {
         }
 
         self.texts.insert(text.original.to_string());
-        let contains = !text
+        let contains = text
             .original
             .to_lowercase()
             .contains(&self.text_filter.to_lowercase());
-        godot_print!(
-            "{} CONTAINS {} -> {}",
-            &text.original,
-            &self.text_filter,
-            contains
-        );
-        if contains {
-            return false;
-        }
 
-        return true;
+        return contains;
     }
 }
