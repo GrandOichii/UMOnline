@@ -1,10 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://1fm3bj00x44y"]
+[gd_scene load_steps=5 format=3 uid="uid://1fm3bj00x44y"]
 
 [ext_resource type="Script" uid="uid://u7husjuja3vp" path="res://v1/Content/Editors/DeckInfoEditor.cs" id="1_3b2c5"]
 [ext_resource type="Texture2D" uid="uid://ji7620hps24w" path="res://assets/decks/Achilles/back.png" id="2_6hgru"]
 [ext_resource type="PackedScene" uid="uid://wrmm0t5haet3" path="res://v1/Content/ImageImporter.tscn" id="3_wcw64"]
+[ext_resource type="PackedScene" uid="uid://dhhiuajxh55rp" path="res://v1/Content/NameEditWindow.tscn" id="4_kll80"]
 
-[node name="DeckInfoEditor" type="MarginContainer" node_paths=PackedStringArray("NameEditNode", "ChoosesSidekickCheckNode", "StartsWithSidekicksCheckNode", "StartingHandSizeNode", "MaxHandSizeNode", "CardBackNode", "CardBackImporter")]
+[node name="DeckInfoEditor" type="MarginContainer" node_paths=PackedStringArray("NameEditNode", "ChoosesSidekickCheckNode", "StartsWithSidekicksCheckNode", "StartingHandSizeNode", "MaxHandSizeNode", "DescriptionEditNode", "CardBackNode", "CardBackImporter", "RenameWindow", "RenameButton")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -16,8 +17,11 @@ ChoosesSidekickCheckNode = NodePath("HBoxContainer/VBoxContainer/HBoxContainer2/
 StartsWithSidekicksCheckNode = NodePath("HBoxContainer/VBoxContainer/HBoxContainer2/StartsWithSidekicksCheck")
 StartingHandSizeNode = NodePath("HBoxContainer/VBoxContainer/StartingHandSize")
 MaxHandSizeNode = NodePath("HBoxContainer/VBoxContainer/MaxHandSize")
+DescriptionEditNode = NodePath("HBoxContainer/VBoxContainer/Description")
 CardBackNode = NodePath("HBoxContainer/VBoxContainer2/CardBack")
 CardBackImporter = NodePath("CardBackImporter")
+RenameWindow = NodePath("RenameWindow")
+RenameButton = NodePath("HBoxContainer/VBoxContainer/HBoxContainer/RenameButton")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 2
@@ -68,6 +72,11 @@ size_flags_horizontal = 3
 value = 7.0
 prefix = "Maximum hand size: "
 
+[node name="Description" type="TextEdit" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+placeholder_text = "Enter deck description"
+
 [node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
@@ -85,11 +94,18 @@ text = "Import card back"
 
 [node name="CardBackImporter" parent="." instance=ExtResource("3_wcw64")]
 
+[node name="RenameWindow" parent="." instance=ExtResource("4_kll80")]
+title = "Rename deck"
+visible = false
+
 [connection signal="text_changed" from="HBoxContainer/VBoxContainer/HBoxContainer/Name" to="." method="OnNameTextChanged"]
 [connection signal="pressed" from="HBoxContainer/VBoxContainer/HBoxContainer/RenameButton" to="." method="OnRenameButtonPressed"]
 [connection signal="pressed" from="HBoxContainer/VBoxContainer/HBoxContainer2/ChoosesSidekickCheck" to="." method="OnChoosesSidekickCheckPressed"]
 [connection signal="pressed" from="HBoxContainer/VBoxContainer/HBoxContainer2/StartsWithSidekicksCheck" to="." method="OnStartsWithSidekicksCheckPressed"]
 [connection signal="value_changed" from="HBoxContainer/VBoxContainer/StartingHandSize" to="." method="OnStartingHandSizeValueChanged"]
 [connection signal="value_changed" from="HBoxContainer/VBoxContainer/MaxHandSize" to="." method="OnMaxHandSizeValueChanged"]
+[connection signal="text_changed" from="HBoxContainer/VBoxContainer/Description" to="." method="OnDescriptionTextChanged"]
 [connection signal="pressed" from="HBoxContainer/VBoxContainer2/CardBackImportButton" to="." method="OnCardBackImportButtonPressed"]
 [connection signal="file_selected" from="CardBackImporter" to="." method="OnCardBackImporterFileSelected"]
+[connection signal="CancelRequest" from="RenameWindow" to="." method="OnRenameWindowCancelRequest"]
+[connection signal="ConfirmRequest" from="RenameWindow" to="." method="OnRenameWindowConfirmRequest"]

@@ -15,7 +15,7 @@ public partial class ContentEditor : Control
     [Export]
     public TabContainer DeckTabsNode { get; set; }
     [Export]
-    public Window NewDeckWindow { get; set; }
+    public NameEditWindow NewDeckWindow { get; set; }
 
     #endregion
 
@@ -69,7 +69,10 @@ public partial class ContentEditor : Control
 
     public void OnCreateDeckButtonPressed()
     {
-        // TODO
+        NewDeckWindow.SetEditData(
+            RepositoryNode.GetDeckNames()
+        );
+        NewDeckWindow.Show();
     }
 
     public void OnDeleteDeckButtonPressed()
@@ -85,6 +88,32 @@ public partial class ContentEditor : Control
     public void OnCustomDecksDeckActivated(int deckId)
     {
         OpenDeck(deckId);
+    }
+
+    public void OnNewDeckWindowCancelRequest()
+    {
+        NewDeckWindow.Hide();
+    }
+
+    public void OnNewDeckWindowConfirmRequest(string deckName)
+    {
+        NewDeckWindow.Hide();
+
+        var deck = new DeckModel()
+        {
+            Id = -1,
+            Name = deckName,
+            ChoosesSidekick = true,
+            Editable = true,
+            MaxHandSize = 7,
+            StartingHandSize = 5,
+            StartsWithSidekicks = true,
+            Description = "",
+        };
+
+        RepositoryNode.InsertModel(deck);
+        var inserted = RepositoryNode.GetDeck(deck.Name);
+        OpenDeck(inserted.Id);
     }
 
     #endregion

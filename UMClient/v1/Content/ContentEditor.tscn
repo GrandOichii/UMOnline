@@ -7,9 +7,9 @@
 [ext_resource type="Texture2D" uid="uid://8ifeqvn0nx6o" path="res://assets/decks/Achilles/heroes/Achilles.webp" id="3_w0hoq"]
 [ext_resource type="Texture2D" uid="uid://7ahnq75cy61m" path="res://assets/decks/Achilles/cards/Achilles_Achilles' Heel.webp" id="4_4vp58"]
 [ext_resource type="PackedScene" uid="uid://c5tfro1iuqdqr" path="res://v1/Storage/LocalRepository.tscn" id="7_rg86l"]
-[ext_resource type="PackedScene" uid="uid://dhhiuajxh55rp" path="res://v1/Content/DeckNameEditWindow.tscn" id="8_r1ane"]
+[ext_resource type="PackedScene" uid="uid://dhhiuajxh55rp" path="res://v1/Content/NameEditWindow.tscn" id="8_r1ane"]
 
-[node name="ContentEditor" type="Control" node_paths=PackedStringArray("OfficialDecks", "CustomDecks", "RepositoryNode", "DeckTabsNode")]
+[node name="ContentEditor" type="Control" node_paths=PackedStringArray("OfficialDecks", "CustomDecks", "RepositoryNode", "DeckTabsNode", "NewDeckWindow")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -21,6 +21,7 @@ OfficialDecks = NodePath("HBoxContainer/VBoxContainer/OfficialDecks")
 CustomDecks = NodePath("HBoxContainer/VBoxContainer/CustomDecks")
 RepositoryNode = NodePath("Repo")
 DeckTabsNode = NodePath("HBoxContainer/DeckTabs")
+NewDeckWindow = NodePath("NewDeckWindow")
 DeckEditorScene = ExtResource("2_4vp58")
 
 [node name="Repo" parent="." instance=ExtResource("7_rg86l")]
@@ -617,8 +618,13 @@ layout_mode = 2
 metadata/_tab_index = 2
 
 [node name="NewDeckWindow" parent="." instance=ExtResource("8_r1ane")]
+title = "Create a new deck"
+visible = false
+ConfirmButtonText = "Create"
 
 [connection signal="DeckActivated" from="HBoxContainer/VBoxContainer/OfficialDecks" to="." method="OnOfficialDecksDeckActivated"]
 [connection signal="DeckActivated" from="HBoxContainer/VBoxContainer/CustomDecks" to="." method="OnCustomDecksDeckActivated"]
 [connection signal="pressed" from="HBoxContainer/VBoxContainer/CreateDeckButton" to="." method="OnCreateDeckButtonPressed"]
 [connection signal="pressed" from="HBoxContainer/VBoxContainer/DeleteDeckButton" to="." method="OnDeleteDeckButtonPressed"]
+[connection signal="CancelRequest" from="NewDeckWindow" to="." method="OnNewDeckWindowCancelRequest"]
+[connection signal="ConfirmRequest" from="NewDeckWindow" to="." method="OnNewDeckWindowConfirmRequest"]

@@ -16,6 +16,7 @@ public class DeckModel : IModel
     public required int? StartingHandSize { get; set; }
     public required int? MaxHandSize { get; set; }
     public required bool Editable { get; set; }
+    public required string Description { get; set; }
 
     public readonly static DeckModel Default = new()
     {
@@ -25,7 +26,8 @@ public class DeckModel : IModel
         MaxHandSize = -1,
         Name = "",
         StartingHandSize = -1,
-        StartsWithSidekicks = false
+        StartsWithSidekicks = false,
+        Description = "",
     };
 
     public string SQLCreate() => new DDLCreateBuilder(SQLTableName())
@@ -36,6 +38,7 @@ public class DeckModel : IModel
         .Column("starting_hand_size INTEGER")
         .Column("max_hand_size INTEGER")
         .Column("editable INTEGER NOT NULL")
+        .Column("description TEXT NOT NULL")
         .PrimaryKey("id")
         .Build();
 
@@ -48,6 +51,7 @@ public class DeckModel : IModel
         "starting_hand_size",
         "max_hand_size",
         "editable",
+        "description",
     ];
 
     public object[] SQLInsertData() => [
@@ -56,7 +60,8 @@ public class DeckModel : IModel
         ChoosesSidekick,
         StartingHandSize,
         MaxHandSize,
-        Editable
+        Editable,
+        Description,
     ];
 
     public static Query SQLSelect() => new Query(Default.SQLTableName()).Select(
@@ -66,7 +71,8 @@ public class DeckModel : IModel
         "chooses_sidekick",
         "starting_hand_size",
         "max_hand_size",
-        "editable"
+        "editable",
+        "description"
     );
 
     public static DeckModel SQLConverter(SqliteDataReader reader)
@@ -80,6 +86,7 @@ public class DeckModel : IModel
             StartingHandSize = reader.GetInt32(4),
             MaxHandSize = reader.GetInt32(5),
             Editable = reader.GetBoolean(6),
+            Description = reader.GetString(7),
         };
     }
 }

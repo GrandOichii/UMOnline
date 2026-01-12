@@ -24,6 +24,9 @@ tab_alignment = 2
 current_tab = 0
 tabs_position = 1
 
-[node name="Deck" parent="TabContainer" instance=ExtResource("2_7gkg1")]
+[node name="Deck" parent="TabContainer" node_paths=PackedStringArray("Parent") instance=ExtResource("2_7gkg1")]
 layout_mode = 2
+Parent = NodePath("../..")
 metadata/_tab_index = 0
+
+[connection signal="DeckInfoChanged" from="TabContainer/Deck" to="." method="OnDeckDeckInfoChanged"]

@@ -3,6 +3,9 @@ using System;
 
 public partial class DeckInfoEditor : MarginContainer
 {
+	[Export]
+	public DeckEditor Parent { get; set; }  
+	
 	#region Signals
 
 	[Signal]
@@ -22,46 +25,70 @@ public partial class DeckInfoEditor : MarginContainer
 	[Export]
 	public CheckBox StartsWithSidekicksCheckNode { get; set; }
 	[Export]
-    public SpinBox StartingHandSizeNode { get; set; }
+	public SpinBox StartingHandSizeNode { get; set; }
 	[Export]
-    public SpinBox MaxHandSizeNode { get; set; }
+	public SpinBox MaxHandSizeNode { get; set; }
 	[Export]
-    public TextureRect CardBackNode { get; set; }
+	public TextEdit DescriptionEditNode { get; set; }
 	[Export]
-    public ImageImporter CardBackImporter { get; set; }
+	public TextureRect CardBackNode { get; set; }
+	[Export]
+	public ImageImporter CardBackImporter { get; set; }
+	[Export]
+	public NameEditWindow RenameWindow { get; set; }
+	[Export]
+	public Button RenameButton { get; set; }
 
 	#endregion
 
-    public void LoadDeck(DeckModel deck)
-    {
-        NameEditNode.Text = deck.Name;
-        ChoosesSidekickCheckNode.ButtonPressed = deck.ChoosesSidekick;
-        StartsWithSidekicksCheckNode.ButtonPressed = deck.ChoosesSidekick;
-        StartingHandSizeNode.Value = (double)deck.StartingHandSize;
-        MaxHandSizeNode.Value = (double)deck.MaxHandSize;
+	private LocalRepository _repo;
 
-        SetIsEditable(deck.Editable);
-        // TODO CardBackNode
-    }
+	public void SetEssentials(
+		LocalRepository repo
+	)
+	{
+		_repo = repo;
+	}
 
-    private void SetIsEditable(bool value)
-    {
-        ChoosesSidekickCheckNode.Disabled = !value;
-        StartsWithSidekicksCheckNode.Disabled = !value;
-        StartingHandSizeNode.Editable = value;
-        MaxHandSizeNode.Editable = value;
-    }
+	public DeckModel GetDeck() => new()
+	{
+		Name = NameEditNode.Text,
+		ChoosesSidekick = ChoosesSidekickCheckNode.ButtonPressed,
+		StartsWithSidekicks = StartsWithSidekicksCheckNode.ButtonPressed,
+		StartingHandSize = (int)StartingHandSizeNode.Value,
+		MaxHandSize = (int)MaxHandSizeNode.Value,
+		Editable = true,
+		Id = -1,
+		Description = DescriptionEditNode.Text,
+	};
+
+	public void LoadDeck(DeckModel deck)
+	{
+		NameEditNode.Text = deck.Name;
+		ChoosesSidekickCheckNode.ButtonPressed = deck.ChoosesSidekick;
+		StartsWithSidekicksCheckNode.ButtonPressed = deck.ChoosesSidekick;
+		StartingHandSizeNode.Value = (double)deck.StartingHandSize;
+		MaxHandSizeNode.Value = (double)deck.MaxHandSize;
+		DescriptionEditNode.Text = deck.Description;
+
+		SetIsEditable(deck.Editable);
+		// TODO CardBackNode
+	}
+
+	private void SetIsEditable(bool value)
+	{
+		RenameButton.Disabled = !value;
+		ChoosesSidekickCheckNode.Disabled = !value;
+		StartsWithSidekicksCheckNode.Disabled = !value;
+		StartingHandSizeNode.Editable = value;
+		MaxHandSizeNode.Editable = value;
+	}
 
 	public override void _Ready()
 	{
 		base._Ready();
 
 		// TODO remove
-		Connect(SignalName.DeckInfoChanged, Callable.From(() =>
-		{
-			GD.Print("Changed");
-		}));
-
 		Connect(SignalName.CardBackImportRequest, Callable.From((string p) =>
 		{
 			GD.Print($"Changed card back import path to {p}");
@@ -70,56 +97,80 @@ public partial class DeckInfoEditor : MarginContainer
 
 	#region Signal connections
 
-    public void OnCardBackImportButtonPressed()
-    {
-        CardBackImporter.Show();
-    }
+	public void OnCardBackImportButtonPressed()
+	{
+		CardBackImporter.Show();
+	}
 
-    public void OnCardBackImporterFileSelected(string path)
-    {
-        var image = new Image();
+	public void OnCardBackImporterFileSelected(string path)
+	{
+		var image = new Image();
 
-        var err = image.Load(path);
-        // TODO handle
-        var texture = ImageTexture.CreateFromImage(image);
-        CardBackNode.Texture = texture;
+		var err = image.Load(path);
+		// TODO handle
+		var texture = ImageTexture.CreateFromImage(image);
+		CardBackNode.Texture = texture;
 
-        EmitSignal(SignalName.CardBackImportRequest, path);
-    }
+		EmitSignal(SignalName.CardBackImportRequest, path);
+	}
 
-    public void OnRenameButtonPressed()
-    {
-        // TODO
-    }
+	public void OnRenameButtonPressed()
+	{
+		RenameWindow.SetEditData(
+			NameEditNode.Text,
+			_repo.GetDeckNames()
+		);
 
-    #region FighterChanged emitters
+		RenameWindow.Show();
+	}
 
-    public void OnNameTextChanged(string _)
-    {
-        EmitSignal(SignalName.DeckInfoChanged);
-    }
+	public void OnRenameWindowCancelRequest()
+	{
+		RenameWindow.Hide();
+	}
 
-    public void OnChoosesSidekickCheckPressed()
-    {
-        EmitSignal(SignalName.DeckInfoChanged);
-    }
+	public void OnRenameWindowConfirmRequest(string newName)
+	{
+		RenameWindow.Hide();
+		NameEditNode.Text = newName;
+		EmitSignal(SignalName.DeckInfoChanged);
 
-    public void OnStartsWithSidekicksCheckPressed()
-    {
-        EmitSignal(SignalName.DeckInfoChanged);
-    }
+		// TODO update deck lists and deck tab names
+	}
 
-    public void OnStartingHandSizeValueChanged(int _)
-    {
-        EmitSignal(SignalName.DeckInfoChanged);
-    }
+	#region FighterChanged emitters
 
-    public void OnMaxHandSizeValueChanged(int _)
-    {
-        EmitSignal(SignalName.DeckInfoChanged);
-    }
+	public void OnNameTextChanged(string _)
+	{
+		EmitSignal(SignalName.DeckInfoChanged);
+	}
 
-    #endregion
+	public void OnChoosesSidekickCheckPressed()
+	{
+		EmitSignal(SignalName.DeckInfoChanged);
+	}
 
-    #endregion
+	public void OnStartsWithSidekicksCheckPressed()
+	{
+		EmitSignal(SignalName.DeckInfoChanged);
+	}
+
+	public void OnStartingHandSizeValueChanged(int _)
+	{
+		EmitSignal(SignalName.DeckInfoChanged);
+	}
+
+	public void OnMaxHandSizeValueChanged(int _)
+	{
+		EmitSignal(SignalName.DeckInfoChanged);
+	}
+
+	public void OnDescriptionTextChanged()
+	{
+		EmitSignal(SignalName.DeckInfoChanged);
+	}
+
+	#endregion
+
+	#endregion
 }

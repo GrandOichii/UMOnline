@@ -17,6 +17,8 @@ public partial class DeckEditor : Control
     public void SetEssentials(LocalRepository repo)
     {
         _repo = repo;
+
+        DeckInfoEditorNode.SetEssentials(repo);
     }
 
     public void LoadDeck(DeckModel deck)
@@ -25,4 +27,15 @@ public partial class DeckEditor : Control
 
         DeckInfoEditorNode.LoadDeck(deck);
     }
+
+    #region Signal connections
+
+    public void OnDeckDeckInfoChanged()
+    {
+        var deck = DeckInfoEditorNode.GetDeck();
+        deck.Id = _deckId;
+        _repo.UpdateDeckById(deck);
+    }
+
+    #endregion
 }

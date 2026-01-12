@@ -70,7 +70,8 @@ public partial class LocalRepository : Node
 				MaxHandSize = 10,
 				Name = "editable1",
 				StartingHandSize = 23,
-				StartsWithSidekicks = false
+				StartsWithSidekicks = false,
+				Description = "This is an editable deck",
 			},
 			new DeckModel()
 			{
@@ -80,7 +81,8 @@ public partial class LocalRepository : Node
 				MaxHandSize = 1,
 				Name = "non-editable2",
 				StartingHandSize = 1,
-				StartsWithSidekicks = true
+				StartsWithSidekicks = true,
+				Description = "This is a non-editable deck",
 			}
 		];
 
@@ -100,6 +102,27 @@ public partial class LocalRepository : Node
 		comm.ExecuteNonQuery();
 	}
 
+	private List<T> QueryMany<T>(Query query, Func<SqliteDataReader, T> converter) where T : IModel
+	{
+		List<T> result = [];
+
+		var compiled = SQL_COMPILER.Compile(query).ToString();
+		var comm = new SqliteCommand(compiled, _connection);
+		var reader = comm.ExecuteReader();
+		while (reader.Read())
+		{
+			result.Add(converter(reader));
+		}
+
+		return result;
+	}
+
+	private T QuerySingle<T>(Query query, Func<SqliteDataReader, T> converter) where T : IModel
+	{
+		var result = QueryMany(query.Limit(1), converter);
+		return result.SingleOrDefault();
+	}
+
 	public List<DeckModel> GetDecks(bool pickEditableDecks)
 	{
 		return QueryMany(
@@ -116,24 +139,25 @@ public partial class LocalRepository : Node
 		);
 	}
 
-	public List<T> QueryMany<T>(Query query, Func<SqliteDataReader, T> converter) where T : IModel
+	public List<string> GetDeckNames() =>
+	[
+		.. QueryMany(
+			DeckModel.SQLSelect(),
+			DeckModel.SQLConverter
+		).Select(d => d.Name)
+	];
+
+	public DeckModel GetDeck(string deckName) => QuerySingle(
+		DeckModel.SQLSelect().Where("name", deckName),
+		DeckModel.SQLConverter
+	);
+
+	public void UpdateDeckById(DeckModel deck)
 	{
-		List<T> result = [];
-		
+		var query = (deck as IModel).SQLUpdate().Where("id", deck.Id);
+
 		var compiled = SQL_COMPILER.Compile(query).ToString();
 		var comm = new SqliteCommand(compiled, _connection);
-		var reader = comm.ExecuteReader();
-		while (reader.Read())
-		{
-			result.Add(converter(reader));
-		}
-
-		return result;
-	}
-
-	public T QuerySingle<T>(Query query, Func<SqliteDataReader, T> converter) where T : IModel
-	{
-		var result = QueryMany(query.Limit(1), converter);
-		return result.SingleOrDefault();
+		comm.ExecuteNonQuery();
 	}
 }

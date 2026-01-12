@@ -14,4 +14,9 @@ public interface IModel
             SQLColumns(),
             SQLInsertData()
         );
+    Query SQLUpdate() => new Query(SQLTableName())
+        .AsUpdate(
+            SQLColumns(),
+            SQLInsertData()
+        );
 }
