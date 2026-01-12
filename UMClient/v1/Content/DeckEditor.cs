@@ -37,5 +37,11 @@ public partial class DeckEditor : Control
         _repo.UpdateDeckById(deck);
     }
 
+    public void OnDeckCardBackImportRequest(string path)
+    {
+        var newPath = _repo.UpdateDeckCardBack(_deckId, path);
+        DeckInfoEditorNode.UpdateCardBack(newPath);
+    }
+
     #endregion
 }

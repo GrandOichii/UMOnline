@@ -17,6 +17,7 @@ public class DeckModel : IModel
     public required int? MaxHandSize { get; set; }
     public required bool Editable { get; set; }
     public required string Description { get; set; }
+    public required string CardBackPath { get; set; }
 
     public readonly static DeckModel Default = new()
     {
@@ -28,6 +29,7 @@ public class DeckModel : IModel
         StartingHandSize = -1,
         StartsWithSidekicks = false,
         Description = "",
+        CardBackPath = "",
     };
 
     public string SQLCreate() => new DDLCreateBuilder(SQLTableName())
@@ -39,6 +41,7 @@ public class DeckModel : IModel
         .Column("max_hand_size INTEGER")
         .Column("editable INTEGER NOT NULL")
         .Column("description TEXT NOT NULL")
+        .Column("card_back_path TEXT")
         .PrimaryKey("id")
         .Build();
 
@@ -52,6 +55,7 @@ public class DeckModel : IModel
         "max_hand_size",
         "editable",
         "description",
+        "card_back_path",
     ];
 
     public object[] SQLInsertData() => [
@@ -62,6 +66,7 @@ public class DeckModel : IModel
         MaxHandSize,
         Editable,
         Description,
+        CardBackPath,
     ];
 
     public static Query SQLSelect() => new Query(Default.SQLTableName()).Select(
@@ -72,7 +77,8 @@ public class DeckModel : IModel
         "starting_hand_size",
         "max_hand_size",
         "editable",
-        "description"
+        "description",
+        "card_back_path"
     );
 
     public static DeckModel SQLConverter(SqliteDataReader reader)
@@ -83,10 +89,11 @@ public class DeckModel : IModel
             Name = reader.GetString(1),
             StartsWithSidekicks = reader.GetBoolean(2),
             ChoosesSidekick = reader.GetBoolean(3),
-            StartingHandSize = reader.GetInt32(4),
-            MaxHandSize = reader.GetInt32(5),
+            StartingHandSize = reader.IsDBNull(4) ? null : reader.GetInt32(4),
+            MaxHandSize = reader.IsDBNull(5) ? null : reader.GetInt32(5),
             Editable = reader.GetBoolean(6),
             Description = reader.GetString(7),
+            CardBackPath = reader.IsDBNull(8) ? null : reader.GetString(8),
         };
     }
 }

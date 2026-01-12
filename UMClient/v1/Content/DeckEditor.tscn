@@ -29,4 +29,5 @@ layout_mode = 2
 Parent = NodePath("../..")
 metadata/_tab_index = 0
 
+[connection signal="CardBackImportRequest" from="TabContainer/Deck" to="." method="OnDeckCardBackImportRequest"]
 [connection signal="DeckInfoChanged" from="TabContainer/Deck" to="." method="OnDeckDeckInfoChanged"]

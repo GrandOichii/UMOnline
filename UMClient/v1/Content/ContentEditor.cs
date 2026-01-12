@@ -109,6 +109,7 @@ public partial class ContentEditor : Control
             StartingHandSize = 5,
             StartsWithSidekicks = true,
             Description = "",
+            CardBackPath = null,
         };
 
         RepositoryNode.InsertModel(deck);

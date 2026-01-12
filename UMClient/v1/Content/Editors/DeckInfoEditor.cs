@@ -1,17 +1,15 @@
 using Godot;
 using System;
+using System.IO;
 
 public partial class DeckInfoEditor : MarginContainer
 {
-	[Export]
-	public DeckEditor Parent { get; set; }  
-	
 	#region Signals
 
 	[Signal]
 	public delegate void DeckInfoChangedEventHandler();
 	[Signal]
-	public delegate void CardBackImportRequestEventHandler();
+	public delegate void CardBackImportRequestEventHandler(string path);
 
 	#endregion
 
@@ -38,10 +36,13 @@ public partial class DeckInfoEditor : MarginContainer
 	public NameEditWindow RenameWindow { get; set; }
 	[Export]
 	public Button RenameButton { get; set; }
+	[Export]
+	public Button CardBackImportButton { get; set; }
 
 	#endregion
 
 	private LocalRepository _repo;
+	private string _cardBackPath;
 
 	public void SetEssentials(
 		LocalRepository repo
@@ -60,6 +61,7 @@ public partial class DeckInfoEditor : MarginContainer
 		Editable = true,
 		Id = -1,
 		Description = DescriptionEditNode.Text,
+		CardBackPath = _cardBackPath,
 	};
 
 	public void LoadDeck(DeckModel deck)
@@ -70,29 +72,46 @@ public partial class DeckInfoEditor : MarginContainer
 		StartingHandSizeNode.Value = (double)deck.StartingHandSize;
 		MaxHandSizeNode.Value = (double)deck.MaxHandSize;
 		DescriptionEditNode.Text = deck.Description;
+		_cardBackPath = deck.CardBackPath;
 
 		SetIsEditable(deck.Editable);
-		// TODO CardBackNode
+		LoadCardBack();
+	}
+
+	public void UpdateCardBack(string path)
+	{
+		_cardBackPath = path;
+
+		LoadCardBack();
 	}
 
 	private void SetIsEditable(bool value)
 	{
 		RenameButton.Disabled = !value;
+		CardBackImportButton.Disabled = !value;
 		ChoosesSidekickCheckNode.Disabled = !value;
 		StartsWithSidekicksCheckNode.Disabled = !value;
 		StartingHandSizeNode.Editable = value;
 		MaxHandSizeNode.Editable = value;
+		DescriptionEditNode.Editable = value;
 	}
 
-	public override void _Ready()
-	{
-		base._Ready();
+	// public override void _Ready()
+	// {
+	// 	base._Ready();
+	// }
 
-		// TODO remove
-		Connect(SignalName.CardBackImportRequest, Callable.From((string p) =>
-		{
-			GD.Print($"Changed card back import path to {p}");
-		}));
+	public void LoadCardBack()
+	{
+		CardBackNode.Texture = null;
+		if (_cardBackPath is null) return;
+
+		var image = new Image();
+
+		var err = image.Load(_cardBackPath);
+		// TODO handle
+		var texture = ImageTexture.CreateFromImage(image);
+		CardBackNode.Texture = texture;
 	}
 
 	#region Signal connections
@@ -104,13 +123,6 @@ public partial class DeckInfoEditor : MarginContainer
 
 	public void OnCardBackImporterFileSelected(string path)
 	{
-		var image = new Image();
-
-		var err = image.Load(path);
-		// TODO handle
-		var texture = ImageTexture.CreateFromImage(image);
-		CardBackNode.Texture = texture;
-
 		EmitSignal(SignalName.CardBackImportRequest, path);
 	}
 

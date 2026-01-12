@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://wrmm0t5haet3" path="res://v1/Content/ImageImporter.tscn" id="3_wcw64"]
 [ext_resource type="PackedScene" uid="uid://dhhiuajxh55rp" path="res://v1/Content/NameEditWindow.tscn" id="4_kll80"]
 
-[node name="DeckInfoEditor" type="MarginContainer" node_paths=PackedStringArray("NameEditNode", "ChoosesSidekickCheckNode", "StartsWithSidekicksCheckNode", "StartingHandSizeNode", "MaxHandSizeNode", "DescriptionEditNode", "CardBackNode", "CardBackImporter", "RenameWindow", "RenameButton")]
+[node name="DeckInfoEditor" type="MarginContainer" node_paths=PackedStringArray("NameEditNode", "ChoosesSidekickCheckNode", "StartsWithSidekicksCheckNode", "StartingHandSizeNode", "MaxHandSizeNode", "DescriptionEditNode", "CardBackNode", "CardBackImporter", "RenameWindow", "RenameButton", "CardBackImportButton")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -22,6 +22,7 @@ CardBackNode = NodePath("HBoxContainer/VBoxContainer2/CardBack")
 CardBackImporter = NodePath("CardBackImporter")
 RenameWindow = NodePath("RenameWindow")
 RenameButton = NodePath("HBoxContainer/VBoxContainer/HBoxContainer/RenameButton")
+CardBackImportButton = NodePath("HBoxContainer/VBoxContainer2/CardBackImportButton")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 2

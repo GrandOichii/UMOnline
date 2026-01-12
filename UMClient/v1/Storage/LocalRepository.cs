@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Godot;
 using Microsoft.Data.Sqlite;
@@ -15,6 +16,8 @@ public partial class LocalRepository : Node
 	public string DataSource { get; set; }
 	[Export]
 	public bool DropOnLaunch { get; set; }
+	[Export]
+	public string CardBackDirectoryName { get; set; }
 
 	private readonly List<IModel> _defaultModels = [
 		DeckModel.Default,
@@ -25,6 +28,8 @@ public partial class LocalRepository : Node
 	];
 
 	private SqliteConnection _connection;
+
+	private string CardBackDirectory() => $"user://{CardBackDirectoryName}";
 
 	public override void _Ready()
 	{
@@ -48,9 +53,13 @@ public partial class LocalRepository : Node
 			ExecNonQuery(model.SQLCreate());
 		}
 
-		GD.Print("Tables created!");
+		// TODO remove
+		if (DropOnLaunch)
+			InsertDummyData();
 
-		InsertDummyData();
+		// create user data directories
+		var err = DirAccess.MakeDirRecursiveAbsolute(CardBackDirectory());
+		// TODO handle err
 	}
 
 	private void ExecNonQuery(string command)
@@ -72,6 +81,7 @@ public partial class LocalRepository : Node
 				StartingHandSize = 23,
 				StartsWithSidekicks = false,
 				Description = "This is an editable deck",
+				CardBackPath = null,
 			},
 			new DeckModel()
 			{
@@ -83,6 +93,7 @@ public partial class LocalRepository : Node
 				StartingHandSize = 1,
 				StartsWithSidekicks = true,
 				Description = "This is a non-editable deck",
+				CardBackPath = null,
 			}
 		];
 
@@ -159,5 +170,22 @@ public partial class LocalRepository : Node
 		var compiled = SQL_COMPILER.Compile(query).ToString();
 		var comm = new SqliteCommand(compiled, _connection);
 		comm.ExecuteNonQuery();
+	}
+
+	public string UpdateDeckCardBack(int deckId, string pathToImage)
+	{
+		var ext = Path.GetExtension(pathToImage);
+		var target = Path.Join(CardBackDirectory(), $"{deckId}{ext}");
+
+		DirAccess.CopyAbsolute(
+			pathToImage,
+			target
+		);
+		
+		var deck = GetDeck(deckId);
+		deck.CardBackPath = target;
+		UpdateDeckById(deck);
+
+		return target;
 	}
 }
