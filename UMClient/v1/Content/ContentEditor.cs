@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Linq;
 
 public partial class ContentEditor : Control
 {
@@ -27,6 +28,22 @@ public partial class ContentEditor : Control
 
     #endregion
 
+    public void ReloadDeckLists()
+    {
+        OfficialDecks.LoadDecks();
+        CustomDecks.LoadDecks();
+    }
+
+    public void UpdateDeckTabNames()
+    {
+        foreach (var node in DeckTabsNode.GetChildren().Cast<DeckEditor>())
+        {
+            var deckId = node.GetDeckId();
+            var deck = RepositoryNode.GetDeck(deckId);
+            node.Name = deck.Name;
+        }
+    }
+
     public override void _Ready()
     {
         while (DeckTabsNode.GetChildCount() > 0)
@@ -35,6 +52,8 @@ public partial class ContentEditor : Control
         DeckTabsNode.GetTabBar().CloseWithMiddleMouse = true;
         DeckTabsNode.GetTabBar().TabCloseDisplayPolicy = TabBar.CloseButtonDisplayPolicy.ShowAlways;
         DeckTabsNode.GetTabBar().TabClosePressed += OnDeckTabsTabBarTabClosePressed;
+
+        ReloadDeckLists();
     }
 
     private void OpenDeck(int deckId)
@@ -51,6 +70,7 @@ public partial class ContentEditor : Control
         DeckTabsNode.AddChild(child);
         child.Name = deck.Name;
         child.SetEssentials(
+            this,
             RepositoryNode
         );
 
@@ -115,6 +135,7 @@ public partial class ContentEditor : Control
         RepositoryNode.InsertModel(deck);
         var inserted = RepositoryNode.GetDeck(deck.Name);
         OpenDeck(inserted.Id);
+        ReloadDeckLists();
     }
 
     #endregion

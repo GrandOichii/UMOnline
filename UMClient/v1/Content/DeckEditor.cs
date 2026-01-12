@@ -8,14 +8,26 @@ public partial class DeckEditor : Control
     [ExportGroup("Nodes")]
     [Export]
     public DeckInfoEditor DeckInfoEditorNode { get; set; }
+    [Export]
+    public TabContainer FighterTabsNode { get; set; }
+    [Export]
+    public ItemList FighterListNode { get; set; }
+    [Export]
+    public Button CreateFighterButton { get; set; }
+    [Export]
+    public Button DeleteFighterButton { get; set; }
 
     #endregion
 
     private int _deckId;
     private LocalRepository _repo;
+    private ContentEditor _parent;
 
-    public void SetEssentials(LocalRepository repo)
+    public int GetDeckId() => _deckId;
+
+    public void SetEssentials(ContentEditor parent, LocalRepository repo)
     {
+        _parent = parent;
         _repo = repo;
 
         DeckInfoEditorNode.SetEssentials(repo);
@@ -26,6 +38,18 @@ public partial class DeckEditor : Control
         _deckId = deck.Id;
 
         DeckInfoEditorNode.LoadDeck(deck);
+        LoadFighters();
+        LoadCards();
+    }
+
+    public void LoadFighters()
+    {
+        // TODO
+    }
+
+    public void LoadCards()
+    {
+        // TODO
     }
 
     #region Signal connections
@@ -41,6 +65,12 @@ public partial class DeckEditor : Control
     {
         var newPath = _repo.UpdateDeckCardBack(_deckId, path);
         DeckInfoEditorNode.UpdateCardBack(newPath);
+    }
+
+    public void OnDeckDeckNameChanged()
+    {
+        _parent.ReloadDeckLists();
+        _parent.UpdateDeckTabNames();
     }
 
     #endregion

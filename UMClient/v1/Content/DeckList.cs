@@ -31,8 +31,6 @@ public partial class DeckList : VBoxContainer
     public override void _Ready()
     {
         TitleNode.Text = Title;
-        
-        LoadDecks();
     }
 
     public void LoadDecks()

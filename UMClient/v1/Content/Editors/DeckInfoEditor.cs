@@ -9,6 +9,8 @@ public partial class DeckInfoEditor : MarginContainer
 	[Signal]
 	public delegate void DeckInfoChangedEventHandler();
 	[Signal]
+	public delegate void DeckNameChangedEventHandler();
+	[Signal]
 	public delegate void CardBackImportRequestEventHandler(string path);
 
 	#endregion
@@ -146,6 +148,7 @@ public partial class DeckInfoEditor : MarginContainer
 		RenameWindow.Hide();
 		NameEditNode.Text = newName;
 		EmitSignal(SignalName.DeckInfoChanged);
+		EmitSignal(SignalName.DeckNameChanged);
 
 		// TODO update deck lists and deck tab names
 	}

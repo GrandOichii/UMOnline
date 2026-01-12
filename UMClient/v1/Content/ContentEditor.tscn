@@ -24,8 +24,6 @@ DeckTabsNode = NodePath("HBoxContainer/DeckTabs")
 NewDeckWindow = NodePath("NewDeckWindow")
 DeckEditorScene = ExtResource("2_4vp58")
 
-[node name="Repo" parent="." instance=ExtResource("7_rg86l")]
-
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
@@ -83,10 +81,11 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 tab_alignment = 2
-current_tab = 0
+current_tab = 1
 tabs_position = 1
 
 [node name="Deck" type="Control" parent="HBoxContainer/DeckTabs/Test deck 2/TabContainer"]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 0
 
@@ -166,7 +165,6 @@ layout_mode = 2
 text = "Import card back"
 
 [node name="Fighters" type="Control" parent="HBoxContainer/DeckTabs/Test deck 2/TabContainer"]
-visible = false
 layout_mode = 2
 metadata/_tab_index = 1
 
@@ -621,6 +619,8 @@ metadata/_tab_index = 2
 title = "Create a new deck"
 visible = false
 ConfirmButtonText = "Create"
+
+[node name="Repo" parent="." instance=ExtResource("7_rg86l")]
 
 [connection signal="DeckActivated" from="HBoxContainer/VBoxContainer/OfficialDecks" to="." method="OnOfficialDecksDeckActivated"]
 [connection signal="DeckActivated" from="HBoxContainer/VBoxContainer/CustomDecks" to="." method="OnCustomDecksDeckActivated"]
