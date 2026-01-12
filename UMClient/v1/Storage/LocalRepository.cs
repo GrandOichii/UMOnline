@@ -18,6 +18,8 @@ public partial class LocalRepository : Node
 	public bool DropOnLaunch { get; set; }
 	[Export]
 	public string CardBackDirectoryName { get; set; }
+	[Export]
+	public string FighterImageDirectoryName { get; set; }
 
 	private readonly List<IModel> _defaultModels = [
 		DeckModel.Default,
@@ -30,6 +32,7 @@ public partial class LocalRepository : Node
 	private SqliteConnection _connection;
 
 	private string CardBackDirectory() => $"user://{CardBackDirectoryName}";
+	private string GetFighterImageDirectory() => $"user://{FighterImageDirectoryName}";
 
 	public override void _Ready()
 	{
@@ -59,6 +62,8 @@ public partial class LocalRepository : Node
 
 		// create user data directories
 		var err = DirAccess.MakeDirRecursiveAbsolute(CardBackDirectory());
+		// TODO handle err
+		err = DirAccess.MakeDirRecursiveAbsolute(GetFighterImageDirectory());
 		// TODO handle err
 	}
 
@@ -100,6 +105,70 @@ public partial class LocalRepository : Node
 		foreach (var deck in decks)
 		{
 			InsertModel(deck);
+		}
+
+		{
+			var deck = GetDeck("editable1");
+
+			var fighter = new FighterModel()
+			{
+				Amount = 3,
+				CanMoveOverOpposing = false,
+				DeckId = deck.Id,
+				Id = -1,
+				ImagePath = null,
+				IsRanged = false,
+				IsSidekick = false,
+				IsSmall = false,
+				MaxHealth = 13,
+				MeleeRange = 1,
+				Movement = 3,
+				Name = "fighter1",
+				StartingHealth = 13,
+				Text = "fighter1 text here"	
+			};
+			InsertModel(fighter);
+		}
+		{
+			var deck = GetDeck("non-editable2");
+
+			var fighter1 = new FighterModel()
+			{
+				Amount = 1,
+				CanMoveOverOpposing = true,
+				DeckId = deck.Id,
+				Id = -1,
+				ImagePath = null,
+				IsRanged = true,
+				IsSidekick = false,
+				IsSmall = false,
+				MaxHealth = 9,
+				MeleeRange = 1,
+				Movement = 2,
+				Name = "fighter2",
+				StartingHealth = 9,
+				Text = "fighter2 text here"	
+			};
+			InsertModel(fighter1);
+
+			var fighter2 = new FighterModel()
+			{
+				Amount = 4,
+				CanMoveOverOpposing = false,
+				DeckId = deck.Id,
+				Id = -1,
+				ImagePath = null,
+				IsRanged = false,
+				IsSidekick = true,
+				IsSmall = true,
+				MaxHealth = 1,
+				MeleeRange = 1,
+				Movement = 3,
+				Name = "fighter3",
+				StartingHealth = 1,
+				Text = "small fighter3 text here"	
+			};
+			InsertModel(fighter2);
 		}
 
 		GD.Print("Inserted dummy data");
@@ -172,6 +241,46 @@ public partial class LocalRepository : Node
 		comm.ExecuteNonQuery();
 	}
 
+	public List<FighterModel> GetFighters(int deckId)
+	{
+		return QueryMany(
+			FighterModel.SQLSelect().Where("deck_id", deckId),
+			FighterModel.SQLConverter
+		);
+	}
+
+	public List<string> GetFighterNames(int deckId) =>
+	[
+		.. GetFighters(deckId).Select(d => d.Name)
+	];
+
+	public FighterModel GetFighter(string fighterName, int deckId)
+	{
+		return QuerySingle(
+			FighterModel.SQLSelect()
+				.Where("name", fighterName)
+				.Where("deck_id", deckId),
+			FighterModel.SQLConverter
+		);
+	}
+
+	public FighterModel GetFighter(int fighterId)
+	{
+		return QuerySingle(
+			FighterModel.SQLSelect().Where("id", fighterId),
+			FighterModel.SQLConverter
+		);
+	}
+
+	public void UpdateFighterById(FighterModel fighter)
+	{
+		var query = (fighter as IModel).SQLUpdate().Where("id", fighter.Id);
+
+		var compiled = SQL_COMPILER.Compile(query).ToString();
+		var comm = new SqliteCommand(compiled, _connection);
+		comm.ExecuteNonQuery();
+	}
+
 	public string UpdateDeckCardBack(int deckId, string pathToImage)
 	{
 		var ext = Path.GetExtension(pathToImage);
@@ -185,6 +294,23 @@ public partial class LocalRepository : Node
 		var deck = GetDeck(deckId);
 		deck.CardBackPath = target;
 		UpdateDeckById(deck);
+
+		return target;
+	}
+
+	public string UpdateFighterImage(int fighterId, string pathToImage)
+	{
+		var ext = Path.GetExtension(pathToImage);
+		var target = Path.Join(GetFighterImageDirectory(), $"{fighterId}{ext}");
+
+		DirAccess.CopyAbsolute(
+			pathToImage,
+			target
+		);
+		
+		var fighter = GetFighter(fighterId);
+		fighter.ImagePath = target;
+		UpdateFighterById(fighter);
 
 		return target;
 	}

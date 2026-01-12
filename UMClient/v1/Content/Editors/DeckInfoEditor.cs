@@ -45,6 +45,8 @@ public partial class DeckInfoEditor : MarginContainer
 
 	private LocalRepository _repo;
 	private string _cardBackPath;
+	private int _deckId;
+	private bool _editable;
 
 	public void SetEssentials(
 		LocalRepository repo
@@ -53,7 +55,7 @@ public partial class DeckInfoEditor : MarginContainer
 		_repo = repo;
 	}
 
-	public DeckModel GetDeck() => new()
+	public DeckModel BuildDeckModel() => new()
 	{
 		Name = NameEditNode.Text,
 		ChoosesSidekick = ChoosesSidekickCheckNode.ButtonPressed,
@@ -61,13 +63,15 @@ public partial class DeckInfoEditor : MarginContainer
 		StartingHandSize = (int)StartingHandSizeNode.Value,
 		MaxHandSize = (int)MaxHandSizeNode.Value,
 		Editable = true,
-		Id = -1,
+		Id = _deckId,
 		Description = DescriptionEditNode.Text,
 		CardBackPath = _cardBackPath,
 	};
 
 	public void LoadDeck(DeckModel deck)
 	{
+		_deckId = deck.Id;
+		_editable = deck.Editable;
 		NameEditNode.Text = deck.Name;
 		ChoosesSidekickCheckNode.ButtonPressed = deck.ChoosesSidekick;
 		StartsWithSidekicksCheckNode.ButtonPressed = deck.ChoosesSidekick;
@@ -149,39 +153,43 @@ public partial class DeckInfoEditor : MarginContainer
 		NameEditNode.Text = newName;
 		EmitSignal(SignalName.DeckInfoChanged);
 		EmitSignal(SignalName.DeckNameChanged);
-
-		// TODO update deck lists and deck tab names
 	}
 
 	#region FighterChanged emitters
 
 	public void OnNameTextChanged(string _)
 	{
+		if (!_editable) return;
 		EmitSignal(SignalName.DeckInfoChanged);
 	}
 
 	public void OnChoosesSidekickCheckPressed()
 	{
+		if (!_editable) return;
 		EmitSignal(SignalName.DeckInfoChanged);
 	}
 
 	public void OnStartsWithSidekicksCheckPressed()
 	{
+		if (!_editable) return;
 		EmitSignal(SignalName.DeckInfoChanged);
 	}
 
 	public void OnStartingHandSizeValueChanged(int _)
 	{
+		if (!_editable) return;
 		EmitSignal(SignalName.DeckInfoChanged);
 	}
 
 	public void OnMaxHandSizeValueChanged(int _)
 	{
+		if (!_editable) return;
 		EmitSignal(SignalName.DeckInfoChanged);
 	}
 
 	public void OnDescriptionTextChanged()
 	{
+		if (!_editable) return;
 		EmitSignal(SignalName.DeckInfoChanged);
 	}
 

@@ -1,13 +1,16 @@
 using Godot;
+using UMCore.Matches.Players.Cards;
 
 public partial class FighterEditor : TabContainer
 {
     #region Signals
 
     [Signal]
-    public delegate void FighterChangedEventHandler();
+    public delegate void FighterChangedEventHandler(int fighterId);
     [Signal]
-    public delegate void FighterImageImportRequestEventHandler();
+    public delegate void FighterNameChangedEventHandler(int fighterId);
+    [Signal]
+    public delegate void FighterImageImportRequestEventHandler(int fighterId, string path);
 
     #endregion
 
@@ -29,7 +32,7 @@ public partial class FighterEditor : TabContainer
 	[Export]
 	public SpinBox MeleeRangeNode { get; set; }
 	[Export]
-	public CheckBox IsRangedCheck { get; set; }
+	public CheckBox IsRangedCheckNode { get; set; }
 	[Export]
 	public SpinBox MovementNode { get; set; }
 	[Export]
@@ -41,37 +44,102 @@ public partial class FighterEditor : TabContainer
     [Export]
     public ImageImporter ImageImporterNode { get; set; }
     [Export]
-    public TagsEditor AllowedFightersEditor { get; set; }
+    public Button RenameButton { get; set; }
     [Export]
-    public TagsEditor LabelsEditor { get; set; }
+    public Button ImportImageButton { get; set; }
 
     #endregion
 
-    public override void _Ready()
-    {
-        // TODO remove
-        Connect(SignalName.FighterChanged, Callable.From(() =>
-        {
-            GD.Print("Changed");
-        }));
+    private int _fighterId;
+    private int _deckId;
+    private string _imagePath;
+    private bool _editable;
 
-        Connect(SignalName.FighterImageImportRequest, Callable.From((string p) =>
-        {
-            GD.Print($"Changed import path to {p}");
-        }));
-    }
+    public int GetFighterId() => _fighterId;
 
+    // public override void _Ready()
+    // {
+    // }
 
-    public FighterModel GetFighterModel()
+    public FighterModel BuildFighterModel()
     {
         return new()
         {
-            Id = -1, // TODO
-            DeckId = -1, // TODO  
+            Id = _fighterId,
+            DeckId = _deckId,
             Name = NameEditNode.Text,
-            // TODO
+            Amount = (int)AmountNode.Value,
+            CanMoveOverOpposing = CanMoveOverOpposingNode.ButtonPressed,
+            IsRanged = IsRangedCheckNode.ButtonPressed,
+            IsSidekick = IsSidekickCheckNode.ButtonPressed,
+            IsSmall = IsSmallFighterCheckNode.ButtonPressed,
+            MaxHealth = (int)MaxHealthNode.Value,
+            MeleeRange = (int)MeleeRangeNode.Value,
+            Movement = (int)MovementNode.Value,
+            StartingHealth = (int)StartingHealthNode.Value,
+            Text = TextNode.Text,
+            ImagePath = _imagePath,
         };
     }
+
+    public void LoadFighter(FighterModel fighter, DeckModel deck)
+    {
+        _fighterId = fighter.Id;
+        _deckId = fighter.DeckId;
+        _editable = deck.Editable;
+
+        NameEditNode.Text = fighter.Name;
+        AmountNode.Value = fighter.Amount;
+        CanMoveOverOpposingNode.ButtonPressed = fighter.CanMoveOverOpposing;
+        IsRangedCheckNode.ButtonPressed = fighter.IsRanged;
+        IsSidekickCheckNode.ButtonPressed = fighter.IsSidekick;
+        IsSmallFighterCheckNode.ButtonPressed = fighter.IsSmall;
+        MaxHealthNode.Value = fighter.MaxHealth;
+        StartingHealthNode.Value = fighter.StartingHealth;
+        TextNode.Text = fighter.Text;
+        MovementNode.Value = fighter.Movement;
+        MeleeRangeNode.Value = fighter.MeleeRange;
+        _imagePath = fighter.ImagePath;
+
+		SetIsEditable(deck.Editable);
+		LoadFighterImage();
+    }
+
+    private void SetIsEditable(bool value)
+	{
+		RenameButton.Disabled = !value;
+		AmountNode.Editable = value;
+		CanMoveOverOpposingNode.Disabled = !value;
+		IsRangedCheckNode.Disabled = !value;
+		IsSidekickCheckNode.Disabled = !value;
+		IsSmallFighterCheckNode.Disabled = !value;
+		MaxHealthNode.Editable = value;
+		StartingHealthNode.Editable = value;
+		TextNode.Editable = value;
+        MeleeRangeNode.Editable = value;
+        MovementNode.Editable = value;
+        ImportImageButton.Disabled = !value;
+	}
+
+    public void LoadFighterImage()
+	{
+		FighterImageNode.Texture = null;
+		if (_imagePath is null) return;
+
+		var image = new Image();
+
+		var err = image.Load(_imagePath);
+		// TODO handle
+		var texture = ImageTexture.CreateFromImage(image);
+		FighterImageNode.Texture = texture;
+	}
+
+    public void UpdateFighterImage(string path)
+	{
+		_imagePath = path;
+
+		LoadFighterImage();
+	}
 
     #region Signal connections
 
@@ -89,64 +157,75 @@ public partial class FighterEditor : TabContainer
         var texture = ImageTexture.CreateFromImage(image);
         FighterImageNode.Texture = texture;
 
-        EmitSignal(SignalName.FighterImageImportRequest, path);
+        EmitSignal(SignalName.FighterImageImportRequest, _fighterId, path);
     }
 
     #region FighterChanged emitters
 
     public void OnNameEditTextChanged(string _)
     {
-        EmitSignal(SignalName.FighterChanged);
+        if (!_editable) return;
+        EmitSignal(SignalName.FighterChanged, _fighterId);
     }
 
     public void OnAmountValueChanged(int _)
     {
-        EmitSignal(SignalName.FighterChanged);
+        if (!_editable) return;
+        EmitSignal(SignalName.FighterChanged, _fighterId);
     }
 
     public void OnIsSidekickCheckPressed()
     {
-        EmitSignal(SignalName.FighterChanged);
+        if (!_editable) return;
+        EmitSignal(SignalName.FighterChanged, _fighterId);
     }
 
     public void OnIsSmallFighterCheckPressed()
     {
-        EmitSignal(SignalName.FighterChanged);
+        if (!_editable) return;
+        EmitSignal(SignalName.FighterChanged, _fighterId);
     }
 
     public void OnMaxHealthValueChanged(int _)
     {
-        EmitSignal(SignalName.FighterChanged);
+        if (!_editable) return;
+        EmitSignal(SignalName.FighterChanged, _fighterId);
     }
 
     public void OnStartingHealthValueChanged(int _)
     {
-        EmitSignal(SignalName.FighterChanged);
+        if (!_editable) return;
+        EmitSignal(SignalName.FighterChanged, _fighterId);
     }
 
     public void OnMeleeRangeValueChanged(int _)
     {
-        EmitSignal(SignalName.FighterChanged);
+        if (!_editable) return;
+        EmitSignal(SignalName.FighterChanged, _fighterId);
     }
 
     public void OnIsRangedCheckPressed()
     {
-        EmitSignal(SignalName.FighterChanged);
+        if (!_editable) return;
+        EmitSignal(SignalName.FighterChanged, _fighterId);
     }
 
     public void OnMovementValueChanged(int _)
     {
-        EmitSignal(SignalName.FighterChanged);
+        if (!_editable) return;
+        EmitSignal(SignalName.FighterChanged, _fighterId);
     }
 
     public void OnCanMoveOverOpposingPressed()
     {
-        EmitSignal(SignalName.FighterChanged);
+        if (!_editable) return;
+        EmitSignal(SignalName.FighterChanged, _fighterId);
     }
 
     public void OnTextTextChanged()
     {
-        EmitSignal(SignalName.FighterChanged);
+        if (!_editable) return;
+        EmitSignal(SignalName.FighterChanged, _fighterId);
     }
 
     #endregion

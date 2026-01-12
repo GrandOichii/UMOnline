@@ -1,10 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://u23t7oh2j2y6"]
+[gd_scene load_steps=5 format=3 uid="uid://u23t7oh2j2y6"]
 
 [ext_resource type="Script" uid="uid://d2qihxnlim1o4" path="res://v1/Content/DeckEditor.cs" id="1_0kstw"]
 [ext_resource type="PackedScene" uid="uid://1fm3bj00x44y" path="res://v1/Content/Editors/DeckInfoEditor.tscn" id="2_7gkg1"]
-[ext_resource type="Texture2D" uid="uid://8ifeqvn0nx6o" path="res://assets/decks/Achilles/heroes/Achilles.webp" id="3_rpptg"]
+[ext_resource type="PackedScene" uid="uid://da5lploosqmr0" path="res://v1/Content/Editors/FighterEditor.tscn" id="4_5n5st"]
+[ext_resource type="PackedScene" uid="uid://dhhiuajxh55rp" path="res://v1/Content/NameEditWindow.tscn" id="4_lxupj"]
 
-[node name="DeckEditor" type="Control" node_paths=PackedStringArray("DeckInfoEditorNode", "FighterTabsNode", "FighterListNode", "CreateFighterButton", "DeleteFighterButton")]
+[node name="DeckEditor" type="Control" node_paths=PackedStringArray("DeckInfoEditorNode", "FighterTabsNode", "FighterListNode", "CreateFighterButton", "DeleteFighterButton", "NewFighterWindow")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -17,6 +18,8 @@ FighterTabsNode = NodePath("TabContainer/Fighters/HBoxContainer/FighterTabs")
 FighterListNode = NodePath("TabContainer/Fighters/HBoxContainer/VBoxContainer3/FighterList")
 CreateFighterButton = NodePath("TabContainer/Fighters/HBoxContainer/VBoxContainer3/CreateFighterButton")
 DeleteFighterButton = NodePath("TabContainer/Fighters/HBoxContainer/VBoxContainer3/DeleteFighterButton")
+NewFighterWindow = NodePath("NewFighterWindow")
+FighterEditorScene = ExtResource("4_5n5st")
 
 [node name="TabContainer" type="TabContainer" parent="."]
 layout_mode = 1
@@ -52,132 +55,11 @@ size_flags_horizontal = 3
 size_flags_stretch_ratio = 4.0
 current_tab = 0
 
-[node name="Fighter1" type="Control" parent="TabContainer/Fighters/HBoxContainer/FighterTabs"]
+[node name="FighterEditor" parent="TabContainer/Fighters/HBoxContainer/FighterTabs" instance=ExtResource("4_5n5st")]
 layout_mode = 2
 metadata/_tab_index = 0
 
-[node name="TabContainer" type="TabContainer" parent="TabContainer/Fighters/HBoxContainer/FighterTabs/Fighter1"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-tab_alignment = 2
-current_tab = 0
-tabs_position = 1
-
-[node name="General" type="Control" parent="TabContainer/Fighters/HBoxContainer/FighterTabs/Fighter1/TabContainer"]
-layout_mode = 2
-metadata/_tab_index = 0
-
-[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Fighters/HBoxContainer/FighterTabs/Fighter1/TabContainer/General"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Fighters/HBoxContainer/FighterTabs/Fighter1/TabContainer/General/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 4.0
-
-[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Fighters/HBoxContainer/FighterTabs/Fighter1/TabContainer/General/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="TabContainer/Fighters/HBoxContainer/FighterTabs/Fighter1/TabContainer/General/HBoxContainer/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-text = "Name: "
-
-[node name="LineEdit" type="LineEdit" parent="TabContainer/Fighters/HBoxContainer/FighterTabs/Fighter1/TabContainer/General/HBoxContainer/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-placeholder_text = "Enter fighter name"
-
-[node name="SpinBox5" type="SpinBox" parent="TabContainer/Fighters/HBoxContainer/FighterTabs/Fighter1/TabContainer/General/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-value = 1.0
-prefix = "Amount:"
-
-[node name="HBoxContainer2" type="HBoxContainer" parent="TabContainer/Fighters/HBoxContainer/FighterTabs/Fighter1/TabContainer/General/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-
-[node name="CheckBox" type="CheckBox" parent="TabContainer/Fighters/HBoxContainer/FighterTabs/Fighter1/TabContainer/General/HBoxContainer/VBoxContainer/HBoxContainer2"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Is sidekick"
-
-[node name="CheckBox2" type="CheckBox" parent="TabContainer/Fighters/HBoxContainer/FighterTabs/Fighter1/TabContainer/General/HBoxContainer/VBoxContainer/HBoxContainer2"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Is small fighter"
-
-[node name="HSeparator3" type="HSeparator" parent="TabContainer/Fighters/HBoxContainer/FighterTabs/Fighter1/TabContainer/General/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-
-[node name="SpinBox" type="SpinBox" parent="TabContainer/Fighters/HBoxContainer/FighterTabs/Fighter1/TabContainer/General/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-prefix = "Max health: "
-
-[node name="SpinBox2" type="SpinBox" parent="TabContainer/Fighters/HBoxContainer/FighterTabs/Fighter1/TabContainer/General/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-prefix = "Starting health: "
-
-[node name="HSeparator" type="HSeparator" parent="TabContainer/Fighters/HBoxContainer/FighterTabs/Fighter1/TabContainer/General/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-
-[node name="SpinBox4" type="SpinBox" parent="TabContainer/Fighters/HBoxContainer/FighterTabs/Fighter1/TabContainer/General/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-prefix = "Melee range:"
-
-[node name="CheckBox2" type="CheckBox" parent="TabContainer/Fighters/HBoxContainer/FighterTabs/Fighter1/TabContainer/General/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-text = "Is ranged"
-
-[node name="HSeparator2" type="HSeparator" parent="TabContainer/Fighters/HBoxContainer/FighterTabs/Fighter1/TabContainer/General/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-
-[node name="SpinBox3" type="SpinBox" parent="TabContainer/Fighters/HBoxContainer/FighterTabs/Fighter1/TabContainer/General/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-prefix = "Movement:"
-
-[node name="CheckBox3" type="CheckBox" parent="TabContainer/Fighters/HBoxContainer/FighterTabs/Fighter1/TabContainer/General/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-text = "Can move over opposing"
-
-[node name="HSeparator4" type="HSeparator" parent="TabContainer/Fighters/HBoxContainer/FighterTabs/Fighter1/TabContainer/General/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-
-[node name="TextEdit" type="TextEdit" parent="TabContainer/Fighters/HBoxContainer/FighterTabs/Fighter1/TabContainer/General/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-placeholder_text = "Enter fighter text"
-
-[node name="VBoxContainer2" type="VBoxContainer" parent="TabContainer/Fighters/HBoxContainer/FighterTabs/Fighter1/TabContainer/General/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-alignment = 2
-
-[node name="TextureRect" type="TextureRect" parent="TabContainer/Fighters/HBoxContainer/FighterTabs/Fighter1/TabContainer/General/HBoxContainer/VBoxContainer2"]
-layout_mode = 2
-texture = ExtResource("3_rpptg")
-expand_mode = 5
-stretch_mode = 5
-
-[node name="Button" type="Button" parent="TabContainer/Fighters/HBoxContainer/FighterTabs/Fighter1/TabContainer/General/HBoxContainer/VBoxContainer2"]
-layout_mode = 2
-text = "Import image"
-
-[node name="Script" type="Control" parent="TabContainer/Fighters/HBoxContainer/FighterTabs/Fighter1/TabContainer"]
-visible = false
-layout_mode = 2
-metadata/_tab_index = 1
-
-[node name="Fighter2" type="Control" parent="TabContainer/Fighters/HBoxContainer/FighterTabs"]
+[node name="FighterEditor2" parent="TabContainer/Fighters/HBoxContainer/FighterTabs" instance=ExtResource("4_5n5st")]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 1
@@ -201,6 +83,16 @@ text = "Create"
 layout_mode = 2
 text = "Delete"
 
+[node name="NewFighterWindow" parent="." instance=ExtResource("4_lxupj")]
+title = "Create a fighter"
+visible = false
+ConfirmButtonText = "Create"
+
 [connection signal="CardBackImportRequest" from="TabContainer/Deck" to="." method="OnDeckCardBackImportRequest"]
 [connection signal="DeckInfoChanged" from="TabContainer/Deck" to="." method="OnDeckDeckInfoChanged"]
 [connection signal="DeckNameChanged" from="TabContainer/Deck" to="." method="OnDeckDeckNameChanged"]
+[connection signal="item_activated" from="TabContainer/Fighters/HBoxContainer/VBoxContainer3/FighterList" to="." method="OnFighterListItemActivated"]
+[connection signal="pressed" from="TabContainer/Fighters/HBoxContainer/VBoxContainer3/CreateFighterButton" to="." method="OnCreateFighterButtonPressed"]
+[connection signal="pressed" from="TabContainer/Fighters/HBoxContainer/VBoxContainer3/DeleteFighterButton" to="." method="OnDeleteFighterButtonPressed"]
+[connection signal="CancelRequest" from="NewFighterWindow" to="." method="OnNewFighterWindowCancelRequest"]
+[connection signal="ConfirmRequest" from="NewFighterWindow" to="." method="OnNewFighterWindowConfirmRequest"]

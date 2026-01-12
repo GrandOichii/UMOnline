@@ -4,13 +4,15 @@
 [ext_resource type="Script" uid="uid://iyfke2hcrc0e" path="res://v1/Content/Editors/FighterEditor.cs" id="1_oqw15"]
 [ext_resource type="PackedScene" uid="uid://wrmm0t5haet3" path="res://v1/Content/ImageImporter.tscn" id="3_uj803"]
 
-[node name="FighterEditor" type="TabContainer" node_paths=PackedStringArray("NameEditNode", "AmountNode", "IsSidekickCheckNode", "IsSmallFighterCheckNode", "MaxHealthNode", "StartingHealthNode", "MeleeRangeNode", "IsRangedCheck", "MovementNode", "CanMoveOverOpposingNode", "TextNode", "FighterImageNode", "ImageImporterNode")]
+[node name="FighterEditor" type="TabContainer" node_paths=PackedStringArray("NameEditNode", "AmountNode", "IsSidekickCheckNode", "IsSmallFighterCheckNode", "MaxHealthNode", "StartingHealthNode", "MeleeRangeNode", "IsRangedCheckNode", "MovementNode", "CanMoveOverOpposingNode", "TextNode", "FighterImageNode", "ImageImporterNode", "RenameButton", "ImportImageButton")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+tab_alignment = 2
 current_tab = 0
+tabs_position = 1
 script = ExtResource("1_oqw15")
 NameEditNode = NodePath("General/HBoxContainer/VBoxContainer/HBoxContainer/NameEdit")
 AmountNode = NodePath("General/HBoxContainer/VBoxContainer/Amount")
@@ -19,12 +21,14 @@ IsSmallFighterCheckNode = NodePath("General/HBoxContainer/VBoxContainer/HBoxCont
 MaxHealthNode = NodePath("General/HBoxContainer/VBoxContainer/MaxHealth")
 StartingHealthNode = NodePath("General/HBoxContainer/VBoxContainer/StartingHealth")
 MeleeRangeNode = NodePath("General/HBoxContainer/VBoxContainer/MeleeRange")
-IsRangedCheck = NodePath("General/HBoxContainer/VBoxContainer/IsRangedCheck")
+IsRangedCheckNode = NodePath("General/HBoxContainer/VBoxContainer/IsRangedCheck")
 MovementNode = NodePath("General/HBoxContainer/VBoxContainer/Movement")
 CanMoveOverOpposingNode = NodePath("General/HBoxContainer/VBoxContainer/CanMoveOverOpposing")
 TextNode = NodePath("General/HBoxContainer/VBoxContainer/Text")
 FighterImageNode = NodePath("General/HBoxContainer/VBoxContainer2/FighterImage")
 ImageImporterNode = NodePath("ImageImporter")
+RenameButton = NodePath("General/HBoxContainer/VBoxContainer/HBoxContainer/RenameButton")
+ImportImageButton = NodePath("General/HBoxContainer/VBoxContainer2/ImportImageButton")
 
 [node name="General" type="Control" parent="."]
 layout_mode = 2
@@ -54,6 +58,11 @@ text = "Name: "
 layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "Enter fighter name"
+editable = false
+
+[node name="RenameButton" type="Button" parent="General/HBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Rename"
 
 [node name="Amount" type="SpinBox" parent="General/HBoxContainer/VBoxContainer"]
 layout_mode = 2
