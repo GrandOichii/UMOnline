@@ -38,6 +38,11 @@ text = "Name: "
 layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "Enter deck name"
+editable = false
+
+[node name="RenameButton" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Rename"
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
 layout_mode = 2
@@ -48,7 +53,8 @@ text = "Chooses sidekick"
 
 [node name="StartsWithSidekicksCheck" type="CheckBox" parent="HBoxContainer/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
-text = "Starts with sidekicks on boards"
+button_pressed = true
+text = "Starts with sidekicks on board"
 
 [node name="StartingHandSize" type="SpinBox" parent="HBoxContainer/VBoxContainer"]
 layout_mode = 2
@@ -80,6 +86,7 @@ text = "Import card back"
 [node name="CardBackImporter" parent="." instance=ExtResource("3_wcw64")]
 
 [connection signal="text_changed" from="HBoxContainer/VBoxContainer/HBoxContainer/Name" to="." method="OnNameTextChanged"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/HBoxContainer/RenameButton" to="." method="OnRenameButtonPressed"]
 [connection signal="pressed" from="HBoxContainer/VBoxContainer/HBoxContainer2/ChoosesSidekickCheck" to="." method="OnChoosesSidekickCheckPressed"]
 [connection signal="pressed" from="HBoxContainer/VBoxContainer/HBoxContainer2/StartsWithSidekicksCheck" to="." method="OnStartsWithSidekicksCheckPressed"]
 [connection signal="value_changed" from="HBoxContainer/VBoxContainer/StartingHandSize" to="." method="OnStartingHandSizeValueChanged"]

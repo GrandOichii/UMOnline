@@ -1,5 +1,4 @@
 using Godot;
-using UMClient.Storage.Models;
 
 public partial class FighterEditor : TabContainer
 {

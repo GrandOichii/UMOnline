@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://c5tfro1iuqdqr"]
+
+[ext_resource type="Script" uid="uid://i14k4dbfjvkb" path="res://v1/Storage/LocalRepository.cs" id="1_44ivv"]
+
+[node name="LocalRepository" type="Node"]
+script = ExtResource("1_44ivv")
+DataSource = "user://local.db"
+DropOnLaunch = true

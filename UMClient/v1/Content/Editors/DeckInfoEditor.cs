@@ -32,6 +32,26 @@ public partial class DeckInfoEditor : MarginContainer
 
 	#endregion
 
+    public void LoadDeck(DeckModel deck)
+    {
+        NameEditNode.Text = deck.Name;
+        ChoosesSidekickCheckNode.ButtonPressed = deck.ChoosesSidekick;
+        StartsWithSidekicksCheckNode.ButtonPressed = deck.ChoosesSidekick;
+        StartingHandSizeNode.Value = (double)deck.StartingHandSize;
+        MaxHandSizeNode.Value = (double)deck.MaxHandSize;
+
+        SetIsEditable(deck.Editable);
+        // TODO CardBackNode
+    }
+
+    private void SetIsEditable(bool value)
+    {
+        ChoosesSidekickCheckNode.Disabled = !value;
+        StartsWithSidekicksCheckNode.Disabled = !value;
+        StartingHandSizeNode.Editable = value;
+        MaxHandSizeNode.Editable = value;
+    }
+
 	public override void _Ready()
 	{
 		base._Ready();
@@ -65,6 +85,11 @@ public partial class DeckInfoEditor : MarginContainer
         CardBackNode.Texture = texture;
 
         EmitSignal(SignalName.CardBackImportRequest, path);
+    }
+
+    public void OnRenameButtonPressed()
+    {
+        // TODO
     }
 
     #region FighterChanged emitters

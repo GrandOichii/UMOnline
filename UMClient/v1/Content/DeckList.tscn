@@ -1,0 +1,26 @@
+[gd_scene load_steps=2 format=3 uid="uid://ctj3vhl0qiuqp"]
+
+[ext_resource type="Script" uid="uid://bhk61fgbsnxmk" path="res://v1/Content/DeckList.cs" id="1_uo4ul"]
+
+[node name="DeckList" type="VBoxContainer" node_paths=PackedStringArray("ListNode", "TitleNode")]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_uo4ul")
+ListNode = NodePath("ItemList")
+TitleNode = NodePath("Title")
+
+[node name="Title" type="Label" parent="."]
+layout_mode = 2
+text = "TITLE HERE"
+
+[node name="ItemList" type="ItemList" parent="."]
+layout_mode = 2
+size_flags_vertical = 3
+item_count = 2
+item_0/text = "Deck1"
+item_1/text = "Deck2"
+
+[connection signal="item_activated" from="ItemList" to="." method="OnItemListItemActivated"]
