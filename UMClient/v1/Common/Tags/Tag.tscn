@@ -1,0 +1,27 @@
+[gd_scene load_steps=2 format=3 uid="uid://bubn2ecbdxy0"]
+
+[ext_resource type="Script" uid="uid://dxk6bg0jdvbp3" path="res://v1/Common/Tags/Tag.cs" id="1_ea0u3"]
+
+[node name="Tag" type="PanelContainer" node_paths=PackedStringArray("NameNode")]
+offset_right = 158.0
+offset_bottom = 31.0
+script = ExtResource("1_ea0u3")
+NameNode = NodePath("MarginContainer/HBoxContainer/Name")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_right = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="Name" type="Label" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+text = "TAG NAME HERE"
+
+[node name="RemoveButton" type="Button" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+text = " X "
+
+[connection signal="pressed" from="MarginContainer/HBoxContainer/RemoveButton" to="." method="OnRemoveButtonPressed"]

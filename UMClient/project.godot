@@ -24,6 +24,13 @@ window/stretch/aspect="expand"
 
 project/assembly_name="UMClient"
 
+[editor]
+
+naming/default_signal_callback_name="On{NodeName}{SignalName}"
+naming/default_signal_callback_to_self_name="On{SignalName}"
+naming/scene_name_casing=1
+naming/script_name_casing=1
+
 [input]
 
 pick_card={

@@ -1,0 +1,49 @@
+[gd_scene load_steps=3 format=3 uid="uid://ukgsnehc0vdy"]
+
+[ext_resource type="Script" uid="uid://cmirnhla821wy" path="res://v1/Common/Tags/TagsEditor.cs" id="1_m6k0j"]
+[ext_resource type="PackedScene" uid="uid://bubn2ecbdxy0" path="res://v1/Common/Tags/Tag.tscn" id="2_m50yk"]
+
+[node name="TagsEditor" type="VBoxContainer" node_paths=PackedStringArray("PrefixNode", "NewTagEditNode", "TagsContainer")]
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+script = ExtResource("1_m6k0j")
+PrefixNode = NodePath("VBoxContainer/Prefix")
+NewTagEditNode = NodePath("VBoxContainer2/NewTagEdit")
+TagsContainer = NodePath("VBoxContainer/TagsContainer")
+TagScene = ExtResource("2_m50yk")
+
+[node name="VBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Prefix" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "PREFIX: "
+
+[node name="TagsContainer" type="HFlowContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Tag" parent="VBoxContainer/TagsContainer" instance=ExtResource("2_m50yk")]
+layout_mode = 2
+
+[node name="Tag2" parent="VBoxContainer/TagsContainer" instance=ExtResource("2_m50yk")]
+layout_mode = 2
+
+[node name="Tag3" parent="VBoxContainer/TagsContainer" instance=ExtResource("2_m50yk")]
+layout_mode = 2
+
+[node name="VBoxContainer2" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="NewTagEdit" type="LineEdit" parent="VBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "New tag placeholder"
+
+[node name="AddTagButton" type="Button" parent="VBoxContainer2"]
+layout_mode = 2
+text = " + "
+
+[connection signal="text_submitted" from="VBoxContainer2/NewTagEdit" to="." method="OnNewTagEditTextSubmitted"]
+[connection signal="pressed" from="VBoxContainer2/AddTagButton" to="." method="OnAddTagButtonPressed"]

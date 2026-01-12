@@ -107,11 +107,10 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 tab_alignment = 2
-current_tab = 1
+current_tab = 0
 tabs_position = 1
 
 [node name="Deck" type="Control" parent="TabContainer/Content/HBoxContainer/TabContainer/Test deck 2/TabContainer"]
-visible = false
 layout_mode = 2
 metadata/_tab_index = 0
 
@@ -191,6 +190,7 @@ layout_mode = 2
 text = "Import card back"
 
 [node name="Fighters" type="Control" parent="TabContainer/Content/HBoxContainer/TabContainer/Test deck 2/TabContainer"]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 1
 

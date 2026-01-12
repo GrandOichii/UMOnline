@@ -1,0 +1,154 @@
+[gd_scene load_steps=5 format=3 uid="uid://cfcejalno8xn1"]
+
+[ext_resource type="Texture2D" uid="uid://7ahnq75cy61m" path="res://assets/decks/Achilles/cards/Achilles_Achilles' Heel.webp" id="1_04lq0"]
+[ext_resource type="Script" uid="uid://nxfr3tat6til" path="res://v1/Content/Editors/CardEditor.cs" id="1_w3mgi"]
+[ext_resource type="PackedScene" uid="uid://ukgsnehc0vdy" path="res://v1/Common/Tags/TagsEditor.tscn" id="2_05xop"]
+[ext_resource type="PackedScene" uid="uid://wrmm0t5haet3" path="res://v1/Content/ImageImporter.tscn" id="3_u1e88"]
+
+[node name="CardEditor" type="TabContainer" node_paths=PackedStringArray("TitleEditNode", "DeckCountNode", "StartingHandCount", "TypeOptionNode", "ValueNode", "BoostCheckNode", "BoostValueNode", "TextNode", "CardImageNode", "ImageImporterNode")]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+current_tab = 0
+script = ExtResource("1_w3mgi")
+TitleEditNode = NodePath("General/HBoxContainer/VBoxContainer/HBoxContainer/TitleEdit")
+DeckCountNode = NodePath("General/HBoxContainer/VBoxContainer/DeckCount")
+StartingHandCount = NodePath("General/HBoxContainer/VBoxContainer/StartingHandCount")
+TypeOptionNode = NodePath("General/HBoxContainer/VBoxContainer/HBoxContainer4/TypeOption")
+ValueNode = NodePath("General/HBoxContainer/VBoxContainer/Value")
+BoostCheckNode = NodePath("General/HBoxContainer/VBoxContainer/HBoxContainer5/BoostCheck")
+BoostValueNode = NodePath("General/HBoxContainer/VBoxContainer/HBoxContainer5/BoostValue")
+TextNode = NodePath("General/HBoxContainer/VBoxContainer/Text")
+CardImageNode = NodePath("General/HBoxContainer/VBoxContainer2/FighterImage")
+ImageImporterNode = NodePath("ImageImporter")
+
+[node name="General" type="Control" parent="."]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="General"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="General/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 4.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="General/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="General/HBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Title: "
+
+[node name="TitleEdit" type="LineEdit" parent="General/HBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Enter card title"
+
+[node name="DeckCount" type="SpinBox" parent="General/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+value = 3.0
+prefix = "Deck count: "
+
+[node name="StartingHandCount" type="SpinBox" parent="General/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+prefix = "Starting hand count: "
+
+[node name="AllowedFightersEditor" parent="General/HBoxContainer/VBoxContainer" instance=ExtResource("2_05xop")]
+layout_mode = 2
+Prefix = "Allowed fighters: (ANY if empty)"
+NewTagPlaceholder = "Enter fighter name"
+
+[node name="LabelsEditor" parent="General/HBoxContainer/VBoxContainer" instance=ExtResource("2_05xop")]
+layout_mode = 2
+Prefix = "Card labels:"
+NewTagPlaceholder = "Enter label"
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="General/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="General/HBoxContainer/VBoxContainer/HBoxContainer4"]
+layout_mode = 2
+text = "Type: "
+
+[node name="TypeOption" type="OptionButton" parent="General/HBoxContainer/VBoxContainer/HBoxContainer4"]
+layout_mode = 2
+size_flags_horizontal = 3
+selected = 2
+item_count = 4
+popup/item_0/text = "Scheme"
+popup/item_0/id = 0
+popup/item_1/text = "Attack"
+popup/item_1/id = 1
+popup/item_2/text = "Defense"
+popup/item_2/id = 2
+popup/item_3/text = "Versatile"
+popup/item_3/id = 3
+
+[node name="Value" type="SpinBox" parent="General/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+value = 4.0
+prefix = "Value: "
+
+[node name="HBoxContainer5" type="HBoxContainer" parent="General/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="BoostCheck" type="CheckBox" parent="General/HBoxContainer/VBoxContainer/HBoxContainer5"]
+layout_mode = 2
+button_pressed = true
+
+[node name="BoostValue" type="SpinBox" parent="General/HBoxContainer/VBoxContainer/HBoxContainer5"]
+layout_mode = 2
+size_flags_horizontal = 3
+value = 4.0
+prefix = "Boost value: "
+
+[node name="Label" type="Label" parent="General/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Card text:"
+
+[node name="Text" type="TextEdit" parent="General/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+placeholder_text = "Enter card text"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="General/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 2
+
+[node name="FighterImage" type="TextureRect" parent="General/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+texture = ExtResource("1_04lq0")
+expand_mode = 5
+stretch_mode = 5
+
+[node name="ImportImageButton" type="Button" parent="General/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+text = "Import image"
+
+[node name="Script" type="Control" parent="."]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="ImageImporter" parent="." instance=ExtResource("3_u1e88")]
+
+[connection signal="text_changed" from="General/HBoxContainer/VBoxContainer/HBoxContainer/TitleEdit" to="." method="OnTitleEditTextChanged"]
+[connection signal="value_changed" from="General/HBoxContainer/VBoxContainer/DeckCount" to="." method="OnDeckCountValueChanged"]
+[connection signal="value_changed" from="General/HBoxContainer/VBoxContainer/StartingHandCount" to="." method="OnStartingHandCountValueChanged"]
+[connection signal="item_selected" from="General/HBoxContainer/VBoxContainer/HBoxContainer4/TypeOption" to="." method="OnTypeOptionItemSelected"]
+[connection signal="value_changed" from="General/HBoxContainer/VBoxContainer/Value" to="." method="OnValueValueChanged"]
+[connection signal="toggled" from="General/HBoxContainer/VBoxContainer/HBoxContainer5/BoostCheck" to="." method="OnBoostCheckToggled"]
+[connection signal="value_changed" from="General/HBoxContainer/VBoxContainer/HBoxContainer5/BoostValue" to="." method="OnBoostValueValueChanged"]
+[connection signal="text_changed" from="General/HBoxContainer/VBoxContainer/Text" to="." method="OnTextTextChanged"]
+[connection signal="pressed" from="General/HBoxContainer/VBoxContainer2/ImportImageButton" to="." method="OnImportImageButtonPressed"]
+[connection signal="file_selected" from="ImageImporter" to="." method="OnImageImporterFileSelected"]
