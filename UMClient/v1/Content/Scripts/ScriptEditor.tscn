@@ -1,9 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://by0r2731rhmhg"]
+[gd_scene load_steps=3 format=3 uid="uid://by0r2731rhmhg"]
 
 [ext_resource type="Script" uid="uid://cgqbdt1mblkyp" path="res://v1/Content/Scripts/ScriptEditor.cs" id="1_w21rc"]
 [ext_resource type="Resource" uid="uid://dqgchyh35r4o5" path="res://v1/Content/Scripts/ScriptNodes/ScriptNodes.tres" id="2_4nh3u"]
-[ext_resource type="PackedScene" uid="uid://bcryyip3mv2s2" path="res://v1/Content/Scripts/StartScriptNodeNode.tscn" id="4_7q4gu"]
-[ext_resource type="Resource" uid="uid://ei2ec6d55g4g" path="res://v1/Content/Scripts/CardStartScriptNode.tres" id="5_4adg2"]
 
 [node name="ScriptEditor" type="Control" node_paths=PackedStringArray("GraphEditor", "ManualEditor", "GraphNode", "AddNodeWindowNode", "NewNodeTreeListNode", "NewNodeInfoContainerNode", "NewScriptNodeNameLabel", "NewScriptNodeDescriptionLabel", "ScriptDisplay", "ManualScriptEdit", "ToggleScriptTypeButtonNode")]
 layout_mode = 3
@@ -39,7 +37,6 @@ layout_mode = 2
 size_flags_vertical = 3
 
 [node name="GraphEditor" type="Control" parent="VBoxContainer/Control"]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -60,11 +57,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 3.0
 right_disconnects = true
-
-[node name="Start" parent="VBoxContainer/Control/GraphEditor/HBoxContainer/Graph" instance=ExtResource("4_7q4gu")]
-layout_mode = 0
-mouse_filter = 1
-Value = ExtResource("5_4adg2")
+minimap_enabled = false
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/Control/GraphEditor/HBoxContainer"]
 layout_mode = 2
@@ -81,6 +74,7 @@ size_flags_vertical = 3
 editable = false
 
 [node name="ManualEditor" type="Control" parent="VBoxContainer/Control"]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -187,6 +181,7 @@ text = "Add"
 [connection signal="delete_nodes_request" from="VBoxContainer/Control/GraphEditor/HBoxContainer/Graph" to="." method="OnGraphDeleteNodesRequest"]
 [connection signal="disconnection_request" from="VBoxContainer/Control/GraphEditor/HBoxContainer/Graph" to="." method="OnGraphDisconnectionRequest"]
 [connection signal="duplicate_nodes_request" from="VBoxContainer/Control/GraphEditor/HBoxContainer/Graph" to="." method="OnGraphDuplicateNodesRequest"]
+[connection signal="end_node_move" from="VBoxContainer/Control/GraphEditor/HBoxContainer/Graph" to="." method="OnGraphEndNodeMove"]
 [connection signal="gui_input" from="VBoxContainer/Control/GraphEditor/HBoxContainer/Graph" to="." method="OnGraphGuiInput"]
 [connection signal="paste_nodes_request" from="VBoxContainer/Control/GraphEditor/HBoxContainer/Graph" to="." method="OnGraphPasteNodesRequest"]
 [connection signal="text_changed" from="VBoxContainer/Control/ManualEditor/ManualScriptEdit" to="." method="OnManualScriptEditTextChanged"]

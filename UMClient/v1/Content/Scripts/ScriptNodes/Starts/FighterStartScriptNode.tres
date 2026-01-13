@@ -1,0 +1,37 @@
+[gd_resource type="Resource" script_class="StartScriptNode" load_steps=8 format=3 uid="uid://cuew5v1yar7n"]
+
+[ext_resource type="Script" uid="uid://8y8ftu12nrtg" path="res://v1/Content/Scripts/Resource/StartScriptNodeArg.cs" id="1_l2lca"]
+[ext_resource type="PackedScene" uid="uid://bcryyip3mv2s2" path="res://v1/Content/Scripts/StartScriptNodeNode.tscn" id="2_7niun"]
+[ext_resource type="Script" uid="uid://bu6x8sca6h0qh" path="res://v1/Content/Scripts/Resource/StartScriptNode.cs" id="3_5rqvv"]
+
+[sub_resource type="Resource" id="Resource_fmdty"]
+script = ExtResource("1_l2lca")
+Label = "Scheme"
+BuildMethod = "Effect"
+metadata/_custom_type_script = "uid://8y8ftu12nrtg"
+
+[sub_resource type="Resource" id="Resource_ojviu"]
+script = ExtResource("1_l2lca")
+Label = "Immediately"
+BuildMethod = "Immediately"
+metadata/_custom_type_script = "uid://8y8ftu12nrtg"
+
+[sub_resource type="Resource" id="Resource_cyvf6"]
+script = ExtResource("1_l2lca")
+Label = "During combat"
+BuildMethod = "DuringCombat"
+metadata/_custom_type_script = "uid://8y8ftu12nrtg"
+
+[sub_resource type="Resource" id="Resource_fcy1t"]
+script = ExtResource("1_l2lca")
+Label = "After combat"
+BuildMethod = "AfterCombat"
+metadata/_custom_type_script = "uid://8y8ftu12nrtg"
+
+[resource]
+script = ExtResource("3_5rqvv")
+Name = "FighterStart"
+Title = "Fighter"
+BuildFunction = "UM.Build:Fighter"
+Args = Array[Resource]([SubResource("Resource_fmdty"), SubResource("Resource_ojviu"), SubResource("Resource_cyvf6"), SubResource("Resource_fcy1t")])
+metadata/_custom_type_script = "uid://bu6x8sca6h0qh"

@@ -2,7 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-public partial class IfScriptNodeNode : GraphNode, IScriptNodeNode
+public partial class IfScriptNodeNode : GraphNode, IScriptNodeNode, IPrebuiltNodeNode
 {
     public override void _Ready()
     {
@@ -78,4 +78,26 @@ public partial class IfScriptNodeNode : GraphNode, IScriptNodeNode
         // TODO
     }
 
+    public void LoadState(ScriptNodeState state)
+    {
+        // no data expected
+    }
+
+    private string _scriptNodeName;
+    public void SetScriptNodeName(string name)
+    {
+        _scriptNodeName = name;
+    }
+
+    public ScriptNodeState ToState(int id) => new()
+    {
+        Data = [],
+        Editor = new() { X = PositionOffset.X, Y = PositionOffset.Y },
+        Id = id,
+        Name = _scriptNodeName,
+    };
+
+    public void SetEditable(bool v)
+    {
+    }
 }

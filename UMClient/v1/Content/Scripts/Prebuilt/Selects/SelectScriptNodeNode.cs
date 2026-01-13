@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Text.Json;
 
 [GlobalClass]
 public partial class SelectScriptNodeNode : GraphNode, IScriptNodeNode
@@ -26,15 +27,17 @@ public partial class SelectScriptNodeNode : GraphNode, IScriptNodeNode
         SetSlotColorRight(1, ScriptEditor.GetSlotColor(ScriptNodeType.Numeric));
     }
 
-    #region Signals connections
-
-    public void OnAddFilterButtonPressed()
+    public void AddFilter()
     {
-        var child = new Button();
-        child.Text = "Remove";
+        var child = new Button
+        {
+            Text = "Remove"
+        };
         int childIdx = GetChildCount();
         child.Pressed += () =>
         {
+            if (!_editable) return;
+            
             GD.Print($"REMOVE CHILD {childIdx}");  
             // TODO
         };
@@ -45,9 +48,18 @@ public partial class SelectScriptNodeNode : GraphNode, IScriptNodeNode
         SetSlotColorLeft(childIdx, ScriptEditor.GetSlotColor(Value.FilterType));
     }
 
+    #region Signals connections
+
+    public void OnAddFilterButtonPressed()
+    {
+        AddFilter();
+    }
+
     #endregion
 
     public bool IsStart() => false;
+
+    public int GetSlotCount() => GetChildCount() - 2;
 
     public string Generate(
         int forSlot,
@@ -56,8 +68,8 @@ public partial class SelectScriptNodeNode : GraphNode, IScriptNodeNode
     )
     {
         var myInputs = inputs[this];
-        var slotOffset = 2;
-        var slotCount = GetChildCount() - slotOffset;
+
+        var slotCount = GetSlotCount();
 
         List<string> filters = [];
         for (int i = 0; i < slotCount; ++i)
@@ -92,6 +104,40 @@ public partial class SelectScriptNodeNode : GraphNode, IScriptNodeNode
 
     public void SetEssentials(ScriptEditor editor)
     {
-        // TODO
+    }
+
+    public void LoadState(ScriptNodeState state)
+    {
+        SingleCheckNode.ButtonPressed = ((JsonElement)state.Data["single"]).GetBoolean();
+
+        var outputCount = ((JsonElement)state.Data["outputCount"]).GetInt32();
+        for (int i = 0; i < outputCount; ++i)
+            AddFilter();
+    }
+
+    private string _scriptNodeName;
+    public void SetScriptNodeName(string name)
+    {
+        _scriptNodeName = name;
+    }
+
+    public ScriptNodeState ToState(int id) => new()
+    {
+        Data = new()
+        {
+            { "single", SingleCheckNode.ButtonPressed },
+            { "outputCount", GetSlotCount() },
+        },
+        Editor = new() { X = PositionOffset.X, Y = PositionOffset.Y },
+        Id = id,
+        Name = _scriptNodeName,
+    };
+
+    private bool _editable;
+    public void SetEditable(bool v)
+    {
+        _editable = v;
+        AddFilterButton.Disabled = !v;
+        SingleCheckNode.Disabled = !v;
     }
 }

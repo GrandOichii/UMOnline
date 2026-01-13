@@ -17,15 +17,15 @@ public partial class ScriptEditor : Control
 	{
 		ScriptNodeType.Effect => Color.FromHtml("#00ff00"),
 		ScriptNodeType.Condition => Color.FromHtml("#ff0000"),
-        ScriptNodeType.Ability => Color.FromHtml("#ff8914ff"),
-        ScriptNodeType.Numeric => Color.FromHtml("#1450ff"),
-        ScriptNodeType.SingleFighter => Color.FromHtml("#00ffff"),
-        ScriptNodeType.ManyFighters => Color.FromHtml("#005454"),
-        ScriptNodeType.SinglePlayer => Color.FromHtml("#ffff00"),
-        ScriptNodeType.ManyPlayers => Color.FromHtml("#565600"),
-        ScriptNodeType.FighterFilter => Color.FromHtml("#ff00ff"),
-        ScriptNodeType.PlayerFilter => Color.FromHtml("#6b10ff"),
-        _ => throw new Exception($"{nameof(GetSlotColor)} not implemented for ScriptNodeType {type}")
+		ScriptNodeType.Ability => Color.FromHtml("#ff8914ff"),
+		ScriptNodeType.Numeric => Color.FromHtml("#1450ff"),
+		ScriptNodeType.SingleFighter => Color.FromHtml("#00ffff"),
+		ScriptNodeType.ManyFighters => Color.FromHtml("#005454"),
+		ScriptNodeType.SinglePlayer => Color.FromHtml("#ffff00"),
+		ScriptNodeType.ManyPlayers => Color.FromHtml("#565600"),
+		ScriptNodeType.FighterFilter => Color.FromHtml("#ff00ff"),
+		ScriptNodeType.PlayerFilter => Color.FromHtml("#6b10ff"),
+		_ => throw new Exception($"{nameof(GetSlotColor)} not implemented for ScriptNodeType {type}")
 	};
 
 	[Export]
@@ -69,6 +69,57 @@ public partial class ScriptEditor : Control
 	private bool _isManual;
 	private bool _editable;
 
+	private string _lastGraphState;
+
+	public void UpdateLastGraphState()
+	{
+		// nodes
+		var id = -1;
+
+		var state = new ScriptState()
+		{
+			Connections = [],
+			Nodes = [],
+		};
+
+		Dictionary<string, int> nodeNameToIdMap = [];
+		foreach (var child in GraphNode.GetChildren())
+		{
+			if (child.Name == "_connection_layer") continue;
+			var node = child as IScriptNodeNode;
+			// var connections = GraphNode.GetConnectionListFromNode(child.Name);
+
+			var scriptState = node.ToState(++id);
+			nodeNameToIdMap[child.Name] = id;
+
+			state.Nodes.Add(scriptState);
+		}
+
+		// connections
+		foreach (var connection in GraphNode.Connections)
+		{
+			var fromNode = connection["from_node"].AsString();
+			var fromPort = connection["from_port"].AsInt32();
+			var toNode = connection["to_node"].AsString();
+			var toPort = connection["to_port"].AsInt32();
+
+			var fromId = nodeNameToIdMap[fromNode];
+			var toId = nodeNameToIdMap[toNode];
+
+			state.Connections.Add(new()
+			{
+				From = fromId,
+				FromSlot = fromPort,
+				To = toId,
+				ToSlot = toPort
+			});
+		}
+
+		_lastGraphState = state.ToJson();
+
+		EmitSignal(SignalName.ScriptModelChanged);
+	}
+
 	public void LoadScriptModel(ScriptModel script, bool editable)
 	{
 		_editable = editable;
@@ -85,17 +136,54 @@ public partial class ScriptEditor : Control
 		ManualScriptEdit.Editable = editable;
 
 		// graph
-		// TODO
+		_lastGraphState = script.GraphState;
+		LoadGraphState(script.ParseScriptState());
+	}
+
+	private void LoadGraphState(ScriptState state)
+	{
+		// load other nodes
+		Dictionary<int, GraphNode> nodeMap = [];
+		foreach (var nodeState in state.Nodes)
+		{
+			var scriptNode = GetScriptNodeByName(nodeState.Name);
+
+			var (child, node) = scriptNode.Instantiate(_editable);
+			node.SetEssentials(this);
+			GraphNode.AddChild(child);
+			child.SetPositionOffset((new Vector2(nodeState.Editor.X, nodeState.Editor.Y) + GraphNode.ScrollOffset) / GraphNode.Zoom);
+			node.LoadState(nodeState);
+
+			nodeMap[nodeState.Id] = child;
+		}
+
+		// load connections
+		foreach (var connection in state.Connections)
+		{
+			var from = nodeMap[connection.From];			
+			var to = nodeMap[connection.To];
+
+			GraphNode.ConnectNode(
+				from.Name,
+				connection.FromSlot,
+				to.Name,
+				connection.ToSlot
+			);		
+		}
+
+		CallDeferred("RegenerateScript");
 	}
 
 	public ScriptModel BuildScriptModel() => new()
 	{
 		Id = _scriptId,
-		ManualScript = ManualScriptEdit.Text,	
+		ManualScript = ManualScriptEdit.Text,
 		IsManual = _isManual,
+		GraphState = _lastGraphState,
 	};
 
-	public override void _Ready() {
+	public override void _Ready()
+	{
 		AddNodeWindowNode.Hide();
 		NewNodeInfoContainerNode.Hide();
 		ResetAddNewNodeWindow();
@@ -126,6 +214,11 @@ public partial class ScriptEditor : Control
 			child.SetMetadata(0, prebuilt.Name);
 		}
 
+		foreach (var start in ScriptNodes.GetStarts())
+		{
+			_scriptNodeNameMap.Add(start.Name, start);
+		}
+
 		var selectChild = NewNodeTreeListNode.CreateItem(root);
 		selectChild.SetText(0, "Selects");
 		foreach (var select in ScriptNodes.GetSelects())
@@ -141,7 +234,8 @@ public partial class ScriptEditor : Control
 		{
 			var categoryChild = NewNodeTreeListNode.CreateItem(root);
 			categoryChild.SetText(0, category.ToCategoryName());
-			if (categoryMapping.ContainsKey(category)) {
+			if (categoryMapping.ContainsKey(category))
+			{
 				foreach (var scriptNode in categoryMapping[category])
 				{
 					var child = NewNodeTreeListNode.CreateItem(categoryChild);
@@ -149,18 +243,11 @@ public partial class ScriptEditor : Control
 					child.SetMetadata(0, scriptNode.Name);
 				}
 			}
-			// if (prebuiltCategoryMapping.ContainsKey(category)) {
-			// 	foreach (var prebuilt in prebuiltCategoryMapping[category])
-			// 	{
-			// 		var child = NewNodeTreeListNode.CreateItem(categoryChild);
-			// 		child.SetText(0, prebuilt.Label);
-			// 		child.SetMetadata(0, prebuilt.Name);
-			// 	}
-			// }
 		}
 	}
-	
-	private void AddScriptNodeToMouseLocation() {
+
+	private void AddScriptNodeToMouseLocation()
+	{
 		_lastGraphMousePos = GraphNode.GetLocalMousePosition();
 		ResetAddNewNodeWindow();
 		AddNodeWindowNode.Show();
@@ -178,7 +265,7 @@ public partial class ScriptEditor : Control
 		if (scriptNodeName.Length == 0) return;
 		var scriptNode = GetScriptNodeByName(scriptNodeName);
 
-		var (child, node) = scriptNode.Instantiate();
+		var (child, node) = scriptNode.Instantiate(_editable);
 		node.SetEssentials(this);
 		GraphNode.AddChild(child);
 		child.SetPositionOffset((_lastGraphMousePos + GraphNode.ScrollOffset) / GraphNode.Zoom);
@@ -191,49 +278,58 @@ public partial class ScriptEditor : Control
 		AddNodeWindowNode.Hide();
 	}
 
-	public void RegenerateScript()
+	public void ProcessScriptGraphChange()
 	{
+		UpdateLastGraphState();
+		RegenerateScript();
+	}
+
+	public void RegenerateScript() {
 		// try
 		// {
-			Dictionary<IScriptNodeNode, Dictionary<int, (IScriptNodeNode from, int fromPort)>> inputs = [];
-			Dictionary<IScriptNodeNode, Dictionary<int, (IScriptNodeNode to, int toPort)>> outputs = [];
-			IScriptNodeNode start = null;
+		Dictionary<IScriptNodeNode, Dictionary<int, (IScriptNodeNode from, int fromPort)>> inputs = [];
+		Dictionary<IScriptNodeNode, Dictionary<int, (IScriptNodeNode to, int toPort)>> outputs = [];
+		IScriptNodeNode start = null;
 
-			foreach (var child in GraphNode.GetChildren())
+		foreach (var child in GraphNode.GetChildren())
+		{
+			if (child.Name == "_connection_layer") continue;
+			var node = child as IScriptNodeNode;
+			if (node.IsStart()) start = node;
+
+			// if (GraphNode.GetConnectionCount(child.Name) == 0) continue;
+			var connections = GraphNode.GetConnectionListFromNode(child.Name);
+			inputs.Add(node, []);
+			outputs.Add(node, []);
+
+			foreach (var connection in connections)
 			{
-				if (child.Name == "_connection_layer") continue;
-				var node = child as IScriptNodeNode;
-				var connections = GraphNode.GetConnectionListFromNode(child.Name);
-				inputs.Add(node, []);
-				outputs.Add(node, []);
+				var toNode = connection["to_node"].AsString();
+				var fromNode = connection["from_node"].AsString();
+				var toPort = connection["to_port"].AsInt32();
+				var fromPort = connection["from_port"].AsInt32();
 
-				foreach (var connection in connections)
+				if (toNode == child.Name)
 				{
-					var toNode = connection["to_node"].AsString();
-					var fromNode = connection["from_node"].AsString();
-					var toPort = connection["to_port"].AsInt32();
-					var fromPort = connection["from_port"].AsInt32();
-
-					if (toNode == child.Name) {
-						// input
-						inputs[node].Add(toPort, (GraphNode.GetNode(fromNode) as IScriptNodeNode, fromPort));
-					} else 
-					{
-						// output
-						outputs[node].Add(fromPort, (GraphNode.GetNode(toNode) as IScriptNodeNode, toPort));
-					}
+					// input
+					inputs[node].Add(toPort, (GraphNode.GetNode(fromNode) as IScriptNodeNode, fromPort));
 				}
-				if (node.IsStart()) start = node;
+				else
+				{
+					// output
+					outputs[node].Add(fromPort, (GraphNode.GetNode(toNode) as IScriptNodeNode, toPort));
+				}
 			}
+		}
 
-			if (start is null)
-			{
-				// TODO
-				throw new Exception("start not found");
-			}
+		if (start is null)
+		{
+			// TODO
+			throw new Exception("start not found");
+		}
 
-			var script = start.Generate(0, inputs, outputs);
-			ScriptDisplay.Text = script;
+		var script = start.Generate(0, inputs, outputs);
+		ScriptDisplay.Text = script;
 		// } 
 		// catch (Exception e)
 		// {
@@ -256,8 +352,9 @@ public partial class ScriptEditor : Control
 
 	#region Signal connections
 
-	public void OnGraphGuiInput(InputEvent e) 
+	public void OnGraphGuiInput(InputEvent e)
 	{
+		if (!_editable) return;
 		if (e.IsActionPressed("add_script_node"))
 		{
 			AddScriptNodeToMouseLocation();
@@ -297,20 +394,23 @@ public partial class ScriptEditor : Control
 
 	public void OnGraphConnectionRequest(string fromNode, int fromSlot, string toNode, int toSlot)
 	{
+		if (!_editable) return;
 		// TODO
 		GraphNode.ConnectNode(fromNode, fromSlot, toNode, toSlot);
-		RegenerateScript();
+		ProcessScriptGraphChange();
 	}
 
 	public void OnGraphDisconnectionRequest(string fromNode, int fromSlot, string toNode, int toSlot)
 	{
+		if (!_editable) return;
 		// TODO
 		GraphNode.DisconnectNode(fromNode, fromSlot, toNode, toSlot);
-		RegenerateScript();
+		ProcessScriptGraphChange();
 	}
 
 	public void OnGraphDeleteNodesRequest(Godot.Collections.Array<string> nodeNames)
 	{
+		if (!_editable) return;
 		foreach (var name in nodeNames)
 		{
 			TryDelete(name);
@@ -319,24 +419,28 @@ public partial class ScriptEditor : Control
 
 	public void OnGraphCopyNodesRequest()
 	{
+		if (!_editable) return;
 		// TODO
 		GD.Print("COPY REQUEST");
 	}
 
 	public void OnGraphCutNodesRequest()
 	{
+		if (!_editable) return;
 		// TODO
 		GD.Print("CUT REQUEST");
 	}
 
 	public void OnGraphDuplicateNodesRequest()
 	{
+		if (!_editable) return;
 		// TODO
 		GD.Print("DUPLICATE REQUEST");
 	}
 
 	public void OnGraphPasteNodesRequest()
 	{
+		if (!_editable) return;
 		// TODO
 		GD.Print("PASTE REQUEST");
 	}
@@ -345,6 +449,14 @@ public partial class ScriptEditor : Control
 	{
 		if (!_editable) return;
 		EmitSignalScriptModelChanged();
+	}
+
+	public void OnGraphEndNodeMove()
+	{
+		if (!_editable) return;
+		// TODO
+
+		UpdateLastGraphState();
 	}
 
 	#endregion

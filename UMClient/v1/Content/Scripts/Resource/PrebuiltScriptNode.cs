@@ -2,6 +2,11 @@ using Godot;
 using Godot.Collections;
 using System;
 
+public interface IPrebuiltNodeNode
+{
+    void SetEditable(bool v);
+}
+
 [GlobalClass]
 public partial class PrebuiltScriptNode : Resource, IScriptNode
 {
@@ -16,14 +21,16 @@ public partial class PrebuiltScriptNode : Resource, IScriptNode
     [Export]
     public PackedScene Scene { get; set; }
 
-
     public string GetDescription() => Description;
 
     public string GetLabel() => Label;
 
-    public (GraphNode, IScriptNodeNode) Instantiate()
+    public (GraphNode, IScriptNodeNode) Instantiate(bool editable)
     {
         var result = Scene.Instantiate() as GraphNode;
-        return (result, result as IScriptNodeNode);
+        (result as IPrebuiltNodeNode).SetEditable(editable);
+        var node = result as IScriptNodeNode;
+        node.SetScriptNodeName(Name);
+        return (result, node);
     }
 }

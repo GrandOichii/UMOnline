@@ -1,6 +1,7 @@
 using Godot;
 using System.Collections.Generic;
 using System;
+using System.Text.Json;
 
 public partial class ScriptNodeNode : GraphNode, IScriptNodeNode
 {
@@ -83,7 +84,8 @@ public partial class ScriptNodeNode : GraphNode, IScriptNodeNode
         {
             PlaceholderText = "Enter value"
         };
-        result.TextChanged += (_) => _editor.RegenerateScript();
+        result.TextChanged += (_) => _editor.ProcessScriptGraphChange();
+        result.Editable = _editable;
 
         return result;
     }
@@ -94,7 +96,8 @@ public partial class ScriptNodeNode : GraphNode, IScriptNodeNode
         {
             Text = arg.Label
         };
-        result.Pressed += _editor.RegenerateScript;
+        result.Pressed += _editor.ProcessScriptGraphChange;
+        result.Disabled = !_editable;
 
         return result;
     }
@@ -108,7 +111,8 @@ public partial class ScriptNodeNode : GraphNode, IScriptNodeNode
             result.AddItem(el.Label);
             result.SetItemMetadata(result.ItemCount - 1, el.Value);
         }
-        result.ItemSelected += (_) => _editor.RegenerateScript();
+        result.ItemSelected += (_) => _editor.ProcessScriptGraphChange();
+        result.Disabled = !_editable;
 
         return result;
     }
@@ -117,7 +121,8 @@ public partial class ScriptNodeNode : GraphNode, IScriptNodeNode
     {
         var result = new SpinBox();
 
-        result.ValueChanged += (_) => _editor.RegenerateScript();
+        result.ValueChanged += (_) => _editor.ProcessScriptGraphChange();
+        result.Editable = _editable;
 
         return result;
     }
@@ -187,14 +192,99 @@ public partial class ScriptNodeNode : GraphNode, IScriptNodeNode
         };
     }
 
+    private object GetSimpleDataValue(ScriptNodeSimpleArgType type, Node node)
+    {
+        return type switch {
+            ScriptNodeSimpleArgType.Checkbox => (node as CheckBox).ButtonPressed,
+            ScriptNodeSimpleArgType.Number => (node as SpinBox).Value,
+            ScriptNodeSimpleArgType.Option => (node as OptionButton).Selected,
+            ScriptNodeSimpleArgType.String => (node as LineEdit).Text,
+            _ => throw new Exception($"{nameof(GetSimpleValue)} not implemented for ScriptNodeSimpleArgType {type}")
+        };
+    }
+
+    public void SetSimpleValue(ScriptNodeSimpleArgType type, Node node, object value)
+    {
+        var json = (JsonElement)value;
+
+        switch (type) {
+            case ScriptNodeSimpleArgType.Checkbox:
+                (node as CheckBox).ButtonPressed = json.GetBoolean();
+                break;
+            case ScriptNodeSimpleArgType.Number:
+                (node as SpinBox).SetValueNoSignal(json.GetDouble());
+                break;
+            case ScriptNodeSimpleArgType.Option:
+                (node as OptionButton).Select(json.GetInt32());
+                break;
+            case ScriptNodeSimpleArgType.String:
+                (node as LineEdit).Text = json.GetString();
+                break;
+            default:
+                throw new Exception($"{nameof(GetSimpleValue)} not implemented for ScriptNodeSimpleArgType {type}");
+        };
+    }
+
     public string GetOptionValue(OptionButton node)
     {
         var selected = node.Selected;
         return node.GetItemMetadata(selected).AsString();
     }
 
+
     public void SetEssentials(ScriptEditor editor)
     {
         _editor = editor;
+    }
+
+    public void LoadState(ScriptNodeState state)
+    {
+        var idx = GetChildCount();
+        var simpleArgCount = ScriptNode.SimpleArgs.Count - 1;
+        while (simpleArgCount >= 0)
+        {
+            --idx;
+            var arg = ScriptNode.SimpleArgs[simpleArgCount];
+            --simpleArgCount;
+            var node = GetChildren()[idx];
+            var value = state.Data[arg.Key];            
+            SetSimpleValue(arg.Type, node, value);
+        }
+    }
+
+    private string _scriptNodeName;
+    public void SetScriptNodeName(string name)
+    {
+        _scriptNodeName = name;
+    }
+
+    private bool _editable;
+    public void SetEditable(bool v)
+    {
+        _editable = v;
+    }
+
+    public ScriptNodeState ToState(int id)
+    {
+        ScriptNodeState result = new()
+        {
+            Data = [],
+            Editor = new() { X = PositionOffset.X, Y = PositionOffset.Y },
+            Id = id,
+            Name = _scriptNodeName,
+        };
+
+        var idx = GetChildCount();
+        var simpleArgCount = ScriptNode.SimpleArgs.Count - 1;
+        while (simpleArgCount >= 0)
+        {
+            --idx;
+            var arg = ScriptNode.SimpleArgs[simpleArgCount];
+            --simpleArgCount;
+            var node = GetChildren()[idx];
+            var value = GetSimpleDataValue(arg.Type, node);
+            result.Data[arg.Key] = value;
+        }
+        return result;
     }
 }

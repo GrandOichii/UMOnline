@@ -6,7 +6,6 @@ using Godot;
 using Microsoft.Data.Sqlite;
 using SqlKata;
 using SqlKata.Compilers;
-using UMCore.Matches.Players.Cards;
 
 public partial class LocalRepository : Node
 {
@@ -115,6 +114,96 @@ public partial class LocalRepository : Node
 			InsertDeck(deck);
 		}
 
+		var xScale = 400;
+		var yScale = 300;
+        EditorState editor(int x, int y) => new() { X = x * xScale, Y = y * yScale };
+
+        var graphState1 = new ScriptState()
+		{
+			Connections = [
+				new() {
+					From = 0,
+					FromSlot = 3,
+					To = 1,
+					ToSlot = 0,
+				},
+				new() {
+					From = 1,
+					FromSlot = 0,
+					To = 2,
+					ToSlot = 0,
+				},
+				new() {
+					From = 4,
+					FromSlot = 0,
+					To = 3,
+					ToSlot = 0,
+				},
+				new() {
+					From = 3,
+					FromSlot = 0,
+					To = 2,
+					ToSlot = 1,
+				},
+				new() {
+					From = 5,
+					FromSlot = 0,
+					To = 2,
+					ToSlot = 2,
+				},
+			],
+			Nodes = [
+				new() {
+					Id = 2,
+					Name = "DiscardEffect",
+					Editor = editor(2, 1),
+					Data = new() {
+						{ "random", false }
+					}
+				},
+				new() {
+					Id = 4,
+					Name = "OnlyPlayerFilter",
+					Editor = editor(0, 1),
+					Data = new() {
+						{ "player", 1 }
+					}
+				},
+				new() {
+					Id = 5,
+					Name = "ConstNumeric",
+					Editor = editor(1, 2),
+					Data = new() {
+						{ "number", 1 }
+					}
+				},
+				new() {
+					Id = 1,
+					Name = "ability",
+					Editor = editor(1, 0),
+					Data = new() {
+						{ "text", "After combat: your opponent discards 1 card." }
+					},
+				},
+				new() {
+					Id = 3,
+					Name = "players",
+					Editor = editor(1, 1),
+					Data = new() {
+						{ "single", true },
+						{ "outputCount", 1 },
+					},
+				},
+				new()
+				{
+					Id = 0,
+					Name = "CardStart",
+					Editor = editor(0, 0),
+					Data = [],
+				}
+			],
+		};
+
 		{
 			var deck = GetDeck("non-editable2");
 
@@ -156,6 +245,12 @@ public partial class LocalRepository : Node
 				Value = 0,
 			};
 			InsertCard(card);
+
+			var cardId = (int)(long)LastInsertedId(card.SQLTableName());
+			var c = GetCard(cardId);
+			var script = GetScriptModel(c.ScriptId);
+			script.GraphState = graphState1.ToJson();
+			UpdateScriptById(script);
 		}
 		{
 			var deck = GetDeck("editable1");
@@ -218,6 +313,12 @@ public partial class LocalRepository : Node
 				Value = 5,
 			};
 			InsertCard(card1);
+
+			var cardId = (int)(long)LastInsertedId(card1.SQLTableName());
+			var c = GetCard(cardId);
+			var script = GetScriptModel(c.ScriptId);
+			script.GraphState = graphState1.ToJson();
+			UpdateScriptById(script);
 
 			var card2 = new CardModel()
 			{
@@ -329,8 +430,9 @@ public partial class LocalRepository : Node
 		var script = new ScriptModel()
 		{
 			Id = -1,
-			IsManual = true,
-			ManualScript = "function _Create()\n\t-- TODO manually edit script\nend",	
+			IsManual = false,
+			ManualScript = "function _Create()\n\t-- TODO manually edit script\nend",
+			GraphState = ScriptState.NewFighterScript().ToJson(),
 		};
 
 		InsertFighterScript(script);
@@ -391,8 +493,9 @@ public partial class LocalRepository : Node
 		var script = new ScriptModel()
 		{
 			Id = -1,
-			IsManual = true,
-			ManualScript = "function _Create()\n\t-- TODO manually edit script\nend",	
+			IsManual = false,
+			ManualScript = "function _Create()\n\t-- TODO manually edit script\nend",
+			GraphState = ScriptState.NewCardScript().ToJson(),
 		};
 
 		InsertCardScript(script);
@@ -494,7 +597,7 @@ public partial class LocalRepository : Node
 			pathToImage,
 			target
 		);
-		
+
 		var deck = GetDeck(deckId);
 		deck.CardBackPath = target;
 		UpdateDeckById(deck);
@@ -511,7 +614,7 @@ public partial class LocalRepository : Node
 			pathToImage,
 			target
 		);
-		
+
 		var fighter = GetFighter(fighterId);
 		fighter.ImagePath = target;
 		UpdateFighterById(fighter);
@@ -528,7 +631,7 @@ public partial class LocalRepository : Node
 			pathToImage,
 			target
 		);
-		
+
 		var card = GetCard(cardId);
 		card.ImagePath = target;
 		UpdateCardById(card);

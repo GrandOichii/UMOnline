@@ -5,15 +5,20 @@ using System.Text;
 public interface IScriptNodeNode
 {
     public bool IsStart();
+    
     public string Generate(
         int forPort,
         Dictionary<IScriptNodeNode, Dictionary<int, (IScriptNodeNode from, int fromPort)>> inputs,
         Dictionary<IScriptNodeNode, Dictionary<int, (IScriptNodeNode to, int toPort)>> outputs
     );
 
-    public void SetEssentials(
-        ScriptEditor editor
-    );
+    public void SetEssentials(ScriptEditor editor);
+
+    public void LoadState(ScriptNodeState state);
+
+    public void SetScriptNodeName(string name);
+
+    public ScriptNodeState ToState(int id);
 
     public static string RepeatString(string text, int n)
     {

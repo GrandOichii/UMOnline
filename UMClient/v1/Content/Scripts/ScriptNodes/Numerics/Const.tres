@@ -8,7 +8,7 @@
 script = ExtResource("2_v6llm")
 Key = "number"
 Type = 2
-Data = null
+Data = Array[Object]([])
 metadata/_custom_type_script = "uid://12as40biuktg"
 
 [resource]

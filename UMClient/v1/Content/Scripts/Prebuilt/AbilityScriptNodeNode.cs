@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-public partial class AbilityScriptNodeNode : GraphNode, IScriptNodeNode
+public partial class AbilityScriptNodeNode : GraphNode, IScriptNodeNode, IPrebuiltNodeNode
 {
     [ExportGroup("Nodes")]
     [Export]
@@ -30,11 +30,32 @@ public partial class AbilityScriptNodeNode : GraphNode, IScriptNodeNode
 
     public bool IsStart() => false;
 
-    public void SetEssentials(ScriptEditor editor)
+    public void LoadState(ScriptNodeState state)
     {
-        TextEditNode.TextChanged += editor.RegenerateScript;
+        TextEditNode.Text = state.Data["text"].ToString();
     }
 
+    public void SetEssentials(ScriptEditor editor)
+    {
+        TextEditNode.TextChanged += editor.ProcessScriptGraphChange;
+    }
+
+    private string _scriptNodeName;
+    public void SetScriptNodeName(string name)
+    {
+        _scriptNodeName = name;
+    }
+
+    public ScriptNodeState ToState(int id) => new()
+    {
+        Data = new()
+        {
+            { "text", TextEditNode.Text }
+        },
+        Editor = new() { X = PositionOffset.X, Y = PositionOffset.Y },
+        Id = id,
+        Name = _scriptNodeName,
+    };
 
     public override void _Ready()
     {
@@ -46,4 +67,10 @@ public partial class AbilityScriptNodeNode : GraphNode, IScriptNodeNode
         SetSlotTypeRight(0, (int)ScriptNodeType.Effect);
         SetSlotColorRight(0, ScriptEditor.GetSlotColor(ScriptNodeType.Effect));
     }
+
+    public void SetEditable(bool v)
+    {
+        TextEditNode.Editable = v;
+    }
+
 }

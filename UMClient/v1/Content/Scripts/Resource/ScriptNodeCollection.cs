@@ -7,7 +7,9 @@ using System.Collections.Generic;
 public partial class ScriptNodeCollection : Resource
 {
 	[Export]
-	public Array<ScriptNode> Basic { get; set; } = [];
+	public Array<StartScriptNode> Starts { get; set; }
+	[Export]
+	public Array<ScriptNode> Basic { get; set; }
 	[Export]
 	public Array<PrebuiltScriptNode> Prebuilts { get; set; }
 	[Export]
@@ -22,6 +24,8 @@ public partial class ScriptNodeCollection : Resource
 	{
 		return [.. Prebuilts];
 	}
+
+	public List<StartScriptNode> GetStarts() => [.. Starts];
 
 	public List<SelectScriptNode> GetSelects()
 	{

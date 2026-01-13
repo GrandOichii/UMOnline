@@ -1,0 +1,88 @@
+{
+    "nodes": {
+        "start": {
+            "id": 0,
+            "editor": { "x": 0, "y": 0 },
+            "name": "CardStart",
+            "data": {}
+        },
+        "basic": [
+            {
+                "id": 2,
+                "editor": { "x": 0, "y": 0 },
+                "name": "DiscardEffect",
+                "data": {
+                    "random": false
+                }
+            },
+            {
+                "id": 4,
+                "editor": { "x": 0, "y": 0 },
+                "name": "OnlyPlayerFilter",
+                "data": {
+                    "player": 1
+                }
+            },
+            {
+                "id": 5,
+                "editor": { "x": 0, "y": 0 },
+                "name": "ConstNumeric",
+                "data": {
+                    "number": 1
+                }
+            }
+        ],
+        "prebuilt": [
+            {
+                "id": 1,
+                "editor": { "x": 0, "y": 0 },
+                "name": "ability",
+                "data": {
+                    "text": "After combat: your opponent discards 1 card."
+                }
+            }
+        ],
+        "selects": [
+            {
+                "id": 3,
+                "editor": { "x": 0, "y": 0 },
+                "name": "players",
+                "data": {
+                    "single": false
+                }
+            }
+        ]
+    },
+    "connections": [
+        {
+            "from": 0,
+            "fromSlot": 3,
+            "to": 1,
+            "toSlot": 0
+        },
+        {
+            "from": 1,
+            "fromSlot": 0,
+            "to": 2,
+            "toSlot": 0
+        },
+        {
+            "from": 4,
+            "fromSlot": 0,
+            "to": 3,
+            "toSlot": 0
+        },
+        {
+            "from": 3,
+            "fromSlot": 0,
+            "to": 2,
+            "toSlot": 1
+        },
+        {
+            "from": 5,
+            "fromSlot": 0,
+            "to": 2,
+            "toSlot": 2
+        }
+    ]
+}

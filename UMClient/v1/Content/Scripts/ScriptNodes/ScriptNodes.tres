@@ -1,15 +1,11 @@
-[gd_resource type="Resource" script_class="ScriptNodeCollection" load_steps=32 format=3 uid="uid://dqgchyh35r4o5"]
+[gd_resource type="Resource" script_class="ScriptNodeCollection" load_steps=25 format=3 uid="uid://dqgchyh35r4o5"]
 
 [ext_resource type="Resource" uid="uid://k0gx51a3l378" path="res://v1/Content/Scripts/ScriptNodes/Effects/MoveFighters.tres" id="1_vicet"]
 [ext_resource type="Resource" uid="uid://bw3lglki6rojx" path="res://v1/Content/Scripts/ScriptNodes/Effects/Draw.tres" id="2_4gqr8"]
 [ext_resource type="Resource" uid="uid://dnn1i6hs6inuw" path="res://v1/Content/Scripts/ScriptNodes/Conditions/CombatWonByPlayer.tres" id="3_4wu73"]
-[ext_resource type="PackedScene" uid="uid://cqkmdnkfdl5cl" path="res://v1/Content/Scripts/ScriptNodeNode.tscn" id="4_1m33k"]
 [ext_resource type="Resource" uid="uid://brd0cy5ydbo3a" path="res://v1/Content/Scripts/ScriptNodes/Singles/Player.tres" id="4_us5lf"]
-[ext_resource type="Script" uid="uid://cmhgojee80mqw" path="res://v1/Content/Scripts/Resource/ScriptNode.cs" id="5_f8uik"]
-[ext_resource type="Script" uid="uid://bec6auq8nf31u" path="res://v1/Content/Scripts/Resource/ScriptNodeSimpleArgDataElement.cs" id="6_0ddyo"]
 [ext_resource type="Resource" uid="uid://d385kf1pbod1n" path="res://v1/Content/Scripts/ScriptNodes/Filters/Player/Only.tres" id="6_us5lf"]
 [ext_resource type="Resource" uid="uid://cqku1dhv25cvq" path="res://v1/Content/Scripts/ScriptNodes/Filters/Fighter/Named.tres" id="7_itqlw"]
-[ext_resource type="Script" uid="uid://12as40biuktg" path="res://v1/Content/Scripts/Resource/ScriptNodeSimpleArg.cs" id="7_us5lf"]
 [ext_resource type="Resource" uid="uid://ciom7asv7f8o8" path="res://v1/Content/Scripts/ScriptNodes/Numerics/Const.tres" id="8_1m33k"]
 [ext_resource type="Resource" uid="uid://b4fjfx2cdrvve" path="res://v1/Content/Scripts/ScriptNodes/Effects/AllowBoost.tres" id="8_itqlw"]
 [ext_resource type="Resource" uid="uid://cr0vw2g3bdywq" path="res://v1/Content/Scripts/ScriptNodes/Numerics/UpTo.tres" id="9_1m33k"]
@@ -18,50 +14,12 @@
 [ext_resource type="Resource" uid="uid://dibtjtj82uvop" path="res://v1/Content/Scripts/ScriptNodes/Filters/Fighter/Your.tres" id="9_itqlw"]
 [ext_resource type="Script" uid="uid://dg62s6ykk8a3e" path="res://v1/Content/Scripts/Resource/PrebuiltScriptNode.cs" id="10_ajq8r"]
 [ext_resource type="PackedScene" uid="uid://62afnehh8agv" path="res://v1/Content/Scripts/Prebuilt/IfScriptNodeNode.tscn" id="11_gbcg0"]
+[ext_resource type="Resource" uid="uid://n6qlclxndh0m" path="res://v1/Content/Scripts/ScriptNodes/Singles/Fighter.tres" id="12_f8uik"]
 [ext_resource type="PackedScene" uid="uid://b7nk3q74ufvcs" path="res://v1/Content/Scripts/Prebuilt/Selects/SelectScriptNodeNode.tscn" id="12_ia21f"]
 [ext_resource type="Script" uid="uid://beqd6jxan25d8" path="res://v1/Content/Scripts/Resource/SelectScriptNode.cs" id="13_88mki"]
 [ext_resource type="Script" uid="uid://mreeoiaypmlb" path="res://v1/Content/Scripts/Resource/ScriptNodeCollection.cs" id="14_fvt77"]
-
-[sub_resource type="Resource" id="Resource_d05vl"]
-script = ExtResource("6_0ddyo")
-Label = "Source"
-Value = "UM.Fighter:Source()"
-metadata/_custom_type_script = "uid://bec6auq8nf31u"
-
-[sub_resource type="Resource" id="Resource_5wals"]
-script = ExtResource("6_0ddyo")
-Label = "Defender"
-Value = "UM.Fighter:Defender()"
-metadata/_custom_type_script = "uid://bec6auq8nf31u"
-
-[sub_resource type="Resource" id="Resource_1yvwa"]
-script = ExtResource("6_0ddyo")
-Label = "Attacker"
-Value = "UM.Fighter:Attacker()"
-metadata/_custom_type_script = "uid://bec6auq8nf31u"
-
-[sub_resource type="Resource" id="Resource_p4pso"]
-script = ExtResource("6_0ddyo")
-Label = "Moving"
-Value = "UM.Fighter:Moving()"
-metadata/_custom_type_script = "uid://bec6auq8nf31u"
-
-[sub_resource type="Resource" id="Resource_huy80"]
-script = ExtResource("7_us5lf")
-Key = "fighter"
-Type = 1
-Data = Array[Object]([SubResource("Resource_d05vl"), SubResource("Resource_5wals"), SubResource("Resource_1yvwa"), SubResource("Resource_p4pso")])
-metadata/_custom_type_script = "uid://12as40biuktg"
-
-[sub_resource type="Resource" id="Resource_tolno"]
-script = ExtResource("5_f8uik")
-Name = "single-fighter"
-Label = "Fighter"
-Type = 3
-NodeArgs = null
-SimpleArgs = Array[Object]([SubResource("Resource_huy80")])
-Script = "$player"
-metadata/_custom_type_script = "uid://cmhgojee80mqw"
+[ext_resource type="Resource" uid="uid://ei2ec6d55g4g" path="res://v1/Content/Scripts/ScriptNodes/Starts/CardStartScriptNode.tres" id="18_0ddyo"]
+[ext_resource type="Resource" uid="uid://cuew5v1yar7n" path="res://v1/Content/Scripts/ScriptNodes/Starts/FighterStartScriptNode.tres" id="19_us5lf"]
 
 [sub_resource type="Resource" id="Resource_8cdlt"]
 script = ExtResource("10_ajq8r")
@@ -102,7 +60,8 @@ metadata/_custom_type_script = "uid://beqd6jxan25d8"
 
 [resource]
 script = ExtResource("14_fvt77")
-Basic = Array[Object]([ExtResource("1_vicet"), ExtResource("2_4gqr8"), ExtResource("3_4wu73"), ExtResource("4_us5lf"), ExtResource("8_1m33k"), ExtResource("6_us5lf"), ExtResource("7_itqlw"), ExtResource("9_1m33k"), ExtResource("9_itqlw"), ExtResource("8_itqlw"), ExtResource("9_4gqr8"), SubResource("Resource_tolno")])
+Starts = Array[Object]([ExtResource("18_0ddyo"), ExtResource("19_us5lf")])
+Basic = Array[Object]([ExtResource("1_vicet"), ExtResource("2_4gqr8"), ExtResource("3_4wu73"), ExtResource("4_us5lf"), ExtResource("8_1m33k"), ExtResource("6_us5lf"), ExtResource("7_itqlw"), ExtResource("9_1m33k"), ExtResource("9_itqlw"), ExtResource("8_itqlw"), ExtResource("9_4gqr8"), ExtResource("12_f8uik")])
 Prebuilts = Array[Object]([SubResource("Resource_8cdlt"), SubResource("Resource_5i4ix")])
 Selects = Array[Object]([SubResource("Resource_xrf5i"), SubResource("Resource_oa26c")])
 metadata/_custom_type_script = "uid://mreeoiaypmlb"

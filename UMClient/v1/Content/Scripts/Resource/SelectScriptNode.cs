@@ -30,11 +30,13 @@ public partial class SelectScriptNode : Resource, IScriptNode
 
     public string GetLabel() => Label;
 
-    public (GraphNode, IScriptNodeNode) Instantiate()
+    public (GraphNode, IScriptNodeNode) Instantiate(bool editable)
     {
         var result = Scene.Instantiate() as SelectScriptNodeNode;
         result.Value = this;
         result.Title = Label;
+        result.SetEditable(false);
+        result.SetScriptNodeName(Name);
 
         return (result, result);
     }

@@ -64,4 +64,23 @@ public partial class StartScriptNodeNode : GraphNode, IScriptNodeNode
     public void SetEssentials(ScriptEditor editor)
     {
     }
+
+    public void LoadState(ScriptNodeState state)
+    {
+    }
+
+    private string _scriptNodeName;
+    public void SetScriptNodeName(string name)
+    {
+		_scriptNodeName = name;
+    }
+
+    public ScriptNodeState ToState(int id) => new()
+    {
+        Data = [],
+        Editor = new() { X = PositionOffset.X, Y = PositionOffset.Y },
+        Id = id,
+        Name = _scriptNodeName,
+    };
+
 }
