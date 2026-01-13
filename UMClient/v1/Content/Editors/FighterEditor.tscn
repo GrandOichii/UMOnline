@@ -13,7 +13,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 tab_alignment = 2
-current_tab = 1
+current_tab = 0
 tabs_position = 1
 script = ExtResource("1_oqw15")
 NameEditNode = NodePath("General/HBoxContainer/VBoxContainer/HBoxContainer/NameEdit")
@@ -35,7 +35,6 @@ RenameWindowNode = NodePath("RenameWindow")
 ScriptEditorNode = NodePath("Script")
 
 [node name="General" type="Control" parent="."]
-visible = false
 layout_mode = 2
 metadata/_tab_index = 0
 
@@ -129,6 +128,7 @@ layout_mode = 2
 layout_mode = 2
 size_flags_vertical = 3
 placeholder_text = "Enter fighter text"
+wrap_mode = 1
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="General/HBoxContainer"]
 layout_mode = 2
@@ -146,6 +146,7 @@ layout_mode = 2
 text = "Import image"
 
 [node name="Script" parent="." instance=ExtResource("3_50w1g")]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 1
 

@@ -348,6 +348,8 @@ public partial class ScriptEditor : Control
 		var node = GraphNode.GetNode(nodeName);
 		GraphNode.RemoveChild(node);
 		node.Free();
+
+		ProcessScriptGraphChange();
 	}
 
 	#region Signal connections

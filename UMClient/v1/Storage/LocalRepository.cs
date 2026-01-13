@@ -62,8 +62,8 @@ public partial class LocalRepository : Node
 		}
 
 		// TODO remove
-		if (DropOnLaunch)
-			InsertDummyData();
+		// if (DropOnLaunch)
+		// 	InsertDummyData();
 
 		// create user data directories
 		var err = DirAccess.MakeDirRecursiveAbsolute(CardBackDirectory());

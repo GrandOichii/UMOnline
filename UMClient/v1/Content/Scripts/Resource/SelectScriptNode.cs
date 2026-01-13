@@ -35,7 +35,7 @@ public partial class SelectScriptNode : Resource, IScriptNode
         var result = Scene.Instantiate() as SelectScriptNodeNode;
         result.Value = this;
         result.Title = Label;
-        result.SetEditable(false);
+        result.SetEditable(editable);
         result.SetScriptNodeName(Name);
 
         return (result, result);

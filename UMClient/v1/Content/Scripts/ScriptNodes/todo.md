@@ -1,0 +1,7 @@
+- Effects
+    - Deal damage
+    - Effect cancelling
+    - Returning defeated fighters
+- Fighter filters
+    - Opposing fighter
+    - In zone of fighter

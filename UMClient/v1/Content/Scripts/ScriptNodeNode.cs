@@ -258,7 +258,7 @@ public partial class ScriptNodeNode : GraphNode, IScriptNodeNode
         _scriptNodeName = name;
     }
 
-    private bool _editable;
+    private bool _editable = true;
     public void SetEditable(bool v)
     {
         _editable = v;
