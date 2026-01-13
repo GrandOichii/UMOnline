@@ -18,6 +18,7 @@ public class FighterModel : IModel
     public required bool CanMoveOverOpposing { get; set; }
     public required string Text { get; set; }
     public required string ImagePath { get; set; }
+    public required int ScriptId { get; set; }
 
     public readonly static FighterModel Default = new()
     {
@@ -35,6 +36,7 @@ public class FighterModel : IModel
         StartingHealth = -1,
         Text = "",
         ImagePath = null,
+        ScriptId = -1,
     };
 
     public string SQLTableName() => "fighters";
@@ -54,8 +56,10 @@ public class FighterModel : IModel
         .Column("can_move_over_opposing INTEGER NOT NULL")
         .Column("text TEXT NOT NULL")
         .Column("image_path TEXT")
+        .Column("script_id INTEGER NOT NULL")
         .PrimaryKey("id")
-        .ForeignKey("deck_id", Default.SQLTableName(), "id")
+        .ForeignKey("deck_id", DeckModel.Default.SQLTableName(), "id")
+        .ForeignKey("script_id", ScriptModel.Default.SQLTableName(), "id")
         .Build();
 
 
@@ -73,6 +77,7 @@ public class FighterModel : IModel
         CanMoveOverOpposing,
         Text,
         ImagePath,
+        ScriptId,
     ];
 
     public IEnumerable<string> SQLColumns() => [
@@ -89,6 +94,7 @@ public class FighterModel : IModel
         "can_move_over_opposing",
         "text",
         "image_path",
+        "script_id",
     ];
 
     public static Query SQLSelect() => new Query(Default.SQLTableName()).Select(
@@ -105,7 +111,8 @@ public class FighterModel : IModel
         "movement",
         "can_move_over_opposing",
         "text",
-        "image_path"
+        "image_path",
+        "script_id"
     );
 
     public static FighterModel SQLConverter(SqliteDataReader reader)
@@ -126,6 +133,7 @@ public class FighterModel : IModel
             CanMoveOverOpposing = reader.GetBoolean(11),
             Text = reader.GetString(12),
             ImagePath = reader.IsDBNull(13) ? null : reader.GetString(13),
+            ScriptId = reader.GetInt32(14),
         };
     }
 }

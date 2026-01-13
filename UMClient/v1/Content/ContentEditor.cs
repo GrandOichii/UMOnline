@@ -132,7 +132,7 @@ public partial class ContentEditor : Control
             CardBackPath = null,
         };
 
-        RepositoryNode.InsertModel(deck);
+        RepositoryNode.InsertDeck(deck);
         var inserted = RepositoryNode.GetDeck(deck.Name);
         OpenDeck(inserted.Id);
         ReloadDeckLists();

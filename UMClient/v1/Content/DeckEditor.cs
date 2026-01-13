@@ -20,14 +20,16 @@ public partial class DeckEditor : Control
     public Button DeleteFighterButton { get; set; }
     [Export]
     public NameEditWindow NewFighterWindow { get; set; }
-    // [Export]
-    // public ItemList CardListNode { get; set; }
-    // [Export]
-    // public Button CreateCardButton { get; set; }
-    // [Export]
-    // public Button DeleteCardButton { get; set; }
-    // [Export]
-    // public NameEditWindow NewCardWindow { get; set; }
+    [Export]
+    public TabContainer CardTabsNode { get; set; }
+    [Export]
+    public ItemList CardListNode { get; set; }
+    [Export]
+    public Button CreateCardButton { get; set; }
+    [Export]
+    public Button DeleteCardButton { get; set; }
+    [Export]
+    public NameEditWindow NewCardWindow { get; set; }
 
     #endregion
 
@@ -36,6 +38,8 @@ public partial class DeckEditor : Control
     [ExportGroup("Packed scenes")]
     [Export]
     public PackedScene FighterEditorScene { get; set; }
+    [Export]
+    public PackedScene CardEditorScene { get; set; }
 
     #endregion
 
@@ -51,14 +55,14 @@ public partial class DeckEditor : Control
         FighterTabsNode.GetTabBar().TabCloseDisplayPolicy = TabBar.CloseButtonDisplayPolicy.ShowAlways;
         FighterTabsNode.GetTabBar().TabClosePressed += OnFighterTabsTabBarTabClosePressed;
 
-        // CardTabsNode.GetTabBar().CloseWithMiddleMouse = true;
-        // CardTabsNode.GetTabBar().TabCloseDisplayPolicy = TabBar.CloseButtonDisplayPolicy.ShowAlways;
-        // CardTabsNode.GetTabBar().TabClosePressed += OnCardTabsTabBarTabClosePressed;
+        CardTabsNode.GetTabBar().CloseWithMiddleMouse = true;
+        CardTabsNode.GetTabBar().TabCloseDisplayPolicy = TabBar.CloseButtonDisplayPolicy.ShowAlways;
+        CardTabsNode.GetTabBar().TabClosePressed += OnCardTabsTabBarTabClosePressed;
 
         while (FighterTabsNode.GetChildCount() > 0)
             FighterTabsNode.RemoveChild(FighterTabsNode.GetChild(0));
-        // while (CardsTabsNode.GetChildCount() > 0)
-        //     CardsTabsNode.RemoveChild(CardsTabsNode.GetChild(0));
+        while (CardTabsNode.GetChildCount() > 0)
+            CardTabsNode.RemoveChild(CardTabsNode.GetChild(0));
     }
 
 
@@ -76,8 +80,8 @@ public partial class DeckEditor : Control
     {
         CreateFighterButton.Disabled = !v;
         DeleteFighterButton.Disabled = !v;
-        // CreateCardButton.Disabled = !v;
-        // DeleteCardButton.Disabled = !v;
+        CreateCardButton.Disabled = !v;
+        DeleteCardButton.Disabled = !v;
     }
 
     public void LoadDeck(DeckModel deck)
@@ -87,7 +91,7 @@ public partial class DeckEditor : Control
 
         DeckInfoEditorNode.LoadDeck(deck);
         ReloadFighterList();
-        LoadCardList();
+        ReloadCardList();
     }
 
     public void ReloadFighterList()
@@ -102,11 +106,16 @@ public partial class DeckEditor : Control
         }
     }
 
-    public void LoadCardList()
+    public void ReloadCardList()
     {
-        // CardListNode.Clear();
+        CardListNode.Clear();
 
-        // TODO
+        var cards = _repo.GetCards(_deckId);
+        foreach (var card in cards)
+        {
+            var idx = CardListNode.AddItem(card.Name);
+            CardListNode.SetItemMetadata(idx, card.Id);
+        }
     }
 
     public void OpenFighter(int fighterId)
@@ -123,17 +132,47 @@ public partial class DeckEditor : Control
         FighterTabsNode.AddChild(child);
         child.Name = fighter.Name;
         // TODO
-        // child.SetEssentials(
-        //     this,
-        //     _repo
-        // );
+        child.SetEssentials(
+            () => _repo.GetFighterNames(_deckId)
+        );
 
         var deck = _repo.GetDeck(fighter.DeckId);
-        child.LoadFighter(fighter, deck);
+        var script = _repo.GetScriptModel(fighter.ScriptId);
+        child.LoadFighter(fighter, script, deck.Editable);
 
         child.FighterChanged += OnFighterEditorFighterChanged;
         child.FighterNameChanged += OnFighterEditorFighterNameChanged;
         child.FighterImageImportRequest += OnFighterImageImportRequest;
+        child.FighterScriptChanged += OnFighterEditorFighterScriptChanged;
+
+        child.Show();
+    }
+
+    public void OpenCard(int cardId)
+    {
+        var card = _repo.GetCard(cardId);
+        var existing = CardTabsNode.GetNodeOrNull<Control>(card.Name);
+        if (existing is not null)
+        {
+            existing.Show();
+            return;
+        }
+
+        var child = CardEditorScene.Instantiate<CardEditor>();
+        CardTabsNode.AddChild(child);
+        child.Name = card.Name;
+        child.SetEssentials(
+            () => _repo.GetCardNames(_deckId)
+        );
+
+        var deck = _repo.GetDeck(card.DeckId);
+        var script = _repo.GetScriptModel(card.ScriptId);
+        child.LoadCard(card, script, deck.Editable);
+
+        child.CardChanged += OnCardEditorCardChanged;
+        child.CardNameChanged += OnCardEditorCardNameChanged;
+        child.CardImageImportRequest += OnCardImageImportRequest;
+        child.CardScriptChanged += OnCardEditorCardScriptChanged;
 
         child.Show();
     }
@@ -149,7 +188,18 @@ public partial class DeckEditor : Control
         throw new Exception($"Failed to find opnened fighter editor for fighterId = {fighterId}");
     }
 
-    private void UpdateDeckTabNames()
+    private CardEditor GetOpenedCardEditor(int cardId)
+    {
+        foreach (var editor in CardTabsNode.GetChildren().Cast<CardEditor>())
+        {
+            if (editor.GetCardId() != cardId) continue;
+            return editor;
+        }
+
+        throw new Exception($"Failed to find opnened card editor for cardId = {cardId}");
+    }
+
+    private void UpdateFighterTabNames()
     {
         foreach (var node in FighterTabsNode.GetChildren().Cast<FighterEditor>())
         {
@@ -159,12 +209,22 @@ public partial class DeckEditor : Control
         }
     }
 
+    private void UpdateCardTabNames()
+    {
+        foreach (var node in CardTabsNode.GetChildren().Cast<CardEditor>())
+        {
+            var cardId = node.GetCardId();
+            var card = _repo.GetCard(cardId);
+            node.Name = card.Name;
+        }
+    }
+
     #region Signal connections
 
     public void OnFighterEditorFighterNameChanged(int _fighterId)
     {
         ReloadFighterList();
-        UpdateDeckTabNames();
+        UpdateFighterTabNames();
     }
 
     public void OnFighterEditorFighterChanged(int fighterId)
@@ -174,13 +234,47 @@ public partial class DeckEditor : Control
         _repo.UpdateFighterById(fighter);
     }
 
+    public void OnFighterEditorFighterScriptChanged(int fighterId)
+    {
+        var editor = GetOpenedFighterEditor(fighterId);
+        var script = editor.BuildScriptModel();
+        _repo.UpdateScriptById(script);
+    }
+
     public void OnFighterImageImportRequest(int fighterId, string path)
     {
         var editor = GetOpenedFighterEditor(fighterId);
         var newPath = _repo.UpdateFighterImage(editor.BuildFighterModel().Id, path);
 
         editor.UpdateFighterImage(newPath);
-        // TODO
+    }
+
+    public void OnCardEditorCardNameChanged(int _cardId)
+    {
+        ReloadCardList();
+        UpdateCardTabNames();
+    }
+
+    public void OnCardEditorCardScriptChanged(int cardId)
+    {
+        var editor = GetOpenedCardEditor(cardId);
+        var script = editor.BuildScriptModel();
+        _repo.UpdateScriptById(script);
+    }
+
+    public void OnCardEditorCardChanged(int cardId)
+    {
+        var editor = GetOpenedCardEditor(cardId);
+        var card = editor.BuildCardModel();
+        _repo.UpdateCardById(card);
+    }
+
+    public void OnCardImageImportRequest(int cardId, string path)
+    {
+        var editor = GetOpenedCardEditor(cardId);
+        var newPath = _repo.UpdateCardImage(editor.BuildCardModel().Id, path);
+
+        editor.UpdateCardImage(newPath);
     }
 
     public void OnDeckDeckInfoChanged()
@@ -240,9 +334,10 @@ public partial class DeckEditor : Control
             Movement = 2,
             Text = "",
             ImagePath = null,
+            ScriptId = -1,
         };
 
-        _repo.InsertModel(fighter);
+        _repo.InsertFighter(fighter);
         var inserted = _repo.GetFighter(fighter.Name, _deckId);
         OpenFighter(inserted.Id);
         ReloadFighterList();
@@ -260,11 +355,63 @@ public partial class DeckEditor : Control
         FighterTabsNode.RemoveChild(FighterTabsNode.GetChild((int)tabIdx));
     }
 
-    // public void OnCardTabsTabBarTabClosePressed(long tabIdx)
-    // {
-    //     CardTabsNode.RemoveChild(CardTabsNode.GetChild((int)tabIdx));
-    // }
+    public void OnCreateCardButtonPressed()
+    {
+        NewCardWindow.SetEditData(
+            _repo.GetCardNames(_deckId)
+        );
+        NewCardWindow.Show();
+    }
 
+    public void OnDeleteCardButtonPressed()
+    {
+        // TODO
+    }
+
+    public void OnNewCardWindowCancelRequest()
+    {
+        NewCardWindow.Hide();
+    }
+
+    public void OnNewCardWindowConfirmRequest(string cardName)
+    {
+        NewCardWindow.Hide();
+
+        var card = new CardModel()
+        {
+            Id = -1,
+            AllowedFighters = "",
+            Boost = 0,
+            Count = 1,
+            DeckId = _deckId,
+            ImagePath = null,
+            Labels = "",
+            Name = cardName,
+            StartingHandCount = 0,
+            Text = "",
+            Title = cardName,
+            Type = CardModelType.Versatile,
+            Value = 0,
+            ScriptId = -1,
+        };
+
+        _repo.InsertCard(card);
+        var inserted = _repo.GetCard(card.Name, _deckId);
+        OpenCard(inserted.Id);
+        ReloadCardList();
+    }
+
+    public void OnCardListItemActivated(int idx)
+    {
+        var cardId = CardListNode.GetItemMetadata(idx).AsInt32();
+
+        OpenCard(cardId);
+    }
+
+    public void OnCardTabsTabBarTabClosePressed(long tabIdx)
+    {
+        CardTabsNode.RemoveChild(CardTabsNode.GetChild((int)tabIdx));
+    }
 
     #endregion
 }

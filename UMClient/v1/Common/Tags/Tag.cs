@@ -28,6 +28,7 @@ public partial class Tag : PanelContainer
 
     public void OnRemoveButtonPressed()
     {
+        if (!_parent.IsEditable()) return;
         QueueFree();
         _parent.EmitWithout(GetTag());
     }

@@ -30,6 +30,8 @@ public partial class TagsEditor : VBoxContainer
     public LineEdit NewTagEditNode { get; set; }
     [Export]
     public Container TagsContainer { get; set; }
+    [Export]
+    public Button AddTagButton { get; set; }
 
     #endregion
 
@@ -41,19 +43,30 @@ public partial class TagsEditor : VBoxContainer
 
     #endregion
 
+    private bool _editable = true;
+
+    public bool IsEditable() => _editable;
+
     public override void _Ready()
     {
         PrefixNode.Text = Prefix;
         NewTagEditNode.PlaceholderText = NewTagPlaceholder;
 
+        RemoveTags();
+    }
+
+    private void RemoveTags()
+    {
         while (TagsContainer.GetChildCount() > 0)
             TagsContainer.RemoveChild(TagsContainer.GetChild(0));
+    }
 
-        // TODO remove
-        Connect(SignalName.TagsChanged, Callable.From((Godot.Collections.Array<string> tags) =>
-        {
-            GD.Print($"Changed {tags}");
-        }));
+    public void LoadTags(string[] tags)
+    {
+        RemoveTags();
+
+        foreach (var tag in tags)
+            AddTag(tag);
     }
 
     private void AddTag(string newTag)
@@ -69,15 +82,15 @@ public partial class TagsEditor : VBoxContainer
         child.Load(newTag);
     }
 
-    private List<string> GetTags()
+    public List<string> GetTags()
     {
-        return [.. TagsContainer.GetChildren().Cast<Tag>().Select(c => c.GetTag())];
+        return [.. TagsContainer.GetChildren().Cast<Tag>().Where(c => !c.IsQueuedForDeletion()).Select(c => c.GetTag())];
     }
 
     private void EmitTagsChanged(List<string> tags)
     {
         EmitSignal(
-            SignalName.TagsChanged, 
+            SignalName.TagsChanged,
             new Godot.Collections.Array(
                 tags.Select(t => Variant.From(t))
             )
@@ -90,6 +103,13 @@ public partial class TagsEditor : VBoxContainer
         tags.Remove(tag);
 
         EmitTagsChanged(tags);
+    }
+
+    public void SetEditable(bool value)
+    {
+        _editable = value;
+        AddTagButton.Disabled = !value;
+        NewTagEditNode.Editable = value;
     }
 
     #region Signal connections

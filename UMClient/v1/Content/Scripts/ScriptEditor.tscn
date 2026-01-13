@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://bcryyip3mv2s2" path="res://v1/Content/Scripts/StartScriptNodeNode.tscn" id="4_7q4gu"]
 [ext_resource type="Resource" uid="uid://ei2ec6d55g4g" path="res://v1/Content/Scripts/CardStartScriptNode.tres" id="5_4adg2"]
 
-[node name="ScriptEditor" type="Control" node_paths=PackedStringArray("GraphNode", "AddNodeWindowNode", "NewNodeTreeListNode", "NewNodeInfoContainerNode", "NewScriptNodeNameLabel", "NewScriptNodeDescriptionLabel", "ScriptDisplay")]
+[node name="ScriptEditor" type="Control" node_paths=PackedStringArray("GraphEditor", "ManualEditor", "GraphNode", "AddNodeWindowNode", "NewNodeTreeListNode", "NewNodeInfoContainerNode", "NewScriptNodeNameLabel", "NewScriptNodeDescriptionLabel", "ScriptDisplay", "ManualScriptEdit", "ToggleScriptTypeButtonNode")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -14,15 +14,19 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_w21rc")
 ScriptNodes = ExtResource("2_4nh3u")
-GraphNode = NodePath("HBoxContainer/Graph")
+GraphEditor = NodePath("VBoxContainer/Control/GraphEditor")
+ManualEditor = NodePath("VBoxContainer/Control/ManualEditor")
+GraphNode = NodePath("VBoxContainer/Control/GraphEditor/HBoxContainer/Graph")
 AddNodeWindowNode = NodePath("AddNodeWindow")
 NewNodeTreeListNode = NodePath("AddNodeWindow/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/NewNodeTreeList")
 NewNodeInfoContainerNode = NodePath("AddNodeWindow/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/NewNodeInfoContainer")
 NewScriptNodeNameLabel = NodePath("AddNodeWindow/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/NewNodeInfoContainer/NewScriptNodeNameLabel")
 NewScriptNodeDescriptionLabel = NodePath("AddNodeWindow/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/NewNodeInfoContainer/NewScriptNodeDescriptionLabel")
-ScriptDisplay = NodePath("HBoxContainer/VBoxContainer/ScriptDisplay")
+ScriptDisplay = NodePath("VBoxContainer/Control/GraphEditor/HBoxContainer/VBoxContainer/ScriptDisplay")
+ManualScriptEdit = NodePath("VBoxContainer/Control/ManualEditor/ManualScriptEdit")
+ToggleScriptTypeButtonNode = NodePath("VBoxContainer/ToggleScriptTypeButton")
 
-[node name="HBoxContainer" type="HSplitContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -30,36 +34,79 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Graph" type="GraphEdit" parent="HBoxContainer"]
+[node name="Control" type="Control" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="GraphEditor" type="Control" parent="VBoxContainer/Control"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HSplitContainer" parent="VBoxContainer/Control/GraphEditor"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Graph" type="GraphEdit" parent="VBoxContainer/Control/GraphEditor/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 3.0
 right_disconnects = true
 
-[node name="Start" parent="HBoxContainer/Graph" instance=ExtResource("4_7q4gu")]
+[node name="Start" parent="VBoxContainer/Control/GraphEditor/HBoxContainer/Graph" instance=ExtResource("4_7q4gu")]
 layout_mode = 0
 mouse_filter = 1
 Value = ExtResource("5_4adg2")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/Control/GraphEditor/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="VBoxContainer/Control/GraphEditor/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 text = "Generated script:"
 
-[node name="ScriptDisplay" type="CodeEdit" parent="HBoxContainer/VBoxContainer"]
+[node name="ScriptDisplay" type="CodeEdit" parent="VBoxContainer/Control/GraphEditor/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 editable = false
+
+[node name="ManualEditor" type="Control" parent="VBoxContainer/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ManualScriptEdit" type="CodeEdit" parent="VBoxContainer/Control/ManualEditor"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+placeholder_text = "Enter script"
+
+[node name="ToggleScriptTypeButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Toggle script type button text"
 
 [node name="AddNodeWindow" type="Window" parent="."]
 oversampling_override = 1.0
 title = "Add a node"
 initial_position = 2
 size = Vector2i(800, 400)
+visible = false
 wrap_controls = true
 transient = true
 exclusive = true
@@ -134,14 +181,15 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "Add"
 
-[connection signal="connection_request" from="HBoxContainer/Graph" to="." method="OnGraphConnectionRequest"]
-[connection signal="copy_nodes_request" from="HBoxContainer/Graph" to="." method="OnGraphCopyNodesRequest"]
-[connection signal="cut_nodes_request" from="HBoxContainer/Graph" to="." method="OnGraphCutNodesRequest"]
-[connection signal="delete_nodes_request" from="HBoxContainer/Graph" to="." method="OnGraphDeleteNodesRequest"]
-[connection signal="disconnection_request" from="HBoxContainer/Graph" to="." method="OnGraphDisconnectionRequest"]
-[connection signal="duplicate_nodes_request" from="HBoxContainer/Graph" to="." method="OnGraphDuplicateNodesRequest"]
-[connection signal="gui_input" from="HBoxContainer/Graph" to="." method="OnGraphGuiInput"]
-[connection signal="paste_nodes_request" from="HBoxContainer/Graph" to="." method="OnGraphPasteNodesRequest"]
+[connection signal="connection_request" from="VBoxContainer/Control/GraphEditor/HBoxContainer/Graph" to="." method="OnGraphConnectionRequest"]
+[connection signal="copy_nodes_request" from="VBoxContainer/Control/GraphEditor/HBoxContainer/Graph" to="." method="OnGraphCopyNodesRequest"]
+[connection signal="cut_nodes_request" from="VBoxContainer/Control/GraphEditor/HBoxContainer/Graph" to="." method="OnGraphCutNodesRequest"]
+[connection signal="delete_nodes_request" from="VBoxContainer/Control/GraphEditor/HBoxContainer/Graph" to="." method="OnGraphDeleteNodesRequest"]
+[connection signal="disconnection_request" from="VBoxContainer/Control/GraphEditor/HBoxContainer/Graph" to="." method="OnGraphDisconnectionRequest"]
+[connection signal="duplicate_nodes_request" from="VBoxContainer/Control/GraphEditor/HBoxContainer/Graph" to="." method="OnGraphDuplicateNodesRequest"]
+[connection signal="gui_input" from="VBoxContainer/Control/GraphEditor/HBoxContainer/Graph" to="." method="OnGraphGuiInput"]
+[connection signal="paste_nodes_request" from="VBoxContainer/Control/GraphEditor/HBoxContainer/Graph" to="." method="OnGraphPasteNodesRequest"]
+[connection signal="text_changed" from="VBoxContainer/Control/ManualEditor/ManualScriptEdit" to="." method="OnManualScriptEditTextChanged"]
 [connection signal="close_requested" from="AddNodeWindow" to="." method="OnAddNodeWindowCloseRequested"]
 [connection signal="item_activated" from="AddNodeWindow/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/NewNodeTreeList" to="." method="OnNewNodeTreeListItemActivated"]
 [connection signal="item_selected" from="AddNodeWindow/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/NewNodeTreeList" to="." method="OnNewNodeTreeListItemSelected"]

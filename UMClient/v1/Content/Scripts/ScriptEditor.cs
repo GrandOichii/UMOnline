@@ -6,6 +6,13 @@ using System.Collections.Generic;
 
 public partial class ScriptEditor : Control
 {
+	#region Signals
+
+	[Signal]
+	public delegate void ScriptModelChangedEventHandler();
+
+	#endregion
+
 	public static Color GetSlotColor(ScriptNodeType type) => type switch
 	{
 		ScriptNodeType.Effect => Color.FromHtml("#00ff00"),
@@ -28,6 +35,10 @@ public partial class ScriptEditor : Control
 
 	[ExportGroup("Nodes")]
 	[Export]
+	public Control GraphEditor { get; set; }
+	[Export]
+	public Control ManualEditor { get; set; }
+	[Export]
 	public GraphEdit GraphNode { get; set; }
 	[Export]
 	public Window AddNodeWindowNode { get; set; }
@@ -41,12 +52,48 @@ public partial class ScriptEditor : Control
 	public RichTextLabel NewScriptNodeDescriptionLabel { get; set; }
 	[Export]
 	public CodeEdit ScriptDisplay { get; set; }
+	[Export]
+	public CodeEdit ManualScriptEdit { get; set; }
+	[Export]
+	public Button ToggleScriptTypeButtonNode { get; set; }
 
 	#endregion
 
 	private Dictionary<string, IScriptNode> _scriptNodeNameMap;
 
 	private IScriptNode GetScriptNodeByName(string name) => _scriptNodeNameMap.GetValueOrDefault(name);
+
+	private Vector2 _lastGraphMousePos;
+
+	private int _scriptId;
+	private bool _isManual;
+	private bool _editable;
+
+	public void LoadScriptModel(ScriptModel script, bool editable)
+	{
+		_editable = editable;
+		_scriptId = script.Id;
+		_isManual = script.IsManual;
+
+		ManualEditor.Visible = _isManual;
+		GraphEditor.Visible = !_isManual;
+
+		ToggleScriptTypeButtonNode.Disabled = !editable;
+
+		// manual
+		ManualScriptEdit.Text = script.ManualScript;
+		ManualScriptEdit.Editable = editable;
+
+		// graph
+		// TODO
+	}
+
+	public ScriptModel BuildScriptModel() => new()
+	{
+		Id = _scriptId,
+		ManualScript = ManualScriptEdit.Text,	
+		IsManual = _isManual,
+	};
 
 	public override void _Ready() {
 		AddNodeWindowNode.Hide();
@@ -113,7 +160,6 @@ public partial class ScriptEditor : Control
 		}
 	}
 	
-	private Vector2 _lastGraphMousePos;
 	private void AddScriptNodeToMouseLocation() {
 		_lastGraphMousePos = GraphNode.GetLocalMousePosition();
 		ResetAddNewNodeWindow();
@@ -208,7 +254,7 @@ public partial class ScriptEditor : Control
 		node.Free();
 	}
 
-	#region Signals
+	#region Signal connections
 
 	public void OnGraphGuiInput(InputEvent e) 
 	{
@@ -273,22 +319,32 @@ public partial class ScriptEditor : Control
 
 	public void OnGraphCopyNodesRequest()
 	{
+		// TODO
 		GD.Print("COPY REQUEST");
 	}
 
 	public void OnGraphCutNodesRequest()
 	{
+		// TODO
 		GD.Print("CUT REQUEST");
 	}
 
 	public void OnGraphDuplicateNodesRequest()
 	{
+		// TODO
 		GD.Print("DUPLICATE REQUEST");
 	}
 
 	public void OnGraphPasteNodesRequest()
 	{
+		// TODO
 		GD.Print("PASTE REQUEST");
+	}
+
+	public void OnManualScriptEditTextChanged()
+	{
+		if (!_editable) return;
+		EmitSignalScriptModelChanged();
 	}
 
 	#endregion

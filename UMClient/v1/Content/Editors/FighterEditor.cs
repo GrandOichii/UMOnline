@@ -1,5 +1,6 @@
+using System;
+using System.Collections.Generic;
 using Godot;
-using UMCore.Matches.Players.Cards;
 
 public partial class FighterEditor : TabContainer
 {
@@ -11,6 +12,8 @@ public partial class FighterEditor : TabContainer
     public delegate void FighterNameChangedEventHandler(int fighterId);
     [Signal]
     public delegate void FighterImageImportRequestEventHandler(int fighterId, string path);
+    [Signal]
+    public delegate void FighterScriptChangedEventHandler(int fighterId);
 
     #endregion
 
@@ -47,19 +50,34 @@ public partial class FighterEditor : TabContainer
     public Button RenameButton { get; set; }
     [Export]
     public Button ImportImageButton { get; set; }
+    [Export]
+    public NameEditWindow RenameWindowNode { get; set; }
+    [Export]
+    public ScriptEditor ScriptEditorNode { get; set; }
 
     #endregion
 
     private int _fighterId;
     private int _deckId;
     private string _imagePath;
+    private int _scriptId;
     private bool _editable;
+    private Func<List<string>> _fighterNamesGetter;
+
+    public void SetEssentials(
+        Func<List<string>> fighterNamesGetter
+    )
+    {
+        _fighterNamesGetter = fighterNamesGetter;
+    }
 
     public int GetFighterId() => _fighterId;
 
     // public override void _Ready()
     // {
     // }
+
+    public ScriptModel BuildScriptModel() => ScriptEditorNode.BuildScriptModel();
 
     public FighterModel BuildFighterModel()
     {
@@ -79,14 +97,16 @@ public partial class FighterEditor : TabContainer
             StartingHealth = (int)StartingHealthNode.Value,
             Text = TextNode.Text,
             ImagePath = _imagePath,
+            ScriptId = _scriptId,
         };
     }
 
-    public void LoadFighter(FighterModel fighter, DeckModel deck)
+    public void LoadFighter(FighterModel fighter, ScriptModel script, bool editable)
     {
         _fighterId = fighter.Id;
         _deckId = fighter.DeckId;
-        _editable = deck.Editable;
+        _scriptId = fighter.ScriptId;
+        _editable = editable;
 
         NameEditNode.Text = fighter.Name;
         AmountNode.Value = fighter.Amount;
@@ -101,8 +121,10 @@ public partial class FighterEditor : TabContainer
         MeleeRangeNode.Value = fighter.MeleeRange;
         _imagePath = fighter.ImagePath;
 
-		SetIsEditable(deck.Editable);
+		SetIsEditable(editable);
 		LoadFighterImage();
+
+        ScriptEditorNode.LoadScriptModel(script, editable);
     }
 
     private void SetIsEditable(bool value)
@@ -158,6 +180,34 @@ public partial class FighterEditor : TabContainer
         FighterImageNode.Texture = texture;
 
         EmitSignal(SignalName.FighterImageImportRequest, _fighterId, path);
+    }
+
+    public void OnRenameButtonPressed()
+    {
+        RenameWindowNode.SetEditData(
+			NameEditNode.Text,
+			_fighterNamesGetter()
+		);
+
+		RenameWindowNode.Show();
+    }
+
+    public void OnRenameWindowCancelRequest()
+    {
+        RenameWindowNode.Hide();
+    }
+
+    public void OnRenameWindowConfirmRequest(string newName)
+    {
+        RenameWindowNode.Hide();
+        NameEditNode.Text = newName;
+		EmitSignal(SignalName.FighterChanged, _fighterId);
+		EmitSignal(SignalName.FighterNameChanged, _fighterId);
+    }
+
+    public void OnScriptScriptModelChanged()
+    {
+        EmitSignal(SignalName.FighterScriptChanged, _fighterId);
     }
 
     #region FighterChanged emitters
