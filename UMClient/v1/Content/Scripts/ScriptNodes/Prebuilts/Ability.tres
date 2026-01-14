@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="PrebuiltScriptNode" load_steps=3 format=3 uid="uid://2pslmpa22p86"]
+
+[ext_resource type="PackedScene" uid="uid://06x8vgcloewt" path="res://v1/Content/Scripts/Prebuilt/AbilityScriptNodeNode.tscn" id="1_ikk5d"]
+[ext_resource type="Script" uid="uid://dg62s6ykk8a3e" path="res://v1/Content/Scripts/Resource/PrebuiltScriptNode.cs" id="2_x1r2x"]
+
+[resource]
+script = ExtResource("2_x1r2x")
+Name = "Ability"
+Label = "Ability"
+Type = 9
+Description = "Card ability with a string label"
+Scene = ExtResource("1_ikk5d")
+metadata/_custom_type_script = "uid://dg62s6ykk8a3e"

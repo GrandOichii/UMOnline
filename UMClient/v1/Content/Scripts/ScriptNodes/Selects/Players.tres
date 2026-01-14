@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="SelectScriptNode" load_steps=3 format=3 uid="uid://djp8prlvxk26q"]
+
+[ext_resource type="PackedScene" uid="uid://b7nk3q74ufvcs" path="res://v1/Content/Scripts/Prebuilt/Selects/SelectScriptNodeNode.tscn" id="1_rs21d"]
+[ext_resource type="Script" uid="uid://beqd6jxan25d8" path="res://v1/Content/Scripts/Resource/SelectScriptNode.cs" id="2_u2wnf"]
+
+[resource]
+script = ExtResource("2_u2wnf")
+Name = "PlayersSelect"
+Label = "Players"
+SelectType = 6
+FilterType = 8
+SelectMethod = "UM.Select:Players"
+Description = "Player selector"
+metadata/_custom_type_script = "uid://beqd6jxan25d8"
