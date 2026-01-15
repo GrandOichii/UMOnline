@@ -1,4 +1,3 @@
-using Microsoft.Extensions.Logging;
 using UMCore.Matches.Cards;
 
 namespace UMCore.Matches.Players.Cards;
@@ -16,7 +15,14 @@ public enum ZoneChangeType
     DISCARDED = 2,
 }
 
-public class CardZoneChange(MatchCard card, ICardZone fromZone, ICardZone targetZone, ZoneChangeLocation location, ZoneChangeType type) {
+public class CardZoneChange(
+    MatchCard card,
+    ICardZone fromZone,
+    ICardZone targetZone,
+    ZoneChangeLocation location,
+    ZoneChangeType type
+)
+{
     public MatchCard Card { get; } = card;
     public ICardZone FromZone { get; } = fromZone;
     public ICardZone TargetZone { get; set; } = targetZone;

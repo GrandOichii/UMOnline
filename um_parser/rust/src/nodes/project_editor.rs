@@ -192,7 +192,7 @@ impl ProjectEditorNode {
             .get_repo()
             .expect("Failed to get repo")
             .bind_mut()
-            .get_cards(&self.edited_project_name)
+            .get_used_cards(&self.edited_project_name)
             .expect("Failed to get cards");
         let mut total = 0;
         let mut parsed = 0;

@@ -10,7 +10,7 @@ public abstract class MatchCardCollection : IHasData<MatchCardCollection.Data>, 
     public List<int> ContentsVisibleTo { get; }
     private readonly string _name;
 
-    public string ZoneLogName => ((ICardZone)this).ZoneLogName; // TODO this feels wrong
+    public string ZoneLogName => ICardZone.GetZoneLogName(GetName(), GetOwner());
 
     public MatchCardCollection(Player owner, string name)
     {

@@ -13,8 +13,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_8dls8")
-PlayerDeck = "Loki"
-BotDeck = "Golden Bat"
+PlayerDeck = "Medusa"
+BotDeck = "Dracula"
 
 [node name="Match" parent="." node_paths=PackedStringArray("Connection") instance=ExtResource("2_wpye0")]
 unique_name_in_owner = true

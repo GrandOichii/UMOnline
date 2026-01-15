@@ -1,0 +1,158 @@
+[gd_scene format=3 uid="uid://baa4ncwbqg74p"]
+
+[node name="CardsManagerWindow" type="CardsManagerWindowNode" node_paths=PackedStringArray("used_cards_list_node", "used_cards_filter_node", "unused_cards_list_node", "unused_cards_filter_node", "to_used_cards_button_node", "to_unused_cards_button_node", "all_to_used_cards_button_node", "all_to_unused_cards_button_node", "selected_card_name_node", "selected_card_text_node", "save_button_node", "cancel_button_node")]
+used_cards_list_node = NodePath("MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer2/VBoxContainer2/UsedCardsList")
+used_cards_filter_node = NodePath("MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer/UsedCardsFilter")
+unused_cards_list_node = NodePath("MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer2/VBoxContainer3/UnusedCardsList")
+unused_cards_filter_node = NodePath("MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer2/VBoxContainer3/HBoxContainer/UnusedCardsFilter")
+to_used_cards_button_node = NodePath("MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer2/VBoxContainer/ToUsedButton")
+to_unused_cards_button_node = NodePath("MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer2/VBoxContainer/ToUnusedButton")
+all_to_used_cards_button_node = NodePath("MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer2/VBoxContainer/AllToUsedButton")
+all_to_unused_cards_button_node = NodePath("MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer2/VBoxContainer/AllToUnusedButton")
+selected_card_name_node = NodePath("MarginContainer/VBoxContainer/VBoxContainer/SelectedCardName")
+selected_card_text_node = NodePath("MarginContainer/VBoxContainer/VBoxContainer/SelectedCardText")
+save_button_node = NodePath("MarginContainer/VBoxContainer/HBoxContainer2/SaveButton")
+cancel_button_node = NodePath("MarginContainer/VBoxContainer/HBoxContainer2/CancelButton")
+oversampling_override = 1.0
+title = "Manage cards"
+initial_position = 2
+size = Vector2i(1600, 800)
+wrap_controls = true
+transient = true
+exclusive = true
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 2.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Used cards"
+
+[node name="Label2" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Unused cards"
+horizontal_alignment = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="UsedCardsList" type="ItemList" parent="MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer2/VBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+select_mode = 1
+item_count = 2
+item_0/text = "Used card 1"
+item_1/text = "Used card 2"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer2/VBoxContainer2"]
+layout_mode = 2
+
+[node name="UsedCardsFilter" type="LineEdit" parent="MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Filter used cards"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer2"]
+layout_mode = 2
+
+[node name="AllToUnusedButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer2/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+tooltip_text = "Change all cards to \"unused\""
+text = " >> "
+
+[node name="ToUnusedButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer2/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+tooltip_text = "Change selected cards to \"unused\""
+text = " > "
+
+[node name="ToUsedButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer2/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+tooltip_text = "Change selected cards to \"used\""
+text = " < "
+
+[node name="AllToUsedButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer2/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+tooltip_text = "Change all cards to \"used\""
+text = " << "
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="UnusedCardsList" type="ItemList" parent="MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer2/VBoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+select_mode = 1
+item_count = 2
+item_0/text = "Unused card 1"
+item_1/text = "Unused card 2"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer2/VBoxContainer3"]
+layout_mode = 2
+
+[node name="UnusedCardsFilter" type="LineEdit" parent="MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer2/VBoxContainer3/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Filter unused cards"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="SelectedCardName" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "CARD NAME HERE"
+
+[node name="SelectedCardText" type="RichTextLabel" parent="MarginContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "CARD TEXT HERE
+CARD TEXT HERE
+CARD TEXT HERE
+CARD TEXT HERE
+CARD TEXT HERE"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="SaveButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Save"
+
+[node name="CancelButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Cancel"

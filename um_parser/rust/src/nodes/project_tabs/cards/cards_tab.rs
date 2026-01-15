@@ -9,6 +9,7 @@ use crate::model::card::CardModel;
 use crate::model::project::ProjectModel;
 use crate::nodes::parsing_history::ParsingHistory;
 use crate::nodes::project_tabs::cards::card_tab::CardTabNode;
+use crate::nodes::project_tabs::cards::cards_manager::CardsManagerWindowNode;
 use crate::nodes::project_tabs::logs::logs_tab::LogsTabNode;
 use crate::repo::*;
 
@@ -47,6 +48,10 @@ pub struct CardsTabNode {
     unparsed_filter_check: OnEditor<Gd<CheckButton>>,
     #[export]
     apply_filter_button: OnEditor<Gd<Button>>,
+    #[export]
+    manage_cards_button: OnEditor<Gd<Button>>,
+    #[export]
+    cards_manager_window_node: OnEditor<Gd<CardsManagerWindowNode>>,
 }
 
 #[godot_api]
@@ -122,6 +127,19 @@ impl CardsTabNode {
             .signals()
             .pressed()
             .connect_other(self, Self::apply_filters);
+        self.manage_cards_button
+            .signals()
+            .pressed()
+            .connect_other(self, Self::on_manage_cards_button_pressed);
+        self.cards_manager_window_node
+            .signals()
+            .cancel_request()
+            .connect_other(self, Self::on_cards_manager_window_node_cancel_request);
+        self.cards_manager_window_node
+            .signals()
+            .save_request()
+            .connect_other(self, Self::on_cards_manager_window_node_save_request);
+        // TODO connect signals of cards_manager_window_node
     }
 
     pub fn update_parsing_history(&mut self, ph: &ParsingHistory) {
@@ -212,13 +230,14 @@ impl CardsTabNode {
         let mut added_cards = Vec::<String>::new();
         let mut skipped_cards = Vec::<String>::new();
 
-        let mut repo = self.repo.bind_mut();
+        let repo = self.repo.bind_mut();
         for card in cards {
             match repo.insert_card(&CardModel {
                 id: -1,
                 name: card.name.to_string(),
                 text: card.text,
                 project_name: project_name.to_string(),
+                used: true,
             }) {
                 Ok(()) => {
                     // logs.log(format!("Adding card {}", &card.name));
@@ -306,5 +325,40 @@ impl CardsTabNode {
 
         self.unparsed_count_label
             .set_text(cards.len().to_string().as_str());
+    }
+}
+
+// signal connections
+impl CardsTabNode {
+    fn on_manage_cards_button_pressed(&mut self) {
+        let cards = self
+            .repo
+            .bind_mut()
+            .get_cards(&self.loaded_project_name)
+            .expect("Failed to get cards");
+        self.cards_manager_window_node.bind_mut().load_cards(cards);
+        self.cards_manager_window_node.show();
+    }
+
+    fn on_cards_manager_window_node_cancel_request(&mut self) {
+        self.cards_manager_window_node.hide();
+    }
+
+    fn on_cards_manager_window_node_save_request(&mut self) {
+        self.cards_manager_window_node.hide();
+
+        let (new_used_ids, new_unused_ids) = self.cards_manager_window_node.bind_mut().get_card_changes();
+        let repo = self.repo.bind_mut();
+        // TODO log
+        for id in new_used_ids {
+            let mut card = repo.get_card(id).unwrap().unwrap();
+            card.used = true;
+            repo.update_card_by_id(&card).expect("Failed to update card to be used");
+        }
+        for id in new_unused_ids {
+            let mut card = repo.get_card(id).unwrap().unwrap();
+            card.used = false;
+            repo.update_card_by_id(&card).expect("Failed to update card to be unused");
+        }
     }
 }

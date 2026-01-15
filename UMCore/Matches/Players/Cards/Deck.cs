@@ -1,6 +1,3 @@
-using System.Threading.Tasks;
-using UMCore.Matches.Cards;
-
 namespace UMCore.Matches.Players.Cards;
 
 public class Deck : MatchCardCollection

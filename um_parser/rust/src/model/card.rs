@@ -9,6 +9,7 @@ pub struct CardModel {
     pub name: String,
     pub text: String,
     pub project_name: String,
+    pub used: bool,
 }
 
 impl SQLModel for CardModel {
@@ -19,6 +20,7 @@ impl SQLModel for CardModel {
             .column("name TEXT NOT NULL")
             .column("text TEXT NOT NULL")
             .column("project_name TEXT NOT NULL")
+            .column("used INTEGER NOT NULL")
             .foreign_key("(project_name) REFERENCES projects(name) ON DELETE CASCADE")
             .primary_key("id")
             .column("UNIQUE(name, project_name)")
@@ -35,8 +37,8 @@ impl SQLModel for CardModel {
 
     fn sql_insert_into(&self, conn: &rusqlite::Connection) -> Result<usize, Box<dyn Error>> {
         let sql = sql::Insert::new()
-            .insert_into("cards (name, text, project_name)")
-            .values("(?1, ?2, ?3)")
+            .insert_into("cards (name, text, project_name, used)")
+            .values("(?1, ?2, ?3, 1)")
             .as_string();
 
         let result = conn.execute(&sql, (&self.name, &self.text, &self.project_name))?;
@@ -49,10 +51,38 @@ impl SQLModel for CardModel {
             name: row.get(1)?,
             text: row.get(2)?,
             project_name: row.get(3)?,
+            used: row.get(4)?,
         })
     }
 
     fn sql_delete() -> sql_query_builder::Delete {
         sql::Delete::new().delete_from("cards")
+    }
+}
+
+
+impl SQLUpdateById for CardModel {
+    fn sql_update_by_id(&self, conn: &rusqlite::Connection) -> Result<usize, Box<dyn Error>> {
+        let sql = sql::Update::new()
+            .update("cards")
+            .set("name = ?2")
+            .set("text = ?3")
+            .set("project_name = ?4")
+            .set("used = ?5")
+            .where_clause("id = ?1")
+            .to_string();
+
+        let result = conn.execute(
+            &sql,
+            (
+                self.id,
+                &self.name,
+                &self.text,
+                &self.project_name,
+                &self.used,
+            ),
+        )?;
+
+        return Ok(result);
     }
 }

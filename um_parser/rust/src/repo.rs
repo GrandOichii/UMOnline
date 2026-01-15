@@ -87,6 +87,13 @@ impl ParserRepositoryNode {
         Ok(())
     }
 
+    pub fn update_card_by_id(&self, card: &CardModel) -> Result<(), Box<dyn Error>> {
+        let conn = self.get_connection();
+        card.sql_update_by_id(conn)?;
+        Ok(())
+    }
+
+
     pub fn get_card(&self, id: i32) -> Result<Option<CardModel>, Box<dyn Error>> {
         self.query_first(CardModel::sql_select().where_clause("id = $1"), params!(id))
     }
@@ -257,6 +264,13 @@ impl ParserRepositoryNode {
     pub fn get_cards(&self, project_name: &str) -> Result<Vec<CardModel>, Box<dyn Error>> {
         self.query(
             CardModel::sql_select().where_clause("project_name = $1"),
+            params!(project_name),
+        )
+    }
+    
+    pub fn get_used_cards(&self, project_name: &str) -> Result<Vec<CardModel>, Box<dyn Error>> {
+        self.query(
+            CardModel::sql_select().where_clause("project_name = $1 AND used = 1"),
             params!(project_name),
         )
     }

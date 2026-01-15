@@ -9,5 +9,7 @@ public interface ICardZone {
     Player GetOwner();
     string GetName();
 
-    public string ZoneLogName => $"z_{GetName()}_{GetOwner().LogName}";
+    public string ZoneLogName => GetZoneLogName(GetName(), GetOwner());
+
+    public static string GetZoneLogName(string name, Player owner) => $"z_{name}_{owner.LogName}";
 }
