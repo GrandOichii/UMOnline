@@ -75,5 +75,10 @@ size_flags_stretch_ratio = 4.0
 [node name="ParserTabs" type="TabContainer" parent="HBoxContainer/VBoxContainer2"]
 layout_mode = 2
 size_flags_vertical = 3
+current_tab = 0
+
+[node name="ParserTab" parent="HBoxContainer/VBoxContainer2/ParserTabs" instance=ExtResource("1_sjifr")]
+layout_mode = 2
+metadata/_tab_index = 0
 
 [node name="ParserEditorWindow" parent="." instance=ExtResource("2_qdeex")]

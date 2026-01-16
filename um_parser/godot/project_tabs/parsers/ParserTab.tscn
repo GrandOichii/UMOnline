@@ -208,6 +208,7 @@ item_1/text = "sus"
 item_1/id = 1
 
 [node name="ParserEditorWindow" parent="." instance=ExtResource("5_2alyd")]
+visible = false
 
 [node name="NodeMenu" type="PopupMenu" parent="."]
 oversampling_override = 1.0
