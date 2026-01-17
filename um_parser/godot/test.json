@@ -1,0 +1,14 @@
+[
+    {
+        "name": "Card1",
+        "type": "versatile",
+        "power": "2",
+        "text": "129 test"
+    },
+    {
+        "name": "Card2",
+        "type": "versatile",
+        "power": "1",
+        "text": "1 aaaaa"
+    }
+]

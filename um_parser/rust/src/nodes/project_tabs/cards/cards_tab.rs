@@ -243,8 +243,9 @@ impl CardsTabNode {
                     // logs.log(format!("Adding card {}", &card.name));
                     added_cards.push(card.name);
                 }
-                Err(_e) => {
+                Err(e) => {
                     // logs.log(format!("Card {} already present, skipping it", &c.name));
+                    godot_print!("import error: {}", e);
                     skipped_cards.push(card.name);
                 }
             }

@@ -3,6 +3,9 @@ from sys import argv
 from os import listdir
 from os.path import join
 
+def format_text(text: str) -> str:
+    return text.replace('Mr. ', 'Mr{DOT} ').replace('Dr. ', 'Dr{DOT} ')
+
 LOADOUTS_DIR = argv[1]
 OUT_PATH = argv[2]
 

@@ -940,6 +940,34 @@ function UM.Conditions:CombatWonBy(playerFunc)
     end
 end
 
+function UM.Conditions:AlreadyWonACombatThisTurn(playerFunc)
+    return function (args)
+        -- TODO
+        return false
+    end
+end
+
+function UM.Conditions:StartedThisTurnInADifferentSpace(fighterFunc)
+    return function (args)
+        -- TODO
+        return false
+    end
+end
+
+function UM.Conditions:HasXOrLessHealthButIsNotDefeated(fighterFunc, health)
+    return function (args)
+        -- TODO
+        return false
+    end
+end
+
+function UM.Conditions:IsHero(fighterFunc)
+    return function (args)
+        -- TODO
+        return false
+    end
+end
+
 function UM.Conditions:CombatLostBy(playerFunc)
     return function (args)
         local combat = GetCombat()
@@ -1272,7 +1300,9 @@ function UM.Effects:RemoveTokens(manyTokens)
 end
 
 function UM.Effects:PreventAllDamage()
-    -- TODO prevent all damage in combat
+    return function (args)
+        -- TODO prevent all damage in combat
+    end
 end
 
 function UM.Effects:ParalyzingFetters()
