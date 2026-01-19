@@ -4,6 +4,7 @@
 template_color = Color(0, 1, 1, 1)
 local_color = Color(1, 1, 1, 1)
 ref_color = Color(0, 1, 0, 1)
+todo_color = Color(1, 0, 0, 1)
 completion_label = NodePath("VBoxContainer/Completion")
 custom_minimum_size = Vector2(300, 50)
 offset_right = 200.0

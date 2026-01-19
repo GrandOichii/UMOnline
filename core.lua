@@ -77,6 +77,12 @@ function UM.Fighter:Named(name)
         :BuildOne()
 end
 
+function UM.Fighter:Opposing()
+    return UM.Select:Fighters()
+        :Opposing()
+        :BuildOne()
+end
+
 -- Single token
 
 UM.Token = {}

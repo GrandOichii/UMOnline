@@ -8,6 +8,10 @@ use crate::parsers::selector::SELECTOR_SCRIPT;
 use crate::parsers::splitter::SPLITTER_SCRIPT;
 use crate::repo::ParserRepositoryNode;
 
+pub const MATCHER_TODO_SCRIPT: &'static str = "function _Create(text, children, data)
+    return 'TODO'
+end";
+
 #[derive(Eq, PartialEq)]
 pub enum ParserEditorWindowNodeMode {
     Edit = 1,
@@ -141,11 +145,7 @@ impl ParserEditorWindowNode {
     fn display_default_script(&mut self) {
         let ptype = self.get_ptype();
         self.script_edit.set_text(match ptype {
-            PMT_MATCHER => {
-                "function _Create(text, children, data)
-    return 'TODO'
-end"
-            }
+            PMT_MATCHER => MATCHER_TODO_SCRIPT,
             PMT_SELECTOR => SELECTOR_SCRIPT,
             PMT_SPLITTER => SPLITTER_SCRIPT,
             _ => panic!("Unrecognized ptype: {}", ptype),

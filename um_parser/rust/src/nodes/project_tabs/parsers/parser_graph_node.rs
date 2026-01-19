@@ -4,6 +4,7 @@ use godot::prelude::*;
 use regex::Regex;
 
 use crate::model::parser::*;
+use crate::nodes::parser_editor::MATCHER_TODO_SCRIPT;
 use crate::nodes::parsing_history::ParserParsingHistory;
 use crate::nodes::parsing_history::ParsingHistory;
 use crate::nodes::project_tabs::parsers::parser_tab::ParserTabNode;
@@ -56,6 +57,8 @@ pub struct ParserGraphNode {
     local_color: Color,
     #[export]
     ref_color: Color,
+    #[export]
+    todo_color: Color,
 
     #[export_group(name = "Nodes")]
     #[export]
@@ -197,6 +200,11 @@ impl ParserGraphNode {
     fn set_color(&mut self, parser: &ParserModel) {
         if parser.ref_to_id.is_some() {
             self.set_self_color(self.ref_color);
+            return;
+        }
+
+        if parser.script == MATCHER_TODO_SCRIPT {
+            self.set_self_color(self.todo_color);
             return;
         }
         if parser.is_template {
