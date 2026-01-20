@@ -1,8 +1,6 @@
 use rusqlite::Params;
 use sql_query_builder as sql;
-use std::cell::OnceCell;
 use std::collections::HashMap;
-use std::collections::VecDeque;
 use std::error::Error;
 
 use godot::classes::*;
@@ -40,6 +38,59 @@ impl ParserRepositoryNode {
     pub fn parser_updated(parser_id: u32);
 }
 
+#[godot_api]
+impl INode for ParserRepositoryNode {
+    fn ready(&mut self) {
+        self.connection =
+            Some(Connection::open(self.file_path.to_string()).expect("Failed to connect!"));
+        if self.drop_tables_on_launch {
+            self.drop_tables();
+        }
+        self.create_tables();
+
+        // * insert dummy data
+        // self.insert_project(&ProjectModel {
+        //     name: String::from("p1"),
+        //     description: String::from("description"),
+        // })
+        // .expect("Failed to insert project");
+        // self.insert_project(&ProjectModel {
+        //     name: String::from("p2"),
+        //     description: String::from("description"),
+        // })
+        // .expect("Failed to insert project");
+
+        // let card = CardModel {
+        //     name: String::from("Card1"),
+        //     text: String::from("After combat: Draw 1 card."),
+        //     project_name: String::from("p1"),
+        // };
+
+        // self.insert_card(&card).expect("Failed to insert card");
+
+        // * debug print db contents
+        // let projects = self.get_projects().expect("Failed to read project models");
+        // godot_print!("Found {:?} projects", projects.len());
+        // for project in projects {
+        //     godot_print!("Found project {:?}", project);
+
+        //     let cards = self
+        //         .get_cards_from_project(&project.name)
+        //         .expect(format!("Failed to get cards for project {}", &project.name).as_str());
+
+        //     godot_print!(
+        //         "Found {:?} cards for project {:?}",
+        //         cards.len(),
+        //         &project.name
+        //     );
+        //     for card in cards {
+        //         godot_print!("\tFound card {:?}", card);
+        //     }
+        // }
+    }
+}
+
+// private methods
 impl ParserRepositoryNode {
     fn query<T: SQLModel>(
         &self,
@@ -65,6 +116,47 @@ impl ParserRepositoryNode {
         Ok(rows.pop())
     }
 
+    fn create_tables(&self) {
+        let connection = self.get_connection();
+
+        connection
+            .execute(ProjectModel::sql_create().as_string().as_str(), [])
+            .expect("Failed to create project table!");
+        connection
+            .execute(CardModel::sql_create().as_string().as_str(), [])
+            .expect("Failed to create cards table!");
+        connection
+            .execute(EditorModel::sql_create().as_string().as_str(), [])
+            .expect("Failed to create editors table!");
+        connection
+            .execute(ParserModel::sql_create().as_string().as_str(), [])
+            .expect("Failed to create parsers table!");
+    }
+
+    fn drop_tables(&self) {
+        let connection = self.get_connection();
+
+        connection
+            .execute(ParserModel::sql_drop().as_string().as_str(), [])
+            .expect("Failed to drop parsers table!");
+        connection
+            .execute(CardModel::sql_drop().as_string().as_str(), [])
+            .expect("Failed to drop cards table!");
+        connection
+            .execute(ProjectModel::sql_drop().as_string().as_str(), [])
+            .expect("Failed to drop projects table!");
+        connection
+            .execute(EditorModel::sql_drop().as_string().as_str(), [])
+            .expect("Failed to drop editors table!");
+    }
+
+    fn get_connection(&self) -> &Connection {
+        self.connection.as_ref().unwrap()
+    }
+}
+
+// public methods
+impl ParserRepositoryNode {
     pub fn get_project(
         &self,
         project_name: &String,
@@ -92,7 +184,6 @@ impl ParserRepositoryNode {
         card.sql_update_by_id(conn)?;
         Ok(())
     }
-
 
     pub fn get_card(&self, id: i32) -> Result<Option<CardModel>, Box<dyn Error>> {
         self.query_first(CardModel::sql_select().where_clause("id = $1"), params!(id))
@@ -184,40 +275,6 @@ impl ParserRepositoryNode {
         }
     }
 
-    fn create_tables(&self) {
-        let connection = self.get_connection();
-
-        connection
-            .execute(ProjectModel::sql_create().as_string().as_str(), [])
-            .expect("Failed to create project table!");
-        connection
-            .execute(CardModel::sql_create().as_string().as_str(), [])
-            .expect("Failed to create cards table!");
-        connection
-            .execute(EditorModel::sql_create().as_string().as_str(), [])
-            .expect("Failed to create editors table!");
-        connection
-            .execute(ParserModel::sql_create().as_string().as_str(), [])
-            .expect("Failed to create parsers table!");
-    }
-
-    fn drop_tables(&self) {
-        let connection = self.get_connection();
-
-        connection
-            .execute(ParserModel::sql_drop().as_string().as_str(), [])
-            .expect("Failed to drop parsers table!");
-        connection
-            .execute(CardModel::sql_drop().as_string().as_str(), [])
-            .expect("Failed to drop cards table!");
-        connection
-            .execute(ProjectModel::sql_drop().as_string().as_str(), [])
-            .expect("Failed to drop projects table!");
-        connection
-            .execute(EditorModel::sql_drop().as_string().as_str(), [])
-            .expect("Failed to drop editors table!");
-    }
-
     pub fn get_projects(&self) -> Result<Vec<ProjectModel>, Box<dyn Error>> {
         self.query::<ProjectModel>(ProjectModel::sql_select(), ())
     }
@@ -267,7 +324,7 @@ impl ParserRepositoryNode {
             params!(project_name),
         )
     }
-    
+
     pub fn get_used_cards(&self, project_name: &str) -> Result<Vec<CardModel>, Box<dyn Error>> {
         self.query(
             CardModel::sql_select().where_clause("project_name = $1 AND used = 1"),
@@ -346,62 +403,6 @@ impl ParserRepositoryNode {
             result.push(child);
         }
         return Ok(result);
-    }
-
-    fn get_connection(&self) -> &Connection {
-        self.connection.as_ref().unwrap()
-    }
-}
-
-#[godot_api]
-impl INode for ParserRepositoryNode {
-    fn ready(&mut self) {
-        self.connection =
-            Some(Connection::open(self.file_path.to_string()).expect("Failed to connect!"));
-        if self.drop_tables_on_launch {
-            self.drop_tables();
-        }
-        self.create_tables();
-
-        // * insert dummy data
-        // self.insert_project(&ProjectModel {
-        //     name: String::from("p1"),
-        //     description: String::from("description"),
-        // })
-        // .expect("Failed to insert project");
-        // self.insert_project(&ProjectModel {
-        //     name: String::from("p2"),
-        //     description: String::from("description"),
-        // })
-        // .expect("Failed to insert project");
-
-        // let card = CardModel {
-        //     name: String::from("Card1"),
-        //     text: String::from("After combat: Draw 1 card."),
-        //     project_name: String::from("p1"),
-        // };
-
-        // self.insert_card(&card).expect("Failed to insert card");
-
-        // * debug print db contents
-        // let projects = self.get_projects().expect("Failed to read project models");
-        // godot_print!("Found {:?} projects", projects.len());
-        // for project in projects {
-        //     godot_print!("Found project {:?}", project);
-
-        //     let cards = self
-        //         .get_cards_from_project(&project.name)
-        //         .expect(format!("Failed to get cards for project {}", &project.name).as_str());
-
-        //     godot_print!(
-        //         "Found {:?} cards for project {:?}",
-        //         cards.len(),
-        //         &project.name
-        //     );
-        //     for card in cards {
-        //         godot_print!("\tFound card {:?}", card);
-        //     }
-        // }
     }
 }
 

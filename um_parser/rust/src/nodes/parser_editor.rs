@@ -76,16 +76,17 @@ impl IWindow for ParserEditorWindowNode {
     }
 }
 
+// private methods
 impl ParserEditorWindowNode {
     fn connect_signals(&mut self) {
         self.save_button
             .signals()
             .pressed()
-            .connect_other(self, Self::request_save);
+            .connect_other(self, Self::on_save_button_pressed);
         self.cancel_button
             .signals()
             .pressed()
-            .connect_other(self, Self::cancel);
+            .connect_other(self, Self::on_cancel_button_pressed);
         self.type_picker
             .signals()
             .item_selected()
@@ -93,53 +94,12 @@ impl ParserEditorWindowNode {
         self.base()
             .signals()
             .close_requested()
-            .connect_other(self, Self::cancel);
+            .connect_other(self, Self::on_close_requested);
     }
 
     fn cancel(&mut self) {
         self.base_mut().hide();
         self.signals().cancel_request().emit();
-    }
-
-    pub fn clear(&mut self, project_name: String, is_template: bool) {
-        self.type_picker.select(1);
-        self.load(ParserModel {
-            children: vec![],
-            description: String::from(""),
-            editor_offset_x: 0.0,
-            editor_offset_y: 0.0,
-            id: -1,
-            is_template: is_template,
-            name: String::from(""),
-            parent_id: None,
-            parent_slot: None,
-            pattern: String::from(""),
-            project_name: project_name,
-            ptype: 2,
-            ref_to_id: None,
-            script: String::from(""),
-            ref_name: None,
-            parser_editor_id: -1,
-        });
-        self.display_default_script();
-    }
-
-    pub fn load(&mut self, parser: ParserModel) {
-        self.name_edit.set_text(&parser.name);
-        self.type_picker.select(match parser.ptype {
-            PMT_MATCHER => 0,
-            PMT_SELECTOR => 1,
-            PMT_SPLITTER => 2,
-            other => panic!("Unrecognized parser type: {}", other),
-        });
-        self.pattern_edit.set_text(&parser.pattern);
-        self.description_edit.set_text(&parser.description);
-        self.script_edit.set_text(&parser.script);
-        self.check_pattern_visibility();
-        self.type_picker.set_disabled(parser.id != -1);
-        // self.type_picker.set_disabled(parser.is_template && parser.id != -1);
-
-        self.edited_parser = Some(parser);
     }
 
     fn display_default_script(&mut self) {
@@ -166,11 +126,6 @@ impl ParserEditorWindowNode {
         };
         self.pattern_start_label.set_visible(start_end_visible);
         self.pattern_end_label.set_visible(start_end_visible);
-    }
-
-    fn on_type_picker_text_changed(&mut self, _v: i64) {
-        self.check_pattern_visibility();
-        self.display_default_script();
     }
 
     fn parser_empty_name_check(&mut self, parser: &ParserModel) -> Option<String> {
@@ -249,6 +204,18 @@ impl ParserEditorWindowNode {
         self.signals().save_request().emit();
     }
 
+    fn get_ptype(&self) -> ParserModelType {
+        match self.type_picker.get_text().to_string().as_str() {
+            "Matcher" => PMT_MATCHER,
+            "Selector" => PMT_SELECTOR,
+            "Splitter" => PMT_SPLITTER,
+            other => panic!("Unrecognized parser model type was picked: {}", other),
+        }
+    }
+}
+
+// public methods
+impl ParserEditorWindowNode {
     pub fn build(&self) -> ParserModel {
         let edited = self.edited_parser.as_ref().unwrap();
         ParserModel {
@@ -271,12 +238,64 @@ impl ParserEditorWindowNode {
         }
     }
 
-    fn get_ptype(&self) -> ParserModelType {
-        match self.type_picker.get_text().to_string().as_str() {
-            "Matcher" => PMT_MATCHER,
-            "Selector" => PMT_SELECTOR,
-            "Splitter" => PMT_SPLITTER,
-            other => panic!("Unrecognized parser model type was picked: {}", other),
-        }
+    pub fn clear(&mut self, project_name: String, is_template: bool) {
+        self.type_picker.select(1);
+        self.load(ParserModel {
+            children: vec![],
+            description: String::from(""),
+            editor_offset_x: 0.0,
+            editor_offset_y: 0.0,
+            id: -1,
+            is_template: is_template,
+            name: String::from(""),
+            parent_id: None,
+            parent_slot: None,
+            pattern: String::from(""),
+            project_name: project_name,
+            ptype: 2,
+            ref_to_id: None,
+            script: String::from(""),
+            ref_name: None,
+            parser_editor_id: -1,
+        });
+        self.display_default_script();
+    }
+
+    pub fn load(&mut self, parser: ParserModel) {
+        self.name_edit.set_text(&parser.name);
+        self.type_picker.select(match parser.ptype {
+            PMT_MATCHER => 0,
+            PMT_SELECTOR => 1,
+            PMT_SPLITTER => 2,
+            other => panic!("Unrecognized parser type: {}", other),
+        });
+        self.pattern_edit.set_text(&parser.pattern);
+        self.description_edit.set_text(&parser.description);
+        self.script_edit.set_text(&parser.script);
+        self.check_pattern_visibility();
+        self.type_picker.set_disabled(parser.id != -1);
+        // self.type_picker.set_disabled(parser.is_template && parser.id != -1);
+
+        self.edited_parser = Some(parser);
+    }
+}
+
+// signal connections
+impl ParserEditorWindowNode {
+    fn on_type_picker_text_changed(&mut self, _v: i64) {
+        self.check_pattern_visibility();
+        self.display_default_script();
+    }
+
+    fn on_cancel_button_pressed(&mut self) {
+        self.cancel();
+    }
+
+    fn on_save_button_pressed(&mut self) {
+        self.request_save();
+    }
+
+    fn on_close_requested(&mut self) {
+        self.cancel();
     }
 }

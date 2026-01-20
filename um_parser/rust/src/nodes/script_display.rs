@@ -38,13 +38,9 @@ impl IRichTextLabel for ScriptDisplayNode {
     }
 }
 
+// private methods
 impl ScriptDisplayNode {
     fn connect_signals(&mut self) {}
-
-    pub fn set_script_text(&mut self, script: &String) {
-        let formatted = self.format_script(script);
-        self.base_mut().set_text(&formatted);
-    }
 
     fn replace_chunks(&self, script: &String, format: &str, re: Regex, color: &Color) -> String {
         re.replace_all(
@@ -58,6 +54,7 @@ impl ScriptDisplayNode {
     }
 
     fn format_script(&self, script: &String) -> String {
+        return script.to_string();
         let simple_replace_table = vec![
             ("nil", &self.nil_color),
             ("end", &self.end_color),
@@ -100,5 +97,13 @@ impl ScriptDisplayNode {
             result = result.replace(original, &replace);
         }
         return result.to_string();
+    }
+}
+
+// public methods
+impl ScriptDisplayNode {
+    pub fn set_script_text(&mut self, script: &String) {
+        let formatted = self.format_script(script);
+        self.base_mut().set_text(&formatted);
     }
 }

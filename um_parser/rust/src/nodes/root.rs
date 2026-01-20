@@ -23,6 +23,7 @@ impl IControl for RootNode {
     }
 }
 
+// private methods
 impl RootNode {
     fn connect_signals(&mut self) {
         self.project_list_node
@@ -30,7 +31,10 @@ impl RootNode {
             .edit_project_request()
             .connect_other(self, Self::on_edit_project_request);
     }
+}
 
+// signal connections
+impl RootNode {
     fn on_edit_project_request(&mut self, project_name: GString) {
         self.project_list_node.hide();
         self.project_editor_node.show();

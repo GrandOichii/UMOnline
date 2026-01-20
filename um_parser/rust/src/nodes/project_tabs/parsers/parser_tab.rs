@@ -157,7 +157,6 @@ impl ParserTabNode {
 
     fn create_node(&mut self, mut parser: ParserModel) {
         parser.parser_editor_id = self.loaded_id.unwrap();
-        // TODO last_popup_position can be None sometimes somehow
         parser.editor_offset_x = (self.last_popup_position.unwrap().x
             + self.graph.get_scroll_offset().x)
             / self.graph.get_zoom();

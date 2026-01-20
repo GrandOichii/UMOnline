@@ -72,73 +72,13 @@ impl IGraphNode for ParserGraphNode {
     }
 }
 
+// private methods
 impl ParserGraphNode {
     fn connect_signals(&mut self) {
         self.base()
             .signals()
             .gui_input()
             .connect_other(self, Self::on_gui_input);
-    }
-
-    pub fn edit_request(&mut self) {
-        if let Some(ref_id) = self.parser.as_ref().unwrap().ref_to_id {
-            self.parsers_tab.bind_mut().open_template(ref_id);
-            return;
-        }
-        let editor_window = &mut self.parsers_tab.bind_mut().parser_editor_window;
-        editor_window.bind_mut().mode =
-            Some(crate::nodes::parser_editor::ParserEditorWindowNodeMode::Edit);
-
-        editor_window
-            .bind_mut()
-            .load(self.parser.as_ref().unwrap().clone());
-        editor_window
-            .set_title(&format!("Edit parser {}", &self.parser.as_ref().unwrap().name).to_string());
-        editor_window.show();
-    }
-
-    fn on_gui_input(&mut self, e: Gd<InputEvent>) {
-        if e.is_action_pressed("edit_parser") {
-            self.edit_request();
-            return;
-        }
-        if e.is_action_pressed("display_parser_info") {
-            self.parent
-                .bind_mut()
-                .load_parser_info(self.parser.as_ref().unwrap());
-            return;
-        }
-    }
-
-    pub fn load_parser(&mut self, parser: ParserModel) {
-        // set color
-        self.set_color(&parser);
-        self.add_connection_slots(&parser);
-
-        self.base_mut()
-            .set_position_offset(Vector2::new(parser.editor_offset_x, parser.editor_offset_y));
-
-        // additional type-specific control nodes
-        // TODO this will be readded when calling load_parser again
-        if parser.ref_to_id.is_none() {
-            match parser.ptype {
-                PMT_SELECTOR => {
-                    let mut add_slot_button = Button::new_alloc();
-                    add_slot_button.set_text("Add");
-                    self.base_mut().add_child(&add_slot_button);
-                    add_slot_button
-                        .signals()
-                        .pressed()
-                        .connect_other(self, Self::on_add_slot_button_pressed);
-                }
-                _ => {}
-            };
-        }
-
-        self.parser = Some(parser);
-
-        self.update_title();
-        self.update_pattern();
     }
 
     fn get_slot_count(&mut self) -> i32 {
@@ -175,22 +115,6 @@ impl ParserGraphNode {
             Some(ref_name) => ref_name.to_string(),
             None => parser.name.to_string(),
         }
-    }
-
-    pub fn load_parsing_history(&mut self, ph: Option<&ParsingHistory>) {
-        let binding = ParserParsingHistory {
-            parsed_texts: vec![],
-            unparsed_texts: vec![],
-        };
-        let name = &self.get_parser_name();
-        let v = match ph {
-            Some(p) => p.get_for(name).unwrap_or(&binding),
-            None => &binding,
-        };
-
-        self.brief.parsed_count = v.parsed_texts.len();
-        self.brief.unparsed_count = v.unparsed_texts.len();
-        self.update_brief();
     }
 
     fn set_self_color(&mut self, color: Color) {
@@ -276,7 +200,10 @@ impl ParserGraphNode {
     fn add_splitter_connection_slots(&mut self) {
         self.base_mut().set_slot_enabled_right(0, true);
     }
+}
 
+// public methods
+impl ParserGraphNode {
     pub fn connect_children(&mut self, child_nodes: Vec<&Gd<ParserGraphNode>>) {
         // let mut slot_idx = 0;
         let self_name = &self.base().get_name();
@@ -305,5 +232,85 @@ impl ParserGraphNode {
             .expect("Tried to update parser offset on None parser");
         p.editor_offset_x = offset.x;
         p.editor_offset_y = offset.y;
+    }
+
+    pub fn load_parsing_history(&mut self, ph: Option<&ParsingHistory>) {
+        let binding = ParserParsingHistory {
+            parsed_texts: vec![],
+            unparsed_texts: vec![],
+        };
+        let name = &self.get_parser_name();
+        let v = match ph {
+            Some(p) => p.get_for(name).unwrap_or(&binding),
+            None => &binding,
+        };
+
+        self.brief.parsed_count = v.parsed_texts.len();
+        self.brief.unparsed_count = v.unparsed_texts.len();
+        self.update_brief();
+    }
+
+    pub fn load_parser(&mut self, parser: ParserModel) {
+        // set color
+        self.set_color(&parser);
+        self.add_connection_slots(&parser);
+
+        self.base_mut()
+            .set_position_offset(Vector2::new(parser.editor_offset_x, parser.editor_offset_y));
+
+        // additional type-specific control nodes
+        // TODO this will be readded when calling load_parser again
+        if parser.ref_to_id.is_none() {
+            match parser.ptype {
+                PMT_SELECTOR => {
+                    let mut add_slot_button = Button::new_alloc();
+                    add_slot_button.set_text("Add");
+                    self.base_mut().add_child(&add_slot_button);
+                    add_slot_button
+                        .signals()
+                        .pressed()
+                        .connect_other(self, Self::on_add_slot_button_pressed);
+                }
+                _ => {}
+            };
+        }
+
+        self.parser = Some(parser);
+
+        self.update_title();
+        self.update_pattern();
+    }
+
+    pub fn edit_request(&mut self) {
+        if let Some(ref_id) = self.parser.as_ref().unwrap().ref_to_id {
+            self.parsers_tab.bind_mut().open_template(ref_id);
+            return;
+        }
+        let editor_window = &mut self.parsers_tab.bind_mut().parser_editor_window;
+        editor_window.bind_mut().mode =
+            Some(crate::nodes::parser_editor::ParserEditorWindowNodeMode::Edit);
+
+        editor_window
+            .bind_mut()
+            .load(self.parser.as_ref().unwrap().clone());
+        editor_window
+            .set_title(&format!("Edit parser {}", &self.parser.as_ref().unwrap().name).to_string());
+        editor_window.show();
+    }
+}
+
+// signal connections
+impl ParserGraphNode {
+    fn on_gui_input(&mut self, e: Gd<InputEvent>) {
+        if e.is_action_pressed("edit_parser") {
+            self.edit_request();
+            return;
+        }
+        if e.is_action_pressed("display_parser_info") {
+            self.parent
+                .bind_mut()
+                .load_parser_info(self.parser.as_ref().unwrap());
+            return;
+        }
     }
 }

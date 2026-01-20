@@ -36,6 +36,7 @@ impl IPanelContainer for ParsedTextNode {
     }
 }
 
+// private methods
 impl ParsedTextNode {
     fn connect_signals(&mut self) {
         self.card_ref_button
@@ -43,7 +44,10 @@ impl ParsedTextNode {
             .pressed()
             .connect_other(self, Self::on_card_ref_button_pressed);
     }
+}
 
+// signal connections
+impl ParsedTextNode {
     fn on_card_ref_button_pressed(&mut self) {
         self.cards_tab.bind_mut().open_card(self.card_id.unwrap());
         self.cards_tab.set_visible(true);

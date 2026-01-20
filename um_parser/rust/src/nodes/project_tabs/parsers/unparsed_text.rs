@@ -32,6 +32,7 @@ impl IPanelContainer for UnparsedTextNode {
     }
 }
 
+// private methods
 impl UnparsedTextNode {
     fn connect_signals(&mut self) {
         self.card_ref_button
@@ -39,7 +40,10 @@ impl UnparsedTextNode {
             .pressed()
             .connect_other(self, Self::on_card_ref_button_pressed);
     }
+}
 
+// signal connections
+impl UnparsedTextNode {
     fn on_card_ref_button_pressed(&mut self) {
         self.cards_tab.bind_mut().open_card(self.card_id.unwrap());
         self.cards_tab.set_visible(true);
@@ -58,7 +62,7 @@ impl TextNode for UnparsedTextNode {
         self.card_id = Some(card.id);
         self.loaded_text = Some(ParsedText::from(parsed_text));
     }
-    
+
     fn init_cards_tab(&mut self, cards_tab: Gd<CardsTabNode>) {
         self.cards_tab.init(cards_tab);
     }

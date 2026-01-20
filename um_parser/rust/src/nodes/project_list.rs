@@ -97,6 +97,7 @@ impl IControl for ProjectListNode {
     }
 }
 
+// private methods
 impl ProjectListNode {
     fn open_last_project(&mut self) {
         let mut repo = self.repo.bind_mut();
@@ -143,6 +144,54 @@ impl ProjectListNode {
         self.project_info_container.set_visible(v);
     }
 
+    fn edit_active_project(&mut self) {
+        let selected = self.selected_project();
+        self.signals().edit_project_request().emit(&selected.name);
+    }
+
+    fn fill_project_names(&mut self) {
+        let projects = self
+            .repo
+            .bind_mut()
+            .get_projects()
+            .expect("Failed to get projects from DB");
+
+        self.project_list.clear();
+
+        for project in projects {
+            let idx = self.project_list.add_item(&project.name);
+            self.project_list
+                .set_item_metadata(idx, &project.name.to_variant());
+        }
+    }
+}
+
+// signal connections
+impl ProjectListNode {
+    fn on_project_list_item_activated(&mut self, _idx: i64) {
+        self.edit_active_project();
+    }
+
+    fn on_project_list_item_selected(&mut self, idx: i64) {
+        let project_name: String = self
+            .project_list
+            .get_item_metadata(idx.try_into().unwrap())
+            .to();
+
+        self.toggle_project_ui(true);
+
+        let project = self
+            .repo
+            .bind_mut()
+            .get_project(&project_name)
+            .expect("Failed to get project from DB")
+            .expect("Somehow clicked non-existant project in project_list");
+
+        self.project_name_label.set_text(&project.name);
+        self.project_description_label
+            .set_text(&project.description);
+    }
+
     fn on_create_button_pressed(&mut self) {
         let name = self.new_project_name_edit.get_text().to_string();
         if name.len() == 0 {
@@ -186,50 +235,5 @@ impl ProjectListNode {
         self.delete_confirmation_dialog
             .set_text(format!("Delete project {}", &selected.name).as_str());
         self.delete_confirmation_dialog.show();
-    }
-
-    fn edit_active_project(&mut self) {
-        let selected = self.selected_project();
-        self.signals().edit_project_request().emit(&selected.name);
-    }
-
-    fn on_project_list_item_activated(&mut self, _idx: i64) {
-        self.edit_active_project();
-    }
-
-    fn on_project_list_item_selected(&mut self, idx: i64) {
-        let project_name: String = self
-            .project_list
-            .get_item_metadata(idx.try_into().unwrap())
-            .to();
-
-        self.toggle_project_ui(true);
-
-        let project = self
-            .repo
-            .bind_mut()
-            .get_project(&project_name)
-            .expect("Failed to get project from DB")
-            .expect("Somehow clicked non-existant project in project_list");
-
-        self.project_name_label.set_text(&project.name);
-        self.project_description_label
-            .set_text(&project.description);
-    }
-
-    fn fill_project_names(&mut self) {
-        let projects = self
-            .repo
-            .bind_mut()
-            .get_projects()
-            .expect("Failed to get projects from DB");
-
-        self.project_list.clear();
-
-        for project in projects {
-            let idx = self.project_list.add_item(&project.name);
-            self.project_list
-                .set_item_metadata(idx, &project.name.to_variant());
-        }
     }
 }

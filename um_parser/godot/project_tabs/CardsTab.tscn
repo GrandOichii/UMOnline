@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://cfm7yf8xlxwr5" path="res://project_tabs/cards/CardTab.tscn" id="1_2ooo1"]
 [ext_resource type="PackedScene" uid="uid://baa4ncwbqg74p" path="res://project_tabs/cards/CardsManagerWindow.tscn" id="2_l3vn6"]
 
-[node name="CardsTab" type="CardsTabNode" node_paths=PackedStringArray("import_cards_button", "cards_list", "card_tabs_container", "import_cards_file_dialog", "unparsed_count_label", "card_filter_edit", "parsed_filter_check", "unparsed_filter_check", "apply_filter_button", "manage_cards_button", "cards_manager_window_node")]
+[node name="CardsTab" type="CardsTabNode" node_paths=PackedStringArray("import_cards_button", "cards_list", "card_tabs_container", "import_cards_file_dialog", "unparsed_count_label", "card_filter_edit", "parsed_filter_check", "unparsed_filter_check", "used_filter_check_node", "apply_filter_button", "manage_cards_button", "cards_manager_window_node")]
 card_tab_scene = ExtResource("1_2ooo1")
 import_cards_button = NodePath("HBoxContainer/VBoxContainer/ImportCardsButton")
 cards_list = NodePath("HBoxContainer/VBoxContainer/ScrollContainer/CardsList")
@@ -13,6 +13,7 @@ unparsed_count_label = NodePath("HBoxContainer/VBoxContainer/HBoxContainer/Unpar
 card_filter_edit = NodePath("HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/CardFilterEdit")
 parsed_filter_check = NodePath("HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/HBoxContainer/ParsedFilterCheck")
 unparsed_filter_check = NodePath("HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/HBoxContainer/UnparsedFilterCheck")
+used_filter_check_node = NodePath("HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/UsedCheck")
 apply_filter_button = NodePath("HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/ApplyFilterButton")
 manage_cards_button = NodePath("HBoxContainer/VBoxContainer/ManageCardsButton")
 cards_manager_window_node = NodePath("CardsManagerWindow")
@@ -59,6 +60,11 @@ layout_mode = 2
 size_flags_horizontal = 3
 button_pressed = true
 text = "Unparsed"
+
+[node name="UsedCheck" type="CheckButton" parent="HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+button_pressed = true
+text = "Used"
 
 [node name="ApplyFilterButton" type="Button" parent="HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer"]
 layout_mode = 2

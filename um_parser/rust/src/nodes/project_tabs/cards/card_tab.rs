@@ -1,10 +1,6 @@
 use godot::classes::*;
 use godot::prelude::*;
 
-use stylua_lib::Config;
-use stylua_lib::OutputVerification;
-use stylua_lib::format_code;
-
 use crate::model::card::CardModel;
 use crate::nodes::parsing_history::ParsingHistory;
 use crate::nodes::script_display::ScriptDisplayNode;
@@ -30,6 +26,7 @@ impl IControl for CardTabNode {
     fn ready(&mut self) {}
 }
 
+// public methods
 impl CardTabNode {
     pub fn load_card(&mut self, card: &CardModel) {
         self.card_id = Some(card.id);
@@ -38,7 +35,7 @@ impl CardTabNode {
     }
 
     pub fn update_parsing_history(&mut self, ph: Option<&ParsingHistory>) {
-        let mut script = match ph {
+        let script = match ph {
             None => String::from(""),
             Some(history) => match history.get_script_for(self.card_id.unwrap()) {
                 Some(script) => script.to_string(),
@@ -46,14 +43,6 @@ impl CardTabNode {
             },
         };
 
-        // let formatted = format_code(&script, Config::default(), None, OutputVerification::None);
-        // match formatted {
-        //     Ok(new_script) => script = new_script,
-        //     Err(err) => {
-        //         // TODO
-        //         godot_print!("{}", err);
-        //     }
-        // }
         self.script_display.bind_mut().set_script_text(&script);
     }
 }

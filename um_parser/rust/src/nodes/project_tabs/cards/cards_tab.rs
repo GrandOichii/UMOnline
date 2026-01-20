@@ -47,6 +47,8 @@ pub struct CardsTabNode {
     #[export]
     unparsed_filter_check: OnEditor<Gd<CheckButton>>,
     #[export]
+    used_filter_check_node: OnEditor<Gd<CheckButton>>,
+    #[export]
     apply_filter_button: OnEditor<Gd<Button>>,
     #[export]
     manage_cards_button: OnEditor<Gd<Button>>,
@@ -77,6 +79,7 @@ struct ImportedCard {
 
 struct CardFilter {
     filter: String,
+    used_only: bool,
     allow_parsed: bool,
     allow_unparsed: bool,
 }
@@ -87,10 +90,14 @@ impl CardFilter {
             allow_parsed: true,
             allow_unparsed: true,
             filter: String::from(""),
+            used_only: true,
         }
     }
 
     fn allows(&self, card: &CardModel) -> bool {
+        if self.used_only && !card.used {
+            return false;
+        }
         if card.name.to_lowercase().contains(&self.filter) {
             return true;
         }
@@ -103,6 +110,7 @@ impl CardFilter {
     }
 }
 
+// private methods
 impl CardsTabNode {
     fn connect_signals(&mut self) {
         self.import_cards_button
@@ -142,10 +150,6 @@ impl CardsTabNode {
         // TODO connect signals of cards_manager_window_node
     }
 
-    pub fn update_parsing_history(&mut self, ph: &ParsingHistory) {
-        // TODO for each tab, update parsing histories
-    }
-
     fn close_card_tabs(&mut self) {
         while self.card_tabs_container.get_child_count() > 0
             && let Some(node) = self.card_tabs_container.get_child(0)
@@ -159,6 +163,7 @@ impl CardsTabNode {
             allow_parsed: self.parsed_filter_check.is_pressed(),
             allow_unparsed: self.unparsed_filter_check.is_pressed(),
             filter: self.card_filter_edit.get_text().to_lower().to_string(),
+            used_only: self.used_filter_check_node.is_pressed(),
         }
     }
 
@@ -181,43 +186,6 @@ impl CardsTabNode {
             .get_item_metadata(idx.try_into().unwrap())
             .to::<i32>();
         self.open_card(card_id);
-    }
-
-    pub fn open_card(&mut self, card_id: i32) {
-        let prev_child_count = self.card_tabs_container.get_child_count();
-
-        let card = self
-            .repo
-            .bind_mut()
-            .get_card(card_id)
-            .expect("Failed to load card")
-            .expect("Tried to open a card tab with a card that doesnt exist");
-
-        for i in 0..=(prev_child_count - 1) {
-            let child = self
-                .card_tabs_container
-                .get_child(i)
-                .expect("Failed to get child while iterating over get_children");
-            if child.get_name().to_string() != card.name {
-                continue;
-            }
-
-            self.card_tabs_container.set_current_tab(i);
-            return;
-        }
-
-        let mut node = self.card_tab_scene.instantiate_as::<CardTabNode>();
-        node.set_name(&card.name);
-
-        self.card_tabs_container.add_child(&node);
-        self.card_tabs_container.set_current_tab(prev_child_count);
-
-        node.bind_mut().load_card(&card);
-        node.bind_mut().update_parsing_history(
-            self.repo
-                .bind_mut()
-                .get_parsing_history(&self.loaded_project_name),
-        );
     }
 
     fn on_import_cards_file_dialog_file_selected(&mut self, path: GString) {
@@ -279,28 +247,10 @@ impl CardsTabNode {
         self.import_cards_file_dialog.show();
     }
 
-    // fn get_repo(&mut self) -> &mut Gd<ParserRepositoryNode> {
-    //     // self.repo.get_mut().expect("repo was not initialized!")
-    //     &mut self.repo
-    // }
-
-    // fn get_logs_tab(&mut self) -> &mut Gd<LogsTabNode> {
-    //     self.logs_tab
-    //         .get_mut()
-    //         .expect("logs_tab was not initialized!")
-    // }
-
-    pub fn load_project(&mut self, project: &ProjectModel) {
-        self.loaded_project_name = project.name.to_string();
-        self.close_card_tabs();
-        self.reload_cards(&CardFilter::empty());
-    }
-
     fn reload_cards(&mut self, filter: &CardFilter) {
         self.cards_list.clear();
 
         let project_name = self.loaded_project_name.to_string();
-        // let repo = self.get_repo();
         let cards = self
             .repo
             .bind_mut()
@@ -361,5 +311,68 @@ impl CardsTabNode {
             card.used = false;
             repo.update_card_by_id(&card).expect("Failed to update card to be unused");
         }
+    }
+}
+
+// public methods
+impl CardsTabNode {
+    pub fn close_active_tab(&mut self) {
+        let tab_idx = self.card_tabs_container.get_current_tab();
+        if tab_idx == -1 {
+            return;
+        }
+
+        let child = self
+            .card_tabs_container
+            .get_child(tab_idx)
+            .unwrap();
+        self.card_tabs_container.remove_child(&child);
+    }
+
+    pub fn load_project(&mut self, project: &ProjectModel) {
+        self.loaded_project_name = project.name.to_string();
+        self.close_card_tabs();
+        self.reload_cards(&CardFilter::empty());
+    }
+
+    pub fn open_card(&mut self, card_id: i32) {
+        let prev_child_count = self.card_tabs_container.get_child_count();
+
+        let card = self
+            .repo
+            .bind_mut()
+            .get_card(card_id)
+            .expect("Failed to load card")
+            .expect("Tried to open a card tab with a card that doesnt exist");
+
+        for i in 0..=(prev_child_count - 1) {
+            let child = self
+                .card_tabs_container
+                .get_child(i)
+                .expect("Failed to get child while iterating over get_children");
+            if child.get_name().to_string() != card.name {
+                continue;
+            }
+
+            self.card_tabs_container.set_current_tab(i);
+            return;
+        }
+
+        let mut node = self.card_tab_scene.instantiate_as::<CardTabNode>();
+        node.set_name(&card.name);
+
+        self.card_tabs_container.add_child(&node);
+        self.card_tabs_container.set_current_tab(prev_child_count);
+
+        node.bind_mut().load_card(&card);
+        node.bind_mut().update_parsing_history(
+            self.repo
+                .bind_mut()
+                .get_parsing_history(&self.loaded_project_name),
+        );
+    }
+
+    pub fn update_parsing_history(&mut self, ph: &ParsingHistory) {
+        // TODO for each tab, update parsing histories
     }
 }

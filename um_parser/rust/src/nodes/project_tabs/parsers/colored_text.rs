@@ -20,13 +20,17 @@ impl IRichTextLabel for ColoredTextNode {
     }
 }
 
+// private methods
 impl ColoredTextNode {
     fn connect_signals(&mut self) {}
 
     fn colored(str: &str, color: &Color) -> String {
         format!("[color={}]{}[/color]", color.to_html(), str)
     }
+}
 
+// public methods
+impl ColoredTextNode {
     pub fn load_text(&mut self, full_text: String, highlight: String) {
         let text = ColoredTextNode::colored(
             full_text

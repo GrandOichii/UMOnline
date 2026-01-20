@@ -65,6 +65,7 @@ impl IControl for ParsersTabNode {
     }
 }
 
+// private methods
 impl ParsersTabNode {
     fn connect_signals(&mut self) {
         self.templates_list
@@ -119,21 +120,129 @@ impl ParsersTabNode {
                 self.templates_list
                     .set_item_metadata(idx, &parser.id.to_variant());
             }
-            }
+        }
     }
 
+    fn close_parser_tabs(&mut self) {
+        while self.parser_tabs_container.get_child_count() > 0
+            && let Some(node) = self.parser_tabs_container.get_child(0)
+        {
+            self.parser_tabs_container.remove_child(&node);
+        }
+    }
+}
+
+// public methods
+impl ParsersTabNode {
+    pub fn set_repo(&mut self, repo: Gd<ParserRepositoryNode>) {
+        self.repo.init(repo.clone());
+
+        self.parser_editor_window.bind_mut().repo.init(repo.clone());
+    }
+
+    pub fn update_parsing_history(&mut self, ph: &ParsingHistory) {
+        for i in 0..self.parser_tabs_container.get_child_count() {
+            let mut child = self
+                .parser_tabs_container
+                .get_child(i)
+                .unwrap()
+                .try_cast::<ParserTabNode>()
+                .expect("Non-ParserTabNode detected in parser_tabs_container");
+            child.bind_mut().update_parsing_history(Some(ph));
+        }
+    }
+
+    pub fn load_project(&mut self, project: &ProjectModel) {
+        self.loaded_project_name = project.name.to_string();
+        self.close_parser_tabs();
+        self.reload_templates();
+    }
+
+    pub fn reload_templates(&mut self) {
+        let project_name = self.loaded_project_name.to_string();
+        // let project = self
+        //     .repo
+        //     .bind_mut()
+        //     .get_project(&project_name)
+        //     .expect("Failed to get project")
+        //     .expect("Failed to find project");
+
+        self.loaded_templates = self
+            .repo
+            .bind_mut()
+            .get_templates(&project_name)
+            .expect("Failed to load templates");
+
+        let mut logs = self.logs_tab.bind_mut();
+        logs.log(format!(
+            "Loaded {} template(s)",
+            LogsTabNode::format_count(self.loaded_templates.len())
+        ));
+        drop(logs);
+
+        self.display_templates_list();
+    }
+
+    pub fn open_template(&mut self, parser_id: i32) {
+        let prev_child_count = self.parser_tabs_container.get_child_count();
+
+        let parser = self
+            .repo
+            .bind_mut()
+            .get_parser(parser_id)
+            .expect("Failed to load parser")
+            .expect("Tried to open a parser tab with a parser that doesnt exist");
+
+        for i in 0..=(prev_child_count - 1) {
+            let child = self
+                .parser_tabs_container
+                .get_child(i)
+                .expect("Failed to get child while iterating over get_children")
+                .try_cast::<ParserTabNode>()
+                .unwrap();
+
+            if *child.bind().loaded_id.as_ref().unwrap() != parser.id {
+                continue;
+            }
+
+            self.parser_tabs_container.set_current_tab(i);
+            return;
+        }
+
+        let mut node = self.parser_tab_scene.instantiate_as::<ParserTabNode>();
+        node.set_name(&parser.name);
+
+        self.parser_tabs_container.add_child(&node);
+        self.parser_tabs_container.set_current_tab(prev_child_count);
+
+        node.bind_mut().set_repo(self.repo.clone());
+        node.bind_mut().parent.init(self.to_gd().clone());
+        node.bind_mut().cards_tab.init(self.cards_tab.clone());
+        node.bind_mut().load_parser(&parser);
+    }
+
+    pub fn close_active_tab(&mut self) {
+        let tab_idx = self.parser_tabs_container.get_current_tab();
+        if tab_idx == -1 {
+            return;
+        }
+
+        let child = self
+            .parser_tabs_container
+            .get_child(tab_idx)
+            .unwrap();
+        self.parser_tabs_container.remove_child(&child);
+    }
+}
+
+// signal connections
+impl ParsersTabNode {
     fn on_clear_template_filter_button_pressed(&mut self) {
         self.template_filter.call_deferred("clear", &[]);
     }
 
     fn on_template_filter_text_changed(&mut self, new_text: GString) {
         self.display_templates_list();
-    }
-
-    pub fn set_repo(&mut self, repo: Gd<ParserRepositoryNode>) {
-        self.repo.init(repo.clone());
-
-        self.parser_editor_window.bind_mut().repo.init(repo.clone());
     }
 
     fn on_parser_editor_window_save_request(&mut self) {
@@ -186,18 +295,6 @@ impl ParsersTabNode {
         self.parser_editor_window.show();
     }
 
-    pub fn update_parsing_history(&mut self, ph: &ParsingHistory) {
-        for i in 0..self.parser_tabs_container.get_child_count() {
-            let mut child = self
-                .parser_tabs_container
-                .get_child(i)
-                .unwrap()
-                .try_cast::<ParserTabNode>()
-                .expect("Non-ParserTabNode detected in parser_tabs_container");
-            child.bind_mut().update_parsing_history(Some(ph));
-        }
-    }
-
     fn on_parser_tabs_container_close_pressed(&mut self, idx: i64) {
         let child = self
             .parser_tabs_container
@@ -206,88 +303,11 @@ impl ParsersTabNode {
         self.parser_tabs_container.remove_child(&child);
     }
 
-    fn close_parser_tabs(&mut self) {
-        while self.parser_tabs_container.get_child_count() > 0
-            && let Some(node) = self.parser_tabs_container.get_child(0)
-        {
-            self.parser_tabs_container.remove_child(&node);
-        }
-    }
-
-    pub fn load_project(&mut self, project: &ProjectModel) {
-        self.loaded_project_name = project.name.to_string();
-        self.close_parser_tabs();
-        self.reload_templates();
-    }
-
-    pub fn reload_templates(&mut self) {
-        let project_name = self.loaded_project_name.to_string();
-        // let project = self
-        //     .repo
-        //     .bind_mut()
-        //     .get_project(&project_name)
-        //     .expect("Failed to get project")
-        //     .expect("Failed to find project");
-
-        self.loaded_templates = self
-            .repo
-            .bind_mut()
-            .get_templates(&project_name)
-            .expect("Failed to load templates");
-
-        let mut logs = self.logs_tab.bind_mut();
-        logs.log(format!(
-            "Loaded {} template(s)",
-            LogsTabNode::format_count(self.loaded_templates.len())
-        ));
-        drop(logs);
-
-        self.display_templates_list();
-    }
-
     fn on_templates_list_item_activated(&mut self, idx: i64) {
         let parser_id: i32 = self
             .templates_list
             .get_item_metadata(idx.try_into().unwrap())
             .to::<i32>();
         self.open_template(parser_id);
-    }
-
-    pub fn open_template(&mut self, parser_id: i32) {
-        let prev_child_count = self.parser_tabs_container.get_child_count();
-
-        let parser = self
-            .repo
-            .bind_mut()
-            .get_parser(parser_id)
-            .expect("Failed to load parser")
-            .expect("Tried to open a parser tab with a parser that doesnt exist");
-
-        for i in 0..=(prev_child_count - 1) {
-            let child = self
-                .parser_tabs_container
-                .get_child(i)
-                .expect("Failed to get child while iterating over get_children")
-                .try_cast::<ParserTabNode>()
-                .unwrap();
-
-            if *child.bind().loaded_id.as_ref().unwrap() != parser.id {
-                continue;
-            }
-
-            self.parser_tabs_container.set_current_tab(i);
-            return;
-        }
-
-        let mut node = self.parser_tab_scene.instantiate_as::<ParserTabNode>();
-        node.set_name(&parser.name);
-
-        self.parser_tabs_container.add_child(&node);
-        self.parser_tabs_container.set_current_tab(prev_child_count);
-
-        node.bind_mut().set_repo(self.repo.clone());
-        node.bind_mut().parent.init(self.to_gd().clone());
-        node.bind_mut().cards_tab.init(self.cards_tab.clone());
-        node.bind_mut().load_parser(&parser);
     }
 }

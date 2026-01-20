@@ -25,16 +25,13 @@ impl IControl for LogsTabNode {
     }
 }
 
+// private methods
 impl LogsTabNode {
     fn connect_signals(&mut self) {
         self.clear_button
             .signals()
             .pressed()
-            .connect_other(self, Self::clear_logs);
-    }
-
-    pub fn clear_logs(&mut self) {
-        self.logs_label.clear();
+            .connect_other(self, Self::on_clear_button_pressed);
     }
 
     fn format_msg(msg: String, color: String) -> String {
@@ -45,37 +42,51 @@ impl LogsTabNode {
             &msg
         )
     }
+}
 
+// public methods
+impl LogsTabNode {
     pub fn log(&mut self, msg: String) {
         self.logs_label
             .append_text(LogsTabNode::format_msg(msg, "white".to_string()).as_str());
     }
-
+    
     pub fn log_important(&mut self, msg: String) {
         self.logs_label
             .append_text(LogsTabNode::format_msg(msg, "cyan".to_string()).as_str());
     }
-
+    
     pub fn load_project(&mut self, project: &ProjectModel) {
         self.log(format!(
             "Loaded project {}",
             LogsTabNode::format_project_name(&project.name)
         ));
     }
-
+    
     pub fn format_project_name(project_name: &String) -> String {
         format!("[color=red]{}[/color]", project_name)
     }
-
+    
     pub fn format_count(count: usize) -> String {
         format!("[color=orange]{}[/color]", count)
     }
-
+    
     pub fn format_card_name(card_name: &String) -> String {
         format!("[color=green]{}[/color]", card_name)
     }
-
+    
     pub fn format_failed_to_parse_card_name(card_name: &String) -> String {
         format!("[color=red]{}[/color]", card_name)
+    }
+
+    pub fn clear_logs(&mut self) {
+        self.logs_label.clear();
+    }
+}
+
+// signal connections
+impl LogsTabNode {
+    fn on_clear_button_pressed(&mut self) {
+        self.clear_logs();
     }
 }

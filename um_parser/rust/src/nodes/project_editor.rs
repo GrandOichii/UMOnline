@@ -1,4 +1,3 @@
-use std::cell::OnceCell;
 use std::cell::RefCell;
 use std::collections::HashMap;
 use std::rc::Rc;
@@ -50,6 +49,11 @@ impl IControl for ProjectEditorNode {
     fn input(&mut self, event: Gd<InputEvent>) {
         if event.is_action_pressed("parse") {
             self.parse();
+            return;
+        }
+        if event.is_action_pressed("close_tab") {
+            self.close_active_tab();
+            return;
         }
     }
 
@@ -78,6 +82,7 @@ impl IControl for ProjectEditorNode {
     }
 }
 
+// private methods
 impl ProjectEditorNode {
     fn display_parse_error(&mut self, err_msg: &str) {
         self.cannot_parse_dialog.set_text(err_msg);
@@ -233,7 +238,7 @@ impl ProjectEditorNode {
             LogsTabNode::format_count(total)
         ));
 
-        self.on_new_history_added(ParsingHistory::new(card_scripts, parse_results));
+        self.process_new_history(ParsingHistory::new(card_scripts, parse_results));
     }
 
     fn connect_signals(&self) {
@@ -255,77 +260,6 @@ impl ProjectEditorNode {
             .connect_other(self, Self::parse);
     }
 
-    fn on_tabs_tab_changed(&mut self, tab_idx: i64) {
-        if tab_idx != 0 {
-            return;
-        }
-        self.update_root_parser_options();
-    }
-
-    fn on_root_parser_option_item_selected(&mut self, idx: i64) {
-        let new_root_id: i32 = self
-            .root_parser_option
-            .get_item_metadata(idx.try_into().unwrap())
-            .to();
-        let new_root = self
-            .repo
-            .bind_mut()
-            .get_parser(new_root_id)
-            .expect("Failed to get new_root")
-            .expect("Failed to find new_root");
-        let mut project = self
-            .repo
-            .bind_mut()
-            .get_project(&self.edited_project_name)
-            .expect("Failed to get project")
-            .expect("Failed to find project");
-        project.root_parser_id = Some(new_root_id);
-        self.repo
-            .bind_mut()
-            .update_project_by_id(&project)
-            .expect("Failed to update root_parser_id of project");
-        // let old_root = self
-        //     .repo
-        //     .bind_mut()
-        //     .get_root_parser(&self.edited_project_name)
-        //     .expect("Failed to get old root");
-        // if let Some(mut root) = old_root {
-        //     root.is_root = false;
-        //     self.repo
-        //         .bind_mut()
-        //         .update_parser_by_id(&root)
-        //         .expect("Failed to update old_root");
-        // }
-
-        // let mut new_root = self
-        //     .repo
-        //     .bind_mut()
-        //     .get_parser(new_root_id)
-        //     .expect("Failed to get new_root")
-        //     .expect("Failed to find new_root");
-        // new_root.is_root = true;
-        // self.repo
-        //     .bind_mut()
-        //     .update_parser_by_id(&new_root)
-        //     .expect("Failed to update new_root");
-
-        self.logs_tab
-            .bind_mut()
-            .log(format!("Updated root parser to {}", &new_root.name));
-        self.parsers_tab.bind_mut().reload_templates();
-    }
-
-    pub fn on_new_history_added(&mut self, ph: ParsingHistory) {
-        self.update_parsing_progress_bar(&ph);
-        self.parsers_tab.bind_mut().update_parsing_history(&ph);
-        self.cards_tab.bind_mut().update_parsing_history(&ph);
-
-        self.repo
-            .bind_mut()
-            .set_current_parsing_history(self.edited_project_name.to_string(), ph);
-        // TODO update displayed parsed and unparsed texts in parsers_tab
-    }
-
     fn update_parsing_progress_bar(&mut self, ph: &ParsingHistory) {
         self.get_completion_progress_bar()
             .expect("Failed to get progress bar")
@@ -333,39 +267,6 @@ impl ProjectEditorNode {
         self.get_completion_progress_bar()
             .expect("Failed to get progress bar")
             .set_value(ph.parsed_len() as f64);
-    }
-
-    pub fn load_project(&mut self, project_name: &String) {
-        self.edited_project_name = project_name.to_string();
-
-        let project = self
-            .repo
-            .bind_mut()
-            .get_project(project_name)
-            .expect("Failed to read project from DB")
-            .expect("Tried to load project which doesn't exist");
-
-        self.project_name_label.set_text(&project.name);
-        self.project_description_edit.set_text(&project.description);
-
-        self.logs_tab.bind_mut().load_project(&project);
-        self.cards_tab.bind_mut().load_project(&project);
-        self.parsers_tab.bind_mut().load_project(&project);
-
-        self.update_root_parser_options();
-    }
-
-    fn on_project_description_edit_text_changed(&mut self) {
-        let updated_count = self.repo.bind_mut().update_project_description(
-            &self.edited_project_name,
-            &self.project_description_edit.get_text().to_string(),
-        );
-        if updated_count != 1 {
-            panic!(
-                "Expected updated_count to be 1, but it was: {}",
-                updated_count
-            );
-        }
     }
 
     fn update_root_parser_options(&mut self) {
@@ -400,5 +301,103 @@ impl ProjectEditorNode {
             Some(idx) => idx,
             None => -1,
         });
+    }
+
+    fn close_active_tab(&mut self) {
+        // let tab_idx = self.tabs_node.
+        if self.cards_tab.is_visible() {
+            self.cards_tab.bind_mut().close_active_tab();
+            return;
+        }
+        if self.parsers_tab.is_visible() {
+            self.parsers_tab.bind_mut().close_active_tab();
+            return;
+        }
+    }
+}
+
+// public methods
+impl ProjectEditorNode {
+    pub fn load_project(&mut self, project_name: &String) {
+        self.edited_project_name = project_name.to_string();
+
+        let project = self
+            .repo
+            .bind_mut()
+            .get_project(project_name)
+            .expect("Failed to read project from DB")
+            .expect("Tried to load project which doesn't exist");
+
+        self.project_name_label.set_text(&project.name);
+        self.project_description_edit.set_text(&project.description);
+
+        self.logs_tab.bind_mut().load_project(&project);
+        self.cards_tab.bind_mut().load_project(&project);
+        self.parsers_tab.bind_mut().load_project(&project);
+
+        self.update_root_parser_options();
+    }
+
+    pub fn process_new_history(&mut self, ph: ParsingHistory) {
+        self.update_parsing_progress_bar(&ph);
+        self.parsers_tab.bind_mut().update_parsing_history(&ph);
+        self.cards_tab.bind_mut().update_parsing_history(&ph);
+
+        self.repo
+            .bind_mut()
+            .set_current_parsing_history(self.edited_project_name.to_string(), ph);
+        // TODO update displayed parsed and unparsed texts in parsers_tab
+    }
+}
+
+// signal connections
+impl ProjectEditorNode {
+    fn on_project_description_edit_text_changed(&mut self) {
+        let updated_count = self.repo.bind_mut().update_project_description(
+            &self.edited_project_name,
+            &self.project_description_edit.get_text().to_string(),
+        );
+        if updated_count != 1 {
+            panic!(
+                "Expected updated_count to be 1, but it was: {}",
+                updated_count
+            );
+        }
+    }
+
+    fn on_tabs_tab_changed(&mut self, tab_idx: i64) {
+        if tab_idx != 0 {
+            return;
+        }
+        self.update_root_parser_options();
+    }
+
+    fn on_root_parser_option_item_selected(&mut self, idx: i64) {
+        let new_root_id: i32 = self
+            .root_parser_option
+            .get_item_metadata(idx.try_into().unwrap())
+            .to();
+        let new_root = self
+            .repo
+            .bind_mut()
+            .get_parser(new_root_id)
+            .expect("Failed to get new_root")
+            .expect("Failed to find new_root");
+        let mut project = self
+            .repo
+            .bind_mut()
+            .get_project(&self.edited_project_name)
+            .expect("Failed to get project")
+            .expect("Failed to find project");
+        project.root_parser_id = Some(new_root_id);
+        self.repo
+            .bind_mut()
+            .update_project_by_id(&project)
+            .expect("Failed to update root_parser_id of project");
+
+        self.logs_tab
+            .bind_mut()
+            .log(format!("Updated root parser to {}", &new_root.name));
+        self.parsers_tab.bind_mut().reload_templates();
     }
 }
