@@ -30,6 +30,14 @@ public partial class DeckEditor : Control
     public Button DeleteCardButton { get; set; }
     [Export]
     public NameEditWindow NewCardWindow { get; set; }
+    [Export]
+    public Container FighterListContainer { get; set; }
+    [Export]
+    public Button CollapseFighterListButton { get; set; }
+    [Export]
+    public Container CardListContainer { get; set; }
+    [Export]
+    public Button CollapseCardListButton { get; set; }
 
     #endregion
 
@@ -411,6 +419,20 @@ public partial class DeckEditor : Control
     public void OnCardTabsTabBarTabClosePressed(long tabIdx)
     {
         CardTabsNode.RemoveChild(CardTabsNode.GetChild((int)tabIdx));
+    }
+
+    public void OnCollapseFighterListButtonPressed()
+    {
+        var state = FighterListContainer.Visible;
+		CollapseFighterListButton.Text = state ? "<" : ">";
+		FighterListContainer.Visible = !state; 
+    }
+
+    public void OnCollapseCardListButtonPressed()
+    {
+        var state = CardListContainer.Visible;
+		CollapseCardListButton.Text = state ? "<" : ">";
+		CardListContainer.Visible = !state; 
     }
 
     #endregion

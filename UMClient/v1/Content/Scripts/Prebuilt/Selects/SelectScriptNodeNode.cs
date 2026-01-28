@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Text.Json;
 
+// TODO single check doesnt update state in real time
+
 [GlobalClass]
 public partial class SelectScriptNodeNode : GraphNode, IScriptNodeNode
 {

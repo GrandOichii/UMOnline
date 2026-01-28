@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="ScriptNode" load_steps=5 format=3 uid="uid://cafq5indnyim"]
+
+[ext_resource type="Script" uid="uid://dk4tqarec5j3a" path="res://v1/Content/Scripts/Resource/ScriptNodeArg.cs" id="1_vu8b0"]
+[ext_resource type="PackedScene" uid="uid://cqkmdnkfdl5cl" path="res://v1/Content/Scripts/ScriptNodeNode.tscn" id="2_1ae0a"]
+[ext_resource type="Script" uid="uid://cmhgojee80mqw" path="res://v1/Content/Scripts/Resource/ScriptNode.cs" id="3_tolfg"]
+
+[sub_resource type="Resource" id="Resource_88mki"]
+script = ExtResource("1_vu8b0")
+Key = "inner"
+Label = "Invert"
+Accepts = 1
+metadata/_custom_type_script = "uid://dk4tqarec5j3a"
+
+[resource]
+script = ExtResource("3_tolfg")
+Name = "NotCondition"
+Label = "Not"
+Type = 1
+NodeArgs = Array[Object]([SubResource("Resource_88mki")])
+SimpleArgs = null
+Script = "UM.Conditions:Not(
+$inner
+)"
+metadata/_custom_type_script = "uid://cmhgojee80mqw"

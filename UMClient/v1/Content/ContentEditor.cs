@@ -17,6 +17,10 @@ public partial class ContentEditor : Control
 	public TabContainer DeckTabsNode { get; set; }
 	[Export]
 	public NameEditWindow NewDeckWindow { get; set; }
+	[Export]
+	public Container DeckListsContainer { get; set; }
+	[Export]
+	public Button CollapseDeckListsButton { get; set; }
 
 	#endregion
 
@@ -46,6 +50,7 @@ public partial class ContentEditor : Control
 
 	public override void _Ready()
 	{
+		// DecksFoldableContainer.horizo
 		while (DeckTabsNode.GetChildCount() > 0)
 			DeckTabsNode.RemoveChild(DeckTabsNode.GetChild(0));
 
@@ -136,6 +141,13 @@ public partial class ContentEditor : Control
 		var inserted = RepositoryNode.GetDeck(deck.Name);
 		OpenDeck(inserted.Id);
 		ReloadDeckLists();
+	}
+
+	public void OnCollapseDeckListsButtonPressed()
+	{
+		var state = DeckListsContainer.Visible;
+		CollapseDeckListsButton.Text = state ? ">" : "<";
+		DeckListsContainer.Visible = !state; 
 	}
 
 	#endregion

@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="ScriptNode" load_steps=5 format=3 uid="uid://wr0sbmt0yqn6"]
+
+[ext_resource type="PackedScene" uid="uid://cqkmdnkfdl5cl" path="res://v1/Content/Scripts/ScriptNodeNode.tscn" id="1_m2nwf"]
+[ext_resource type="Script" uid="uid://12as40biuktg" path="res://v1/Content/Scripts/Resource/ScriptNodeSimpleArg.cs" id="2_7kd4o"]
+[ext_resource type="Script" uid="uid://cmhgojee80mqw" path="res://v1/Content/Scripts/Resource/ScriptNode.cs" id="3_5x3vl"]
+
+[sub_resource type="Resource" id="Resource_r7md6"]
+script = ExtResource("2_7kd4o")
+Key = "amount"
+Label = "Amount"
+Type = 2
+Data = null
+metadata/_custom_type_script = "uid://12as40biuktg"
+
+[resource]
+script = ExtResource("3_5x3vl")
+Name = "GainActionsEffect"
+Label = "Gain actions"
+NodeArgs = null
+SimpleArgs = Array[Object]([SubResource("Resource_r7md6")])
+Script = "UM.Effects:GainActions($amount)"
+metadata/_custom_type_script = "uid://cmhgojee80mqw"

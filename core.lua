@@ -527,7 +527,7 @@ function UM.Build:Fighter()
             :Effects({...})
             :AddConds(conds)
             :Build()
-            
+
         return fighter
     end
 
@@ -999,8 +999,13 @@ end
 
 function UM.Conditions:Eq(numeric1, numeric2)
     return function (args)
-        LogPublic(tostring(numeric1:Last(args))..' '..tostring(numeric2:Last(args)))
         return numeric1:Last(args) == numeric2:Last(args)
+    end
+end
+
+function UM.Conditions:NotEq(numeric1, numeric2)
+    return function (args)
+        return numeric1:Last(args) ~= numeric2:Last(args)
     end
 end
 
@@ -1564,9 +1569,7 @@ function UM.Select:Fighters()
     end
 
     function selector:Your()
-        return selector:_Add(function (args, fighter)
-            return args.fighter == fighter
-        end)
+        return selector:Source()
     end
 
     function selector:YourFighter()
@@ -1727,6 +1730,8 @@ function UM.Select:Players()
             return part ~= nil
         end)
     end
+
+    -- TODO current
 
     return selector
 end

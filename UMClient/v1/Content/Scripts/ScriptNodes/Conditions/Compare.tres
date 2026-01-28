@@ -1,0 +1,78 @@
+[gd_resource type="Resource" script_class="ScriptNode" load_steps=15 format=3 uid="uid://bognhjg1kbweq"]
+
+[ext_resource type="Script" uid="uid://dk4tqarec5j3a" path="res://v1/Content/Scripts/Resource/ScriptNodeArg.cs" id="1_aff1r"]
+[ext_resource type="PackedScene" uid="uid://cqkmdnkfdl5cl" path="res://v1/Content/Scripts/ScriptNodeNode.tscn" id="2_j3a47"]
+[ext_resource type="Script" uid="uid://bec6auq8nf31u" path="res://v1/Content/Scripts/Resource/ScriptNodeSimpleArgDataElement.cs" id="3_m4x0l"]
+[ext_resource type="Script" uid="uid://12as40biuktg" path="res://v1/Content/Scripts/Resource/ScriptNodeSimpleArg.cs" id="4_h4sd5"]
+[ext_resource type="Script" uid="uid://cmhgojee80mqw" path="res://v1/Content/Scripts/Resource/ScriptNode.cs" id="5_slvky"]
+
+[sub_resource type="Resource" id="Resource_7cbyi"]
+script = ExtResource("1_aff1r")
+Key = "c1"
+Label = "Numeric 1"
+Accepts = 2
+metadata/_custom_type_script = "uid://dk4tqarec5j3a"
+
+[sub_resource type="Resource" id="Resource_17ah5"]
+script = ExtResource("1_aff1r")
+Key = "c2"
+Label = "Numeric 2"
+Accepts = 2
+metadata/_custom_type_script = "uid://dk4tqarec5j3a"
+
+[sub_resource type="Resource" id="Resource_d1eox"]
+script = ExtResource("3_m4x0l")
+Label = "="
+Value = "Eq"
+metadata/_custom_type_script = "uid://bec6auq8nf31u"
+
+[sub_resource type="Resource" id="Resource_sqoto"]
+script = ExtResource("3_m4x0l")
+Label = "!="
+Value = "NotEq"
+metadata/_custom_type_script = "uid://bec6auq8nf31u"
+
+[sub_resource type="Resource" id="Resource_h3vgv"]
+script = ExtResource("3_m4x0l")
+Label = ">"
+Value = "Gt"
+metadata/_custom_type_script = "uid://bec6auq8nf31u"
+
+[sub_resource type="Resource" id="Resource_77jxj"]
+script = ExtResource("3_m4x0l")
+Label = ">="
+Value = "Gte"
+metadata/_custom_type_script = "uid://bec6auq8nf31u"
+
+[sub_resource type="Resource" id="Resource_xpoc7"]
+script = ExtResource("3_m4x0l")
+Label = "<"
+Value = "Lt"
+metadata/_custom_type_script = "uid://bec6auq8nf31u"
+
+[sub_resource type="Resource" id="Resource_nio5j"]
+script = ExtResource("3_m4x0l")
+Label = "<="
+Value = "Lte"
+metadata/_custom_type_script = "uid://bec6auq8nf31u"
+
+[sub_resource type="Resource" id="Resource_koajr"]
+script = ExtResource("4_h4sd5")
+Key = "comparer"
+Label = "Comparer"
+Type = 1
+Data = Array[Object]([SubResource("Resource_d1eox"), SubResource("Resource_sqoto"), SubResource("Resource_h3vgv"), SubResource("Resource_77jxj"), SubResource("Resource_xpoc7"), SubResource("Resource_nio5j")])
+metadata/_custom_type_script = "uid://12as40biuktg"
+
+[resource]
+script = ExtResource("5_slvky")
+Name = "CompareCondition"
+Label = "Compare"
+Type = 1
+NodeArgs = Array[Object]([SubResource("Resource_7cbyi"), SubResource("Resource_17ah5")])
+SimpleArgs = Array[Object]([SubResource("Resource_koajr")])
+Script = "UM.Conditions:$comparer(
+$c1,
+$c2
+)"
+metadata/_custom_type_script = "uid://cmhgojee80mqw"

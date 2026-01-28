@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="ScriptNode" load_steps=3 format=3 uid="uid://ccfjv0m3woofm"]
+
+[ext_resource type="PackedScene" uid="uid://cqkmdnkfdl5cl" path="res://v1/Content/Scripts/ScriptNodeNode.tscn" id="1_d5y0s"]
+[ext_resource type="Script" uid="uid://cmhgojee80mqw" path="res://v1/Content/Scripts/Resource/ScriptNode.cs" id="2_86ofs"]
+
+[resource]
+script = ExtResource("2_86ofs")
+Name = "CancelCurrentMovementEffect"
+Label = "Cancel current movement"
+NodeArgs = null
+SimpleArgs = null
+Script = "UM.Effects:CancelCurrentMovement()"
+metadata/_custom_type_script = "uid://cmhgojee80mqw"

@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://cfcejalno8xn1" path="res://v1/Content/Editors/CardEditor.tscn" id="4_dr67b"]
 [ext_resource type="PackedScene" uid="uid://dhhiuajxh55rp" path="res://v1/Content/NameEditWindow.tscn" id="4_lxupj"]
 
-[node name="DeckEditor" type="Control" node_paths=PackedStringArray("DeckInfoEditorNode", "FighterTabsNode", "FighterListNode", "CreateFighterButton", "DeleteFighterButton", "NewFighterWindow", "CardTabsNode", "CardListNode", "CreateCardButton", "DeleteCardButton", "NewCardWindow")]
+[node name="DeckEditor" type="Control" node_paths=PackedStringArray("DeckInfoEditorNode", "FighterTabsNode", "FighterListNode", "CreateFighterButton", "DeleteFighterButton", "NewFighterWindow", "CardTabsNode", "CardListNode", "CreateCardButton", "DeleteCardButton", "NewCardWindow", "FighterListContainer", "CollapseFighterListButton", "CardListContainer", "CollapseCardListButton")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -16,15 +16,19 @@ grow_vertical = 2
 script = ExtResource("1_0kstw")
 DeckInfoEditorNode = NodePath("TabContainer/Deck")
 FighterTabsNode = NodePath("TabContainer/Fighters/HBoxContainer/FighterTabs")
-FighterListNode = NodePath("TabContainer/Fighters/HBoxContainer/VBoxContainer3/FighterList")
-CreateFighterButton = NodePath("TabContainer/Fighters/HBoxContainer/VBoxContainer3/CreateFighterButton")
-DeleteFighterButton = NodePath("TabContainer/Fighters/HBoxContainer/VBoxContainer3/DeleteFighterButton")
+FighterListNode = NodePath("TabContainer/Fighters/HBoxContainer/FighterListContainer/FighterList")
+CreateFighterButton = NodePath("TabContainer/Fighters/HBoxContainer/FighterListContainer/CreateFighterButton")
+DeleteFighterButton = NodePath("TabContainer/Fighters/HBoxContainer/FighterListContainer/DeleteFighterButton")
 NewFighterWindow = NodePath("NewFighterWindow")
 CardTabsNode = NodePath("TabContainer/Cards/HBoxContainer/CardTabs")
-CardListNode = NodePath("TabContainer/Cards/HBoxContainer/VBoxContainer3/CardList")
-CreateCardButton = NodePath("TabContainer/Cards/HBoxContainer/VBoxContainer3/CreateCardButton")
-DeleteCardButton = NodePath("TabContainer/Cards/HBoxContainer/VBoxContainer3/DeleteCardButton")
+CardListNode = NodePath("TabContainer/Cards/HBoxContainer/CardListContainer/CardList")
+CreateCardButton = NodePath("TabContainer/Cards/HBoxContainer/CardListContainer/CreateCardButton")
+DeleteCardButton = NodePath("TabContainer/Cards/HBoxContainer/CardListContainer/DeleteCardButton")
 NewCardWindow = NodePath("NewCardWindow")
+FighterListContainer = NodePath("TabContainer/Fighters/HBoxContainer/FighterListContainer")
+CollapseFighterListButton = NodePath("TabContainer/Fighters/HBoxContainer/CollapseFighterListButton")
+CardListContainer = NodePath("TabContainer/Cards/HBoxContainer/CardListContainer")
+CollapseCardListButton = NodePath("TabContainer/Cards/HBoxContainer/CollapseCardListButton")
 FighterEditorScene = ExtResource("4_5n5st")
 CardEditorScene = ExtResource("4_dr67b")
 
@@ -36,7 +40,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 tab_alignment = 2
-current_tab = 2
+current_tab = 1
 tabs_position = 1
 
 [node name="Deck" parent="TabContainer" instance=ExtResource("2_7gkg1")]
@@ -45,7 +49,6 @@ layout_mode = 2
 metadata/_tab_index = 0
 
 [node name="Fighters" type="Control" parent="TabContainer"]
-visible = false
 layout_mode = 2
 metadata/_tab_index = 1
 
@@ -72,26 +75,31 @@ visible = false
 layout_mode = 2
 metadata/_tab_index = 1
 
-[node name="VBoxContainer3" type="VBoxContainer" parent="TabContainer/Fighters/HBoxContainer"]
+[node name="CollapseFighterListButton" type="Button" parent="TabContainer/Fighters/HBoxContainer"]
+layout_mode = 2
+text = ">"
+
+[node name="FighterListContainer" type="VBoxContainer" parent="TabContainer/Fighters/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="FighterList" type="ItemList" parent="TabContainer/Fighters/HBoxContainer/VBoxContainer3"]
+[node name="FighterList" type="ItemList" parent="TabContainer/Fighters/HBoxContainer/FighterListContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 item_count = 2
 item_0/text = "Fighter1"
 item_1/text = "Fighter2"
 
-[node name="CreateFighterButton" type="Button" parent="TabContainer/Fighters/HBoxContainer/VBoxContainer3"]
+[node name="CreateFighterButton" type="Button" parent="TabContainer/Fighters/HBoxContainer/FighterListContainer"]
 layout_mode = 2
 text = "Create"
 
-[node name="DeleteFighterButton" type="Button" parent="TabContainer/Fighters/HBoxContainer/VBoxContainer3"]
+[node name="DeleteFighterButton" type="Button" parent="TabContainer/Fighters/HBoxContainer/FighterListContainer"]
 layout_mode = 2
 text = "Delete"
 
 [node name="Cards" type="Control" parent="TabContainer"]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 2
 
@@ -118,22 +126,26 @@ visible = false
 layout_mode = 2
 metadata/_tab_index = 1
 
-[node name="VBoxContainer3" type="VBoxContainer" parent="TabContainer/Cards/HBoxContainer"]
+[node name="CollapseCardListButton" type="Button" parent="TabContainer/Cards/HBoxContainer"]
+layout_mode = 2
+text = ">"
+
+[node name="CardListContainer" type="VBoxContainer" parent="TabContainer/Cards/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="CardList" type="ItemList" parent="TabContainer/Cards/HBoxContainer/VBoxContainer3"]
+[node name="CardList" type="ItemList" parent="TabContainer/Cards/HBoxContainer/CardListContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 item_count = 2
 item_0/text = "Fighter1"
 item_1/text = "Fighter2"
 
-[node name="CreateCardButton" type="Button" parent="TabContainer/Cards/HBoxContainer/VBoxContainer3"]
+[node name="CreateCardButton" type="Button" parent="TabContainer/Cards/HBoxContainer/CardListContainer"]
 layout_mode = 2
 text = "Create"
 
-[node name="DeleteCardButton" type="Button" parent="TabContainer/Cards/HBoxContainer/VBoxContainer3"]
+[node name="DeleteCardButton" type="Button" parent="TabContainer/Cards/HBoxContainer/CardListContainer"]
 layout_mode = 2
 text = "Delete"
 
@@ -150,12 +162,14 @@ ConfirmButtonText = "Create"
 [connection signal="CardBackImportRequest" from="TabContainer/Deck" to="." method="OnDeckCardBackImportRequest"]
 [connection signal="DeckInfoChanged" from="TabContainer/Deck" to="." method="OnDeckDeckInfoChanged"]
 [connection signal="DeckNameChanged" from="TabContainer/Deck" to="." method="OnDeckDeckNameChanged"]
-[connection signal="item_activated" from="TabContainer/Fighters/HBoxContainer/VBoxContainer3/FighterList" to="." method="OnFighterListItemActivated"]
-[connection signal="pressed" from="TabContainer/Fighters/HBoxContainer/VBoxContainer3/CreateFighterButton" to="." method="OnCreateFighterButtonPressed"]
-[connection signal="pressed" from="TabContainer/Fighters/HBoxContainer/VBoxContainer3/DeleteFighterButton" to="." method="OnDeleteFighterButtonPressed"]
-[connection signal="item_activated" from="TabContainer/Cards/HBoxContainer/VBoxContainer3/CardList" to="." method="OnCardListItemActivated"]
-[connection signal="pressed" from="TabContainer/Cards/HBoxContainer/VBoxContainer3/CreateCardButton" to="." method="OnCreateCardButtonPressed"]
-[connection signal="pressed" from="TabContainer/Cards/HBoxContainer/VBoxContainer3/DeleteCardButton" to="." method="OnDeleteCardButtonPressed"]
+[connection signal="pressed" from="TabContainer/Fighters/HBoxContainer/CollapseFighterListButton" to="." method="OnCollapseFighterListButtonPressed"]
+[connection signal="item_activated" from="TabContainer/Fighters/HBoxContainer/FighterListContainer/FighterList" to="." method="OnFighterListItemActivated"]
+[connection signal="pressed" from="TabContainer/Fighters/HBoxContainer/FighterListContainer/CreateFighterButton" to="." method="OnCreateFighterButtonPressed"]
+[connection signal="pressed" from="TabContainer/Fighters/HBoxContainer/FighterListContainer/DeleteFighterButton" to="." method="OnDeleteFighterButtonPressed"]
+[connection signal="pressed" from="TabContainer/Cards/HBoxContainer/CollapseCardListButton" to="." method="OnCollapseCardListButtonPressed"]
+[connection signal="item_activated" from="TabContainer/Cards/HBoxContainer/CardListContainer/CardList" to="." method="OnCardListItemActivated"]
+[connection signal="pressed" from="TabContainer/Cards/HBoxContainer/CardListContainer/CreateCardButton" to="." method="OnCreateCardButtonPressed"]
+[connection signal="pressed" from="TabContainer/Cards/HBoxContainer/CardListContainer/DeleteCardButton" to="." method="OnDeleteCardButtonPressed"]
 [connection signal="CancelRequest" from="NewFighterWindow" to="." method="OnNewFighterWindowCancelRequest"]
 [connection signal="ConfirmRequest" from="NewFighterWindow" to="." method="OnNewFighterWindowConfirmRequest"]
 [connection signal="CancelRequest" from="NewCardWindow" to="." method="OnNewCardWindowCancelRequest"]

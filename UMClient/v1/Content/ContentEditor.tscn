@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://c5tfro1iuqdqr" path="res://v1/Storage/LocalRepository.tscn" id="7_rg86l"]
 [ext_resource type="PackedScene" uid="uid://dhhiuajxh55rp" path="res://v1/Content/NameEditWindow.tscn" id="8_r1ane"]
 
-[node name="ContentEditor" type="Control" node_paths=PackedStringArray("OfficialDecks", "CustomDecks", "RepositoryNode", "DeckTabsNode", "NewDeckWindow")]
+[node name="ContentEditor" type="Control" node_paths=PackedStringArray("OfficialDecks", "CustomDecks", "RepositoryNode", "DeckTabsNode", "NewDeckWindow", "DeckListsContainer", "CollapseDeckListsButton")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -14,11 +14,13 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_imoim")
-OfficialDecks = NodePath("HBoxContainer/VBoxContainer/OfficialDecks")
-CustomDecks = NodePath("HBoxContainer/VBoxContainer/CustomDecks")
+OfficialDecks = NodePath("HBoxContainer/DeckListsContainer/OfficialDecks")
+CustomDecks = NodePath("HBoxContainer/DeckListsContainer/CustomDecks")
 RepositoryNode = NodePath("Repo")
 DeckTabsNode = NodePath("HBoxContainer/DeckTabs")
 NewDeckWindow = NodePath("NewDeckWindow")
+DeckListsContainer = NodePath("HBoxContainer/DeckListsContainer")
+CollapseDeckListsButton = NodePath("HBoxContainer/CollapseDeckListsButton")
 DeckEditorScene = ExtResource("2_4vp58")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
@@ -29,31 +31,35 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+[node name="DeckListsContainer" type="VBoxContainer" parent="HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="OfficialDecks" parent="HBoxContainer/VBoxContainer" node_paths=PackedStringArray("Repo") instance=ExtResource("2_w0hoq")]
+[node name="OfficialDecks" parent="HBoxContainer/DeckListsContainer" node_paths=PackedStringArray("Repo") instance=ExtResource("2_w0hoq")]
 layout_mode = 2
 size_flags_vertical = 3
 Title = "Official decks"
 Repo = NodePath("../../../Repo")
 
-[node name="CustomDecks" parent="HBoxContainer/VBoxContainer" node_paths=PackedStringArray("Repo") instance=ExtResource("2_w0hoq")]
+[node name="CustomDecks" parent="HBoxContainer/DeckListsContainer" node_paths=PackedStringArray("Repo") instance=ExtResource("2_w0hoq")]
 layout_mode = 2
 size_flags_vertical = 3
 Title = "Custom decks"
 PickEditableDecks = true
 Repo = NodePath("../../../Repo")
 
-[node name="CreateDeckButton" type="Button" parent="HBoxContainer/VBoxContainer"]
+[node name="CreateDeckButton" type="Button" parent="HBoxContainer/DeckListsContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Create"
 
-[node name="DeleteDeckButton" type="Button" parent="HBoxContainer/VBoxContainer"]
+[node name="DeleteDeckButton" type="Button" parent="HBoxContainer/DeckListsContainer"]
 layout_mode = 2
 text = "Delete"
+
+[node name="CollapseDeckListsButton" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+text = "<"
 
 [node name="DeckTabs" type="TabContainer" parent="HBoxContainer"]
 layout_mode = 2
@@ -77,9 +83,10 @@ ConfirmButtonText = "Create"
 
 [node name="Repo" parent="." instance=ExtResource("7_rg86l")]
 
-[connection signal="DeckActivated" from="HBoxContainer/VBoxContainer/OfficialDecks" to="." method="OnOfficialDecksDeckActivated"]
-[connection signal="DeckActivated" from="HBoxContainer/VBoxContainer/CustomDecks" to="." method="OnCustomDecksDeckActivated"]
-[connection signal="pressed" from="HBoxContainer/VBoxContainer/CreateDeckButton" to="." method="OnCreateDeckButtonPressed"]
-[connection signal="pressed" from="HBoxContainer/VBoxContainer/DeleteDeckButton" to="." method="OnDeleteDeckButtonPressed"]
+[connection signal="DeckActivated" from="HBoxContainer/DeckListsContainer/OfficialDecks" to="." method="OnOfficialDecksDeckActivated"]
+[connection signal="DeckActivated" from="HBoxContainer/DeckListsContainer/CustomDecks" to="." method="OnCustomDecksDeckActivated"]
+[connection signal="pressed" from="HBoxContainer/DeckListsContainer/CreateDeckButton" to="." method="OnCreateDeckButtonPressed"]
+[connection signal="pressed" from="HBoxContainer/DeckListsContainer/DeleteDeckButton" to="." method="OnDeleteDeckButtonPressed"]
+[connection signal="pressed" from="HBoxContainer/CollapseDeckListsButton" to="." method="OnCollapseDeckListsButtonPressed"]
 [connection signal="CancelRequest" from="NewDeckWindow" to="." method="OnNewDeckWindowCancelRequest"]
 [connection signal="ConfirmRequest" from="NewDeckWindow" to="." method="OnNewDeckWindowConfirmRequest"]
