@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="ScriptNodeCollection" load_steps=52 format=3 uid="uid://dqgchyh35r4o5"]
+[gd_resource type="Resource" script_class="ScriptNodeCollection" load_steps=57 format=3 uid="uid://dqgchyh35r4o5"]
 
 [ext_resource type="Resource" uid="uid://k0gx51a3l378" path="res://v1/Content/Scripts/ScriptNodes/Effects/MoveFighters.tres" id="1_vicet"]
 [ext_resource type="Resource" uid="uid://bw3lglki6rojx" path="res://v1/Content/Scripts/ScriptNodes/Effects/Draw.tres" id="2_4gqr8"]
@@ -15,11 +15,8 @@
 [ext_resource type="Resource" uid="uid://bqbsec3bs5vrh" path="res://v1/Content/Scripts/ScriptNodes/Singles/NamedFighter.tres" id="13_itqlw"]
 [ext_resource type="Resource" uid="uid://2pslmpa22p86" path="res://v1/Content/Scripts/ScriptNodes/Prebuilts/Ability.tres" id="13_us5lf"]
 [ext_resource type="Resource" uid="uid://bffqt41f48knf" path="res://v1/Content/Scripts/ScriptNodes/Prebuilts/If.tres" id="14_0ddyo"]
-[ext_resource type="PackedScene" uid="uid://cqkmdnkfdl5cl" path="res://v1/Content/Scripts/ScriptNodeNode.tscn" id="14_4ptrl"]
 [ext_resource type="Script" uid="uid://mreeoiaypmlb" path="res://v1/Content/Scripts/Resource/ScriptNodeCollection.cs" id="14_fvt77"]
 [ext_resource type="Resource" uid="uid://d4hx70orrcwl1" path="res://v1/Content/Scripts/ScriptNodes/Numerics/DamageDealt.tres" id="14_itqlw"]
-[ext_resource type="Script" uid="uid://cmhgojee80mqw" path="res://v1/Content/Scripts/Resource/ScriptNode.cs" id="15_ajq8r"]
-[ext_resource type="Script" uid="uid://dk4tqarec5j3a" path="res://v1/Content/Scripts/Resource/ScriptNodeArg.cs" id="15_gbcg0"]
 [ext_resource type="Resource" uid="uid://cpo2s6lkkr0dk" path="res://v1/Content/Scripts/ScriptNodes/Conditions/Boolean.tres" id="16_ajq8r"]
 [ext_resource type="Resource" uid="uid://bb7vyx8iir0bv" path="res://v1/Content/Scripts/ScriptNodes/Selects/Fighters.tres" id="16_itqlw"]
 [ext_resource type="Resource" uid="uid://cafq5indnyim" path="res://v1/Content/Scripts/ScriptNodes/Conditions/Not.tres" id="16_qss6j"]
@@ -44,76 +41,26 @@
 [ext_resource type="Resource" uid="uid://b0ju44h6wyjn" path="res://v1/Content/Scripts/ScriptNodes/Effects/PreventAllDamage.tres" id="32_2fple"]
 [ext_resource type="Resource" uid="uid://cxyub5covtro1" path="res://v1/Content/Scripts/ScriptNodes/Filters/Player/InCombat.tres" id="33_ejq8j"]
 [ext_resource type="Resource" uid="uid://btxbeu3b7ladl" path="res://v1/Content/Scripts/ScriptNodes/Filters/Player/Opponents.tres" id="34_jw7f0"]
-
-[sub_resource type="Resource" id="Resource_7cbyi"]
-script = ExtResource("15_gbcg0")
-Key = "fighter"
-Label = "Fighter"
-Accepts = 3
-metadata/_custom_type_script = "uid://dk4tqarec5j3a"
-
-[sub_resource type="Resource" id="Resource_17ah5"]
-script = ExtResource("15_ajq8r")
-Name = "OnlyFighterFilter"
-Label = "Only"
-Type = 7
-NodeArgs = Array[Object]([SubResource("Resource_7cbyi")])
-SimpleArgs = null
-Script = "Only(
-$fighter
-)"
-metadata/_custom_type_script = "uid://cmhgojee80mqw"
-
-[sub_resource type="Resource" id="Resource_d1eox"]
-script = ExtResource("15_gbcg0")
-Key = "fighter"
-Label = "to"
-Accepts = 3
-metadata/_custom_type_script = "uid://dk4tqarec5j3a"
-
-[sub_resource type="Resource" id="Resource_koajr"]
-script = ExtResource("15_ajq8r")
-Name = "AdjacentToFighterFilter"
-Label = "Adjacent to"
-Type = 7
-NodeArgs = Array[Object]([SubResource("Resource_d1eox")])
-SimpleArgs = null
-Script = "AdjacentTo(
-$fighter
-)"
-metadata/_custom_type_script = "uid://cmhgojee80mqw"
-
-[sub_resource type="Resource" id="Resource_sqoto"]
-script = ExtResource("15_gbcg0")
-Key = "fighter"
-Label = "As"
-Accepts = 3
-metadata/_custom_type_script = "uid://dk4tqarec5j3a"
-
-[sub_resource type="Resource" id="Resource_h3vgv"]
-script = ExtResource("15_ajq8r")
-Name = "InSameZoneAs"
-Label = "In same zone as"
-Type = 7
-NodeArgs = Array[Object]([SubResource("Resource_sqoto")])
-SimpleArgs = null
-Script = "InSameZoneAs(
-$fighter
-)"
-metadata/_custom_type_script = "uid://cmhgojee80mqw"
-
-[sub_resource type="Resource" id="Resource_nio5j"]
-script = ExtResource("15_ajq8r")
-Name = "YourFightersFighterFilter"
-Label = "Your fighters"
-NodeArgs = null
-SimpleArgs = null
-metadata/_custom_type_script = "uid://cmhgojee80mqw"
+[ext_resource type="Resource" uid="uid://7gyor128qeuj" path="res://v1/Content/Scripts/ScriptNodes/Filters/Fighter/Only.tres" id="35_05iss"]
+[ext_resource type="Resource" uid="uid://jfwblw14yq5g" path="res://v1/Content/Scripts/ScriptNodes/Filters/Fighter/AdjacentTo.tres" id="36_ubyim"]
+[ext_resource type="Resource" uid="uid://24yhks0agxwx" path="res://v1/Content/Scripts/ScriptNodes/Filters/Fighter/InSameZoneAs.tres" id="37_sqoto"]
+[ext_resource type="Resource" uid="uid://dvod0t6bke6td" path="res://v1/Content/Scripts/ScriptNodes/Filters/Fighter/YourFighters.tres" id="38_h3vgv"]
+[ext_resource type="Resource" uid="uid://dyraoauwroaht" path="res://v1/Content/Scripts/ScriptNodes/Filters/Fighter/Except.tres" id="39_h3vgv"]
+[ext_resource type="Resource" uid="uid://cv808867ggnx5" path="res://v1/Content/Scripts/ScriptNodes/Filters/Fighter/InCombat.tres" id="40_hv3gi"]
+[ext_resource type="Resource" uid="uid://h1kddslg6dgn" path="res://v1/Content/Scripts/ScriptNodes/Filters/Fighter/Moving.tres" id="41_i60c6"]
+[ext_resource type="Resource" uid="uid://cxtmcr2el3xrr" path="res://v1/Content/Scripts/ScriptNodes/Filters/Fighter/MovedThrough.tres" id="42_pis7w"]
+[ext_resource type="Resource" uid="uid://d07gblt3qrnnf" path="res://v1/Content/Scripts/ScriptNodes/Filters/Fighter/Defeated.tres" id="43_x3yl2"]
+[ext_resource type="Resource" uid="uid://dsk1pi5ak8myb" path="res://v1/Content/Scripts/ScriptNodes/Filters/Fighter/Undefeated.tres" id="44_ubyim"]
+[ext_resource type="Resource" uid="uid://cxqxwbkcmx42e" path="res://v1/Content/Scripts/ScriptNodes/Filters/Fighter/OwnedBy.tres" id="45_hv3gi"]
+[ext_resource type="Resource" uid="uid://dty4wwunxnn1k" path="res://v1/Content/Scripts/ScriptNodes/Filters/Fighter/OpposingInCombatTo.tres" id="46_i60c6"]
+[ext_resource type="Resource" uid="uid://crpo1v6uy5b3g" path="res://v1/Content/Scripts/ScriptNodes/Filters/Fighter/FriendlyTo.tres" id="47_pis7w"]
+[ext_resource type="Resource" uid="uid://dppn4iwa8hxwd" path="res://v1/Content/Scripts/ScriptNodes/Filters/Fighter/OpposingTo.tres" id="48_x3yl2"]
+[ext_resource type="Resource" uid="uid://bmuvsujgnoara" path="res://v1/Content/Scripts/ScriptNodes/Filters/Fighter/InSameZoneAsAny.tres" id="49_i60c6"]
 
 [resource]
 script = ExtResource("14_fvt77")
 Starts = Array[Object]([ExtResource("18_0ddyo"), ExtResource("19_us5lf")])
-Basic = Array[Object]([ExtResource("1_vicet"), ExtResource("2_4gqr8"), ExtResource("3_4wu73"), ExtResource("4_us5lf"), ExtResource("8_1m33k"), ExtResource("6_us5lf"), ExtResource("7_itqlw"), ExtResource("9_1m33k"), ExtResource("9_itqlw"), ExtResource("8_itqlw"), ExtResource("9_4gqr8"), ExtResource("12_f8uik"), ExtResource("13_itqlw"), ExtResource("14_itqlw"), ExtResource("16_ajq8r"), ExtResource("16_qss6j"), ExtResource("17_s5fvl"), ExtResource("18_s5fvl"), ExtResource("19_2xcnp"), ExtResource("20_g53en"), ExtResource("21_0chmy"), ExtResource("22_c0qpg"), ExtResource("23_hd1ov"), ExtResource("24_hd1ov"), ExtResource("25_qhim7"), ExtResource("26_2fple"), ExtResource("27_ejq8j"), ExtResource("28_jw7f0"), ExtResource("29_2fple"), ExtResource("30_2fple"), ExtResource("31_ejq8j"), ExtResource("32_2fple"), ExtResource("33_ejq8j"), ExtResource("34_jw7f0"), SubResource("Resource_17ah5"), SubResource("Resource_koajr"), SubResource("Resource_h3vgv"), SubResource("Resource_nio5j")])
+Basic = Array[Object]([ExtResource("1_vicet"), ExtResource("2_4gqr8"), ExtResource("3_4wu73"), ExtResource("4_us5lf"), ExtResource("8_1m33k"), ExtResource("6_us5lf"), ExtResource("7_itqlw"), ExtResource("9_1m33k"), ExtResource("9_itqlw"), ExtResource("8_itqlw"), ExtResource("9_4gqr8"), ExtResource("12_f8uik"), ExtResource("13_itqlw"), ExtResource("14_itqlw"), ExtResource("16_ajq8r"), ExtResource("16_qss6j"), ExtResource("17_s5fvl"), ExtResource("18_s5fvl"), ExtResource("19_2xcnp"), ExtResource("20_g53en"), ExtResource("21_0chmy"), ExtResource("22_c0qpg"), ExtResource("23_hd1ov"), ExtResource("24_hd1ov"), ExtResource("25_qhim7"), ExtResource("26_2fple"), ExtResource("27_ejq8j"), ExtResource("28_jw7f0"), ExtResource("29_2fple"), ExtResource("30_2fple"), ExtResource("31_ejq8j"), ExtResource("32_2fple"), ExtResource("33_ejq8j"), ExtResource("34_jw7f0"), ExtResource("35_05iss"), ExtResource("36_ubyim"), ExtResource("37_sqoto"), ExtResource("38_h3vgv"), ExtResource("39_h3vgv"), ExtResource("40_hv3gi"), ExtResource("41_i60c6"), ExtResource("42_pis7w"), ExtResource("43_x3yl2"), ExtResource("44_ubyim"), ExtResource("45_hv3gi"), ExtResource("46_i60c6"), ExtResource("47_pis7w"), ExtResource("48_x3yl2"), ExtResource("49_i60c6")])
 Prebuilts = Array[Object]([ExtResource("13_us5lf"), ExtResource("14_0ddyo")])
 Selects = Array[Object]([ExtResource("16_itqlw"), ExtResource("17_us5lf")])
 metadata/_custom_type_script = "uid://mreeoiaypmlb"

@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="ScriptNode" load_steps=3 format=3 uid="uid://h1kddslg6dgn"]
+
+[ext_resource type="PackedScene" uid="uid://cqkmdnkfdl5cl" path="res://v1/Content/Scripts/ScriptNodeNode.tscn" id="1_8r4fu"]
+[ext_resource type="Script" uid="uid://cmhgojee80mqw" path="res://v1/Content/Scripts/Resource/ScriptNode.cs" id="2_1g660"]
+
+[resource]
+script = ExtResource("2_1g660")
+Name = "MovingFighterFilter"
+Label = "Moving fighter"
+Type = 7
+NodeArgs = null
+SimpleArgs = null
+Script = "MovingFighter()"
+metadata/_custom_type_script = "uid://cmhgojee80mqw"

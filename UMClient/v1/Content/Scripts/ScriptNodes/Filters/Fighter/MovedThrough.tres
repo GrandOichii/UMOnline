@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="ScriptNode" load_steps=3 format=3 uid="uid://cxtmcr2el3xrr"]
+
+[ext_resource type="PackedScene" uid="uid://cqkmdnkfdl5cl" path="res://v1/Content/Scripts/ScriptNodeNode.tscn" id="1_11ml0"]
+[ext_resource type="Script" uid="uid://cmhgojee80mqw" path="res://v1/Content/Scripts/Resource/ScriptNode.cs" id="2_dc76d"]
+
+[resource]
+script = ExtResource("2_dc76d")
+Name = "MovedThroughFighterFilter"
+Label = "Moved through"
+Type = 7
+NodeArgs = null
+SimpleArgs = null
+Script = "MovedThrough()"
+metadata/_custom_type_script = "uid://cmhgojee80mqw"

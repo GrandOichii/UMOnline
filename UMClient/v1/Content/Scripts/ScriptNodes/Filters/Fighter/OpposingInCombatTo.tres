@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="ScriptNode" load_steps=5 format=3 uid="uid://dty4wwunxnn1k"]
+
+[ext_resource type="Script" uid="uid://dk4tqarec5j3a" path="res://v1/Content/Scripts/Resource/ScriptNodeArg.cs" id="1_2ixn7"]
+[ext_resource type="PackedScene" uid="uid://cqkmdnkfdl5cl" path="res://v1/Content/Scripts/ScriptNodeNode.tscn" id="2_jrlpp"]
+[ext_resource type="Script" uid="uid://cmhgojee80mqw" path="res://v1/Content/Scripts/Resource/ScriptNode.cs" id="3_c6nlt"]
+
+[sub_resource type="Resource" id="Resource_rgnht"]
+script = ExtResource("1_2ixn7")
+Key = "fighter"
+Label = "Fighter"
+Accepts = 3
+metadata/_custom_type_script = "uid://dk4tqarec5j3a"
+
+[resource]
+script = ExtResource("3_c6nlt")
+Name = "OpposingInCombatToFighterFilter"
+Label = "Opposing in combat to"
+Type = 7
+NodeArgs = Array[Object]([SubResource("Resource_rgnht")])
+SimpleArgs = null
+Script = "OpposingInCombatTo(
+$fighter
+)"
+metadata/_custom_type_script = "uid://cmhgojee80mqw"

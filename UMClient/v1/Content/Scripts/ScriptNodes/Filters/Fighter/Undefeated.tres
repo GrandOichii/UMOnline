@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="ScriptNode" load_steps=3 format=3 uid="uid://dsk1pi5ak8myb"]
+
+[ext_resource type="PackedScene" uid="uid://cqkmdnkfdl5cl" path="res://v1/Content/Scripts/ScriptNodeNode.tscn" id="1_h7557"]
+[ext_resource type="Script" uid="uid://cmhgojee80mqw" path="res://v1/Content/Scripts/Resource/ScriptNode.cs" id="2_ytqwf"]
+
+[resource]
+script = ExtResource("2_ytqwf")
+Name = "UndefeatedFighterFilter"
+Label = "Undefeated"
+NodeArgs = null
+SimpleArgs = null
+Script = "Undefeated()"
+metadata/_custom_type_script = "uid://cmhgojee80mqw"

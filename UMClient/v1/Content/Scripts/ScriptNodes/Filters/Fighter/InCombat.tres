@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="ScriptNode" load_steps=3 format=3 uid="uid://cv808867ggnx5"]
+
+[ext_resource type="PackedScene" uid="uid://cqkmdnkfdl5cl" path="res://v1/Content/Scripts/ScriptNodeNode.tscn" id="1_6vh3p"]
+[ext_resource type="Script" uid="uid://cmhgojee80mqw" path="res://v1/Content/Scripts/Resource/ScriptNode.cs" id="2_0p6oy"]
+
+[resource]
+script = ExtResource("2_0p6oy")
+Name = "InCombatFighterFilter"
+Label = "In combat"
+Type = 7
+NodeArgs = null
+SimpleArgs = null
+Script = "InCombat()"
+metadata/_custom_type_script = "uid://cmhgojee80mqw"

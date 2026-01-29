@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="ScriptNode" load_steps=5 format=3 uid="uid://dyraoauwroaht"]
+
+[ext_resource type="Script" uid="uid://dk4tqarec5j3a" path="res://v1/Content/Scripts/Resource/ScriptNodeArg.cs" id="1_vkfjb"]
+[ext_resource type="PackedScene" uid="uid://cqkmdnkfdl5cl" path="res://v1/Content/Scripts/ScriptNodeNode.tscn" id="2_4qccl"]
+[ext_resource type="Script" uid="uid://cmhgojee80mqw" path="res://v1/Content/Scripts/Resource/ScriptNode.cs" id="3_5yo1f"]
+
+[sub_resource type="Resource" id="Resource_77jxj"]
+script = ExtResource("1_vkfjb")
+Key = "except"
+Label = "Fighter"
+Accepts = 3
+metadata/_custom_type_script = "uid://dk4tqarec5j3a"
+
+[resource]
+script = ExtResource("3_5yo1f")
+Name = "ExceptFighterFilter"
+Label = "Except"
+Type = 7
+NodeArgs = Array[Object]([SubResource("Resource_77jxj")])
+SimpleArgs = null
+Script = "Except(
+$fighter
+)"
+metadata/_custom_type_script = "uid://cmhgojee80mqw"
