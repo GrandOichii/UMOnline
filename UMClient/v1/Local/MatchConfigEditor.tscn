@@ -1,0 +1,80 @@
+[gd_scene load_steps=2 format=3 uid="uid://bea1v1uafvamc"]
+
+[ext_resource type="Script" uid="uid://dbd541gxn2s80" path="res://v1/Local/MatchConfigEditor.cs" id="1_xf8kj"]
+
+[node name="MatchConfigEditor" type="VBoxContainer" node_paths=PackedStringArray("SeedCheckNode", "SeedNode", "RandomFirstPlayerCheckNode", "FirstPlayerIdxNode", "InitialHandSizeNode", "MaxHandSizeNode", "ActionsPerTurnNode", "ManoeuvreDrawAmountNode", "ExhaustDamageNode", "TeamSizeNode")]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_xf8kj")
+SeedCheckNode = NodePath("HBoxContainer/SeedCheck")
+SeedNode = NodePath("HBoxContainer/Seed")
+RandomFirstPlayerCheckNode = NodePath("HBoxContainer2/RandomFirstPlayerCheck")
+FirstPlayerIdxNode = NodePath("HBoxContainer2/FirstPlayerIdx")
+InitialHandSizeNode = NodePath("InitialHandSize")
+MaxHandSizeNode = NodePath("MaxHandSize")
+ActionsPerTurnNode = NodePath("ActionsPerTurn")
+ManoeuvreDrawAmountNode = NodePath("ManoeuvreDrawAmount")
+ExhaustDamageNode = NodePath("ExhaustDamage")
+TeamSizeNode = NodePath("TeamSize")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="SeedCheck" type="CheckButton" parent="HBoxContainer"]
+layout_mode = 2
+
+[node name="Seed" type="SpinBox" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+editable = false
+prefix = "Seed"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="RandomFirstPlayerCheck" type="CheckButton" parent="HBoxContainer2"]
+layout_mode = 2
+
+[node name="FirstPlayerIdx" type="SpinBox" parent="HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+editable = false
+prefix = "First player index"
+
+[node name="InitialHandSize" type="SpinBox" parent="."]
+layout_mode = 2
+prefix = "Initial hand size"
+
+[node name="MaxHandSize" type="SpinBox" parent="."]
+layout_mode = 2
+prefix = "Max hand size"
+
+[node name="ActionsPerTurn" type="SpinBox" parent="."]
+layout_mode = 2
+prefix = "Actions per turn"
+
+[node name="ManoeuvreDrawAmount" type="SpinBox" parent="."]
+layout_mode = 2
+prefix = "Manoeuvre draw amount"
+
+[node name="ExhaustDamage" type="SpinBox" parent="."]
+layout_mode = 2
+prefix = "Exhaust damage"
+
+[node name="TeamSize" type="SpinBox" parent="."]
+layout_mode = 2
+prefix = "Team size"
+
+[connection signal="toggled" from="HBoxContainer/SeedCheck" to="." method="OnSeedCheckToggled"]
+[connection signal="value_changed" from="HBoxContainer/Seed" to="." method="OnSeedValueChanged"]
+[connection signal="toggled" from="HBoxContainer2/RandomFirstPlayerCheck" to="." method="OnRandomFirstPlayerCheckToggled"]
+[connection signal="value_changed" from="HBoxContainer2/FirstPlayerIdx" to="." method="OnFirstPlayerIdxValueChanged"]
+[connection signal="value_changed" from="InitialHandSize" to="." method="OnInitialHandSizeValueChanged"]
+[connection signal="value_changed" from="MaxHandSize" to="." method="OnMaxHandSizeValueChanged"]
+[connection signal="value_changed" from="ActionsPerTurn" to="." method="OnActionsPerTurnValueChanged"]
+[connection signal="value_changed" from="ManoeuvreDrawAmount" to="." method="OnManoeuvreDrawAmountValueChanged"]
+[connection signal="value_changed" from="ExhaustDamage" to="." method="OnExhaustDamageValueChanged"]
+[connection signal="value_changed" from="TeamSize" to="." method="OnTeamSizeValueChanged"]

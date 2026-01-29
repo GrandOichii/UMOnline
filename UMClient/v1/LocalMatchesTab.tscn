@@ -1,0 +1,53 @@
+[gd_scene load_steps=2 format=3 uid="uid://crq82y4p5dacs"]
+
+[ext_resource type="Script" uid="uid://ldx7ppn322xg" path="res://v1/LocalMatchesTab.cs" id="1_mr4n4"]
+
+[node name="LocalMatchesTab" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_right = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_mr4n4")
+
+[node name="Mockup" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Mockup"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Mockup/VBoxContainer"]
+layout_mode = 2
+text = "Players"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Mockup/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label2" type="Label" parent="Mockup/VBoxContainer"]
+layout_mode = 2
+text = "Configuration"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="Mockup/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Mockup/VBoxContainer/VBoxContainer2"]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="Mockup/VBoxContainer"]
+layout_mode = 2
+text = "Start"
