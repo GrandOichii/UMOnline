@@ -1,12 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://dsm6l1jv01sxb"]
+[gd_scene load_steps=5 format=3 uid="uid://dsm6l1jv01sxb"]
 
 [ext_resource type="Script" uid="uid://coahrsdynby3m" path="res://v1/Content/ContentEditor.cs" id="1_imoim"]
 [ext_resource type="PackedScene" uid="uid://u23t7oh2j2y6" path="res://v1/Content/DeckEditor.tscn" id="2_4vp58"]
 [ext_resource type="PackedScene" uid="uid://ctj3vhl0qiuqp" path="res://v1/Content/DeckList.tscn" id="2_w0hoq"]
-[ext_resource type="PackedScene" uid="uid://c5tfro1iuqdqr" path="res://v1/Storage/LocalRepository.tscn" id="7_rg86l"]
 [ext_resource type="PackedScene" uid="uid://dhhiuajxh55rp" path="res://v1/Content/NameEditWindow.tscn" id="8_r1ane"]
 
-[node name="ContentEditor" type="Control" node_paths=PackedStringArray("OfficialDecks", "CustomDecks", "RepositoryNode", "DeckTabsNode", "NewDeckWindow", "DeckListsContainer", "CollapseDeckListsButton")]
+[node name="ContentEditor" type="Control" node_paths=PackedStringArray("OfficialDecks", "CustomDecks", "DeckTabsNode", "NewDeckWindow", "DeckListsContainer", "CollapseDeckListsButton")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -16,7 +15,6 @@ grow_vertical = 2
 script = ExtResource("1_imoim")
 OfficialDecks = NodePath("HBoxContainer/DeckListsContainer/OfficialDecks")
 CustomDecks = NodePath("HBoxContainer/DeckListsContainer/CustomDecks")
-RepositoryNode = NodePath("Repo")
 DeckTabsNode = NodePath("HBoxContainer/DeckTabs")
 NewDeckWindow = NodePath("NewDeckWindow")
 DeckListsContainer = NodePath("HBoxContainer/DeckListsContainer")
@@ -39,14 +37,14 @@ size_flags_horizontal = 3
 layout_mode = 2
 size_flags_vertical = 3
 Title = "Official decks"
-Repo = NodePath("../../../Repo")
+Repo = NodePath("")
 
 [node name="CustomDecks" parent="HBoxContainer/DeckListsContainer" node_paths=PackedStringArray("Repo") instance=ExtResource("2_w0hoq")]
 layout_mode = 2
 size_flags_vertical = 3
 Title = "Custom decks"
 PickEditableDecks = true
-Repo = NodePath("../../../Repo")
+Repo = NodePath("")
 
 [node name="CreateDeckButton" type="Button" parent="HBoxContainer/DeckListsContainer"]
 layout_mode = 2
@@ -80,8 +78,6 @@ metadata/_tab_index = 1
 title = "Create a new deck"
 visible = false
 ConfirmButtonText = "Create"
-
-[node name="Repo" parent="." instance=ExtResource("7_rg86l")]
 
 [connection signal="DeckActivated" from="HBoxContainer/DeckListsContainer/OfficialDecks" to="." method="OnOfficialDecksDeckActivated"]
 [connection signal="DeckActivated" from="HBoxContainer/DeckListsContainer/CustomDecks" to="." method="OnCustomDecksDeckActivated"]

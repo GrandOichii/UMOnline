@@ -6,13 +6,13 @@ public partial class ContentEditor : Control
 {
 	#region Nodes
 
+	[Export]
+	public LocalRepository RepositoryNode { get; set; }
 	[ExportGroup("Nodes")]
 	[Export]
 	public DeckList OfficialDecks { get; set; }
 	[Export]
 	public DeckList CustomDecks { get; set; }
-	[Export]
-	public LocalRepository RepositoryNode { get; set; }
 	[Export]
 	public TabContainer DeckTabsNode { get; set; }
 	[Export]
@@ -50,6 +50,9 @@ public partial class ContentEditor : Control
 
 	public override void _Ready()
 	{
+		OfficialDecks.Repo = RepositoryNode;
+		CustomDecks.Repo = RepositoryNode;
+
 		// DecksFoldableContainer.horizo
 		while (DeckTabsNode.GetChildCount() > 0)
 			DeckTabsNode.RemoveChild(DeckTabsNode.GetChild(0));

@@ -3,55 +3,55 @@ using System;
 
 public partial class DeckList : VBoxContainer
 {
-    #region Signals
+	#region Signals
 
-    [Signal]
-    public delegate void DeckActivatedEventHandler(int deckId);
+	[Signal]
+	public delegate void DeckActivatedEventHandler(int deckId);
 
-    #endregion
+	#endregion
 
 
-    [Export]
-    public string Title { get; set; }
-    [Export]
-    public bool PickEditableDecks { get; set; }
-    [Export]
-    public LocalRepository Repo { get; set; }
+	[Export]
+	public string Title { get; set; }
+	[Export]
+	public bool PickEditableDecks { get; set; }
+	[Export]
+	public LocalRepository Repo { get; set; }
 
-    #region Nodes
+	#region Nodes
 
-    [ExportGroup("Nodes")]
-    [Export]
-    public ItemList ListNode { get; set; }
-    [Export]
-    public Label TitleNode { get; set; }
+	[ExportGroup("Nodes")]
+	[Export]
+	public ItemList ListNode { get; set; }
+	[Export]
+	public Label TitleNode { get; set; }
 
-    #endregion
+	#endregion
 
-    public override void _Ready()
-    {
-        TitleNode.Text = Title;
-    }
+	public override void _Ready()
+	{
+		TitleNode.Text = Title;
+	}
 
-    public void LoadDecks()
-    {
-        ListNode.Clear();
+	public void LoadDecks()
+	{
+		ListNode.Clear();
 
-        var decks = Repo.GetDecks(PickEditableDecks);        
-        foreach (var deck in decks)
-        {
-            var idx = ListNode.AddItem(deck.Name);
-            ListNode.SetItemMetadata(idx, deck.Id);
-        }
-    }
+		var decks = Repo.GetDecks(PickEditableDecks);        
+		foreach (var deck in decks)
+		{
+			var idx = ListNode.AddItem(deck.Name);
+			ListNode.SetItemMetadata(idx, deck.Id);
+		}
+	}
 
-    #region Signal connections
+	#region Signal connections
 
-    public void OnItemListItemActivated(int idx)
-    {
-        var deckId = ListNode.GetItemMetadata(idx).AsInt32();
-        EmitSignalDeckActivated(deckId);
-    }
+	public void OnItemListItemActivated(int idx)
+	{
+		var deckId = ListNode.GetItemMetadata(idx).AsInt32();
+		EmitSignalDeckActivated(deckId);
+	}
 
-    #endregion
+	#endregion
 }

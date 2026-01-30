@@ -38,7 +38,16 @@ public partial class MatchConfigEditor : Control
 
     public void Load(MatchConfig config)
     {
-        
+        SeedCheckNode.ButtonPressed = !config.RandomMatch;
+        SeedNode.Value = config.Seed;
+        RandomFirstPlayerCheckNode.ButtonPressed = config.RandomFirstPlayer;
+        FirstPlayerIdxNode.Value = config.FirstPlayerIdx;
+        InitialHandSizeNode.Value = config.InitialHandSize;
+        MaxHandSizeNode.Value = config.MaxHandSize;
+        ActionsPerTurnNode.Value = config.ActionsPerTurn;
+        ManoeuvreDrawAmountNode.Value = config.ManoeuvreDrawAmount;
+        ExhaustDamageNode.Value = config.ExhaustDamage;
+        TeamSizeNode.Value = config.TeamSize;
     }
 
     public MatchConfig Build()

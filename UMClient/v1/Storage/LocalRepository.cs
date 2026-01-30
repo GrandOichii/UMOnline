@@ -23,6 +23,7 @@ public partial class LocalRepository : Node
 	public string CardImageDirectoryName { get; set; }
 
 	private readonly List<IModel> _defaultModels = [
+		CoreModel.Default,
 		DeckModel.Default,
 		ScriptModel.Default,
 		ScriptNodeModel.Default,
@@ -39,7 +40,6 @@ public partial class LocalRepository : Node
 	public override void _Ready()
 	{
 		var path = ProjectSettings.GlobalizePath(DataSource);
-		// GD.Print(path);
 		_connection = new SqliteConnection($"Data Source={path}");
 		_connection.Open();
 
@@ -583,6 +583,36 @@ public partial class LocalRepository : Node
 		comm.ExecuteNonQuery();
 	}
 
+
+	#endregion
+
+	#region Cores
+
+	// TODO
+	// public void InsertCore(CoreModel core)
+	// {
+		
+	// 	InsertModel(script);
+	// 	var scriptId = (int)(long)LastInsertedId(script.SQLTableName());
+
+	// 	// TODO
+	// }
+
+	public List<CoreModel> GetCores()
+	{
+		return QueryMany(
+			CoreModel.SQLSelect(),
+			CoreModel.SQLConverter
+		);
+	}
+
+	public FighterModel GetActiveCore()
+	{
+		return QuerySingle(
+			FighterModel.SQLSelect().Where("is_active", 1),
+			FighterModel.SQLConverter
+		);
+	}
 
 	#endregion
 

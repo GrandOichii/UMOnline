@@ -1,8 +1,11 @@
-[gd_scene load_steps=2 format=3 uid="uid://crq82y4p5dacs"]
+[gd_scene load_steps=5 format=3 uid="uid://crq82y4p5dacs"]
 
 [ext_resource type="Script" uid="uid://ldx7ppn322xg" path="res://v1/LocalMatchesTab.cs" id="1_mr4n4"]
+[ext_resource type="PackedScene" uid="uid://bea1v1uafvamc" path="res://v1/Local/MatchConfigEditor.tscn" id="2_0yi4y"]
+[ext_resource type="PackedScene" uid="uid://cq7tp50vbby3o" path="res://v1/Local/PlayerEditor.tscn" id="2_vbmn3"]
+[ext_resource type="PackedScene" uid="uid://cmhqrpt73y708" path="res://v1/Local/BotEditor.tscn" id="3_i8n5o"]
 
-[node name="LocalMatchesTab" type="Control"]
+[node name="LocalMatchesTab" type="Control" node_paths=PackedStringArray("PresetOptionNode", "MatchConfigEditorNode", "CantStartReasonNode", "RealPlayerEditor", "BotListContainer")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -12,8 +15,14 @@ offset_right = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_mr4n4")
+BotEditorScene = ExtResource("3_i8n5o")
+PresetOptionNode = NodePath("VBoxContainer/VBoxContainer2/HBoxContainer/PresetOption")
+MatchConfigEditorNode = NodePath("VBoxContainer/VBoxContainer2/FoldableContainer/MatchConfigEditor")
+CantStartReasonNode = NodePath("VBoxContainer/CantStartReason")
+RealPlayerEditor = NodePath("VBoxContainer/PanelContainer/VBoxContainer/RealPlayerEditor")
+BotListContainer = NodePath("VBoxContainer/PanelContainer/VBoxContainer/ScrollContainer/BotListContainer")
 
-[node name="Mockup" type="Control" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -21,33 +30,91 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Mockup"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Label" type="Label" parent="Mockup/VBoxContainer"]
+[node name="Label" type="Label" parent="VBoxContainer"]
 layout_mode = 2
 text = "Players"
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Mockup/VBoxContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Label2" type="Label" parent="Mockup/VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/PanelContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="VBoxContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "You"
+
+[node name="RealPlayerEditor" parent="VBoxContainer/PanelContainer/VBoxContainer" instance=ExtResource("2_vbmn3")]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="VBoxContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Bots"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="BotListContainer" type="VBoxContainer" parent="VBoxContainer/PanelContainer/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="BotEditor" parent="VBoxContainer/PanelContainer/VBoxContainer/ScrollContainer/BotListContainer" instance=ExtResource("3_i8n5o")]
+layout_mode = 2
+
+[node name="BotEditor2" parent="VBoxContainer/PanelContainer/VBoxContainer/ScrollContainer/BotListContainer" instance=ExtResource("3_i8n5o")]
+layout_mode = 2
+
+[node name="BotEditor3" parent="VBoxContainer/PanelContainer/VBoxContainer/ScrollContainer/BotListContainer" instance=ExtResource("3_i8n5o")]
+layout_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="VBoxContainer"]
 layout_mode = 2
 text = "Configuration"
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="Mockup/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Mockup/VBoxContainer/VBoxContainer2"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
 
-[node name="Button" type="Button" parent="Mockup/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/VBoxContainer2/HBoxContainer"]
+layout_mode = 2
+text = "Preset "
+
+[node name="PresetOption" type="OptionButton" parent="VBoxContainer/VBoxContainer2/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+allow_reselect = true
+
+[node name="FoldableContainer" type="FoldableContainer" parent="VBoxContainer/VBoxContainer2"]
+layout_mode = 2
+folded = true
+title = "Advanced configuration"
+
+[node name="MatchConfigEditor" parent="VBoxContainer/VBoxContainer2/FoldableContainer" instance=ExtResource("2_0yi4y")]
+visible = false
+layout_mode = 2
+
+[node name="HSeparator2" type="HSeparator" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="StartMatchButton" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 text = "Start"
+
+[node name="CantStartReason" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+text = "CANT START REASON HERE"
+
+[connection signal="item_selected" from="VBoxContainer/VBoxContainer2/HBoxContainer/PresetOption" to="." method="OnPresetOptionItemSelected"]
+[connection signal="Changed" from="VBoxContainer/VBoxContainer2/FoldableContainer/MatchConfigEditor" to="." method="OnMatchConfigEditorChanged"]
+[connection signal="pressed" from="VBoxContainer/StartMatchButton" to="." method="OnStartMatchButtonPressed"]
