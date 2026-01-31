@@ -3,24 +3,37 @@
 [ext_resource type="Script" uid="uid://vb0yy45iwp06" path="res://v1/Local/BotEditor.cs" id="1_hihv1"]
 [ext_resource type="PackedScene" uid="uid://cq7tp50vbby3o" path="res://v1/Local/PlayerEditor.tscn" id="1_q2iuf"]
 
-[node name="BotEditor" type="VBoxContainer"]
+[node name="BotEditor" type="HBoxContainer" node_paths=PackedStringArray("PlayerEditorNode")]
 anchors_preset = 10
 anchor_right = 1.0
-offset_bottom = 31.0
+offset_bottom = 58.0
 grow_horizontal = 2
 script = ExtResource("1_hihv1")
+PlayerEditorNode = NodePath("VBoxContainer/PlayerEditor")
 
-[node name="PlayerEditor" parent="." instance=ExtResource("1_q2iuf")]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="PlayerEditor" parent="VBoxContainer" instance=ExtResource("1_q2iuf")]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="HBoxContainer"]
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "Bot type: "
 
-[node name="TypeOption" type="OptionButton" parent="HBoxContainer"]
+[node name="TypeOption" type="OptionButton" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+selected = 0
+item_count = 1
+popup/item_0/text = "Random"
+popup/item_0/id = 0
+
+[node name="RemoveButton" type="Button" parent="."]
+layout_mode = 2
+text = "Remove"

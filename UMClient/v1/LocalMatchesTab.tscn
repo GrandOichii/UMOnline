@@ -72,6 +72,10 @@ layout_mode = 2
 [node name="BotEditor3" parent="VBoxContainer/PanelContainer/VBoxContainer/ScrollContainer/BotListContainer" instance=ExtResource("3_i8n5o")]
 layout_mode = 2
 
+[node name="AddBotButton" type="Button" parent="VBoxContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Add bot"
+
 [node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
 layout_mode = 2
 
@@ -115,6 +119,6 @@ layout_mode = 2
 theme_override_colors/font_color = Color(1, 0, 0, 1)
 text = "CANT START REASON HERE"
 
+[connection signal="pressed" from="VBoxContainer/PanelContainer/VBoxContainer/AddBotButton" to="." method="OnAddBotButtonPressed"]
 [connection signal="item_selected" from="VBoxContainer/VBoxContainer2/HBoxContainer/PresetOption" to="." method="OnPresetOptionItemSelected"]
-[connection signal="Changed" from="VBoxContainer/VBoxContainer2/FoldableContainer/MatchConfigEditor" to="." method="OnMatchConfigEditorChanged"]
 [connection signal="pressed" from="VBoxContainer/StartMatchButton" to="." method="OnStartMatchButtonPressed"]

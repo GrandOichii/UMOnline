@@ -1,6 +1,8 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using UMClient.v1.Matches;
 using UMCore.Matches;
 using UMCore.Templates;
@@ -46,6 +48,13 @@ public partial class LocalMatchesTab : Control
 		{
 			PresetOptionNode.AddItem(pair.Key);
 		}
+
+		RemoveBotNodes();
+		AddBot();
+
+		OnPresetOptionItemSelected(PresetOptionNode.Selected);
+
+		RealPlayerEditor.LoadName("RealPlayer"); // TODO? remove
 	}
 
     private void RemoveBotNodes()
@@ -53,7 +62,6 @@ public partial class LocalMatchesTab : Control
         while (BotListContainer.GetChildCount() > 0)
             BotListContainer.RemoveChild(BotListContainer.GetChild(0));
     }
-
 	
 	public static IEnumerable<MapNodeLinkTemplate> Bidirectional(MapNodeTemplate n1, MapNodeTemplate n2)
 	{
@@ -257,8 +265,7 @@ public partial class LocalMatchesTab : Control
 		};
 	}
 
-
-	private void StartMatch()
+	private Match CreateMatch()
 	{
 		// create map
 		// TODO
@@ -268,19 +275,25 @@ public partial class LocalMatchesTab : Control
 		var config = MatchConfigEditorNode.Build();
 
 		// read core from DB
+		var core = RepoNode.GetActiveCore().Text;
 
 		// create players
-		var match = new Match(config, map, RepoNode.GetActiveCore().Text)
+		var match = new Match(config, map, core)
 		{
 			Logger = new GDLogger()
 		};
 
-		// var realController = new LocalMatchIOHandler(this);
-
-		// start match
-		GD.Print("TODO CREATE MATCH");
+		return match;
 	}
 
+	private void AddBot()
+	{
+		var child = BotEditorScene.Instantiate<BotEditor>();
+		BotListContainer.AddChild(child);
+
+		child.LoadLocalMatchesTab(this);
+		child.LoadName($"Bot{BotListContainer.GetChildCount()}");
+	}
 
 	#region Signal connections
 
@@ -290,15 +303,44 @@ public partial class LocalMatchesTab : Control
 		MatchConfigEditorNode.Load(config);
 	}
 
-	public void OnMatchConfigEditorChanged()
-	{
-		// TODO
-		GD.Print("CHANGED");
-	}
-
 	public void OnStartMatchButtonPressed()
 	{
-		StartMatch();
+		var match = CreateMatch();
+		
+		// var realController = new LocalMatchIOHandler(this);
+		List<PlayerEditorResult> pers = [];
+		pers.Add(RealPlayerEditor.Build());
+		foreach (var playerEditor in BotListContainer.GetChildren().Cast<BotEditor>())
+		{
+			pers.Add(playerEditor.Build());
+		}
+
+		// TODO check all players
+
+		// TODO add all players
+		// foreach (var per in pers)
+		// {
+		// 	var added = await match.AddPlayer(
+		// 		per.Name,
+		// 		per.TeamIdx,
+		// 		per.Loadout,
+		// 		per.Controller
+		// 	);
+		// 	if (!added)
+		// 	{
+		// 		throw new Exception("Failed to add a player, not enough checks");
+		// 	}
+		// }
+
+		// start match
+		// TODO
+	}
+
+	public void OnAddBotButtonPressed()
+	{
+		if (BotListContainer.GetChildCount() == 3) return;
+
+		AddBot();
 	}
 
 	#endregion

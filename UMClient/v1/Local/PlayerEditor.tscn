@@ -2,11 +2,14 @@
 
 [ext_resource type="Script" uid="uid://cu8xuesw6rka1" path="res://v1/Local/PlayerEditor.cs" id="1_7ghmo"]
 
-[node name="PlayerEditor" type="HBoxContainer"]
+[node name="PlayerEditor" type="HBoxContainer" node_paths=PackedStringArray("NameEditNode", "DeckOption", "TeamOption")]
 anchors_preset = 10
 anchor_right = 1.0
 grow_horizontal = 2
 script = ExtResource("1_7ghmo")
+NameEditNode = NodePath("NameEdit")
+DeckOption = NodePath("DeckOption")
+TeamOption = NodePath("TeamOption")
 
 [node name="NameEdit" type="LineEdit" parent="."]
 layout_mode = 2
