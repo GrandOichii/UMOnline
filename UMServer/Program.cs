@@ -20,6 +20,7 @@ builder.Services.AddTransient<ICoreScriptRepository, CoreScriptRepository>();
 // Business logic
 builder.Services.AddTransient<ILoadoutManager, LoadoutManager>();
 builder.Services.AddTransient<ICoreScriptManager, CoreScriptManager>();
+builder.Services.AddTransient<IUpdateManager, UpdateManager>();
 
 var app = builder.Build();
 

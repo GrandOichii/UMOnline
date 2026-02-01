@@ -17,7 +17,7 @@ public class ImportLoadouts : IScript
         }
         var loadoutsPath = args[1];
 
-        System.Console.WriteLine($"Importing loadouts from path {loadoutsPath}");
+        Console.WriteLine($"Importing loadouts from path {loadoutsPath}");
 
         // remove old entries
         await ctx.Database.ExecuteSqlAsync($"DELETE FROM \"Cards\";");
@@ -27,7 +27,7 @@ public class ImportLoadouts : IScript
         foreach (var dir in Directory.GetDirectories(loadoutsPath))
         {
             var dirName = Path.GetFileName(dir);
-            System.Console.WriteLine($"Importing loadout {dirName}");
+            Console.WriteLine($"Importing loadout {dirName}");
             var loadoutPath = Path.Join(dir, $"{dirName}.json");
             var template = JsonSerializer.Deserialize<LoadoutTemplate>(File.ReadAllText(loadoutPath))
                 ?? throw new Exception($"Failed to parse loadout data from path {loadoutPath}");
