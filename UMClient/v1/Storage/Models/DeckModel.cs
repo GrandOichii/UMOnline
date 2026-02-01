@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Microsoft.Data.Sqlite;
 using SqlKata;
+using UMCore.Templates;
 
 public class DeckModel : IModel
 {

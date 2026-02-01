@@ -14,6 +14,7 @@ public class Loadout
     public required List<string> CantBePlayedWith { get; init; }
     public required int? StartingHandSize { get; set; }
     public required int? MaximumHandSize { get; set; }
+    public required bool IsPublic { get; set; }
 
     public LoadoutTemplate ToTemplate()
     {
@@ -44,6 +45,7 @@ public class Loadout
             CantBePlayedWith = template.CantBePlayedWith,
             StartingHandSize = template.StartingHandSize,
             MaximumHandSize = template.MaximumHandSize,
+            IsPublic = false
         };
 
         result.Fighters.AddRange(template.Fighters.Select(f => Fighter.FromTemplate(result, f)));

@@ -18,4 +18,10 @@ public class UpdateController(IUpdateManager updateManager) : ControllerBase
     {
         return Ok(await updateManager.Current());
     }
+
+    [HttpPost("IsOutdated")]
+    public async Task<IActionResult> CheckIsOutdated([FromBody] DateTime dt)
+    {
+        return Ok(await updateManager.IsOutdated(dt));
+    }
 }

@@ -6,6 +6,7 @@ using Godot;
 using Microsoft.Data.Sqlite;
 using SqlKata;
 using SqlKata.Compilers;
+using UMCore.Templates;
 
 public partial class LocalRepository : Node
 {
@@ -29,6 +30,7 @@ public partial class LocalRepository : Node
 		ScriptNodeModel.Default,
 		CardModel.Default,
 		FighterModel.Default,
+		AppStateModel.Default,
 	];
 
 	private SqliteConnection _connection;
@@ -59,6 +61,13 @@ public partial class LocalRepository : Node
 		foreach (var model in _defaultModels)
 		{
 			ExecNonQuery(model.SQLCreate());
+		}
+
+		// create app state
+		var existing = GetAppState();
+		if (existing is null)
+		{
+			InsertModel(AppStateModel.Default);
 		}
 
 		// TODO remove
@@ -378,6 +387,27 @@ public partial class LocalRepository : Node
 		return result.SingleOrDefault();
 	}
 
+	#region App state
+
+	public AppStateModel GetAppState()
+	{
+		return QuerySingle(
+			AppStateModel.SQLSelect(),
+			AppStateModel.SQLConverter
+		);
+	}
+
+	public void UpdateAppState(AppStateModel appState)
+	{
+		var query = (appState as IModel).SQLUpdate();
+
+		var compiled = SQL_COMPILER.Compile(query).ToString();
+		var comm = new SqliteCommand(compiled, _connection);
+		comm.ExecuteNonQuery();
+	}
+
+	#endregion
+
 	#region Decks
 
 	public void InsertDeck(DeckModel deck) => InsertModel(deck);
@@ -670,4 +700,75 @@ public partial class LocalRepository : Node
 	}
 
 	#endregion
+
+	public LoadoutTemplate GetLoadoutTemplate(int deckId)
+    {
+		var deck = GetDeck(deckId);
+        var result = new LoadoutTemplate()
+        {
+            Name = deck.Name,
+            StartsWithSidekicks = deck.StartsWithSidekicks,
+            ChoosesSidekick = deck.ChoosesSidekick,
+            StartingHandSize = deck.StartingHandSize,
+            MaximumHandSize = deck.MaxHandSize,
+            CantBePlayedWith = [], // TODO?
+            StartsWithCards = [],
+            Deck = [],
+            Fighters = []
+        };
+
+		// fighters
+		var fighters = GetFighters(deckId);
+		foreach (var fighter in fighters)
+		{
+			var script = GetScriptModel(fighter.ScriptId);
+
+			result.Fighters.Add(new()
+			{
+				Name = fighter.Name,
+				Amount = fighter.Amount,
+				CanMoveOverOpposing = fighter.CanMoveOverOpposing,
+				IsHero = !fighter.IsSidekick,
+				IsRanged = fighter.IsRanged,
+				IsSmall = fighter.IsSmall,
+				Key = $"{deck.Name}_{fighter.Name}",
+				MaxHealth = fighter.MaxHealth,
+				MeleeRange = fighter.MeleeRange,
+				Movement = fighter.Movement,
+				Script = script.ToScript(),
+				StartingHealth = fighter.StartingHealth,
+				Text = fighter.Text
+			});		
+		}
+
+		// fighters
+		var cards = GetCards(deckId);
+		foreach (var card in cards)
+		{
+			var script = GetScriptModel(card.ScriptId);
+			var ct = new CardTemplate()
+			{
+				Name = card.Title,
+				Key = $"{deck.Name}_{card.Name}",
+				AllowedFighters = card.GetAllowedFighters(),
+				Labels = card.GetLabels(),
+				Amount = card.Count,
+				Boost = card.Boost,
+				IncludedInDeckWithSidekick = null, // TODO
+				Script = script.ToScript(),
+				Text = card.Text,
+				Type = card.Type.ToCardTemplateType(),
+				Value = card.Value,
+			};
+
+			for (int i = 0; i < card.StartingHandCount; ++i)
+			{
+				result.StartsWithCards.Add(ct.Key);
+			}
+
+			result.Deck.Add(ct);
+		}
+
+		return result;
+	}
 }

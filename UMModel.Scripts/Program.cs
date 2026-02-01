@@ -7,6 +7,8 @@ var scriptMap = new Dictionary<string, IScript>()
     { "TestScript", new TestScript() },
     { "ImportLoadouts", new ImportLoadouts() },
     { "UpdateCoreScript", new UpdateCoreScript() },
+    { "SetPublicLoadouts", new SetPublicLoadouts() },
+    { "CreateContentUpdate", new CreateContentUpdate() },
 };
 
 var scriptName = args[0];

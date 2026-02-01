@@ -3,6 +3,7 @@
   <ItemGroup>
     <ProjectReference Include="..\UMModel\UMModel.csproj" />
     <ProjectReference Include="..\UMCore\UMCore.csproj" />
+    <ProjectReference Include="..\UMDTO\UMDTO.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

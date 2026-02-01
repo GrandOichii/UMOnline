@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Text.Json;
 using Microsoft.Data.Sqlite;
@@ -62,6 +63,14 @@ public class ScriptModel : IModel
     public ScriptState ParseScriptState()
     {
         return JsonSerializer.Deserialize<ScriptState>(GraphState);
+    }
+
+    public string ToScript()
+    {
+        if (IsManual) return ManualScript;
+
+        // TODO
+        throw new NotImplementedException();
     }
 }
 

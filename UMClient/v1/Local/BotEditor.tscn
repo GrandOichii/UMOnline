@@ -37,3 +37,5 @@ popup/item_0/id = 0
 [node name="RemoveButton" type="Button" parent="."]
 layout_mode = 2
 text = "Remove"
+
+[connection signal="pressed" from="RemoveButton" to="." method="OnRemoveButtonPressed"]

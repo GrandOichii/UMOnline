@@ -2,33 +2,32 @@ using Microsoft.EntityFrameworkCore;
 using UMCore.Templates;
 using UMServer.Repositories;
 using UMDTO;
+using UMModel.Models;
 
 namespace UMServer.BusinessLogic;
 
 public interface IUpdateManager
 {
-    Task<ContentUpdateGet> Current();
+    Task<string> Current();
+    Task<bool> IsOutdated(DateTime dt);
 }
 
 public class UpdateManager(
-    ICoreScriptRepository coreRepo,
-    ILoadoutRepository loadoutRepo
+    IContentUpdateRepository cuRepo
 ) : IUpdateManager
 {
-    public async Task<ContentUpdateGet> Current()
+    private async Task<ContentUpdate> GetCurrent() => await cuRepo.Query().Where(cu => cu.IsActive).SingleAsync();
+
+    public async Task<string> Current()
     {
-        // core
-        var query = coreRepo.Query();
-        var core = await query.SingleAsync(s => s.IsActive);
+        var current = await GetCurrent();
 
-        // loadouts
-        var loadouts = await loadoutRepo.Query().ToListAsync();
+        return current.Data;
+    }
 
-        
-        return new()
-        {
-            Core = core.Script,
-            Loadouts = [.. loadouts.Select(l => l.ToTemplate())]
-        };
+    public async Task<bool> IsOutdated(DateTime dt)
+    {
+        var current = await GetCurrent();
+        return current.CreatedDT > dt;
     }
 }

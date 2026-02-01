@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using UMCore.Matches.Players;
 
 public partial class BotEditor : Control, IPlayerEditor
 {
@@ -12,7 +13,16 @@ public partial class BotEditor : Control, IPlayerEditor
 
     public PlayerEditorResult Build()
     {
-        throw new NotImplementedException();
+        var result = PlayerEditorNode.Build();
+        
+        // TODO choose player controller based on option picked
+        return new()
+        {
+            Controller = new RandomPlayerController(0),
+            Loadout = result.Loadout,
+            Name = result.Name,
+            TeamIdx = result.TeamIdx
+        };
     }
 
     public void LoadLocalMatchesTab(LocalMatchesTab lmt)
@@ -24,4 +34,13 @@ public partial class BotEditor : Control, IPlayerEditor
     {
         PlayerEditorNode.LoadName(name);
     }
+
+    #region Signal connections
+
+    public void OnRemoveButtonPressed()
+    {
+        
+    }
+
+    #endregion
 }

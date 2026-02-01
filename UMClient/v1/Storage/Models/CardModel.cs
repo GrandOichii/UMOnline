@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Microsoft.Data.Sqlite;
 using SqlKata;
@@ -8,8 +9,24 @@ public enum CardModelType
     Scheme = 0,
     Attack = 1,
     Defense = 2,
-    Versatile = 3
+    Versatile = 3,
 }
+
+public static class CardModelTypeExtensions
+{
+    public static string ToCardTemplateType(this CardModelType type)
+    {
+        return type switch
+        {
+            CardModelType.Scheme => "Scheme",  
+            CardModelType.Attack => "Attack",  
+            CardModelType.Defense => "Defense",  
+            CardModelType.Versatile => "Versatile",  
+            _ => throw new Exception($"Unknown CardModelType: {type}")
+        };
+    }    
+}
+
 
 public class CardModel : IModel
 {
@@ -45,6 +62,11 @@ public class CardModel : IModel
         Value = -1,
         ScriptId = -1,
     };
+
+    public string[] GetAllowedFighters() => AllowedFighters.Split(",");
+    public static string ToAllowedFighters(List<string> allowedFighters) => string.Join(",", allowedFighters);
+    public string[] GetLabels() => Labels.Split(",");
+    public static string ToLabels(List<string> labels) => string.Join(",", labels);
 
     public string SQLTableName() => "cards";
 

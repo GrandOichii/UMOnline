@@ -20,12 +20,46 @@ public partial class PlayerEditor : HBoxContainer, IPlayerEditor
 
     public PlayerEditorResult Build()
     {
-        throw new NotImplementedException();
+        return new()
+        {
+            Name = NameEditNode.Text,
+            TeamIdx = TeamOption.Selected,
+            Controller = null,
+            Loadout = GetLoadoutTemplate()
+        };
+    }
+
+    private LoadoutTemplate GetLoadoutTemplate()
+    {
+        var idx = DeckOption.Selected;
+        if (idx == -1)
+        {
+            // TODO
+        }
+
+        var deckId = DeckOption.GetItemMetadata(idx).As<int>();
+
+        return LMT.RepoNode.GetLoadoutTemplate(deckId);
     }
 
     public void LoadLocalMatchesTab(LocalMatchesTab lmt)
     {
         LMT = lmt;
+
+        var officialDecks = lmt.RepoNode.GetDecks(false);
+        foreach (var deck in officialDecks)
+        {
+            DeckOption.AddItem(deck.Name);
+            DeckOption.SetItemMetadata(DeckOption.ItemCount - 1, deck.Id);
+        }
+        DeckOption.AddSeparator();
+
+        var customDecks = lmt.RepoNode.GetDecks(true);
+        foreach (var deck in customDecks)
+        {
+            DeckOption.AddItem(deck.Name);
+            DeckOption.SetItemMetadata(DeckOption.ItemCount - 1, deck.Id);
+        }
     }
 
     public void LoadName(string name)

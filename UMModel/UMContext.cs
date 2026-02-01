@@ -9,6 +9,7 @@ public class UMContext : DbContext
     public DbSet<Loadout> Loadouts { get; set; }
     public DbSet<Fighter> Fighters { get; set; }
     public DbSet<Card> Cards { get; set; }
+    public DbSet<ContentUpdate> ContentUpdates { get; set; }
     public DbSet<CoreScript> CoreScripts { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -42,5 +43,11 @@ public class UMContext : DbContext
             
         modelBuilder.Entity<CoreScript>()
             .HasKey(s => s.Id);
+
+        modelBuilder.Entity<ContentUpdate>()
+            .HasKey(cu => cu.Id);
+        modelBuilder.Entity<ContentUpdate>()
+            .Property(cu => cu.Id)
+            .ValueGeneratedOnAdd();
     }
 }
