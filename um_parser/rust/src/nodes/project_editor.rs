@@ -1,5 +1,8 @@
 use std::cell::RefCell;
 use std::collections::HashMap;
+use std::fs;
+use std::fs::File;
+use std::io::Write;
 use std::rc::Rc;
 
 use godot::classes::*;
@@ -12,6 +15,13 @@ use crate::nodes::project_tabs::logs::logs_tab::LogsTabNode;
 use crate::nodes::project_tabs::parsers::parsers_tab::ParsersTabNode;
 use crate::parsers::parser::*;
 use crate::repo::*;
+use serde::{Deserialize, Serialize};
+
+#[derive(Serialize, Deserialize)]
+struct MappedText {
+    text: String,
+    script: String,
+}
 
 #[derive(GodotClass)]
 #[class(init,base=Control)]
@@ -42,6 +52,10 @@ pub struct ProjectEditorNode {
     parse_button: OnEditor<Gd<Button>>,
     #[export]
     cannot_parse_dialog: OnEditor<Gd<AcceptDialog>>,
+    #[export]
+    export_mapped_texts_button_node: OnEditor<Gd<Button>>,
+    #[export]
+    export_mapped_texts_path_dialog_node: OnEditor<Gd<FileDialog>>,
 }
 
 #[godot_api]
@@ -79,6 +93,10 @@ impl IControl for ProjectEditorNode {
 
         self.completion_progress_bar.set_max(1.0);
         self.completion_progress_bar.set_value(0.0);
+
+        self.export_mapped_texts_button_node.set_disabled(true);
+        self.export_mapped_texts_path_dialog_node
+            .set_current_file("mappedtexts.json");
     }
 }
 
@@ -238,6 +256,8 @@ impl ProjectEditorNode {
             LogsTabNode::format_count(total)
         ));
 
+        self.export_mapped_texts_button_node.set_disabled(false);
+
         self.process_new_history(ParsingHistory::new(card_scripts, parse_results));
     }
 
@@ -258,6 +278,17 @@ impl ProjectEditorNode {
             .signals()
             .pressed()
             .connect_other(self, Self::parse);
+        self.export_mapped_texts_button_node
+            .signals()
+            .pressed()
+            .connect_other(self, Self::on_export_mapped_texts_button_node_pressed);
+        self.export_mapped_texts_path_dialog_node
+            .signals()
+            .file_selected()
+            .connect_other(
+                self,
+                Self::export_mapped_texts_path_dialog_node_file_selected,
+            );
     }
 
     fn update_parsing_progress_bar(&mut self, ph: &ParsingHistory) {
@@ -399,5 +430,34 @@ impl ProjectEditorNode {
             .bind_mut()
             .log(format!("Updated root parser to {}", &new_root.name));
         self.parsers_tab.bind_mut().reload_templates();
+    }
+
+    fn on_export_mapped_texts_button_node_pressed(&mut self) {
+        self.export_mapped_texts_path_dialog_node.show();
+    }
+
+    fn export_mapped_texts_path_dialog_node_file_selected(&mut self, path: GString) {
+        let repo = self
+            .repo
+            .bind_mut();
+        let ph = repo
+            .get_parsing_history(&self.edited_project_name)
+            .expect("Failed to get parsing history for current project");
+
+        let mut texts: Vec<MappedText> = vec![];
+        for (_, pr) in ph.parse_results.iter() {
+            texts.push(MappedText {
+                script: pr.generated.to_string(),
+                text: pr.text.to_string()
+            });
+        }
+
+        let json = serde_json::to_string(&texts).expect("Failed to serialize mapped texts to JSON");
+        godot_print!("{}", json);
+
+        if let Err(err) = fs::write(path.to_string(), json) {
+            // TODO notify user
+            panic!("{}", err);
+        }
     }
 }
