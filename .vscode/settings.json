@@ -10,6 +10,7 @@
         "**/.symlinks": true,
         "**/.plugin_symlinks": true,
         "**/*.cs.uid": true,
+        "**/*.gd.uid": true,
         "**/*.png.import": true,
     },
     "Lua.diagnostics.globals": [

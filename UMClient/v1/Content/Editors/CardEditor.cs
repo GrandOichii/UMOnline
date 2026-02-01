@@ -89,8 +89,8 @@ public partial class CardEditor : TabContainer
         TitleEditNode.Text = card.Title;
         DeckCountNode.Value = card.Count;
         StartingHandCountNode.Value = card.StartingHandCount;
-        AllowedFightersTagsNode.LoadTags(card.AllowedFighters.Split(","));
-        LabelsTagsNode.LoadTags(card.Labels.Split(","));
+        AllowedFightersTagsNode.LoadTags(card.GetAllowedFighters());
+        LabelsTagsNode.LoadTags(card.GetLabels());
         TypeOptionNode.Select((int)card.Type);
         ValueNode.Value = card.Value;
 
@@ -132,8 +132,8 @@ public partial class CardEditor : TabContainer
     {
         Id = _cardId,
         DeckId = _deckId,
-        AllowedFighters = string.Join(",", AllowedFightersTagsNode.GetTags()),
-        Labels = string.Join(",", LabelsTagsNode.GetTags()),
+        AllowedFighters = CardModel.ToAllowedFighters(AllowedFightersTagsNode.GetTags()),
+        Labels = CardModel.ToLabels(LabelsTagsNode.GetTags()),
         Boost = BoostCheckNode.ButtonPressed ? (int)BoostValueNode.Value : -1,
         Count = (int)DeckCountNode.Value,
         StartingHandCount = (int)StartingHandCountNode.Value,

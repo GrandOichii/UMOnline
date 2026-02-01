@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using UMClient.v1.Matches;
@@ -54,6 +55,7 @@ public partial class LocalMatchesTab : Control
 
 		OnPresetOptionItemSelected(PresetOptionNode.Selected);
 
+		RealPlayerEditor.LoadLocalMatchesTab(this);
 		RealPlayerEditor.LoadName("RealPlayer"); // TODO? remove
 	}
 
@@ -275,7 +277,8 @@ public partial class LocalMatchesTab : Control
 		var config = MatchConfigEditorNode.Build();
 
 		// read core from DB
-		var core = RepoNode.GetActiveCore().Text;
+		// var core = RepoNode.GetActiveCore().Text;
+		var core = File.ReadAllText("../core.lua");
 
 		// create players
 		var match = new Match(config, map, core)
