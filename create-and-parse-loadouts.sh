@@ -17,12 +17,10 @@ mkdir .generated/reports
 echo 'Created cards.json'
 
 echo 'Parsing card texts...'
-cd Parser
-dotnet run\
-    ../.generated/cards.json\
-    ../.generated/reports\
-    ../.generated/scripts 
-cd ..
+python3 tools/mapScripts.py\
+    um_parser/godot/mappedtexts.json\
+    .generated/cards.json\
+    .generated/scripts
 echo 'Card texts parsed'
 
 mkdir .generated/loadouts
