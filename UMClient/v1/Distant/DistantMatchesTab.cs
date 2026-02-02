@@ -30,6 +30,12 @@ public partial class DistantMatchesTab : Control
     public Button ConnectButtonNode { get; set; }
     [Export]
     public AcceptDialog OutdatedContentDialogNode { get; set; }
+    [Export]
+    public Window ContentSyncWaitDialogNode { get; set; }
+    [Export]
+    public AcceptDialog ContentUpdateFailDialogNode { get; set; }
+    [Export]
+    public AcceptDialog FinishedContentUpdateDialog { get; set; }
 
     #endregion
 
@@ -44,11 +50,16 @@ public partial class DistantMatchesTab : Control
 
     public override void _Ready()
     {
+        ServerConnectionNode.ContentUpdateFinished += OnServerConnectionNodeContentUpdateFinished;
+        ServerConnectionNode.ContentUpdateFailed += OnServerConnectionNodeContentUpdateFailed;
+
+        ConnectionDisplayNode.Hide();
+        ConnectionFormNode.Show();
+
         var state = RepoNode.GetAppState();
 
         ServerAddressEditNode.Text = state.LastConnectedAddress ?? DefaultAddress;
         NameEditNode.Text = state.LastUsedName;
-
 
         CheckCanPressConnect();
     }
@@ -63,13 +74,15 @@ public partial class DistantMatchesTab : Control
         }
 
         // TODO disable all distant match controls until confirmed that local content is not outdated
-        // TODO request check 
+        ServerConnectionNode.RequestIsOutdated((DateTime)state.LastUpdateDT);
     }
 
     #region Signal connections
 
     public void OnConnectButtonPressed()
     {
+        ServerConnectionNode.SetAddress(ServerAddressEditNode.Text);
+        // TODO move this to ServerAddressEditNode
         var err = ConnectionRequestNode.Request($"{ServerAddressEditNode.Text}/api/v1/Home/Ping");
         // TODO check errs
         GD.Print(err);
@@ -94,9 +107,9 @@ public partial class DistantMatchesTab : Control
         CheckCanPressConnect();
     }
 
-    public void OnConnectionRequestRequestCompleted(int result, int responseCode, string[] headers, byte[] body)
+    public void OnConnectionRequestRequestCompleted(HttpRequest.Result result, int responseCode, string[] headers, byte[] body)
     {
-        if (responseCode == 0)
+        if (result == HttpRequest.Result.CantConnect)
         {
             SetConnectionFormEditable(true);
             ConnectionErrorDialogNode.DialogText = "Failed to connect, server is likely offline";
@@ -104,7 +117,7 @@ public partial class DistantMatchesTab : Control
             return;
         }
 
-        if (responseCode != 200)
+        if (result != HttpRequest.Result.Success)
         {
             SetConnectionFormEditable(true);
             ConnectionErrorDialogNode.DialogText = $"Unrecognized response code: {responseCode}";
@@ -125,11 +138,38 @@ public partial class DistantMatchesTab : Control
         CheckContent();
     }
 
-    public void OnContentCheckRequestRequestCompleted(int result, int responseCode, string[] headers, byte[] body)
+    public void OnContentCheckRequestRequestCompleted(HttpRequest.Result result, int responseCode, string[] headers, byte[] body)
     {
         GD.Print(responseCode);
 
         // var isOutdated = 
+    }
+
+    public void OnSyncContentButtonPressed()
+    {
+        ContentSyncWaitDialogNode.Show();
+        ServerConnectionNode.RequestContentSynchronization();
+    }
+    
+    public void OnServerConnectionNodeContentUpdateFinished()
+    {
+        var content = ServerConnectionNode.PopContentUpdate();
+        RepoNode.ProcessContentUpdate(content);
+
+        var state = RepoNode.GetAppState();
+        state.LastUpdateDT = DateTime.Now.ToUniversalTime();
+        RepoNode.UpdateAppState(state);
+
+        ContentSyncWaitDialogNode.Hide();
+        FinishedContentUpdateDialog.Show();
+
+        // TODO emit signal, update content tab
+    }
+
+    public void OnServerConnectionNodeContentUpdateFailed(string errMsg)
+    {
+        // TODO display AcceptDialog
+        GD.Print($"FAILED TO UPDATE CONTENT: {errMsg}");
     }
 
     #endregion

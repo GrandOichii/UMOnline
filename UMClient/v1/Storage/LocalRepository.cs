@@ -6,7 +6,9 @@ using Godot;
 using Microsoft.Data.Sqlite;
 using SqlKata;
 using SqlKata.Compilers;
+using UMCore.Matches.Players.Cards;
 using UMCore.Templates;
+using UMDTO;
 
 public partial class LocalRepository : Node
 {
@@ -27,7 +29,6 @@ public partial class LocalRepository : Node
 		CoreModel.Default,
 		DeckModel.Default,
 		ScriptModel.Default,
-		ScriptNodeModel.Default,
 		CardModel.Default,
 		FighterModel.Default,
 		AppStateModel.Default,
@@ -360,6 +361,14 @@ public partial class LocalRepository : Node
 		comm.ExecuteNonQuery();
 	}
 
+	private void DeleteModel<T>(T model) where T : IModel
+	{
+		var insert = model.SQLDelete();
+		var compiled = SQL_COMPILER.Compile(insert).ToString();
+		var comm = new SqliteCommand(compiled, _connection);
+		comm.ExecuteNonQuery();
+	}
+ 
 	public object LastInsertedId(string tableName)
 	{
 		var comm = new SqliteCommand($"SELECT last_insert_rowid() FROM {tableName}", _connection);
@@ -456,17 +465,22 @@ public partial class LocalRepository : Node
 
 	public void InsertFighter(FighterModel fighter)
 	{
+		InsertFighter(fighter, "function _Create()\n\t-- TODO manually edit script\nend", true);
+	}
+
+	public void InsertFighter(FighterModel fighter, string script, bool isManual)
+	{
 		// insert script
-		var script = new ScriptModel()
+		var newScript = new ScriptModel()
 		{
 			Id = -1,
-			IsManual = false,
-			ManualScript = "function _Create()\n\t-- TODO manually edit script\nend",
+			IsManual = isManual,
+			ManualScript = script,
 			GraphState = ScriptState.NewFighterScript().ToJson(),
 		};
 
-		InsertFighterScript(script);
-		var scriptId = (long)LastInsertedId(script.SQLTableName());
+		InsertFighterScript(newScript);
+		var scriptId = (long)LastInsertedId(newScript.SQLTableName());
 
 		// insert fighter
 		fighter.ScriptId = (int)scriptId;
@@ -519,17 +533,22 @@ public partial class LocalRepository : Node
 
 	public void InsertCard(CardModel card)
 	{
+		InsertCard(card, "function _Create()\n\t-- TODO manually edit script\nend", false);
+	}
+
+	public void InsertCard(CardModel card, string script, bool isManual)
+	{
 		// insert script
-		var script = new ScriptModel()
+		var newScript = new ScriptModel()
 		{
 			Id = -1,
-			IsManual = false,
-			ManualScript = "function _Create()\n\t-- TODO manually edit script\nend",
+			IsManual = isManual,
+			ManualScript = script,
 			GraphState = ScriptState.NewCardScript().ToJson(),
 		};
 
-		InsertCardScript(script);
-		var scriptId = (long)LastInsertedId(script.SQLTableName());
+		InsertCardScript(newScript);
+		var scriptId = (long)LastInsertedId(newScript.SQLTableName());
 
 		// insert card
 		card.ScriptId = (int)scriptId;
@@ -616,31 +635,22 @@ public partial class LocalRepository : Node
 
 	#endregion
 
-	#region Cores
+	#region Core
 
-	// TODO
-	// public void InsertCore(CoreModel core)
-	// {
-		
-	// 	InsertModel(script);
-	// 	var scriptId = (int)(long)LastInsertedId(script.SQLTableName());
-
-	// 	// TODO
-	// }
-
-	public List<CoreModel> GetCores()
+	public void UpdateCore(CoreModel core)
 	{
-		return QueryMany(
-			CoreModel.SQLSelect(),
-			CoreModel.SQLConverter
-		);
+		var query = (core as IModel).SQLUpdate();
+
+		var compiled = SQL_COMPILER.Compile(query).ToString();
+		var comm = new SqliteCommand(compiled, _connection);
+		comm.ExecuteNonQuery();
 	}
 
-	public FighterModel GetActiveCore()
+	public CoreModel GetCore()
 	{
 		return QuerySingle(
-			FighterModel.SQLSelect().Where("is_active", 1),
-			FighterModel.SQLConverter
+			CoreModel.SQLSelect(),
+			CoreModel.SQLConverter
 		);
 	}
 
@@ -700,6 +710,124 @@ public partial class LocalRepository : Node
 	}
 
 	#endregion
+
+	public void ProcessContentUpdate(ContentUpdateGet contentUpdate)
+	{
+		GD.Print(contentUpdate.Loadouts.Count);
+		// remove non-editable content
+		var decks = GetDecks(false);
+		foreach (var deck in decks)
+		{
+			// cards
+			var cards = GetCards(deck.Id);
+			foreach (var card in cards)
+			{
+				DeleteModel(card);
+				DeleteModel(GetScriptModel(card.ScriptId));
+			}
+
+			// fighters
+			var fighters = GetFighters(deck.Id);
+			foreach (var fighter in fighters)
+			{
+				DeleteModel(fighter);
+				DeleteModel(GetScriptModel(fighter.ScriptId));
+			}
+
+			DeleteModel(deck);
+		}
+
+		// insert new content
+		foreach (var deck in contentUpdate.Loadouts)
+		{
+			var newDeck = new DeckModel()
+			{
+				Id = -1,
+				CardBackPath = null, // TODO
+				ChoosesSidekick = deck.ChoosesSidekick,
+				Description = "", // TODO
+				Editable = false,
+				MaxHandSize = deck.MaximumHandSize,
+				Name = deck.Name,
+				StartingHandSize = deck.StartingHandSize,
+				StartsWithSidekicks = deck.StartsWithSidekicks
+			};
+			InsertDeck(newDeck);
+			var deckId = (int)(long)LastInsertedId(newDeck.SQLTableName());
+
+			// fighters
+			foreach (var fighter in deck.Fighters)
+			{
+				var newFighter = new FighterModel()
+				{
+					Id = -1,
+					DeckId = deckId,	
+					Amount = fighter.Amount,
+					CanMoveOverOpposing = fighter.CanMoveOverOpposing,
+					ImagePath = null, // TODO
+					IsRanged = fighter.IsRanged,
+					IsSidekick = !fighter.IsHero,
+					IsSmall = fighter.IsSmall,
+					MaxHealth = fighter.MaxHealth,
+					MeleeRange = fighter.MeleeRange,
+					Movement = fighter.Movement,
+					Name = fighter.Name,
+					StartingHealth = fighter.StartingHealth,
+					Text = fighter.Text,
+					ScriptId = -1
+				};
+
+				InsertFighter(newFighter, fighter.Script, true);
+			}
+
+			// Cards
+			foreach (var card in deck.Deck)
+			{
+				var newCard = new CardModel()
+				{
+					Id = -1,
+					DeckId = deckId,	
+					AllowedFighters = CardModel.ToAllowedFighters([.. card.AllowedFighters]),
+					Labels = CardModel.ToLabels([.. card.Labels]),
+					Boost = card.Boost ?? -1,
+					Count = card.Amount,
+					ImagePath = null, // TODO
+					Name = card.Name,
+					Text = card.Text,
+					Title = card.Name,
+					Type = card.Type switch // TODO this shouldn't be here
+					{
+						"Attack" => CardModelType.Attack,
+						"Defense" => CardModelType.Defense,
+						"Versatile" => CardModelType.Versatile,
+						"Scheme" => CardModelType.Scheme,
+						_ => throw new Exception($"Received unrecognized card type: {card.Type}")
+					},
+					StartingHandCount = deck.StartsWithCards.Count(k => k == card.Key),
+					Value = card.Value ?? 0,
+					ScriptId = -1
+				};
+
+				InsertCard(newCard, card.Script, true);
+				// TODO change script
+			}
+		}
+
+		// core script
+		var core = GetCore();
+		if (core is null)
+		{
+			core = new CoreModel()
+			{
+				Id = -1,
+				Text = contentUpdate.Core
+			};
+			InsertModel(core);
+			return;
+		}
+		core.Text = contentUpdate.Core;
+		UpdateCore(core);
+	}
 
 	public LoadoutTemplate GetLoadoutTemplate(int deckId)
     {

@@ -6,7 +6,8 @@ public interface IModel
     string SQLCreate();
     string SQLTableName();
     object[] SQLInsertData();
-    public IEnumerable<string> SQLColumns();
+    IEnumerable<string> SQLColumns();
+    Query SQLDelete();
 
     string SQLDrop() => $"DROP TABLE IF EXISTS {SQLTableName()}";
     Query SQLInsert() => new Query(SQLTableName())

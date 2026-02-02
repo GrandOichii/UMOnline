@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cp47tbmoe5jwr" path="res://v1/Distant/DistantMatchesTab.cs" id="1_ut46s"]
 
-[node name="DistantMatchesTab" type="Control" node_paths=PackedStringArray("ConnectionFormNode", "ConnectionDisplayNode", "ServerAddressEditNode", "NameEditNode", "ConnectionErrorDialogNode", "ConnectionRequestNode", "ConnectButtonNode", "OutdatedContentDialogNode")]
+[node name="DistantMatchesTab" type="Control" node_paths=PackedStringArray("ConnectionFormNode", "ConnectionDisplayNode", "ServerAddressEditNode", "NameEditNode", "ConnectionErrorDialogNode", "ConnectionRequestNode", "ConnectButtonNode", "OutdatedContentDialogNode", "ContentSyncWaitDialogNode", "ContentUpdateFailDialogNode", "FinishedContentUpdateDialog")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -15,12 +15,16 @@ ConnectionFormNode = NodePath("ConnectionForm")
 ConnectionDisplayNode = NodePath("ConnectionDisplay")
 ServerAddressEditNode = NodePath("ConnectionForm/ServerAddressEdit")
 NameEditNode = NodePath("ConnectionForm/NameEdit")
-ConnectionErrorDialogNode = NodePath("ConnectionErrorDialog")
+ConnectionErrorDialogNode = NodePath("Dialogs/ConnectionErrorDialog")
 ConnectionRequestNode = NodePath("Requests/ConnectionRequest")
 ConnectButtonNode = NodePath("ConnectionForm/ConnectButton")
-OutdatedContentDialogNode = NodePath("OutdatedContentDialog")
+OutdatedContentDialogNode = NodePath("Dialogs/OutdatedContentDialog")
+ContentSyncWaitDialogNode = NodePath("Dialogs/ContentSyncWaitDialog")
+ContentUpdateFailDialogNode = NodePath("Dialogs/ContentUpdateFailDialog")
+FinishedContentUpdateDialog = NodePath("Dialogs/FinishedContentUpdateDialog")
 
 [node name="ConnectionForm" type="VBoxContainer" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -45,7 +49,6 @@ layout_mode = 2
 text = "Connect"
 
 [node name="ConnectionDisplay" type="Control" parent="."]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -53,20 +56,21 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="ConnectionErrorDialog" type="AcceptDialog" parent="."]
-oversampling_override = 1.0
-title = "Connection error"
-initial_position = 2
-size = Vector2i(200, 100)
-dialog_text = "Connection error here"
+[node name="VBoxContainer" type="VBoxContainer" parent="ConnectionDisplay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="OutdatedContentDialog" type="AcceptDialog" parent="."]
-oversampling_override = 1.0
-title = "Outdated content!"
-initial_position = 2
-size = Vector2i(315, 106)
-dialog_text = "Local content is outdated, update it
-to player distant matches."
+[node name="Control" type="Control" parent="ConnectionDisplay/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="SyncContentButton" type="Button" parent="ConnectionDisplay/VBoxContainer"]
+layout_mode = 2
+text = "Synchronize content"
 
 [node name="Requests" type="Node" parent="."]
 
@@ -74,8 +78,59 @@ to player distant matches."
 
 [node name="ContentCheckRequest" type="HTTPRequest" parent="Requests"]
 
+[node name="Dialogs" type="Node" parent="."]
+
+[node name="ConnectionErrorDialog" type="AcceptDialog" parent="Dialogs"]
+oversampling_override = 1.0
+title = "Connection error"
+initial_position = 2
+size = Vector2i(200, 100)
+dialog_text = "Connection error here"
+
+[node name="OutdatedContentDialog" type="AcceptDialog" parent="Dialogs"]
+oversampling_override = 1.0
+title = "Outdated content!"
+initial_position = 2
+size = Vector2i(659, 106)
+dialog_text = "Local content is outdated, you might want to synchronize content for local matches."
+
+[node name="ContentUpdateFailDialog" type="AcceptDialog" parent="Dialogs"]
+oversampling_override = 1.0
+title = "Failed to download content"
+initial_position = 2
+size = Vector2i(300, 200)
+
+[node name="ContentSyncWaitDialog" type="Window" parent="Dialogs"]
+oversampling_override = 1.0
+title = "Content synchronization"
+initial_position = 2
+size = Vector2i(260, 60)
+visible = false
+wrap_controls = true
+transient = true
+exclusive = true
+
+[node name="CenterContainer" type="CenterContainer" parent="Dialogs/ContentSyncWaitDialog"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Dialogs/ContentSyncWaitDialog/CenterContainer"]
+layout_mode = 2
+text = "Synchronizing content..."
+
+[node name="FinishedContentUpdateDialog" type="AcceptDialog" parent="Dialogs"]
+oversampling_override = 1.0
+title = "Content update"
+initial_position = 2
+size = Vector2i(250, 100)
+dialog_text = "Finished updating content!"
+
 [connection signal="text_changed" from="ConnectionForm/ServerAddressEdit" to="." method="OnServerAddressEditTextChanged"]
 [connection signal="text_changed" from="ConnectionForm/NameEdit" to="." method="OnNameEditTextChanged"]
 [connection signal="pressed" from="ConnectionForm/ConnectButton" to="." method="OnConnectButtonPressed"]
+[connection signal="pressed" from="ConnectionDisplay/VBoxContainer/SyncContentButton" to="." method="OnSyncContentButtonPressed"]
 [connection signal="request_completed" from="Requests/ConnectionRequest" to="." method="OnConnectionRequestRequestCompleted"]
 [connection signal="request_completed" from="Requests/ContentCheckRequest" to="." method="OnContentCheckRequestRequestCompleted"]

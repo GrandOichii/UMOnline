@@ -97,4 +97,6 @@ public class DeckModel : IModel
             CardBackPath = reader.IsDBNull(8) ? null : reader.GetString(8),
         };
     }
+
+    public Query SQLDelete() => new Query(SQLTableName()).Where("id", Id).AsDelete();
 }

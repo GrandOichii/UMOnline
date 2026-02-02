@@ -16,6 +16,7 @@ builder.Services.AddTransient<UMContext>();
 // Repositories
 builder.Services.AddTransient<ILoadoutRepository, LoadoutRepository>();
 builder.Services.AddTransient<ICoreScriptRepository, CoreScriptRepository>();
+builder.Services.AddTransient<IContentUpdateRepository, ContentUpdateRepository>();
 
 // Business logic
 builder.Services.AddTransient<ILoadoutManager, LoadoutManager>();

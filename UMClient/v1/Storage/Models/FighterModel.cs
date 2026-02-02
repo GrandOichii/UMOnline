@@ -136,4 +136,6 @@ public class FighterModel : IModel
             ScriptId = reader.GetInt32(14),
         };
     }
+
+    public Query SQLDelete() => new Query(SQLTableName()).Where("id", Id).AsDelete();
 }

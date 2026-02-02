@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.IO;
+using UMCore.Matches;
 
 public partial class DeckInfoEditor : MarginContainer
 {
@@ -25,7 +26,11 @@ public partial class DeckInfoEditor : MarginContainer
 	[Export]
 	public CheckBox StartsWithSidekicksCheckNode { get; set; }
 	[Export]
+	public CheckBox HasStartingHandSizeNode { get; set; }
+	[Export]
 	public SpinBox StartingHandSizeNode { get; set; }
+	[Export]
+	public CheckBox HasMaxHandSizeNode { get; set; }
 	[Export]
 	public SpinBox MaxHandSizeNode { get; set; }
 	[Export]
@@ -60,8 +65,8 @@ public partial class DeckInfoEditor : MarginContainer
 		Name = NameEditNode.Text,
 		ChoosesSidekick = ChoosesSidekickCheckNode.ButtonPressed,
 		StartsWithSidekicks = StartsWithSidekicksCheckNode.ButtonPressed,
-		StartingHandSize = (int)StartingHandSizeNode.Value,
-		MaxHandSize = (int)MaxHandSizeNode.Value,
+		StartingHandSize = HasStartingHandSizeNode.ButtonPressed ? (int)StartingHandSizeNode.Value : null,
+		MaxHandSize = HasMaxHandSizeNode.ButtonPressed ? (int)MaxHandSizeNode.Value : null,
 		Editable = true,
 		Id = _deckId,
 		Description = DescriptionEditNode.Text,
@@ -75,8 +80,14 @@ public partial class DeckInfoEditor : MarginContainer
 		NameEditNode.Text = deck.Name;
 		ChoosesSidekickCheckNode.ButtonPressed = deck.ChoosesSidekick;
 		StartsWithSidekicksCheckNode.ButtonPressed = deck.ChoosesSidekick;
-		StartingHandSizeNode.Value = (double)deck.StartingHandSize;
-		MaxHandSizeNode.Value = (double)deck.MaxHandSize;
+		HasStartingHandSizeNode.ButtonPressed = deck.StartingHandSize is null;
+		StartingHandSizeNode.Value = deck.StartingHandSize is null 
+			? MatchConfig.Default1x1.InitialHandSize 
+			: (double)deck.StartingHandSize;
+		HasMaxHandSizeNode.ButtonPressed = deck.MaxHandSize is null;
+		MaxHandSizeNode.Value = deck.MaxHandSize is null
+			? MatchConfig.Default1x1.MaxHandSize
+			: (double)deck.MaxHandSize;
 		DescriptionEditNode.Text = deck.Description;
 		_cardBackPath = deck.CardBackPath;
 
@@ -100,6 +111,8 @@ public partial class DeckInfoEditor : MarginContainer
 		StartingHandSizeNode.Editable = value;
 		MaxHandSizeNode.Editable = value;
 		DescriptionEditNode.Editable = value;
+		HasMaxHandSizeNode.Disabled = !value;
+		HasStartingHandSizeNode.Disabled = !value;
 	}
 
 	// public override void _Ready()

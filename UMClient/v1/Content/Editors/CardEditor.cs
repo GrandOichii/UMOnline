@@ -96,7 +96,7 @@ public partial class CardEditor : TabContainer
 
         var hasBoost = card.Boost >= 0;
         BoostCheckNode.ButtonPressed = hasBoost;
-        BoostValueNode.Value = hasBoost ? card.Boost : 0;
+        BoostValueNode.Value = hasBoost ? card.Boost : -1;
 
         TextNode.Text = card.Text;
         _imagePath = card.ImagePath;

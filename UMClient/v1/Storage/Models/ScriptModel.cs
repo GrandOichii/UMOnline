@@ -72,6 +72,8 @@ public class ScriptModel : IModel
         // TODO
         throw new NotImplementedException();
     }
+
+    public Query SQLDelete() => new Query(SQLTableName()).Where("id", Id).AsDelete();
 }
 
 public class ScriptState

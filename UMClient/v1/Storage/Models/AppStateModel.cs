@@ -53,4 +53,6 @@ public class AppStateModel : IModel
             LastUpdateDT = reader.IsDBNull(2) ? null : DateTime.Parse(reader.GetString(2))
         };
     }
+
+    public Query SQLDelete() => throw new Exception("Cannot delete app state");
 }

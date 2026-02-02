@@ -14,7 +14,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 tab_alignment = 2
-current_tab = 1
+current_tab = 0
 tabs_position = 1
 script = ExtResource("1_w3mgi")
 NameEditNode = NodePath("General/HBoxContainer/VBoxContainer/HBoxContainer/NameEdit")
@@ -36,7 +36,6 @@ ScriptEditorNode = NodePath("Script")
 RenameWindowNode = NodePath("RenameWindow")
 
 [node name="General" type="Control" parent="."]
-visible = false
 layout_mode = 2
 metadata/_tab_index = 0
 
@@ -165,6 +164,7 @@ layout_mode = 2
 text = "Import image"
 
 [node name="Script" parent="." instance=ExtResource("4_qrq7s")]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 1
 

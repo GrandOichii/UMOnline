@@ -2,11 +2,14 @@
 
 [ext_resource type="Script" uid="uid://bhks1p4yh31bj" path="res://v1/Distant/ServerConnection.cs" id="1_gt8hm"]
 
-[node name="ServerConnection" type="Node" node_paths=PackedStringArray("UpdateContentRequestNode")]
+[node name="ServerConnection" type="Node" node_paths=PackedStringArray("UpdateContentRequestNode", "OutdatedContentRequestNode")]
 script = ExtResource("1_gt8hm")
-DefaultAddress = "http://localhost:5156"
 UpdateContentRequestNode = NodePath("UpdateContentRequest")
+OutdatedContentRequestNode = NodePath("OutdatedContentRequest")
 
 [node name="UpdateContentRequest" type="HTTPRequest" parent="."]
 
+[node name="OutdatedContentRequest" type="HTTPRequest" parent="."]
+
 [connection signal="request_completed" from="UpdateContentRequest" to="." method="OnUpdateContentRequestRequestCompleted"]
+[connection signal="request_completed" from="OutdatedContentRequest" to="." method="OnOutdatedContentRequestRequestCompleted"]

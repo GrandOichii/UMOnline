@@ -122,6 +122,8 @@ public class CardModel : IModel
         "script_id",
     ];
 
+    public Query SQLDelete() => new Query(SQLTableName()).Where("id", Id).AsDelete();
+
     public static Query SQLSelect() => new Query(Default.SQLTableName()).Select(
         "id",
         "name",
