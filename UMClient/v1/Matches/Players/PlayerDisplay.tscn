@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://bfos7kwpjhcsu"]
 
 [ext_resource type="PackedScene" uid="uid://cxs25778q1en6" path="res://v1/Matches/Cards/CardImageDisplay.tscn" id="1_42mhx"]
-[ext_resource type="Script" path="res://v1/Matches/Players/PlayerDisplay.gd" id="1_80ivx"]
+[ext_resource type="Script" uid="uid://cx58rwoqjvqbg" path="res://v1/Matches/Players/PlayerDisplay.gd" id="1_80ivx"]
 [ext_resource type="PackedScene" uid="uid://cp5mng8egqssa" path="res://v1/Matches/Players/HandCardDisplay.tscn" id="2_g56st"]
 [ext_resource type="PackedScene" uid="uid://bkwcncqk4nj5k" path="res://v1/Matches/Fighters/FighterDisplay.tscn" id="3_ayafp"]
 
@@ -32,7 +32,9 @@ layout_mode = 2
 [node name="Name" type="Label" parent="Main/HBoxContainer4/VBoxContainer/HBoxContainer2"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 3
 text = "PLAYER NAME HERE"
+text_overrun_behavior = 1
 
 [node name="Idx" type="Label" parent="Main/HBoxContainer4/VBoxContainer/HBoxContainer2"]
 unique_name_in_owner = true

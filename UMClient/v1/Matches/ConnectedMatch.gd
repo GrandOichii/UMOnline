@@ -9,7 +9,7 @@ extends Control
 @onready var ResponseEdit = %ResponseEdit
 @onready var OptionsDisplay = %OptionsDisplay
 
-func _ready() -> void:
+func configure() -> void:
 	Connection.match_info_updated.connect(_on_match_info_updated)
 	Display.set_connection(Connection)
 	

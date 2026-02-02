@@ -21,16 +21,16 @@ script = ExtResource("1_c637i")
 
 [node name="TabContainer" type="TabContainer" parent="."]
 layout_mode = 2
-current_tab = 0
+current_tab = 1
 
 [node name="Server" parent="TabContainer" node_paths=PackedStringArray("RepoNode", "ServerConnectionNode") instance=ExtResource("5_onknx")]
+visible = false
 layout_mode = 2
 RepoNode = NodePath("../../LocalRepository")
 ServerConnectionNode = NodePath("../../ServerConnection")
 metadata/_tab_index = 0
 
 [node name="Local" parent="TabContainer" node_paths=PackedStringArray("RepoNode") instance=ExtResource("3_neise")]
-visible = false
 layout_mode = 2
 RepoNode = NodePath("../../LocalRepository")
 metadata/_tab_index = 1

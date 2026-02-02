@@ -31,6 +31,8 @@ func _ready() -> void:
 	_card_name_pattern.compile(r'\{(.+?)\$(.+?)\$(.+?)\}')
 
 func _input(e: InputEvent) -> void:
+	if _connection == null:
+		return
 	if _connection.can_pick_action():
 		if e.is_action_pressed("fight"):
 			_connection.respond('Fight')

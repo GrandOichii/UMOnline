@@ -16,17 +16,21 @@ public partial class LocalMatchesTab : Control
 		{ "2 vs. 2", MatchConfig.Default2x2 },
 	};
 
+	[Export]
+	public LocalRepository RepoNode { get; set; }
+
     #region Packed scenes
 
+	[ExportGroup("Packed scenes")]
     [Export]
     public PackedScene BotEditorScene { get; set; }
+	[Export]
+	public PackedScene LocalMatchScene { get; set; }
 
     #endregion
 
 	#region Nodes
 
-	[Export]
-	public LocalRepository RepoNode { get; set; }
 	[ExportGroup("Nodes")]
 	[Export]
 	public OptionButton PresetOptionNode { get; set; }
@@ -38,6 +42,8 @@ public partial class LocalMatchesTab : Control
     public PlayerEditor RealPlayerEditor { get; set; }
     [Export]
     public Container BotListContainer { get; set; }
+	[Export]
+	public TabContainer TabsNode { get; set; }
 
 	#endregion
 
@@ -269,19 +275,25 @@ public partial class LocalMatchesTab : Control
 
 	private Match CreateMatch()
 	{
+		// read core from DB
+		var core = RepoNode.GetCore();
+		if (core is null)
+		{
+			// TODO display AcceptDialog
+			return null;
+		}
+
 		// create map
 		// TODO
+
 		var map = GetBaskervilleTemplate();
 
 		// create config
 		var config = MatchConfigEditorNode.Build();
 
-		// read core from DB
-		// var core = RepoNode.GetActiveCore().Text;
-		var core = File.ReadAllText("../core.lua");
 
 		// create players
-		var match = new Match(config, map, core)
+		var match = new Match(config, map, core.Text)
 		{
 			Logger = new GDLogger()
 		};
@@ -309,6 +321,7 @@ public partial class LocalMatchesTab : Control
 	public void OnStartMatchButtonPressed()
 	{
 		var match = CreateMatch();
+		if (match is null) return;
 		
 		// var realController = new LocalMatchIOHandler(this);
 		List<PlayerEditorResult> pers = [];
@@ -321,22 +334,17 @@ public partial class LocalMatchesTab : Control
 		// TODO check all players
 
 		// TODO add all players
-		// foreach (var per in pers)
-		// {
-		// 	var added = await match.AddPlayer(
-		// 		per.Name,
-		// 		per.TeamIdx,
-		// 		per.Loadout,
-		// 		per.Controller
-		// 	);
-		// 	if (!added)
-		// 	{
-		// 		throw new Exception("Failed to add a player, not enough checks");
-		// 	}
-		// }
+		
 
 		// start match
 		// TODO
+
+		var child = LocalMatchScene.Instantiate<LocalMatch>();
+		child.Name = $"Match{TabsNode.GetChildCount()}";
+		TabsNode.AddChild(child);
+		TabsNode.MoveChild(child, 0);
+
+		child.Start(match, pers);
 	}
 
 	public void OnAddBotButtonPressed()

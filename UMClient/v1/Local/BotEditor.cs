@@ -39,7 +39,7 @@ public partial class BotEditor : Control, IPlayerEditor
 
     public void OnRemoveButtonPressed()
     {
-        
+        QueueFree();
     }
 
     #endregion
