@@ -8,21 +8,21 @@ public class ScriptModel : IModel
 {
     public required int Id { get; set; }
     public required bool IsManual { get; set; }
-    public required string ManualScript { get; set; }
+    public required string Script { get; set; }
     public required string GraphState { get; set; }
 
     public readonly static ScriptModel Default = new()
     {
         Id = -1,
         IsManual = false,
-        ManualScript = "",
+        Script = "",
         GraphState = "",
     };
 
     public string SQLCreate() => new DDLCreateBuilder(SQLTableName())
         .Column("id INTEGER")
         .Column("is_manual INTEGER NOT NULL")
-        .Column("manual_script TEXT NOT NULL")
+        .Column("script TEXT NOT NULL")
         .Column("graph_state TEXT NOT NULL")
         .PrimaryKey("id")
         .Build();
@@ -32,20 +32,20 @@ public class ScriptModel : IModel
 
     public object[] SQLInsertData() => [
         IsManual,
-        ManualScript,
+        Script,
         GraphState,
     ];
 
     public IEnumerable<string> SQLColumns() => [
         "is_manual",
-        "manual_script",
+        "script",
         "graph_state",
     ];
 
     public static Query SQLSelect() => new Query(Default.SQLTableName()).Select(
         "id",
         "is_manual",
-        "manual_script",
+        "script",
         "graph_state"
     );
 
@@ -55,7 +55,7 @@ public class ScriptModel : IModel
         {
             Id = reader.GetInt32(0),
             IsManual = reader.GetBoolean(1),
-            ManualScript = reader.GetString(2),
+            Script = reader.GetString(2),
             GraphState = reader.GetString(3),
         };
     }
@@ -63,14 +63,6 @@ public class ScriptModel : IModel
     public ScriptState ParseScriptState()
     {
         return JsonSerializer.Deserialize<ScriptState>(GraphState);
-    }
-
-    public string ToScript()
-    {
-        if (IsManual) return ManualScript;
-
-        // TODO
-        throw new NotImplementedException();
     }
 
     public Query SQLDelete() => new Query(SQLTableName()).Where("id", Id).AsDelete();

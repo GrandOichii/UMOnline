@@ -132,7 +132,7 @@ public partial class ScriptEditor : Control
 		ToggleScriptTypeButtonNode.Disabled = !editable;
 
 		// manual
-		ManualScriptEdit.Text = script.ManualScript;
+		ManualScriptEdit.Text = script.Script;
 		ManualScriptEdit.Editable = editable;
 
 		// graph
@@ -177,7 +177,7 @@ public partial class ScriptEditor : Control
 	public ScriptModel BuildScriptModel() => new()
 	{
 		Id = _scriptId,
-		ManualScript = ManualScriptEdit.Text,
+		Script = _isManual ? ManualScriptEdit.Text : ScriptDisplay.Text,
 		IsManual = _isManual,
 		GraphState = _lastGraphState,
 	};
@@ -280,8 +280,8 @@ public partial class ScriptEditor : Control
 
 	public void ProcessScriptGraphChange()
 	{
-		UpdateLastGraphState();
 		RegenerateScript();
+		UpdateLastGraphState();
 	}
 
 	public void RegenerateScript() {

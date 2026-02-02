@@ -475,7 +475,7 @@ public partial class LocalRepository : Node
 		{
 			Id = -1,
 			IsManual = isManual,
-			ManualScript = script,
+			Script = script,
 			GraphState = ScriptState.NewFighterScript().ToJson(),
 		};
 
@@ -543,7 +543,7 @@ public partial class LocalRepository : Node
 		{
 			Id = -1,
 			IsManual = isManual,
-			ManualScript = script,
+			Script = script,
 			GraphState = ScriptState.NewCardScript().ToJson(),
 		};
 
@@ -863,7 +863,7 @@ public partial class LocalRepository : Node
 				MaxHealth = fighter.MaxHealth,
 				MeleeRange = fighter.MeleeRange,
 				Movement = fighter.Movement,
-				Script = script.ToScript(),
+				Script = script.Script,
 				StartingHealth = fighter.StartingHealth,
 				Text = fighter.Text
 			});		
@@ -883,7 +883,7 @@ public partial class LocalRepository : Node
 				Amount = card.Count,
 				Boost = card.Boost,
 				IncludedInDeckWithSidekick = null, // TODO
-				Script = script.ToScript(),
+				Script = script.Script,
 				Text = card.Text,
 				Type = card.Type.ToCardTemplateType(),
 				Value = card.Value,
