@@ -1,10 +1,14 @@
-[gd_scene load_steps=4 format=3 uid="uid://ce06sx3gdlscm"]
+[gd_scene load_steps=6 format=3 uid="uid://ce06sx3gdlscm"]
 
-[ext_resource type="Script" path="res://v1/CardImageLoader.gd" id="1_8ac0r"]
+[ext_resource type="Script" uid="uid://ekrnok325fkn" path="res://v1/CardImageLoader.gd" id="1_8ac0r"]
 [ext_resource type="Resource" uid="uid://b8f10jld208vi" path="res://v1/CardImagesAll.tres" id="2_8h8c3"]
 [ext_resource type="Resource" uid="uid://2gxhgfvong8d" path="res://v1/CardBacksAll.tres" id="3_wdwv0"]
+[ext_resource type="Texture2D" uid="uid://cjc1qq25gocl8" path="res://assets/decks/Dracula/cards/Dracula_Beastform.webp" id="4_f6f44"]
+[ext_resource type="Texture2D" uid="uid://c3jtlgta45a1g" path="res://assets/card1.webp" id="5_kpx6g"]
 
 [node name="CardImageLoader" type="Node"]
 script = ExtResource("1_8ac0r")
 images = ExtResource("2_8h8c3")
 backs = ExtResource("3_wdwv0")
+card_default = ExtResource("4_f6f44")
+card_back_default = ExtResource("5_kpx6g")

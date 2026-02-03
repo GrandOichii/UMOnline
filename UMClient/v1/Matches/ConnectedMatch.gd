@@ -9,7 +9,7 @@ extends Control
 @onready var ResponseEdit = %ResponseEdit
 @onready var OptionsDisplay = %OptionsDisplay
 
-func configure() -> void:
+func _ready() -> void:
 	Connection.match_info_updated.connect(_on_match_info_updated)
 	Display.set_connection(Connection)
 	
@@ -21,7 +21,6 @@ func _on_match_info_updated(data):
 	HintLabel.text = data.Hint
 	RequestLabel.text = data.Request
 	OptionsDisplay.text = str(data.Args)
-
 
 func _on_send_button_pressed() -> void:
 	Connection.respond(ResponseEdit.text)

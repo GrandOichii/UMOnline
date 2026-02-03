@@ -1,3 +1,5 @@
+#!/bin/sh
+
 cd UMModel.Scripts
 
 dotnet run -lp ImportLoadouts
@@ -6,5 +8,5 @@ dotnet run SetPublicLoadouts\
     Medusa\
     "King Arthur"\
     Sinbad\
-    Alice 
+    Alice
 dotnet run CreateContentUpdate

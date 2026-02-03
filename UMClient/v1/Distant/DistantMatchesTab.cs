@@ -52,6 +52,7 @@ public partial class DistantMatchesTab : Control
     {
         ServerConnectionNode.ContentUpdateFinished += OnServerConnectionNodeContentUpdateFinished;
         ServerConnectionNode.ContentUpdateFailed += OnServerConnectionNodeContentUpdateFailed;
+        ServerConnectionNode.ContentOutdatedResponded += OnServerConnectionNodeContentOutdatedResponded;
 
         ConnectionDisplayNode.Hide();
         ConnectionFormNode.Show();
@@ -170,6 +171,13 @@ public partial class DistantMatchesTab : Control
     {
         // TODO display AcceptDialog
         GD.Print($"FAILED TO UPDATE CONTENT: {errMsg}");
+    }
+
+    public void OnServerConnectionNodeContentOutdatedResponded(bool isOutdated)
+    {
+        if (!isOutdated) return;
+
+        OutdatedContentDialogNode.Show();
     }
 
     #endregion

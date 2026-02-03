@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using UMClient.v1.Matches;
+using UMCore;
 using UMCore.Matches;
 using UMCore.Templates;
 
@@ -63,6 +63,10 @@ public partial class LocalMatchesTab : Control
 
 		RealPlayerEditor.LoadLocalMatchesTab(this);
 		RealPlayerEditor.LoadName("RealPlayer"); // TODO? remove
+
+		// TODO remove
+		RealPlayerEditor.DeckOption.Select(1);
+		RealPlayerEditor.TeamNode.Value = 2;
 	}
 
     private void RemoveBotNodes()
@@ -291,7 +295,6 @@ public partial class LocalMatchesTab : Control
 		// create config
 		var config = MatchConfigEditorNode.Build();
 
-
 		// create players
 		var match = new Match(config, map, core.Text)
 		{
@@ -324,14 +327,32 @@ public partial class LocalMatchesTab : Control
 		if (match is null) return;
 		
 		// var realController = new LocalMatchIOHandler(this);
+		var child = LocalMatchScene.Instantiate<LocalMatch>();
+
 		List<PlayerEditorResult> pers = [];
-		pers.Add(RealPlayerEditor.Build());
+		var rpPer = RealPlayerEditor.Build();
+		var handler = new LocalMatchIOHandler(child);
+		rpPer = new PlayerEditorResult()
+		{
+			Controller = new IOPlayerController(handler),
+			Loadout = rpPer.Loadout,
+			Name = rpPer.Name,
+			TeamIdx = rpPer.TeamIdx
+		};
+		pers.Add(rpPer);
 		foreach (var playerEditor in BotListContainer.GetChildren().Cast<BotEditor>())
 		{
 			pers.Add(playerEditor.Build());
 		}
 
 		// TODO check all players
+		var startMatch = true;
+
+		if (!startMatch)
+		{
+			child.QueueFree();
+			return;
+		}
 
 		// TODO add all players
 		
@@ -339,12 +360,12 @@ public partial class LocalMatchesTab : Control
 		// start match
 		// TODO
 
-		var child = LocalMatchScene.Instantiate<LocalMatch>();
 		child.Name = $"Match{TabsNode.GetChildCount()}";
 		TabsNode.AddChild(child);
 		TabsNode.MoveChild(child, 0);
 
-		child.Start(match, pers);
+		child.Show();
+		child.Start(match, pers, handler);
 	}
 
 	public void OnAddBotButtonPressed()

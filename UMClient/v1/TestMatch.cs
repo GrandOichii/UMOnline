@@ -5,11 +5,38 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 using System.Threading.Tasks;
-using UMClient.v1.Matches;
 using UMCore;
 using UMCore.Matches;
 using UMCore.Matches.Players;
 using UMCore.Templates;
+
+public class TestMatchIOHandler(TestMatch match) : IIOHandler
+{
+	private TaskCompletionSource<string> _readTask = null;
+	public void SetReadTaskResult(string result)
+	{
+		_readTask.SetResult(result);
+	}
+
+	public Task Close()
+	{
+		// TODO
+		return Task.CompletedTask;
+	}
+
+	public Task<string> Read()
+	{
+		_readTask = new();
+
+		return _readTask.Task;
+	}
+
+	public async Task Write(UpdateInfo info)
+	{
+		match.CallDeferred("Load", Json.ParseString(JsonSerializer.Serialize(info)));
+	}
+}
+
 
 public partial class TestMatch : Control
 {
@@ -249,7 +276,7 @@ public partial class TestMatch : Control
 		Task.Run(RunMatch);
 	}
 
-	private LocalMatchIOHandler _handler;
+	private TestMatchIOHandler _handler;
 
 	public async Task RunMatch()
 	{
@@ -262,7 +289,7 @@ public partial class TestMatch : Control
 				Logger = new GDLogger()
 			};
 
-			_handler = new LocalMatchIOHandler(this);
+			_handler = new TestMatchIOHandler(this);
 			var controller = new IOPlayerController(_handler);
 
 			var loadout1 = LoadLoadout($"../.generated/loadouts/{PlayerDeck}/{PlayerDeck}.json");

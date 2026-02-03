@@ -23,7 +23,12 @@ cards = json.loads(open(CARDS_PATH, 'r').read())
 
 # map scripts and save to files
 for card in cards:
-    script = 'DEFAULT SCRIPT' # TODO
+    script = '''
+function _Create()
+    return UM.Build:Card()
+        -- unfinished card
+    :Build()
+end'''
     if card['text'] in script_map:
         script = script_map[card['text']]
         # print('YES')

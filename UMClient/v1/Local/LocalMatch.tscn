@@ -42,3 +42,5 @@ layout_mode = 2
 text = "Configuring match..."
 
 [node name="Connection" parent="." instance=ExtResource("3_guqoi")]
+
+[connection signal="responded" from="Connection" to="." method="OnConnectionResponded"]

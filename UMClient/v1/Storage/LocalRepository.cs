@@ -12,7 +12,16 @@ using UMDTO;
 
 public partial class LocalRepository : Node
 {
+	#region Signals
+
+	[Signal]
+	public delegate void ContentUpdateProcessedEventHandler();
+
+	#endregion
+
 	private static readonly SqliteCompiler SQL_COMPILER = new();
+
+	#region Exports
 
 	[Export]
 	public string DataSource { get; set; }
@@ -24,6 +33,8 @@ public partial class LocalRepository : Node
 	public string FighterImageDirectoryName { get; set; }
 	[Export]
 	public string CardImageDirectoryName { get; set; }
+
+	#endregion
 
 	private readonly List<IModel> _defaultModels = [
 		CoreModel.Default,
@@ -827,6 +838,8 @@ public partial class LocalRepository : Node
 		}
 		core.Text = contentUpdate.Core;
 		UpdateCore(core);
+
+		EmitSignalContentUpdateProcessed();
 	}
 
 	public LoadoutTemplate GetLoadoutTemplate(int deckId)

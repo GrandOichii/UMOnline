@@ -13,6 +13,8 @@ public partial class ServerConnection : Node
     public delegate void ContentUpdateFinishedEventHandler();
     [Signal]
     public delegate void ContentUpdateFailedEventHandler(string errMsg);
+    [Signal]
+    public delegate void ContentOutdatedRespondedEventHandler(bool isOutdated);
 
     #endregion
 
@@ -31,14 +33,22 @@ public partial class ServerConnection : Node
     public void SetAddress(string address)
     {
         _address = address;
-        
+
         // TODO
     }
 
     public void RequestIsOutdated(DateTime dt)
     {
         GD.Print(_address);
-        var err = OutdatedContentRequestNode.Request($"{_address}/api/v1/Update/IsOutdated", null, Godot.HttpClient.Method.Post, JsonSerializer.Serialize(dt));
+        GD.Print(JsonSerializer.Serialize(dt));
+        var err = OutdatedContentRequestNode.Request(
+            $"{_address}/api/v1/Update/IsOutdated",
+            [
+                "Content-Type: application/json",
+            ],
+            Godot.HttpClient.Method.Post,
+            JsonSerializer.Serialize(dt)
+        );
         GD.Print($"{nameof(RequestIsOutdated)}: {err}");
         // TODO check err
     }
@@ -84,7 +94,19 @@ public partial class ServerConnection : Node
 
     public void OnOutdatedContentRequestRequestCompleted(HttpRequest.Result result, int responseCode, string[] headers, byte[] body)
     {
-        // TODO
+        if (result != HttpRequest.Result.Success)
+        {
+            throw new Exception($"Unrecognized response code from server: {responseCode}");
+        }
+
+        GD.Print(Encoding.UTF8.GetString(body));
+
+        var isOutdated = JsonSerializer.Deserialize<bool>(body, new JsonSerializerOptions()
+        {
+            PropertyNameCaseInsensitive = true
+        });
+
+        EmitSignalContentOutdatedResponded(isOutdated);
     }
 
     #endregion

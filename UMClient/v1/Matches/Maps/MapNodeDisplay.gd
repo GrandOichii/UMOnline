@@ -52,9 +52,11 @@ func hide_fill():
 	BorderNode.hide()
 	
 func can_pick():
+	if _connection == null: return false
 	return _connection.can_pick_node(NodeId)
 
 func _on_gui_input(event: InputEvent) -> void:
+	if _connection == null: return
 	if can_pick() and event.is_action_pressed("pick_node"):
 		_connection.pick_node(NodeId)
 

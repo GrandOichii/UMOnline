@@ -12,7 +12,7 @@ public partial class PlayerEditor : HBoxContainer, IPlayerEditor
     [Export]
     public OptionButton DeckOption { get; set; }
     [Export]
-    public OptionButton TeamOption { get; set; }
+    public SpinBox TeamNode { get; set; }
 
     #endregion
 
@@ -23,7 +23,7 @@ public partial class PlayerEditor : HBoxContainer, IPlayerEditor
         return new()
         {
             Name = NameEditNode.Text,
-            TeamIdx = TeamOption.Selected,
+            TeamIdx = (int)TeamNode.Value - 1,
             Controller = null,
             Loadout = GetLoadoutTemplate()
         };

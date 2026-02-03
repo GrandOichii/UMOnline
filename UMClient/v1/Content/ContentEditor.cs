@@ -50,6 +50,7 @@ public partial class ContentEditor : Control
 
 	public override void _Ready()
 	{
+		RepositoryNode.ContentUpdateProcessed += OnRepositoryNodeContentUpdateProcessed;
 		OfficialDecks.Repo = RepositoryNode;
 		CustomDecks.Repo = RepositoryNode;
 
@@ -151,6 +152,16 @@ public partial class ContentEditor : Control
 		var state = DeckListsContainer.Visible;
 		CollapseDeckListsButton.Text = state ? ">" : "<";
 		DeckListsContainer.Visible = !state; 
+	}
+
+	public void OnRepositoryNodeContentUpdateProcessed()
+	{
+		// remove all tabs
+		while (DeckTabsNode.GetChildCount() > 0)
+			DeckTabsNode.RemoveChild(DeckTabsNode.GetChild(0));
+		
+		// reload deck lists
+		ReloadDeckLists();
 	}
 
 	#endregion

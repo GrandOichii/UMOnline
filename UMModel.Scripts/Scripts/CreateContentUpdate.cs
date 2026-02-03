@@ -29,7 +29,7 @@ public class CreateContentUpdate : IScript
             IsActive = true,
             CreatedDT = DateTime.Now.ToUniversalTime(),
             Description = "", // TODO
-            Id = -1,
+            Id = null,
             Data = JsonSerializer.Serialize(data)
         };
         ctx.ContentUpdates.Add(newContentUpdate);
