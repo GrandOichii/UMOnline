@@ -14,6 +14,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddTransient<UMContext>();
 
 // Repositories
+builder.Services.AddTransient<IMatchRepository, MatchRepository>();
 builder.Services.AddTransient<ILoadoutRepository, LoadoutRepository>();
 builder.Services.AddTransient<ICoreScriptRepository, CoreScriptRepository>();
 builder.Services.AddTransient<IContentUpdateRepository, ContentUpdateRepository>();
@@ -22,6 +23,7 @@ builder.Services.AddTransient<IContentUpdateRepository, ContentUpdateRepository>
 builder.Services.AddTransient<ILoadoutManager, LoadoutManager>();
 builder.Services.AddTransient<ICoreScriptManager, CoreScriptManager>();
 builder.Services.AddTransient<IUpdateManager, UpdateManager>();
+builder.Services.AddTransient<IMatchesManager, MatchesManager>();
 
 var app = builder.Build();
 
