@@ -54,6 +54,8 @@ pub struct CardsTabNode {
     manage_cards_button: OnEditor<Gd<Button>>,
     #[export]
     cards_manager_window_node: OnEditor<Gd<CardsManagerWindowNode>>,
+    #[export]
+    import_error_dialog_node: OnEditor<Gd<AcceptDialog>>,
 }
 
 #[godot_api]
@@ -94,9 +96,18 @@ impl CardFilter {
         }
     }
 
-    fn allows(&self, card: &CardModel) -> bool {
+    fn allows(&self, card: &CardModel, ph: &Option<&ParsingHistory>) -> bool {
         if self.used_only && !card.used {
             return false;
+        }
+        if let Some(parsing_history) = ph {
+            let is_parsed = parsing_history.card_scripts.contains_key(&card.id);
+            if is_parsed && !self.allow_parsed {
+                return false;
+            }
+            if !is_parsed && !self.allow_unparsed {
+                return false;
+            }
         }
         if card.name.to_lowercase().contains(&self.filter) {
             return true;
@@ -104,7 +115,6 @@ impl CardFilter {
         if card.text.to_lowercase().contains(&self.filter) {
             return true;
         }
-        // TODO allow_parsed and allow_unparsed
 
         return false;
     }
@@ -147,7 +157,6 @@ impl CardsTabNode {
             .signals()
             .save_request()
             .connect_other(self, Self::on_cards_manager_window_node_save_request);
-        // TODO connect signals of cards_manager_window_node
     }
 
     fn close_card_tabs(&mut self) {
@@ -172,6 +181,11 @@ impl CardsTabNode {
         self.reload_cards(&filter);
     }
 
+    fn display_import_error(&mut self, err_msg: &str) {
+        self.import_error_dialog_node.set_text(err_msg);
+        self.import_error_dialog_node.show();
+    }
+
     fn on_card_tabs_container_close_pressed(&mut self, idx: i64) {
         let child = self
             .card_tabs_container
@@ -190,10 +204,26 @@ impl CardsTabNode {
 
     fn on_import_cards_file_dialog_file_selected(&mut self, path: GString) {
         let project_name = self.loaded_project_name.to_string();
-        let contents =
-            fs::read_to_string(path.to_string()).expect("Failed to find file with cards");
-        let cards: Vec<ImportedCard> =
-            serde_json::from_str(contents.as_str()).expect("Failed to parse cards json"); // TODO tell user that json is invalid
+        let contents = match fs::read_to_string(path.to_string()) {
+            Ok(text) => text,
+            Err(err) => {
+                self.display_import_error(&format!(
+                    "Failed to import cards from {}\n{}",
+                    &path, err
+                ));
+                return;
+            }
+        };
+        let cards: Vec<ImportedCard> = match serde_json::from_str(contents.as_str()) {
+            Ok(data) => data,
+            Err(err) => {
+                self.display_import_error(&format!(
+                    "Incorrect card data format in {}\n{}",
+                    &path, err
+                ));
+                return;
+            }
+        };
 
         let mut added_cards = Vec::<String>::new();
         let mut skipped_cards = Vec::<String>::new();
@@ -263,9 +293,12 @@ impl CardsTabNode {
         ));
         drop(logs);
 
+        let repo = self.repo.bind_mut();
+        let ph = repo.get_parsing_history(&self.loaded_project_name);
+
         self.cards_list.clear();
         for card in &cards {
-            if !filter.allows(card) {
+            if !filter.allows(card, &ph) {
                 continue;
             }
 
@@ -298,18 +331,28 @@ impl CardsTabNode {
     fn on_cards_manager_window_node_save_request(&mut self) {
         self.cards_manager_window_node.hide();
 
-        let (new_used_ids, new_unused_ids) = self.cards_manager_window_node.bind_mut().get_card_changes();
+        let (new_used_ids, new_unused_ids) =
+            self.cards_manager_window_node.bind_mut().get_card_changes();
         let repo = self.repo.bind_mut();
-        // TODO log
         for id in new_used_ids {
             let mut card = repo.get_card(id).unwrap().unwrap();
             card.used = true;
-            repo.update_card_by_id(&card).expect("Failed to update card to be used");
+            self.logs_tab.bind_mut().log(format!(
+                "Card {} is now used in parsing",
+                LogsTabNode::format_card_name(&card.name)
+            ));
+            repo.update_card_by_id(&card)
+                .expect("Failed to update card to be used");
         }
         for id in new_unused_ids {
             let mut card = repo.get_card(id).unwrap().unwrap();
             card.used = false;
-            repo.update_card_by_id(&card).expect("Failed to update card to be unused");
+            self.logs_tab.bind_mut().log(format!(
+                "Card {} is now not used in parsing",
+                LogsTabNode::format_card_name(&card.name)
+            ));
+            repo.update_card_by_id(&card)
+                .expect("Failed to update card to be unused");
         }
     }
 }
@@ -322,10 +365,7 @@ impl CardsTabNode {
             return;
         }
 
-        let child = self
-            .card_tabs_container
-            .get_child(tab_idx)
-            .unwrap();
+        let child = self.card_tabs_container.get_child(tab_idx).unwrap();
         self.card_tabs_container.remove_child(&child);
     }
 
@@ -373,6 +413,15 @@ impl CardsTabNode {
     }
 
     pub fn update_parsing_history(&mut self, ph: &ParsingHistory) {
-        // TODO for each tab, update parsing histories
+        for i in 0..self.card_tabs_container.get_child_count() {
+            let mut child = self
+                .card_tabs_container
+                .get_child(i)
+                .expect("Failed to get child while iterating over get_children")
+                .try_cast::<CardTabNode>()
+                .unwrap();
+
+            child.bind_mut().update_parsing_history(Some(ph));
+        }
     }
 }

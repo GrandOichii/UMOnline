@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://3y3fwa2divkq" path="res://project_tabs/LogsTab.tscn" id="3_34bhn"]
 [ext_resource type="PackedScene" uid="uid://bjrlg2jv8o2wg" path="res://project_tabs/ParsersTab.tscn" id="3_d65ay"]
 
-[node name="ProjectEditor" type="ProjectEditorNode" node_paths=PackedStringArray("project_name_label", "project_description_edit", "cards_tab", "logs_tab", "parsers_tab", "completion_progress_bar", "root_parser_option", "tabs_node", "parse_button", "cannot_parse_dialog", "export_mapped_texts_button_node", "export_mapped_texts_path_dialog_node")]
+[node name="ProjectEditor" type="ProjectEditorNode" node_paths=PackedStringArray("project_name_label", "project_description_edit", "cards_tab", "logs_tab", "parsers_tab", "completion_progress_bar", "root_parser_option", "tabs_node", "parse_button", "error_dialog", "export_mapped_texts_button_node", "export_mapped_texts_path_dialog_node")]
 project_name_label = NodePath("VBoxContainer/Tabs/Project/HBoxContainer/PanelContainer/ProjectNameLabel")
 project_description_edit = NodePath("VBoxContainer/Tabs/Project/ProjectDescriptionEdit")
 cards_tab = NodePath("VBoxContainer/Tabs/Cards")
@@ -15,7 +15,7 @@ completion_progress_bar = NodePath("VBoxContainer/HBoxContainer/CompletionProgre
 root_parser_option = NodePath("VBoxContainer/Tabs/Project/HBoxContainer2/RootParserOption")
 tabs_node = NodePath("VBoxContainer/Tabs")
 parse_button = NodePath("VBoxContainer/HBoxContainer/ParseButton")
-cannot_parse_dialog = NodePath("CannotParseDialog")
+error_dialog = NodePath("ErrorDialog")
 export_mapped_texts_button_node = NodePath("VBoxContainer/ExportMappedTextsButton")
 export_mapped_texts_path_dialog_node = NodePath("ExportMappedTextsPathDialog")
 anchors_preset = 15
@@ -109,11 +109,11 @@ value = 80.0
 layout_mode = 2
 text = "Export mapped texts"
 
-[node name="CannotParseDialog" type="AcceptDialog" parent="."]
+[node name="ErrorDialog" type="AcceptDialog" parent="."]
 oversampling_override = 1.0
-title = "Cannot parse"
+title = "Error"
 initial_position = 2
-size = Vector2i(270, 102)
+size = Vector2i(300, 150)
 dialog_text = "Root parser is not set!"
 
 [node name="ExportMappedTextsPathDialog" type="FileDialog" parent="."]
@@ -122,3 +122,5 @@ title = "Export mapped texts"
 initial_position = 2
 size = Vector2i(1000, 600)
 access = 2
+
+[node name="AcceptDialog" type="AcceptDialog" parent="."]

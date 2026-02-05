@@ -139,3 +139,10 @@ use_native_dialog = true
 
 [node name="CardsManagerWindow" parent="." instance=ExtResource("2_l3vn6")]
 visible = false
+
+[node name="AcceptDialog" type="AcceptDialog" parent="."]
+oversampling_override = 1.0
+title = "Failed to import cards"
+initial_position = 2
+size = Vector2i(250, 80)
+visible = true

@@ -51,7 +51,7 @@ pub struct ProjectEditorNode {
     #[export]
     parse_button: OnEditor<Gd<Button>>,
     #[export]
-    cannot_parse_dialog: OnEditor<Gd<AcceptDialog>>,
+    error_dialog: OnEditor<Gd<AcceptDialog>>,
     #[export]
     export_mapped_texts_button_node: OnEditor<Gd<Button>>,
     #[export]
@@ -102,9 +102,9 @@ impl IControl for ProjectEditorNode {
 
 // private methods
 impl ProjectEditorNode {
-    fn display_parse_error(&mut self, err_msg: &str) {
-        self.cannot_parse_dialog.set_text(err_msg);
-        self.cannot_parse_dialog.show();
+    fn display_error(&mut self, err_msg: &str) {
+        self.error_dialog.set_text(err_msg);
+        self.error_dialog.show();
     }
 
     fn parse(&mut self) {
@@ -194,9 +194,8 @@ impl ProjectEditorNode {
             }
         }
 
-        // TODO notify user that root is not set
         if root_idx.is_none() {
-            self.display_parse_error("Root is not set!");
+            self.display_error("Root is not set!");
             return;
         }
         // let ridx = match root_idx {
@@ -377,7 +376,6 @@ impl ProjectEditorNode {
         self.repo
             .bind_mut()
             .set_current_parsing_history(self.edited_project_name.to_string(), ph);
-        // TODO update displayed parsed and unparsed texts in parsers_tab
     }
 }
 
@@ -453,11 +451,10 @@ impl ProjectEditorNode {
         }
 
         let json = serde_json::to_string(&texts).expect("Failed to serialize mapped texts to JSON");
-        godot_print!("{}", json);
+        drop(repo);
 
         if let Err(err) = fs::write(path.to_string(), json) {
-            // TODO notify user
-            panic!("{}", err);
+            self.display_error(&format!("Failed to export mapped texts!\n{}", err));
         }
     }
 }
