@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://cfm7yf8xlxwr5" path="res://project_tabs/cards/CardTab.tscn" id="1_2ooo1"]
 [ext_resource type="PackedScene" uid="uid://baa4ncwbqg74p" path="res://project_tabs/cards/CardsManagerWindow.tscn" id="2_l3vn6"]
 
-[node name="CardsTab" type="CardsTabNode" node_paths=PackedStringArray("import_cards_button", "cards_list", "card_tabs_container", "import_cards_file_dialog", "unparsed_count_label", "card_filter_edit", "parsed_filter_check", "unparsed_filter_check", "used_filter_check_node", "apply_filter_button", "manage_cards_button", "cards_manager_window_node")]
+[node name="CardsTab" type="CardsTabNode" node_paths=PackedStringArray("import_cards_button", "cards_list", "card_tabs_container", "import_cards_file_dialog", "unparsed_count_label", "card_filter_edit", "parsed_filter_check", "unparsed_filter_check", "used_filter_check_node", "apply_filter_button", "manage_cards_button", "cards_manager_window_node", "import_error_dialog_node")]
 card_tab_scene = ExtResource("1_2ooo1")
 import_cards_button = NodePath("HBoxContainer/VBoxContainer/ImportCardsButton")
 cards_list = NodePath("HBoxContainer/VBoxContainer/ScrollContainer/CardsList")
@@ -17,6 +17,7 @@ used_filter_check_node = NodePath("HBoxContainer/VBoxContainer/PanelContainer/VB
 apply_filter_button = NodePath("HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/ApplyFilterButton")
 manage_cards_button = NodePath("HBoxContainer/VBoxContainer/ManageCardsButton")
 cards_manager_window_node = NodePath("CardsManagerWindow")
+import_error_dialog_node = NodePath("ImportErrorDialog")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -140,9 +141,8 @@ use_native_dialog = true
 [node name="CardsManagerWindow" parent="." instance=ExtResource("2_l3vn6")]
 visible = false
 
-[node name="AcceptDialog" type="AcceptDialog" parent="."]
+[node name="ImportErrorDialog" type="AcceptDialog" parent="."]
 oversampling_override = 1.0
 title = "Failed to import cards"
 initial_position = 2
 size = Vector2i(250, 80)
-visible = true

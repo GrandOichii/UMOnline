@@ -9,6 +9,8 @@ pub struct CardsManagerWindowNode {
     base: Base<Window>,
 
     cards: Option<Vec<CardModel>>,
+    original_used_cards: Option<Vec<i32>>,
+    original_unused_cards: Option<Vec<i32>>,
 
     #[export_group(name = "Nodes")]
     #[export]
@@ -55,10 +57,11 @@ impl IWindow for CardsManagerWindowNode {
 // public methods
 impl CardsManagerWindowNode {
     pub fn get_card_changes(&mut self) -> (Vec<i32>, Vec<i32>) {
-        // TODO only changes!
+        let used = self.get_card_ids(self.used_cards_list_node.clone());
+        let unused = self.get_card_ids(self.unused_cards_list_node.clone());
         (
-            self.get_card_ids(self.used_cards_list_node.clone()),
-            self.get_card_ids(self.unused_cards_list_node.clone()),
+            CardsManagerWindowNode::diff(self.original_used_cards.as_ref().unwrap(), &used),
+            CardsManagerWindowNode::diff(self.original_unused_cards.as_ref().unwrap(), &unused),
         )
     }
 
@@ -68,6 +71,9 @@ impl CardsManagerWindowNode {
 
         self.selected_card_name_node.set_text("");
         self.selected_card_text_node.clear();
+
+        self.original_used_cards = Some(cards.iter().filter(|c| c.used).map(|c| c.id).collect());
+        self.original_unused_cards = Some(cards.iter().filter(|c| !c.used).map(|c| c.id).collect());
 
         self.cards = Some(cards);
 
@@ -131,6 +137,14 @@ impl CardsManagerWindowNode {
             .signals()
             .item_activated()
             .connect_other(self, Self::on_unused_cards_list_node_item_activated);
+    }
+
+    fn diff(original: &Vec<i32>, new: &Vec<i32>) -> Vec<i32> {
+        return new
+            .iter()
+            .filter(|i| !original.contains(i))
+            .map(|i| *i)
+            .collect();
     }
 
     fn get_card_ids(&mut self, list: Gd<ItemList>) -> Vec<i32> {
@@ -207,7 +221,11 @@ impl CardsManagerWindowNode {
         self.signals().save_request().emit();
     }
 
-    fn try_change_selected_card_states(&mut self, mut list: Gd<ItemList>, change_used_to_value: bool) {
+    fn try_change_selected_card_states(
+        &mut self,
+        mut list: Gd<ItemList>,
+        change_used_to_value: bool,
+    ) {
         let selected = list.get_selected_items();
         for idx in selected.as_slice() {
             let id: i32 = list.get_item_metadata(*idx).to();
@@ -272,38 +290,26 @@ impl CardsManagerWindowNode {
     }
 
     fn on_to_unused_cards_button_node_pressed(&mut self) {
-        self.try_change_selected_card_states(
-            self.used_cards_list_node.clone(),
-            false
-        )
+        self.try_change_selected_card_states(self.used_cards_list_node.clone(), false)
     }
-    
+
     fn on_to_used_cards_button_node_pressed(&mut self) {
-        self.try_change_selected_card_states(
-            self.unused_cards_list_node.clone(),
-            true
-        )
+        self.try_change_selected_card_states(self.unused_cards_list_node.clone(), true)
     }
-    
+
     fn on_all_to_unused_cards_button_node_pressed(&mut self) {
-        self.try_change_all_card_states(
-            self.used_cards_list_node.clone(),
-            false
-        )
+        self.try_change_all_card_states(self.used_cards_list_node.clone(), false)
     }
-    
+
     fn on_all_to_used_cards_button_node_pressed(&mut self) {
-        self.try_change_all_card_states(
-            self.unused_cards_list_node.clone(),
-            true
-        )
+        self.try_change_all_card_states(self.unused_cards_list_node.clone(), true)
     }
 
     fn on_used_cards_list_node_item_activated(&mut self, idx: i64) {
         self.try_change_card_state(
             self.used_cards_list_node.clone(),
             idx.try_into().unwrap(),
-            false
+            false,
         )
     }
 
@@ -311,7 +317,7 @@ impl CardsManagerWindowNode {
         self.try_change_card_state(
             self.unused_cards_list_node.clone(),
             idx.try_into().unwrap(),
-            true
+            true,
         )
     }
 }

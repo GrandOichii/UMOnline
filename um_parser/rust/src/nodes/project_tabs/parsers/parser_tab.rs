@@ -678,16 +678,30 @@ impl ParserTabNode {
         to: StringName,
         to_slot: i64,
     ) {
-        // TODO! check if already is connected
+        if from == to {
+            return;
+        }
+
+        let from_slot: i32 = from_slot.try_into().unwrap();
+
         let parent_node = self.graph.get_node_as::<ParserGraphNode>(&from.to_string());
         let child_node = self.graph.get_node_as::<ParserGraphNode>(&to.to_string());
-
+        
         let parent_parser = parent_node.bind().parser.as_ref().unwrap().clone();
+        let existing = self.repo.bind_mut().get_connected_parser(parent_parser.id, from_slot).expect("Failed to get existing connection");
+        if let Some(mut connected_node) = existing {
+            connected_node.parent_id = None;
+            connected_node.parent_slot = None;
+            self.repo
+                .bind_mut()
+                .update_parser_by_id(&connected_node)
+                .expect("Failed to remove connection to replace it");
+        }
         let mut child_parser = child_node.bind().parser.as_ref().unwrap().clone();
         child_parser.parent_id = Some(parent_parser.id);
         child_parser.parent_slot = Some(match parent_parser.ptype {
-            PMT_MATCHER => from_slot.try_into().unwrap(),
-            PMT_SELECTOR => from_slot.try_into().unwrap(),
+            PMT_MATCHER => from_slot,
+            PMT_SELECTOR => from_slot,
             _ => 0,
         });
 

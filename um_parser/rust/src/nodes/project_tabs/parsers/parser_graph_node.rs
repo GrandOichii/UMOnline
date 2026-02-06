@@ -43,6 +43,7 @@ pub struct ParserGraphNode {
 
     brief: ParserNodeBrief,
     pub parser: Option<ParserModel>,
+    add_slot_button: Option<Gd<Button>>,
 
     #[init(val = OnReady::manual())]
     pub graph: OnReady<Gd<GraphEdit>>,
@@ -259,10 +260,12 @@ impl ParserGraphNode {
             .set_position_offset(Vector2::new(parser.editor_offset_x, parser.editor_offset_y));
 
         // additional type-specific control nodes
-        // TODO this will be readded when calling load_parser again
         if parser.ref_to_id.is_none() {
             match parser.ptype {
                 PMT_SELECTOR => {
+                    if self.add_slot_button.is_some() {
+                        return;
+                    }
                     let mut add_slot_button = Button::new_alloc();
                     add_slot_button.set_text("Add");
                     self.base_mut().add_child(&add_slot_button);
@@ -270,6 +273,7 @@ impl ParserGraphNode {
                         .signals()
                         .pressed()
                         .connect_other(self, Self::on_add_slot_button_pressed);
+                    self.add_slot_button = Some(add_slot_button);
                 }
                 _ => {}
             };

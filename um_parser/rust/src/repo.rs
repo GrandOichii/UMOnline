@@ -299,6 +299,17 @@ impl ParserRepositoryNode {
         )
     }
 
+    pub fn get_connected_parser(
+        &self,
+        parent_id: i32,
+        parent_slot: i32,
+    ) -> Result<Option<ParserModel>, Box<dyn Error>> {
+        self.query_first(
+            ParserModel::sql_select().where_clause("p.parent_id = $1 AND p.parent_slot = $2"),
+            (parent_id, parent_slot),
+        )
+    }
+
     pub fn get_templates(&self, project_name: &str) -> Result<Vec<ParserModel>, Box<dyn Error>> {
         self.query(
             ParserModel::sql_select()

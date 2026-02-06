@@ -108,13 +108,17 @@ impl ProjectEditorNode {
     }
 
     fn parse(&mut self) {
-        let root_id = self
+        let root_id = match self
             .repo
             .bind_mut()
             .get_project(&self.edited_project_name)
             .expect("Failed to get project")
-            .expect("Failed to find project")
-            .root_parser_id;
+        {
+            Some(p) => p.root_parser_id,
+            None => {
+                return;
+            }
+        };
 
         let mut logs_tab = self.get_logs_tab().expect("Failed to get logs tab");
 
@@ -435,9 +439,7 @@ impl ProjectEditorNode {
     }
 
     fn export_mapped_texts_path_dialog_node_file_selected(&mut self, path: GString) {
-        let repo = self
-            .repo
-            .bind_mut();
+        let repo = self.repo.bind_mut();
         let ph = repo
             .get_parsing_history(&self.edited_project_name)
             .expect("Failed to get parsing history for current project");
@@ -446,7 +448,7 @@ impl ProjectEditorNode {
         for (_, pr) in ph.parse_results.iter() {
             texts.push(MappedText {
                 script: pr.generated.to_string(),
-                text: pr.text.to_string()
+                text: pr.text.to_string(),
             });
         }
 
