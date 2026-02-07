@@ -23,7 +23,7 @@ for path in listdir(LOADOUTS_DIR):
             'name': name,
             'type': card['Type'],
             'power': card['Value'],
-            'text': card['Text'],
+            'text': format_text(card['Text']),
             'labels': card['Labels'],
         }]
 
