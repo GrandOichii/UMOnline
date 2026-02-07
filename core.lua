@@ -1239,6 +1239,10 @@ function UM.Effects:DealDamage(manyFighters, numeric)
     end
 end
 
+function UM.Effects:TakeDamage(manyFighters, numeric)
+    return UM.Effects:DealDamage(manyFighters, numeric)
+end
+
 function UM.Effects:ReviveAndSummon(singleDefeatedFighter, singleNode)
     return function (args)
         local fighter = singleDefeatedFighter(args, 'Choose which fighter to revive')
@@ -1280,10 +1284,10 @@ function UM.Effects:RevealTopCardOfDeck(manyPlayers, ctxKey)
     end
 end
 
-function UM.Effects:PlaceFighter(singleFighter, singleSpace)
+function UM.Effects:PlaceFighter(singleFighter, manySpaces)
     return function (args)
         local fighter = singleFighter(args, 'Choose which fighter to place')
-        local node = singleSpace(args, 'Choose where to place '..fighter.LogName)
+        local node = manySpaces(args, 'Choose where to place '..fighter.LogName)
         PlaceFighter(fighter, node)
     end
 end
