@@ -8,6 +8,8 @@ using UMCore.Matches.Players;
 using UMCore.Matches.Tokens;
 using UMCore.Templates;
 
+using CommandLine;
+
 public class ConsolePlayerController : IPlayerController
 {
     private void PrintInfo(Fighter fighter)
@@ -28,7 +30,7 @@ public class ConsolePlayerController : IPlayerController
         System.Console.WriteLine($"Discard count: {player.DiscardPile.Count}");
         System.Console.WriteLine($"Actions left: {player.ActionCount}");
     }
-    
+
     public async Task<string> ChooseAction(Player player, string[] options)
     {
         PrintInfo(player);
@@ -61,7 +63,7 @@ public class ConsolePlayerController : IPlayerController
         var result = Console.ReadLine()!;
         return cards[int.Parse(result)];
     }
-    
+
     public async Task<MatchCard?> ChooseCardOrNothing(Player player, MatchCard[] options, string hint)
     {
         PrintInfo(player);
@@ -93,7 +95,7 @@ public class ConsolePlayerController : IPlayerController
         for (int i = 0; i < attacks.Count; ++i)
             System.Console.WriteLine($"{i}: {attacks[i].Fighter.LogName} -> {attacks[i].Target.LogName} [{attacks[i].AttackCard.LogName}]");
         var result = Console.ReadLine()!;
-        return attacks[int.Parse(result)];   
+        return attacks[int.Parse(result)];
     }
 
     public async Task<string> ChooseString(Player player, string[] options, string hint)
@@ -136,6 +138,48 @@ public class ConsolePlayerController : IPlayerController
     public Task<PlacedToken> ChooseToken(Player player, PlacedToken[] options, string hint)
     {
         throw new NotImplementedException();
+    }
+}
+
+public class AppArgs
+{
+    [Option("first", Required = true, HelpText = "Path to first fighter")]
+    public required string FirstFighterPath { get; set; }
+    [Option("second", Required = true, HelpText = "Path to second fighter")]
+    public required string SecondFighterPath { get; set; }
+    [Option("times", Required = false, Default = 1, HelpText = "Amount of times to run the match")]
+    public required int Times { get; set; }
+    [Option("log", Required = false, Default = false, HelpText = "Print match logs")]
+    public required bool Log { get; set; }
+    [Option("seed", Required = false, Default = null, HelpText = "First match seed")]
+    public required int? FirstSeed { get; set; }
+}
+
+public struct Report
+{
+    public int FinishedCount { get; set; }
+    public int CrashedCount { get; set; }
+
+    public Report()
+    {
+        FinishedCount = 0;
+        CrashedCount = 0;
+    }
+
+    public void Print()
+    {
+        System.Console.WriteLine($"Finished successfully: {FinishedCount}");
+        System.Console.WriteLine($"Crashed: {CrashedCount}");
+    }
+
+    public void ProcessFinished(Match match)
+    {
+        FinishedCount += 1;
+    }
+
+    public void ProcessCrashed(Match match)
+    {
+        CrashedCount += 1;
     }
 }
 
@@ -239,59 +283,106 @@ public class Program
     private static LoadoutTemplate LoadLoadout(string path)
     {
         var data = File.ReadAllText(path);
+        var loadoutPath = System.IO.Path.GetDirectoryName(path);
         var result = JsonSerializer.Deserialize<LoadoutTemplate>(data)!;
         foreach (var card in result.Deck)
         {
-            card.Script = File.ReadAllText(card.Script);
+            card.Script = File.ReadAllText(System.IO.Path.Join(loadoutPath, card.Script));
         }
 
         foreach (var fighter in result.Fighters)
         {
-            fighter.Script = File.ReadAllText(fighter.Script);
+            fighter.Script = File.ReadAllText(System.IO.Path.Join(loadoutPath, fighter.Script));
         }
         return result;
     }
 
     public static async Task Main(string[] args)
     {
+        var appArgs = Parser.Default.ParseArguments<AppArgs>(args).Value;
+        if (appArgs is null) return;
+
+        var report = new Report();
         var map = GetMapTemplate();
+        var core = File.ReadAllText("../core.lua");
+        // ILogger? logger = null;
+        ILogger? logger = appArgs.Log
+                ? LoggerFactory.Create(builder => builder
+                        .AddConsole()
+                        .SetMinimumLevel(LogLevel.Debug)
+                    )
+                    .CreateLogger("UMTester")
+                : null;
 
-        var match = new Match(MatchConfig.Testing, map, File.ReadAllText("../core.lua"))
+        var rnd = new Random();
+                
+        for (int i = 0; i < appArgs.Times; ++i)
         {
-            Logger = LoggerFactory
-                .Create(builder => builder
-                    .AddConsole()
-                    .SetMinimumLevel(LogLevel.Debug)
-                )
-                .CreateLogger("UMTester")
-        };
+            var seed = rnd.Next();
+            if (i == 0 && appArgs.FirstSeed != null)
+                seed = (int)appArgs.FirstSeed;
 
-        var controller = new ConsolePlayerController();
+            var config = new MatchConfig()
+            {
+                ActionsPerTurn = 2,
+                ExhaustDamage = 1,
+                FirstPlayerIdx = 0,
+                InitialHandSize = 5,
+                ManoeuvreDrawAmount = 1,
+                MaxHandSize = 7,
+                RandomFirstPlayer = true,
+                RandomMatch = false,
+                Seed = seed,
+                TeamSize = 1  
+            };
 
-        var loadout = LoadLoadout("../loadouts/foobar.json");
+            var match = new Match(config, map, core)
+            {
+                Logger = logger
+            };
 
-        await match.AddPlayer(
-            "p1",
-            0,
-            LoadLoadout("../loadouts/Dracula & The Sisters.json"),
-            controller
-        );
-        await match.AddPlayer(
-            "p2",
-            1,
-            loadout,
-            controller
-        );
+            var first = LoadLoadout(appArgs.FirstFighterPath);
+            var second = LoadLoadout(appArgs.SecondFighterPath);
 
-        try
-        {
-            await match.Run();
+            var controller = new RandomPlayerController(seed);
+            
+            await match.AddPlayer(
+                "first", 0,
+                first,
+                controller
+            );
+
+            await match.AddPlayer(
+                "second", 1,
+                second,
+                controller
+            );
+
+            try
+            {
+                await match.Run();
+                report.ProcessFinished(match);
+            }
+            catch (Exception e)
+            {
+                if (appArgs.Log)
+                {
+                    await Task.Delay(1000);
+                    System.Console.WriteLine(e);
+                    System.Console.WriteLine(e.StackTrace);
+                    System.Console.WriteLine("-============-");
+                    System.Console.WriteLine(e.InnerException);
+                    System.Console.WriteLine(e.InnerException?.StackTrace);
+                }
+                report.ProcessCrashed(match);
+            }
         }
-        catch (Exception e)
-        {
-            System.Console.WriteLine(e);
-            System.Console.WriteLine(e.StackTrace);
-        }
+
+        await Task.Delay(1000);
+
+        report.Print();
+
+        return;
     }
 
 }

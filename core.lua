@@ -1115,6 +1115,7 @@ function UM.Effects:DrawTo(manyPlayers, numeric)
 end
 
 function UM.Effects:MoveFighters(manyFighters, numeric, canMoveOverOpposing)
+    canMoveOverOpposing = canMoveOverOpposing or false
     return function (args)
         local fighters = manyFighters(args, 'Choose which fighter to move')
         local amount = numeric:Last(args)
@@ -1132,6 +1133,13 @@ end
 function UM.Effects:Discard(manyPlayers, fixedNumber, random, ctxKey)
     local discardCards = function (player, amount, cardIdxFunc)
         local result = {}
+        local handSize = GetHandSize(player)
+        if handSize <= amount then
+            while GetHandSize(player) > 0 do
+                DiscardCard(player, 0)
+            end
+            return
+        end
         while amount > 0 do
             local idx = cardIdxFunc()
             local discarded = DiscardCard(player, idx)
@@ -1246,6 +1254,9 @@ end
 function UM.Effects:ReviveAndSummon(singleDefeatedFighter, singleNode)
     return function (args)
         local fighter = singleDefeatedFighter(args, 'Choose which fighter to revive')
+        if fighter == nil then
+            return
+        end
         assert(IsDefeated(fighter), 'Provided a non-defeated fighter for UM.Effects:ReviveAndSummon')
         FullyRecoverHealth(fighter)
 
@@ -1288,10 +1299,19 @@ function UM.Effects:PlaceFighter(singleFighter, manySpaces)
     return function (args)
         local fighter = singleFighter(args, 'Choose which fighter to place')
         local node = manySpaces(args, 'Choose where to place '..fighter.LogName)
+        print('---==='..tostring(fighter)..' '..tostring(node))
         PlaceFighter(fighter, node)
     end
 end
 
+-- TODO feels weird to get card using fighter
+function UM.Effects:SetCombatCardValue(singleFighterFunc, newValue)
+    return function (args)
+        -- TODO
+    end
+end
+
+-- TODO too broad
 function UM.Effects:CancelAllEffectsOnOpponentsCard()
     return function (args)
         local player = args.owner
@@ -1625,6 +1645,9 @@ function UM.Select:Fighters()
         return selector:_Add(function (args, fighter)
             local f = singleFighter(args)
             if not IsAlive(f) then
+                return false
+            end
+            if not IsAlive(fighter) then
                 return false
             end
             return AreAdjacent(fighter, f)

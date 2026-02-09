@@ -1,5 +1,3 @@
--- TODO test
-
 function _Create()
     return UM.Build:Card()
         :Effect(
@@ -26,6 +24,7 @@ function _Create()
                         :BuildFirst(),
                     UM.Select:Nodes()
                         :InZoneOfFighter(UM.Fighter:Named('Medusa'))
+                        :Empty()
                         :BuildOne()
                 )
             )

@@ -75,6 +75,7 @@ for path in listdir(LOADOUTS_DIR):
         has_script = False
         if exists(card_path):
             card_script = open(card_path, 'r').read()
+        if 'unfinished card' not in card_script:
             has_script = True
         else:
             fallback_card_path = join(FALLBACK_SCRIPTS_PATH, f'{card_name}.lua')

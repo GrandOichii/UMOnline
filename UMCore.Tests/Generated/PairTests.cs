@@ -1,90 +1,79 @@
-using Godot;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using UMCore;
-using UMCore.Matches;
-using UMCore.Templates;
+using System.Text.Json;
+using UMCore.Matches.Players;
 
-public partial class LocalMatchesTab : Control
+namespace UMCore.Tests.Generated;
+
+public class PairTests
 {
-	private static readonly Dictionary<string, MatchConfig> PRESETS = new()
-	{
-		{ "1 vs. 1", MatchConfig.Default1x1 },
-		{ "2 vs. 2", MatchConfig.Default2x2 },
-	};
+    private static readonly int NUM_MATCHES = 100;
 
-	[Export]
-	public LocalRepository RepoNode { get; set; }
-
-    #region Packed scenes
-
-	[ExportGroup("Packed scenes")]
-    [Export]
-    public PackedScene BotEditorScene { get; set; }
-	[Export]
-	public PackedScene LocalMatchScene { get; set; }
-
-    #endregion
-
-	#region Nodes
-
-	[ExportGroup("Nodes")]
-	[Export]
-	public OptionButton PresetOptionNode { get; set; }
-	[Export]
-	public MatchConfigEditor MatchConfigEditorNode { get; set; }
-	[Export]
-	public Label CantStartReasonNode { get; set; }
-    [Export]
-    public PlayerEditor RealPlayerEditor { get; set; }
-    [Export]
-    public Container BotListContainer { get; set; }
-	[Export]
-	public TabContainer TabsNode { get; set; }
-
-	#endregion
-
-	public override void _Ready()
-	{
-		CantStartReasonNode.Hide();
-		PresetOptionNode.Clear();
-		foreach (var pair in PRESETS)
-		{
-			PresetOptionNode.AddItem(pair.Key);
-		}
-
-		RemoveBotNodes();
-		AddBot();
-
-		OnPresetOptionItemSelected(PresetOptionNode.Selected);
-
-		RealPlayerEditor.LoadLocalMatchesTab(this);
-		RealPlayerEditor.LoadName("RealPlayer"); // TODO? remove
-
-		// TODO remove
-		RealPlayerEditor.DeckOption.Select(1);
-		RealPlayerEditor.TeamNode.Value = 2;
-	}
-
-    private void RemoveBotNodes()
+    [Fact]
+    public async Task PairsShouldNotCrash()
     {
-        while (BotListContainer.GetChildCount() > 0)
-            BotListContainer.RemoveChild(BotListContainer.GetChild(0));
+        // await TestPair("Medusa", "Bigfoot", 66);
+        await TestPair("Medusa", "Bigfoot");
     }
-	
-	public static IEnumerable<MapNodeLinkTemplate> Bidirectional(MapNodeTemplate n1, MapNodeTemplate n2)
-	{
-		return [
-			new() {
-				First = n1.Id,
-				Second = n2.Id,
-			},
-		];
-	}
-	
+
+    private async Task TestPair(string fighter1, string fighter2, int startAt=0)
+    {
+        var map = GetBaskervilleTemplate();
+        var core = File.ReadAllText("../../../../core.lua");
+                
+        for (int i = startAt; i < NUM_MATCHES; ++i)
+        {
+            var seed = i;
+
+            var config = new MatchConfig()
+            {
+                ActionsPerTurn = 2,
+                ExhaustDamage = 1,
+                FirstPlayerIdx = 0,
+                InitialHandSize = 5,
+                ManoeuvreDrawAmount = 1,
+                MaxHandSize = 7,
+                RandomFirstPlayer = true,
+                RandomMatch = false,
+                Seed = seed,
+                TeamSize = 1  
+            };
+
+
+            var match = new Match(config, map, core)
+            {
+                Logger = null
+            };
+
+            var first = LoadLoadout($"../../../../.generated/loadouts/{fighter1}/{fighter1}.json");
+            var second = LoadLoadout($"../../../../.generated/loadouts/{fighter2}/{fighter2}.json");
+
+            var controller = new RandomPlayerController(seed);
+            
+            await match.AddPlayer(
+                "first", 0,
+                first,
+                controller
+            );
+
+            await match.AddPlayer(
+                "second", 1,
+                second,
+                controller
+            );
+
+            await match.Run();
+        }
+    }
+
+    public static MapNodeLinkTemplate[] Bidirectional(MapNodeTemplate n1, MapNodeTemplate n2)
+    {
+        return [
+            new() {
+                First = n1.Id,
+                Second = n2.Id,
+            },
+        ];
+    }
+
 	public static MapTemplate GetBaskervilleTemplate()
 	{
 		List<MapNodeTemplate> nodes = [
@@ -278,103 +267,20 @@ public partial class LocalMatchesTab : Control
 		};
 	}
 
-	private Match CreateMatch()
-	{
-		// read core from DB
-		var core = RepoNode.GetCore();
-		if (core is null)
-		{
-			// TODO display AcceptDialog
-			return null;
-		}
+    private static LoadoutTemplate LoadLoadout(string path)
+    {
+        var data = File.ReadAllText(path);
+        var loadoutPath = System.IO.Path.GetDirectoryName(path);
+        var result = JsonSerializer.Deserialize<LoadoutTemplate>(data)!;
+        foreach (var card in result.Deck)
+        {
+            card.Script = File.ReadAllText(System.IO.Path.Join(loadoutPath, card.Script));
+        }
 
-		// create map
-		// TODO
-
-		var map = GetBaskervilleTemplate();
-
-		// create config
-		var config = MatchConfigEditorNode.Build();
-
-		// create players
-		var match = new Match(config, map, core.Text)
-		{
-			Logger = new GDLogger()
-		};
-
-		return match;
-	}
-
-	private void AddBot()
-	{
-		var child = BotEditorScene.Instantiate<BotEditor>();
-		BotListContainer.AddChild(child);
-
-		child.LoadLocalMatchesTab(this);
-		child.LoadName($"Bot{BotListContainer.GetChildCount()}");
-	}
-
-	#region Signal connections
-
-	public void OnPresetOptionItemSelected(int idx)
-	{
-		var config = PRESETS[PresetOptionNode.GetItemText(idx)];
-		MatchConfigEditorNode.Load(config);
-	}
-
-	public void OnStartMatchButtonPressed()
-	{
-		var match = CreateMatch();
-		if (match is null) return;
-		
-		// var realController = new LocalMatchIOHandler(this);
-		var child = LocalMatchScene.Instantiate<LocalMatch>();
-
-		List<PlayerEditorResult> pers = [];
-		var rpPer = RealPlayerEditor.Build();
-		var handler = new LocalMatchIOHandler(child);
-		rpPer = new PlayerEditorResult()
-		{
-			Controller = new IOPlayerController(handler),
-			Loadout = rpPer.Loadout,
-			Name = rpPer.Name,
-			TeamIdx = rpPer.TeamIdx
-		};
-		pers.Add(rpPer);
-		foreach (var playerEditor in BotListContainer.GetChildren().Cast<BotEditor>())
-		{
-			pers.Add(playerEditor.Build());
-		}
-
-		// TODO check all players
-		var startMatch = true;
-
-		if (!startMatch)
-		{
-			child.QueueFree();
-			return;
-		}
-
-		// TODO add all players
-		
-
-		// start match
-		// TODO
-
-		child.Name = $"Match{TabsNode.GetChildCount()}";
-		TabsNode.AddChild(child);
-		TabsNode.MoveChild(child, 0);
-
-		child.Show();
-		child.Start(match, pers, handler);
-	}
-
-	public void OnAddBotButtonPressed()
-	{
-		if (BotListContainer.GetChildCount() == 3) return;
-
-		AddBot();
-	}
-
-	#endregion
+        foreach (var fighter in result.Fighters)
+        {
+            fighter.Script = File.ReadAllText(System.IO.Path.Join(loadoutPath, fighter.Script));
+        }
+        return result;
+    }
 }

@@ -105,10 +105,20 @@ public class EffectCollection : IHasText
     {
         if (!ConditionsMet(args, subjects)) return;
 
-        Match.Logger?.LogDebug("Executing EffectCollection with text {EffectCollectionText}, effect count: {EffectCount}", Text, Effects.Count);
-        foreach (var effect in Effects)
+        Match.Logger?.LogDebug(
+            "Executing EffectCollection with text '{EffectCollectionText}', effect count: {EffectCount}", 
+            Text, 
+            Effects.Count
+        );
+        try
         {
-            effect.Execute(args, subjects);
+            foreach (var effect in Effects)
+            {
+                effect.Execute(args, subjects);
+            }
+        } catch (Exception)
+        {
+            throw;
         }
     }
 
@@ -117,7 +127,7 @@ public class EffectCollection : IHasText
         var subs = subjects ?? new();
         if (!ConditionsMet(args, subs)) return value;
 
-        Match.Logger?.LogDebug("Modyfing value {InitialValue} using EffectCollection with text {EffectCollectionText}, effect count: {EffectCount}", value, Text, Effects.Count);
+        Match.Logger?.LogDebug("Modyfing value {InitialValue} using EffectCollection with text '{EffectCollectionText}', effect count: {EffectCount}", value, Text, Effects.Count);
 
         var result = value;
         foreach (var effect in Effects)

@@ -60,6 +60,7 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
 
     public bool CanRun()
     {
+        if (Players.Count == 0) return false;
         if (Teams.Count <= 1) return false;
         var pCount = Teams[0].Count;
         return Teams.Values.All(t => t.Count == pCount);

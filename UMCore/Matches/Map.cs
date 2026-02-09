@@ -224,6 +224,10 @@ public class MapNode : IHasData<MapNode.Data>
         }
         else
         {
+            if (Fighter is not null)
+            {
+                throw new MatchException($"Tried to place fighter {fighter.LogName} on node with fighter {Fighter.LogName}");
+            }
             Fighter = fighter;
         }
 
