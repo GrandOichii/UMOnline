@@ -15,7 +15,9 @@ for deck in data['decks']:
         name = card['title'].replace('?', ' ').replace('!', ' ').replace(':', ' ').replace('"', ' ').strip()
         card_path = join(IMPLEMENTATIONS_DIR, f'{name}.lua')
         if exists(card_path):
-            implemented += 1
+            text = open(card_path, 'r').read()
+            if 'unfinished card' not in text:
+                implemented += 1
         card_path = join(CUSTOM_IMPLEMENTATIONS_DIR, f'{name}.lua')
         if exists(card_path):
             implemented += 1
@@ -27,5 +29,16 @@ for deck in data['decks']:
 
 result = sorted(result, key=lambda deck: deck['total'] - deck['implemented'])
 
+ONLY_DECKS = [
+    'King Arthur',
+    'Alice',
+    'Medusa',
+    'Sinbad',
+    'Bigfoot',
+    'Robin Hood',
+]
+
 for deck in result:
+    if not deck['name'] in ONLY_DECKS:
+        continue
     print('{}: {}/{}'.format(deck['name'], deck['implemented'], deck['total']))
