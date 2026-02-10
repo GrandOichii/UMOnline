@@ -29,8 +29,8 @@ function _Create()
                         UM.Select:Fighters():Named('Sun Wukong'):Build(),
                         UM.Number:Static(1)
                     ),
-                    UM.Effects:ReviveAndSummon(
-                        defeatedFighterSelector():BuildFirst(),
+                    UM.Effects:ReviveAndSummonSingle(
+                        defeatedFighterSelector():Build(),
                         nodeSelector():BuildOne()
                     )
                 )

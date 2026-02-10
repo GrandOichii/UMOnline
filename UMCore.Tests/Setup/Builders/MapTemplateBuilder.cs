@@ -18,13 +18,13 @@ public class MapTemplateBuilder
         Adjacent = [],
     };
 
-    public static MapTemplate Build2x2()
+    public static MapTemplate Build2x2(int playerCount=2)
     {
         return new MapTemplateBuilder()
             .AddNode(00, [0], spawnNumber: 1)
             .AddNode(01, [0], spawnNumber: 2)
-            .AddNode(10, [0], spawnNumber: 3)
-            .AddNode(11, [0], spawnNumber: 4)
+            .AddNode(10, [0], spawnNumber: playerCount > 2 ? 3 : -1)
+            .AddNode(11, [0], spawnNumber: playerCount > 3 ? 4 : -1)
             .ConnectAll()
             .Build();
     }

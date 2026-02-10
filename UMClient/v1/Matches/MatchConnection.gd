@@ -16,7 +16,7 @@ func on_match_info_updated(data):
 	# if cur_data.Request != 'Setup': return
 
 func can_pick_card_in_hand(id):
-	if cur_data.Request != 'ChooseCard' and cur_data.Request != 'ChooseCarOrNothing':
+	if cur_data.Request != 'ChooseCard' and cur_data.Request != 'ChooseCardOrNothing':
 		return false
 	for key in cur_data.Args:
 		if cur_data.Args[key] == id:

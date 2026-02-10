@@ -26,8 +26,8 @@ function _Create()
                 ),
                 -- true
                 {
-                    UM.Effects:ReviveAndSummon(
-                        UM.Select:Fighters():Defeated():Named('Squirrel'):BuildFirst(),
+                    UM.Effects:ReviveAndSummonSingle(
+                        UM.Select:Fighters():Defeated():Named('Squirrel'):Build(),
                         nodeSelect():BuildOne()
                     ),
                 },

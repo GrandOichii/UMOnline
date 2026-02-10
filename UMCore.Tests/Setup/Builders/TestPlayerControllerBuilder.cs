@@ -164,6 +164,10 @@ public class TestPlayerControllerBuilder
                 var f2 = match.Fighters.First(f => f.Template.Key == fighterKey2);
                 var node1 = match.Map.GetFighterLocation(f1);
                 var node2 = match.Map.GetFighterLocation(f2);
+
+                await node1.RemoveFighter(f1);
+                await node2.RemoveFighter(f2);
+                
                 await node1.PlaceFighter(f2);
                 await node2.PlaceFighter(f1);
                 return (TestPlayerController.NEXT_ACTION, true);

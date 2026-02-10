@@ -63,9 +63,9 @@ public class CardModel : IModel
         ScriptId = -1,
     };
 
-    public string[] GetAllowedFighters() => AllowedFighters.Split(",");
+    public string[] GetAllowedFighters() => AllowedFighters.Length == 0 ? [] : AllowedFighters.Split(",");
     public static string ToAllowedFighters(List<string> allowedFighters) => string.Join(",", allowedFighters);
-    public string[] GetLabels() => Labels.Split(",");
+    public string[] GetLabels() => Labels.Length == 0 ? [] : Labels.Split(",");
     public static string ToLabels(List<string> labels) => string.Join(",", labels);
 
     public string SQLTableName() => "cards";

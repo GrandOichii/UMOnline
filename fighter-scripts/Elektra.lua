@@ -23,7 +23,7 @@ function _Create()
                     --  remove her and all Hand from the board. She is not defeated. At the start of your next turn, Resurrect her. (Ignore effects with the RESURRECTED symbol.)
                     SetPlayerStringAttribute(args.owner, 'RESURRECTED', 'Y')
 
-                    local sidekicks = UM.Select:Fighters():Named('The Hand'):Build()(args)
+                    local sidekicks = UM.Select:Fighters():Undefeated():Named('The Hand'):Build()(args)
                     for _, fighter in ipairs(sidekicks) do
                         RemoveFighterFromBoard(fighter)
                     end

@@ -860,10 +860,10 @@ public class InitialFighterPlacementTests
     [InlineData(2, 0, new int[] { 3 })]
     [InlineData(2, 1, new int[] { 3, 2 })]
     [InlineData(2, 2, new int[] { 3, 2, 1 })]
-    [InlineData(4, 1, new int[] { 3, 2, 1, 5 })]
-    [InlineData(4, 2, new int[] { 3, 2, 1, 5, 4 })]
-    [InlineData(4, 3, new int[] { 3, 2, 1, 5, 4, 3 })]
-    [InlineData(4, 4, new int[] { 3, 2, 1, 5, 4, 3, 2 })]
+    [InlineData(4, 1, new int[] { 3, 2, 1, 4 })]
+    [InlineData(4, 2, new int[] { 3, 2, 1, 4, 3 })]
+    [InlineData(4, 3, new int[] { 3, 2, 1, 4, 3, 2 })]
+    [InlineData(4, 4, new int[] { 3, 2, 1, 4, 3, 2, 1 })]
     public async Task Place_N_Heroes_M_Sidekicks_In_3x3_Box_2x2_Zone(int heroCount, int sidekickCount, int[] optionCounts)
     {
         // Arrange
@@ -977,7 +977,7 @@ public class InitialFighterPlacementTests
                 )
                 .ConfigNodeChoices(c => c
                     .ForEach(
-                        [3, 2, 1, 5],
+                        [3, 2, 1, 4],
                         (cnc, o) => cnc
                             .AssertOptionsHasLength(o)
                             .First()

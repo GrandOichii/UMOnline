@@ -46,7 +46,7 @@ public class PlayerInitialFighterPlacerInZone : IPlayerInitialFighterPlacer
             var fighter = fighters.Dequeue();
             if (options.Count == 0)
             {
-                options.AddRange(player.Match.Map.GetEmptyNodes());
+                options.AddRange(player.Match.Map.GetEmptyNodes().Where(n => n.IsEmpty() && n.Template.SpawnNumber <= 0));
             }
             var node = await player.Controller.ChooseNode(player, [.. options], $"Choose where to place {fighter.FormattedLogName}");
             options.Remove(node);

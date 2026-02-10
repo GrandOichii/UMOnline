@@ -7,12 +7,24 @@ public class PairTests
 {
     private static readonly int NUM_MATCHES = 100;
 
-    [Fact]
-    public async Task PairsShouldNotCrash()
-    {
-        // await TestPair("Medusa", "Bigfoot", 66);
+    // [Fact]
+    // public async Task PairsShouldNotCrash()
+    // {
+    //     // await TestPair("Medusa", "Bigfoot", 66);
+    //     await TestPair("Medusa", "Bigfoot");
+    // }
+
+	[Fact]
+	public async Task Medusa_vs_Bigfoot()
+	{
         await TestPair("Medusa", "Bigfoot");
-    }
+	}
+
+	[Fact]
+	public async Task RobinHood_vs_Alice()
+	{
+        await TestPair("Robin Hood", "Alice");
+	}
 
     private async Task TestPair(string fighter1, string fighter2, int startAt=0)
     {

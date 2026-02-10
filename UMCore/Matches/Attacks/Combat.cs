@@ -12,6 +12,7 @@ public class CombatPart : IHasData<CombatPart.Data>, ICardZone
     public bool IsDefence { get; }
     public MatchCard Card { get; }
     public int Value { get; set; }
+    public bool ValueIsIgnored { get; set; }
     public bool EffectsCancelled { get; private set; } = false;
     public List<MatchCard> Boosts { get; } = [];
     public Combat Parent { get; }
@@ -24,6 +25,7 @@ public class CombatPart : IHasData<CombatPart.Data>, ICardZone
         Card = card;
         Parent = parent;
         Value = (int)card.Template.Value!;
+        ValueIsIgnored = false;
     }
 
     public async Task ExecuteCombatCardChoiceEffects()
@@ -49,6 +51,7 @@ public class CombatPart : IHasData<CombatPart.Data>, ICardZone
 
     public int GetValue()
     {
+        if (ValueIsIgnored) return 0;
         var result = Value;
         foreach (var boost in Boosts)
         {

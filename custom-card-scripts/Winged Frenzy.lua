@@ -17,11 +17,11 @@ function _Create()
                         :Build(),
                     0
                 ),
-                UM.Effects:ReviveAndSummon(
+                UM.Effects:ReviveAndSummonSingle(
                     UM.Select:Fighters()
                         :Defeated()
                         :Named('Harpy')
-                        :BuildFirst(),
+                        :Build(),
                     UM.Select:Nodes()
                         :InZoneOfFighter(UM.Fighter:Named('Medusa'))
                         :Empty()

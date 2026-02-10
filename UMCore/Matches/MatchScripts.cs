@@ -137,13 +137,15 @@ public class MatchScripts
     }
 
     [LuaCommand]
-    public int ChooseCardInHand(Player player, LuaTable cards, string hint)
-    {
-        var options = LuaUtility.ParseTable<MatchCard>(cards);
+    public LuaTable ChooseCardInHand(Player player, LuaTable cards, string hint)
+    {        var options = LuaUtility.ParseTable<MatchCard>(cards);
         var result = player.Controller.ChooseCard(player, [.. options], hint)
             .GetAwaiter().GetResult();
         // TODO this will break Loki
-        return result.Owner.Hand.GetCardIdx(result);
+        return LuaUtility.CreateTable(Match.LState, new List<object>() {
+            result.Owner.Hand.GetCardIdx(result),
+            result.Owner
+        });
     }
 
     [LuaCommand]
@@ -279,8 +281,11 @@ public class MatchScripts
     {
         if (fighter1 == fighter2) return false;
         
-        var node1 = Match.Map.GetFighterLocation(fighter1);
-        var node2 = Match.Map.GetFighterLocation(fighter2);
+        var node1 = Match.Map.GetFighterLocationOrDefault(fighter1);
+        if (node1 is null) return false;
+        var node2 = Match.Map.GetFighterLocationOrDefault(fighter2);
+        if (node2 is null) return false;
+        
         if (node1 == node2)
         {
             if (!fighter1.Template.IsSmall && !fighter2.Template.IsSmall)
@@ -335,6 +340,16 @@ public class MatchScripts
         var (part, fighter, _) = combat.GetCombatPart(player);
         var (_, resultFighter) = combat.GetOpponent(part);
         return resultFighter?.Owner;
+    }
+
+    [LuaCommand]
+    public int GetDealtCombatDamage()
+    {
+        if (Match.Combat is null)
+            throw new MatchException($"Tried to call {nameof(GetDealtCombatDamage)} while not in combat");
+        if (Match.Combat.DamageDealt is null)
+            throw new MatchException($"Tried to call {nameof(GetDealtCombatDamage)} before combat damage is calculated");
+        return (int)Match.Combat.DamageDealt;
     }
 
     [LuaCommand]
@@ -517,11 +532,10 @@ public class MatchScripts
     }
 
     [LuaCommand]
-    public async Task RemoveFighterFromBoard(Fighter fighter)
+    public void RemoveFighterFromBoard(Fighter fighter)
     {
         Match.Map.RemoveFighterFromBoard(fighter)
             .Wait();
-
     }
 
     [LuaCommand]
@@ -616,6 +630,30 @@ public class MatchScripts
         if (card is null) return;
 
         card.Value += amount;
+    }
+
+    [LuaCommand]
+    public void SetCardValueInCombat(Player player, int amount)
+    {
+        var combat = Match.Combat
+            ?? throw new MatchException($"Called {nameof(AddToCardValueInCombat)} while there is no combat");
+
+        var (card, _, _) = combat.GetCombatPart(player);
+        if (card is null) return;
+
+        card.Value = amount;
+    }
+
+    [LuaCommand]
+    public void IgnoreCardValueInCombat(Player player)
+    {
+        var combat = Match.Combat
+            ?? throw new MatchException($"Called {nameof(AddToCardValueInCombat)} while there is no combat");
+
+        var (card, _, _) = combat.GetCombatPart(player);
+        if (card is null) return;
+
+        card.ValueIsIgnored = true;
     }
 
     [LuaCommand]

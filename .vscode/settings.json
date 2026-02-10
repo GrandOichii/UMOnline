@@ -111,7 +111,10 @@
         "CanFitSmallFighter",
         "GetHand",
         "GetZoneChangeType",
-        "SetZoneChangeLocation"
+        "SetZoneChangeLocation",
+        "SetCardValueInCombat",
+        "GetDealtCombatDamage",
+        "IgnoreCardValueInCombat"
     ],
     "sqltools.connections": [
         {

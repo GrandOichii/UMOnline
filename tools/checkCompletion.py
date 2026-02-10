@@ -12,8 +12,9 @@ result = []
 for deck in data['decks']:
     implemented = 0
     for card in deck['cards']:
-        name = card['title'].replace('?', ' ').replace('!', ' ').replace(':', ' ').replace('"', ' ').strip()
+        name = card['title'].replace('?', ' ').replace(':', ' ').replace('"', ' ').strip()
         card_path = join(IMPLEMENTATIONS_DIR, f'{name}.lua')
+        pi = implemented
         if exists(card_path):
             text = open(card_path, 'r').read()
             if 'unfinished card' not in text:
@@ -21,6 +22,9 @@ for deck in data['decks']:
         card_path = join(CUSTOM_IMPLEMENTATIONS_DIR, f'{name}.lua')
         if exists(card_path):
             implemented += 1
+        if pi == implemented and deck['name'] == 'Robin Hood':
+            print(f'\t{card['title']}')
+    
     result += [{
         'name': deck['name'],
         'implemented': implemented,

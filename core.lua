@@ -652,15 +652,16 @@ UM.Combat = {}
 
 function UM.Combat:DamageDealt()
     return UM.Number:_(function (args)
-        local combat = GetCombat()
-        assert(combat ~= nil, 'Tried to call UM.Combat:DamageDealt while no combat is active')
+        return { GetDealtCombatDamage() }
+        -- local combat = GetCombat()
+        -- assert(combat ~= nil, 'Tried to call UM.Combat:DamageDealt while no combat is active')
 
-        local damage = combat.DamageDealt
-        if damage == nil then
-            return {0}
-        end
+        -- local damage = combat.DamageDealt
+        -- if damage == nil then
+        --     return {0}
+        -- end
 
-        return {damage}
+        -- return {damage}
     end)
 end
 
@@ -1045,6 +1046,12 @@ function UM.Count:CardsInHand(singlePlayer)
     end)
 end
 
+function UM.Count:DealtCombatDamage()
+    return UM.Number:_(function (args)
+        return { GetDealtCombatDamage() }
+    end)
+end
+
 UM.Count.CharacterSpecific = {}
 
 -- Card modifications
@@ -1133,14 +1140,18 @@ end
 function UM.Effects:Discard(manyPlayers, fixedNumber, random, ctxKey)
     local discardCards = function (player, amount, cardIdxFunc)
         local result = {}
-        local handSize = GetHandSize(player)
-        if handSize <= amount then
-            while GetHandSize(player) > 0 do
-                DiscardCard(player, 0)
-            end
-            return
-        end
+        -- local handSize = GetHandSize(player)
+        -- if handSize <= amount then
+        --     while GetHandSize(player) > 0 do
+        --         result[#result+1] = GetHand(player)[1]
+        --         DiscardCard(player, 0)
+        --     end
+        --     return result
+        -- end
         while amount > 0 do
+            if GetHandSize(player) == 0 then
+                break
+            end
             local idx = cardIdxFunc()
             local discarded = DiscardCard(player, idx)
             amount = amount - 1
@@ -1165,7 +1176,9 @@ function UM.Effects:Discard(manyPlayers, fixedNumber, random, ctxKey)
                     for i = 0, player.Hand.Count - 1 do
                         cards[#cards+1] = player.Hand.Cards[i]
                     end
-                    return ChooseCardInHand(player, cards, 'Choose a card to discard')
+                    -- local idx = ChooseCardInHand(player, cards, 'Choose a card to discard')
+                    local choice = ChooseCardInHand(player, cards, 'Choose a card to discard')
+                    return choice[1]
                 end)
             end
             if ctxKey == nil then
@@ -1175,6 +1188,71 @@ function UM.Effects:Discard(manyPlayers, fixedNumber, random, ctxKey)
         end
     end
 
+end
+
+function UM:ChoiceEffect(text, ...)
+    local effects = { ... }
+    return {
+        text = text,
+        effects = effects
+    }
+end
+
+function UM.Effects:Choose(amount, canChooseSame, ...)
+    local choices = {...}
+
+    return function (args)
+        local chosenMap = {}
+        local effectMap = {}
+        for _, choice in ipairs(choices) do
+            chosenMap[choice.text] = 0
+            effectMap[choice.text] = choice.effects
+        end
+
+        local count = amount
+        while count > 0 do
+            local available = {}
+            for _, choice in ipairs(choices) do
+                if canChooseSame or chosenMap[choice.text] == 0 then
+                    available[#available+1] = choice.text
+                end
+            end
+
+            assert(#available > 0, 'No choices left for UM.Effects:Choose')
+
+            local choice = ChooseString(args.owner, available, 'Choose effect ('..tostring(count)..' left)')
+            local effects = effectMap[choice]
+
+            for _, effect in ipairs(effects) do
+                effect(args)
+            end
+
+            count = count - 1
+        end
+    end
+end
+
+function UM.Effects:LookAtHandAndForceToDiscard(
+    targetSinglePlayer,
+    numeric
+)
+    return function (args)
+        local target = targetSinglePlayer(args)
+        local amount = numeric:Choose(args, 'Choose how many cards to discard')
+        while amount > 0 do
+            local count = GetHandSize(target)
+            if count == 0 then
+                break
+            end
+
+            -- TODO make this better
+
+            local hand = GetHand(target)
+
+            local choice = ChooseCardInHand(args.owner, hand, 'Choose a card to discard')
+            DiscardCard(choice[2], choice[1])
+        end
+    end
 end
 
 function UM.Effects:BlindBoost(numeric, manyPlayers)
@@ -1251,12 +1329,13 @@ function UM.Effects:TakeDamage(manyFighters, numeric)
     return UM.Effects:DealDamage(manyFighters, numeric)
 end
 
-function UM.Effects:ReviveAndSummon(singleDefeatedFighter, singleNode)
+function UM.Effects:ReviveAndSummonSingle(manyFighters, singleNode)
     return function (args)
-        local fighter = singleDefeatedFighter(args, 'Choose which fighter to revive')
-        if fighter == nil then
+        local fighters = manyFighters(args, 'Choose which fighter to revive')
+        if #fighters == 0 then
             return
         end
+        local fighter = fighters[1]
         assert(IsDefeated(fighter), 'Provided a non-defeated fighter for UM.Effects:ReviveAndSummon')
         FullyRecoverHealth(fighter)
 
@@ -1304,10 +1383,9 @@ function UM.Effects:PlaceFighter(singleFighter, manySpaces)
     end
 end
 
--- TODO feels weird to get card using fighter
-function UM.Effects:SetCombatCardValue(singleFighterFunc, newValue)
+function UM.Effects:SetCombatCardValue(singlePlayerFunc, newValue)
     return function (args)
-        -- TODO
+        SetCardValueInCombat(singlePlayerFunc(args), newValue)
     end
 end
 
@@ -1316,6 +1394,13 @@ function UM.Effects:CancelAllEffectsOnOpponentsCard()
     return function (args)
         local player = args.owner
         CancelCombatEffectsOfOpponent(player)
+    end
+end
+
+function UM.Effects:IgnoreValueOfCombatCard(singlePlayer)
+    return function (args)
+        local player = singlePlayer(args)
+        IgnoreCardValueInCombat(player)
     end
 end
 
@@ -1755,6 +1840,12 @@ function UM.Select:Players()
         return selector:_Add(function (args, player)
             local part = GetCombatPart(player)[1]
             return part ~= nil
+        end)
+    end
+
+    function selector:RawOnly(rawPlayer)
+        return selector:_Add(function (args, player)
+            return player == rawPlayer
         end)
     end
 

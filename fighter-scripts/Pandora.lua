@@ -68,7 +68,7 @@ function _Create()
                     UM.Conditions:CountGte(defeatedFighterSelector():Build(), 1),
                     UM.Conditions:CountGte(nodeSelector():Build(), 1)
                 ),
-                UM.Effects:ReviveAndSummon(
+                UM.Effects:ReviveAndSummonSingle(
                     defeatedFighterSelector():BuildFirst(),
                     nodeSelector():BuildOne()
                 )

@@ -41,7 +41,7 @@ public class AliceTests
                     .Choose(targetSize)
                 )
                 .ConfigNodeChoices(c => c
-                    .WithId(1)
+                    .First()
                 )
                 .Build(),
             GetLoadoutBuilder().Build()
