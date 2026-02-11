@@ -13,7 +13,12 @@ public class Hand : MatchCardCollection
 
     public async Task<IEnumerable<MatchCard>> Draw(int amount)
     {
-        var newCards = await Owner.Deck.MoveTopCardsTo(amount, this, ZoneChangeType.TODO, ZoneChangeLocation.BOTTOM);
+        var newCards = await Owner.Deck.MoveTopCardsTo(
+            amount,
+            this,
+            ZoneChangeType.TODO,
+            ZoneChangeLocation.BOTTOM
+        );
 
         Owner.Match.Logger?.LogDebug("Player {PlayerLogName} draws {Amount} cards (wanted to draw: {OriginalAmount})", Owner.LogName, newCards.Count(), amount);
         Owner.Match.Logs.Private(

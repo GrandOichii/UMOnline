@@ -26,3 +26,22 @@ function _Create()
         )
     :Build()
 end
+
+-- TODO test Voyage cards in real matches, see if "OTHER voyage cards works"
+
+function removeMe()
+    return UM.Build:Card()
+        :DuringCombat(
+            'During combat: This card\'s value is +1 for each other VOYAGE card in your discard pile.',
+            UM.Effects:ModCombatCardValue(
+                UM.Player:EffectOwner(),
+                UM.Number:Count(
+                    UM.Select:CardsInDiscardPile(UM.Player:EffectOwner())
+                        :WithLabel('voyage')
+                        :Build()
+                ),
+                true
+            )
+        )
+    :Build()
+end

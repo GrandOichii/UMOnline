@@ -114,7 +114,14 @@
         "SetZoneChangeLocation",
         "SetCardValueInCombat",
         "GetDealtCombatDamage",
-        "IgnoreCardValueInCombat"
+        "IgnoreCardValueInCombat",
+        "SetFighterHealth",
+        "ReturnCardFromDiscardPile",
+        "GetTopCardsOfDeck",
+        "MoveCard",
+        "MoveCardToTopOfDeck",
+        "CardHasName",
+        "GetDiscardCardIdx"
     ],
     "sqltools.connections": [
         {

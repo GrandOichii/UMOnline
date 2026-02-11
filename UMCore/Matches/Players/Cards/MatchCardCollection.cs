@@ -20,6 +20,8 @@ public abstract class MatchCardCollection : IHasData<MatchCardCollection.Data>, 
         ContentsVisibleTo = [];
     }
 
+    public MatchCard GetCardByID(int id) => Cards.First(c => c.Id == id);
+
     public MatchCard GetFirstCardWithKey(string key) => Cards.First(c => c.Template.Key == key);
 
     public int Count => Cards.Count;
@@ -86,15 +88,25 @@ public abstract class MatchCardCollection : IHasData<MatchCardCollection.Data>, 
     public string GetName() => _name;
     public Player GetOwner() => Owner;
 
-    public async Task<List<MatchCard>> MoveTopCardsTo(int amount, MatchCardCollection targetZone, ZoneChangeType type, ZoneChangeLocation location = ZoneChangeLocation.BOTTOM)
+    public List<MatchCard> GetTopCards(int amount)
     {
         List<MatchCard> result = [];
 
-        while (amount-- > 0 && Cards.Count > 0)
+        amount = Math.Min(amount, Cards.Count);
+        for (int i = 0; i < amount; ++i)
         {
-            var card = Cards[0];
+            result.Add(Cards[i]);
+        }
+
+        return result;
+    }
+
+    public async Task<List<MatchCard>> MoveTopCardsTo(int amount, MatchCardCollection targetZone, ZoneChangeType type, ZoneChangeLocation location = ZoneChangeLocation.BOTTOM)
+    {
+        List<MatchCard> result = GetTopCards(amount);
+        foreach (var card in result)
+        {
             card.Move(this, targetZone, location, type);
-            result.Add(card);
         }
 
         return result;

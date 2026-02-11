@@ -889,6 +889,20 @@ function UM.Conditions:PlayedCombatCard(singlePlayer)
     end
 end
 
+function UM.Conditions:FighterIsUndefeated(singleFighter)
+    return function (args)
+        local fighter = singleFighter(args)
+        return not IsDefeated(fighter)
+    end
+end
+
+function UM.Conditions:FighterIsDefeated(singleFighter)
+    return function (args)
+        local fighter = singleFighter(args)
+        return IsDefeated(fighter)
+    end
+end
+
 function UM.Conditions:FightersAreDefeated(manyFighters)
     return function (args)
         local fighters = manyFighters(args)
@@ -1039,6 +1053,12 @@ UM.Conditions.CharacterSpecific = {}
 -- Counters
 
 UM.Count = {}
+
+function UM.Count:FighterHealth(singleFighter)
+    return UM.Number:_(function (args)
+        return { GetHealth(singleFighter(args)) }
+    end)
+end
 
 function UM.Count:CardsInHand(singlePlayer)
     return UM.Number:_(function (args)
@@ -1315,6 +1335,39 @@ function UM.Effects:ForceBoost(fixedNumber)
     end
 end
 
+function UM.Effects:SetHealth(manyFighters, fixedNumber)
+    return function (args)
+        local fighters = manyFighters(args)
+        for _, fighter in ipairs(fighters) do
+            SetFighterHealth(fighter, fixedNumber)
+        end
+    end
+end
+
+function UM.Effects:ModCombatCardValue(singlePlayer, numeric, mult, positive)
+    positive = positive or true
+    return function (args)
+        local player = singlePlayer(args)
+        local mod = numeric:Choose(args, 'Choose the amount for modification') -- TODO better hint
+        AddToCardValueInCombat(player, mult * mod)
+    end
+end
+
+function UM.Effects:ForcePlayerToLookAtOtherPlayersHand(singlePlayer, targetSinglePlayer)
+    return function (args)
+        local player = singlePlayer(args)
+        local target = targetSinglePlayer(args)
+        -- TODO this is a temporary solution
+
+        local hand = GetHand(target)
+        if #hand == 0 then
+            LogPublic(target.FormattedLogName..' has no cards in hand!')
+            return
+        end
+        ChooseCardInHand(player, hand, 'Choose a card to stop looking at the player\'s hand')
+    end
+end
+
 function UM.Effects:DealDamage(manyFighters, numeric)
     return function (args)
         local fighters = manyFighters(args, 'Choose the target fighter for damage')
@@ -1566,7 +1619,7 @@ function UM.Select:_Base(subjectKey, getAllFunc, chooseSingleFunc)
     return selector
 end
 
-function UM.Select:CardsInDiscardPile(ofPlayer)
+function UM.Select:_CardsInZone(ofPlayer, getCardsFunc)
     local selector = {}
 
     selector.filters = {}
@@ -1579,7 +1632,7 @@ function UM.Select:CardsInDiscardPile(ofPlayer)
 
     function selector:_Select(args)
         local player = ofPlayer(args)
-        local allCards = GetCardsInDiscardPile(player)
+        local allCards = getCardsFunc(player)
         local cards = {}
 
         local filterFunc = function (card)
@@ -1627,11 +1680,29 @@ function UM.Select:CardsInDiscardPile(ofPlayer)
         end)
     end
 
+    function selector:Named(name)
+        return selector:_Add(function (args, card)
+            return CardHasName(card, name)
+        end)
+    end
+
     function selector:Build()
         return function (args)
             return selector:_Select(args)
         end
     end
+
+    return selector
+end
+
+function UM.Select:CardsInDeck(ofPlayer)
+    local selector = UM.Select:_CardsInZone(ofPlayer, GetDeck)
+
+    return selector
+end
+
+function UM.Select:CardsInDiscardPile(ofPlayer)
+    local selector = UM.Select:_CardsInZone(ofPlayer, GetCardsInDiscardPile)
 
     return selector
 end
@@ -1796,6 +1867,12 @@ function UM.Select:Fighters()
         return selector:FriendlyTo(UM.Player:EffectOwner())
     end
 
+    function selector:StandOnRawNode(rawNode)
+        return selector:_Add(function (args, fighter)
+            return FighterStandsOn(fighter, rawNode)
+        end)
+    end
+
     return selector
 end
 
@@ -1856,6 +1933,12 @@ end
 
 function UM.Select:Nodes()
     local selector = UM.Select:_Base('node', GetNodes, ChooseNode)
+
+    function selector:AdjacentToRawNode(rawNode)
+        return selector:_Add(function (args, node)
+            return AreNodesAdjacent(rawNode, node)
+        end)
+    end
 
     function selector:Unoccupied()
         return selector:_Add(function (args, node)

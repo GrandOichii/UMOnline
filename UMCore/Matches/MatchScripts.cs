@@ -360,6 +360,12 @@ public class MatchScripts
     }
 
     [LuaCommand]
+    public bool CardHasName(MatchCard card, string name)
+    {
+        return card.Template.Name == name;
+    }
+
+    [LuaCommand]
     public void BoostCardInCombat(Player player)
     {
         var (card, fighter, _) = player.Match.Combat!.GetCombatPart(player);
@@ -672,6 +678,18 @@ public class MatchScripts
         Match.UpdateClients()
             .Wait();
     }
+
+    [LuaCommand]
+    public void MoveCardToTopOfDeck(MatchCard card)
+    {
+        var deck = card.Owner.Deck;
+        card.Move(
+            deck,
+            deck,
+            ZoneChangeLocation.TOP,
+            ZoneChangeType.TODO
+        );
+    }
     
     [LuaCommand]
     public LuaTable RemoveCombatPart(Player player)
@@ -780,6 +798,17 @@ public class MatchScripts
     }
 
     [LuaCommand]
+    public void MoveCard(MatchCard card, ICardZone from, ICardZone to)
+    {
+        card.Move(
+            from,
+            to,
+            ZoneChangeLocation.BOTTOM,
+            ZoneChangeType.TODO
+        );
+    }
+
+    [LuaCommand]
     public void AddCardToDeck(Player player, MatchCard card)
     {
         player.Deck.Add(card, ZoneChangeLocation.BOTTOM);
@@ -820,5 +849,29 @@ public class MatchScripts
     public void SetZoneChangeLocation(CardZoneChange zoneChange, int value)
     {
         zoneChange.Location = (ZoneChangeLocation)value;
+    }
+
+    [LuaCommand]
+    public void SetFighterHealth(Fighter fighter, int value)
+    {
+        fighter.Health.Set(value);
+    }
+
+    [LuaCommand]
+    public void ReturnCardFromDiscardPile(Player player, int cardId)
+    {
+        var card = player.DiscardPile.GetCardByID(cardId);
+        card.Move(
+            player.DiscardPile,
+            player.Hand,
+            ZoneChangeLocation.BOTTOM,
+            ZoneChangeType.TODO
+        );
+    }
+
+    [LuaCommand]
+    public LuaTable GetTopCardsOfDeck(Player player, int amount)
+    {
+        return LuaUtility.CreateTable(Match.LState, player.Deck.GetTopCards(amount));
     }
 }
