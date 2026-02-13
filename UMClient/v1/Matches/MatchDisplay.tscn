@@ -176,6 +176,8 @@ ZoomedCardNode = NodePath("../../../ZoomedCard")
 
 [node name="Colors" parent="." instance=ExtResource("9_u1edk")]
 unique_name_in_owner = true
+DefailtPlayerColor = Color(1, 1, 1, 1)
+DefailtFighterColor = Color(1, 1, 1, 1)
 
 [node name="TokenImageLoader" parent="." instance=ExtResource("10_vqdn8")]
 images = ExtResource("11_vqdn8")

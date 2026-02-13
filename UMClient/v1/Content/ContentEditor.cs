@@ -132,7 +132,7 @@ public partial class ContentEditor : Control
 		{
 			Id = -1,
 			Name = deckName,
-			ChoosesSidekick = true,
+			ChoosesSidekick = false,
 			Editable = true,
 			MaxHandSize = 7,
 			StartingHandSize = 5,

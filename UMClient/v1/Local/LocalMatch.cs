@@ -15,6 +15,10 @@ public partial class LocalMatch : Control
     public Control MatchNode { get; set; }
     [Export]
     public Node ConnectionNode { get; set; }
+    [Export]
+    public AcceptDialog CrashedMatchDialogNode { get; set; }
+    [Export]
+    public TextEdit CrashedMatchExceptionTextNode { get; set; }
 
 	#endregion
 
@@ -54,7 +58,6 @@ public partial class LocalMatch : Control
             await _match.Run();
         } catch (Exception e)
         {
-            // TODO better error handling
             GD.PushError(e);
 			GD.Print(e.Message);
 			GD.Print(e.StackTrace);
@@ -65,6 +68,14 @@ public partial class LocalMatch : Control
 			GD.Print("");
 			GD.Print(e.InnerException?.Message);
 			GD.Print(e.InnerException?.StackTrace);
+
+            var text = $"Match crashed! Exceptions raised:\n{e.Message}\n{e.StackTrace}";
+            if (e.InnerException is not null)
+            {
+                text = $"{text}\n-===============-{e.InnerException.Message}\n{e.InnerException.StackTrace}\n";
+            }
+            CrashedMatchExceptionTextNode.Text = text;
+            CrashedMatchDialogNode.Show();
         }
     }
 

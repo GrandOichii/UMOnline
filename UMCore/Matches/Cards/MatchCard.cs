@@ -148,7 +148,14 @@ public class MatchCard : IHasData<MatchCard.Data>
     {
         Owner.Match.Logger?.LogDebug("Executing scheme effects of card {CardLogName} by fighter {FighterLogName}", LogName, by.LogName);
         Owner.Match.Logs.Public($"Player {by.Owner.FormattedLogName} played Scheme card {FormattedLogName}");
-        SchemeEffect.Execute(new(by), new());
+        try
+        {
+            SchemeEffect.Execute(new(by), new());
+        } catch (Exception)
+        {
+            by.Match.Logger?.LogError("Failed to execute scheme effects of card {CardLogName}", LogName);
+            throw;
+        }
 
         await Owner.Match.UpdateClients();        
     }

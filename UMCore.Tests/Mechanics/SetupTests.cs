@@ -27,7 +27,7 @@ public class SetupTests
 
         // Assert
         match.Assert()
-            .CrashedIntentionally(); // TODO could change
+            .CrashedIntentionally();
 
         match.AssertPlayer(0)
             .SetupCalled();

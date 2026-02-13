@@ -128,7 +128,7 @@ public class LoadoutTemplateBuilder
             Fighters = [],
             Name = _name,
             StartsWithSidekicks = true,
-            ChoosesSidekick = true,
+            ChoosesSidekick = false,
             StartsWithCards = [],
             CantBePlayedWith = [],
             MaximumHandSize = null,

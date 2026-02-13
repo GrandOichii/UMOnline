@@ -203,20 +203,37 @@ public class Combat : IHasData<Combat.Data>
         {
             if (card is null) continue;
             
-            // TODO is this the correct order?
-            List<CombatStepEffectsCollection> effects = [
-                fighter.CombatStepEffects,
-            ];
-            
-            if (!card.EffectsCancelled)
-                effects.Add(card.Card.CombatStepEffects);
+            // List<CombatStepEffectsCollection> effects = [
+            //     fighter.CombatStepEffects,
+            // ];
 
-            Match.Logger?.LogDebug("Executing combat step trigger effects ({CombatStepTrigger}) for fighter {FighterLogName}, expected to execute: {EffectsCount}", trigger, fighter.LogName, effects.Count);
-            foreach (var effect in effects)
+            Match.Logger?.LogDebug("Executing combat step trigger effects ({CombatStepTrigger}) for fighter {FighterLogName}", trigger, fighter.LogName);
+
+            try
             {
-                await effect.Execute(trigger, fighter);
-                await Match.UpdateClients();
+                await fighter.CombatStepEffects.Execute(trigger, fighter);            
+            } catch (Exception)
+            {
+                Match.Logger?.LogError("Failed to execute CombatStepEffects of fighter {FighterLogName}", fighter.LogName);
+                throw;
             }
+            if (!card.EffectsCancelled)
+            {
+                try
+                {
+                    await card.Card.CombatStepEffects.Execute(trigger, fighter);
+                } catch (Exception)
+                {
+                    Match.Logger?.LogError("Failed to execute CombatStepEffects of card {CardLogName}", card.Card.LogName);
+                    throw;
+                }
+            }
+
+            // foreach (var effect in effects)
+            // {
+            //     await effect.Execute(trigger, fighter);
+            //     await Match.UpdateClients();
+            // }
 
             if (Match.IsWinnerDetermined()) return;
         }

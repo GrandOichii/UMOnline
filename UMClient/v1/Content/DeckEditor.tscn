@@ -40,11 +40,10 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 tab_alignment = 2
-current_tab = 2
+current_tab = 0
 tabs_position = 1
 
 [node name="Deck" parent="TabContainer" instance=ExtResource("2_7gkg1")]
-visible = false
 layout_mode = 2
 metadata/_tab_index = 0
 
@@ -100,6 +99,7 @@ layout_mode = 2
 text = "Delete"
 
 [node name="Cards" type="Control" parent="TabContainer"]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 2
 

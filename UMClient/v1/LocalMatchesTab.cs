@@ -65,7 +65,7 @@ public partial class LocalMatchesTab : Control
 		RealPlayerEditor.LoadName("RealPlayer"); // TODO? remove
 
 		// TODO remove
-		RealPlayerEditor.DeckOption.Select(1);
+		RealPlayerEditor.DeckOption.Select(6);
 		RealPlayerEditor.TeamNode.Value = 2;
 	}
 
