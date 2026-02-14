@@ -71,8 +71,8 @@ public class MatchCard : IHasData<MatchCard.Data>
             var schemeRequirements = LuaUtility.TableGet<LuaTable>(data, "SchemeRequirements");
             foreach (var value in schemeRequirements.Values)
             {
-                var table = value as LuaTable;
-                // TODO check for null
+                var table = value as LuaTable
+                    ?? throw new MatchException($"Failed to extract scheme requirements from card {LogName}");
                 var requirement = new SchemeRequirement(table!);
                 SchemeRequirements.Add(requirement);
             }

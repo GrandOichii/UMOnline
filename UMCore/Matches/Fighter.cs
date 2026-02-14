@@ -59,9 +59,9 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
             var table = LuaUtility.TableGet<LuaTable>(data, key);
             foreach (var value in table.Values)
             {
-                var func = value as LuaFunction;
-                // TODO check for null
-                result.Add(func!);
+                var func = value as LuaFunction
+                    ?? throw new MatchException($"Failed to extract function list from fighter {fighter.LogName} by key {key}");
+                result.Add(func);
             }
             return result;
         }
@@ -79,9 +79,9 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
             var table = LuaUtility.TableGet<LuaTable>(data, key);
             foreach (var value in table.Values)
             {
-                var t = value as LuaTable;
-                // TODO check for null
-                result.Add(t!);
+                var t = value as LuaTable
+                    ?? throw new MatchException($"Failed to extract table list from fighter {fighter.LogName} by key {key}");
+                result.Add(t);
             }
             return result;
         }
@@ -99,8 +99,8 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
             var table = LuaUtility.TableGet<LuaTable>(data, key);
             foreach (var value in table.Values)
             {
-                var t = value as LuaTable;
-                // TODO check for null
+                var t = value as LuaTable
+                    ?? throw new MatchException($"Failed to extract effect collection list from fighter {fighter.LogName} by key {key}");
                 result.Add(new(fighter.Match, t!));
             }
             return result;
@@ -142,8 +142,8 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
             foreach (var keyRaw in turnPhaseEffects.Keys)
             {
                 var key = (TurnPhaseTrigger)Convert.ToInt32(keyRaw);
-                var table = turnPhaseEffects[keyRaw] as LuaTable;
-                // TODO check for null
+                var table = turnPhaseEffects[keyRaw] as LuaTable
+                    ?? throw new MatchException($"Failed to extract turn phase effects from fighter {LogName} by key {key}");
                 var effects = new EffectCollection(Match, table!);
                 TurnPhaseEffects.Add(key, effects);
             }
@@ -244,8 +244,8 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
             var tokenDeclarations = LuaUtility.TableGet<LuaTable>(data, "Tokens");
             foreach (string tokenName in tokenDeclarations.Keys)
             {
-                var table = tokenDeclarations[tokenName] as LuaTable;
-                // TODO check for null
+                var table = tokenDeclarations[tokenName] as LuaTable
+                    ?? throw new MatchException($"Failed to extract token declarations from fighter {LogName}");
                 Match.Tokens.Declare(tokenName, this, table!);
             }
         }
@@ -260,8 +260,8 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
             var cardZonesDeclarations = LuaUtility.TableGet<LuaTable>(data, "CardZones");
             foreach (string zoneName in cardZonesDeclarations.Keys)
             {
-                var table = cardZonesDeclarations[zoneName] as LuaTable;
-                // TODO check for null
+                var table = cardZonesDeclarations[zoneName] as LuaTable
+                    ?? throw new MatchException($"Failed to card zones from fighter {LogName} (zoneName: {zoneName})");
                 var zone = new CustomCardZone(Owner, zoneName, table!);
                 Owner.AddCustomCardZone(zone);
             }
