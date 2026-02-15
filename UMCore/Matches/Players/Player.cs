@@ -336,7 +336,6 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
         bool isManoeuvre)
     {
         if (Match.Map.GetFighterLocationOrDefault(fighter) == null) return;
-        // TODO feels weird
         if (!canMoveOverOpposing)
         {
             canMoveOverOpposing = fighter.Template.CanMoveOverOpposing;

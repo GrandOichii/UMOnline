@@ -1,3 +1,4 @@
+using System.Buffers;
 using UMCore.Matches.Effects;
 
 namespace UMCore.Matches.Tokens;
@@ -27,8 +28,8 @@ public class PlacedToken
     public async Task Remove()
     {
         Node.Tokens.Remove(this);
-        // TODO log
-        // TODO public log
+        Original.Originator.Match.Logger?.LogDebug("Token '{TokeName}' is removed from node with id = {NodeId}", Original.Name, Node.Id);
+        Original.Originator.Match.Logs.Public($"A {Original.Name} token was returned to the box");
         await Node.Parent.Match.UpdateClients();
 
         await ResolveWhenReturnedToBoxEffects();

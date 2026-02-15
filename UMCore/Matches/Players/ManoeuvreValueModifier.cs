@@ -12,8 +12,10 @@ public class ManoeuvreValueModifier
     public ManoeuvreValueModifier(Fighter fighter, LuaTable table)
     {
         _fighter = fighter;
-        _fighterPredicate = new((table["fighterPred"] as LuaFunction)!); // TODO check for null
-        _modFunc = new((table["modFunc"] as LuaFunction)!); // TODO check for null
+        _fighterPredicate = new((table["fighterPred"] as LuaFunction)
+            ?? throw new MatchException($"Failed to get fighter predicate for ManoeuvreValueModifier"));
+        _modFunc = new((table["modFunc"] as LuaFunction)
+            ?? throw new MatchException($"Failed to get modification function for ManoeuvreValueModifier"));
     }
 
     public bool Accepts(Fighter fighter)

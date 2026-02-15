@@ -26,7 +26,6 @@ public class Token
             foreach (var value in onAttackEffects.Values)
             {
                 var table = value as LuaTable;
-                // TODO check for null
                 WhenReturnedToBoxEffects.Add(new(fighter.Match, table!));
             }
         }
@@ -42,7 +41,6 @@ public class Token
             foreach (var value in table.Values)
             {
                 var t = value as LuaTable;
-                // TODO check for null
                 OnStepEffects.Add(new(fighter.Match, t!));
             }
         }

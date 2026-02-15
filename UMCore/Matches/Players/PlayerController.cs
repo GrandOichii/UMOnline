@@ -58,7 +58,6 @@ public class SafePlayerController(IPlayerController controller) : IPlayerControl
         var result = await Controller.ChooseAttack(player, options);
         if (!options.Contains(result))
         {
-            // TODO add better exception message
             throw new UnsafeChoiceException($"Player {player.LogName} chose an invalid attack for {nameof(ChooseAttack)}");
         }
         return result;

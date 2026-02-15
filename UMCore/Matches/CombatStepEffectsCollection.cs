@@ -17,7 +17,6 @@ public class CombatStepEffectsCollection
         {
             var key = (CombatStepTrigger)Convert.ToInt32(keyRaw);
             var table = combatStepEffectMappingRaw[keyRaw] as LuaTable;
-            // TODO check for null
             var effects = new EffectCollection(match, table!);
             Effects.Add(key, effects);
         }

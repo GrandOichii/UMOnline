@@ -61,7 +61,6 @@ public class PlayerInitialFighterPlacerNeighbors : IPlayerInitialFighterPlacer
 {
     public async Task Run(Player player, int spawnNumber, Queue<Fighter> heroQueue, Queue<Fighter> sidekickQueue)
     {
-        // TODO check that is hero
         var hero = heroQueue.Dequeue();
         var heroNode = player.Match.Map.GetSpawnLocation(spawnNumber);
 
@@ -120,6 +119,5 @@ public class PlayerInitialFighterPlacerNeighbors : IPlayerInitialFighterPlacer
         {
             return;
         }
-        // TODO throw
     }
 }
