@@ -16,6 +16,11 @@ public partial class LocalMatchesTab : Control
 		{ "2 vs. 2", MatchConfig.Default2x2 },
 	};
 
+	private static readonly List<IPlayerEditorResultCheck> PER_CHECKS = [
+		new SameNamePlayerEditorResultCheck(),
+		new SameDeckPlayerEditorResultCheck()
+	];
+
 	[Export]
 	public LocalRepository RepoNode { get; set; }
 
@@ -44,6 +49,8 @@ public partial class LocalMatchesTab : Control
     public Container BotListContainer { get; set; }
 	[Export]
 	public TabContainer TabsNode { get; set; }
+	[Export]
+	public AcceptDialog CantStartMatchDialogNode { get; set; }
 
 	#endregion
 
@@ -350,6 +357,22 @@ public partial class LocalMatchesTab : Control
 
 		// TODO check all players
 		var startMatch = true;
+		var errors = new List<string>();
+		foreach (var check in PER_CHECKS)
+		{
+			var error = check.Check(pers);
+			if (string.IsNullOrEmpty(error)) continue;
+
+			errors.Add(error);
+		}
+
+		if (errors.Count > 0)
+		{
+			var errMsg = "Cant start match, errors:\n" + string.Join('\n', errors);
+			CantStartMatchDialogNode.DialogText = errMsg;
+			CantStartMatchDialogNode.Show();
+			startMatch = false;
+		}
 
 		if (!startMatch)
 		{

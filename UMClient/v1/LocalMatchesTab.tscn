@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://n03f7orlocnl" path="res://v1/Local/LocalMatch.tscn" id="3_3psmc"]
 [ext_resource type="PackedScene" uid="uid://cmhqrpt73y708" path="res://v1/Local/BotEditor.tscn" id="3_i8n5o"]
 
-[node name="LocalMatchesTab" type="Control" node_paths=PackedStringArray("PresetOptionNode", "MatchConfigEditorNode", "CantStartReasonNode", "RealPlayerEditor", "BotListContainer", "TabsNode")]
+[node name="LocalMatchesTab" type="Control" node_paths=PackedStringArray("PresetOptionNode", "MatchConfigEditorNode", "CantStartReasonNode", "RealPlayerEditor", "BotListContainer", "TabsNode", "CantStartMatchDialogNode")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -24,6 +24,7 @@ CantStartReasonNode = NodePath("Tabs/New game/CantStartReason")
 RealPlayerEditor = NodePath("Tabs/New game/PanelContainer/VBoxContainer/RealPlayerEditor")
 BotListContainer = NodePath("Tabs/New game/PanelContainer/VBoxContainer/ScrollContainer/BotListContainer")
 TabsNode = NodePath("Tabs")
+CantStartMatchDialogNode = NodePath("CantStartMatchDialog")
 
 [node name="Tabs" type="TabContainer" parent="."]
 layout_mode = 1
@@ -128,6 +129,12 @@ text = "Start"
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0, 0, 1)
 text = "CANT START REASON HERE"
+
+[node name="CantStartMatchDialog" type="AcceptDialog" parent="."]
+oversampling_override = 1.0
+title = "Cant start match"
+initial_position = 2
+size = Vector2i(500, 300)
 
 [connection signal="pressed" from="Tabs/New game/PanelContainer/VBoxContainer/AddBotButton" to="." method="OnAddBotButtonPressed"]
 [connection signal="item_selected" from="Tabs/New game/VBoxContainer2/HBoxContainer/PresetOption" to="." method="OnPresetOptionItemSelected"]

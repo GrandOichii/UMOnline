@@ -849,6 +849,7 @@ public partial class LocalRepository : Node
 		Godot.Collections.Dictionary<string, Texture2D> result = [];
 		foreach (var fighter in fighters)
 		{
+			if (fighter.ImagePath is null) continue;
 			var key = $"{deck.Name}_{fighter.Name}";
 			var texture = GD.Load<Texture2D>(fighter.ImagePath);
 			result.Add(key, texture);
@@ -863,6 +864,7 @@ public partial class LocalRepository : Node
 		Godot.Collections.Dictionary<string, Texture2D> result = [];
 		foreach (var card in cards)
 		{
+			if (card.ImagePath is null) continue;
 			var key = $"{deck.Name}_{card.Name}";
 			var texture = GD.Load<Texture2D>(card.ImagePath);
 			result.Add(key, texture);
@@ -873,7 +875,7 @@ public partial class LocalRepository : Node
 	public Texture2D GetCardBackTexture(int deckId)
 	{
 		var deck = GetDeck(deckId);
-		return GD.Load<Texture2D>(deck.CardBackPath);
+		return deck.CardBackPath is null ? null : GD.Load<Texture2D>(deck.CardBackPath);
 	}
 
 	public LoadoutTemplate GetLoadoutTemplate(int deckId)
