@@ -49,6 +49,7 @@ public partial class LocalMatch : Control
                     per.Loadout,
                     per.Controller
                 );
+                // TODO use per.Textures to load card and fighter textures
                 if (!added)
                 {
                     throw new Exception("Failed to add a player, not enough checks");

@@ -25,18 +25,30 @@ public partial class PlayerEditor : HBoxContainer, IPlayerEditor
             Name = NameEditNode.Text,
             TeamIdx = (int)TeamNode.Value - 1,
             Controller = null,
-            Loadout = GetLoadoutTemplate()
+            Loadout = GetLoadoutTemplate(),
+            Textures = GetTextures()
+        };
+    }
+
+    private ImageMaps? GetTextures()
+    {
+        var idx = DeckOption.Selected;
+        var deckId = DeckOption.GetItemMetadata(idx).As<int>();
+
+        var deck = LMT.RepoNode.GetDeck(deckId);
+        if (!deck.Editable) return null;
+
+        return new()
+        {
+            CardBack = LMT.RepoNode.GetCardBackTexture(deckId),  
+            Cards = LMT.RepoNode.GetCardTextureMap(deckId),  
+            Fighters = LMT.RepoNode.GetFighterTextureMap(deckId),  
         };
     }
 
     private LoadoutTemplate GetLoadoutTemplate()
     {
         var idx = DeckOption.Selected;
-        if (idx == -1)
-        {
-            // TODO
-        }
-
         var deckId = DeckOption.GetItemMetadata(idx).As<int>();
 
         return LMT.RepoNode.GetLoadoutTemplate(deckId);

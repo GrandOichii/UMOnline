@@ -842,6 +842,40 @@ public partial class LocalRepository : Node
 		EmitSignalContentUpdateProcessed();
 	}
 
+	public Godot.Collections.Dictionary<string, Texture2D> GetFighterTextureMap(int deckId)
+	{
+		var deck = GetDeck(deckId);
+		var fighters = GetFighters(deckId);
+		Godot.Collections.Dictionary<string, Texture2D> result = [];
+		foreach (var fighter in fighters)
+		{
+			var key = $"{deck.Name}_{fighter.Name}";
+			var texture = GD.Load<Texture2D>(fighter.ImagePath);
+			result.Add(key, texture);
+		}
+		return result;
+	}
+
+	public Godot.Collections.Dictionary<string, Texture2D> GetCardTextureMap(int deckId)
+	{
+		var deck = GetDeck(deckId);
+		var cards = GetCards(deckId);
+		Godot.Collections.Dictionary<string, Texture2D> result = [];
+		foreach (var card in cards)
+		{
+			var key = $"{deck.Name}_{card.Name}";
+			var texture = GD.Load<Texture2D>(card.ImagePath);
+			result.Add(key, texture);
+		}
+		return result;
+	}
+
+	public Texture2D GetCardBackTexture(int deckId)
+	{
+		var deck = GetDeck(deckId);
+		return GD.Load<Texture2D>(deck.CardBackPath);
+	}
+
 	public LoadoutTemplate GetLoadoutTemplate(int deckId)
     {
 		var deck = GetDeck(deckId);

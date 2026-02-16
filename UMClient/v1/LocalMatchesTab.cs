@@ -338,12 +338,14 @@ public partial class LocalMatchesTab : Control
 			Controller = new IOPlayerController(handler),
 			Loadout = rpPer.Loadout,
 			Name = rpPer.Name,
-			TeamIdx = rpPer.TeamIdx
+			TeamIdx = rpPer.TeamIdx,
+			Textures = rpPer.Textures,
 		};
 		pers.Add(rpPer);
 		foreach (var playerEditor in BotListContainer.GetChildren().Cast<BotEditor>())
 		{
-			pers.Add(playerEditor.Build());
+			var build = playerEditor.Build();
+			pers.Add(build);
 		}
 
 		// TODO check all players
@@ -355,12 +357,7 @@ public partial class LocalMatchesTab : Control
 			return;
 		}
 
-		// TODO add all players
-		
-
 		// start match
-		// TODO
-
 		child.Name = $"Match{TabsNode.GetChildCount()}";
 		TabsNode.AddChild(child);
 		TabsNode.MoveChild(child, 0);

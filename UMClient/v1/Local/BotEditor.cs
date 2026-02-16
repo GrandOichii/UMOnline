@@ -21,7 +21,8 @@ public partial class BotEditor : Control, IPlayerEditor
             Controller = new RandomPlayerController(0),
             Loadout = result.Loadout,
             Name = result.Name,
-            TeamIdx = result.TeamIdx
+            TeamIdx = result.TeamIdx,
+            Textures = result.Textures,
         };
     }
 
