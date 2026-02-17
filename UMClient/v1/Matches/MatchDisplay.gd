@@ -7,6 +7,9 @@ extends Control
 @onready var CombatNode = %Combat
 @onready var LogsNode = %Logs
 
+@onready var CardImageLoaderNode = %CardImageLoader
+@onready var FighterImageLoaderNode = %FighterImageLoader
+
 @onready var ConnectionControlsNode = %ConnectionControls
 
 @onready var _controls_map = {

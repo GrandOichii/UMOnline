@@ -171,8 +171,10 @@ FighterImageLoaderNode = NodePath("../../../../../FighterImageLoader")
 ZoomedCardNode = NodePath("../../../ZoomedCard")
 
 [node name="CardImageLoader" parent="." instance=ExtResource("6_62j6u")]
+unique_name_in_owner = true
 
 [node name="FighterImageLoader" parent="." instance=ExtResource("7_i8bsg")]
+unique_name_in_owner = true
 
 [node name="Colors" parent="." instance=ExtResource("9_u1edk")]
 unique_name_in_owner = true

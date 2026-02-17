@@ -82,17 +82,22 @@ public partial class LocalRepository : Node
 			InsertModel(AppStateModel.Default);
 		}
 
-		// TODO remove
-		// if (DropOnLaunch)
-		// 	InsertDummyData();
-
 		// create user data directories
 		var err = DirAccess.MakeDirRecursiveAbsolute(CardBackDirectory());
-		// TODO handle err
+		if (err != Error.Ok)
+		{
+			GD.PushError(err);
+		}
 		err = DirAccess.MakeDirRecursiveAbsolute(GetFighterImageDirectory());
-		// TODO handle err
+		if (err != Error.Ok)
+		{
+			GD.PushError(err);
+		}
 		err = DirAccess.MakeDirRecursiveAbsolute(GetCardImageDirectory());
-		// TODO handle err
+		if (err != Error.Ok)
+		{
+			GD.PushError(err);
+		}
 	}
 
 	private void ExecNonQuery(string command)
@@ -820,7 +825,6 @@ public partial class LocalRepository : Node
 				};
 
 				InsertCard(newCard, card.Script, true);
-				// TODO change script
 			}
 		}
 
@@ -850,8 +854,9 @@ public partial class LocalRepository : Node
 		foreach (var fighter in fighters)
 		{
 			if (fighter.ImagePath is null) continue;
-			var key = $"{deck.Name}_{fighter.Name}";
-			var texture = GD.Load<Texture2D>(fighter.ImagePath);
+			// var key = $"{deck.Name}_{fighter.Name}";
+			var key = fighter.Name;
+			var texture = ImageTexture.CreateFromImage(Image.LoadFromFile(fighter.ImagePath));
 			result.Add(key, texture);
 		}
 		return result;
@@ -866,7 +871,7 @@ public partial class LocalRepository : Node
 		{
 			if (card.ImagePath is null) continue;
 			var key = $"{deck.Name}_{card.Name}";
-			var texture = GD.Load<Texture2D>(card.ImagePath);
+			var texture = ImageTexture.CreateFromImage(Image.LoadFromFile(card.ImagePath));
 			result.Add(key, texture);
 		}
 		return result;
@@ -875,7 +880,7 @@ public partial class LocalRepository : Node
 	public Texture2D GetCardBackTexture(int deckId)
 	{
 		var deck = GetDeck(deckId);
-		return deck.CardBackPath is null ? null : GD.Load<Texture2D>(deck.CardBackPath);
+		return deck.CardBackPath is null ? null : ImageTexture.CreateFromImage(Image.LoadFromFile(deck.CardBackPath));
 	}
 
 	public LoadoutTemplate GetLoadoutTemplate(int deckId)

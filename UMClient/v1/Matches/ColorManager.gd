@@ -31,4 +31,5 @@ func get_deck_color(deck_name: String):
 	for d in Decks.Decks:
 		if deck_name == d.DeckName:
 			return d.DeckColor
+	return null
 #	TODO throw error

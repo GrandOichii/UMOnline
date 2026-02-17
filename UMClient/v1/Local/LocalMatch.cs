@@ -54,6 +54,12 @@ public partial class LocalMatch : Control
                 {
                     throw new Exception("Failed to add a player, not enough checks");
                 }
+
+                if (per.Textures is null) continue;
+
+                MatchNode.Call("remember_deck_card_back", per.Loadout.Name, per.Textures.Value.CardBack);
+                MatchNode.Call("remember_deck_card_images", per.Textures.Value.Cards);
+                MatchNode.Call("remember_deck_fighter_images", per.Textures.Value.Fighters);
             }
 
             await _match.Run();
