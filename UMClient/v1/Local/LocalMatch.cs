@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using UMCore.Matches;
 
@@ -19,6 +20,8 @@ public partial class LocalMatch : Control
     public AcceptDialog CrashedMatchDialogNode { get; set; }
     [Export]
     public TextEdit CrashedMatchExceptionTextNode { get; set; }
+    [Export]
+    public AcceptDialog FinishedMatchDialogNode { get; set; }
 
 	#endregion
 
@@ -29,8 +32,6 @@ public partial class LocalMatch : Control
     {
         _handler = handler;
         _match = match;
-
-        // TODO
 
         OverlayNode.Hide();
 
@@ -63,6 +64,10 @@ public partial class LocalMatch : Control
             }
 
             await _match.Run();
+
+            var dialogText = $"Match finished!\nWinning team: {string.Join(", ", _match.GetWinners().Select(p => p.Name))}";
+            FinishedMatchDialogNode.DialogText = dialogText;
+            FinishedMatchDialogNode.Show();
         } catch (Exception e)
         {
             GD.PushError(e);
@@ -97,6 +102,26 @@ public partial class LocalMatch : Control
 	{
 		_handler.SetReadTaskResult(response);
 	}
+
+    public void OnCrashedMatchDialogConfirmed()
+    {
+        QueueFree();
+    }
+
+    public void OnFinishedMatchDialogConfirmed()
+    {
+        QueueFree();
+    }
+
+    public void OnFinishedMatchDialogCanceled()
+    {
+        QueueFree();
+    }
+
+    public void OnCrashedMatchDialogCanceled()
+    {
+        QueueFree();
+    }
 
     #endregion
 }

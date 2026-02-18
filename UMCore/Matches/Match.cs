@@ -66,6 +66,12 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
         return Teams.Values.All(t => t.Count == pCount);
     }
 
+    public List<Player> GetWinners()
+    {
+        // TODO! teams
+        return Winner is null ? [] : [ Winner ];
+    }
+
     public bool CheckForWinners()
     {
         // TODO! teams
