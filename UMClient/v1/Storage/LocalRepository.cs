@@ -479,9 +479,16 @@ public partial class LocalRepository : Node
 
 	#region Fighters
 
+	public void DeleteFighter(int fighterId)
+	{
+		var fighter = GetFighter(fighterId);
+		DeleteModel(fighter);
+		DeleteModel(GetScriptModel(fighter.ScriptId));
+	}
+
 	public void InsertFighter(FighterModel fighter)
 	{
-		InsertFighter(fighter, "function _Create()\n\t-- TODO manually edit script\nend", true);
+		InsertFighter(fighter, "function _Create()\n\t-- TODO manually edit script\nend", false);
 	}
 
 	public void InsertFighter(FighterModel fighter, string script, bool isManual)
@@ -546,6 +553,13 @@ public partial class LocalRepository : Node
 	#endregion
 
 	#region Cards
+
+	public void DeleteCard(int cardId)
+	{
+		var card = GetCard(cardId);
+		DeleteModel(card);
+		DeleteModel(GetScriptModel(card.ScriptId));
+	}
 
 	public void InsertCard(CardModel card)
 	{

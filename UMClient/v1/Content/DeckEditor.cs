@@ -38,6 +38,10 @@ public partial class DeckEditor : Control
     public Container CardListContainer { get; set; }
     [Export]
     public Button CollapseCardListButton { get; set; }
+    [Export]
+    public ConfirmationDialog DeleteFighterDialogNode { get; set; }
+    [Export]
+    public ConfirmationDialog DeleteCardDialogNode { get; set; }
 
     #endregion
 
@@ -312,9 +316,33 @@ public partial class DeckEditor : Control
         NewFighterWindow.Show();
     }
 
+    private int _queuedForDeletionFighterId = -1;
     public void OnDeleteFighterButtonPressed()
     {
-        // TODO
+        var selected = FighterListNode.GetSelectedItems();
+        if (selected.Length != 1) return;
+
+        var fighterId = FighterListNode.GetItemMetadata(selected[0]).AsInt32();
+        _queuedForDeletionFighterId = fighterId;
+        var fighter = _repo.GetFighter(fighterId);
+        DeleteFighterDialogNode.DialogText = $"Are you sure you want to delete fighter {fighter.Name}?";
+        DeleteFighterDialogNode.Show();
+    }
+
+    public void OnDeleteFighterDialogConfirmed()
+    {
+        if (_queuedForDeletionFighterId == -1) throw new Exception($"{nameof(OnDeleteFighterDialogConfirmed)} was called with {nameof(_queuedForDeletionFighterId)} = -1");
+
+        _repo.DeleteFighter(_queuedForDeletionFighterId);
+
+        ReloadFighterList();
+        foreach (var tab in FighterTabsNode.GetChildren().Cast<FighterEditor>())
+        {
+            if (tab.FighterId != _queuedForDeletionFighterId) continue;
+            tab.QueueFree();
+        }
+
+        _queuedForDeletionFighterId = -1;
     }
 
     public void OnNewFighterWindowCancelRequest()
@@ -371,9 +399,33 @@ public partial class DeckEditor : Control
         NewCardWindow.Show();
     }
 
+    private int _queuedForDeletionCardId = -1;
     public void OnDeleteCardButtonPressed()
     {
-        // TODO
+        var selected = CardListNode.GetSelectedItems();
+        if (selected.Length != 1) return;
+
+        var cardId = CardListNode.GetItemMetadata(selected[0]).AsInt32();
+        _queuedForDeletionCardId = cardId;
+        var Card = _repo.GetCard(cardId);
+        DeleteCardDialogNode.DialogText = $"Are you sure you want to delete card {Card.Name}?";
+        DeleteCardDialogNode.Show();
+    }
+
+    public void OnDeleteCardDialogConfirmed()
+    {
+        if (_queuedForDeletionCardId == -1) throw new Exception($"{nameof(OnDeleteCardDialogConfirmed)} was called with {nameof(_queuedForDeletionCardId)} = -1");
+
+        _repo.DeleteCard(_queuedForDeletionCardId);
+
+        ReloadCardList();
+        foreach (var tab in CardTabsNode.GetChildren().Cast<CardEditor>())
+        {
+            if (tab.CardId != _queuedForDeletionCardId) continue;
+            tab.QueueFree();
+        }
+
+        _queuedForDeletionCardId = -1;
     }
 
     public void OnNewCardWindowCancelRequest()

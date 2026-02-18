@@ -58,14 +58,14 @@ public partial class CardEditor : TabContainer
 
 	#endregion
 
-    private int _cardId;
+    public int CardId { get; private set; }
     private int _deckId;
     private string _imagePath;
     private int _scriptId;
     private bool _editable;
     private Func<List<string>> _cardNamesGetter;
 
-    public int GetCardId() => _cardId;
+    public int GetCardId() => CardId;
 
     public void SetEssentials(
         Func<List<string>> cardNamesGetter
@@ -80,7 +80,7 @@ public partial class CardEditor : TabContainer
 
     public void LoadCard(CardModel card, ScriptModel script, bool editable)
     {
-        _cardId = card.Id;
+        CardId = card.Id;
         _deckId = card.DeckId;
         _scriptId = card.ScriptId;
         _editable = editable;
@@ -130,7 +130,7 @@ public partial class CardEditor : TabContainer
 
     public CardModel BuildCardModel() => new()
     {
-        Id = _cardId,
+        Id = CardId,
         DeckId = _deckId,
         AllowedFighters = CardModel.ToAllowedFighters(AllowedFightersTagsNode.GetTags()),
         Labels = CardModel.ToLabels(LabelsTagsNode.GetTags()),
@@ -182,7 +182,7 @@ public partial class CardEditor : TabContainer
         var texture = ImageTexture.CreateFromImage(image);
         CardImageNode.Texture = texture;
 
-        EmitSignal(SignalName.CardImageImportRequest, _cardId, path);
+        EmitSignal(SignalName.CardImageImportRequest, CardId, path);
     }
 
     public void OnTypeOptionItemSelected(int idx)
@@ -190,7 +190,7 @@ public partial class CardEditor : TabContainer
         ValueNode.Editable = idx != 0; // scheme
 
         if (!_editable) return;
-        EmitSignal(SignalName.CardChanged, _cardId);
+        EmitSignal(SignalName.CardChanged, CardId);
     }
     
     public void OnBoostCheckToggled(bool hasBoost)
@@ -198,7 +198,7 @@ public partial class CardEditor : TabContainer
         BoostValueNode.Editable = hasBoost;
 
         if (!_editable) return;
-        EmitSignal(SignalName.CardChanged, _cardId);
+        EmitSignal(SignalName.CardChanged, CardId);
     }
 
     public void OnRenameWindowCancelRequest()
@@ -210,8 +210,8 @@ public partial class CardEditor : TabContainer
     {
         RenameWindowNode.Hide();
         NameEditNode.Text = newName;
-		EmitSignal(SignalName.CardChanged, _cardId);
-		EmitSignal(SignalName.CardNameChanged, _cardId);
+		EmitSignal(SignalName.CardChanged, CardId);
+		EmitSignal(SignalName.CardNameChanged, CardId);
     }
 
     public void OnRenameButtonPressed()
@@ -226,7 +226,7 @@ public partial class CardEditor : TabContainer
 
     public void OnScriptScriptModelChanged()
     {
-        EmitSignal(SignalName.CardScriptChanged, _cardId);
+        EmitSignal(SignalName.CardScriptChanged, CardId);
     }
 
     #region CardChanged emitters
@@ -234,49 +234,49 @@ public partial class CardEditor : TabContainer
     public void OnTitleEditTextChanged(string _)
     {
         if (!_editable) return;
-        EmitSignal(SignalName.CardChanged, _cardId);
+        EmitSignal(SignalName.CardChanged, CardId);
     }
     
     public void OnDeckCountValueChanged(int _)
     {
         if (!_editable) return;
-        EmitSignal(SignalName.CardChanged, _cardId);
+        EmitSignal(SignalName.CardChanged, CardId);
     }
     
     public void OnStartingHandCountValueChanged(int _)
     {
         if (!_editable) return;
-        EmitSignal(SignalName.CardChanged, _cardId);
+        EmitSignal(SignalName.CardChanged, CardId);
     }
     
     public void OnValueValueChanged(int _)
     {
         if (!_editable) return;
-        EmitSignal(SignalName.CardChanged, _cardId);
+        EmitSignal(SignalName.CardChanged, CardId);
     }
     
     public void OnBoostValueValueChanged(int _)
     {
         if (!_editable) return;
-        EmitSignal(SignalName.CardChanged, _cardId);
+        EmitSignal(SignalName.CardChanged, CardId);
     }
     
     public void OnTextTextChanged()
     {
         if (!_editable) return;
-        EmitSignal(SignalName.CardChanged, _cardId);
+        EmitSignal(SignalName.CardChanged, CardId);
     }
 
     public void OnAllowedFightersEditorTagsChanged(Godot.Collections.Array<string> _)
     {
         if (!_editable) return;
-        EmitSignal(SignalName.CardChanged, _cardId);
+        EmitSignal(SignalName.CardChanged, CardId);
     }
 
     public void OnLabelsEditorTagsChanged(Godot.Collections.Array<string> _)
     {
         if (!_editable) return;
-        EmitSignal(SignalName.CardChanged, _cardId);
+        EmitSignal(SignalName.CardChanged, CardId);
     }
     
     #endregion

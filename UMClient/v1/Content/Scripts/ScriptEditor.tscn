@@ -185,6 +185,7 @@ text = "Add"
 [connection signal="gui_input" from="VBoxContainer/Control/GraphEditor/HBoxContainer/Graph" to="." method="OnGraphGuiInput"]
 [connection signal="paste_nodes_request" from="VBoxContainer/Control/GraphEditor/HBoxContainer/Graph" to="." method="OnGraphPasteNodesRequest"]
 [connection signal="text_changed" from="VBoxContainer/Control/ManualEditor/ManualScriptEdit" to="." method="OnManualScriptEditTextChanged"]
+[connection signal="pressed" from="VBoxContainer/ToggleScriptTypeButton" to="." method="OnToggleScriptTypeButtonPressed"]
 [connection signal="close_requested" from="AddNodeWindow" to="." method="OnAddNodeWindowCloseRequested"]
 [connection signal="item_activated" from="AddNodeWindow/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/NewNodeTreeList" to="." method="OnNewNodeTreeListItemActivated"]
 [connection signal="item_selected" from="AddNodeWindow/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/NewNodeTreeList" to="." method="OnNewNodeTreeListItemSelected"]

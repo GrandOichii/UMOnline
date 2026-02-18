@@ -461,5 +461,10 @@ public partial class ScriptEditor : Control
 		UpdateLastGraphState();
 	}
 
+	public void OnToggleScriptTypeButtonPressed()
+	{
+		// TODO
+	}
+
 	#endregion
 }

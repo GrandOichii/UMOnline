@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://cfcejalno8xn1" path="res://v1/Content/Editors/CardEditor.tscn" id="4_dr67b"]
 [ext_resource type="PackedScene" uid="uid://dhhiuajxh55rp" path="res://v1/Content/NameEditWindow.tscn" id="4_lxupj"]
 
-[node name="DeckEditor" type="Control" node_paths=PackedStringArray("DeckInfoEditorNode", "FighterTabsNode", "FighterListNode", "CreateFighterButton", "DeleteFighterButton", "NewFighterWindow", "CardTabsNode", "CardListNode", "CreateCardButton", "DeleteCardButton", "NewCardWindow", "FighterListContainer", "CollapseFighterListButton", "CardListContainer", "CollapseCardListButton")]
+[node name="DeckEditor" type="Control" node_paths=PackedStringArray("DeckInfoEditorNode", "FighterTabsNode", "FighterListNode", "CreateFighterButton", "DeleteFighterButton", "NewFighterWindow", "CardTabsNode", "CardListNode", "CreateCardButton", "DeleteCardButton", "NewCardWindow", "FighterListContainer", "CollapseFighterListButton", "CardListContainer", "CollapseCardListButton", "DeleteFighterDialogNode", "DeleteCardDialogNode")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -29,6 +29,8 @@ FighterListContainer = NodePath("TabContainer/Fighters/HBoxContainer/FighterList
 CollapseFighterListButton = NodePath("TabContainer/Fighters/HBoxContainer/CollapseFighterListButton")
 CardListContainer = NodePath("TabContainer/Cards/HBoxContainer/CardListContainer")
 CollapseCardListButton = NodePath("TabContainer/Cards/HBoxContainer/CollapseCardListButton")
+DeleteFighterDialogNode = NodePath("DeleteFighterDialog")
+DeleteCardDialogNode = NodePath("DeleteCardDialog")
 FighterEditorScene = ExtResource("4_5n5st")
 CardEditorScene = ExtResource("4_dr67b")
 
@@ -159,6 +161,20 @@ title = "Create a card"
 visible = false
 ConfirmButtonText = "Create"
 
+[node name="DeleteFighterDialog" type="ConfirmationDialog" parent="."]
+oversampling_override = 1.0
+title = "Delete fighter"
+initial_position = 2
+size = Vector2i(500, 100)
+dialog_text = "Are you sure you want to delete INSERT FIGHTER NAME HERE?"
+
+[node name="DeleteCardDialog" type="ConfirmationDialog" parent="."]
+oversampling_override = 1.0
+title = "Delete fighter"
+initial_position = 2
+size = Vector2i(500, 100)
+dialog_text = "Are you sure you want to delete INSERT CARD NAME HERE?"
+
 [connection signal="CardBackImportRequest" from="TabContainer/Deck" to="." method="OnDeckCardBackImportRequest"]
 [connection signal="DeckInfoChanged" from="TabContainer/Deck" to="." method="OnDeckDeckInfoChanged"]
 [connection signal="DeckNameChanged" from="TabContainer/Deck" to="." method="OnDeckDeckNameChanged"]
@@ -174,3 +190,5 @@ ConfirmButtonText = "Create"
 [connection signal="ConfirmRequest" from="NewFighterWindow" to="." method="OnNewFighterWindowConfirmRequest"]
 [connection signal="CancelRequest" from="NewCardWindow" to="." method="OnNewCardWindowCancelRequest"]
 [connection signal="ConfirmRequest" from="NewCardWindow" to="." method="OnNewCardWindowConfirmRequest"]
+[connection signal="confirmed" from="DeleteFighterDialog" to="." method="OnDeleteFighterDialogConfirmed"]
+[connection signal="confirmed" from="DeleteCardDialog" to="." method="OnDeleteCardDialogConfirmed"]

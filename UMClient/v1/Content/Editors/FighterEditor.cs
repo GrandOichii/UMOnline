@@ -57,7 +57,7 @@ public partial class FighterEditor : TabContainer
 
     #endregion
 
-    private int _fighterId;
+    public int FighterId { get; private set; }
     private int _deckId;
     private string _imagePath;
     private int _scriptId;
@@ -71,7 +71,7 @@ public partial class FighterEditor : TabContainer
         _fighterNamesGetter = fighterNamesGetter;
     }
 
-    public int GetFighterId() => _fighterId;
+    public int GetFighterId() => FighterId;
 
     // public override void _Ready()
     // {
@@ -83,7 +83,7 @@ public partial class FighterEditor : TabContainer
     {
         return new()
         {
-            Id = _fighterId,
+            Id = FighterId,
             DeckId = _deckId,
             Name = NameEditNode.Text,
             Amount = (int)AmountNode.Value,
@@ -103,7 +103,7 @@ public partial class FighterEditor : TabContainer
 
     public void LoadFighter(FighterModel fighter, ScriptModel script, bool editable)
     {
-        _fighterId = fighter.Id;
+        FighterId = fighter.Id;
         _deckId = fighter.DeckId;
         _scriptId = fighter.ScriptId;
         _editable = editable;
@@ -179,7 +179,7 @@ public partial class FighterEditor : TabContainer
         var texture = ImageTexture.CreateFromImage(image);
         FighterImageNode.Texture = texture;
 
-        EmitSignal(SignalName.FighterImageImportRequest, _fighterId, path);
+        EmitSignal(SignalName.FighterImageImportRequest, FighterId, path);
     }
 
     public void OnRenameButtonPressed()
@@ -201,13 +201,13 @@ public partial class FighterEditor : TabContainer
     {
         RenameWindowNode.Hide();
         NameEditNode.Text = newName;
-		EmitSignal(SignalName.FighterChanged, _fighterId);
-		EmitSignal(SignalName.FighterNameChanged, _fighterId);
+		EmitSignal(SignalName.FighterChanged, FighterId);
+		EmitSignal(SignalName.FighterNameChanged, FighterId);
     }
 
     public void OnScriptScriptModelChanged()
     {
-        EmitSignal(SignalName.FighterScriptChanged, _fighterId);
+        EmitSignal(SignalName.FighterScriptChanged, FighterId);
     }
 
     #region FighterChanged emitters
@@ -215,67 +215,67 @@ public partial class FighterEditor : TabContainer
     public void OnNameEditTextChanged(string _)
     {
         if (!_editable) return;
-        EmitSignal(SignalName.FighterChanged, _fighterId);
+        EmitSignal(SignalName.FighterChanged, FighterId);
     }
 
     public void OnAmountValueChanged(int _)
     {
         if (!_editable) return;
-        EmitSignal(SignalName.FighterChanged, _fighterId);
+        EmitSignal(SignalName.FighterChanged, FighterId);
     }
 
     public void OnIsSidekickCheckPressed()
     {
         if (!_editable) return;
-        EmitSignal(SignalName.FighterChanged, _fighterId);
+        EmitSignal(SignalName.FighterChanged, FighterId);
     }
 
     public void OnIsSmallFighterCheckPressed()
     {
         if (!_editable) return;
-        EmitSignal(SignalName.FighterChanged, _fighterId);
+        EmitSignal(SignalName.FighterChanged, FighterId);
     }
 
     public void OnMaxHealthValueChanged(int _)
     {
         if (!_editable) return;
-        EmitSignal(SignalName.FighterChanged, _fighterId);
+        EmitSignal(SignalName.FighterChanged, FighterId);
     }
 
     public void OnStartingHealthValueChanged(int _)
     {
         if (!_editable) return;
-        EmitSignal(SignalName.FighterChanged, _fighterId);
+        EmitSignal(SignalName.FighterChanged, FighterId);
     }
 
     public void OnMeleeRangeValueChanged(int _)
     {
         if (!_editable) return;
-        EmitSignal(SignalName.FighterChanged, _fighterId);
+        EmitSignal(SignalName.FighterChanged, FighterId);
     }
 
     public void OnIsRangedCheckPressed()
     {
         if (!_editable) return;
-        EmitSignal(SignalName.FighterChanged, _fighterId);
+        EmitSignal(SignalName.FighterChanged, FighterId);
     }
 
     public void OnMovementValueChanged(int _)
     {
         if (!_editable) return;
-        EmitSignal(SignalName.FighterChanged, _fighterId);
+        EmitSignal(SignalName.FighterChanged, FighterId);
     }
 
     public void OnCanMoveOverOpposingPressed()
     {
         if (!_editable) return;
-        EmitSignal(SignalName.FighterChanged, _fighterId);
+        EmitSignal(SignalName.FighterChanged, FighterId);
     }
 
     public void OnTextTextChanged()
     {
         if (!_editable) return;
-        EmitSignal(SignalName.FighterChanged, _fighterId);
+        EmitSignal(SignalName.FighterChanged, FighterId);
     }
 
     #endregion
