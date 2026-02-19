@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://ctj3vhl0qiuqp" path="res://v1/Content/DeckList.tscn" id="2_w0hoq"]
 [ext_resource type="PackedScene" uid="uid://dhhiuajxh55rp" path="res://v1/Content/NameEditWindow.tscn" id="8_r1ane"]
 
-[node name="ContentEditor" type="Control" node_paths=PackedStringArray("OfficialDecks", "CustomDecks", "DeckTabsNode", "NewDeckWindow", "DeckListsContainer", "CollapseDeckListsButton")]
+[node name="ContentEditor" type="Control" node_paths=PackedStringArray("OfficialDecks", "CustomDecks", "DeckTabsNode", "NewDeckWindow", "DeckListsContainer", "CollapseDeckListsButton", "DeleteDeckDialogNode")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -19,6 +19,7 @@ DeckTabsNode = NodePath("HBoxContainer/DeckTabs")
 NewDeckWindow = NodePath("NewDeckWindow")
 DeckListsContainer = NodePath("HBoxContainer/DeckListsContainer")
 CollapseDeckListsButton = NodePath("HBoxContainer/CollapseDeckListsButton")
+DeleteDeckDialogNode = NodePath("DeleteDeckDialog")
 DeckEditorScene = ExtResource("2_4vp58")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
@@ -33,18 +34,16 @@ grow_vertical = 2
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="OfficialDecks" parent="HBoxContainer/DeckListsContainer" node_paths=PackedStringArray("Repo") instance=ExtResource("2_w0hoq")]
+[node name="OfficialDecks" parent="HBoxContainer/DeckListsContainer" instance=ExtResource("2_w0hoq")]
 layout_mode = 2
 size_flags_vertical = 3
 Title = "Official decks"
-Repo = NodePath("")
 
-[node name="CustomDecks" parent="HBoxContainer/DeckListsContainer" node_paths=PackedStringArray("Repo") instance=ExtResource("2_w0hoq")]
+[node name="CustomDecks" parent="HBoxContainer/DeckListsContainer" instance=ExtResource("2_w0hoq")]
 layout_mode = 2
 size_flags_vertical = 3
 Title = "Custom decks"
 PickEditableDecks = true
-Repo = NodePath("")
 
 [node name="CreateDeckButton" type="Button" parent="HBoxContainer/DeckListsContainer"]
 layout_mode = 2
@@ -79,6 +78,11 @@ title = "Create a new deck"
 visible = false
 ConfirmButtonText = "Create"
 
+[node name="DeleteDeckDialog" type="ConfirmationDialog" parent="."]
+oversampling_override = 1.0
+title = "Delete deck"
+initial_position = 2
+
 [connection signal="DeckActivated" from="HBoxContainer/DeckListsContainer/OfficialDecks" to="." method="OnOfficialDecksDeckActivated"]
 [connection signal="DeckActivated" from="HBoxContainer/DeckListsContainer/CustomDecks" to="." method="OnCustomDecksDeckActivated"]
 [connection signal="pressed" from="HBoxContainer/DeckListsContainer/CreateDeckButton" to="." method="OnCreateDeckButtonPressed"]
@@ -86,3 +90,4 @@ ConfirmButtonText = "Create"
 [connection signal="pressed" from="HBoxContainer/CollapseDeckListsButton" to="." method="OnCollapseDeckListsButtonPressed"]
 [connection signal="CancelRequest" from="NewDeckWindow" to="." method="OnNewDeckWindowCancelRequest"]
 [connection signal="ConfirmRequest" from="NewDeckWindow" to="." method="OnNewDeckWindowConfirmRequest"]
+[connection signal="confirmed" from="DeleteDeckDialog" to="." method="OnDeleteDeckDialogConfirmed"]

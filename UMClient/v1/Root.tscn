@@ -35,8 +35,9 @@ layout_mode = 2
 RepoNode = NodePath("../../LocalRepository")
 metadata/_tab_index = 1
 
-[node name="Content" parent="TabContainer" node_paths=PackedStringArray("RepositoryNode") instance=ExtResource("3_upr75")]
+[node name="Content" parent="TabContainer" node_paths=PackedStringArray("RepositoryNode", "LocalMatchesTabNode") instance=ExtResource("3_upr75")]
 visible = false
 layout_mode = 2
 RepositoryNode = NodePath("../../LocalRepository")
+LocalMatchesTabNode = NodePath("../Local")
 metadata/_tab_index = 2

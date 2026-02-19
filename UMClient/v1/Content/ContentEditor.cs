@@ -8,6 +8,9 @@ public partial class ContentEditor : Control
 
 	[Export]
 	public LocalRepository RepositoryNode { get; set; }
+	[Export]
+	public LocalMatchesTab LocalMatchesTabNode { get; set; }
+
 	[ExportGroup("Nodes")]
 	[Export]
 	public DeckList OfficialDecks { get; set; }
@@ -21,6 +24,8 @@ public partial class ContentEditor : Control
 	public Container DeckListsContainer { get; set; }
 	[Export]
 	public Button CollapseDeckListsButton { get; set; }
+	[Export]
+	public ConfirmationDialog DeleteDeckDialogNode { get; set; }
 
 	#endregion
 
@@ -88,6 +93,10 @@ public partial class ContentEditor : Control
 		child.Show();
 	}
 
+	public void UpdateLocalMatchesTab()
+	{
+		LocalMatchesTabNode.UpdateDeckOptions();
+	}
 
 	#region Signal connections
 
@@ -104,9 +113,36 @@ public partial class ContentEditor : Control
 		NewDeckWindow.Show();
 	}
 
+	private int _queuedForDeletionDeckId = -1;
 	public void OnDeleteDeckButtonPressed()
 	{
-		// TODO
+		var selected = CustomDecks.ListNode.GetSelectedItems();
+        if (selected.Length != 1) return;
+
+        var deckId = CustomDecks.ListNode.GetItemMetadata(selected[0]).AsInt32();
+        _queuedForDeletionDeckId = deckId;
+        var deck = RepositoryNode.GetDeck(deckId);
+        DeleteDeckDialogNode.DialogText = $"Are you sure you want to delete deck {deck.Name}?";
+        DeleteDeckDialogNode.Show();
+	}
+
+	
+	public void OnDeleteDeckDialogConfirmed()
+	{
+		if (_queuedForDeletionDeckId == -1) throw new Exception($"{nameof(OnDeleteDeckDialogConfirmed)} was called with {nameof(_queuedForDeletionDeckId)} = -1");
+
+        RepositoryNode.DeleteDeck(_queuedForDeletionDeckId);
+
+        ReloadDeckLists();
+        foreach (var tab in DeckTabsNode.GetChildren().Cast<DeckEditor>())
+        {
+            if (tab.DeckId != _queuedForDeletionDeckId) continue;
+            tab.QueueFree();
+        }
+
+        _queuedForDeletionDeckId = -1;
+
+		UpdateLocalMatchesTab();
 	}
 
 	public void OnOfficialDecksDeckActivated(int deckId)
@@ -145,6 +181,8 @@ public partial class ContentEditor : Control
 		var inserted = RepositoryNode.GetDeck(deck.Name);
 		OpenDeck(inserted.Id);
 		ReloadDeckLists();
+
+		UpdateLocalMatchesTab();
 	}
 
 	public void OnCollapseDeckListsButtonPressed()

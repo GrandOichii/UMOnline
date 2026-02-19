@@ -72,8 +72,21 @@ public partial class LocalMatchesTab : Control
 		RealPlayerEditor.LoadName("RealPlayer"); // TODO? remove
 
 		// TODO remove
-		RealPlayerEditor.DeckOption.Select(6);
-		RealPlayerEditor.TeamNode.Value = 2;
+		// RealPlayerEditor.DeckOption.Select(6);
+		// RealPlayerEditor.TeamNode.Value = 2;
+	}
+
+	public void UpdateDeckOptions()
+	{
+		List<IPlayerEditor> playerEditors = [
+			RealPlayerEditor,
+			.. BotListContainer.GetChildren().Cast<BotEditor>()
+		];
+
+		foreach (var per in playerEditors)
+		{
+			per.UpdateDeckLists();
+		}
 	}
 
     private void RemoveBotNodes()

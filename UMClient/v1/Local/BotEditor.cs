@@ -25,6 +25,11 @@ public partial class BotEditor : Control, IPlayerEditor
             Textures = result.Textures,
         };
     }
+    
+    public void UpdateDeckLists()
+    {
+        PlayerEditorNode.UpdateDeckLists();
+    }
 
     public void LoadLocalMatchesTab(LocalMatchesTab lmt)
     {

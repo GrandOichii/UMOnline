@@ -55,7 +55,7 @@ public partial class DeckEditor : Control
 
     #endregion
 
-    private int _deckId;
+    public int DeckId { get; private set; }
     private LocalRepository _repo;
     private ContentEditor _parent;
 
@@ -78,7 +78,7 @@ public partial class DeckEditor : Control
     }
 
 
-    public int GetDeckId() => _deckId;
+    public int GetDeckId() => DeckId;
 
     public void SetEssentials(ContentEditor parent, LocalRepository repo)
     {
@@ -98,7 +98,7 @@ public partial class DeckEditor : Control
 
     public void LoadDeck(DeckModel deck)
     {
-        _deckId = deck.Id;
+        DeckId = deck.Id;
         SetIsEditable(deck.Editable);
 
         DeckInfoEditorNode.LoadDeck(deck);
@@ -110,7 +110,7 @@ public partial class DeckEditor : Control
     {
         FighterListNode.Clear();
 
-        var fighters = _repo.GetFighters(_deckId);
+        var fighters = _repo.GetFighters(DeckId);
         foreach (var fighter in fighters)
         {
             var idx = FighterListNode.AddItem(fighter.Name);
@@ -122,7 +122,7 @@ public partial class DeckEditor : Control
     {
         CardListNode.Clear();
 
-        var cards = _repo.GetCards(_deckId);
+        var cards = _repo.GetCards(DeckId);
         foreach (var card in cards)
         {
             var idx = CardListNode.AddItem(card.Name);
@@ -145,7 +145,7 @@ public partial class DeckEditor : Control
         child.Name = fighter.Name;
         // TODO
         child.SetEssentials(
-            () => _repo.GetFighterNames(_deckId)
+            () => _repo.GetFighterNames(DeckId)
         );
 
         var deck = _repo.GetDeck(fighter.DeckId);
@@ -174,7 +174,7 @@ public partial class DeckEditor : Control
         CardTabsNode.AddChild(child);
         child.Name = card.Name;
         child.SetEssentials(
-            () => _repo.GetCardNames(_deckId)
+            () => _repo.GetCardNames(DeckId)
         );
 
         var deck = _repo.GetDeck(card.DeckId);
@@ -292,13 +292,13 @@ public partial class DeckEditor : Control
     public void OnDeckDeckInfoChanged()
     {
         var deck = DeckInfoEditorNode.BuildDeckModel();
-        Debug.Assert(deck.Id == _deckId);
+        Debug.Assert(deck.Id == DeckId);
         _repo.UpdateDeckById(deck);
     }
 
     public void OnDeckCardBackImportRequest(string path)
     {
-        var newPath = _repo.UpdateDeckCardBack(_deckId, path);
+        var newPath = _repo.UpdateDeckCardBack(DeckId, path);
         DeckInfoEditorNode.UpdateCardBack(newPath);
     }
 
@@ -311,7 +311,7 @@ public partial class DeckEditor : Control
     public void OnCreateFighterButtonPressed()
     {
         NewFighterWindow.SetEditData(
-            _repo.GetFighterNames(_deckId)
+            _repo.GetFighterNames(DeckId)
         );
         NewFighterWindow.Show();
     }
@@ -360,7 +360,7 @@ public partial class DeckEditor : Control
             Name = fighterName,
             Amount = 1,
             CanMoveOverOpposing = false,
-            DeckId = _deckId,
+            DeckId = DeckId,
             IsRanged = false,
             IsSidekick = false,
             IsSmall = false,
@@ -374,7 +374,7 @@ public partial class DeckEditor : Control
         };
 
         _repo.InsertFighter(fighter);
-        var inserted = _repo.GetFighter(fighter.Name, _deckId);
+        var inserted = _repo.GetFighter(fighter.Name, DeckId);
         OpenFighter(inserted.Id);
         ReloadFighterList();
     }
@@ -394,7 +394,7 @@ public partial class DeckEditor : Control
     public void OnCreateCardButtonPressed()
     {
         NewCardWindow.SetEditData(
-            _repo.GetCardNames(_deckId)
+            _repo.GetCardNames(DeckId)
         );
         NewCardWindow.Show();
     }
@@ -443,7 +443,7 @@ public partial class DeckEditor : Control
             AllowedFighters = "",
             Boost = 0,
             Count = 1,
-            DeckId = _deckId,
+            DeckId = DeckId,
             ImagePath = null,
             Labels = "",
             Name = cardName,
@@ -456,7 +456,7 @@ public partial class DeckEditor : Control
         };
 
         _repo.InsertCard(card);
-        var inserted = _repo.GetCard(card.Name, _deckId);
+        var inserted = _repo.GetCard(card.Name, DeckId);
         OpenCard(inserted.Id);
         ReloadCardList();
     }

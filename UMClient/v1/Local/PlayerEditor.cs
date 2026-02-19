@@ -57,21 +57,7 @@ public partial class PlayerEditor : HBoxContainer, IPlayerEditor
     public void LoadLocalMatchesTab(LocalMatchesTab lmt)
     {
         LMT = lmt;
-
-        var officialDecks = lmt.RepoNode.GetDecks(false);
-        foreach (var deck in officialDecks)
-        {
-            DeckOption.AddItem(deck.Name);
-            DeckOption.SetItemMetadata(DeckOption.ItemCount - 1, deck.Id);
-        }
-        DeckOption.AddSeparator();
-
-        var customDecks = lmt.RepoNode.GetDecks(true);
-        foreach (var deck in customDecks)
-        {
-            DeckOption.AddItem(deck.Name);
-            DeckOption.SetItemMetadata(DeckOption.ItemCount - 1, deck.Id);
-        }
+        UpdateDeckLists();
     }
 
     public void LoadName(string name)
@@ -79,4 +65,22 @@ public partial class PlayerEditor : HBoxContainer, IPlayerEditor
         NameEditNode.Text = name;
     }
 
+    public void UpdateDeckLists()
+    {
+        DeckOption.Clear();
+        var officialDecks = LMT.RepoNode.GetDecks(false);
+        foreach (var deck in officialDecks)
+        {
+            DeckOption.AddItem(deck.Name);
+            DeckOption.SetItemMetadata(DeckOption.ItemCount - 1, deck.Id);
+        }
+        DeckOption.AddSeparator();
+
+        var customDecks = LMT.RepoNode.GetDecks(true);
+        foreach (var deck in customDecks)
+        {
+            DeckOption.AddItem(deck.Name);
+            DeckOption.SetItemMetadata(DeckOption.ItemCount - 1, deck.Id);
+        }
+    }
 }

@@ -435,6 +435,18 @@ public partial class LocalRepository : Node
 
 	#region Decks
 
+	public void DeleteDeck(int deckId)
+	{
+		var deck = GetDeck(deckId);
+		var cards = GetCards(deck.Id);
+		foreach (var card in cards)
+			DeleteCard(card.Id);
+		var fighters = GetFighters(deck.Id);
+		foreach (var fighter in fighters)
+			DeleteFighter(fighter.Id);
+		DeleteModel(deck);
+	}
+
 	public void InsertDeck(DeckModel deck) => InsertModel(deck);
 
 	public List<DeckModel> GetDecks(bool pickEditableDecks)

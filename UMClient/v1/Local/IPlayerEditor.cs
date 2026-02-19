@@ -24,4 +24,5 @@ public interface IPlayerEditor
     void LoadLocalMatchesTab(LocalMatchesTab lmt);
     PlayerEditorResult Build();
     void LoadName(string name);
+    void UpdateDeckLists();
 }
