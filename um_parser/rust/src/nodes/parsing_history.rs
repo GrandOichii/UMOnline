@@ -120,4 +120,14 @@ impl ParsingHistory {
             None => None,
         }
     }
+
+    pub fn get_parse_result_for_card(&self, card_id: i32) -> Option<&ParseResult> {
+        for pair in self.parse_results.iter() {
+            if pair.0 == card_id {
+                return Some(&pair.1);
+            }
+        }
+
+        None
+    }
 }

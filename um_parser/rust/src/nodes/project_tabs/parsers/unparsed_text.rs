@@ -28,6 +28,8 @@ pub struct UnparsedTextNode {
 #[godot_api]
 impl IPanelContainer for UnparsedTextNode {
     fn ready(&mut self) {
+        self.card_ref_button.hide();
+
         self.connect_signals();
     }
 }
@@ -64,6 +66,7 @@ impl TextNode for UnparsedTextNode {
     }
 
     fn init_cards_tab(&mut self, cards_tab: Gd<CardsTabNode>) {
+        self.card_ref_button.show();
         self.cards_tab.init(cards_tab);
     }
 

@@ -1,0 +1,68 @@
+name: main
+status: SUCCESS
+children:
+- name: mainSelector
+  status: SUCCESS
+  children:
+  - name: mainSplitter
+    status: SUCCESS
+    children:
+    - name: abilitySelector
+      status: SUCCESS
+      children:
+      - name: afterCombat
+        status: SUCCESS
+        children:
+        - name: lineSelector
+          status: SUCCESS
+          children:
+          - name: simpleEffects
+            status: SUCCESS
+            children:
+            - name: handManipulationSelector
+              status: SUCCESS
+              children:
+              - name: draw
+                status: SUCCESS
+                children:
+                - name: multiplePlayers
+                  status: SUCCESS
+                  children:
+                  - name: multiplePlayersSelector
+                    status: SUCCESS
+                    children:
+                    - name: multiplePlayersEffectOwner
+                      status: SUCCESS
+                      children: []
+                      text: ''
+                    text: ''
+                  text: ''
+                - name: drawIsOptional
+                  status: SUCCESS
+                  children:
+                  - name: drawIsOptionalTrue
+                    status: IGNORED
+                    children: []
+                    text: ''
+                  - name: drawIsOptionalFalse
+                    status: SUCCESS
+                    children: []
+                    text: ''
+                  text: ''
+                - name: numericSelector
+                  status: SUCCESS
+                  children:
+                  - name: numericStatic
+                    status: SUCCESS
+                    children: []
+                    text: 1
+                  text: 1
+                text: Draw 1 card
+              text: Draw 1 card
+            text: Draw 1 card
+          text: Draw 1 card
+        text: 'After combat: Draw 1 card.'
+      text: 'After combat: Draw 1 card.'
+    text: 'After combat: Draw 1 card.'
+  text: 'After combat: Draw 1 card.'
+text: 'After combat: Draw 1 card.'
