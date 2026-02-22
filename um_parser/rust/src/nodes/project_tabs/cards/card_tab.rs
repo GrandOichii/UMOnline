@@ -105,7 +105,7 @@ impl CardTabNode {
             text: String::from(""),
             project_name: String::from(""),
             used: true,
-        }); // TODO kinda sus
+        });
 
         for child in pr.children.iter() {
             self.add_parsed_text(child, full_text);
