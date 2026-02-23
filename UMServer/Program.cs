@@ -28,7 +28,8 @@ builder.Services.AddTransient<IContentUpdateRepository, ContentUpdateRepository>
 builder.Services.AddTransient<ILoadoutManager, LoadoutManager>();
 builder.Services.AddTransient<ICoreScriptManager, CoreScriptManager>();
 builder.Services.AddTransient<IUpdateManager, UpdateManager>();
-builder.Services.AddTransient<IMatchesManager, MatchesManager>();
+builder.Services.AddTransient<IMatchManager, MatchManager>();
+builder.Services.AddTransient<IMatchConfigManager, MatchConfigManager>();
 
 // Services
 builder.Services.AddSingleton<IMatchConnectEndpointSerializer, MatchConnectEndpointSerializer>();

@@ -74,8 +74,9 @@ public partial class ServerConnection : Node
         {
             return;
         }
+
+        // TODO handle better
         GD.Print($"{nameof(RequestIsOutdated)}: {err}");
-        // TODO check err
     }
 
     public void RequestContentSynchronization()

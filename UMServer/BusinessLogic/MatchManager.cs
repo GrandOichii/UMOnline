@@ -8,7 +8,7 @@ using UMServer.Repositories;
 
 namespace UMServer.BusinessLogic;
 
-public interface IMatchesManager
+public interface IMatchManager
 {
     Task<MatchProcess?> Create(ConnectedClient client, CreateMatchParams createParams);
     Task ProcessRemovedClient(ConnectedClient client);
@@ -16,14 +16,14 @@ public interface IMatchesManager
     Task<MatchProcess?> Get(string matchId);
 }
 
-public class MatchesManager(
-    ILogger<MatchesManager> logger,
+public class MatchManager(
+    ILogger<MatchManager> logger,
     IMatchRepository matchRepo,
     IClientRepository clientRepo,
     // ILoadoutRepository loadoutRepo,
     ICoreScriptRepository coreRepo,
     IMatchConfigRepository configRepo
-) : IMatchesManager
+) : IMatchManager
 {
     public async Task<MatchProcess?> Create(ConnectedClient client, CreateMatchParams createParams)
     {

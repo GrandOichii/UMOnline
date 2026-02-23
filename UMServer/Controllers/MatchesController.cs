@@ -11,7 +11,7 @@ namespace UMServer.Controllers;
 [ApiController]
 [Route("/api/v1/Matches")]
 public class MatchesController(
-    IMatchesManager matchesManager,
+    IMatchManager matchesManager,
     IMatchConnectEndpointSerializer connectSerializer
 ) : ControllerBase
 {

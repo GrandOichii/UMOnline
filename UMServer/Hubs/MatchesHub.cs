@@ -9,7 +9,7 @@ namespace UMServer.Hubs;
 
 public class MatchesHub(
     ILogger<MatchesHub> logger,
-    IMatchesManager matchesManager,
+    IMatchManager matchesManager,
     IClientRepository clientRepo,
     ILoadoutRepository loadoutRepo,
     ICoreScriptRepository coreRepo,
@@ -42,7 +42,7 @@ public class MatchesHub(
         logger.LogDebug("Client with Id = {} tries to register with name {}", Context.ConnectionId, name);
 
         var errMsg = await clientRepo.Add(Context.ConnectionId, name);
-        
+
         return errMsg;
     }
 
