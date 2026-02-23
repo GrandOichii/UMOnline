@@ -10,66 +10,64 @@ namespace UMServer.BusinessLogic;
 
 public interface IMatchesManager
 {
-    // Task<MatchProcess?> WebSocketCreate(WebSocketManager ws);
     Task<MatchProcess?> Create(ConnectedClient client, CreateMatchParams createParams);
     Task ProcessRemovedClient(ConnectedClient client);
-    Task WSConnect(WebSocket socket, string connectionId, string matchId);
+    Task WSTryConnect(WebSocketManager wsm, string connectionId, string matchId);
+    Task<MatchProcess?> Get(string matchId);
 }
 
 public class MatchesManager(
     ILogger<MatchesManager> logger,
     IMatchRepository matchRepo,
     IClientRepository clientRepo,
-    ILoadoutRepository loadoutRepo
+    // ILoadoutRepository loadoutRepo,
+    ICoreScriptRepository coreRepo,
+    IMatchConfigRepository configRepo
 ) : IMatchesManager
 {
-    // public async Task<MatchProcess?> WebSocketCreate(WebSocketManager ws)
-    // {
-    //     var socket = await ws.AcceptWebSocketAsync();
-    //     await socket.Write("mcp");
-    //     var paramsRaw = await socket.Read();
-    //     var createParams = JsonSerializer.Deserialize<CreateMatchParams>(paramsRaw);
-    //     if (createParams is null)
-    //     {
-    //         logger.LogDebug("Connected user didn't provide corrent {}, stopping match creation", nameof(CreateMatchParams));
-    //         return null;
-    //     }
-
-    //     var match = new MatchProcess(
-    //         createParams
-    //     );
-    //     await matchRepo.Add(match);
-    //     // var _ = match.Configure();
-
-    //     // await socket.Write($"id:{match.ID}");
-    //     // await match.AddWSPlayer(socket);
-
-    //     return match;
-    // }
-
     public async Task<MatchProcess?> Create(ConnectedClient client, CreateMatchParams createParams)
     {
-        // TODO checks
+        var config = await configRepo.Query()
+            .Where(c => c.Name == createParams.MatchConfigName)
+            .SingleOrDefaultAsync();
+        if (config is null)
+        {
+            return null;
+        }
 
         var match = new MatchProcess(
             Guid.NewGuid().ToString(),
+            client.Id,
+            config,
             createParams
         );
 
         matchRepo.Add(match);
+
+        logger.LogDebug("Created new match with id = {}, current match count: {}", match.Id, matchRepo.Query().Count());
 
         return match;
     }
 
     public async Task ProcessRemovedClient(ConnectedClient client)
     {
-        // TODO either just remove all matches that have this client
-        // TODO or replace this user with an AI
+        var matches = matchRepo
+            .Query()
+            .Where(p => p.HasClient(client.Id))
+            .ToList();
+
+        foreach (var match in matches)
+        {
+            // TODO? replace player with AI
+            await match.ForceStop();
+            matchRepo.Remove(match);
+            logger.LogDebug("Removed match with id = {} due to disconnected player", match.Id);
+        }
     }
 
-    public async Task WSConnect(WebSocket socket, string connectionId, string matchId)
+    public async Task WSTryConnect(WebSocketManager wsm, string connectionId, string matchId)
     {
-        var client = await clientRepo.GetClient(connectionId);
+        var client = await clientRepo.Get(connectionId);
         if (client is null)
         {
             throw new Exception($"Unregistered client with Id = {connectionId} tried to connect to a match");
@@ -78,21 +76,39 @@ public class MatchesManager(
         var match = matchRepo.Get(matchId);
         if (match is null)
         {
-            await socket.CloseAsync(WebSocketCloseStatus.InvalidPayloadData, "Invalid match id", CancellationToken.None);            
             return;
         }
-
-        var loadoutName = await socket.Read();
-        var loadout = loadoutRepo
-            .Query()
-            .Where(l => l.Name == loadoutName)
-            .SingleOrDefaultAsync();
-        if (loadout is null)
+        if (match.Status != MatchProcessStatus.WAITING_FOR_PLAYERS)
         {
-            await socket.CloseAsync(WebSocketCloseStatus.InvalidPayloadData, "Invalid deck", CancellationToken.None);            
             return;
         }
 
-        logger.LogDebug("Client {} wants to connect to match {} using loadout {}", client.Name, match.CreateParams.Title, loadout.Name);
+        var player = match.GetConnectedPlayer(client.Id);
+        if (player is null)
+        {
+            return;
+        }
+
+        var socket = await wsm.AcceptWebSocketAsync();
+
+        logger.LogDebug("Client {} connects to match {}", client.Name, match.CreateParams.Title);
+
+        var matchEnd = await match.SetPlayerSocket(
+            player,
+            socket
+        );
+        
+        // await match.TryRun(
+        //     logger,
+        //     coreRepo,
+        //     clientRepo
+        // );
+
+        await matchEnd.Task;
+    }
+
+    public async Task<MatchProcess?> Get(string matchId)
+    {
+        return matchRepo.Get(matchId);
     }
 }

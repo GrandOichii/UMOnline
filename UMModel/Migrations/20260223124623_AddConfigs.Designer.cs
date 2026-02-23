@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using UMModel;
@@ -12,9 +13,11 @@ using UMModel;
 namespace UMModel.Migrations
 {
     [DbContext(typeof(UMContext))]
-    partial class UMContextModelSnapshot : ModelSnapshot
+    [Migration("20260223124623_AddConfigs")]
+    partial class AddConfigs
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -215,8 +218,11 @@ namespace UMModel.Migrations
 
             modelBuilder.Entity("UMModel.Models.MatchConfig", b =>
                 {
-                    b.Property<string>("Name")
-                        .HasColumnType("text");
+                    b.Property<int?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int?>("Id"));
 
                     b.Property<int>("ActionsPerTurn")
                         .HasColumnType("integer");
@@ -245,35 +251,17 @@ namespace UMModel.Migrations
                     b.Property<int>("Seed")
                         .HasColumnType("integer");
 
-                    b.Property<int>("TeamCount")
-                        .HasColumnType("integer");
-
                     b.Property<int>("TeamSize")
                         .HasColumnType("integer");
 
-                    b.HasKey("Name");
+                    b.HasKey("Id");
 
                     b.ToTable("Configs");
 
                     b.HasData(
                         new
                         {
-                            Name = "Seed 0 tester",
-                            ActionsPerTurn = 2,
-                            ExhaustDamage = 2,
-                            FirstPlayerIdx = -1,
-                            InitialHandSize = 5,
-                            ManoeuvreDrawAmount = 1,
-                            MaxHandSize = 7,
-                            RandomFirstPlayer = true,
-                            RandomMatch = false,
-                            Seed = 0,
-                            TeamCount = 2,
-                            TeamSize = 1
-                        },
-                        new
-                        {
-                            Name = "1 vs 1",
+                            Id = 0,
                             ActionsPerTurn = 2,
                             ExhaustDamage = 2,
                             FirstPlayerIdx = -1,
@@ -283,7 +271,6 @@ namespace UMModel.Migrations
                             RandomFirstPlayer = true,
                             RandomMatch = true,
                             Seed = 0,
-                            TeamCount = 2,
                             TeamSize = 1
                         });
                 });

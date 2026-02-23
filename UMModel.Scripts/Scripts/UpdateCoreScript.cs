@@ -19,8 +19,8 @@ public class UpdateCoreScript : IScript
 
         System.Console.WriteLine("Read script, checking if need to apply any changes");
 
-        var active = await ctx.CoreScripts.SingleAsync(s => s.IsActive);
-        if (active.Script == script)
+        var active = await ctx.CoreScripts.SingleOrDefaultAsync(s => s.IsActive);
+        if (active is not null && active.Script == script)
         {
             System.Console.WriteLine("Specified script is identical to the active script, cancelling changes");
             return;

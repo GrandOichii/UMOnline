@@ -10,7 +10,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddSignalR();
+builder.Services.AddSignalR(o =>
+{
+    o.EnableDetailedErrors = true;
+});
 
 // DB Contexts
 
@@ -20,6 +23,7 @@ builder.Services.AddTransient<UMContext>();
 builder.Services.AddSingleton<IClientRepository, ClientRepository>();
 builder.Services.AddSingleton<IMatchRepository, MatchRepository>();
 builder.Services.AddTransient<ILoadoutRepository, LoadoutRepository>();
+builder.Services.AddTransient<IMatchConfigRepository, MatchConfigRepository>();
 builder.Services.AddTransient<ICoreScriptRepository, CoreScriptRepository>();
 builder.Services.AddTransient<IContentUpdateRepository, ContentUpdateRepository>();
 
@@ -45,6 +49,6 @@ app.UseHttpsRedirection();
 
 app.MapControllers();
 app.UseWebSockets();
-app.MapHub<ConnectionHub>("/Connect");
+app.MapHub<MatchesHub>("/Connect");
 
 app.Run();

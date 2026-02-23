@@ -86,8 +86,13 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
 
     public Player GetPlayer(int idx) => Players[idx];
 
+    // TODO port QueuedPlayerCollection here
     public async Task<bool> AddPlayer(string name, int teamIdx, LoadoutTemplate loadout, IPlayerController controller)
     {
+        if (teamIdx >= Config.TeamCount)
+        {
+            return false;
+        }
         foreach (var p in Players)
         {
             if (p.Loadout.Name == loadout.Name)

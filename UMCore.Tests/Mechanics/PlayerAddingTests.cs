@@ -4,6 +4,7 @@ namespace UMCore.Tests.Mechanics;
 
 public class PlayerAddingTests
 {
+    // TODO add test for MatchConfig.TeamCount
     [Fact]
     public async Task CantRunWithoutPlayers()
     {

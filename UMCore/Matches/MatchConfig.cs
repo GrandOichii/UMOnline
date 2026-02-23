@@ -12,6 +12,7 @@ public class MatchConfig
     public required int FirstPlayerIdx { get; set; }
     public required int ExhaustDamage { get; set; }
     public required int TeamSize { get; set; }
+    public required int TeamCount { get; set; }
 
     public static readonly MatchConfig Testing = new()
     {
@@ -25,6 +26,7 @@ public class MatchConfig
         RandomFirstPlayer = false, // true
         ExhaustDamage = 2,
         TeamSize = 1,
+        TeamCount = 2,
     };
 
     public static readonly MatchConfig Default1x1 = new()
@@ -39,6 +41,7 @@ public class MatchConfig
         RandomFirstPlayer = true,
         ExhaustDamage = 2,
         TeamSize = 1,
+        TeamCount = 2,
     };
 
     public static readonly MatchConfig Default2x2 = new()
@@ -53,5 +56,6 @@ public class MatchConfig
         RandomFirstPlayer = true,
         ExhaustDamage = 2,
         TeamSize = 2,
+        TeamCount = 2,
     };
 }

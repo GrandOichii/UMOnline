@@ -1,12 +1,10 @@
-using System.Text.Json;
-using Microsoft.Extensions.Logging;
 using UMCore.Matches;
 using UMCore.Matches.Attacks;
 using UMCore.Matches.Cards;
 using UMCore.Matches.Players;
 using UMCore.Matches.Tokens;
 
-namespace UMCore;
+namespace UMCore.Matches.Players;
 
 /// <summary>
 /// Player input and output handler

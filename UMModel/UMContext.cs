@@ -11,6 +11,7 @@ public class UMContext : DbContext
     public DbSet<Card> Cards { get; set; }
     public DbSet<ContentUpdate> ContentUpdates { get; set; }
     public DbSet<CoreScript> CoreScripts { get; set; }
+    public DbSet<MatchConfig> Configs { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -49,5 +50,10 @@ public class UMContext : DbContext
         modelBuilder.Entity<ContentUpdate>()
             .Property(cu => cu.Id)
             .ValueGeneratedOnAdd();
+
+        modelBuilder.Entity<MatchConfig>()
+            .HasKey(s => s.Name);
+        modelBuilder.Entity<MatchConfig>()
+            .HasData(MatchConfig.GetDefaultData());
     }
 }

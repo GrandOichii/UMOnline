@@ -20,9 +20,6 @@ public class MatchesController(
     {
         if (HttpContext.WebSockets.IsWebSocketRequest)
         {
-            // var userId = this.ExtractClaim(ClaimTypes.NameIdentifier);
-            // var userId = "";
-
             var (connectionId, matchId) = connectSerializer.Deserialize(connectStr);
             if (string.IsNullOrEmpty(connectionId))
             {
@@ -30,16 +27,12 @@ public class MatchesController(
                 return;
             }
 
-            var socket = await HttpContext.WebSockets.AcceptWebSocketAsync();
-
-            System.Console.WriteLine(connectionId);
-            System.Console.WriteLine(matchId);
-            await matchesManager.WSConnect(
-                socket,
+            await matchesManager.WSTryConnect(
+                HttpContext.WebSockets,
                 connectionId,
                 matchId
             );
-            await socket.CloseAsync(System.Net.WebSockets.WebSocketCloseStatus.NormalClosure, null, CancellationToken.None);
+            // await socket.CloseAsync(System.Net.WebSockets.WebSocketCloseStatus.NormalClosure, null, CancellationToken.None);
 
             // try {
             //     await matchesManager.WebSocketCreate(HttpContext.WebSockets);
