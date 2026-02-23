@@ -1,6 +1,8 @@
 using UMModel;
 using UMServer.BusinessLogic;
+using UMServer.Hubs;
 using UMServer.Repositories;
+using UMServer.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,13 +10,15 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddSignalR();
 
 // DB Contexts
 
 builder.Services.AddTransient<UMContext>();
 
 // Repositories
-builder.Services.AddTransient<IMatchRepository, MatchRepository>();
+builder.Services.AddSingleton<IClientRepository, ClientRepository>();
+builder.Services.AddSingleton<IMatchRepository, MatchRepository>();
 builder.Services.AddTransient<ILoadoutRepository, LoadoutRepository>();
 builder.Services.AddTransient<ICoreScriptRepository, CoreScriptRepository>();
 builder.Services.AddTransient<IContentUpdateRepository, ContentUpdateRepository>();
@@ -24,6 +28,9 @@ builder.Services.AddTransient<ILoadoutManager, LoadoutManager>();
 builder.Services.AddTransient<ICoreScriptManager, CoreScriptManager>();
 builder.Services.AddTransient<IUpdateManager, UpdateManager>();
 builder.Services.AddTransient<IMatchesManager, MatchesManager>();
+
+// Services
+builder.Services.AddSingleton<IMatchConnectEndpointSerializer, MatchConnectEndpointSerializer>();
 
 var app = builder.Build();
 
@@ -37,5 +44,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.MapControllers();
+app.UseWebSockets();
+app.MapHub<ConnectionHub>("/Connect");
 
 app.Run();

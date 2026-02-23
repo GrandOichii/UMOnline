@@ -4,13 +4,25 @@ namespace UMServer.Repositories;
 
 public interface IMatchRepository
 {
-    Task Add(MatchProcess match);
+    void Add(MatchProcess match);
+    MatchProcess? Get(string matchId);
 }
 
 public class MatchRepository : IMatchRepository
 {
-    public Task Add(MatchProcess match)
+    private List<MatchProcess> _matches = [];
+
+    public void Add(MatchProcess match)
     {
-        throw new NotImplementedException();
+        _matches.Add(match);
+
+        // TODO
+    }
+
+    public MatchProcess? Get(string matchId)
+    {
+        System.Console.WriteLine(_matches.Count);
+        System.Console.WriteLine(string.Join("\n", _matches.Select(m => m.Id)));
+        return _matches.SingleOrDefault(m => m.Id == matchId);
     }
 }

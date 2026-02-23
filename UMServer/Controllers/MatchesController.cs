@@ -1,28 +1,53 @@
+using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using UMModel;
 using UMServer.BusinessLogic;
+using UMServer.Extensions;
+using UMServer.Services;
 
 namespace UMServer.Controllers;
 
 [ApiController]
 [Route("/api/v1/Matches")]
-public class MatchesController(IMatchesManager matchesManager) : ControllerBase
+public class MatchesController(
+    IMatchesManager matchesManager,
+    IMatchConnectEndpointSerializer connectSerializer
+) : ControllerBase
 {
-    [HttpGet("Create")]
-    public async Task CreateMatch()
+    [HttpGet("Connect")]
+    public async Task Connect([FromQuery] string connectStr)
     {
-        if (HttpContext.WebSockets.IsWebSocketRequest) {
+        if (HttpContext.WebSockets.IsWebSocketRequest)
+        {
             // var userId = this.ExtractClaim(ClaimTypes.NameIdentifier);
             // var userId = "";
 
-            try {
-                await matchesManager.WebSocketCreate(HttpContext.WebSockets);
-            } catch (Exception e) {
-                // TODO handle
-                System.Console.WriteLine(e);
-                throw;
+            var (connectionId, matchId) = connectSerializer.Deserialize(connectStr);
+            if (string.IsNullOrEmpty(connectionId))
+            {
+                HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return;
             }
+
+            var socket = await HttpContext.WebSockets.AcceptWebSocketAsync();
+
+            System.Console.WriteLine(connectionId);
+            System.Console.WriteLine(matchId);
+            await matchesManager.WSConnect(
+                socket,
+                connectionId,
+                matchId
+            );
+            await socket.CloseAsync(System.Net.WebSockets.WebSocketCloseStatus.NormalClosure, null, CancellationToken.None);
+
+            // try {
+            //     await matchesManager.WebSocketCreate(HttpContext.WebSockets);
+            // } catch (Exception e) {
+            //     // TODO handle
+            //     System.Console.WriteLine(e);
+            //     throw;
+            // }
 
             // try {
             //     await _matchService.WSConnect(HttpContext.WebSockets, userId, matchId);
@@ -33,8 +58,10 @@ public class MatchesController(IMatchesManager matchesManager) : ControllerBase
             // } catch (MatchRefusedConnectionException) {
             //     HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
             // }
-        } else {
-            HttpContext.Response.StatusCode = 400;
+        }
+        else
+        {
+            HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
         }
     }
 }
