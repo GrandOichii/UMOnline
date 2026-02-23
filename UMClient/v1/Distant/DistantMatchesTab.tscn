@@ -16,7 +16,7 @@ ConnectionDisplayNode = NodePath("ConnectionDisplay")
 ServerAddressEditNode = NodePath("ConnectionForm/ServerAddressEdit")
 NameEditNode = NodePath("ConnectionForm/NameEdit")
 ConnectionErrorDialogNode = NodePath("Dialogs/ConnectionErrorDialog")
-ConnectionRequestNode = NodePath("Requests/ConnectionRequest")
+ConnectionRequestNode = NodePath("")
 ConnectButtonNode = NodePath("ConnectionForm/ConnectButton")
 OutdatedContentDialogNode = NodePath("Dialogs/OutdatedContentDialog")
 ContentSyncWaitDialogNode = NodePath("Dialogs/ContentSyncWaitDialog")
@@ -72,12 +72,6 @@ size_flags_vertical = 3
 layout_mode = 2
 text = "Synchronize content"
 
-[node name="Requests" type="Node" parent="."]
-
-[node name="ConnectionRequest" type="HTTPRequest" parent="Requests"]
-
-[node name="ContentCheckRequest" type="HTTPRequest" parent="Requests"]
-
 [node name="Dialogs" type="Node" parent="."]
 
 [node name="ConnectionErrorDialog" type="AcceptDialog" parent="Dialogs"]
@@ -132,5 +126,3 @@ dialog_text = "Finished updating content!"
 [connection signal="text_changed" from="ConnectionForm/NameEdit" to="." method="OnNameEditTextChanged"]
 [connection signal="pressed" from="ConnectionForm/ConnectButton" to="." method="OnConnectButtonPressed"]
 [connection signal="pressed" from="ConnectionDisplay/VBoxContainer/SyncContentButton" to="." method="OnSyncContentButtonPressed"]
-[connection signal="request_completed" from="Requests/ConnectionRequest" to="." method="OnConnectionRequestRequestCompleted"]
-[connection signal="request_completed" from="Requests/ContentCheckRequest" to="." method="OnContentCheckRequestRequestCompleted"]

@@ -1,7 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using UMModel;
-using UMServer.BusinessLogic;
 
 namespace UMServer.Controllers;
 

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using UMCore;
 using UMCore.Matches;
+using UMCore.Matches.Players;
 using UMCore.Templates;
 
 public partial class LocalMatchesTab : Control

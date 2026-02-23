@@ -1,8 +1,10 @@
 using Godot;
+using Microsoft.AspNetCore.SignalR.Client;
 using System;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
+using System.Threading.Tasks;
 using UMDTO;
 
 public partial class ServerConnection : Node
@@ -37,10 +39,29 @@ public partial class ServerConnection : Node
         // TODO
     }
 
+    public async Task<string> Connect(string address, string name)
+    {
+        _address = address;
+
+        var connection = new HubConnectionBuilder()
+            .WithUrl($"{address}/Matches")
+            .Build();
+
+        // TODO add handlers
+
+        await connection.StartAsync();
+
+        var registrationError = await connection.InvokeAsync<string>("RegisterName", name);
+        if (!string.IsNullOrEmpty(registrationError))
+        {
+            return registrationError;
+        }
+
+        return "";
+    }
+
     public void RequestIsOutdated(DateTime dt)
     {
-        GD.Print(_address);
-        GD.Print(JsonSerializer.Serialize(dt));
         var err = OutdatedContentRequestNode.Request(
             $"{_address}/api/v1/Update/IsOutdated",
             [
@@ -49,14 +70,21 @@ public partial class ServerConnection : Node
             Godot.HttpClient.Method.Post,
             JsonSerializer.Serialize(dt)
         );
+        if (err == Error.Ok)
+        {
+            return;
+        }
         GD.Print($"{nameof(RequestIsOutdated)}: {err}");
         // TODO check err
     }
 
     public void RequestContentSynchronization()
     {
-        GD.Print(_address);
         var err = UpdateContentRequestNode.Request($"{_address}/api/v1/Update/Current");
+        if (err == Error.Ok)
+        {
+            return;
+        }
         GD.Print($"{nameof(RequestContentSynchronization)}: {err}");
     }
 

@@ -11,5 +11,8 @@ OutdatedContentRequestNode = NodePath("OutdatedContentRequest")
 
 [node name="OutdatedContentRequest" type="HTTPRequest" parent="."]
 
+[node name="ConnectionRequestNode" type="HTTPRequest" parent="."]
+
 [connection signal="request_completed" from="UpdateContentRequest" to="." method="OnUpdateContentRequestRequestCompleted"]
 [connection signal="request_completed" from="OutdatedContentRequest" to="." method="OnOutdatedContentRequestRequestCompleted"]
+[connection signal="request_completed" from="ConnectionRequestNode" to="." method="OnConnectionRequestNodeRequestCompleted"]

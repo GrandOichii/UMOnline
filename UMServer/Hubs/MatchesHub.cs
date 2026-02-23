@@ -37,18 +37,13 @@ public class MatchesHub(
         await matchesManager.ProcessRemovedClient(client);
     }
 
-    public async Task RegisterName(string name)
+    public async Task<string> RegisterName(string name)
     {
         logger.LogDebug("Client with Id = {} tries to register with name {}", Context.ConnectionId, name);
 
         var errMsg = await clientRepo.Add(Context.ConnectionId, name);
-
-        if (string.IsNullOrEmpty(errMsg))
-        {
-            return;
-        }
-
-        await Clients.Client(Context.ConnectionId).SendAsync("RegistrationError", errMsg);
+        
+        return errMsg;
     }
 
     public async Task<string> CreateMatch(CreateMatchParams createParams)

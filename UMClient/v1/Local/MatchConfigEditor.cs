@@ -63,7 +63,9 @@ public partial class MatchConfigEditor : Control
             RandomFirstPlayer = RandomFirstPlayerCheckNode.ButtonPressed,
             RandomMatch = !SeedCheckNode.ButtonPressed,
             Seed = (int)SeedNode.Value,
-            TeamSize = (int)TeamSizeNode.Value
+            TeamSize = (int)TeamSizeNode.Value,
+            TeamCount = 2
+            // TODO
         };
     }
 

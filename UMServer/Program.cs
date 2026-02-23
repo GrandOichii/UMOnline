@@ -10,10 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddSignalR(o =>
-{
-    o.EnableDetailedErrors = true;
-});
+builder.Services.AddSignalR();
 
 // DB Contexts
 
@@ -49,6 +46,6 @@ app.UseHttpsRedirection();
 
 app.MapControllers();
 app.UseWebSockets();
-app.MapHub<MatchesHub>("/Connect");
+app.MapHub<MatchesHub>("/Matches");
 
 app.Run();

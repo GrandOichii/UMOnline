@@ -21,8 +21,8 @@ public class MatchProcess(
     CreateMatchParams createParams
 )
 {
-    // public string Id { get; } = id;
-    public string Id { get; } = "1";
+    public string Id { get; } = id;
+    // public string Id { get; } = "1";
     public MatchProcessStatus Status { get; private set; } = MatchProcessStatus.WAITING_FOR_PLAYERS;
     public string OwnerId { get; } = ownerId; 
     public CreateMatchParams CreateParams { get; } = createParams;

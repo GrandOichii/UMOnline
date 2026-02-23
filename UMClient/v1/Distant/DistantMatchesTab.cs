@@ -1,6 +1,5 @@
 using Godot;
 using System;
-using System.Net.Http.Json;
 
 public partial class DistantMatchesTab : Control
 {
@@ -24,8 +23,6 @@ public partial class DistantMatchesTab : Control
     public LineEdit NameEditNode { get; set; }
     [Export]
     public AcceptDialog ConnectionErrorDialogNode { get; set; }
-    [Export]
-    public HttpRequest ConnectionRequestNode { get; set; }
     [Export]
     public Button ConnectButtonNode { get; set; }
     [Export]
@@ -80,15 +77,35 @@ public partial class DistantMatchesTab : Control
 
     #region Signal connections
 
-    public void OnConnectButtonPressed()
+    public async void OnConnectButtonPressed()
     {
-        ServerConnectionNode.SetAddress(ServerAddressEditNode.Text);
-        // TODO move this to ServerAddressEditNode
-        var err = ConnectionRequestNode.Request($"{ServerAddressEditNode.Text}/api/v1/Home/Ping");
-        // TODO check errs
-        GD.Print(err);
-
         SetConnectionFormEditable(false);
+
+        var registrationError = await ServerConnectionNode.Connect(
+            ServerAddressEditNode.Text,
+            NameEditNode.Text
+        );
+        if (!string.IsNullOrEmpty(registrationError))
+        {
+            SetConnectionFormEditable(false);
+            ConnectionErrorDialogNode.DialogText = $"Failed to connect!\n{registrationError}";
+            ConnectionErrorDialogNode.Show();
+            return;
+        }
+        
+        SetConnectionFormEditable(true);
+
+        // save name
+        var appState = RepoNode.GetAppState();
+        appState.LastUsedName = NameEditNode.Text;
+        appState.LastConnectedAddress = ServerAddressEditNode.Text;
+        RepoNode.UpdateAppState(appState);
+
+        // show connection display
+        ConnectionFormNode.Hide();
+        ConnectionDisplayNode.Show();
+
+        CheckContent();
     }
 
     private void SetConnectionFormEditable(bool v)
@@ -106,44 +123,6 @@ public partial class DistantMatchesTab : Control
     public void OnNameEditTextChanged(string _)
     {
         CheckCanPressConnect();
-    }
-
-    public void OnConnectionRequestRequestCompleted(HttpRequest.Result result, int responseCode, string[] headers, byte[] body)
-    {
-        if (result == HttpRequest.Result.CantConnect)
-        {
-            SetConnectionFormEditable(true);
-            ConnectionErrorDialogNode.DialogText = "Failed to connect, server is likely offline";
-            ConnectionErrorDialogNode.Show();
-            return;
-        }
-
-        if (result != HttpRequest.Result.Success)
-        {
-            SetConnectionFormEditable(true);
-            ConnectionErrorDialogNode.DialogText = $"Unrecognized response code: {responseCode}";
-            ConnectionErrorDialogNode.Show();
-            return;
-        }
-
-        // save name
-        var appState = RepoNode.GetAppState();
-        appState.LastUsedName = NameEditNode.Text;
-        appState.LastConnectedAddress = ServerAddressEditNode.Text;
-        RepoNode.UpdateAppState(appState);
-
-        // show connection display
-        ConnectionFormNode.Hide();
-        ConnectionDisplayNode.Show();
-
-        CheckContent();
-    }
-
-    public void OnContentCheckRequestRequestCompleted(HttpRequest.Result result, int responseCode, string[] headers, byte[] body)
-    {
-        GD.Print(responseCode);
-
-        // var isOutdated = 
     }
 
     public void OnSyncContentButtonPressed()
