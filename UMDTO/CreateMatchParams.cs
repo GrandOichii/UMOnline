@@ -4,5 +4,5 @@ public class CreateMatchParams
 {
     public required string MatchConfigName { get; init; }
     public required string Title { get; init; }
-    // TODO
+    public required List<string> AllowedLoadouts { get; init; }
 }

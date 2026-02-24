@@ -1,8 +1,10 @@
 using System.Net.WebSockets;
 using System.Text.Json;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using UMDTO;
 using UMServer.Extensions;
+using UMServer.Hubs;
 using UMServer.Matches;
 using UMServer.Repositories;
 
@@ -14,17 +16,34 @@ public interface IMatchManager
     Task ProcessRemovedClient(ConnectedClient client);
     Task WSTryConnect(WebSocketManager wsm, string connectionId, string matchId);
     Task<MatchProcess?> Get(string matchId);
+    Task UpdateWatchers();
+    Task UpdateWatcher(string clientId);
 }
 
 public class MatchManager(
     ILogger<MatchManager> logger,
     IMatchRepository matchRepo,
     IClientRepository clientRepo,
-    // ILoadoutRepository loadoutRepo,
-    ICoreScriptRepository coreRepo,
-    IMatchConfigRepository configRepo
+    IMatchConfigRepository configRepo,
+    IHubContext<MatchesHub> matchesHub
 ) : IMatchManager
 {
+    public async Task UpdateWatchers()
+    {
+        await matchesHub.Clients.All.SendAsync(
+            "UpdateTables", 
+            matchRepo.Query().Select(m => m.ToMatchProcessGet())
+        );
+    }
+
+    public async Task UpdateWatcher(string clientId)
+    {
+        await matchesHub.Clients.Client(clientId).SendAsync(
+            "UpdateTables", 
+            matchRepo.Query().Select(m => m.ToMatchProcessGet())
+        );
+    }
+
     public async Task<MatchProcess?> Create(ConnectedClient client, CreateMatchParams createParams)
     {
         var config = await configRepo.Query()
@@ -41,10 +60,13 @@ public class MatchManager(
             config,
             createParams
         );
+        match.OnChanged += UpdateWatchers;
 
         matchRepo.Add(match);
 
         logger.LogDebug("Created new match with id = {}, current match count: {}", match.Id, matchRepo.Query().Count());
+
+        await UpdateWatchers();
 
         return match;
     }
@@ -60,9 +82,15 @@ public class MatchManager(
         {
             // TODO? replace player with AI
             await match.ForceStop();
-            matchRepo.Remove(match);
+            await RemoveMatch(match);
             logger.LogDebug("Removed match with id = {} due to disconnected player", match.Id);
         }
+    }
+
+    public async Task RemoveMatch(MatchProcess match)
+    {
+        matchRepo.Remove(match);
+        await UpdateWatchers();
     }
 
     public async Task WSTryConnect(WebSocketManager wsm, string connectionId, string matchId)
@@ -72,7 +100,7 @@ public class MatchManager(
         {
             throw new Exception($"Unregistered client with Id = {connectionId} tried to connect to a match");
         }
-        
+
         var match = matchRepo.Get(matchId);
         if (match is null)
         {
@@ -97,7 +125,7 @@ public class MatchManager(
             player,
             socket
         );
-        
+
         // await match.TryRun(
         //     logger,
         //     coreRepo,

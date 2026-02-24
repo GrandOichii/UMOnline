@@ -64,7 +64,6 @@ public partial class LocalRepository : Node
 			reversed.Reverse();
 			foreach (var model in reversed)
 			{
-				GD.Print($"DROP {model.SQLTableName()}");
 				ExecNonQuery(model.SQLDrop());
 			}
 		}
@@ -755,7 +754,6 @@ public partial class LocalRepository : Node
 
 	public void ProcessContentUpdate(ContentUpdateGet contentUpdate)
 	{
-		GD.Print(contentUpdate.Loadouts.Count);
 		// remove non-editable content
 		var decks = GetDecks(false);
 		foreach (var deck in decks)

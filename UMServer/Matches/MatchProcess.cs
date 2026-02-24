@@ -22,7 +22,6 @@ public class MatchProcess(
 )
 {
     public string Id { get; } = id;
-    // public string Id { get; } = "1";
     public MatchProcessStatus Status { get; private set; } = MatchProcessStatus.WAITING_FOR_PLAYERS;
     public string OwnerId { get; } = ownerId; 
     public CreateMatchParams CreateParams { get; } = createParams;
@@ -30,6 +29,10 @@ public class MatchProcess(
     public List<ConnectedPlayer> Players { get; } = [];
     private UMCore.Matches.Match? _match = null;
 	private readonly TaskCompletionSource _matchEndTask = new();
+	public Exception? MatchException { get; private set; } = null;
+
+	public delegate Task MatchProcessChanged();
+	public event MatchProcessChanged? OnChanged;
     
     public bool HasClient(string connectionId)
     {
@@ -41,7 +44,7 @@ public class MatchProcess(
 
         foreach (var player in Players)
         {
-            if (player.ClientId == connectionId)
+            if (player.Client.Id == connectionId)
             {
                 return true;
             }
@@ -67,17 +70,18 @@ public class MatchProcess(
     {
         if (Status != MatchProcessStatus.WAITING_FOR_PLAYERS) return;
         var player = new ConnectedPlayer(
-            client.Id
+            client
         );
 
         Players.Add(player);
 
-        // TODO update tables
+		if (OnChanged is not null)
+			await OnChanged.Invoke();
     }
 
     public ConnectedPlayer? GetConnectedPlayer(string clientId)
     {
-        return Players.SingleOrDefault(p => p.ClientId == clientId);
+        return Players.SingleOrDefault(p => p.Client.Id == clientId);
     }
 
     public bool CanStart()
@@ -86,7 +90,7 @@ public class MatchProcess(
         foreach (var player in Players)
         {
             if (player.Loadout is null) return false;
-            qpc.AddPlayer(player.ClientId, player.TeamIdx, player.Loadout.ToTemplate());
+            qpc.AddPlayer(player.Client.Id, player.TeamIdx, player.Loadout.ToTemplate());
         }
         return qpc.CanRun();
     }
@@ -94,7 +98,9 @@ public class MatchProcess(
     private async Task SetStatus(MatchProcessStatus value)
     {
         Status = value;
-        // TODO
+
+		if (OnChanged is not null)
+			await OnChanged.Invoke();
     }
 
 	public async Task<TaskCompletionSource> SetPlayerSocket(ConnectedPlayer player, WebSocket socket)
@@ -131,10 +137,10 @@ public class MatchProcess(
 
         foreach (var player in Players)
         {
-            var client = await clientRepo.Get(player.ClientId);
+            var client = await clientRepo.Get(player.Client.Id);
             if (client is null)
             {
-                throw new Exception($"Tried to start match with unregistered player {player.ClientId}");
+                throw new Exception($"Tried to start match with unregistered player {player.Client.Id}");
             }
             if (player.Loadout is null)
             {
@@ -169,13 +175,34 @@ public class MatchProcess(
 
         } catch (Exception e)
         {
+			
+			MatchException = e;
             await SetStatus(MatchProcessStatus.CRASHED);
 			// Console.WriteLine(e);
         }
 
 		_matchEndTask.SetResult();
+
         // TODO save match record
     }
+
+	public MatchProcessGet ToMatchProcessGet()
+	{
+		return new()
+		{
+			Id = Id,
+			Status = (MatchProcessGetStatus)Status,
+			Title = CreateParams.Title,
+			AllowedFighters = CreateParams.AllowedLoadouts,
+			TeamCount = Config.TeamCount,
+			Players = [ .. Players.Select(p => new MatchProcessGetPlayer()
+			{
+				Name = p.Client.Name,
+				TeamIdx = p.TeamIdx,
+				LoadoutName = p.Loadout?.Name
+			})],
+		};
+	}
 
     public static IEnumerable<UMCore.Templates.MapNodeLinkTemplate> Bidirectional(UMCore.Templates.MapNodeTemplate n1, UMCore.Templates.MapNodeTemplate n2)
 	{

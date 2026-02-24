@@ -18,14 +18,13 @@ async function main() {
         .withUrl(`http://${ADDR}:${PORT}/${SIGNALR_ENDPOINT}`)
         .build();
 
-    // connection.on('RegistrationError', async (errMsg) => {
-    //     console.log(`Failed to register: ${errMsg}`);
-    //     await connection.stop();
-    // });
-
     connection.on('ChatUpdate', msg => {
-        const data = JSON.parse(msg.toString());
-        console.log(data); 
+        console.log(msg); 
+    });
+
+    connection.on('UpdateTables', matches => {
+        console.log(`[UpdateTables] ${matches.length}`);
+        console.log(JSON.stringify(matches, null, 4));
     });
 
     let running = true;
@@ -42,6 +41,10 @@ async function main() {
         matchId = await connection.invoke('CreateMatch', {
             title: 'match1',
             matchConfigName: 'Seed 0 tester',
+            allowedLoadouts: [
+                'Medusa',
+                'King Arthur'
+            ]
         });
         if (matchId.startsWith('err:')) {
             console.log(matchId);
@@ -105,17 +108,17 @@ async function main() {
         return;
     }
     
-    // while (true) {
-    //     let canStart = await connection.invoke('CanStart', matchId);
-    //     if (canStart) break;
+    while (true) {
+        let canStart = await connection.invoke('CanStart', matchId);
+        if (canStart) break;
 
-    //     console.log('Cant start match yet, waiting for 1000ms');
-    //     await delay(1000);
-    // }
+        console.log('Cant start match yet, waiting for 1000ms');
+        await delay(1000);
+    }
 
     // console.log('Starting match');
 
-    // await connection.send('Start', matchId);
+    await connection.send('Start', matchId);
 
     while (running) {
         await delay(1000);

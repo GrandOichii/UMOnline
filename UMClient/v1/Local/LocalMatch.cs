@@ -12,65 +12,65 @@ public partial class LocalMatch : Control
 	[ExportGroup("Nodes")]
 	[Export]
 	public ColorRect OverlayNode { get; set; }
-    [Export]
-    public Control MatchNode { get; set; }
-    [Export]
-    public Node ConnectionNode { get; set; }
-    [Export]
-    public AcceptDialog CrashedMatchDialogNode { get; set; }
-    [Export]
-    public TextEdit CrashedMatchExceptionTextNode { get; set; }
-    [Export]
-    public AcceptDialog FinishedMatchDialogNode { get; set; }
+	[Export]
+	public Control MatchNode { get; set; }
+	[Export]
+	public Node ConnectionNode { get; set; }
+	[Export]
+	public AcceptDialog CrashedMatchDialogNode { get; set; }
+	[Export]
+	public TextEdit CrashedMatchExceptionTextNode { get; set; }
+	[Export]
+	public AcceptDialog FinishedMatchDialogNode { get; set; }
 
 	#endregion
 
-    private Match _match;
-    private LocalMatchIOHandler _handler;
+	private Match _match;
+	private LocalMatchIOHandler _handler;
 
-    public void Start(Match match, List<PlayerEditorResult> pers, LocalMatchIOHandler handler)
-    {
-        _handler = handler;
-        _match = match;
+	public void Start(Match match, List<PlayerEditorResult> pers, LocalMatchIOHandler handler)
+	{
+		_handler = handler;
+		_match = match;
 
-        OverlayNode.Hide();
+		OverlayNode.Hide();
 
-        _ = StartMatch(pers);
-    }
+		_ = StartMatch(pers);
+	}
 
-    private async Task StartMatch(List<PlayerEditorResult> pers)
-    {
-        try
-        {
-            foreach (var per in pers)
-            {
-                var added = await _match.AddPlayer(
-                    per.Name,
-                    per.TeamIdx,
-                    per.Loadout,
-                    per.Controller
-                );
-                // TODO use per.Textures to load card and fighter textures
-                if (!added)
-                {
-                    throw new Exception("Failed to add a player, not enough checks");
-                }
+	private async Task StartMatch(List<PlayerEditorResult> pers)
+	{
+		try
+		{
+			foreach (var per in pers)
+			{
+				var added = await _match.AddPlayer(
+					per.Name,
+					per.TeamIdx,
+					per.Loadout,
+					per.Controller
+				);
+				// TODO use per.Textures to load card and fighter textures
+				if (!added)
+				{
+					throw new Exception("Failed to add a player, not enough checks");
+				}
 
-                if (per.Textures is null) continue;
+				if (per.Textures is null) continue;
 
-                MatchNode.Call("remember_deck_card_back", per.Loadout.Name, per.Textures.Value.CardBack);
-                MatchNode.Call("remember_deck_card_images", per.Textures.Value.Cards);
-                MatchNode.Call("remember_deck_fighter_images", per.Textures.Value.Fighters);
-            }
+				MatchNode.Call("remember_deck_card_back", per.Loadout.Name, per.Textures.Value.CardBack);
+				MatchNode.Call("remember_deck_card_images", per.Textures.Value.Cards);
+				MatchNode.Call("remember_deck_fighter_images", per.Textures.Value.Fighters);
+			}
 
-            await _match.Run();
+			await _match.Run();
 
-            var dialogText = $"Match finished!\nWinning team: {string.Join(", ", _match.GetWinners().Select(p => p.Name))}";
-            FinishedMatchDialogNode.DialogText = dialogText;
-            FinishedMatchDialogNode.Show();
-        } catch (Exception e)
-        {
-            GD.PushError(e);
+			var dialogText = $"Match finished!\nWinning team: {string.Join(", ", _match.GetWinners().Select(p => p.Name))}";
+			FinishedMatchDialogNode.DialogText = dialogText;
+			FinishedMatchDialogNode.Show();
+		} catch (Exception e)
+		{
+			GD.PushError(e);
 			GD.Print(e.Message);
 			GD.Print(e.StackTrace);
 			GD.Print("");
@@ -81,47 +81,47 @@ public partial class LocalMatch : Control
 			GD.Print(e.InnerException?.Message);
 			GD.Print(e.InnerException?.StackTrace);
 
-            var text = $"Match crashed! Exceptions raised:\n{e.Message}\n{e.StackTrace}";
-            if (e.InnerException is not null)
-            {
-                text = $"{text}\n-===============-{e.InnerException.Message}\n{e.InnerException.StackTrace}\n";
-            }
-            CrashedMatchExceptionTextNode.Text = text;
-            CrashedMatchDialogNode.Show();
-        }
-    }
-
-    public void Load(Godot.Collections.Dictionary data)
-	{
-        ConnectionNode.EmitSignal("match_info_updated", data);
+			var text = $"Match crashed! Exceptions raised:\n{e.Message}\n{e.StackTrace}";
+			if (e.InnerException is not null)
+			{
+				text = $"{text}\n-===============-{e.InnerException.Message}\n{e.InnerException.StackTrace}\n";
+			}
+			CrashedMatchExceptionTextNode.Text = text;
+			CrashedMatchDialogNode.Show();
+		}
 	}
 
-    #region Signal connections
+	public void Load(Godot.Collections.Dictionary data)
+	{
+		ConnectionNode.EmitSignal("match_info_updated", data);
+	}
+
+	#region Signal connections
 
 	public void OnConnectionResponded(string response)
 	{
 		_handler.SetReadTaskResult(response);
 	}
 
-    public void OnCrashedMatchDialogConfirmed()
-    {
-        QueueFree();
-    }
+	public void OnCrashedMatchDialogConfirmed()
+	{
+		QueueFree();
+	}
 
-    public void OnFinishedMatchDialogConfirmed()
-    {
-        QueueFree();
-    }
+	public void OnFinishedMatchDialogConfirmed()
+	{
+		QueueFree();
+	}
 
-    public void OnFinishedMatchDialogCanceled()
-    {
-        QueueFree();
-    }
+	public void OnFinishedMatchDialogCanceled()
+	{
+		QueueFree();
+	}
 
-    public void OnCrashedMatchDialogCanceled()
-    {
-        QueueFree();
-    }
+	public void OnCrashedMatchDialogCanceled()
+	{
+		QueueFree();
+	}
 
-    #endregion
+	#endregion
 }

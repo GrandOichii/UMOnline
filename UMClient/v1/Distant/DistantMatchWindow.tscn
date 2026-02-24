@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://dpnfnyeavbwhu"]
+
+[ext_resource type="Script" uid="uid://b6rh7m57nfswy" path="res://v1/Distant/DistantMatchWindow.cs" id="1_dhrql"]
+[ext_resource type="PackedScene" uid="uid://c04v0slhq7jj5" path="res://v1/Distant/DistantMatch.tscn" id="2_v1vc3"]
+
+[node name="DistantMatchWindow" type="Window" node_paths=PackedStringArray("MatchNode")]
+physics_object_picking = true
+oversampling_override = 1.0
+initial_position = 2
+size = Vector2i(1152, 648)
+content_scale_size = Vector2i(1152, 648)
+content_scale_mode = 1
+content_scale_aspect = 4
+script = ExtResource("1_dhrql")
+MatchNode = NodePath("Match")
+
+[node name="Match" parent="." instance=ExtResource("2_v1vc3")]

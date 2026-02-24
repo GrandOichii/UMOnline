@@ -1,11 +1,20 @@
 using Godot;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.WebSockets;
+using System.Threading.Tasks;
+using UMCore.Templates;
+using UMDTO;
+using UMModel.Models;
 
 public partial class DistantMatchesTab : Control
 {
     [Export]
     public string DefaultAddress { get; set; }
-    
+    [Export]
+    public Texture2D ConnectButtonTexture { get; set; }
+
     #region Nodes
 
     [Export]
@@ -33,8 +42,31 @@ public partial class DistantMatchesTab : Control
     public AcceptDialog ContentUpdateFailDialogNode { get; set; }
     [Export]
     public AcceptDialog FinishedContentUpdateDialog { get; set; }
+    [Export]
+    public Tree ActiveMatchesTableNode { get; set; }
+    [Export]
+    public Container AllowedDecksContainerNode { get; set; }
+    [Export]
+    public OptionButton NewMatchConfigOptionNode { get; set; }
+    [Export]
+    public Button CreateMatchButtonNode { get; set; }
+    [Export]
+    public LineEdit NewMatchTitleEditNode { get; set; }
+    [Export]
+    public Node DistantMatchWindowsNode { get; set; }
 
     #endregion
+
+    #region Packed scenes
+
+    [ExportGroup("Packed scenes")]
+    [Export]
+    public PackedScene DistantMatchWindowScene { get; set; }
+
+    #endregion
+
+    private List<MatchConfig> _loadedConfigs = null;
+    private List<MatchProcessGet> _activeMatches = null;
 
     private void CheckCanPressConnect()
     {
@@ -47,6 +79,16 @@ public partial class DistantMatchesTab : Control
 
     public override void _Ready()
     {
+        #region ActiveMatchesTableNode configuration
+
+        ActiveMatchesTableNode.Columns = 4;
+        ActiveMatchesTableNode.SetColumnTitle(0, "Id");
+        ActiveMatchesTableNode.SetColumnTitle(1, "Title");
+        ActiveMatchesTableNode.SetColumnTitle(2, "Status");
+        ActiveMatchesTableNode.SetColumnTitle(3, "Connect");
+
+        #endregion
+
         ServerConnectionNode.ContentUpdateFinished += OnServerConnectionNodeContentUpdateFinished;
         ServerConnectionNode.ContentUpdateFailed += OnServerConnectionNodeContentUpdateFailed;
         ServerConnectionNode.ContentOutdatedResponded += OnServerConnectionNodeContentOutdatedResponded;
@@ -58,6 +100,8 @@ public partial class DistantMatchesTab : Control
 
         ServerAddressEditNode.Text = state.LastConnectedAddress ?? DefaultAddress;
         NameEditNode.Text = state.LastUsedName;
+
+        CreateMatchButtonNode.Disabled = true;
 
         CheckCanPressConnect();
     }
@@ -75,6 +119,144 @@ public partial class DistantMatchesTab : Control
         ServerConnectionNode.RequestIsOutdated((DateTime)state.LastUpdateDT);
     }
 
+    private void UpdateCurrentMatches(List<MatchProcessGet> matches)
+    {
+        var matchMap = matches.ToDictionary(m => m.Id);
+        foreach (var child in DistantMatchWindowsNode.GetChildren().Cast<DistantMatchWindow>())
+        {
+            if (!matchMap.TryGetValue(child.MatchId, out var mpg))
+            {
+                // TODO
+                GD.Print($"Match {child.MatchId} is no longer tracked by server!");
+                return;
+            }
+
+            child.Update(mpg);
+
+        }
+    }
+
+    private void UpdateActiveTables(List<MatchProcessGet> matches)
+    {
+        ActiveMatchesTableNode.Clear();
+        ActiveMatchesTableNode.CreateItem(); // root
+        // for (int i = 0; i < 3; ++i)
+        // {
+        var myMatches = DistantMatchWindowsNode
+            .GetChildren()
+            .Cast<DistantMatchWindow>()
+            .Select(w => w.MatchId)
+            .ToList();
+
+        _activeMatches = [];
+        foreach (var match in matches)
+        {
+            if (
+                match.Status == MatchProcessGetStatus.FINISHED ||
+                match.Status == MatchProcessGetStatus.CRASHED
+            ) continue;
+            
+
+            var item = ActiveMatchesTableNode.CreateItem();
+            item.SetText(0, match.Id);
+            item.SetText(1, match.Title);
+            item.SetText(2, match.Status switch
+            {
+                MatchProcessGetStatus.WAITING_FOR_PLAYERS => "Waiting for players",
+                MatchProcessGetStatus.IN_PROGRESS => "In progress",
+                _ => throw new Exception($"Cannot display match with status: {match.Status}")
+            });
+
+            var canConnect = true;
+            if (match.Status == MatchProcessGetStatus.IN_PROGRESS)
+            {
+                canConnect = false;
+            }
+            if (myMatches.Contains(match.Id))
+            {
+                canConnect = false;
+            }
+
+            item.AddButton(3, ConnectButtonTexture, _activeMatches.Count, !canConnect);
+            item.SetTextAlignment(3, HorizontalAlignment.Center);
+            _activeMatches.Add(match);;
+        }
+
+        // }
+    }
+
+    private void UpdateFinishedTables(List<MatchProcessGet> matches)
+    {
+        // TODO
+    }
+
+    private void OnUpdateTables(List<MatchProcessGet> matches)
+    {
+        Callable.From(() =>
+        {
+            UpdateActiveTables(matches);
+            UpdateFinishedTables(matches);
+            UpdateCurrentMatches(matches);
+        }).CallDeferred();
+    }
+
+    private List<string> GetAllowedDecks()
+    {
+        return [.. AllowedDecksContainerNode
+            .GetChildren()
+            .Cast<CheckBox>()
+            .Where(c => c.ButtonPressed)
+            .Select(c => c.Text)];
+    }
+
+    private MatchConfig GetPickedConfig()
+    {
+        var idx = NewMatchConfigOptionNode.Selected;
+        var text = NewMatchConfigOptionNode.GetItemText(idx);
+        var config = _loadedConfigs.Single(c => c.Name == text);
+        return config;
+    }
+
+    private void CheckCanCreateMatch()
+    {
+        if (NewMatchTitleEditNode.Text.Length == 0)
+        {
+            CreateMatchButtonNode.Disabled = true;    
+            return;
+        }
+        
+        var allowed = GetAllowedDecks();
+        var config = GetPickedConfig();
+
+        CreateMatchButtonNode.Disabled = config.TeamCount * config.TeamSize > allowed.Count;
+    }
+
+    private async Task ConnectToMatch(string matchId, bool clientIsOwner)
+    {
+        
+        var connectEndpoint = await ServerConnectionNode.ConnectToMatch(matchId);
+        if (connectEndpoint.StartsWith("err:"))
+        {
+            // TODO display a dialog with error
+            CreateMatchButtonNode.Disabled = false;
+            GD.PushError(connectEndpoint);
+            return;
+        }
+
+        var socket = await ServerConnectionNode.WSConnect(connectEndpoint);
+
+        var window = DistantMatchWindowScene.Instantiate<DistantMatchWindow>();
+        window.SetEssentials(
+            clientIsOwner,
+            ServerConnectionNode,
+            socket,
+            matchId
+        );
+        DistantMatchWindowsNode.AddChild(window);
+
+        await ServerConnectionNode.ForceTableUpdate();
+    }
+
     #region Signal connections
 
     public async void OnConnectButtonPressed()
@@ -83,17 +265,16 @@ public partial class DistantMatchesTab : Control
 
         var registrationError = await ServerConnectionNode.Connect(
             ServerAddressEditNode.Text,
-            NameEditNode.Text
+            NameEditNode.Text,
+            OnUpdateTables
         );
         if (!string.IsNullOrEmpty(registrationError))
         {
-            SetConnectionFormEditable(false);
+            SetConnectionFormEditable(true);
             ConnectionErrorDialogNode.DialogText = $"Failed to connect!\n{registrationError}";
             ConnectionErrorDialogNode.Show();
             return;
         }
-        
-        SetConnectionFormEditable(true);
 
         // save name
         var appState = RepoNode.GetAppState();
@@ -106,15 +287,39 @@ public partial class DistantMatchesTab : Control
         ConnectionDisplayNode.Show();
 
         // load content for match creation
-        var configs = await ServerConnectionNode.FetchConfigs();
-        GD.Print(configs.Count);
+        _loadedConfigs = await ServerConnectionNode.FetchConfigs();
+        LoadConfigs();
         var loadouts = await ServerConnectionNode.FetchLoadouts();
-        GD.Print(loadouts.Count);
-        
+        LoadLoadouts(loadouts);
+        CheckCanCreateMatch();
 
         CheckContent();
+    }
 
+    private void LoadConfigs()
+    {
+        NewMatchConfigOptionNode.Clear();
+        foreach (var config in _loadedConfigs)
+        {
+            NewMatchConfigOptionNode.AddItem(config.Name);
+        }
+    }
 
+    private void LoadLoadouts(List<LoadoutTemplate> loadouts)
+    {
+        while (AllowedDecksContainerNode.GetChildCount() > 0)
+            AllowedDecksContainerNode.RemoveChild(AllowedDecksContainerNode.GetChild(0));
+
+        foreach (var l in loadouts)
+        {
+            var child = new CheckBox()
+            {
+                Text = l.Name,
+                ButtonPressed = true
+            };
+            child.Toggled += OnAllowedDeckCheckBoxToggled;
+            AllowedDecksContainerNode.AddChild(child);
+        }
     }
 
     private void SetConnectionFormEditable(bool v)
@@ -139,7 +344,7 @@ public partial class DistantMatchesTab : Control
         ContentSyncWaitDialogNode.Show();
         ServerConnectionNode.RequestContentSynchronization();
     }
-    
+
     public void OnServerConnectionNodeContentUpdateFinished()
     {
         var content = ServerConnectionNode.PopContentUpdate();
@@ -166,6 +371,73 @@ public partial class DistantMatchesTab : Control
         if (!isOutdated) return;
 
         OutdatedContentDialogNode.Show();
+    }
+
+    public void OnAllowedFightersFilterEditTextChanged(string newText)
+    {
+        foreach (var child in AllowedDecksContainerNode.GetChildren().Cast<CheckBox>())
+        {
+            child.Visible = child.Text.Contains(newText, StringComparison.CurrentCultureIgnoreCase);
+        }
+    }
+
+    public void OnSelectAllButtonPressed()
+    {
+        foreach (var child in AllowedDecksContainerNode.GetChildren().Cast<CheckBox>())
+        {
+            child.ButtonPressed = true;
+        }
+    }
+
+    public void OnDeselectAllButtonPressed()
+    {
+        foreach (var child in AllowedDecksContainerNode.GetChildren().Cast<CheckBox>())
+        {
+            child.ButtonPressed = false;
+        }
+    }
+
+    public void OnAllowedDeckCheckBoxToggled(bool _)
+    {
+        CheckCanCreateMatch();
+    }
+
+    public void OnNewMatchTitleEditTextChanged(string _)
+    {
+        CheckCanCreateMatch();
+    }
+
+    public async void OnCreateMatchButtonPressed()
+    {
+        CreateMatchButtonNode.Disabled = true;
+
+        var createParams = new CreateMatchParams()
+        {
+            MatchConfigName = GetPickedConfig().Name,
+            Title = NewMatchTitleEditNode.Text,
+            AllowedLoadouts = GetAllowedDecks()
+        };
+
+        var matchId = await ServerConnectionNode.CreateMatch(createParams);
+        if (matchId.StartsWith("err:"))
+        {
+            // TODO display a dialog with error
+            CreateMatchButtonNode.Disabled = false;
+            GD.PushError(matchId);
+            return;
+        }
+
+        await ConnectToMatch(matchId, true);
+    }
+
+    public async void OnActiveMatchesTableButtonClicked(TreeItem item, int column, int id, MouseButton mouseButton)
+    {
+        if (mouseButton != MouseButton.Left) return;
+        if (column != 3) return;
+
+        var matchId = _activeMatches[id].Id;
+
+        await ConnectToMatch(matchId, false);
     }
 
     #endregion

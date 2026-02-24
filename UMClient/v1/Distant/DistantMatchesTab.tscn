@@ -1,8 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://cm68losq2jlio"]
+[gd_scene load_steps=4 format=3 uid="uid://cm68losq2jlio"]
 
 [ext_resource type="Script" uid="uid://cp47tbmoe5jwr" path="res://v1/Distant/DistantMatchesTab.cs" id="1_ut46s"]
+[ext_resource type="Texture2D" uid="uid://cyftyv4tk4bqc" path="res://icon.svg" id="2_mqfe7"]
+[ext_resource type="PackedScene" uid="uid://dpnfnyeavbwhu" path="res://v1/Distant/DistantMatchWindow.tscn" id="3_m8fh0"]
 
-[node name="DistantMatchesTab" type="Control" node_paths=PackedStringArray("ConnectionFormNode", "ConnectionDisplayNode", "ServerAddressEditNode", "NameEditNode", "ConnectionErrorDialogNode", "ConnectButtonNode", "OutdatedContentDialogNode", "ContentSyncWaitDialogNode", "ContentUpdateFailDialogNode", "FinishedContentUpdateDialog")]
+[node name="DistantMatchesTab" type="Control" node_paths=PackedStringArray("ConnectionFormNode", "ConnectionDisplayNode", "ServerAddressEditNode", "NameEditNode", "ConnectionErrorDialogNode", "ConnectButtonNode", "OutdatedContentDialogNode", "ContentSyncWaitDialogNode", "ContentUpdateFailDialogNode", "FinishedContentUpdateDialog", "ActiveMatchesTableNode", "AllowedDecksContainerNode", "NewMatchConfigOptionNode", "CreateMatchButtonNode", "NewMatchTitleEditNode", "DistantMatchWindowsNode")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -11,6 +13,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_ut46s")
 DefaultAddress = "http://localhost:51561"
+ConnectButtonTexture = ExtResource("2_mqfe7")
 ConnectionFormNode = NodePath("ConnectionForm")
 ConnectionDisplayNode = NodePath("ConnectionDisplay")
 ServerAddressEditNode = NodePath("ConnectionForm/ServerAddressEdit")
@@ -21,6 +24,13 @@ OutdatedContentDialogNode = NodePath("Dialogs/OutdatedContentDialog")
 ContentSyncWaitDialogNode = NodePath("Dialogs/ContentSyncWaitDialog")
 ContentUpdateFailDialogNode = NodePath("Dialogs/ContentUpdateFailDialog")
 FinishedContentUpdateDialog = NodePath("Dialogs/FinishedContentUpdateDialog")
+ActiveMatchesTableNode = NodePath("ConnectionDisplay/TabContainer/Active/ActiveMatchesTable")
+AllowedDecksContainerNode = NodePath("ConnectionDisplay/TabContainer/Create/PanelContainer/VBoxContainer/ScrollContainer/AllowedDecksContainer")
+NewMatchConfigOptionNode = NodePath("ConnectionDisplay/TabContainer/Create/HBoxContainer/NewMatchConfigOption")
+CreateMatchButtonNode = NodePath("ConnectionDisplay/TabContainer/Create/CreateMatchButton")
+NewMatchTitleEditNode = NodePath("ConnectionDisplay/TabContainer/Create/NewMatchTitleEdit")
+DistantMatchWindowsNode = NodePath("DistantMatchWindows")
+DistantMatchWindowScene = ExtResource("3_m8fh0")
 
 [node name="ConnectionForm" type="VBoxContainer" parent="."]
 visible = false
@@ -47,7 +57,7 @@ placeholder_text = "Enter your name"
 layout_mode = 2
 text = "Connect"
 
-[node name="ConnectionDisplay" type="Control" parent="."]
+[node name="ConnectionDisplay" type="VBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -55,19 +65,94 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ConnectionDisplay"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="TabContainer" type="TabContainer" parent="ConnectionDisplay"]
+layout_mode = 2
+size_flags_vertical = 3
+tab_alignment = 2
+current_tab = 0
+tabs_position = 1
 
-[node name="Control" type="Control" parent="ConnectionDisplay/VBoxContainer"]
+[node name="Create" type="VBoxContainer" parent="ConnectionDisplay/TabContainer"]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="NewMatchTitleEdit" type="LineEdit" parent="ConnectionDisplay/TabContainer/Create"]
+layout_mode = 2
+text = "NewMatch"
+placeholder_text = "Enter match name"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ConnectionDisplay/TabContainer/Create"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ConnectionDisplay/TabContainer/Create/HBoxContainer"]
+layout_mode = 2
+text = "Match type:"
+
+[node name="NewMatchConfigOption" type="OptionButton" parent="ConnectionDisplay/TabContainer/Create/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="PanelContainer" type="PanelContainer" parent="ConnectionDisplay/TabContainer/Create"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="SyncContentButton" type="Button" parent="ConnectionDisplay/VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="ConnectionDisplay/TabContainer/Create/PanelContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ConnectionDisplay/TabContainer/Create/PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Allowed decks"
+
+[node name="AllowedFightersFilterEdit" type="LineEdit" parent="ConnectionDisplay/TabContainer/Create/PanelContainer/VBoxContainer"]
+layout_mode = 2
+placeholder_text = "Filter decks by name"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="ConnectionDisplay/TabContainer/Create/PanelContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="AllowedDecksContainer" type="VBoxContainer" parent="ConnectionDisplay/TabContainer/Create/PanelContainer/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ConnectionDisplay/TabContainer/Create/PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="SelectAllButton" type="Button" parent="ConnectionDisplay/TabContainer/Create/PanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Select all"
+
+[node name="DeselectAllButton" type="Button" parent="ConnectionDisplay/TabContainer/Create/PanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Deselect all"
+
+[node name="CreateMatchButton" type="Button" parent="ConnectionDisplay/TabContainer/Create"]
+layout_mode = 2
+text = "Create"
+
+[node name="Active" type="VBoxContainer" parent="ConnectionDisplay/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="ActiveMatchesTable" type="Tree" parent="ConnectionDisplay/TabContainer/Active"]
+layout_mode = 2
+size_flags_vertical = 3
+column_titles_visible = true
+hide_root = true
+
+[node name="Finished" type="VBoxContainer" parent="ConnectionDisplay/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 2
+
+[node name="Control" type="Control" parent="ConnectionDisplay/TabContainer/Finished"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="SyncContentButton" type="Button" parent="ConnectionDisplay"]
 layout_mode = 2
 text = "Synchronize content"
 
@@ -121,7 +206,15 @@ initial_position = 2
 size = Vector2i(250, 100)
 dialog_text = "Finished updating content!"
 
+[node name="DistantMatchWindows" type="Node" parent="."]
+
 [connection signal="text_changed" from="ConnectionForm/ServerAddressEdit" to="." method="OnServerAddressEditTextChanged"]
 [connection signal="text_changed" from="ConnectionForm/NameEdit" to="." method="OnNameEditTextChanged"]
 [connection signal="pressed" from="ConnectionForm/ConnectButton" to="." method="OnConnectButtonPressed"]
-[connection signal="pressed" from="ConnectionDisplay/VBoxContainer/SyncContentButton" to="." method="OnSyncContentButtonPressed"]
+[connection signal="text_changed" from="ConnectionDisplay/TabContainer/Create/NewMatchTitleEdit" to="." method="OnNewMatchTitleEditTextChanged"]
+[connection signal="text_changed" from="ConnectionDisplay/TabContainer/Create/PanelContainer/VBoxContainer/AllowedFightersFilterEdit" to="." method="OnAllowedFightersFilterEditTextChanged"]
+[connection signal="pressed" from="ConnectionDisplay/TabContainer/Create/PanelContainer/VBoxContainer/HBoxContainer/SelectAllButton" to="." method="OnSelectAllButtonPressed"]
+[connection signal="pressed" from="ConnectionDisplay/TabContainer/Create/PanelContainer/VBoxContainer/HBoxContainer/DeselectAllButton" to="." method="OnDeselectAllButtonPressed"]
+[connection signal="pressed" from="ConnectionDisplay/TabContainer/Create/CreateMatchButton" to="." method="OnCreateMatchButtonPressed"]
+[connection signal="button_clicked" from="ConnectionDisplay/TabContainer/Active/ActiveMatchesTable" to="." method="OnActiveMatchesTableButtonClicked"]
+[connection signal="pressed" from="ConnectionDisplay/SyncContentButton" to="." method="OnSyncContentButtonPressed"]

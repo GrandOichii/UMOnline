@@ -21,6 +21,8 @@ public class MatchesHub(
     {
         await base.OnConnectedAsync();
         logger.LogDebug("New connection! ConnectionId: {}. Waiting for name", Context.ConnectionId);
+
+        await matchesManager.UpdateWatcher(Context.ConnectionId);
     }
 
     public override async Task OnDisconnectedAsync(Exception? exception)
@@ -36,6 +38,11 @@ public class MatchesHub(
         }
         await clientRepo.Remove(client);
         await matchesManager.ProcessRemovedClient(client);
+    }
+
+    public async Task UpdateMe()
+    {
+        await matchesManager.UpdateWatcher(Context.ConnectionId);
     }
 
     public async Task<string> RegisterName(string name)
@@ -81,12 +88,13 @@ public class MatchesHub(
             return;
         }
 
+        logger.LogDebug("New chat message from {} in match {}: {}", client.Name, matchId, msg);
         await BroadcastUserMessage(matchId, client.Name, msg);
     }
 
     private async Task BroadcastChatMessage(string matchId, ChatMessage msg)
     {
-        await Clients.Group(matchId).SendAsync("ChatUpdate", JsonSerializer.Serialize(msg));
+        await Clients.Group(matchId).SendAsync("ChatUpdate", msg);
     }
 
     private async Task BroadcastSystemMessage(string matchId, string msg)
@@ -94,6 +102,7 @@ public class MatchesHub(
         await BroadcastChatMessage(matchId, new()
         {
             From = "",
+            MatchId = matchId,
             Msg = msg
         });
     }
@@ -103,6 +112,7 @@ public class MatchesHub(
         await BroadcastChatMessage(matchId, new()
         {
             From = playerName,
+            MatchId = matchId,
             Msg = msg
         });
     }
@@ -148,6 +158,7 @@ public class MatchesHub(
 
     public async Task<string> SelectLoadout(string matchId, string loadoutName)
     {
+        // TODO use AllowedLoadouts
         var match = await matchesManager.Get(matchId);
         if (match is null)
         {
@@ -170,9 +181,12 @@ public class MatchesHub(
             return $"Unknown loadout {loadoutName}";
         }
 
-        logger.LogDebug("Client {} in match {} sets their loadout to {}", player.ClientId, match.Id, loadout.Name);
+        logger.LogDebug("Client {} in match {} sets their loadout to {}", player.Client, match.Id, loadout.Name);
 
-        await player.SetLoadout(loadout);
+        player.SetLoadout(loadout);
+
+        await matchesManager.UpdateWatchers();
+        await BroadcastSystemMessage(match.Id, $"Player {player.Client.Name} selects their deck: {loadout.Name}");
 
         return "";
     }
@@ -196,9 +210,11 @@ public class MatchesHub(
             return "Selected team exceeds team count";
         }
 
-        logger.LogDebug("Client {} in match {} sets their team to {}", player.ClientId, match.Id, teamIdx);
+        logger.LogDebug("Client {} in match {} sets their team to {}", player.Client, match.Id, teamIdx);
 
-        await player.SetTeamIdx(teamIdx);
+        player.SetTeamIdx(teamIdx);
+        await matchesManager.UpdateWatchers();
+        await BroadcastSystemMessage(match.Id, $"Player {player.Client.Name} selects their team: {teamIdx}");
 
         return "";
     }
@@ -238,7 +254,7 @@ public class MatchesHub(
             return;
         }
 
-        if (match.OwnerId != player.ClientId)
+        if (match.OwnerId != player.Client.Id)
         {
             return;
         }
@@ -253,10 +269,4 @@ public class MatchesHub(
             clientRepo
         );
     }
-}
-
-public class ChatMessage
-{
-    public required string From { get; init; }
-    public required string Msg { get; init; }
 }

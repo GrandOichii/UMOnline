@@ -4,9 +4,12 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Net.WebSockets;
 using System.Text;
 using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
+using UMCore.Templates;
 using UMDTO;
 using UMModel.Models;
 
@@ -42,25 +45,42 @@ public partial class ServerConnection : Node
         // TODO
     }
 
-    public async Task<string> Connect(string address, string name)
+    private HubConnection _connection = null;
+
+    public void ListenForChatUpdates(Action<ChatMessage> onChatUpdate)
+    {
+        _connection.On("ChatUpdate", onChatUpdate);
+    }
+
+    public async Task<string> Connect(
+        string address,
+        string name,
+        Action<List<MatchProcessGet>> onUpdateTables
+    )
     {
         _address = address;
 
-        var connection = new HubConnectionBuilder()
-            .WithUrl($"{address}/Matches")
-            .Build();
-
-        // TODO add handlers
-
-        await connection.StartAsync();
-
-        var registrationError = await connection.InvokeAsync<string>("RegisterName", name);
-        if (!string.IsNullOrEmpty(registrationError))
+        try
         {
-            return registrationError;
-        }
+            _connection = new HubConnectionBuilder()
+                .WithUrl($"{address}/Matches")
+                .Build();
 
-        return "";
+            _connection.On("UpdateTables", onUpdateTables);
+
+            await _connection.StartAsync();
+
+            var registrationError = await _connection.InvokeAsync<string>("RegisterName", name);
+            if (!string.IsNullOrEmpty(registrationError))
+            {
+                return registrationError;
+            }
+            return "";
+        } catch (Exception e)
+        {
+            // TODO
+            return e.Message;
+        }
     }
 
     public void RequestIsOutdated(DateTime dt)
@@ -82,6 +102,47 @@ public partial class ServerConnection : Node
         GD.Print($"{nameof(RequestIsOutdated)}: {err}");
     }
 
+    public async Task<string> CreateMatch(CreateMatchParams create)
+    {
+        return await _connection.InvokeAsync<string>("CreateMatch", create);
+    }
+
+    public async Task<string> ConnectToMatch(string matchId)
+    {
+        return await _connection.InvokeAsync<string>("Connect", matchId);
+    }
+
+    public async Task PublishToChat(string matchId, string msg)
+    {
+        await _connection.SendAsync("PublishToChat", matchId, msg);
+    }
+
+    public async Task ForceTableUpdate()
+    {
+        await _connection.SendAsync("UpdateMe");
+    }
+
+    public async Task SelectTeam(string matchId, int teamIdx)
+    {
+        var err = await _connection.InvokeAsync<string>("SelectTeam", matchId, teamIdx);
+        if (err == string.Empty) return;
+
+        throw new Exception($"Failed to select team: {err}");
+    }
+    
+    public async Task SelectLoadout(string matchId, string loadoutName)
+    {
+        var err = await _connection.InvokeAsync<string>("SelectLoadout", matchId, loadoutName);
+        if (err == string.Empty) return;
+
+        throw new Exception($"Failed to select loadout: {err}");
+    }
+
+    public async Task StartMatch(string matchId)
+    {
+        await _connection.SendAsync("Start", matchId);
+    }
+
     public void RequestContentSynchronization()
     {
         var err = UpdateContentRequestNode.Request($"{_address}/api/v1/Update/Current");
@@ -90,10 +151,6 @@ public partial class ServerConnection : Node
             return;
         }
         GD.Print($"{nameof(RequestContentSynchronization)}: {err}");
-    }
-
-    public override void _Ready()
-    {
     }
 
     private ContentUpdateGet _cu;
@@ -117,15 +174,23 @@ public partial class ServerConnection : Node
         return configs;
     }
 
-    public async Task<List<Loadout>> FetchLoadouts()
+    public async Task<List<LoadoutTemplate>> FetchLoadouts()
     {
         var client = new System.Net.Http.HttpClient()
         {
             BaseAddress = new(_address)
         };
 
-        var loadouts = await client.GetFromJsonAsync<List<Loadout>>("api/v1/Loadouts/All");
+        var loadouts = await client.GetFromJsonAsync<List<LoadoutTemplate>>("api/v1/Loadouts/All");
         return loadouts;
+    }
+
+    public async Task<ClientWebSocket> WSConnect(string connectStr)
+    {
+        var result = new ClientWebSocket();
+        var address = _address.Replace("http://", "ws://");
+        await result.ConnectAsync(new($"{address}/api/v1/Matches/Connect?connectStr={connectStr}"), CancellationToken.None);
+        return result;
     }
 
     #endregion
@@ -156,8 +221,6 @@ public partial class ServerConnection : Node
         {
             throw new Exception($"Unrecognized response code from server: {responseCode}");
         }
-
-        GD.Print(Encoding.UTF8.GetString(body));
 
         var isOutdated = JsonSerializer.Deserialize<bool>(body, new JsonSerializerOptions()
         {

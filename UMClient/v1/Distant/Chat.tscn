@@ -1,0 +1,38 @@
+[gd_scene load_steps=2 format=3 uid="uid://cmy4gl8p3aapk"]
+
+[ext_resource type="Script" uid="uid://ddaj6qx8aqqwv" path="res://v1/Distant/Chat.cs" id="1_3lwtn"]
+
+[node name="Chat" type="VBoxContainer" node_paths=PackedStringArray("MessageEditNode", "SendButtonNode", "ChatDisplayNode")]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_3lwtn")
+MessageEditNode = NodePath("VBoxContainer/MessageEdit")
+SendButtonNode = NodePath("VBoxContainer/SendButton")
+ChatDisplayNode = NodePath("ChatDisplay")
+
+[node name="ChatDisplay" type="RichTextLabel" parent="."]
+layout_mode = 2
+size_flags_vertical = 3
+bbcode_enabled = true
+text = "CHAT TEXT HERE
+CHAT TEXT HERE
+CHAT TEXT HERE"
+
+[node name="VBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="MessageEdit" type="LineEdit" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Enter message to send to chat"
+
+[node name="SendButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Send"
+
+[connection signal="text_changed" from="VBoxContainer/MessageEdit" to="." method="OnMessageEditTextChanged"]
+[connection signal="text_submitted" from="VBoxContainer/MessageEdit" to="." method="OnMessageEditTextSubmitted"]
+[connection signal="pressed" from="VBoxContainer/SendButton" to="." method="OnSendButtonPressed"]
