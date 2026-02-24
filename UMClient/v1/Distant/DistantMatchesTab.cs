@@ -105,7 +105,16 @@ public partial class DistantMatchesTab : Control
         ConnectionFormNode.Hide();
         ConnectionDisplayNode.Show();
 
+        // load content for match creation
+        var configs = await ServerConnectionNode.FetchConfigs();
+        GD.Print(configs.Count);
+        var loadouts = await ServerConnectionNode.FetchLoadouts();
+        GD.Print(loadouts.Count);
+        
+
         CheckContent();
+
+
     }
 
     private void SetConnectionFormEditable(bool v)

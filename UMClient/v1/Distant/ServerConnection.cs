@@ -1,11 +1,14 @@
 using Godot;
 using Microsoft.AspNetCore.SignalR.Client;
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
+using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using UMDTO;
+using UMModel.Models;
 
 public partial class ServerConnection : Node
 {
@@ -100,6 +103,32 @@ public partial class ServerConnection : Node
         _cu = null;
         return result;
     }
+
+    #region HTTP Requests
+
+    public async Task<List<MatchConfig>> FetchConfigs()
+    {
+        var client = new System.Net.Http.HttpClient()
+        {
+            BaseAddress = new(_address)
+        };
+
+        var configs = await client.GetFromJsonAsync<List<MatchConfig>>("api/v1/Configs/All");
+        return configs;
+    }
+
+    public async Task<List<Loadout>> FetchLoadouts()
+    {
+        var client = new System.Net.Http.HttpClient()
+        {
+            BaseAddress = new(_address)
+        };
+
+        var loadouts = await client.GetFromJsonAsync<List<Loadout>>("api/v1/Loadouts/All");
+        return loadouts;
+    }
+
+    #endregion
 
     #region Signal connections
 

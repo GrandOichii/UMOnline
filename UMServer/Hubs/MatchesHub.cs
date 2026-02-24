@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using UMDTO;
@@ -66,6 +67,46 @@ public class MatchesHub(
         return match.Id;
     }
 
+    public async Task PublishToChat(string matchId, string msg)
+    {
+        var client = await clientRepo.Get(Context.ConnectionId);
+        if (client is null)
+        {
+            return;
+        }
+
+        var match = await matchesManager.Get(matchId);
+        if (match is null)
+        {
+            return;
+        }
+
+        await BroadcastUserMessage(matchId, client.Name, msg);
+    }
+
+    private async Task BroadcastChatMessage(string matchId, ChatMessage msg)
+    {
+        await Clients.Group(matchId).SendAsync("ChatUpdate", JsonSerializer.Serialize(msg));
+    }
+
+    private async Task BroadcastSystemMessage(string matchId, string msg)
+    {
+        await BroadcastChatMessage(matchId, new()
+        {
+            From = "",
+            Msg = msg
+        });
+    }
+
+    private async Task BroadcastUserMessage(string matchId, string playerName, string msg)
+    {
+        await BroadcastChatMessage(matchId, new()
+        {
+            From = playerName,
+            Msg = msg
+        });
+    }
+
     public async Task<string> Connect(string matchId) // TODO add password
     {
         var client = await clientRepo.Get(Context.ConnectionId);
@@ -91,6 +132,10 @@ public class MatchesHub(
         await match.ConnectClient(client);
         
         logger.LogDebug("Client {} connects to match {}", client.Id, match.Id);
+
+        // add to chat
+        await Groups.AddToGroupAsync(Context.ConnectionId, matchId);
+        await BroadcastSystemMessage(matchId, $"Player {client.Name} connected!");
 
         return connectSerializer.Serialize(client.Id, match);
     }
@@ -208,4 +253,10 @@ public class MatchesHub(
             clientRepo
         );
     }
+}
+
+public class ChatMessage
+{
+    public required string From { get; init; }
+    public required string Msg { get; init; }
 }

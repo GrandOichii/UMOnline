@@ -3,8 +3,8 @@ import { HubConnectionBuilder } from '@microsoft/signalr'
 
 const ADDR = 'localhost';
 const PORT = 5156;
-const SIGNALR_ENDPOINT = 'Connect';
-const WS_ENDPOINT = 'api/v1/Matches/Connect'
+const SIGNALR_ENDPOINT = 'Matches';
+const MATCH_WS_ENDPOINT = 'api/v1/Matches/Connect'
 const MODE = process.argv[2];
 const DECK_NAME = process.argv[3];
 const MATCH_ID = process.argv[4];
@@ -18,9 +18,14 @@ async function main() {
         .withUrl(`http://${ADDR}:${PORT}/${SIGNALR_ENDPOINT}`)
         .build();
 
-    connection.on('RegistrationError', async (errMsg) => {
-        console.log(`Failed to register: ${errMsg}`);
-        await connection.stop();
+    // connection.on('RegistrationError', async (errMsg) => {
+    //     console.log(`Failed to register: ${errMsg}`);
+    //     await connection.stop();
+    // });
+
+    connection.on('ChatUpdate', msg => {
+        const data = JSON.parse(msg.toString());
+        console.log(data); 
     });
 
     let running = true;
@@ -62,25 +67,27 @@ async function main() {
     console.log(`Connected to match with id = ${matchId}`);
 
     console.log('Received WS connection endpoint: ' + connectEndpoint);
-    const ws = new WebSocket(`ws://${ADDR}:${PORT}/${WS_ENDPOINT}?connectStr=${connectEndpoint}`);
+    const matchWS = new WebSocket(`ws://${ADDR}:${PORT}/${MATCH_WS_ENDPOINT}?connectStr=${connectEndpoint}`);
 
-    ws.on('message', msg => {
+    matchWS.on('message', msg => {
         console.log('[WS MESSAGE]');
         console.log(msg.toString());
     });
 
-    ws.on('close', async (code, reason) => {
+    matchWS.on('close', async (code, reason) => {
         console.log('[WS CLOSE]');
         console.log((code, reason.toString()));
 
         await connection.stop();
+        matchWS.close();
     });
 
-    ws.on('error', async (err) => {
+    matchWS.on('error', async (err) => {
         console.log('[WS ERROR]');
         console.log(err);
 
         await connection.stop();
+        matchWS.close();
     });
 
     let err = await connection.invoke('SelectLoadout', matchId, DECK_NAME);

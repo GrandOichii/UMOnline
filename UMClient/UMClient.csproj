@@ -2,6 +2,7 @@
   <ItemGroup>
     <ProjectReference Include="..\UMCore\UMCore.csproj" />
     <ProjectReference Include="..\UMDTO\UMDTO.csproj" />
+    <ProjectReference Include="..\UMModel\UMModel.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="10.0.3" />
