@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://cyftyv4tk4bqc" path="res://icon.svg" id="2_mqfe7"]
 [ext_resource type="PackedScene" uid="uid://dpnfnyeavbwhu" path="res://v1/Distant/DistantMatchWindow.tscn" id="3_m8fh0"]
 
-[node name="DistantMatchesTab" type="Control" node_paths=PackedStringArray("ConnectionFormNode", "ConnectionDisplayNode", "ServerAddressEditNode", "NameEditNode", "ConnectionErrorDialogNode", "ConnectButtonNode", "OutdatedContentDialogNode", "ContentSyncWaitDialogNode", "ContentUpdateFailDialogNode", "FinishedContentUpdateDialog", "ActiveMatchesTableNode", "AllowedDecksContainerNode", "NewMatchConfigOptionNode", "CreateMatchButtonNode", "NewMatchTitleEditNode", "DistantMatchWindowsNode")]
+[node name="DistantMatchesTab" type="Control" node_paths=PackedStringArray("ConnectionFormNode", "ConnectionDisplayNode", "ServerAddressEditNode", "NameEditNode", "ConnectionErrorDialogNode", "ConnectButtonNode", "OutdatedContentDialogNode", "ContentSyncWaitDialogNode", "ContentUpdateFailDialogNode", "FinishedContentUpdateDialog", "ActiveMatchesTableNode", "AllowedDecksContainerNode", "NewMatchConfigOptionNode", "CreateMatchButtonNode", "NewMatchTitleEditNode", "DistantMatchWindowsNode", "FinishedMatchesTableNode")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -14,6 +14,7 @@ grow_vertical = 2
 script = ExtResource("1_ut46s")
 DefaultAddress = "http://localhost:51561"
 ConnectButtonTexture = ExtResource("2_mqfe7")
+ReplayButtonTexture = ExtResource("2_mqfe7")
 ConnectionFormNode = NodePath("ConnectionForm")
 ConnectionDisplayNode = NodePath("ConnectionDisplay")
 ServerAddressEditNode = NodePath("ConnectionForm/ServerAddressEdit")
@@ -30,6 +31,7 @@ NewMatchConfigOptionNode = NodePath("ConnectionDisplay/TabContainer/Create/HBoxC
 CreateMatchButtonNode = NodePath("ConnectionDisplay/TabContainer/Create/CreateMatchButton")
 NewMatchTitleEditNode = NodePath("ConnectionDisplay/TabContainer/Create/NewMatchTitleEdit")
 DistantMatchWindowsNode = NodePath("DistantMatchWindows")
+FinishedMatchesTableNode = NodePath("ConnectionDisplay/TabContainer/Finished/FinishedMatchesTable")
 DistantMatchWindowScene = ExtResource("3_m8fh0")
 
 [node name="ConnectionForm" type="VBoxContainer" parent="."]
@@ -69,10 +71,11 @@ grow_vertical = 2
 layout_mode = 2
 size_flags_vertical = 3
 tab_alignment = 2
-current_tab = 0
+current_tab = 2
 tabs_position = 1
 
 [node name="Create" type="VBoxContainer" parent="ConnectionDisplay/TabContainer"]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 0
 
@@ -144,13 +147,13 @@ column_titles_visible = true
 hide_root = true
 
 [node name="Finished" type="VBoxContainer" parent="ConnectionDisplay/TabContainer"]
-visible = false
 layout_mode = 2
 metadata/_tab_index = 2
 
-[node name="Control" type="Control" parent="ConnectionDisplay/TabContainer/Finished"]
+[node name="FinishedMatchesTable" type="Tree" parent="ConnectionDisplay/TabContainer/Finished"]
 layout_mode = 2
-size_flags_vertical = 3
+column_titles_visible = true
+hide_root = true
 
 [node name="SyncContentButton" type="Button" parent="ConnectionDisplay"]
 layout_mode = 2
@@ -217,4 +220,5 @@ dialog_text = "Finished updating content!"
 [connection signal="pressed" from="ConnectionDisplay/TabContainer/Create/PanelContainer/VBoxContainer/HBoxContainer/DeselectAllButton" to="." method="OnDeselectAllButtonPressed"]
 [connection signal="pressed" from="ConnectionDisplay/TabContainer/Create/CreateMatchButton" to="." method="OnCreateMatchButtonPressed"]
 [connection signal="button_clicked" from="ConnectionDisplay/TabContainer/Active/ActiveMatchesTable" to="." method="OnActiveMatchesTableButtonClicked"]
+[connection signal="button_clicked" from="ConnectionDisplay/TabContainer/Finished/FinishedMatchesTable" to="." method="OnFinishedMatchesTableButtonClicked"]
 [connection signal="pressed" from="ConnectionDisplay/SyncContentButton" to="." method="OnSyncContentButtonPressed"]

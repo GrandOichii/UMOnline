@@ -14,6 +14,8 @@ public partial class DistantMatchesTab : Control
     public string DefaultAddress { get; set; }
     [Export]
     public Texture2D ConnectButtonTexture { get; set; }
+    [Export]
+    public Texture2D ReplayButtonTexture { get; set; }
 
     #region Nodes
 
@@ -54,6 +56,9 @@ public partial class DistantMatchesTab : Control
     public LineEdit NewMatchTitleEditNode { get; set; }
     [Export]
     public Node DistantMatchWindowsNode { get; set; }
+    [Export]
+    public Tree FinishedMatchesTableNode { get; set; }
+
 
     #endregion
 
@@ -67,6 +72,7 @@ public partial class DistantMatchesTab : Control
 
     private List<MatchConfig> _loadedConfigs = null;
     private List<MatchProcessGet> _activeMatches = null;
+    private List<MatchProcessGet> _finishedMatches = null;
 
     private void CheckCanPressConnect()
     {
@@ -89,6 +95,16 @@ public partial class DistantMatchesTab : Control
 
         #endregion
 
+        #region FinishedMatchesTableNode configuration
+
+        ActiveMatchesTableNode.Columns = 4;
+        ActiveMatchesTableNode.SetColumnTitle(0, "Id");
+        ActiveMatchesTableNode.SetColumnTitle(1, "Title");
+        ActiveMatchesTableNode.SetColumnTitle(2, "Status");
+        ActiveMatchesTableNode.SetColumnTitle(3, "Replay");
+
+        #endregion
+
         ServerConnectionNode.ContentUpdateFinished += OnServerConnectionNodeContentUpdateFinished;
         ServerConnectionNode.ContentUpdateFailed += OnServerConnectionNodeContentUpdateFailed;
         ServerConnectionNode.ContentOutdatedResponded += OnServerConnectionNodeContentOutdatedResponded;
@@ -104,6 +120,34 @@ public partial class DistantMatchesTab : Control
         CreateMatchButtonNode.Disabled = true;
 
         CheckCanPressConnect();
+    }
+
+    private void FillActiveMatchTreeItem(TreeItem item, MatchProcessGet match, int id, bool canConnect)
+    {
+        item.SetText(0, match.Id);
+        item.SetText(1, match.Title);
+        item.SetText(2, match.Status switch
+        {
+            MatchProcessGetStatus.WAITING_FOR_PLAYERS => "Waiting for players",
+            MatchProcessGetStatus.IN_PROGRESS => "In progress",
+            _ => throw new Exception($"Cannot display match with status: {match.Status}")
+        });
+        item.AddButton(3, ConnectButtonTexture, id, !canConnect);
+        item.SetTextAlignment(3, HorizontalAlignment.Center);
+
+    }
+
+    private void FillFinishedMatchTreeItem(TreeItem item, MatchProcessGet match, int id)
+    {
+        item.SetText(0, match.Id);
+        item.SetText(1, match.Title);
+        item.SetText(2, match.Status switch
+        {
+            MatchProcessGetStatus.FINISHED => "Finished",
+            MatchProcessGetStatus.CRASHED => "Crashed",
+            _ => throw new Exception($"Cannot display match with status: {match.Status}")
+        });
+        item.AddButton(3, ReplayButtonTexture, id);
     }
 
     private void CheckContent()
@@ -152,20 +196,12 @@ public partial class DistantMatchesTab : Control
         foreach (var match in matches)
         {
             if (
-                match.Status == MatchProcessGetStatus.FINISHED ||
-                match.Status == MatchProcessGetStatus.CRASHED
+                match.Status != MatchProcessGetStatus.WAITING_FOR_PLAYERS &&
+                match.Status == MatchProcessGetStatus.IN_PROGRESS
             ) continue;
             
 
             var item = ActiveMatchesTableNode.CreateItem();
-            item.SetText(0, match.Id);
-            item.SetText(1, match.Title);
-            item.SetText(2, match.Status switch
-            {
-                MatchProcessGetStatus.WAITING_FOR_PLAYERS => "Waiting for players",
-                MatchProcessGetStatus.IN_PROGRESS => "In progress",
-                _ => throw new Exception($"Cannot display match with status: {match.Status}")
-            });
 
             var canConnect = true;
             if (match.Status == MatchProcessGetStatus.IN_PROGRESS)
@@ -177,8 +213,7 @@ public partial class DistantMatchesTab : Control
                 canConnect = false;
             }
 
-            item.AddButton(3, ConnectButtonTexture, _activeMatches.Count, !canConnect);
-            item.SetTextAlignment(3, HorizontalAlignment.Center);
+            FillActiveMatchTreeItem(item, match, _activeMatches.Count, canConnect);
             _activeMatches.Add(match);;
         }
 
@@ -187,7 +222,20 @@ public partial class DistantMatchesTab : Control
 
     private void UpdateFinishedTables(List<MatchProcessGet> matches)
     {
-        // TODO
+        FinishedMatchesTableNode.Clear();
+        FinishedMatchesTableNode.CreateItem(); // root
+
+        _finishedMatches = [];
+        foreach (var match in matches)
+        {
+            if (
+                match.Status != MatchProcessGetStatus.FINISHED &&
+                match.Status != MatchProcessGetStatus.CRASHED
+            ) continue;
+
+            var item = FinishedMatchesTableNode.CreateItem();
+            FillFinishedMatchTreeItem(item, match, _finishedMatches.Count);
+        }
     }
 
     private void OnUpdateTables(List<MatchProcessGet> matches)
@@ -438,6 +486,15 @@ public partial class DistantMatchesTab : Control
         var matchId = _activeMatches[id].Id;
 
         await ConnectToMatch(matchId, false);
+    }
+
+    public async void OnFinishedMatchesTableButtonClicked(TreeItem item, int column, int id, MouseButton mouseButton)
+    {
+        if (mouseButton != MouseButton.Left) return;
+        if (column != 3) return;
+        
+        var matchId = _finishedMatches[id].Id;
+        // TODO
     }
 
     #endregion
