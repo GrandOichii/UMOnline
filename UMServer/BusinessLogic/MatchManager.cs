@@ -81,6 +81,7 @@ public class MatchManager(
         foreach (var match in matches)
         {
             // TODO? replace player with AI
+            if (match.IsFinished()) continue;
             await match.ForceStop();
             await RemoveMatch(match);
             logger.LogDebug("Removed match with id = {} due to disconnected player", match.Id);

@@ -33,6 +33,8 @@ public class MatchProcess(
 
 	public delegate Task MatchProcessChanged();
 	public event MatchProcessChanged? OnChanged;
+
+	public bool IsFinished() => Status == MatchProcessStatus.CRASHED || Status == MatchProcessStatus.FINISHED;
     
     public bool HasClient(string connectionId)
     {
