@@ -4,7 +4,7 @@ using UMCore.Matches.Cards;
 using UMCore.Matches.Players;
 using UMCore.Matches.Tokens;
 
-namespace UMCore.Matches.Players;
+namespace UMCore.Matches.Players.Controllers;
 
 /// <summary>
 /// Player input and output handler

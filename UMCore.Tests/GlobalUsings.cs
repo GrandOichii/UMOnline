@@ -2,6 +2,7 @@ global using UMCore;
 global using UMCore.Matches;
 global using UMCore.Templates;
 global using UMCore.Utility;
+global using UMCore.Matches.Players.Controllers;
 
 global using UMCore.Tests;
 global using UMCore.Tests.Asserts;

@@ -5,7 +5,7 @@ using UMServer.Extensions;
 
 namespace UMServer.Matches;
 
-public class WebSocketIOHandler(WebSocket socket) : UMCore.Matches.Players.IIOHandler
+public class WebSocketIOHandler(WebSocket socket) : UMCore.Matches.Players.Controllers.IIOHandler
 {
     private readonly WebSocket _socket = socket;
 
@@ -23,7 +23,7 @@ public class WebSocketIOHandler(WebSocket socket) : UMCore.Matches.Players.IIOHa
         return await _socket.Read();
     }
 
-    public async Task Write(UMCore.Matches.Players.UpdateInfo info)
+    public async Task Write(UMCore.Matches.Players.Controllers.UpdateInfo info)
     {
         await _socket.Write(JsonSerializer.Serialize(info));
     }

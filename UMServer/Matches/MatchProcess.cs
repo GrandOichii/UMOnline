@@ -21,6 +21,8 @@ public class MatchProcess(
     CreateMatchParams createParams
 )
 {
+	public static readonly Random RND = new();
+
     public string Id { get; } = id;
     public MatchProcessStatus Status { get; private set; } = MatchProcessStatus.WAITING_FOR_PLAYERS;
     public string OwnerId { get; } = ownerId; 
@@ -30,6 +32,7 @@ public class MatchProcess(
     private UMCore.Matches.Match? _match = null;
 	private readonly TaskCompletionSource _matchEndTask = new();
 	public Exception? MatchException { get; private set; } = null;
+	public MatchRecord? Record { get; private set; }
 
 	public delegate Task MatchProcessChanged();
 	public event MatchProcessChanged? OnChanged;
@@ -127,15 +130,32 @@ public class MatchProcess(
 
         await SetStatus(MatchProcessStatus.IN_PROGRESS);
 
+		var seed = RND.Next();
         var core = await coreRepo.Active(); 
 
-        _match = new(Config,
+		var config = new UMCore.Matches.MatchConfig()
+		{
+			InitialHandSize = Config.InitialHandSize,
+			ActionsPerTurn = Config.ActionsPerTurn,
+			MaxHandSize = Config.MaxHandSize,
+			ManoeuvreDrawAmount = Config.ManoeuvreDrawAmount,
+			RandomFirstPlayer = Config.RandomFirstPlayer,
+			FirstPlayerIdx = Config.FirstPlayerIdx,
+			ExhaustDamage = Config.ExhaustDamage,
+			TeamSize = Config.TeamSize,
+			TeamCount = Config.TeamCount,
+			RandomMatch = false,
+			Seed = seed
+		};
+        _match = new(config,
             GetBaskervilleTemplate(),
             core.Script)
         {
             Logger = null // TODO
             // Logger = logger // TODO
         };
+
+		Record = new(seed, this);
 
         foreach (var player in Players)
         {
@@ -149,7 +169,7 @@ public class MatchProcess(
                 throw new Exception($"Called {nameof(TryRun)} with a player missing a loadout");
             }
 
-            var controller = new UMCore.Matches.Players.IOPlayerController(
+            var controller = new UMCore.Matches.Players.Controllers.IOPlayerController(
                 new WebSocketIOHandler(player.Socket!)
             );
 

@@ -5,7 +5,7 @@ using UMCore.Matches.Attacks;
 using UMCore.Matches.Cards;
 using UMCore.Matches.Tokens;
 
-namespace UMCore.Matches.Players;
+namespace UMCore.Matches.Players.Controllers;
 
 public interface IPlayerController
 {
