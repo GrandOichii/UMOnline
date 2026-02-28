@@ -2,6 +2,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Godot;
 using UMCore.Matches.Players;
+using UMCore.Matches.Players.Controllers;
 
 public class LocalMatchIOHandler(LocalMatch match) : IIOHandler
 {

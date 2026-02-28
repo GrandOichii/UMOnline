@@ -5,11 +5,13 @@ namespace UMCore.Matches.Tokens;
 
 public class PlacedToken
 {
+    public int Id { get; }
     public Token Original { get; }
     public MapNode Node { get; private set; }
 
-    public PlacedToken(Token original, MapNode node)
+    public PlacedToken(int id, Token original, MapNode node)
     {
+        Id = id;
         Original = original;
         Node = node;
     }

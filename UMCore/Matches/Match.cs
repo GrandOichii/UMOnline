@@ -256,6 +256,9 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
         return result;
     }
 
+    private int _placedTokenLastId = 0;
+    public int GeneratePlacedTokenId() => ++_placedTokenLastId;
+
     public async Task ProcessAttack(Player player, AvailableAttack attack)
     {
         Logger?.LogDebug("Processing attack from player {PlayerLogName}: {FighterLogName} -> {TargetLogName} [{CardLogName}]", player.LogName, attack.Fighter.LogName, attack.Target.LogName, attack.AttackCard.LogName);

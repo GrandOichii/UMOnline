@@ -7,13 +7,6 @@ public class PairTests
 {
     private static readonly int NUM_MATCHES = 100;
 
-    // [Fact]
-    // public async Task PairsShouldNotCrash()
-    // {
-    //     // await TestPair("Medusa", "Bigfoot", 66);
-    //     await TestPair("Medusa", "Bigfoot");
-    // }
-
 	[Fact]
 	public async Task Medusa_vs_Bigfoot()
 	{
@@ -53,7 +46,8 @@ public class PairTests
                 RandomFirstPlayer = true,
                 RandomMatch = false,
                 Seed = seed,
-                TeamSize = 1  
+                TeamSize = 1,
+				TeamCount = 2  
             };
 
 

@@ -15,7 +15,8 @@ public class MatchConfigBuilder
         RandomFirstPlayer = false,
         RandomMatch = true,
         Seed = 0,
-        TeamSize = 1
+        TeamSize = 1,
+        TeamCount = 2,
     };
 
     public MatchConfig Build() => _result;

@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using UMCore.Matches.Players;
+using UMCore.Matches.Players.Controllers;
 
 public partial class BotEditor : Control, IPlayerEditor
 {

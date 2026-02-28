@@ -57,7 +57,7 @@ public class Token
             return null;
         }
         --Amount;
-        return new(this, node);
+        return new(Originator.Match.GeneratePlacedTokenId(), this, node);
     }
 
     public void SetAmount(int v)

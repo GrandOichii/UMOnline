@@ -9,6 +9,7 @@ using UMCore.Matches.Tokens;
 using UMCore.Templates;
 
 using CommandLine;
+using UMCore.Matches.Players.Controllers;
 
 public class ConsolePlayerController : IPlayerController
 {
@@ -333,7 +334,8 @@ public class Program
                 RandomFirstPlayer = true,
                 RandomMatch = false,
                 Seed = seed,
-                TeamSize = 1  
+                TeamSize = 1,
+                TeamCount = 2, 
             };
 
             var match = new Match(config, map, core)

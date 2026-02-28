@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using UMCore;
 using UMCore.Matches;
 using UMCore.Matches.Players;
+using UMCore.Matches.Players.Controllers;
 using UMCore.Templates;
 
 public class TestMatchIOHandler(TestMatch match) : IIOHandler
