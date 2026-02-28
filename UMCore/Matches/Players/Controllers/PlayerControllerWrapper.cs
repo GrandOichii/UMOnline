@@ -4,60 +4,21 @@ using UMCore.Matches.Tokens;
 
 namespace UMCore.Matches.Players.Controllers;
 
-public class PlayerControllerRecord
-{
-    public List<string> Actions { get; } = [];
-    public List<string> AttackChoices { get; } = [];
-    public List<string> CardChoices { get; } = [];
-    public List<string> CardOrNothingChoices { get; } = [];
-    public List<string> FighterChoices { get; } = [];
-    public List<string> NodeChoices { get; } = [];
-    public List<string> PathChoices { get; } = [];
-    public List<string> PlayerChoices { get; } = [];
-    public List<string> StringChoices { get; } = [];
-    public List<string> TokenChoices { get; } = [];
-}
 
-public class RecorderPlayerController(
+public abstract class PlayerControllerWrapper(
     IPlayerController controller
 ) : IPlayerController
 {
-    public PlayerControllerRecord Record { get; } = new();
-
-    public string AttackChoiceToStr(AvailableAttack attack)
-    {
-        return $"{attack.Fighter.Id}_{attack.Target.Id}_{attack.AttackCard.Id}";
-    }
-
-    public string CardChoiceToStr(MatchCard? card)
-    {
-        return card is null ? string.Empty : card.Id.ToString();
-    }
-
-    public string FighterChoiceToStr(Fighter fighter)
-    {
-        return fighter.Id.ToString();
-    }
-
-    public string NodeChoiceToStr(MapNode node)
-    {
-        return node.Id.ToString();
-    }
-
-    public string PathChoiceToStr(Path path)
-    {
-        return string.Join('_', path.Nodes.Select(n => n.Id));
-    }
-
-    public string PlayerChoiceToStr(Player player)
-    {
-        return player.Idx.ToString();
-    }
-
-    public string TokenChoiceToStr(PlacedToken token)
-    {
-        return token.Id.ToString();
-    }
+    public abstract Task HandleActionChoice(string choice);
+    public abstract Task HandleAttackChoice(AvailableAttack choice);
+    public abstract Task HandleCardChoice(MatchCard choice);
+    public abstract Task HandleCardOrNothingChoice(MatchCard? choice);
+    public abstract Task HandleFighterChoice(Fighter choice);
+    public abstract Task HandleNodeChoice(MapNode choice);
+    public abstract Task HandlePathChoice(Path choice);
+    public abstract Task HandlePlayerChoice(Player choice);
+    public abstract Task HandleTokenChoice(PlacedToken choice);
+    public abstract Task HandleStringChoice(string choice);
 
     public void AddEvent(Event e)
     {
@@ -72,21 +33,21 @@ public class RecorderPlayerController(
     public async Task<string> ChooseAction(Player player, string[] options)
     {
         var result = await controller.ChooseAction(player, options);
-        Record.Actions.Add(result);
+        await HandleActionChoice(result);
         return result;
     }
 
     public async Task<AvailableAttack> ChooseAttack(Player player, AvailableAttack[] options)
     {
         var result = await controller.ChooseAttack(player, options);
-        Record.AttackChoices.Add(AttackChoiceToStr(result));
+        await HandleAttackChoice(result);
         return result;
     }
 
     public async Task<MatchCard> ChooseCard(Player player, MatchCard[] options, string hint)
     {
         var result = await controller.ChooseCard(player, options, hint);
-        Record.CardChoices.Add(CardChoiceToStr(result));
+        await HandleCardChoice(result);
 
         return result;
     }
@@ -94,7 +55,7 @@ public class RecorderPlayerController(
     public async Task<MatchCard?> ChooseCardOrNothing(Player player, MatchCard[] options, string hint)
     {
         var result = await controller.ChooseCardOrNothing(player, options, hint);
-        Record.CardChoices.Add(CardChoiceToStr(result));
+        await HandleCardOrNothingChoice(result);
 
         return result;
     }
@@ -102,7 +63,7 @@ public class RecorderPlayerController(
     public async Task<Fighter> ChooseFighter(Player player, Fighter[] options, string hint)
     {
         var result = await controller.ChooseFighter(player, options, hint);
-        Record.FighterChoices.Add(FighterChoiceToStr(result));
+        await HandleFighterChoice(result);
 
         return result;
     }
@@ -110,7 +71,7 @@ public class RecorderPlayerController(
     public async Task<MapNode> ChooseNode(Player player, MapNode[] options, string hint)
     {
         var result = await controller.ChooseNode(player, options, hint);
-        Record.NodeChoices.Add(NodeChoiceToStr(result));
+        await HandleNodeChoice(result);
 
         return result;
     }
@@ -118,7 +79,7 @@ public class RecorderPlayerController(
     public async Task<Path> ChoosePath(Player player, Path[] options, string hint)
     {
         var result = await controller.ChoosePath(player, options, hint);
-        Record.PathChoices.Add(PathChoiceToStr(result));
+        await HandlePathChoice(result);
 
         return result;
     }
@@ -126,7 +87,7 @@ public class RecorderPlayerController(
     public async Task<Player> ChoosePlayer(Player player, Player[] options, string hint)
     {
         var result = await controller.ChoosePlayer(player, options, hint);
-        Record.PlayerChoices.Add(PlayerChoiceToStr(result));
+        await HandlePlayerChoice(result);
 
         return result;
     }
@@ -134,7 +95,7 @@ public class RecorderPlayerController(
     public async Task<string> ChooseString(Player player, string[] options, string hint)
     {
         var result = await controller.ChooseString(player, options, hint);
-        Record.StringChoices.Add(result);
+        await HandleStringChoice(result);
 
         return result;
     }
@@ -142,18 +103,30 @@ public class RecorderPlayerController(
     public async Task<PlacedToken> ChooseToken(Player player, PlacedToken[] options, string hint)
     {
         var result = await controller.ChooseToken(player, options, hint);
-        Record.TokenChoices.Add(TokenChoiceToStr(result));
+        await HandleTokenChoice(result);
 
         return result;
     }
 
-    public Task Setup(Player player, Match.SetupData setupData)
+    public async Task Setup(Player player, Match.SetupData setupData)
     {
-        return controller.Setup(player, setupData);
+        await HandleSetup(player, setupData);
+        await controller.Setup(player, setupData);
     }
 
-    public Task Update(Player player)
+    public virtual Task HandleSetup(Player player, Match.SetupData setupData)
     {
-        return controller.Update(player);
+        return Task.CompletedTask;
+    }
+
+    public async Task Update(Player player)
+    {
+        await HandleUpdate(player);
+        await controller.Update(player);
+    }
+
+    public virtual Task HandleUpdate(Player player)
+    {
+        return Task.CompletedTask;
     }
 }

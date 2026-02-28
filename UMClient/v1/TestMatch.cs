@@ -312,7 +312,11 @@ public partial class TestMatch : Control
 				"Random",
 				1,
 				loadout2,
-				new DelayedControllerWrapper(TimeSpan.FromMilliseconds(10), opponentController)
+				opponentController
+				// new DelayedControllerWrapper(
+				// 	opponentController
+				// 	TimeSpan.FromMilliseconds(10),
+				// 	)
 			);
 
 			await match.Run();
