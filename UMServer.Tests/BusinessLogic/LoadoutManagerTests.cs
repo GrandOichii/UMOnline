@@ -15,13 +15,10 @@ public class LoadoutManagerTests
             .Setup(_ => _.AllPublic())
             .ReturnsAsync([
                 new LoadoutBuilder()
-                    .IsPublic(true)
                     .Build(),
                 new LoadoutBuilder()
-                    .IsPublic(true)
                     .Build(),
                 new LoadoutBuilder()
-                    .IsPublic(true)
                     .Build(),
             ]);
 

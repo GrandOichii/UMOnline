@@ -13,8 +13,7 @@ public class CoreScriptManager(ICoreScriptRepository repo) : ICoreScriptManager
 {
     public async Task<string> Active()
     {
-        var query = repo.Query();
-        var result = await query.SingleAsync(s => s.IsActive);
+        var result = await repo.Active();
         return result.Script;
     }
 }

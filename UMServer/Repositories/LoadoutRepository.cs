@@ -22,11 +22,14 @@ public class LoadoutRepository(UMContext ctx) : ILoadoutRepository
 
     public async Task<IEnumerable<Loadout>> AllPublic()
     {
-        return Query().Where(l => l.IsPublic);
+        return Query()
+            .Where(l => l.IsPublic);
     }
 
     public Task<Loadout?> ByName(string name)
     {
-        return Query().Where(l => l.Name == name).SingleOrDefaultAsync();
+        return Query()
+            .Where(l => l.Name == name)
+            .SingleOrDefaultAsync();
     }
 }

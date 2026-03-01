@@ -7,14 +7,13 @@ namespace UMServer.Repositories;
 
 public interface ICoreScriptRepository
 {
-    IQueryable<CoreScript> Query();
     Task<CoreScript> Active();
 
 }
 
 public class CoreScriptRepository(UMContext ctx) : ICoreScriptRepository
 {
-    public IQueryable<CoreScript> Query()
+    private IQueryable<CoreScript> Query()
     {
         return ctx.CoreScripts
             .AsQueryable();
