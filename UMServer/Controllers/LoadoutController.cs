@@ -13,7 +13,7 @@ public class LoadoutController(
     public async Task<IActionResult> GetAll()
     {
         return Ok(
-            await loadoutManager.AllLoadouts()
+            await loadoutManager.All()
         );
     }
 }

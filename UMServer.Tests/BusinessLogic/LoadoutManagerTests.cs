@@ -25,7 +25,7 @@ public class LoadoutManagerTests
         var manager = new LoadoutManager(repo.Object);
 
         // Act
-        var result = await manager.AllLoadouts();
+        var result = await manager.All();
 
         // Assert
         result.Count().ShouldBe(3);

@@ -4,10 +4,11 @@ namespace UMServer.Repositories;
 
 public interface IMatchRepository
 {
-    public IQueryable<MatchProcess> Query();
     void Add(MatchProcess match);
     MatchProcess? Get(string matchId);
     void Remove(MatchProcess match);
+    IEnumerable<MatchProcess> All();
+    int Count();
 }
 
 public class MatchRepository : IMatchRepository
@@ -26,10 +27,12 @@ public class MatchRepository : IMatchRepository
         return _matches.SingleOrDefault(m => m.Id == matchId);
     }
 
-    public IQueryable<MatchProcess> Query()
+    public IEnumerable<MatchProcess> All()
     {
-        return _matches.AsQueryable();
+        return _matches;
     }
+
+    public int Count() => _matches.Count;
 
     public void Remove(MatchProcess match)
     {

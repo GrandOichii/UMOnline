@@ -1,9 +1,6 @@
 using System.Net.WebSockets;
-using System.Text.Json;
 using Microsoft.AspNetCore.SignalR;
-using Microsoft.EntityFrameworkCore;
 using UMDTO;
-using UMServer.Extensions;
 using UMServer.Hubs;
 using UMServer.Matches;
 using UMServer.Repositories;
@@ -14,7 +11,7 @@ public interface IMatchManager
 {
     Task<MatchProcess?> Create(ConnectedClient client, CreateMatchParams createParams);
     Task ProcessRemovedClient(ConnectedClient client);
-    Task WSTryConnect(WebSocketManager wsm, string connectionId, string matchId);
+    Task<string> WSTryConnect(WebSocketManager wsm, string connectionId, string matchId);
     Task<MatchProcess?> Get(string matchId);
     Task UpdateWatchers();
     Task UpdateWatcher(string clientId);
@@ -32,7 +29,7 @@ public class MatchManager(
     {
         await matchesHub.Clients.All.SendAsync(
             "UpdateTables", 
-            matchRepo.Query().Select(m => m.ToMatchProcessGet())
+            matchRepo.All().Select(m => m.ToMatchProcessGet())
         );
     }
 
@@ -40,7 +37,7 @@ public class MatchManager(
     {
         await matchesHub.Clients.Client(clientId).SendAsync(
             "UpdateTables", 
-            matchRepo.Query().Select(m => m.ToMatchProcessGet())
+            matchRepo.All().Select(m => m.ToMatchProcessGet())
         );
     }
 
@@ -62,7 +59,7 @@ public class MatchManager(
 
         matchRepo.Add(match);
 
-        logger.LogDebug("Created new match with id = {}, current match count: {}", match.Id, matchRepo.Query().Count());
+        logger.LogDebug("Created new match with id = {}, current match count: {}", match.Id, matchRepo.Count());
 
         await UpdateWatchers();
 
@@ -72,7 +69,7 @@ public class MatchManager(
     public async Task ProcessRemovedClient(ConnectedClient client)
     {
         var matches = matchRepo
-            .Query()
+            .All()
             .Where(p => p.HasClient(client.Id))
             .ToList();
 
@@ -92,7 +89,7 @@ public class MatchManager(
         await UpdateWatchers();
     }
 
-    public async Task WSTryConnect(WebSocketManager wsm, string connectionId, string matchId)
+    public async Task<string> WSTryConnect(WebSocketManager wsm, string connectionId, string matchId)
     {
         var client = await clientRepo.Get(connectionId);
         if (client is null)
@@ -103,17 +100,17 @@ public class MatchManager(
         var match = matchRepo.Get(matchId);
         if (match is null)
         {
-            return;
+            return $"Match with Id = {matchId} does not exist";
         }
         if (match.Status != MatchProcessStatus.WAITING_FOR_PLAYERS)
         {
-            return;
+            return $"Match does not accept players";
         }
 
         var player = match.GetConnectedPlayer(client.Id);
         if (player is null)
         {
-            return;
+            return $"You are not connected to the match";
         }
 
         var socket = await wsm.AcceptWebSocketAsync();
@@ -132,6 +129,8 @@ public class MatchManager(
         // );
 
         await matchEnd.Task;
+
+        return string.Empty;
     }
 
     public async Task<MatchProcess?> Get(string matchId)

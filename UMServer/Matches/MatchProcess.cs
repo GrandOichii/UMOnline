@@ -30,7 +30,7 @@ public class MatchProcess(
     public MatchConfig Config { get; } = config;
     public List<ConnectedPlayer> Players { get; } = [];
     private UMCore.Matches.Match? _match = null;
-	private readonly TaskCompletionSource _matchEndTask = new();
+	public TaskCompletionSource MatchEndTask { get; } = new();
 	public Exception? MatchException { get; private set; } = null;
 	public MatchRecord? Record { get; private set; }
 
@@ -74,6 +74,10 @@ public class MatchProcess(
     public async Task ConnectClient(ConnectedClient client)
     {
         if (Status != MatchProcessStatus.WAITING_FOR_PLAYERS) return;
+
+		// prevent players from filling the seats before the match creator joins
+		if (client.Id != OwnerId && !Players.Any(p => p.Client.Id == OwnerId)) return;
+		
         var player = new ConnectedPlayer(
             client
         );
@@ -111,7 +115,7 @@ public class MatchProcess(
 	public async Task<TaskCompletionSource> SetPlayerSocket(ConnectedPlayer player, WebSocket socket)
 	{
 		await player.SetSocket(socket);
-		return _matchEndTask;
+		return MatchEndTask;
 	}
 
     public async Task TryRun(
@@ -204,7 +208,7 @@ public class MatchProcess(
 			// Console.WriteLine(e);
         }
 
-		_matchEndTask.SetResult();
+		MatchEndTask.SetResult();
 
         // TODO save match record
     }

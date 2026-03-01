@@ -6,12 +6,12 @@ namespace UMServer.BusinessLogic;
 
 public interface ILoadoutManager
 {
-    Task<IEnumerable<LoadoutTemplate>> AllLoadouts();
+    Task<IEnumerable<LoadoutTemplate>> All();
 }
 
 public class LoadoutManager(ILoadoutRepository repo) : ILoadoutManager
 {
-    public async Task<IEnumerable<LoadoutTemplate>> AllLoadouts()
+    public async Task<IEnumerable<LoadoutTemplate>> All()
     {
         var loadouts = await repo.AllPublic();
         return loadouts
