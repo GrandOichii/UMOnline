@@ -4,7 +4,7 @@ using UMServer.BusinessLogic;
 
 namespace UMServer.Tests.BusinessLogic;
 
-public class CoreManagerTests
+public class CoreScriptManagerTests
 {
     [Fact]
     public async Task ShouldFetchActive()

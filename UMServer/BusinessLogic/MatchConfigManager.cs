@@ -15,6 +15,6 @@ public class MatchConfigManager(
 {
     public async Task<IEnumerable<MatchConfig>> All()
     {
-        return await repo.Query().ToListAsync();
+        return await repo.All();
     }
 }

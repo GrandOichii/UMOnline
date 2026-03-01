@@ -46,9 +46,7 @@ public class MatchManager(
 
     public async Task<MatchProcess?> Create(ConnectedClient client, CreateMatchParams createParams)
     {
-        var config = await configRepo.Query()
-            .Where(c => c.Name == createParams.MatchConfigName)
-            .SingleOrDefaultAsync();
+        var config = await configRepo.ByName(createParams.MatchConfigName);
         if (config is null)
         {
             return null;
