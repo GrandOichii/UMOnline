@@ -171,10 +171,7 @@ public class MatchesHub(
             return "You are not part of this match";
         }
 
-        var loadout = await loadoutRepo
-            .Query()
-            .Where(l => l.Name == loadoutName)
-            .SingleOrDefaultAsync();
+        var loadout = await loadoutRepo.ByName(loadoutName);
 
         if (loadout is null)
         {

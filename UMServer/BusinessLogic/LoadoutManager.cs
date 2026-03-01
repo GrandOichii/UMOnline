@@ -13,10 +13,8 @@ public class LoadoutManager(ILoadoutRepository repo) : ILoadoutManager
 {
     public async Task<IEnumerable<LoadoutTemplate>> AllLoadouts()
     {
-        return await repo
-            .Query()
-            .Where(l => l.IsPublic)
-            .Select(r => r.ToTemplate())
-            .ToListAsync();
+        var loadouts = await repo.AllPublic();
+        return loadouts
+            .Select(r => r.ToTemplate());
     }
 }

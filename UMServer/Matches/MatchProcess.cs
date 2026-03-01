@@ -183,6 +183,7 @@ public class MatchProcess(
 
             if (!added)
             {
+				// TODO! this failed when trying to start a match with two players that have the same deck
                 throw new Exception("Failed to add player to match, not enough checks");
             }
         }
