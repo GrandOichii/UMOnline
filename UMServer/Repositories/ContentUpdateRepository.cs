@@ -6,14 +6,22 @@ namespace UMServer.Repositories;
 
 public interface IContentUpdateRepository
 {
-    public IQueryable<ContentUpdate> Query();
+    // public IQueryable<ContentUpdate> Query();
+    Task<ContentUpdate?> Active();
 }
 
 public class ContentUpdateRepository(UMContext ctx) : IContentUpdateRepository
 {
-    public IQueryable<ContentUpdate> Query()
+    private IQueryable<ContentUpdate> Query()
     {
         return ctx.ContentUpdates
             .AsQueryable();
+    }
+
+    public async Task<ContentUpdate?> Active()
+    {
+        return await Query()
+            .Where(c => c.IsActive)
+            .SingleOrDefaultAsync();
     }
 }
