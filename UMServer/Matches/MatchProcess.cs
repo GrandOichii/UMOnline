@@ -64,7 +64,7 @@ public class MatchProcess(
         {
             if (player.Socket is null) continue;
             await player.Socket.CloseAsync(
-                System.Net.WebSockets.WebSocketCloseStatus.NormalClosure,
+                WebSocketCloseStatus.NormalClosure,
                 "One of the players was disconnected",
                 CancellationToken.None
             );
@@ -99,6 +99,7 @@ public class MatchProcess(
         foreach (var player in Players)
         {
             if (player.Loadout is null) return false;
+			if (player.Socket is null) return false;
             qpc.AddPlayer(player.Client.Id, player.TeamIdx, player.Loadout.ToTemplate());
         }
         return qpc.CanRun();
