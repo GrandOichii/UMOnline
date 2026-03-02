@@ -1,4 +1,3 @@
-using Microsoft.EntityFrameworkCore;
 namespace UMServer.Tests.Common;
 
 public static class ModelUtils

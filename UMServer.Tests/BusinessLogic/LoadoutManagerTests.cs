@@ -1,7 +1,3 @@
-using Shouldly;
-using UMModel.Models;
-using UMServer.BusinessLogic;
-
 namespace UMServer.Tests.BusinessLogic;
 
 public class LoadoutManagerTests

@@ -1,5 +1,3 @@
-using UMModel.Models;
-
 namespace UMServer.Tests.Common;
 
 public class LoadoutBuilder

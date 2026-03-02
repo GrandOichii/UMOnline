@@ -1,12 +1,3 @@
-using Microsoft.AspNetCore.SignalR;
-using Microsoft.Extensions.Logging;
-using Shouldly;
-using UMDTO;
-using UMServer.BusinessLogic;
-using UMServer.Hubs;
-using UMServer.Matches;
-using UMServer.Services;
-
 namespace UMServer.Tests.Hubs;
 
 public class MatchesHubTests
