@@ -1,3 +1,4 @@
+namespace UMCore.Tests.Mechanics;
 
 public class InitialFighterPlacementTests
 {

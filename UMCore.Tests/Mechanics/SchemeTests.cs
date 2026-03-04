@@ -1,3 +1,5 @@
+namespace UMCore.Tests.Mechanics;
+
 public class SchemeTests
 {
     [Fact]

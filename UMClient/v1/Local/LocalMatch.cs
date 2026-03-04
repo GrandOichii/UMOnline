@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using UMCore.Matches;
@@ -25,17 +26,17 @@ public partial class LocalMatch : Control
 
 	#endregion
 
-	private Match _match;
+	public Match Match { get; private set; }
 	private LocalMatchIOHandler _handler;
 
 	public void Start(Match match, List<PlayerEditorResult> pers, LocalMatchIOHandler handler)
 	{
 		_handler = handler;
-		_match = match;
+		Match = match;
 
 		OverlayNode.Hide();
 
-		_ = StartMatch(pers);
+		Task.Run(async () => StartMatch(pers));
 	}
 
 	private async Task StartMatch(List<PlayerEditorResult> pers)
@@ -44,7 +45,7 @@ public partial class LocalMatch : Control
 		{
 			foreach (var per in pers)
 			{
-				var added = await _match.AddPlayer(
+				var added = await Match.AddPlayer(
 					per.Name,
 					per.TeamIdx,
 					per.Loadout,
@@ -63,9 +64,9 @@ public partial class LocalMatch : Control
 				MatchNode.Call("remember_deck_fighter_images", per.Textures.Value.Fighters);
 			}
 
-			await _match.Run();
+			await Match.Run();
 
-			var dialogText = $"Match finished!\nWinning team: {string.Join(", ", _match.GetWinners().Select(p => p.Name))}";
+			var dialogText = $"Match finished!\nWinning team: {string.Join(", ", Match.GetWinners().Select(p => p.Name))}";
 			FinishedMatchDialogNode.DialogText = dialogText;
 			FinishedMatchDialogNode.Show();
 		} catch (Exception e)

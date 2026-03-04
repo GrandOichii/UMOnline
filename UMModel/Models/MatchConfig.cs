@@ -34,7 +34,7 @@ public class MatchConfig : UMCore.Matches.MatchConfig
                 ExhaustDamage = Default1x1.ExhaustDamage,
                 TeamSize = Default1x1.TeamSize,
                 TeamCount = Default1x1.TeamCount,
-            }  
+            }
         ];
     } 
 }

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using UMCore;
 using UMCore.Matches;
 using UMCore.Matches.Players;
@@ -42,9 +43,9 @@ public class TestMatchIOHandler(TestMatch match) : IIOHandler
 public partial class TestMatch : Control
 {
 	[Export(PropertyHint.Enum, "Medusa,Ms. Marvel,Daredevil,Sinbad,Sherlock Holmes,Buffy,Hamlet,Black Widow,Angel,Spike,Alice,Dr. Ellie Sattler,Beowulf,Robin Hood,Dracula,Bigfoot,Achilles,Jekyll & Hyde,Titania,Rosie the Riveter,Little Red Riding Hood,Willow,Luke Cage,Bloody Mary,Sun Wukong,Black Panther,The Wayward Sisters,Invisible Man,InGen,Yennenga,Bullseye,Moon Knight,Raptors,Harry Houdini,Squirrel Girl,Ghost Rider,Muhammad Ali,Bruce Lee,Ciri,Ancient Leshen,Eredin,Philippa,Leonardo,Raphael,Elektra,T. Rex,Cloak and Dagger,The Genie,Winter Soldier,Nikola Tesla,William Shakespeare,Dr. Jill Trent,Golden Bat,Annie Christmas,Spider-Man,She-Hulk,Doctor Strange,Tomoe Gozen,Oda Nobunaga,Geralt of Rivia,Yennefer & Triss,Triss & Yennefer,King Arthur,Shredder,Krang,Donatello,Michelangelo,Chupacabra,Loki,Pandora,Blackbeard,Muhammad Ali")]
-	public string PlayerDeck { get; private set; } 
+	public string PlayerDeck { get; private set; }
 	[Export(PropertyHint.Enum, "Medusa,Ms. Marvel,Daredevil,Sinbad,Sherlock Holmes,Buffy,Hamlet,Black Widow,Angel,Spike,Alice,Dr. Ellie Sattler,Beowulf,Robin Hood,Dracula,Bigfoot,Achilles,Jekyll & Hyde,Titania,Rosie the Riveter,Little Red Riding Hood,Willow,Luke Cage,Bloody Mary,Sun Wukong,Black Panther,The Wayward Sisters,Invisible Man,InGen,Yennenga,Bullseye,Moon Knight,Raptors,Harry Houdini,Squirrel Girl,Ghost Rider,Muhammad Ali,Bruce Lee,Ciri,Ancient Leshen,Eredin,Philippa,Leonardo,Raphael,Elektra,T. Rex,Cloak and Dagger,The Genie,Winter Soldier,Nikola Tesla,William Shakespeare,Dr. Jill Trent,Golden Bat,Annie Christmas,Spider-Man,She-Hulk,Doctor Strange,Tomoe Gozen,Oda Nobunaga,Geralt of Rivia,Yennefer & Triss,Triss & Yennefer,King Arthur,Shredder,Krang,Donatello,Michelangelo,Chupacabra,Loki,Pandora,Blackbeard,Muhammad Ali")]
-	public string BotDeck { get; private set; } 
+	public string BotDeck { get; private set; }
 
 	public static IEnumerable<MapNodeLinkTemplate> Bidirectional(MapNodeTemplate n1, MapNodeTemplate n2)
 	{
@@ -285,7 +286,20 @@ public partial class TestMatch : Control
 		{
 			var map = GetBaskervilleTemplate();
 
-			var match = new Match(MatchConfig.Testing, map, File.ReadAllText("../core.lua"))
+			var match = new Match(new MatchConfig()
+			{
+				RandomMatch = false,
+				Seed = 0,
+				InitialHandSize = MatchConfig.Default1x1.InitialHandSize,
+				ActionsPerTurn = MatchConfig.Default1x1.ActionsPerTurn,
+				MaxHandSize = MatchConfig.Default1x1.MaxHandSize,
+				ManoeuvreDrawAmount = MatchConfig.Default1x1.ManoeuvreDrawAmount,
+				RandomFirstPlayer = MatchConfig.Default1x1.RandomFirstPlayer,
+				FirstPlayerIdx = MatchConfig.Default1x1.FirstPlayerIdx,
+				ExhaustDamage = MatchConfig.Default1x1.ExhaustDamage,
+				TeamSize = MatchConfig.Default1x1.TeamSize,
+				TeamCount = MatchConfig.Default1x1.TeamCount,
+			}, map, File.ReadAllText("../core.lua"))
 			{
 				Logger = new GDLogger()
 			};
@@ -306,17 +320,17 @@ public partial class TestMatch : Control
 				0,
 				loadout1,
 				controller
-				// new DelayedControllerWrapper(TimeSpan.FromMilliseconds(10), new RandomPlayerController(0))
+			// new DelayedControllerWrapper(TimeSpan.FromMilliseconds(10), new RandomPlayerController(0))
 			);
 			await match.AddPlayer(
 				"Random",
 				1,
 				loadout2,
 				opponentController
-				// new DelayedControllerWrapper(
-				// 	opponentController
-				// 	TimeSpan.FromMilliseconds(10),
-				// 	)
+			// new DelayedControllerWrapper(
+			// 	opponentController
+			// 	TimeSpan.FromMilliseconds(10),
+			// 	)
 			);
 
 			await match.Run();
@@ -344,31 +358,5 @@ public partial class TestMatch : Control
 	public void OnLocalMatchCollectionResponded(string response)
 	{
 		_handler.SetReadTaskResult(response);
-	}
-}
-
-public class GDLogger : ILogger
-{
-	public IDisposable BeginScope<TState>(TState state) where TState : notnull
-	{
-		return new NoopDisposable();
-	}
-
-	public bool IsEnabled(LogLevel logLevel)
-	{
-		return true;
-	}
-
-	public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
-	{
-		var msg = formatter(state, exception);
-		GD.Print(msg);
-	}
-
-	private class NoopDisposable : IDisposable
-	{
-		public void Dispose()
-		{
-		}
 	}
 }

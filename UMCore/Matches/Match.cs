@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices;
 using System.Security.Cryptography.X509Certificates;
 using Microsoft.Extensions.Logging;
 using NLua;
@@ -166,51 +167,59 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
 
     public async Task Run()
     {
-        if (!CanRun())
+        try
         {
-            throw new MatchException("Cant run match");
-        }
-        Logger?.LogDebug("Starting match");
-        await Setup();
+            
+            if (!CanRun())
+            {
+                throw new MatchException("Cant run match");
+            }
+            Logger?.LogDebug("Starting match");
+            await Setup();
 
-        CurPlayerIdx = Config.FirstPlayerIdx;
-        if (Config.RandomFirstPlayer)
-            CurPlayerIdx = Random.Next(Players.Count);
+            CurPlayerIdx = Config.FirstPlayerIdx;
+            if (Config.RandomFirstPlayer)
+                CurPlayerIdx = Random.Next(Players.Count);
 
-        // place fighters
-        for (int i = 0; i < Players.Count; ++i)
+            // place fighters
+            for (int i = 0; i < Players.Count; ++i)
+            {
+                var player = Players[(CurPlayerIdx + i) % Players.Count];
+                await player.InitialPlaceFighters(i + 1);
+            }
+
+            // create decks
+            for (int i = 0; i < Players.Count; ++i)
+            {
+                var player = Players[(CurPlayerIdx + i) % Players.Count];
+                await player.CreateDeck();
+            }
+
+            ExecuteGameStartEffects();
+
+            for (int i = 0; i < Players.Count; ++i)
+            {
+                var player = Players[(CurPlayerIdx + i) % Players.Count];
+                await player.DrawInitialHand();
+            }
+
+            Logs.Public("Match started!");
+
+            while (!IsWinnerDetermined())
+            {
+                var current = CurrentPlayer();
+                await current.TakeTurn();
+                SetNextPlayer();
+            }
+
+            Logger?.LogDebug("Match ended, winner: {PlayerLogName}", Winner!.LogName);
+            Logs.Public($"Match ended! Winner is: {Winner!.FormattedLogName}");
+            await UpdateClients();
+        } catch (Exception e)
         {
-            var player = Players[(CurPlayerIdx + i) % Players.Count];
-            await player.InitialPlaceFighters(i + 1);
+            Logger?.LogError("{}", e.Message);
+            throw;
         }
-
-        // create decks
-        for (int i = 0; i < Players.Count; ++i)
-        {
-            var player = Players[(CurPlayerIdx + i) % Players.Count];
-            await player.CreateDeck();
-        }
-
-        ExecuteGameStartEffects();
-
-        for (int i = 0; i < Players.Count; ++i)
-        {
-            var player = Players[(CurPlayerIdx + i) % Players.Count];
-            await player.DrawInitialHand();
-        }
-
-        Logs.Public("Match started!");
-
-        while (!IsWinnerDetermined())
-        {
-            var current = CurrentPlayer();
-            await current.TakeTurn();
-            SetNextPlayer();
-        }
-
-        Logger?.LogDebug("Match ended, winner: {PlayerLogName}", Winner!.LogName);
-        Logs.Public($"Match ended! Winner is: {Winner!.FormattedLogName}");
-        await UpdateClients();
     }
 
     private async Task Setup()

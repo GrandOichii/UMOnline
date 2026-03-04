@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,6 +15,20 @@ public partial class LocalMatchesTab : Control
 {
 	private static readonly Dictionary<string, MatchConfig> PRESETS = new()
 	{
+		{ "tester", new MatchConfig()
+		{
+			RandomMatch = false,
+			Seed = 0,
+			InitialHandSize = MatchConfig.Default1x1.InitialHandSize,
+			ActionsPerTurn = MatchConfig.Default1x1.ActionsPerTurn,
+			MaxHandSize = MatchConfig.Default1x1.MaxHandSize,
+			ManoeuvreDrawAmount = MatchConfig.Default1x1.ManoeuvreDrawAmount,
+			RandomFirstPlayer = MatchConfig.Default1x1.RandomFirstPlayer,
+			FirstPlayerIdx = MatchConfig.Default1x1.FirstPlayerIdx,
+			ExhaustDamage = MatchConfig.Default1x1.ExhaustDamage,
+			TeamSize = MatchConfig.Default1x1.TeamSize,
+			TeamCount = MatchConfig.Default1x1.TeamCount,		
+		} },
 		{ "1 vs. 1", MatchConfig.Default1x1 },
 		{ "2 vs. 2", MatchConfig.Default2x2 },
 	};
@@ -322,6 +337,7 @@ public partial class LocalMatchesTab : Control
 		var match = new Match(config, map, core.Text)
 		{
 			Logger = new GDLogger()
+			// Logger = null
 		};
 
 		return match;
