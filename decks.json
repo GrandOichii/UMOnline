@@ -48,7 +48,7 @@
                     "slug": "a-momentary-glance",
                     "title": "A Momentary Glance",
                     "type": "scheme",
-                    "value": 2
+                    "value": null
                 },
                 {
                     "afterText": "Your opponent discards 1 card.",
@@ -112,7 +112,7 @@
                     "slug": "winged-frenzy",
                     "title": "Winged Frenzy",
                     "type": "scheme",
-                    "value": 2
+                    "value": null
                 },
                 {
                     "afterText": null,
@@ -622,7 +622,7 @@
                     "slug": "riches-beyond-compare",
                     "title": "Riches Beyond Compare",
                     "type": "scheme",
-                    "value": 2
+                    "value": null
                 },
                 {
                     "afterText": "Draw 2 cards.",
@@ -1010,7 +1010,7 @@
                     "slug": "confirm-suspicion",
                     "title": "Confirm Suspicion",
                     "type": "scheme",
-                    "value": 1
+                    "value": null
                 },
                 {
                     "afterText": null,
@@ -1026,7 +1026,7 @@
                     "slug": "eliminate-the-impossible",
                     "title": "Eliminate the Impossible",
                     "type": "scheme",
-                    "value": 1
+                    "value": null
                 },
                 {
                     "afterText": null,
@@ -1042,7 +1042,7 @@
                     "slug": "master-of-disguise",
                     "title": "Master of Disguise",
                     "type": "scheme",
-                    "value": 1
+                    "value": null
                 },
                 {
                     "afterText": null,
@@ -1058,7 +1058,7 @@
                     "slug": "administer-aid",
                     "title": "Administer Aid",
                     "type": "scheme",
-                    "value": 1
+                    "value": null
                 }
             ],
             "heroes": [
@@ -2476,7 +2476,7 @@
                     "slug": "eat-me",
                     "title": "Eat Me",
                     "type": "scheme",
-                    "value": 2
+                    "value": null
                 },
                 {
                     "afterText": "Move Alice up to 5 spaces. Change size.",
@@ -2508,7 +2508,7 @@
                     "slug": "drink-me",
                     "title": "Drink Me",
                     "type": "scheme",
-                    "value": 2
+                    "value": null
                 },
                 {
                     "afterText": "Deal 2 damage to any one fighter adjacent to the Jabberwock.",
@@ -3079,7 +3079,7 @@
                     "slug": "steal-from-the-rich",
                     "title": "Steal From the Rich",
                     "type": "scheme",
-                    "value": 2
+                    "value": null
                 },
                 {
                     "afterText": "Draw a number of cards equal to the amount of damage dealt to the opposing fighter.",
@@ -3385,7 +3385,7 @@
                     "slug": "mistform",
                     "title": "Mistform",
                     "type": "scheme",
-                    "value": 1
+                    "value": null
                 },
                 {
                     "afterText": null,
@@ -3401,7 +3401,7 @@
                     "slug": "prey-upon",
                     "title": "Prey Upon",
                     "type": "scheme",
-                    "value": 1
+                    "value": null
                 },
                 {
                     "afterText": null,
@@ -3417,7 +3417,7 @@
                     "slug": "baptism-of-blood",
                     "title": "Baptism of Blood",
                     "type": "scheme",
-                    "value": 1
+                    "value": null
                 },
                 {
                     "afterText": "If you won the combat, place Dracula in any space adjacent to the opposing fighter.",
@@ -3449,7 +3449,7 @@
                     "slug": "ravening-seduction",
                     "title": "Ravening Seduction",
                     "type": "scheme",
-                    "value": 1
+                    "value": null
                 }
             ],
             "heroes": [
@@ -3527,7 +3527,7 @@
                     "slug": "crash-through-the-trees",
                     "title": "Crash Through the Trees",
                     "type": "scheme",
-                    "value": 2
+                    "value": null
                 },
                 {
                     "afterText": null,
@@ -3591,7 +3591,7 @@
                     "slug": "jackalope-horns",
                     "title": "Jackalope Horns",
                     "type": "scheme",
-                    "value": 2
+                    "value": null
                 },
                 {
                     "afterText": "Choose an empty space in this fighter's zone. Place this fighter in that space.",
@@ -4086,7 +4086,7 @@
                     "slug": "calming-research",
                     "title": "Calming Research",
                     "type": "scheme",
-                    "value": 1
+                    "value": null
                 },
                 {
                     "afterText": null,
@@ -4102,7 +4102,7 @@
                     "slug": "pure-evil",
                     "title": "Pure Evil",
                     "type": "scheme",
-                    "value": 1
+                    "value": null
                 },
                 {
                     "afterText": null,
@@ -4118,7 +4118,7 @@
                     "slug": "strange-case",
                     "title": "Strange Case",
                     "type": "scheme",
-                    "value": 1
+                    "value": null
                 }
             ],
             "heroes": [
@@ -4300,7 +4300,7 @@
                     "slug": "a-momentary-glance",
                     "title": "A Momentary Glance",
                     "type": "scheme",
-                    "value": 2
+                    "value": null
                 },
                 {
                     "afterText": null,
@@ -6215,7 +6215,7 @@
                     "slug": "reign-of-terror",
                     "title": "Reign of Terror",
                     "type": "scheme",
-                    "value": 1
+                    "value": null
                 },
                 {
                     "afterText": null,
@@ -6231,7 +6231,7 @@
                     "slug": "vanish",
                     "title": "Vanish",
                     "type": "scheme",
-                    "value": 1
+                    "value": null
                 },
                 {
                     "afterText": null,
@@ -6247,7 +6247,7 @@
                     "slug": "step-lightly",
                     "title": "Step Lightly",
                     "type": "scheme",
-                    "value": 1
+                    "value": null
                 },
                 {
                     "afterText": null,
@@ -6263,7 +6263,7 @@
                     "slug": "rolling-fog",
                     "title": "Rolling Fog",
                     "type": "scheme",
-                    "value": 1
+                    "value": null
                 }
             ],
             "heroes": [
@@ -6397,7 +6397,7 @@
                     "slug": "remote-detonation",
                     "title": "Remote Detonation",
                     "type": "scheme",
-                    "value": 2
+                    "value": null
                 },
                 {
                     "afterText": "Move the opposing fighter up to 3 spaces.",
@@ -7193,7 +7193,7 @@
                     "slug": "coordinated-attack-pattern",
                     "title": "Coordinated Attack Pattern",
                     "type": "scheme",
-                    "value": 2
+                    "value": null
                 },
                 {
                     "afterText": "If you won the combat, deal 1 damage to the opposing fighter for each of your Raptors adjacent to them.",
@@ -7241,7 +7241,7 @@
                     "slug": "working-things-out",
                     "title": "Working Things Out",
                     "type": "scheme",
-                    "value": 2
+                    "value": null
                 },
                 {
                     "afterText": null,
@@ -8127,7 +8127,7 @@
                     "slug": "hoo-whaaaaaa",
                     "title": "\"HOO! WHAAAAAA!\"",
                     "type": "scheme",
-                    "value": 2
+                    "value": null
                 },
                 {
                     "afterText": "Gain 1 action.",
@@ -8239,7 +8239,7 @@
                     "slug": "bring-it-on",
                     "title": "Bring It On",
                     "type": "scheme",
-                    "value": 2
+                    "value": null
                 },
                 {
                     "afterText": null,
@@ -8255,7 +8255,7 @@
                     "slug": "one-inch-punch",
                     "title": "One-Inch Punch",
                     "type": "scheme",
-                    "value": 2
+                    "value": null
                 },
                 {
                     "afterText": null,
@@ -8271,7 +8271,7 @@
                     "slug": "nunchaku",
                     "title": "Nunchaku",
                     "type": "scheme",
-                    "value": 2
+                    "value": null
                 },
                 {
                     "afterText": null,
@@ -13566,7 +13566,7 @@
                     "slug": "the-lady-of-the-lake",
                     "title": "The Lady of the Lake",
                     "type": "scheme",
-                    "value": 2
+                    "value": null
                 },
                 {
                     "afterText": null,
@@ -13582,7 +13582,7 @@
                     "slug": "prophecy",
                     "title": "Prophecy",
                     "type": "scheme",
-                    "value": 2
+                    "value": null
                 },
                 {
                     "afterText": "You may place your fighter in any space.",
@@ -13630,7 +13630,7 @@
                     "slug": "restless-spirits",
                     "title": "Restless Spirits",
                     "type": "scheme",
-                    "value": 2
+                    "value": null
                 },
                 {
                     "afterText": null,
@@ -13646,7 +13646,7 @@
                     "slug": "command-the-storms",
                     "title": "Command the Storms",
                     "type": "scheme",
-                    "value": 2
+                    "value": null
                 },
                 {
                     "afterText": "Move your fighter up to 4 spaces.",
@@ -14496,7 +14496,175 @@
         },
         {
             "cards": [
-
+                {
+                    "quantity": 2,
+                    "title": "The Greatest",
+                    "value": 4,
+                    "characterName": "Muhammad Ali",
+                    "afterText": "If you dealt 6 or more combat damage this turn, gain 2 actions.",
+                    "basicText": null,
+                    "duringText": null,
+                    "labels": [],
+                    "immediateText": null,
+                    "type": "attack",
+                    "boost": 3
+                },
+                {
+                    "quantity": 2,
+                    "title": "Stronger Than The Skill",
+                    "value": 3,
+                    "characterName": "Muhammad Ali",
+                    "afterText": "Look at your opponent's hand. If you won the combat, shuffle one of their cards into their deck.",
+                    "basicText": null,
+                    "duringText": null,
+                    "labels": [],
+                    "immediateText": null,
+                    "type": "attack",
+                    "boost": 1
+                },
+                {
+                    "quantity": 3,
+                    "title": "Ali Shuffle",
+                    "value": 2,
+                    "characterName": "Muhammad Ali",
+                    "afterText": "$BUTTERFLY$: You may boost this card.",
+                    "basicText": null,
+                    "duringText": "If you won the combat, shuffle a non-scheme card from your discard pile into your deck.",
+                    "labels": [],
+                    "immediateText": null,
+                    "type": "attack",
+                    "boost": 2
+                },
+                {
+                    "quantity": 2,
+                    "title": "Jab",
+                    "value": 1,
+                    "characterName": "Muhammad Ali",
+                    "afterText": "Draw 1 card. Gain 1 action. $BUTTERFLY$: Move your fighter up to 2 spaces.",
+                    "basicText": null,
+                    "duringText": null,
+                    "labels": [],
+                    "immediateText": null,
+                    "type": "attack",
+                    "boost": 3
+                },
+                {
+                    "quantity": 2,
+                    "title": "Champion of the World",
+                    "value": 4,
+                    "characterName": "Muhammad Ali",
+                    "afterText": "Move a fighter in the combat up to 2 spaces. $BUTTERFLY$: Draw 1 card.",
+                    "basicText": null,
+                    "duringText": null,
+                    "labels": [],
+                    "immediateText": null,
+                    "type": "versatile",
+                    "boost": 3
+                },
+                {
+                    "quantity": 3,
+                    "title": "Close and Clutch",
+                    "value": 3,
+                    "characterName": "Muhammad Ali",
+                    "afterText": null,
+                    "basicText": null,
+                    "duringText": null,
+                    "labels": [],
+                    "immediateText": "Place Ali adjacent to the opposing fighter. Neither fighter can leave their space this turn.",
+                    "type": "versatile",
+                    "boost": 3
+                },
+                {
+                    "afterText": null,
+                    "basicText": null,
+                    "boost": 2,
+                    "card_notes": null,
+                    "characterName": "Muhammad Ali",
+                    "duringText": "If your fighter started this turn in a different space, this card's value is 5 instead.",
+                    "immediateText": null,
+                    "quantity": 3,
+                    "title": "Momentous Shift",
+                    "type": "versatile",
+                    "value": 3
+                },
+                {
+                    "quantity": 3,
+                    "title": "Stick and Move",
+                    "value": 2,
+                    "characterName": "Muhammad Ali",
+                    "afterText": "Deal 1 damage to an adjacent fighter.",
+                    "basicText": null,
+                    "duringText": "$BUTTERFLY$: The vale of your opponent's card becomes its printer value and cannot change.",
+                    "labels": [],
+                    "immediateText": null,
+                    "type": "versatile",
+                    "boost": 1
+                },
+                {
+                    "quantity": 2,
+                    "title": "Fancy Footwork",
+                    "value": 1,
+                    "characterName": "Muhammad Ali",
+                    "afterText": null,
+                    "basicText": null,
+                    "duringText": "If Ali shares no zones with the opposing fighter, ignore the value of the opponent's card.",
+                    "labels": [],
+                    "immediateText": "Move Ali up to 1 space.",
+                    "type": "versatile",
+                    "boost": 3
+                },
+                {
+                    "quantity": 3,
+                    "title": "Hard to be Humble",
+                    "value": 2,
+                    "characterName": "Muhammad Ali",
+                    "afterText": "Move Ali up to 2 spaces.",
+                    "basicText": null,
+                    "duringText": "$BUTTERFLY$: Look at your opponent's hand.",
+                    "labels": [],
+                    "immediateText": null,
+                    "type": "defense",
+                    "boost": 2
+                },
+                {
+                    "quantity": 2,
+                    "title": "Rope-A-Dope",
+                    "value": 2,
+                    "characterName": "Muhammad Ali",
+                    "afterText": "$BUTTERFLY$: If you lost the combat, Ali recovers 3 health.",
+                    "basicText": null,
+                    "duringText": null,
+                    "labels": [],
+                    "immediateText": null,
+                    "type": "defense",
+                    "boost": 3
+                },
+                {
+                    "quantity": 2,
+                    "title": "Anster the Bell",
+                    "value": null,
+                    "characterName": "Muhammad Ali",
+                    "afterText": null,
+                    "basicText": "Move Ali up to 3 spaces.\nAli recovers 2 health.\nGain 1 action.",
+                    "duringText": null,
+                    "labels": [],
+                    "immediateText": null,
+                    "type": "scheme",
+                    "boost": 2
+                },
+                {
+                    "quantity": 2,
+                    "title": "Louisville Lip",
+                    "value": null,
+                    "characterName": "Muhammad Ali",
+                    "afterText": null,
+                    "basicText": "Ali recovers 1 health. Draw 2 cards.\nIf you won a combat this turn, each opponent discards 1 random card.",
+                    "duringText": null,
+                    "labels": [],
+                    "immediateText": null,
+                    "type": "scheme",
+                    "boost": 2
+                }
             ],
             "heroes": [
                 {
