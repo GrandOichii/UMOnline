@@ -14679,6 +14679,199 @@
             "set": "TODO",
             "sidekicks": [],
             "special": "Begin the game with your stance on Float Like a Butterfly. After you attack, if you won the combat, change stances. (Float Like A Butterfly: you can attack from 2 spaces away; Sting Like A Bee: add +2 to your attacks)"
+        },
+        {
+            "cards": [
+                {
+                    "quantity": 3,
+                    "title": "Swarming Strike",
+                    "value": 5,
+                    "characterName": "Shredder",
+                    "afterText": null,
+                    "basicText": null,
+                    "duringText": "Add +1 to this card's value for each adjacent Foot soldier.",
+                    "labels": [],
+                    "immediateText": null,
+                    "type": "attack",
+                    "boost": 3
+                },
+                {
+                    "quantity": 2,
+                    "title": "Gruff Escort",
+                    "value": 4,
+                    "characterName": "Bebop & Rocksteady",
+                    "afterText": "Deploy 2 Foot soldiers anywhere. Move Shredder up to 2 spaces.",
+                    "basicText": null,
+                    "duringText": null,
+                    "labels": [],
+                    "immediateText": null,
+                    "type": "attack",
+                    "boost": 2
+                },
+                {
+                    "quantity": 3,
+                    "title": "Savagery",
+                    "value": 4,
+                    "characterName": "ANY",
+                    "afterText": "If you won the combat, deal 1 damage to each fighter adjacent to your fighter.",
+                    "basicText": null,
+                    "duringText": null,
+                    "labels": [],
+                    "immediateText": null,
+                    "type": "attack",
+                    "boost": 2
+                },
+                {
+                    "quantity": 2,
+                    "title": "Gang Up",
+                    "value": 3,
+                    "characterName": "Bebop & Rocksteady",
+                    "afterText": null,
+                    "basicText": null,
+                    "duringText": "If the opposing fighter is adjacent to 2 or more Foot soldiers, this card's value is 6 instead.",
+                    "labels": [],
+                    "immediateText": null,
+                    "type": "attack",
+                    "boost": 2
+                },
+                {
+                    "quantity": 2,
+                    "title": "Disrupting Strike",
+                    "value": 3,
+                    "characterName": "Shredder",
+                    "afterText": null,
+                    "basicText": null,
+                    "duringText": null,
+                    "labels": [],
+                    "immediateText": "The value of your opponent's card is equal to its printed value and cannot be changed.",
+                    "type": "versatile",
+                    "boost": 1
+                },
+                {
+                    "quantity": 2,
+                    "title": "Think Hard",
+                    "value": 3,
+                    "characterName": "Bebop & Rocksteady",
+                    "afterText": "Draw 1 card for each Foot soldier adjacent to the opposing fighter.",
+                    "basicText": null,
+                    "duringText": null,
+                    "labels": [],
+                    "immediateText": null,
+                    "type": "versatile",
+                    "boost": 2
+                },
+                {
+                    "quantity": 3,
+                    "title": "Long Shot",
+                    "value": 3,
+                    "characterName": "ANY",
+                    "afterText": null,
+                    "basicText": null,
+                    "duringText": "If the opposing fighter is not adjacent to your fighter, this card's value is 5 instead.",
+                    "labels": [],
+                    "immediateText": null,
+                    "type": "versatile",
+                    "boost": 1
+                },
+                {
+                    "quantity": 2,
+                    "title": "Master of the Foot",
+                    "value": 2,
+                    "characterName": "Shredder",
+                    "afterText": "Deal 1 damage to each opposing fighter adjacent to a Foot soldier.",
+                    "basicText": null,
+                    "duringText": null,
+                    "labels": [],
+                    "immediateText": null,
+                    "type": "versatile",
+                    "boost": 2
+                },
+                {
+                    "quantity": 3,
+                    "title": "Perplexing Tactics",
+                    "value": 2,
+                    "characterName": "Shredder",
+                    "afterText": null,
+                    "basicText": null,
+                    "duringText": null,
+                    "labels": [],
+                    "immediateText": "Cancel all effects on your opponent's card. If 10 or more Foot soldiers are deployed, also ignore that card's value.",
+                    "type": "versatile",
+                    "boost": 3
+                },
+                {
+                    "quantity": 2,
+                    "title": "All According to Plan",
+                    "value": 3,
+                    "characterName": "Shredder",
+                    "afterText": "Your opponent gains 1 action. At the end of this turn, if they didn't play a scheme, they discard 2 cards.",
+                    "basicText": null,
+                    "duringText": null,
+                    "labels": [],
+                    "immediateText": null,
+                    "type": "defense",
+                    "boost": 2
+                },
+                {
+                    "quantity": 2,
+                    "title": "Masterful Defense",
+                    "value": 2,
+                    "characterName": "Shredder",
+                    "afterText": "Shredder recovers 1 health for each adjacent Foot soldier.",
+                    "basicText": null,
+                    "duringText": null,
+                    "labels": [],
+                    "immediateText": null,
+                    "type": "defense",
+                    "boost": 3
+                },
+                {
+                    "quantity": 2,
+                    "title": "Obedient Subjects",
+                    "value": null,
+                    "characterName": "Shredder",
+                    "afterText": null,
+                    "basicText": null,
+                    "duringText": "Gain 1 action for each Foot soldier adjacent to Shredder.",
+                    "labels": [],
+                    "immediateText": null,
+                    "type": "scheme",
+                    "boost": 3
+                },
+                {
+                    "quantity": 2,
+                    "title": "Back to Work!",
+                    "value": null,
+                    "characterName": "Shredder",
+                    "afterText": null,
+                    "basicText": "Bebop & Rocksteady recover 3 health, even if they are defeated. Place them in a space as close as possible to Shredder.",
+                    "duringText": null,
+                    "labels": [],
+                    "immediateText": null,
+                    "type": "scheme",
+                    "boost": 2
+                }
+            ],
+            "heroes": [
+                {
+                    "attack_type": "melee",
+                    "hp": 15,
+                    "name": "Shredder",
+                    "quantity": 1
+                }
+            ],
+            "movement": 3,
+            "name": "Shredder",
+            "set": "TODO",
+            "sidekicks": [
+                {
+                    "attack_type": "melee",
+                    "hp": 7,
+                    "name": "Bebop & Rocksteady",
+                    "quentity": 1
+                }
+            ],
+            "special": "MASTER OF THE CLAN\nAt the start of your turn, deplay a Foot soldier to a path adjacent to a friendly fighter.\nYou may attack opposing fighters adjacent to Foot soldiers.\nIf an opponent boosts their maneuver, they may remove any Foot soldier their hero moves through."
         }
     ]
 }
