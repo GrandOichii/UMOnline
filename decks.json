@@ -14872,6 +14872,153 @@
                 }
             ],
             "special": "MASTER OF THE CLAN\nAt the start of your turn, deplay a Foot soldier to a path adjacent to a friendly fighter.\nYou may attack opposing fighters adjacent to Foot soldiers.\nIf an opponent boosts their maneuver, they may remove any Foot soldier their hero moves through."
+        },
+        {
+            "cards": [
+                {
+                    "quantity": 3,
+                    "title": "Android Arms: Powerbomb",
+                    "value": 3,
+                    "characterName": "Krang",
+                    "afterText": "Move the opposing fighter a number of spaces up to the amount of combat damage dealt.",
+                    "basicText": null,
+                    "duringText": "You may BOOST this card.",
+                    "labels": [],
+                    "immediateText": null,
+                    "type": "attack",
+                    "boost": 2
+                },
+                {
+                    "quantity": 3,
+                    "title": "Android Arms: Chain Flail",
+                    "value": 2,
+                    "characterName": "Krang",
+                    "afterText": "If the printed value of your opponent's card is less than $DOUD$, or they didn't play a card, they discard 2 cards.",
+                    "basicText": null,
+                    "duringText": null,
+                    "labels": [],
+                    "immediateText": null,
+                    "type": "attack",
+                    "boost": 3
+                },
+                {
+                    "quantity": 3,
+                    "title": "Android Arms: Missiles",
+                    "value": 1,
+                    "characterName": "Krang",
+                    "afterText": null,
+                    "basicText": "You may play this card face up as a ranged attack.",
+                    "duringText": "Increase this card's value by $DOUD$.",
+                    "labels": [],
+                    "immediateText": null,
+                    "type": "attack",
+                    "boost": 1
+                },
+                {
+                    "quantity": 3,
+                    "title": "Warlord of Dimension X",
+                    "value": 3,
+                    "characterName": "Krang",
+                    "afterText": "Reveal the top card of your deck and yout opponent's deck. If your card's name is longer, draw it.",
+                    "basicText": null,
+                    "duringText": null,
+                    "labels": [],
+                    "immediateText": null,
+                    "type": "versatile",
+                    "boost": 3
+                },
+                {
+                    "quantity": 2,
+                    "title": "Pan-Dimensional Portal",
+                    "value": 3,
+                    "characterName": "Krang",
+                    "afterText": "TODO this card's boost value is $DOUD$ TODO Place a fighter in the combat in any space. They can't leave that space this turn. Both players put $DOUD$ random cards from their hands on the bottom of their decks, then both draw 2 cards.",
+                    "basicText": null,
+                    "duringText": null,
+                    "labels": [],
+                    "immediateText": null,
+                    "type": "versatile",
+                    "boost": -1
+                },
+                {
+                    "quantity": 4,
+                    "title": "Molecular Amplification Unit",
+                    "value": 2,
+                    "characterName": "Krang",
+                    "afterText": null,
+                    "basicText": null,
+                    "duringText": "Increase this card's value by $DOUD$.",
+                    "labels": [],
+                    "immediateText": "Activate a machine.",
+                    "type": "versatile",
+                    "boost": 2
+                },
+                {
+                    "quantity": 3,
+                    "title": "Welcome to the Technodrome!",
+                    "value": 2,
+                    "characterName": "Krang",
+                    "afterText": null,
+                    "basicText": null,
+                    "duringText": null,
+                    "labels": [],
+                    "immediateText": "Choose one:\n- cancel all effects on your opponent's card\n- activate a machine",
+                    "type": "versatile",
+                    "boost": 2
+                },
+                {
+                    "quantity": 3,
+                    "title": "Minimizer",
+                    "value": 0,
+                    "characterName": "Krang",
+                    "afterText": "End the turn.",
+                    "basicText": null,
+                    "duringText": null,
+                    "labels": [],
+                    "immediateText": "Decrease the value of your opponent's card by 4.",
+                    "type": "defense", 
+                    "boost": 1
+                },
+                {
+                    "quantity": 3,
+                    "title": "Android Arms: Wings",
+                    "value": null,
+                    "characterName": "Krang",
+                    "afterText": null,
+                    "basicText": "Move Krang up to $DOUD$ spaces. Krang may move through opposing fighters. Then, deal 1 damage to each opposing fighter Krang moved through.\nGain 1 action.",
+                    "duringText": null,
+                    "labels": [],
+                    "immediateText": null,
+                    "type": "scheme",
+                    "boost": 3
+                },
+                {
+                    "quantity": 3,
+                    "title": "IQ of 968",
+                    "value": null,
+                    "characterName": "Krang",
+                    "afterText": null,
+                    "basicText": "TODO this cards boost value is $DOUD$ TODO Activate all machines.\nDraw $DOUD$ cards.\nKrang recovers $DOUD$ health.",
+                    "duringText": null,
+                    "labels": [],
+                    "immediateText": null,
+                    "type": "scheme",
+                    "boost": -1
+                }
+            ],
+            "heroes": [
+                {
+                    "attack_type": "melee",
+                    "hp": 16,
+                    "name": "Krang",
+                    "quantity": 1
+                }
+            ],
+            "movement": 1,
+            "name": "Krang",
+            "set": "TODO",
+            "sidekicks": [],
+            "special": "DOOOOOM!\nKrang has 3 doomsday machines.\nStart with one machine active.\nAfter you roll the Dice of Ultimate Destruction, you can deactivate an active machine to reroll the dice.\nAdd +1 to your move value for each active machine."
         }
     ]
 }
