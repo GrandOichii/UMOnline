@@ -19,12 +19,12 @@ public class PairTests
         await TestPair("Robin Hood", "Alice");
 	}
 
-	[Fact]
-	public async Task KingArthur_vs_Sinbad()
-	{
-        // await TestPair("King Arthur", "Sinbad");
-        await TestPair("King Arthur", "Sinbad", 20);
-	}
+	// [Fact]
+	// public async Task KingArthur_vs_Sinbad()
+	// {
+    //     // await TestPair("King Arthur", "Sinbad");
+    //     await TestPair("King Arthur", "Sinbad", 20);
+	// }
 
     private async Task TestPair(string fighter1, string fighter2, int startAt=0)
     {

@@ -15,6 +15,24 @@ public class MatchesController(
     IMatchConnectEndpointSerializer connectSerializer
 ) : ControllerBase
 {
+    [HttpGet("Record/{matchId}")]
+    public async Task<IActionResult> GetRecord(string matchId)
+    {
+        try
+        {
+            var record = matchesManager.GetRecord(matchId);
+            return Ok(record);
+        }
+        catch (MatchNotFinishedException e)
+        {
+            return BadRequest(e.Message);
+        }
+        catch (MatchNotFoundException e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
+
     [HttpGet("Connect")]
     public async Task Connect([FromQuery] string connectStr)
     {

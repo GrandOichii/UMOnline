@@ -15,6 +15,7 @@ public interface IMatchManager
     Task<MatchProcess?> Get(string matchId);
     Task UpdateWatchers();
     Task UpdateWatcher(string clientId);
+    Task<MatchRecordGet> GetRecord(string matchId);
 }
 
 public class MatchManager(
@@ -28,7 +29,7 @@ public class MatchManager(
     public async Task UpdateWatchers()
     {
         await matchesHub.Clients.All.SendAsync(
-            "UpdateTables", 
+            "UpdateTables",
             matchRepo.All().Select(m => m.ToMatchProcessGet())
         );
     }
@@ -36,7 +37,7 @@ public class MatchManager(
     public async Task UpdateWatcher(string clientId)
     {
         await matchesHub.Clients.Client(clientId).SendAsync(
-            "UpdateTables", 
+            "UpdateTables",
             matchRepo.All().Select(m => m.ToMatchProcessGet())
         );
     }
@@ -137,4 +138,32 @@ public class MatchManager(
     {
         return matchRepo.Get(matchId);
     }
+
+    public Task<MatchRecordGet> GetRecord(string matchId)
+    {
+        var match = matchRepo.Get(matchId)
+            ?? throw new MatchNotFoundException(matchId);
+        if (!match.IsFinished())
+        {
+            throw new MatchNotFinishedException(matchId);
+        }
+        if (match.Record is null)
+        {
+            throw new Exception("Match is finished yet has no record");
+        }
+        return Task.FromResult(
+            match.Record.ToMatchRecordGet()
+        );
+    }
 }
+
+[Serializable]
+public class MatchNotFinishedException(string matchId)
+: Exception($"Match with Id = {matchId} is not finished yet")
+{ }
+
+[Serializable]
+public class MatchNotFoundException(string matchId)
+: Exception($"Match with Id = {matchId} doesnt exist")
+{ }
+

@@ -1,4 +1,5 @@
 using System.Net.WebSockets;
+using UMCore.Matches.Players.Controllers;
 using UMDTO;
 using UMModel.Models;
 using UMServer.BusinessLogic;
@@ -174,9 +175,13 @@ public class MatchProcess(
                 throw new Exception($"Called {nameof(TryRun)} with a player missing a loadout");
             }
 
-            var controller = new UMCore.Matches.Players.Controllers.IOPlayerController(
-                new WebSocketIOHandler(player.Socket!)
-            );
+            var controller = new RecorderControllerWrapper(
+				new IOPlayerController(
+					new WebSocketIOHandler(player.Socket!)
+				)
+			);
+
+			Record.AddRecorderPlayerController(player, controller);
 
 			// logger.LogDebug("Added player {}", client.Name);
             var added = await _match.AddPlayer(
