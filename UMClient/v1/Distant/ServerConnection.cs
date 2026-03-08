@@ -41,11 +41,19 @@ public partial class ServerConnection : Node
     public void SetAddress(string address)
     {
         _address = address;
-
-        // TODO
     }
 
     private HubConnection _connection = null;
+
+    
+    public override void _Notification(int what)
+    {
+        if (what != NotificationWMCloseRequest) return;
+        if (_connection is null) return;
+        
+        _connection.StopAsync().Wait();
+    }
+
 
     public void ListenForChatUpdates(Action<ChatMessage> onChatUpdate)
     {

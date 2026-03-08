@@ -92,16 +92,17 @@ public partial class DistantMatchesTab : Control
         ActiveMatchesTableNode.SetColumnTitle(1, "Title");
         ActiveMatchesTableNode.SetColumnTitle(2, "Status");
         ActiveMatchesTableNode.SetColumnTitle(3, "Connect");
+        ActiveMatchesTableNode.SetColumnExpandRatio(3, 1);
 
         #endregion
 
         #region FinishedMatchesTableNode configuration
 
-        ActiveMatchesTableNode.Columns = 4;
-        ActiveMatchesTableNode.SetColumnTitle(0, "Id");
-        ActiveMatchesTableNode.SetColumnTitle(1, "Title");
-        ActiveMatchesTableNode.SetColumnTitle(2, "Status");
-        ActiveMatchesTableNode.SetColumnTitle(3, "Replay");
+        FinishedMatchesTableNode.Columns = 4;
+        FinishedMatchesTableNode.SetColumnTitle(0, "Id");
+        FinishedMatchesTableNode.SetColumnTitle(1, "Title");
+        FinishedMatchesTableNode.SetColumnTitle(2, "Status");
+        FinishedMatchesTableNode.SetColumnTitle(3, "Replay");
 
         #endregion
 

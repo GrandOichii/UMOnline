@@ -15,3 +15,5 @@ script = ExtResource("1_dhrql")
 MatchNode = NodePath("Match")
 
 [node name="Match" parent="." instance=ExtResource("2_v1vc3")]
+
+[connection signal="close_requested" from="." to="." method="OnCloseRequested"]

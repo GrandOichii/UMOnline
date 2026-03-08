@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://cm68losq2jlio"]
+[gd_scene load_steps=5 format=3 uid="uid://cm68losq2jlio"]
 
 [ext_resource type="Script" uid="uid://cp47tbmoe5jwr" path="res://v1/Distant/DistantMatchesTab.cs" id="1_ut46s"]
+[ext_resource type="Texture2D" uid="uid://5vd8ek45q0ev" path="res://assets/connect.png" id="2_3uwtj"]
 [ext_resource type="Texture2D" uid="uid://cyftyv4tk4bqc" path="res://icon.svg" id="2_mqfe7"]
 [ext_resource type="PackedScene" uid="uid://dpnfnyeavbwhu" path="res://v1/Distant/DistantMatchWindow.tscn" id="3_m8fh0"]
 
@@ -13,7 +14,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_ut46s")
 DefaultAddress = "http://localhost:51561"
-ConnectButtonTexture = ExtResource("2_mqfe7")
+ConnectButtonTexture = ExtResource("2_3uwtj")
 ReplayButtonTexture = ExtResource("2_mqfe7")
 ConnectionFormNode = NodePath("ConnectionForm")
 ConnectionDisplayNode = NodePath("ConnectionDisplay")
@@ -71,7 +72,7 @@ grow_vertical = 2
 layout_mode = 2
 size_flags_vertical = 3
 tab_alignment = 2
-current_tab = 2
+current_tab = 1
 tabs_position = 1
 
 [node name="Create" type="VBoxContainer" parent="ConnectionDisplay/TabContainer"]
@@ -136,17 +137,18 @@ layout_mode = 2
 text = "Create"
 
 [node name="Active" type="VBoxContainer" parent="ConnectionDisplay/TabContainer"]
-visible = false
 layout_mode = 2
 metadata/_tab_index = 1
 
 [node name="ActiveMatchesTable" type="Tree" parent="ConnectionDisplay/TabContainer/Active"]
 layout_mode = 2
 size_flags_vertical = 3
+columns = 4
 column_titles_visible = true
 hide_root = true
 
 [node name="Finished" type="VBoxContainer" parent="ConnectionDisplay/TabContainer"]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 2
 

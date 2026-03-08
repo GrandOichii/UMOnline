@@ -58,6 +58,12 @@ public partial class DistantMatch : Control
     private string _matchId;
     private ClientWebSocket _socket;
 
+    public override void _Notification(int what)
+    {
+        if (what != NotificationWMCloseRequest) return;
+        _socket.CloseAsync(WebSocketCloseStatus.NormalClosure, null, CancellationToken.None).Wait();
+    }
+
     public void SetEssentials(
         bool clientIsOwner,
         ServerConnection connection,

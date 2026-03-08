@@ -41,4 +41,13 @@ public partial class DistantMatchWindow : Window
     {
         MatchNode.Update(match);
     }
+
+    #region Signal connections
+
+    public void OnCloseRequested()
+    {
+        QueueFree();
+    }
+
+    #endregion
 }

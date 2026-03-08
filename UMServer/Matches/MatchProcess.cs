@@ -64,11 +64,14 @@ public class MatchProcess(
         foreach (var player in Players)
         {
             if (player.Socket is null) continue;
-            await player.Socket.CloseAsync(
-                WebSocketCloseStatus.NormalClosure,
-                "One of the players was disconnected",
-                CancellationToken.None
-            );
+			try
+			{
+				await player.Socket.CloseAsync(
+					WebSocketCloseStatus.NormalClosure,
+					"One of the players was disconnected",
+					CancellationToken.None
+				);
+			} catch (Exception) {}
         }
     }
 
