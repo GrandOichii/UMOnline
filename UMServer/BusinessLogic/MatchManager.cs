@@ -16,6 +16,7 @@ public interface IMatchManager
     Task UpdateWatchers();
     Task UpdateWatcher(string clientId);
     Task<MatchRecordGet> GetRecord(string matchId);
+    Task<IEnumerable<MatchProcessGet>> All();
 }
 
 public class MatchManager(
@@ -26,6 +27,10 @@ public class MatchManager(
     IHubContext<MatchesHub> matchesHub
 ) : IMatchManager
 {
+    public Task<IEnumerable<MatchProcessGet>> All() => Task.FromResult(
+        matchRepo.All().Select(m => m.ToMatchProcessGet()
+    ));
+    
     public async Task UpdateWatchers()
     {
         await matchesHub.Clients.All.SendAsync(

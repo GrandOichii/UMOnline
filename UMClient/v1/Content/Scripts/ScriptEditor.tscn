@@ -93,7 +93,7 @@ placeholder_text = "Enter script"
 
 [node name="ToggleScriptTypeButton" type="Button" parent="VBoxContainer"]
 layout_mode = 2
-text = "Toggle script type button text"
+text = "Toggle script type"
 
 [node name="AddNodeWindow" type="Window" parent="."]
 oversampling_override = 1.0

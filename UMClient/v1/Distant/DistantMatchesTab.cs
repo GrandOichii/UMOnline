@@ -135,7 +135,6 @@ public partial class DistantMatchesTab : Control
         });
         item.AddButton(3, ConnectButtonTexture, id, !canConnect);
         item.SetTextAlignment(3, HorizontalAlignment.Center);
-
     }
 
     private void FillFinishedMatchTreeItem(TreeItem item, MatchProcessGet match, int id)
@@ -198,9 +197,8 @@ public partial class DistantMatchesTab : Control
         {
             if (
                 match.Status != MatchProcessGetStatus.WAITING_FOR_PLAYERS &&
-                match.Status == MatchProcessGetStatus.IN_PROGRESS
+                match.Status != MatchProcessGetStatus.IN_PROGRESS
             ) continue;
-            
 
             var item = ActiveMatchesTableNode.CreateItem();
 

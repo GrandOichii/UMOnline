@@ -13,7 +13,7 @@ public interface IMatchRepository
 
 public class MatchRepository : IMatchRepository
 {
-    private List<MatchProcess> _matches = [];
+    private readonly List<MatchProcess> _matches = [];
 
     public void Add(MatchProcess match)
     {

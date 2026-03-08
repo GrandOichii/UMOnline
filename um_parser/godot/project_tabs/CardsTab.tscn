@@ -75,6 +75,7 @@ text = "Search"
 layout_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
+visible = false
 layout_mode = 2
 
 [node name="ParsedCountLabel" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
