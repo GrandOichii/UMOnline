@@ -6,16 +6,16 @@ namespace UMCore.Matches.Players.Controllers;
 
 public class PlayerControllerRecord
 {
-    public List<string> Actions { get; } = [];
-    public List<string> AttackChoices { get; } = [];
-    public List<string> CardChoices { get; } = [];
-    public List<string> CardOrNothingChoices { get; } = [];
-    public List<string> FighterChoices { get; } = [];
-    public List<string> NodeChoices { get; } = [];
-    public List<string> PathChoices { get; } = [];
-    public List<string> PlayerChoices { get; } = [];
-    public List<string> StringChoices { get; } = [];
-    public List<string> TokenChoices { get; } = [];
+    public List<string> Actions { get; init; } = [];
+    public List<string> AttackChoices { get; init; } = [];
+    public List<string> CardChoices { get; init; } = [];
+    public List<string> CardOrNothingChoices { get; init; } = [];
+    public List<string> FighterChoices { get; init; } = [];
+    public List<string> NodeChoices { get; init; } = [];
+    public List<string> PathChoices { get; init; } = [];
+    public List<string> PlayerChoices { get; init; } = [];
+    public List<string> StringChoices { get; init; } = [];
+    public List<string> TokenChoices { get; init; } = [];
 }
 
 public class RecorderControllerWrapper(
@@ -58,7 +58,7 @@ public class RecorderControllerWrapper(
 
     public override Task HandleCardOrNothingChoice(MatchCard? choice)
     {
-        Record.CardChoices.Add(CardChoiceToStr(choice));
+        Record.CardOrNothingChoices.Add(CardChoiceToStr(choice));
         return Task.CompletedTask;
     }
 

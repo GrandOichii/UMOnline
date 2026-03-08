@@ -44,7 +44,6 @@ public partial class ServerConnection : Node
     }
 
     private HubConnection _connection = null;
-
     
     public override void _Notification(int what)
     {
@@ -53,7 +52,6 @@ public partial class ServerConnection : Node
         
         _connection.StopAsync().Wait();
     }
-
 
     public void ListenForChatUpdates(Action<ChatMessage> onChatUpdate)
     {
@@ -144,6 +142,17 @@ public partial class ServerConnection : Node
         if (err == string.Empty) return;
 
         throw new Exception($"Failed to select loadout: {err}");
+    }
+
+    public async Task<MatchRecordGet> GetRecord(string matchId)
+    {
+        var client = new System.Net.Http.HttpClient()
+        {
+            BaseAddress = new(_address)
+        };
+
+        var result = await client.GetFromJsonAsync<MatchRecordGet>($"api/v1/Matches/Record/{matchId}");
+        return result;
     }
 
     public async Task StartMatch(string matchId)

@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://cm68losq2jlio"]
 
 [ext_resource type="Script" uid="uid://cp47tbmoe5jwr" path="res://v1/Distant/DistantMatchesTab.cs" id="1_ut46s"]
-[ext_resource type="Texture2D" uid="uid://5vd8ek45q0ev" path="res://assets/connect.png" id="2_3uwtj"]
+[ext_resource type="Texture2D" uid="uid://c8npvgjjs4nt4" path="res://assets/connect.png" id="2_3uwtj"]
 [ext_resource type="Texture2D" uid="uid://cyftyv4tk4bqc" path="res://icon.svg" id="2_mqfe7"]
 [ext_resource type="PackedScene" uid="uid://dpnfnyeavbwhu" path="res://v1/Distant/DistantMatchWindow.tscn" id="3_m8fh0"]
 
@@ -72,7 +72,7 @@ grow_vertical = 2
 layout_mode = 2
 size_flags_vertical = 3
 tab_alignment = 2
-current_tab = 1
+current_tab = 2
 tabs_position = 1
 
 [node name="Create" type="VBoxContainer" parent="ConnectionDisplay/TabContainer"]
@@ -137,6 +137,7 @@ layout_mode = 2
 text = "Create"
 
 [node name="Active" type="VBoxContainer" parent="ConnectionDisplay/TabContainer"]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 1
 
@@ -148,7 +149,6 @@ column_titles_visible = true
 hide_root = true
 
 [node name="Finished" type="VBoxContainer" parent="ConnectionDisplay/TabContainer"]
-visible = false
 layout_mode = 2
 metadata/_tab_index = 2
 
@@ -156,6 +156,11 @@ metadata/_tab_index = 2
 layout_mode = 2
 column_titles_visible = true
 hide_root = true
+
+[node name="TestRecord" type="Button" parent="ConnectionDisplay/TabContainer/Finished"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Test record"
 
 [node name="SyncContentButton" type="Button" parent="ConnectionDisplay"]
 layout_mode = 2
@@ -223,4 +228,5 @@ dialog_text = "Finished updating content!"
 [connection signal="pressed" from="ConnectionDisplay/TabContainer/Create/CreateMatchButton" to="." method="OnCreateMatchButtonPressed"]
 [connection signal="button_clicked" from="ConnectionDisplay/TabContainer/Active/ActiveMatchesTable" to="." method="OnActiveMatchesTableButtonClicked"]
 [connection signal="button_clicked" from="ConnectionDisplay/TabContainer/Finished/FinishedMatchesTable" to="." method="OnFinishedMatchesTableButtonClicked"]
+[connection signal="pressed" from="ConnectionDisplay/TabContainer/Finished/TestRecord" to="." method="OnTestRecordPressed"]
 [connection signal="pressed" from="ConnectionDisplay/SyncContentButton" to="." method="OnSyncContentButtonPressed"]

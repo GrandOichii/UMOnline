@@ -496,5 +496,11 @@ public partial class DistantMatchesTab : Control
         // TODO
     }
 
+    public async void OnTestRecordPressed()
+    {
+        var record = await ServerConnectionNode.GetRecord("1");
+        GD.Print(record.Players.Count);
+    }
+
     #endregion
 }
