@@ -58,7 +58,8 @@ public partial class DistantMatchesTab : Control
     public Node DistantMatchWindowsNode { get; set; }
     [Export]
     public Tree FinishedMatchesTableNode { get; set; }
-
+    [Export]
+    public Node ReplayWindowsNode { get; set; }
 
     #endregion
 
@@ -67,6 +68,8 @@ public partial class DistantMatchesTab : Control
     [ExportGroup("Packed scenes")]
     [Export]
     public PackedScene DistantMatchWindowScene { get; set; }
+    [Export]
+    public PackedScene MatchReplayWindowScene { get; set; }
 
     #endregion
 
@@ -103,6 +106,19 @@ public partial class DistantMatchesTab : Control
         FinishedMatchesTableNode.SetColumnTitle(1, "Title");
         FinishedMatchesTableNode.SetColumnTitle(2, "Status");
         FinishedMatchesTableNode.SetColumnTitle(3, "Replay");
+
+        FinishedMatchesTableNode.CreateItem(); // root
+
+        var item = FinishedMatchesTableNode.CreateItem();
+        FillFinishedMatchTreeItem(item, new()
+        {
+            Id = Guid.NewGuid().ToString(),
+            AllowedFighters = [],
+            Players = [],
+            Status = MatchProcessGetStatus.FINISHED,
+            TeamCount = 2,
+            Title = "match1"
+        }, 0);
 
         #endregion
 
@@ -221,6 +237,7 @@ public partial class DistantMatchesTab : Control
 
     private void UpdateFinishedTables(List<MatchProcessGet> matches)
     {
+        return;
         FinishedMatchesTableNode.Clear();
         FinishedMatchesTableNode.CreateItem(); // root
 
@@ -499,7 +516,11 @@ public partial class DistantMatchesTab : Control
     public async void OnTestRecordPressed()
     {
         var record = await ServerConnectionNode.GetRecord("1");
-        GD.Print(record.Players.Count);
+
+        var window = MatchReplayWindowScene.Instantiate<MatchReplayWindow>();
+        ReplayWindowsNode.AddChild(window);
+
+        window.LoadMatchRecord(record);
     }
 
     #endregion

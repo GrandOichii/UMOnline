@@ -1,0 +1,65 @@
+[gd_scene load_steps=3 format=3 uid="uid://chk3utndmoe6k"]
+
+[ext_resource type="PackedScene" uid="uid://dh54pmbtdvbjt" path="res://v1/Matches/MatchDisplay.tscn" id="1_0l8q3"]
+[ext_resource type="Script" uid="uid://imuebl7bj7lo" path="res://v1/Replay/MatchReplay.cs" id="1_yp3x3"]
+
+[node name="MatchReplay" type="Control" node_paths=PackedStringArray("OverlayNode", "MatchDisplayNode")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_yp3x3")
+OverlayNode = NodePath("Overlay")
+MatchDisplayNode = NodePath("VBoxContainer/MatchDisplay")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MatchDisplay" parent="VBoxContainer" instance=ExtResource("1_0l8q3")]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="PrevStateButton" type="Button" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "<"
+
+[node name="NextStateButton" type="Button" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = ">"
+
+[node name="Overlay" type="ColorRect" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.29586652, 0.2958665, 0.2958665, 1)
+
+[node name="CenterContainer" type="CenterContainer" parent="Overlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Overlay/CenterContainer"]
+layout_mode = 2
+text = "Loading match data..."
+
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/PrevStateButton" to="." method="OnPrevStateButtonPressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/NextStateButton" to="." method="OnNextStateButtonPressed"]

@@ -1,11 +1,12 @@
-[gd_scene load_steps=5 format=3 uid="uid://cm68losq2jlio"]
+[gd_scene load_steps=6 format=3 uid="uid://cm68losq2jlio"]
 
 [ext_resource type="Script" uid="uid://cp47tbmoe5jwr" path="res://v1/Distant/DistantMatchesTab.cs" id="1_ut46s"]
 [ext_resource type="Texture2D" uid="uid://c8npvgjjs4nt4" path="res://assets/connect.png" id="2_3uwtj"]
 [ext_resource type="Texture2D" uid="uid://dw0rrjfs7vyvo" path="res://assets/replay.png" id="3_3uwtj"]
 [ext_resource type="PackedScene" uid="uid://dpnfnyeavbwhu" path="res://v1/Distant/DistantMatchWindow.tscn" id="3_m8fh0"]
+[ext_resource type="PackedScene" uid="uid://ptehtedd7xgr" path="res://v1/Replay/MatchReplayWindow.tscn" id="5_psd8b"]
 
-[node name="DistantMatchesTab" type="Control" node_paths=PackedStringArray("ConnectionFormNode", "ConnectionDisplayNode", "ServerAddressEditNode", "NameEditNode", "ConnectionErrorDialogNode", "ConnectButtonNode", "OutdatedContentDialogNode", "ContentSyncWaitDialogNode", "ContentUpdateFailDialogNode", "FinishedContentUpdateDialog", "ActiveMatchesTableNode", "AllowedDecksContainerNode", "NewMatchConfigOptionNode", "CreateMatchButtonNode", "NewMatchTitleEditNode", "DistantMatchWindowsNode", "FinishedMatchesTableNode")]
+[node name="DistantMatchesTab" type="Control" node_paths=PackedStringArray("ConnectionFormNode", "ConnectionDisplayNode", "ServerAddressEditNode", "NameEditNode", "ConnectionErrorDialogNode", "ConnectButtonNode", "OutdatedContentDialogNode", "ContentSyncWaitDialogNode", "ContentUpdateFailDialogNode", "FinishedContentUpdateDialog", "ActiveMatchesTableNode", "AllowedDecksContainerNode", "NewMatchConfigOptionNode", "CreateMatchButtonNode", "NewMatchTitleEditNode", "DistantMatchWindowsNode", "FinishedMatchesTableNode", "ReplayWindowsNode")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -33,7 +34,9 @@ CreateMatchButtonNode = NodePath("ConnectionDisplay/TabContainer/Create/CreateMa
 NewMatchTitleEditNode = NodePath("ConnectionDisplay/TabContainer/Create/NewMatchTitleEdit")
 DistantMatchWindowsNode = NodePath("DistantMatchWindows")
 FinishedMatchesTableNode = NodePath("ConnectionDisplay/TabContainer/Finished/FinishedMatchesTable")
+ReplayWindowsNode = NodePath("ReplayWindows")
 DistantMatchWindowScene = ExtResource("3_m8fh0")
+MatchReplayWindowScene = ExtResource("5_psd8b")
 
 [node name="ConnectionForm" type="VBoxContainer" parent="."]
 visible = false
@@ -159,7 +162,6 @@ column_titles_visible = true
 hide_root = true
 
 [node name="TestRecord" type="Button" parent="ConnectionDisplay/TabContainer/Finished"]
-visible = false
 layout_mode = 2
 size_flags_vertical = 3
 text = "Test record"
@@ -219,6 +221,8 @@ size = Vector2i(250, 100)
 dialog_text = "Finished updating content!"
 
 [node name="DistantMatchWindows" type="Node" parent="."]
+
+[node name="ReplayWindows" type="Node" parent="."]
 
 [connection signal="text_changed" from="ConnectionForm/ServerAddressEdit" to="." method="OnServerAddressEditTextChanged"]
 [connection signal="text_changed" from="ConnectionForm/NameEdit" to="." method="OnNameEditTextChanged"]

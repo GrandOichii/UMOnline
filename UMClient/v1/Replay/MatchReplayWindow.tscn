@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://ptehtedd7xgr"]
+
+[ext_resource type="PackedScene" uid="uid://chk3utndmoe6k" path="res://v1/Replay/MatchReplay.tscn" id="1_6c1tw"]
+[ext_resource type="Script" uid="uid://elotjngf3c0l" path="res://v1/Replay/MatchReplayWindow.cs" id="1_w50sv"]
+
+[node name="MatchReplayWindow" type="Window"]
+physics_object_picking = true
+oversampling_override = 1.0
+title = "Match replay"
+initial_position = 2
+size = Vector2i(1152, 648)
+script = ExtResource("1_w50sv")
+
+[node name="MatchReplay" parent="." instance=ExtResource("1_6c1tw")]
