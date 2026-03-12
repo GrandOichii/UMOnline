@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using UMDTO;
 
 public partial class MatchReplay : Control
 {
@@ -16,6 +17,11 @@ public partial class MatchReplay : Control
     public override void _Ready()
     {
         OverlayNode.Show();
+    }
+
+    public void LoadMatchRecord(MatchRecordGet record)
+    {
+        GD.Print(record.Players);
     }
     
     #region Signal connections

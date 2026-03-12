@@ -517,10 +517,15 @@ public partial class DistantMatchesTab : Control
     {
         var record = await ServerConnectionNode.GetRecord("1");
 
+        // TODO check that game content is actual
+
         var window = MatchReplayWindowScene.Instantiate<MatchReplayWindow>();
         ReplayWindowsNode.AddChild(window);
 
-        window.LoadMatchRecord(record);
+        window.LoadMatchRecord(
+            RepoNode,
+            record
+        );
     }
 
     #endregion
