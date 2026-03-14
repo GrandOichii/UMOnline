@@ -1,5 +1,7 @@
 using Godot;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using UMCore.Matches;
 using UMCore.Matches.Attacks;
@@ -12,6 +14,7 @@ using UMDTO;
 
 public class MatchStateRecorderPlayerControllerWrapper : PlayerControllerWrapper
 {
+    private List<Match.Data> _frames = [];
     public MatchStateRecorderPlayerControllerWrapper(IPlayerController controller) : base(controller)
     {
     }
@@ -68,7 +71,14 @@ public class MatchStateRecorderPlayerControllerWrapper : PlayerControllerWrapper
 
     public override async Task HandleUpdate(Player player)
     {
-        // TODO record player.Match state
+        var frame = player.Match.GetData(player);
+        _frames.Add(new()
+        {
+            Combat = frame.Combat,
+            CurPlayerIdx = frame.CurPlayerIdx,
+            Map = frame.Map,
+            Players = [ .. player.Match.Players.Select(p => p.GetData(p))]
+        });
     }
 }
 
@@ -135,7 +145,6 @@ public partial class MatchReplay : Control
         }
 
         await match.Run();
-        // TODO launch match
     }
     
     #region Signal connections
