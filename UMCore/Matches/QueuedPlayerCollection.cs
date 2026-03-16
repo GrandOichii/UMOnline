@@ -23,8 +23,15 @@ public class QueuedPlayerCollection(MatchConfig config)
         {
             teams[i] = [];
         }
+        // TODO test
         foreach (var player in _players)
         {
+            if (_players.Any(p => p.Loadout.Name == player.Loadout.Name)) return false;
+            if (_players.Any(p => 
+                p.Loadout.CantBePlayedWith.Contains(player.Loadout.Name) || 
+                player.Loadout.CantBePlayedWith.Contains(p.Loadout.Name)
+            )) return false;
+
             if (player.TeamIdx >= config.TeamCount) return false;
             teams[player.TeamIdx].Add(player);
         }
