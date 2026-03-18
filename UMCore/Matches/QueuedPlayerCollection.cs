@@ -4,11 +4,11 @@ namespace UMCore.Matches;
 
 public class QueuedPlayerCollection(MatchConfig config)
 {
-    private List<Player> _players = [];
+    public List<Player> Players { get; } = [];
 
     public void AddPlayer(string name, int teamIdx, LoadoutTemplate loadout)
     {
-        _players.Add(new()
+        Players.Add(new()
         {
             Name = name,
             Loadout = loadout,
@@ -16,38 +16,51 @@ public class QueuedPlayerCollection(MatchConfig config)
         });
     }
 
-    public bool CanRun()
+    public string CanRun()
     {
+        if (Players.Count == 0)
+        {
+            return "No players";
+        }
+
         var teams = new List<Player>[config.TeamCount];
         for (int i = 0; i < config.TeamCount; ++i)
         {
             teams[i] = [];
         }
-        // TODO test
-        foreach (var player in _players)
+        foreach (var player in Players)
         {
-            if (_players.Any(p => p.Loadout.Name == player.Loadout.Name)) return false;
-            if (_players.Any(p => 
-                p.Loadout.CantBePlayedWith.Contains(player.Loadout.Name) || 
+            if (Players.Count(p => p.Name == player.Name) > 1)
+            {
+                return $"Duplicate name: {player.Name}";
+            }
+            if (Players.Count(p => p.Loadout.Name == player.Loadout.Name) > 1)
+                return $"Duplicate decks: {player.Loadout.Name}";
+            if (Players.Any(p =>
+                p.Loadout.CantBePlayedWith.Contains(player.Loadout.Name) ||
                 player.Loadout.CantBePlayedWith.Contains(p.Loadout.Name)
-            )) return false;
+            )) return $"Two players have decks that can't be played with each other";
 
-            if (player.TeamIdx >= config.TeamCount) return false;
+            if (player.TeamIdx >= config.TeamCount)
+                return $"Team {player.TeamIdx} has a TeamIdx that is not allowed ({player.TeamIdx}, max team count: {config.TeamCount})";
+
             teams[player.TeamIdx].Add(player);
         }
 
         // team checks
         var teamCount = teams[0].Count;
-        foreach (var team in teams)
+        for (int i = 0; i < teams.Length; ++i)
         {
+            var team = teams[i];
             if (team.Count > config.TeamSize)
             {
-                return false;
+                return $"Team {i} has too many players";
             }
-            if (teamCount != team.Count) return false;
+            if (teamCount != team.Count)
+                return $"Teams are not balanced, team {i} has {team.Count}, players, team 0 has {teamCount}";
         }
 
-        return true;
+        return string.Empty;
     }
 
     public class Player

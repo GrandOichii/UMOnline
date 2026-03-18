@@ -107,18 +107,18 @@ public partial class DistantMatchesTab : Control
         FinishedMatchesTableNode.SetColumnTitle(2, "Status");
         FinishedMatchesTableNode.SetColumnTitle(3, "Replay");
 
-        FinishedMatchesTableNode.CreateItem(); // root
+        // FinishedMatchesTableNode.CreateItem(); // root
 
-        var item = FinishedMatchesTableNode.CreateItem();
-        FillFinishedMatchTreeItem(item, new()
-        {
-            Id = Guid.NewGuid().ToString(),
-            AllowedFighters = [],
-            Players = [],
-            Status = MatchProcessGetStatus.FINISHED,
-            TeamCount = 2,
-            Title = "match1"
-        }, 0);
+        // var item = FinishedMatchesTableNode.CreateItem();
+        // FillFinishedMatchTreeItem(item, new()
+        // {
+        //     Id = Guid.NewGuid().ToString(),
+        //     AllowedFighters = [],
+        //     Players = [],
+        //     Status = MatchProcessGetStatus.FINISHED,
+        //     TeamCount = 2,
+        //     Title = "match1"
+        // }, 0);
 
         #endregion
 

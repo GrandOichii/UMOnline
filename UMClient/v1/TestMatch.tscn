@@ -5,20 +5,21 @@
 [ext_resource type="PackedScene" uid="uid://bgs8q8d8v44un" path="res://v1/Matches/LocalMatchConnection.tscn" id="3_2vcij"]
 [ext_resource type="PackedScene" uid="uid://c5tfro1iuqdqr" path="res://v1/Storage/LocalRepository.tscn" id="4_ph7of"]
 
-[node name="TestMatch" type="Control"]
-layout_mode = 3
+[node name="TestMatch" type="VBoxContainer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_vertical = 3
 script = ExtResource("1_8dls8")
 PlayerDeck = "Medusa"
 BotDeck = "Sinbad"
 
 [node name="Match" parent="." node_paths=PackedStringArray("Connection") instance=ExtResource("2_wpye0")]
 unique_name_in_owner = true
-layout_mode = 1
+layout_mode = 2
+size_flags_vertical = 3
 Connection = NodePath("../Connection")
 
 [node name="Connection" parent="." instance=ExtResource("3_2vcij")]
@@ -26,5 +27,18 @@ unique_name_in_owner = true
 
 [node name="LocalRepository" parent="." instance=ExtResource("4_ph7of")]
 DataSource = "sqlite3.db"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "<"
+
+[node name="Button2" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = ">"
 
 [connection signal="responded" from="Connection" to="." method="OnLocalMatchCollectionResponded"]

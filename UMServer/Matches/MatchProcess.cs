@@ -97,13 +97,15 @@ public class MatchProcess(
         return Players.SingleOrDefault(p => p.Client.Id == clientId);
     }
 
-    public bool CanStart()
+    public string WhyCantStart()
     {
         var qpc = new UMCore.Matches.QueuedPlayerCollection(Config);
         foreach (var player in Players)
         {
-            if (player.Loadout is null) return false;
-			if (player.Socket is null) return false;
+            if (player.Loadout is null)
+				return $"Player {player.Client.Name} didn't pick a loadout";
+			if (player.Socket is null)
+				return $"Player {player.Client.Name} is not connected";
             qpc.AddPlayer(player.Client.Id, player.TeamIdx, player.Loadout.ToTemplate());
         }
         return qpc.CanRun();
@@ -161,10 +163,12 @@ public class MatchProcess(
             core.Script)
         {
             Logger = null // TODO
-            // Logger = logger // TODO
+            // Logger = logger
         };
 
 		Record = new(seed, this);
+		var players = new UMCore.Matches.QueuedPlayerCollection(config);
+		Dictionary<string, IPlayerController> controllers = [];
 
         foreach (var player in Players)
         {
@@ -188,34 +192,25 @@ public class MatchProcess(
 			Record.AddRecorderPlayerController(player, controller);
 
 			// logger.LogDebug("Added player {}", client.Name);
-            var added = await _match.AddPlayer(
+            players.AddPlayer(
                 client.Name,
                 player.TeamIdx,
-                player.Loadout.ToTemplate(),
-                controller
+                player.Loadout.ToTemplate()
             );
-
-            if (!added)
-            {
-				// TODO! this failed when trying to start a match with two players that have the same deck
-                throw new Exception("Failed to add player to match, not enough checks");
-            }
+			controllers.Add(client.Name, controller);
         }
-
-		// logger.LogDebug("Players added, starting match");
 
         try
         {
 
+			await _match.AddPlayers(players, controllers);
             await _match.Run();
             await SetStatus(MatchProcessStatus.FINISHED);
 
         } catch (Exception e)
         {
-			
 			MatchException = e;
             await SetStatus(MatchProcessStatus.CRASHED);
-			// Console.WriteLine(e);
         }
 
 		MatchEndTask.SetResult();

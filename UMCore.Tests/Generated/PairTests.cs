@@ -61,17 +61,15 @@ public class PairTests
 
             var controller = new RandomPlayerController(seed);
             
-            await match.AddPlayer(
-                "first", 0,
-                first,
-                controller
-            );
+			var players = new QueuedPlayerCollection(config);
+            players.AddPlayer("first", 0, first);
+            players.AddPlayer("second", 1, second);
 
-            await match.AddPlayer(
-                "second", 1,
-                second,
-                controller
-            );
+            await match.AddPlayers(players, new()
+            {
+                {"first", controller},
+                {"second", controller},
+            });
 
             await match.Run();
         }

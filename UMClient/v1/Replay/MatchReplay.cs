@@ -104,21 +104,22 @@ public partial class MatchReplay : Control
         MatchRecordGet record
     )
     {
+        var config = new MatchConfig()
+        {
+            Seed = record.Seed,
+            RandomMatch = false,
+            ActionsPerTurn = record.Config.ActionsPerTurn,
+            ExhaustDamage = record.Config.ExhaustDamage,
+            FirstPlayerIdx = record.Config.FirstPlayerIdx,
+            InitialHandSize = record.Config.InitialHandSize,
+            ManoeuvreDrawAmount = record.Config.ManoeuvreDrawAmount,
+            MaxHandSize = record.Config.MaxHandSize,
+            RandomFirstPlayer = record.Config.RandomFirstPlayer,
+            TeamCount = record.Config.TeamCount,
+            TeamSize = record.Config.TeamSize
+        };
         var match = new Match(
-            new()
-            {
-                Seed = record.Seed,
-                RandomMatch = false,
-                ActionsPerTurn = record.Config.ActionsPerTurn,
-                ExhaustDamage = record.Config.ExhaustDamage,
-                FirstPlayerIdx = record.Config.FirstPlayerIdx,
-                InitialHandSize = record.Config.InitialHandSize,
-                ManoeuvreDrawAmount = record.Config.ManoeuvreDrawAmount,
-                MaxHandSize = record.Config.MaxHandSize,
-                RandomFirstPlayer = record.Config.RandomFirstPlayer,
-                TeamCount = record.Config.TeamCount,
-                TeamSize = record.Config.TeamSize
-            },
+            config,
             MapTemplate.GetBaskervilleTemplate(),
             repo.GetCore().Text
         )
@@ -127,6 +128,9 @@ public partial class MatchReplay : Control
         };
 
         MatchStateRecorderPlayerControllerWrapper recorder = null;
+        var players = new QueuedPlayerCollection(config);
+
+        Dictionary<string, IPlayerController> controllers = [];
 
         foreach (var player in record.Players)
         {
@@ -136,13 +140,21 @@ public partial class MatchReplay : Control
                 recorder = new MatchStateRecorderPlayerControllerWrapper(controller);
                 controller = recorder;
             }
-            await match.AddPlayer(
+
+            players.AddPlayer(
                 player.Name,
                 player.TeamIdx,
-                repo.GetLoadoutTemplate(repo.GetDeck(player.Loadout).Id),
-                controller
+                repo.GetLoadoutTemplate(repo.GetDeck(player.Loadout).Id)
             );
+            controllers.Add(player.Name, controller);
         }
+        var cantRunReason = players.CanRun();
+        if (!string.IsNullOrEmpty(cantRunReason))
+        {
+            throw new Exception($"Failed to add a player for replay, not enough checks: {cantRunReason}");
+        }
+
+        await match.AddPlayers(players, controllers);
 
         await match.Run();
     }

@@ -5,21 +5,15 @@ namespace UMCore.Tests.Asserts;
 
 public class MatchAsserts(TestMatchWrapper match)
 {
-    public MatchAsserts PlayerCount(int count)
-    {
-        match.Match.Players.Count.ShouldBe(count);
-        return this;
-    }
-
     public MatchAsserts CantRun()
     {
-        match.Match.CanRun().ShouldBeFalse();
+        match.Players.CanRun().ShouldNotBeEmpty();
         return this;
     }
 
     public MatchAsserts CanRun()
     {
-        match.Match.CanRun().ShouldBeTrue();
+        match.Players.CanRun().ShouldBeEmpty();
         return this;
     }
 

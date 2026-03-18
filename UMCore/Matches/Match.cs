@@ -60,13 +60,13 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
 
     public IEnumerable<CardZoneChangeRedirector> GetCardZoneChangeRedirectors() => Fighters.SelectMany(f => f.CardZoneChangeRedirectors);
 
-    public bool CanRun()
-    {
-        if (Players.Count == 0) return false;
-        if (Teams.Count <= 1) return false;
-        var pCount = Teams[0].Count;
-        return Teams.Values.All(t => t.Count == pCount);
-    }
+    // public bool CanRun()
+    // {
+    //     if (Players.Count == 0) return false;
+    //     if (Teams.Count <= 1) return false;
+    //     var pCount = Teams[0].Count;
+    //     return Teams.Values.All(t => t.Count == pCount);
+    // }
 
     public List<Player> GetWinners()
     {
@@ -88,42 +88,67 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
 
     public Player GetPlayer(int idx) => Players[idx];
 
-    // TODO port QueuedPlayerCollection here
-    public async Task<bool> AddPlayer(string name, int teamIdx, LoadoutTemplate loadout, IPlayerController controller)
+
+    public async Task AddPlayers(QueuedPlayerCollection players, Dictionary<string, IPlayerController> controllers)
     {
-        if (teamIdx >= Config.TeamCount)
+        string cantRunReason = players.CanRun();
+        if (!string.IsNullOrEmpty(cantRunReason))
         {
-            return false;
-        }
-        foreach (var p in Players)
-        {
-            if (p.Loadout.Name == loadout.Name)
-            {
-                return false;
-            }
-            if (p.Loadout.CantBePlayedWith.Contains(loadout.Name))
-            {
-                return false;
-            }
-            if (loadout.CantBePlayedWith.Contains(p.Loadout.Name))
-            {
-                return false;
-            }
+            throw new Exception($"Can't add players: {nameof(QueuedPlayerCollection.CanRun)} of {nameof(QueuedPlayerCollection)} returned: {cantRunReason}");
         }
 
-        var team = GetTeam(teamIdx);
-        if (team.Count >= Config.TeamSize)
+        foreach (var p in players.Players)
         {
-            return false;
+            var team = GetTeam(p.TeamIdx);
+            var player = new Player(
+                this,
+                Players.Count,
+                p.Name,
+                p.TeamIdx,
+                p.Loadout,
+                new SafePlayerController(controllers[p.Name])
+            );
+
+            team.Add(player);
+            Players.Add(player);
         }
-
-        var player = new Player(this, Players.Count, name, teamIdx, loadout, new SafePlayerController(controller));
-
-        team.Add(player);
-        Players.Add(player);
-
-        return true;
     }
+
+    // public async Task<bool> AddPlayer(string name, int teamIdx, LoadoutTemplate loadout, IPlayerController controller)
+    // {
+    //     if (teamIdx >= Config.TeamCount)
+    //     {
+    //         return false;
+    //     }
+    //     foreach (var p in Players)
+    //     {
+    //         if (p.Loadout.Name == loadout.Name)
+    //         {
+    //             return false;
+    //         }
+    //         if (p.Loadout.CantBePlayedWith.Contains(loadout.Name))
+    //         {
+    //             return false;
+    //         }
+    //         if (loadout.CantBePlayedWith.Contains(p.Loadout.Name))
+    //         {
+    //             return false;
+    //         }
+    //     }
+
+    //     var team = GetTeam(teamIdx);
+    //     if (team.Count >= Config.TeamSize)
+    //     {
+    //         return false;
+    //     }
+
+    //     var player = new Player(this, Players.Count, name, teamIdx, loadout, new SafePlayerController(controller));
+
+    //     team.Add(player);
+    //     Players.Add(player);
+
+    //     return true;
+    // }
 
     public List<Player> GetTeam(int teamIdx)
     {
@@ -169,11 +194,10 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
     {
         try
         {
-            
-            if (!CanRun())
-            {
-                throw new MatchException("Cant run match");
-            }
+            // if (!CanRun())
+            // {
+            //     throw new MatchException("Cant run match");
+            // }
             Logger?.LogDebug("Starting match");
             await Setup();
 

@@ -68,16 +68,14 @@ public class PlayerAddingTests
         );
 
         // Act
-        var result = await match.AddOpponent(
+        await match.AddOpponent(
             TestPlayerControllerBuilder.Crasher(),
             LoadoutTemplateBuilder.Foo()
         );
 
         // Assert
-        result.ShouldBeFalse();
         match.Assert()
-            .CantRun()
-            .PlayerCount(1);
+            .CantRun();
     }
 
     [Fact]
@@ -105,16 +103,14 @@ public class PlayerAddingTests
             LoadoutTemplateBuilder.Foo("foo2")
         );
 
-        var result = await match.AddOpponent(
+        await match.AddOpponent(
             TestPlayerControllerBuilder.Crasher(),
             LoadoutTemplateBuilder.Foo("foo3")
         );
 
         // Assert
-        result.ShouldBeFalse();
         match.Assert()
-            .CanRun()
-            .PlayerCount(2);
+            .CantRun();
     }
 
     [Fact]
@@ -148,8 +144,7 @@ public class PlayerAddingTests
 
         // Assert
         match.Assert()
-            .CantRun()
-            .PlayerCount(3);
+            .CantRun();
     }
 
     [Fact]
@@ -188,8 +183,7 @@ public class PlayerAddingTests
 
         // Assert
         match.Assert()
-            .CantRun()
-            .PlayerCount(1);
+            .CantRun();
     }
 
     [Fact]
@@ -228,8 +222,7 @@ public class PlayerAddingTests
 
         // Assert
         match.Assert()
-            .CantRun()
-            .PlayerCount(1);
+            .CantRun();
     }
 
     [Theory]
@@ -267,7 +260,6 @@ public class PlayerAddingTests
 
         // Assert
         match.Assert()
-            .CanRun()
-            .PlayerCount(teamSize * 2);
+            .CanRun();
     }
 }

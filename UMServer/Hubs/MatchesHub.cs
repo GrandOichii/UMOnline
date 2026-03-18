@@ -216,21 +216,21 @@ public class MatchesHub(
         return "";
     }
 
-    public async Task<bool> CanStart(string matchId)
+    public async Task<string> WhyCantStart(string matchId)
     {
         var match = await matchesManager.Get(matchId);
         if (match is null)
         {
-            return false;
+            return $"Match with ID = {matchId} doesnt exist";
         }
 
         var player = match.GetConnectedPlayer(Context.ConnectionId);
         if (player is null)
         {
-            return false;
+            return $"You are not part of the match";
         }
 
-        return match.CanStart();
+        return match.WhyCantStart();
     }
 
     public async Task Start(string matchId)
@@ -240,8 +240,10 @@ public class MatchesHub(
         {
             return;
         }
-        if (!match.CanStart())
+        var reason = match.WhyCantStart();
+        if (!string.IsNullOrEmpty(reason))
         {
+            // TODO notify client somehow
             return;
         }
 

@@ -21,6 +21,8 @@ public class TestMatchWrapper
 
     public TestMatch Match { get; }
     public Exception? Exception { get; private set; } = null;
+    private readonly Dictionary<string, IPlayerController> _controllers;
+    public QueuedPlayerCollection Players { get; }
 
     public TestMatchWrapper(MatchConfig config, MapTemplate mapTemplate)
     {
@@ -28,17 +30,31 @@ public class TestMatchWrapper
         {
             Logger = null
         };
+        Players = new(config);
+        _controllers = [];
     }
 
-    public async Task<bool> AddMainPlayer(TestPlayerController controller, LoadoutTemplate loadout)
+    private void AddPlayer(string name, int teamIdx, TestPlayerController controller, LoadoutTemplate loadout)
     {
-        return await Match.AddPlayer("Main", MAIN_TEAM, loadout, controller);
+        Players.AddPlayer(name, teamIdx, loadout);
+        _controllers.Add(name, controller);
+    }
+
+    private int _mainCount = 0;
+    public async Task AddMainPlayer(TestPlayerController controller, LoadoutTemplate loadout)
+    {
+        AddPlayer($"Main{++_mainCount}", MAIN_TEAM, controller, loadout);
     }
 
     private int _oppCount = 0;
-    public async Task<bool> AddOpponent(TestPlayerController controller, LoadoutTemplate loadout)
+    public async Task AddOpponent(TestPlayerController controller, LoadoutTemplate loadout)
     {
-        return await Match.AddPlayer($"Opp{++_oppCount}", OPPONENT_TEAM, loadout, controller);
+        AddPlayer($"Opp{++_oppCount}", OPPONENT_TEAM, controller, loadout);
+    }
+
+    public bool CanStart()
+    {
+        return string.IsNullOrEmpty(Players.CanRun());
     }
 
     public void SetTokenAmount(string tokenName, int amount)
@@ -51,6 +67,7 @@ public class TestMatchWrapper
     {
         try
         {
+            await Match.AddPlayers(Players, _controllers);
             await Match.Run();
         }
         catch (Exception e)

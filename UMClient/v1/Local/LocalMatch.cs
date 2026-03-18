@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using UMCore.Matches;
+using UMCore.Matches.Players.Controllers;
 
 public partial class LocalMatch : Control
 {
@@ -43,19 +44,22 @@ public partial class LocalMatch : Control
 	{
 		try
 		{
+			var players = new QueuedPlayerCollection(Match.Config);
+			Dictionary<string, IPlayerController> controllers = [];
 			foreach (var per in pers)
 			{
-				var added = await Match.AddPlayer(
-					per.Name,
-					per.TeamIdx,
-					per.Loadout,
-					per.Controller
-				);
-				// TODO use per.Textures to load card and fighter textures
-				if (!added)
-				{
-					throw new Exception("Failed to add a player, not enough checks");
-				}
+				players.AddPlayer(per.Name, per.TeamIdx, per.Loadout);
+				controllers.Add(per.Name, per.Controller);
+				// var added = await Match.AddPlayer(
+				// 	per.Name,
+				// 	per.TeamIdx,
+				// 	per.Loadout,
+				// 	per.Controller
+				// );
+				// if (!added)
+				// {
+				// 	throw new Exception("Failed to add a player, not enough checks");
+				// }
 
 				if (per.Textures is null) continue;
 
@@ -63,6 +67,13 @@ public partial class LocalMatch : Control
 				MatchNode.Call("remember_deck_card_images", per.Textures.Value.Cards);
 				MatchNode.Call("remember_deck_fighter_images", per.Textures.Value.Fighters);
 			}
+
+			var cantRunReason = players.CanRun();
+			if (!string.IsNullOrEmpty(cantRunReason))
+			{
+				throw new Exception($"Failed to add a player, not enough checks: {cantRunReason}");
+			}
+			await Match.AddPlayers(players, controllers);
 
 			await Match.Run();
 

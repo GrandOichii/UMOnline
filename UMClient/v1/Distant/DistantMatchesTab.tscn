@@ -162,6 +162,7 @@ column_titles_visible = true
 hide_root = true
 
 [node name="TestRecord" type="Button" parent="ConnectionDisplay/TabContainer/Finished"]
+visible = false
 layout_mode = 2
 size_flags_vertical = 3
 text = "Test record"
