@@ -412,10 +412,10 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
         List<AvailableAttack> result = [];
         foreach (var fighter in GetAliveFighters())
         {
-            var reachable = fighter.GetReachableFighters();
-            if (!reachable.Any()) continue;
-            var cards = fighter.GetValidAttackCards();
-            if (!cards.Any()) continue;
+            var reachable = fighter.GetReachableFighters().ToList();
+            if (reachable.Count == 0) continue;
+            var cards = fighter.GetValidAttackCards().ToList();
+            if (cards.Count == 0) continue;
 
             foreach (var target in reachable)
             {

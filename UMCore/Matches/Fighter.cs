@@ -451,11 +451,11 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
     public IEnumerable<Fighter> GetReachableFighters()
     {
         var range = GetMeleeRange();
-        List<Fighter> result = [.. Match.Map.GetReachableFighters(this, range)];
+        HashSet<Fighter> result = [.. Match.Map.GetReachableFighters(this, range)];
 
         if (Template.IsRanged)
         {
-            result.AddRange(Match.Map.GetRangedReachableFighters(this));
+            result.UnionWith(Match.Map.GetRangedReachableFighters(this));
         }
 
         return result;
