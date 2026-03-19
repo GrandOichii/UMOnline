@@ -1,26 +1,42 @@
 
 
+using System.Diagnostics;
 using UMCore.Matches.Attacks;
 using UMCore.Matches.Cards;
 using UMCore.Matches.Tokens;
 
 namespace UMCore.Matches.Players.Controllers;
 
-public class ReplayerPlayerController(
-    PlayerControllerRecord record
-) : IPlayerController
+// public class ReplayerPlayerController(
+//     PlayerControllerRecord record
+// ) : IPlayerController
+public class ReplayerPlayerController : IPlayerController
 {
-    private readonly Stack<string> _actionQueue = new(record.Actions);
-    private readonly Stack<string> _attackQueue = new(record.AttackChoices);
-    private readonly Stack<string> _cardQueue = new(record.CardChoices);
-    private readonly Stack<string> _cardOrNothingQueue = new(record.CardOrNothingChoices);
-    private readonly Stack<string> _fighterQueue = new(record.FighterChoices);
-    private readonly Stack<string> _nodeQueue = new(record.NodeChoices);
-    private readonly Stack<string> _pathQueue = new(record.PathChoices);
-    private readonly Stack<string> _playerQueue = new(record.PlayerChoices);
-    private readonly Stack<string> _stringQueue = new(record.StringChoices);
-    private readonly Stack<string> _tokenQueue = new(record.TokenChoices);
-    
+    private readonly Stack<string> _actionQueue;
+    private readonly Stack<string> _attackQueue;
+    private readonly Stack<string> _cardQueue;
+    private readonly Stack<string> _cardOrNothingQueue;
+    private readonly Stack<string> _fighterQueue;
+    private readonly Stack<string> _nodeQueue;
+    private readonly Stack<string> _pathQueue;
+    private readonly Stack<string> _playerQueue;
+    private readonly Stack<string> _stringQueue;
+    private readonly Stack<string> _tokenQueue;
+
+    public ReplayerPlayerController(PlayerControllerRecord record)
+    {
+        _actionQueue = new(record.Actions.AsEnumerable().Reverse());
+        _attackQueue = new(record.AttackChoices.AsEnumerable().Reverse());
+        _cardQueue = new(record.CardChoices.AsEnumerable().Reverse());
+        _cardOrNothingQueue = new(record.CardOrNothingChoices.AsEnumerable().Reverse());
+        _fighterQueue = new(record.FighterChoices.AsEnumerable().Reverse());
+        _nodeQueue = new(record.NodeChoices.AsEnumerable().Reverse());
+        _pathQueue = new(record.PathChoices.AsEnumerable().Reverse());
+        _playerQueue = new(record.PlayerChoices.AsEnumerable().Reverse());
+        _stringQueue = new(record.StringChoices.AsEnumerable().Reverse());
+        _tokenQueue = new(record.TokenChoices.AsEnumerable().Reverse());
+    }
+
     public void AddEvent(Event e)
     {
     }
@@ -38,7 +54,21 @@ public class ReplayerPlayerController(
 
     public Task<AvailableAttack> ChooseAttack(Player player, AvailableAttack[] options)
     {
-        throw new NotImplementedException();
+        var target = _attackQueue.Pop();
+        var split = target.Split("_");
+        // Console.WriteLine(target);
+        // foreach (var o in options)
+        // {
+        //     Console.WriteLine($"\t{RecorderControllerWrapper.AttackChoiceToStr(o)}");
+        // }
+
+        return Task.FromResult(
+            options.Single(o => 
+                o.Fighter.Id == int.Parse(split[0]) &&
+                o.Target.Id == int.Parse(split[1]) &&
+                o.AttackCard.Id == int.Parse(split[2])
+            )
+        );
     }
 
     public Task<MatchCard> ChooseCard(Player player, MatchCard[] options, string hint)
@@ -78,12 +108,15 @@ public class ReplayerPlayerController(
 
     public Task<Path> ChoosePath(Player player, Path[] options, string hint)
     {
-        throw new NotImplementedException();
-
-        // var ids = _pathQueue.Pop().Split('_').Select(int.Parse);
-        // return Task.FromResult(
-        //     options.First()
-        // );
+        var target = _pathQueue.Pop();
+        // Debug.Print(target);
+        // foreach (var o in options)
+        // {
+        //     Debug.Print($"\t{RecorderControllerWrapper.PathChoiceToStr(o)}");
+        // }
+        return Task.FromResult(
+            options.Single(o => RecorderControllerWrapper.PathChoiceToStr(o) == target)
+        );
     }
 
     public Task<Player> ChoosePlayer(Player player, Player[] options, string hint)

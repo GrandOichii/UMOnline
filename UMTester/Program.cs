@@ -142,144 +142,144 @@ public class ConsolePlayerController : IPlayerController
     }
 }
 
-public class AppArgs
-{
-    [Option("first", Required = true, HelpText = "Path to first fighter")]
-    public required string FirstFighterPath { get; set; }
-    [Option("second", Required = true, HelpText = "Path to second fighter")]
-    public required string SecondFighterPath { get; set; }
-    [Option("times", Required = false, Default = 1, HelpText = "Amount of times to run the match")]
-    public required int Times { get; set; }
-    [Option("log", Required = false, Default = false, HelpText = "Print match logs")]
-    public required bool Log { get; set; }
-    [Option("seed", Required = false, Default = null, HelpText = "First match seed")]
-    public required int? FirstSeed { get; set; }
-}
+// public class AppArgs
+// {
+//     [Option("first", Required = true, HelpText = "Path to first fighter")]
+//     public required string FirstFighterPath { get; set; }
+//     [Option("second", Required = true, HelpText = "Path to second fighter")]
+//     public required string SecondFighterPath { get; set; }
+//     [Option("times", Required = false, Default = 1, HelpText = "Amount of times to run the match")]
+//     public required int Times { get; set; }
+//     [Option("log", Required = false, Default = false, HelpText = "Print match logs")]
+//     public required bool Log { get; set; }
+//     [Option("seed", Required = false, Default = null, HelpText = "First match seed")]
+//     public required int? FirstSeed { get; set; }
+// }
 
-public struct Report
-{
-    public int FinishedCount { get; set; }
-    public int CrashedCount { get; set; }
+// public struct Report
+// {
+//     public int FinishedCount { get; set; }
+//     public int CrashedCount { get; set; }
 
-    public Report()
-    {
-        FinishedCount = 0;
-        CrashedCount = 0;
-    }
+//     public Report()
+//     {
+//         FinishedCount = 0;
+//         CrashedCount = 0;
+//     }
 
-    public void Print()
-    {
-        System.Console.WriteLine($"Finished successfully: {FinishedCount}");
-        System.Console.WriteLine($"Crashed: {CrashedCount}");
-    }
+//     public void Print()
+//     {
+//         System.Console.WriteLine($"Finished successfully: {FinishedCount}");
+//         System.Console.WriteLine($"Crashed: {CrashedCount}");
+//     }
 
-    public void ProcessFinished(Match match)
-    {
-        FinishedCount += 1;
-    }
+//     public void ProcessFinished(Match match)
+//     {
+//         FinishedCount += 1;
+//     }
 
-    public void ProcessCrashed(Match match)
-    {
-        CrashedCount += 1;
-    }
-}
+//     public void ProcessCrashed(Match match)
+//     {
+//         CrashedCount += 1;
+//     }
+// }
 
 public class Program
 {
-    public static MapNodeLinkTemplate[] Bidirectional(MapNodeTemplate n1, MapNodeTemplate n2)
-    {
-        return [
-            new() {
-                First = n1.Id,
-                Second = n2.Id,
-            },
-        ];
-    }
+    // public static MapNodeLinkTemplate[] Bidirectional(MapNodeTemplate n1, MapNodeTemplate n2)
+    // {
+    //     return [
+    //         new() {
+    //             First = n1.Id,
+    //             Second = n2.Id,
+    //         },
+    //     ];
+    // }
 
-    public static MapTemplate GetMapTemplate()
-    {
-        // o-0-o
-        // | | |
-        // o o o
-        // |   |
-        // o-0-o
+    // public static MapTemplate GetMapTemplate()
+    // {
+    //     // o-0-o
+    //     // | | |
+    //     // o o o
+    //     // |   |
+    //     // o-0-o
 
-        //0;0
-        var node00 = new MapNodeTemplate()
-        {
-            Id = 0,
-            Zones = [0],
-            SpawnNumber = 0,
-        };
-        //0;1
-        var node01 = new MapNodeTemplate()
-        {
-            Id = 1,
-            Zones = [0],
-            SpawnNumber = 2
-        };
-        //0;2
-        var node02 = new MapNodeTemplate()
-        {
-            Id = 2,
-            Zones = [0]
-        };
-        //1;0
-        var node10 = new MapNodeTemplate()
-        {
-            Id = 10,
-            Zones = [0, 1],
-            SpawnNumber = 1,
-        };
-        //1;1
-        var node11 = new MapNodeTemplate()
-        {
-            Id = 11,
-            Zones = [0, 1]
-        };
-        //1;2
-        var node12 = new MapNodeTemplate()
-        {
-            Id = 12,
-            Zones = [0, 1],
-            SpawnNumber = 3
-        };
-        //2;0
-        var node20 = new MapNodeTemplate()
-        {
-            Id = 20,
-            Zones = [1]
-        };
-        //2;1
-        var node21 = new MapNodeTemplate()
-        {
-            Id = 21,
-            Zones = [1],
-        };
-        //2;2
-        var node22 = new MapNodeTemplate()
-        {
-            Id = 22,
-            Zones = [1],
-        };
+    //     //0;0
+    //     var node00 = new MapNodeTemplate()
+    //     {
+    //         Id = 0,
+    //         Zones = [0],
+    //         SpawnNumber = 0,
+    //     };
+    //     //0;1
+    //     var node01 = new MapNodeTemplate()
+    //     {
+    //         Id = 1,
+    //         Zones = [0],
+    //         SpawnNumber = 2
+    //     };
+    //     //0;2
+    //     var node02 = new MapNodeTemplate()
+    //     {
+    //         Id = 2,
+    //         Zones = [0]
+    //     };
+    //     //1;0
+    //     var node10 = new MapNodeTemplate()
+    //     {
+    //         Id = 10,
+    //         Zones = [0, 1],
+    //         SpawnNumber = 1,
+    //     };
+    //     //1;1
+    //     var node11 = new MapNodeTemplate()
+    //     {
+    //         Id = 11,
+    //         Zones = [0, 1]
+    //     };
+    //     //1;2
+    //     var node12 = new MapNodeTemplate()
+    //     {
+    //         Id = 12,
+    //         Zones = [0, 1],
+    //         SpawnNumber = 3
+    //     };
+    //     //2;0
+    //     var node20 = new MapNodeTemplate()
+    //     {
+    //         Id = 20,
+    //         Zones = [1]
+    //     };
+    //     //2;1
+    //     var node21 = new MapNodeTemplate()
+    //     {
+    //         Id = 21,
+    //         Zones = [1],
+    //     };
+    //     //2;2
+    //     var node22 = new MapNodeTemplate()
+    //     {
+    //         Id = 22,
+    //         Zones = [1],
+    //     };
 
-        return new()
-        {
-            Nodes = [node00, node01, node02, node10, node11, node12, node20, node21, node22],
-            Adjacent = [
-                .. Bidirectional(node00, node01),
-                .. Bidirectional(node01, node02),
-                .. Bidirectional(node02, node12),
-                .. Bidirectional(node12, node22),
-                .. Bidirectional(node22, node21),
-                .. Bidirectional(node21, node20),
-                .. Bidirectional(node20, node10),
-                .. Bidirectional(node10, node00),
+    //     return new()
+    //     {
+    //         Nodes = [node00, node01, node02, node10, node11, node12, node20, node21, node22],
+    //         Adjacent = [
+    //             .. Bidirectional(node00, node01),
+    //             .. Bidirectional(node01, node02),
+    //             .. Bidirectional(node02, node12),
+    //             .. Bidirectional(node12, node22),
+    //             .. Bidirectional(node22, node21),
+    //             .. Bidirectional(node21, node20),
+    //             .. Bidirectional(node20, node10),
+    //             .. Bidirectional(node10, node00),
 
-                .. Bidirectional(node01, node11),
-            ]
-        };
-    }
+    //             .. Bidirectional(node01, node11),
+    //         ]
+    //     };
+    // }
 
     private static LoadoutTemplate LoadLoadout(string path)
     {
@@ -300,88 +300,159 @@ public class Program
 
     public static async Task Main(string[] args)
     {
-        var appArgs = Parser.Default.ParseArguments<AppArgs>(args).Value;
-        if (appArgs is null) return;
+        // var appArgs = Parser.Default.ParseArguments<AppArgs>(args).Value;
+        // if (appArgs is null) return;
 
-        var report = new Report();
-        var map = GetMapTemplate();
-        var core = File.ReadAllText("../core.lua");
-        // ILogger? logger = null;
-        ILogger? logger = appArgs.Log
-                ? LoggerFactory.Create(builder => builder
-                        .AddConsole()
-                        .SetMinimumLevel(LogLevel.Debug)
-                    )
-                    .CreateLogger("UMTester")
-                : null;
+        // var report = new Report();
+        // var map = GetMapTemplate();
+        // var core = File.ReadAllText("../core.lua");
+        // // ILogger? logger = null;
+        // ILogger? logger = appArgs.Log
+        //         ? LoggerFactory.Create(builder => builder
+        //                 .AddConsole()
+        //                 .SetMinimumLevel(LogLevel.Debug)
+        //             )
+        //             .CreateLogger("UMTester")
+        //         : null;
 
-        var rnd = new Random();
+        // var rnd = new Random();
                 
-        for (int i = 0; i < appArgs.Times; ++i)
+        // for (int i = 0; i < appArgs.Times; ++i)
+        // {
+        //     var seed = rnd.Next();
+        //     if (i == 0 && appArgs.FirstSeed != null)
+        //         seed = (int)appArgs.FirstSeed;
+
+        //     var config = new MatchConfig()
+        //     {
+        //         ActionsPerTurn = 2,
+        //         ExhaustDamage = 1,
+        //         FirstPlayerIdx = 0,
+        //         InitialHandSize = 5,
+        //         ManoeuvreDrawAmount = 1,
+        //         MaxHandSize = 7,
+        //         RandomFirstPlayer = true,
+        //         RandomMatch = false,
+        //         Seed = seed,
+        //         TeamSize = 1,
+        //         TeamCount = 2, 
+        //     };
+
+        //     var match = new Match(config, map, core)
+        //     {
+        //         Logger = logger
+        //     };
+
+        //     var first = LoadLoadout(appArgs.FirstFighterPath);
+        //     var second = LoadLoadout(appArgs.SecondFighterPath);
+
+        //     var controller = new RandomPlayerController(seed);
+        //     var players = new QueuedPlayerCollection(config);
+        //     players.AddPlayer("first", 0, first);
+        //     players.AddPlayer("second", 1, second);
+
+        //     await match.AddPlayers(players, new()
+        //     {
+        //         {"first", controller},
+        //         {"second", controller},
+        //     });
+
+        //     try
+        //     {
+        //         await match.Run();
+        //         report.ProcessFinished(match);
+        //     }
+        //     catch (Exception e)
+        //     {
+        //         if (appArgs.Log)
+        //         {
+        //             await Task.Delay(1000);
+        //             System.Console.WriteLine(e);
+        //             System.Console.WriteLine(e.StackTrace);
+        //             System.Console.WriteLine("-============-");
+        //             System.Console.WriteLine(e.InnerException);
+        //             System.Console.WriteLine(e.InnerException?.StackTrace);
+        //         }
+        //         report.ProcessCrashed(match);
+        //     }
+        // }
+
+        // await Task.Delay(1000);
+
+        // report.Print();
+
+        // return;
+
+        // setup match
+        var config = new MatchConfig()
         {
-            var seed = rnd.Next();
-            if (i == 0 && appArgs.FirstSeed != null)
-                seed = (int)appArgs.FirstSeed;
+            ActionsPerTurn = MatchConfig.Default1x1.ActionsPerTurn,
+            ExhaustDamage = MatchConfig.Default1x1.ExhaustDamage,
+            FirstPlayerIdx = MatchConfig.Default1x1.FirstPlayerIdx,
+            InitialHandSize = MatchConfig.Default1x1.InitialHandSize,
+            ManoeuvreDrawAmount = MatchConfig.Default1x1.ManoeuvreDrawAmount,
+            MaxHandSize = MatchConfig.Default1x1.MaxHandSize,
+            RandomFirstPlayer = MatchConfig.Default1x1.RandomFirstPlayer,
+            RandomMatch = false,
+            Seed = 0,
+            TeamCount = MatchConfig.Default1x1.TeamCount,
+            TeamSize = MatchConfig.Default1x1.TeamSize
+        };
 
-            var config = new MatchConfig()
-            {
-                ActionsPerTurn = 2,
-                ExhaustDamage = 1,
-                FirstPlayerIdx = 0,
-                InitialHandSize = 5,
-                ManoeuvreDrawAmount = 1,
-                MaxHandSize = 7,
-                RandomFirstPlayer = true,
-                RandomMatch = false,
-                Seed = seed,
-                TeamSize = 1,
-                TeamCount = 2, 
-            };
+        var map = MapTemplate.GetBaskervilleTemplate();
+        var prefix = "..";
+        // var prefix = "../../../..";
+        var core = File.ReadAllText($"{prefix}/core.lua");
 
-            var match = new Match(config, map, core)
-            {
-                Logger = logger
-            };
+        var match = new Match(config, map, core)
+        {
+            Logger = null
+        };
 
-            var first = LoadLoadout(appArgs.FirstFighterPath);
-            var second = LoadLoadout(appArgs.SecondFighterPath);
+        var first = LoadLoadout($"{prefix}/.generated/loadouts/Medusa/Medusa.json");
+        var second = LoadLoadout($"{prefix}/.generated/loadouts/Robin Hood/Robin Hood.json");
 
-            var controller = new RandomPlayerController(seed);
-            var players = new QueuedPlayerCollection(config);
-            players.AddPlayer("first", 0, first);
-            players.AddPlayer("second", 1, second);
+        var controller1 = new RecorderControllerWrapper(
+            new RandomPlayerController(0)
+        );
+        var controller2 = new RecorderControllerWrapper(
+            new RandomPlayerController(1)
+        );
 
-            await match.AddPlayers(players, new()
-            {
-                {"first", controller},
-                {"second", controller},
-            });
+        var players = new QueuedPlayerCollection(config);
+        players.AddPlayer("first", 0, first);
+        players.AddPlayer("second", 1, second);
 
-            try
-            {
-                await match.Run();
-                report.ProcessFinished(match);
-            }
-            catch (Exception e)
-            {
-                if (appArgs.Log)
-                {
-                    await Task.Delay(1000);
-                    System.Console.WriteLine(e);
-                    System.Console.WriteLine(e.StackTrace);
-                    System.Console.WriteLine("-============-");
-                    System.Console.WriteLine(e.InnerException);
-                    System.Console.WriteLine(e.InnerException?.StackTrace);
-                }
-                report.ProcessCrashed(match);
-            }
-        }
+        await match.AddPlayers(players, new()
+        {
+            {"first", controller1},
+            {"second", controller2},
+        });
 
-        await Task.Delay(1000);
+        System.Console.WriteLine("Starting initial match...");
 
-        report.Print();
+        await match.Run();
 
-        return;
+        System.Console.WriteLine("Match finished!");
+        System.Console.WriteLine("Setting up playback match");
+
+        var playback = new Match(config, map, core)
+        {
+            Logger = null
+        };
+
+        await playback.AddPlayers(players, new()
+        {
+            {"first", new ReplayerPlayerController(controller1.Record)},
+            {"second", new ReplayerPlayerController(controller2.Record)},
+        });
+
+        System.Console.WriteLine("Running playback match...");
+        await playback.Run();
+        System.Console.WriteLine("Playback finished!");
+
     }
+
+
 
 }

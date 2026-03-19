@@ -24,17 +24,17 @@ public class RecorderControllerWrapper(
 {
     public PlayerControllerRecord Record { get; } = new();
 
-    public string AttackChoiceToStr(AvailableAttack attack)
+    public static string AttackChoiceToStr(AvailableAttack attack)
     {
         return $"{attack.Fighter.Id}_{attack.Target.Id}_{attack.AttackCard.Id}";
     }
 
-    public string CardChoiceToStr(MatchCard? card)
+    public static string CardChoiceToStr(MatchCard? card)
     {
         return card is null ? string.Empty : card.Id.ToString();
     }
 
-    public string FighterChoiceToStr(Fighter fighter)
+    public static string FighterChoiceToStr(Fighter fighter)
     {
         return fighter.Id.ToString();
     }
@@ -98,22 +98,22 @@ public class RecorderControllerWrapper(
         return Task.CompletedTask;
     }
 
-    public string NodeChoiceToStr(MapNode node)
+    public static string NodeChoiceToStr(MapNode node)
     {
         return node.Id.ToString();
     }
 
-    public string PathChoiceToStr(Path path)
+    public static string PathChoiceToStr(Path path)
     {
         return string.Join('_', path.Nodes.Select(n => n.Id));
     }
 
-    public string PlayerChoiceToStr(Player player)
+    public static string PlayerChoiceToStr(Player player)
     {
         return player.Idx.ToString();
     }
 
-    public string TokenChoiceToStr(PlacedToken token)
+    public static string TokenChoiceToStr(PlacedToken token)
     {
         return token.Id.ToString();
     }

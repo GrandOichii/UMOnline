@@ -21,6 +21,10 @@ public partial class MatchReplayWindow : Window
         MatchRecordGet record
     )
     {
+        Hide();
+        ForceNative = true;
+        // TODO set title
+        Show();
         await ReplayNode.LoadMatchRecord(repo, record);
     }
 
