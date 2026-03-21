@@ -9,7 +9,7 @@ func _ready():
 	match_info_updated.connect(on_match_info_updated)
 
 func respond(_resp: String):
-	pass
+	push_error('Tried to call respond in MatchConnection')
 
 func on_match_info_updated(data):
 	cur_data = data
