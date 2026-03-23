@@ -138,10 +138,10 @@ public class MatchScripts
 
     [LuaCommand]
     public LuaTable ChooseCardInHand(Player player, LuaTable cards, string hint)
-    {        var options = LuaUtility.ParseTable<MatchCard>(cards);
+    {        
+        var options = LuaUtility.ParseTable<MatchCard>(cards);
         var result = player.Controller.ChooseCard(player, [.. options], hint)
             .GetAwaiter().GetResult();
-        // TODO this will break Loki
         return LuaUtility.CreateTable(Match.LState, new List<object>() {
             result.Owner.Hand.GetCardIdx(result),
             result.Owner
