@@ -404,9 +404,10 @@ public class Program
         // var prefix = "../../../..";
         var core = File.ReadAllText($"{prefix}/core.lua");
 
+        var logger = new RecordTestLogger();
         var match = new Match(config, map, core)
         {
-            Logger = null
+            Logger = logger
         };
 
         var first = LoadLoadout($"{prefix}/.generated/loadouts/Medusa/Medusa.json");
@@ -452,7 +453,36 @@ public class Program
         System.Console.WriteLine("Playback finished!");
 
     }
+}
 
 
+public class RecordTestLogger : ILogger
+{
+    private List<string> Logs { get; }
+	public RecordTestLogger() {
+        Logs = [];
+	}
 
+	public IDisposable BeginScope<TState>(TState state) where TState : notnull
+	{
+		return new NoopDisposable();
+	}
+
+	public bool IsEnabled(LogLevel logLevel)
+	{
+		return true;
+	}
+
+	public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
+	{
+		var msg = formatter(state, exception);
+        Logs.Add(msg);
+	}
+
+	private class NoopDisposable : IDisposable
+	{
+		public void Dispose()
+		{
+		}
+	}
 }
