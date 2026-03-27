@@ -486,3 +486,36 @@ public class RecordTestLogger : ILogger
 		}
 	}
 }
+
+
+public class PlaybackCheckerLogger : ILogger
+{
+    private RecordTestLogger _logger;
+    
+	public PlaybackCheckerLogger(RecordTestLogger logger) {
+        _logger = logger;
+	}
+
+	public IDisposable BeginScope<TState>(TState state) where TState : notnull
+	{
+		return new NoopDisposable();
+	}
+
+	public bool IsEnabled(LogLevel logLevel)
+	{
+		return true;
+	}
+
+	public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
+    {
+        // TODO
+    }
+
+	private class NoopDisposable : IDisposable
+	{
+		public void Dispose()
+		{
+		}
+	}
+}
+
