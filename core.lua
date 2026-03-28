@@ -1393,6 +1393,9 @@ function UM.Effects:ReviveAndSummonSingle(manyFighters, singleNode)
         FullyRecoverHealth(fighter)
 
         local node = singleNode(args, 'Choose where to place the fighter')
+        if node == nil then
+            return
+        end
         PlaceFighter(fighter, node)
     end
 end

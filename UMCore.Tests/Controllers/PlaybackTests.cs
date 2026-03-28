@@ -4,78 +4,85 @@ namespace UMCore.Tests.Controllers;
 
 public class PlaybackTests
 {
-    private readonly static int ITERATIONS = 100;
+    private readonly static int ITERATIONS = 1000;
 
     [Fact]
     public async Task ShouldPlayback()
     {
         for (int seed = 0; seed < ITERATIONS; ++seed)
         {
-            // setup match
-            var config = new MatchConfig()
+            try
             {
-                ActionsPerTurn = MatchConfig.Default1x1.ActionsPerTurn,
-                ExhaustDamage = MatchConfig.Default1x1.ExhaustDamage,
-                FirstPlayerIdx = MatchConfig.Default1x1.FirstPlayerIdx,
-                InitialHandSize = MatchConfig.Default1x1.InitialHandSize,
-                ManoeuvreDrawAmount = MatchConfig.Default1x1.ManoeuvreDrawAmount,
-                MaxHandSize = MatchConfig.Default1x1.MaxHandSize,
-                RandomFirstPlayer = MatchConfig.Default1x1.RandomFirstPlayer,
-                RandomMatch = false,
-                Seed = seed,
-                TeamCount = MatchConfig.Default1x1.TeamCount,
-                TeamSize = MatchConfig.Default1x1.TeamSize
-            };
+                
+                // setup match
+                var config = new MatchConfig()
+                {
+                    ActionsPerTurn = MatchConfig.Default1x1.ActionsPerTurn,
+                    ExhaustDamage = MatchConfig.Default1x1.ExhaustDamage,
+                    FirstPlayerIdx = MatchConfig.Default1x1.FirstPlayerIdx,
+                    InitialHandSize = MatchConfig.Default1x1.InitialHandSize,
+                    ManoeuvreDrawAmount = MatchConfig.Default1x1.ManoeuvreDrawAmount,
+                    MaxHandSize = MatchConfig.Default1x1.MaxHandSize,
+                    RandomFirstPlayer = MatchConfig.Default1x1.RandomFirstPlayer,
+                    RandomMatch = false,
+                    Seed = seed,
+                    TeamCount = MatchConfig.Default1x1.TeamCount,
+                    TeamSize = MatchConfig.Default1x1.TeamSize
+                };
 
-            var map = MapTemplate.GetBaskervilleTemplate();
-            // var prefix = "..";
-            var prefix = "../../../..";
-            var core = File.ReadAllText($"{prefix}/core.lua");
+                var map = MapTemplate.GetBaskervilleTemplate();
+                // var prefix = "..";
+                var prefix = "../../../..";
+                var core = File.ReadAllText($"{prefix}/core.lua");
 
-            var logger = new RecordTestLogger();
-            var match = new Match(config, map, core)
+                var logger = new RecordTestLogger();
+                var match = new Match(config, map, core)
+                {
+                    Logger = logger
+                };
+
+                var first = new LoadoutTemplateBuilder("Medusa")
+                    .Load($"{prefix}/.generated/loadouts/Medusa/Medusa.json")
+                    .Build();
+                var second = new LoadoutTemplateBuilder("Medusa")
+                    .Load($"{prefix}/.generated/loadouts/Robin Hood/Robin Hood.json")
+                    .Build();
+
+                var controller1 = new RecorderControllerWrapper(
+                    new RandomPlayerController(0)
+                );
+                var controller2 = new RecorderControllerWrapper(
+                    new RandomPlayerController(1)
+                );
+
+                var players = new QueuedPlayerCollection(config);
+                players.AddPlayer("first", 0, first);
+                players.AddPlayer("second", 1, second);
+
+                await match.AddPlayers(players, new()
+                {
+                    {"first", controller1},
+                    {"second", controller2},
+                });
+
+                await match.Run();
+
+                var playback = new Match(config, map, core)
+                {
+                    Logger = new PlaybackCheckerLogger(logger)
+                };
+
+                await playback.AddPlayers(players, new()
+                {
+                    {"first", new ReplayerPlayerController(controller1.Record)},
+                    {"second", new ReplayerPlayerController(controller2.Record)},
+                });
+
+                await playback.Run();
+            } catch (Exception e)
             {
-                Logger = logger
-            };
-
-            var first = new LoadoutTemplateBuilder("Medusa")
-                .Load($"{prefix}/.generated/loadouts/Medusa/Medusa.json")
-                .Build();
-            var second = new LoadoutTemplateBuilder("Medusa")
-                .Load($"{prefix}/.generated/loadouts/Robin Hood/Robin Hood.json")
-                .Build();
-
-            var controller1 = new RecorderControllerWrapper(
-                new RandomPlayerController(0)
-            );
-            var controller2 = new RecorderControllerWrapper(
-                new RandomPlayerController(1)
-            );
-
-            var players = new QueuedPlayerCollection(config);
-            players.AddPlayer("first", 0, first);
-            players.AddPlayer("second", 1, second);
-
-            await match.AddPlayers(players, new()
-            {
-                {"first", controller1},
-                {"second", controller2},
-            });
-
-            await match.Run();
-
-            var playback = new Match(config, map, core)
-            {
-                Logger = new PlaybackCheckerLogger(logger)
-            };
-
-            await playback.AddPlayers(players, new()
-            {
-                {"first", new ReplayerPlayerController(controller1.Record)},
-                {"second", new ReplayerPlayerController(controller2.Record)},
-            });
-
-            await playback.Run();
+                throw new Exception($"Failed at seed = {seed}", e);
+            }
         }
     }
 

@@ -338,7 +338,7 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
 
     public IEnumerable<Player> GetActivePlayers()
     {
-        return Players.Where(p => p.GetActiveFighters().Any());
+        return Players.Where(p => p.IsActive());
     }
 
     // public IEnumerable<(Fighter, EffectCollection)> GetEffectCollectionThatAccepts(Fighter fighter, Func<Fighter, List<EffectCollection>> extractor)

@@ -115,6 +115,7 @@ public class EffectCollection : IHasText
             foreach (var effect in Effects)
             {
                 effect.Execute(args, subjects);
+                if (args.Fighter.Match.IsWinnerDetermined()) break;
             }
         } catch (Exception)
         {

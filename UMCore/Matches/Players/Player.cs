@@ -166,7 +166,12 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
 
     public IEnumerable<Fighter> GetAliveFighters() => Fighters.Where(f => f.IsAlive());
     public IEnumerable<Fighter> GetAliveHeroes() => GetAliveFighters().Where(f => f.IsHero());
-    public IEnumerable<Fighter> GetActiveFighters() => Fighters.Where(f => f.GetStatus() != FighterStatus.Dead);
+    public IEnumerable<Fighter> GetActiveHeroes() => Fighters.Where(f => f.IsHero() && f.IsActive());
+
+    public bool IsActive()
+    {
+        return GetActiveHeroes().Any();
+    }
 
     public string LogName => $"{Name}[{Idx}]";
 

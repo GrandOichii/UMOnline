@@ -317,6 +317,11 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
         return Template.IsHero;
     }
 
+    public bool IsActive()
+    {
+        return GetStatus() != FighterStatus.Dead;
+    }
+
     public bool IsSidekick()
     {
         return !Template.IsHero;
