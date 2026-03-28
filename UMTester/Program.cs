@@ -439,7 +439,7 @@ public class Program
 
         var playback = new Match(config, map, core)
         {
-            Logger = null
+            Logger = new PlaybackCheckerLogger(logger)
         };
 
         await playback.AddPlayers(players, new()
@@ -458,7 +458,8 @@ public class Program
 
 public class RecordTestLogger : ILogger
 {
-    private List<string> Logs { get; }
+    public List<string> Logs { get; }
+
 	public RecordTestLogger() {
         Logs = [];
 	}
@@ -491,6 +492,7 @@ public class RecordTestLogger : ILogger
 public class PlaybackCheckerLogger : ILogger
 {
     private RecordTestLogger _logger;
+    private int _idx = 0;
     
 	public PlaybackCheckerLogger(RecordTestLogger logger) {
         _logger = logger;
@@ -508,7 +510,12 @@ public class PlaybackCheckerLogger : ILogger
 
 	public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
     {
-        // TODO
+		var msg = formatter(state, exception);
+        if (msg != _logger.Logs[_idx])
+        {
+            throw new Exception($"Logs mismatch at idx = {_idx}: Expected: \"{_logger.Logs[_idx]}\", got: \"{msg}\"");
+        }
+        ++_idx;
     }
 
 	private class NoopDisposable : IDisposable

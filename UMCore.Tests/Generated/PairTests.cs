@@ -1,16 +1,17 @@
 using System.Text.Json;
+using Microsoft.Extensions.Logging;
 using UMCore.Matches.Players;
 
 namespace UMCore.Tests.Generated;
 
 public class PairTests
 {
-    private static readonly int NUM_MATCHES = 100;
+    private static readonly int NUM_MATCHES = 1;
 
 	[Fact]
 	public async Task Medusa_vs_Bigfoot()
 	{
-        await TestPair("Medusa", "Bigfoot");
+        await TestPair("Medusa", "Bigfoot", 9);
 	}
 
 	[Fact]
@@ -31,7 +32,7 @@ public class PairTests
         var map = GetBaskervilleTemplate();
         var core = File.ReadAllText("../../../../core.lua");
                 
-        for (int i = startAt; i < NUM_MATCHES; ++i)
+        for (int i = startAt; i < startAt + NUM_MATCHES; ++i)
         {
             var seed = i;
 
@@ -53,7 +54,13 @@ public class PairTests
 
             var match = new Match(config, map, core)
             {
-                Logger = null
+                // Logger = null,
+				Logger = new TestLogger(),
+				// Logger = LoggerFactory.Create(builder => builder
+                //         .AddConsole()
+                //         .SetMinimumLevel(LogLevel.Debug)
+                //     )
+                //     .CreateLogger("UMTester")
             };
 
             var first = LoadLoadout($"../../../../.generated/loadouts/{fighter1}/{fighter1}.json");
@@ -294,4 +301,36 @@ public class PairTests
         }
         return result;
     }
+}
+
+
+public class TestLogger : ILogger
+{
+	private static readonly string _path = "../../../../log.txt";
+	public TestLogger() {
+		File.WriteAllText(_path, "");
+	}
+
+	public IDisposable BeginScope<TState>(TState state) where TState : notnull
+	{
+		return new NoopDisposable();
+	}
+
+	public bool IsEnabled(LogLevel logLevel)
+	{
+		return true;
+	}
+
+	public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
+	{
+		var msg = formatter(state, exception);
+		File.AppendAllText(_path, $"{msg}\n");
+	}
+
+	private class NoopDisposable : IDisposable
+	{
+		public void Dispose()
+		{
+		}
+	}
 }

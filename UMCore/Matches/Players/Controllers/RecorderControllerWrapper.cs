@@ -51,9 +51,10 @@ public class RecorderControllerWrapper(
         return Task.CompletedTask;
     }
 
-    public override async Task HandleCardChoice(MatchCard choice)
+    public override Task HandleCardChoice(MatchCard choice)
     {
-        await HandleCardOrNothingChoice(choice);
+        Record.CardChoices.Add(CardChoiceToStr(choice));
+        return Task.CompletedTask;
     }
 
     public override Task HandleCardOrNothingChoice(MatchCard? choice)
