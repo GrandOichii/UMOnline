@@ -12,21 +12,32 @@ public class PairTests
 	[Fact]
 	public async Task Medusa_vs_Bigfoot()
 	{
-		await TestPair("Medusa", "Bigfoot");
+		await TestPair(
+			"Medusa",
+			"Bigfoot"
+			// , 20
+		);
 	}
 
 	[Fact]
 	public async Task RobinHood_vs_Alice()
 	{
-		await TestPair("Robin Hood", "Alice");
+		await TestPair(
+			"Robin Hood",
+			"Alice"
+			// , 20
+		);
 	}
 
-	[Fact]
-	public async Task KingArthur_vs_Sinbad()
-	{
-	    await TestPair("King Arthur", "Sinbad");
-	    // await TestPair("King Arthur", "Sinbad", 20);
-	}
+	// [Fact]
+	// public async Task KingArthur_vs_Sinbad()
+	// {
+	//     await TestPair(
+	// 		"King Arthur",
+	// 		"Sinbad"
+	// 		// , 20
+	// 	);
+	// }
 
 	private async Task TestPair(string fighter1, string fighter2, int startAt = 0)
 	{

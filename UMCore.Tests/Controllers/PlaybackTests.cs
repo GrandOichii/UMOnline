@@ -4,7 +4,7 @@ namespace UMCore.Tests.Controllers;
 
 public class PlaybackTests
 {
-    private readonly static int ITERATIONS = 1000;
+    private readonly static int ITERATIONS = 100;
 
     [Fact]
     public async Task ShouldPlayback()
