@@ -18,8 +18,6 @@ public class MatchRepository : IMatchRepository
     public void Add(MatchProcess match)
     {
         _matches.Add(match);
-
-        // TODO
     }
 
     public MatchProcess? Get(string matchId)
@@ -37,7 +35,5 @@ public class MatchRepository : IMatchRepository
     public void Remove(MatchProcess match)
     {
         _matches.Remove(match);
-
-        // TODO
     }
 }

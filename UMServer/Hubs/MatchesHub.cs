@@ -178,6 +178,11 @@ public class MatchesHub(
             return $"Unknown loadout {loadoutName}";
         }
 
+        if (!match.CreateParams.AllowedLoadouts.Contains(loadout.Name))
+        {
+            return $"Loadout {loadoutName} is not allowed for this match";
+        }
+
         logger.LogDebug("Client {} in match {} sets their loadout to {}", player.Client, match.Id, loadout.Name);
 
         player.SetLoadout(loadout);

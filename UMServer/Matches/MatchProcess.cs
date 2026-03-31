@@ -214,8 +214,6 @@ public class MatchProcess(
         }
 
 		MatchEndTask.SetResult();
-
-        // TODO save match record
     }
 
 	public MatchProcessGet ToMatchProcessGet()
