@@ -8,24 +8,32 @@ using UMDTO;
 
 public partial class MatchReplayWindow : Window
 {
-    #region Nodes
+	#region Nodes
 
-    [ExportGroup("Nodes")]
-    [Export]
-    public MatchReplay ReplayNode { get; set; }
+	[ExportGroup("Nodes")]
+	[Export]
+	public MatchReplay ReplayNode { get; set; }
 
-    #endregion
+	#endregion
 
-    public async void LoadMatchRecord(
-        LocalRepository repo,
-        MatchRecordGet record
-    )
-    {
-        Hide();
-        ForceNative = true;
-        // TODO set title
-        Show();
-        await ReplayNode.LoadMatchRecord(repo, record);
-    }
-
+	public async void LoadMatchRecord(
+		LocalRepository repo,
+		MatchRecordGet record
+	)
+	{
+		Hide();
+		ForceNative = true;
+		// TODO set title
+		Show();
+		await ReplayNode.LoadMatchRecord(repo, record);
+	}
+	
+	#region Signal connections
+	
+	public void OnCloseRequested()
+	{
+		QueueFree();
+	}
+	
+	#endregion
 }

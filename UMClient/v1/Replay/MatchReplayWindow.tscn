@@ -13,3 +13,5 @@ script = ExtResource("1_w50sv")
 ReplayNode = NodePath("MatchReplay")
 
 [node name="MatchReplay" parent="." instance=ExtResource("1_6c1tw")]
+
+[connection signal="close_requested" from="." to="." method="OnCloseRequested"]
