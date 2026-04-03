@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\UMCore\UMCore.csproj" />
+    <ProjectReference Include="..\UMDTO\UMDTO.csproj" />
   </ItemGroup>
 
   <ItemGroup>

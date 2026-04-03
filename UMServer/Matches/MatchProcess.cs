@@ -166,7 +166,7 @@ public class MatchProcess(
             // Logger = logger
         };
 
-		Record = new(seed, this);
+		Record = new(seed, Config);
 		var players = new UMCore.Matches.QueuedPlayerCollection(config);
 		Dictionary<string, IPlayerController> controllers = [];
 
@@ -183,10 +183,10 @@ public class MatchProcess(
             }
 
             var controller = new RecorderControllerWrapper(
-				new IOPlayerController(
-					new WebSocketIOHandler(player.Socket!)
-				)
-				// new RandomPlayerController(0)
+				// new IOPlayerController(
+				// 	new WebSocketIOHandler(player.Socket!)
+				// )
+				new RandomPlayerController(0)
 			);
 
 			Record.AddRecorderPlayerController(player, controller);

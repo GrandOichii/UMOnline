@@ -121,6 +121,10 @@ def get_allowed_fighters(af):
         'Blackbeard': 'Blackbeard',
         'Seadog': 'Seadog',
         'Loki': 'Loki',
+        'Muhammad ali': 'Muhammad Ali',
+        'Shredder': 'Shredder',
+        'Bebop & rocksteady': 'Bebop & Rocksteady',
+        'Krang': 'Krang',
     }[name] for name in af.lower().capitalize().split('|')]
 
 def get_text(card):

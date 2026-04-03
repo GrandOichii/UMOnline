@@ -16,7 +16,10 @@ public partial class MatchReplayWindow : Window
 
 	#endregion
 
-	public async void LoadMatchRecord(
+	private LocalRepository _repo;
+	private MatchRecordGet _record;
+
+	public void LoadMatchRecord(
 		LocalRepository repo,
 		MatchRecordGet record
 	)
@@ -25,7 +28,7 @@ public partial class MatchReplayWindow : Window
 		ForceNative = true;
 		// TODO set title
 		Show();
-		await ReplayNode.LoadMatchRecord(repo, record);
+		ReplayNode.LoadMatchRecord(repo, record);
 	}
 	
 	#region Signal connections

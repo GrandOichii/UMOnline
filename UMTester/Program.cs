@@ -10,6 +10,7 @@ using UMCore.Templates;
 
 using CommandLine;
 using UMCore.Matches.Players.Controllers;
+using UMDTO;
 
 public class ConsolePlayerController : IPlayerController
 {
@@ -142,145 +143,8 @@ public class ConsolePlayerController : IPlayerController
     }
 }
 
-// public class AppArgs
-// {
-//     [Option("first", Required = true, HelpText = "Path to first fighter")]
-//     public required string FirstFighterPath { get; set; }
-//     [Option("second", Required = true, HelpText = "Path to second fighter")]
-//     public required string SecondFighterPath { get; set; }
-//     [Option("times", Required = false, Default = 1, HelpText = "Amount of times to run the match")]
-//     public required int Times { get; set; }
-//     [Option("log", Required = false, Default = false, HelpText = "Print match logs")]
-//     public required bool Log { get; set; }
-//     [Option("seed", Required = false, Default = null, HelpText = "First match seed")]
-//     public required int? FirstSeed { get; set; }
-// }
-
-// public struct Report
-// {
-//     public int FinishedCount { get; set; }
-//     public int CrashedCount { get; set; }
-
-//     public Report()
-//     {
-//         FinishedCount = 0;
-//         CrashedCount = 0;
-//     }
-
-//     public void Print()
-//     {
-//         System.Console.WriteLine($"Finished successfully: {FinishedCount}");
-//         System.Console.WriteLine($"Crashed: {CrashedCount}");
-//     }
-
-//     public void ProcessFinished(Match match)
-//     {
-//         FinishedCount += 1;
-//     }
-
-//     public void ProcessCrashed(Match match)
-//     {
-//         CrashedCount += 1;
-//     }
-// }
-
 public class Program
 {
-    // public static MapNodeLinkTemplate[] Bidirectional(MapNodeTemplate n1, MapNodeTemplate n2)
-    // {
-    //     return [
-    //         new() {
-    //             First = n1.Id,
-    //             Second = n2.Id,
-    //         },
-    //     ];
-    // }
-
-    // public static MapTemplate GetMapTemplate()
-    // {
-    //     // o-0-o
-    //     // | | |
-    //     // o o o
-    //     // |   |
-    //     // o-0-o
-
-    //     //0;0
-    //     var node00 = new MapNodeTemplate()
-    //     {
-    //         Id = 0,
-    //         Zones = [0],
-    //         SpawnNumber = 0,
-    //     };
-    //     //0;1
-    //     var node01 = new MapNodeTemplate()
-    //     {
-    //         Id = 1,
-    //         Zones = [0],
-    //         SpawnNumber = 2
-    //     };
-    //     //0;2
-    //     var node02 = new MapNodeTemplate()
-    //     {
-    //         Id = 2,
-    //         Zones = [0]
-    //     };
-    //     //1;0
-    //     var node10 = new MapNodeTemplate()
-    //     {
-    //         Id = 10,
-    //         Zones = [0, 1],
-    //         SpawnNumber = 1,
-    //     };
-    //     //1;1
-    //     var node11 = new MapNodeTemplate()
-    //     {
-    //         Id = 11,
-    //         Zones = [0, 1]
-    //     };
-    //     //1;2
-    //     var node12 = new MapNodeTemplate()
-    //     {
-    //         Id = 12,
-    //         Zones = [0, 1],
-    //         SpawnNumber = 3
-    //     };
-    //     //2;0
-    //     var node20 = new MapNodeTemplate()
-    //     {
-    //         Id = 20,
-    //         Zones = [1]
-    //     };
-    //     //2;1
-    //     var node21 = new MapNodeTemplate()
-    //     {
-    //         Id = 21,
-    //         Zones = [1],
-    //     };
-    //     //2;2
-    //     var node22 = new MapNodeTemplate()
-    //     {
-    //         Id = 22,
-    //         Zones = [1],
-    //     };
-
-    //     return new()
-    //     {
-    //         Nodes = [node00, node01, node02, node10, node11, node12, node20, node21, node22],
-    //         Adjacent = [
-    //             .. Bidirectional(node00, node01),
-    //             .. Bidirectional(node01, node02),
-    //             .. Bidirectional(node02, node12),
-    //             .. Bidirectional(node12, node22),
-    //             .. Bidirectional(node22, node21),
-    //             .. Bidirectional(node21, node20),
-    //             .. Bidirectional(node20, node10),
-    //             .. Bidirectional(node10, node00),
-
-    //             .. Bidirectional(node01, node11),
-    //         ]
-    //     };
-    // }
-
     private static LoadoutTemplate LoadLoadout(string path)
     {
         var data = File.ReadAllText(path);
@@ -300,229 +164,507 @@ public class Program
 
     public static async Task Main(string[] args)
     {
-        // var appArgs = Parser.Default.ParseArguments<AppArgs>(args).Value;
-        // if (appArgs is null) return;
-
-        // var report = new Report();
-        // var map = GetMapTemplate();
-        // var core = File.ReadAllText("../core.lua");
-        // // ILogger? logger = null;
-        // ILogger? logger = appArgs.Log
-        //         ? LoggerFactory.Create(builder => builder
-        //                 .AddConsole()
-        //                 .SetMinimumLevel(LogLevel.Debug)
-        //             )
-        //             .CreateLogger("UMTester")
-        //         : null;
-
-        // var rnd = new Random();
-                
-        // for (int i = 0; i < appArgs.Times; ++i)
-        // {
-        //     var seed = rnd.Next();
-        //     if (i == 0 && appArgs.FirstSeed != null)
-        //         seed = (int)appArgs.FirstSeed;
-
-        //     var config = new MatchConfig()
-        //     {
-        //         ActionsPerTurn = 2,
-        //         ExhaustDamage = 1,
-        //         FirstPlayerIdx = 0,
-        //         InitialHandSize = 5,
-        //         ManoeuvreDrawAmount = 1,
-        //         MaxHandSize = 7,
-        //         RandomFirstPlayer = true,
-        //         RandomMatch = false,
-        //         Seed = seed,
-        //         TeamSize = 1,
-        //         TeamCount = 2, 
-        //     };
-
-        //     var match = new Match(config, map, core)
-        //     {
-        //         Logger = logger
-        //     };
-
-        //     var first = LoadLoadout(appArgs.FirstFighterPath);
-        //     var second = LoadLoadout(appArgs.SecondFighterPath);
-
-        //     var controller = new RandomPlayerController(seed);
-        //     var players = new QueuedPlayerCollection(config);
-        //     players.AddPlayer("first", 0, first);
-        //     players.AddPlayer("second", 1, second);
-
-        //     await match.AddPlayers(players, new()
-        //     {
-        //         {"first", controller},
-        //         {"second", controller},
-        //     });
-
-        //     try
-        //     {
-        //         await match.Run();
-        //         report.ProcessFinished(match);
-        //     }
-        //     catch (Exception e)
-        //     {
-        //         if (appArgs.Log)
-        //         {
-        //             await Task.Delay(1000);
-        //             System.Console.WriteLine(e);
-        //             System.Console.WriteLine(e.StackTrace);
-        //             System.Console.WriteLine("-============-");
-        //             System.Console.WriteLine(e.InnerException);
-        //             System.Console.WriteLine(e.InnerException?.StackTrace);
-        //         }
-        //         report.ProcessCrashed(match);
-        //     }
-        // }
-
-        // await Task.Delay(1000);
-
-        // report.Print();
-
-        // return;
-
-        // setup match
-        var config = new MatchConfig()
+        var data = """
         {
-            ActionsPerTurn = MatchConfig.Default1x1.ActionsPerTurn,
-            ExhaustDamage = MatchConfig.Default1x1.ExhaustDamage,
-            FirstPlayerIdx = MatchConfig.Default1x1.FirstPlayerIdx,
-            InitialHandSize = MatchConfig.Default1x1.InitialHandSize,
-            ManoeuvreDrawAmount = MatchConfig.Default1x1.ManoeuvreDrawAmount,
-            MaxHandSize = MatchConfig.Default1x1.MaxHandSize,
-            RandomFirstPlayer = MatchConfig.Default1x1.RandomFirstPlayer,
-            RandomMatch = false,
-            Seed = 0,
-            TeamCount = MatchConfig.Default1x1.TeamCount,
-            TeamSize = MatchConfig.Default1x1.TeamSize
-        };
-
-        var map = MapTemplate.GetBaskervilleTemplate();
+        "config": {
+            "randomMatch": true,
+            "seed": 0,
+            "initialHandSize": 5,
+            "actionsPerTurn": 2,
+            "maxHandSize": 7,
+            "manoeuvreDrawAmount": 1,
+            "randomFirstPlayer": true,
+            "firstPlayerIdx": -1,
+            "exhaustDamage": 2,
+            "teamSize": 1,
+            "teamCount": 2
+        },
+        "seed": 2050424881,
+        "players": [
+            {
+            "name": "Client2",
+            "teamIdx": 0,
+            "loadout": "Medusa",
+            "responses": {
+                "actions": [
+                "Scheme",
+                "Manoeuvre",
+                "Manoeuvre",
+                "Manoeuvre",
+                "Scheme",
+                "Manoeuvre",
+                "Manoeuvre",
+                "Attack",
+                "Manoeuvre",
+                "Manoeuvre",
+                "Manoeuvre",
+                "Manoeuvre",
+                "Attack",
+                "Manoeuvre",
+                "Manoeuvre",
+                "Manoeuvre",
+                "Manoeuvre",
+                "Manoeuvre",
+                "Attack",
+                "Attack",
+                "Manoeuvre",
+                "Manoeuvre",
+                "Manoeuvre",
+                "Attack",
+                "Manoeuvre",
+                "Manoeuvre",
+                "Manoeuvre",
+                "Attack",
+                "Manoeuvre",
+                "Manoeuvre",
+                "Scheme",
+                "Manoeuvre"
+                ],
+                "attackChoices": [
+                "2_5_24",
+                "0_5_9",
+                "3_4_18",
+                "3_5_6",
+                "2_4_5",
+                "3_4_8"
+                ],
+                "cardChoices": [
+                "28",
+                "29",
+                "1"
+                ],
+                "cardOrNothingChoices": [
+                "2",
+                "",
+                "22",
+                "11",
+                "23",
+                "27",
+                "21",
+                "12",
+                "19",
+                "17",
+                "",
+                "",
+                "16",
+                "15",
+                "",
+                "3",
+                "7",
+                "14",
+                "25",
+                "13",
+                "20",
+                "26",
+                "4",
+                "10",
+                "0",
+                ""
+                ],
+                "fighterChoices": [
+                "2",
+                "3",
+                "2",
+                "0",
+                "0",
+                "3",
+                "1",
+                "2",
+                "3",
+                "2",
+                "0",
+                "2",
+                "0",
+                "3",
+                "0",
+                "1",
+                "3",
+                "0",
+                "2",
+                "0",
+                "3",
+                "1",
+                "3",
+                "0",
+                "1",
+                "2",
+                "3",
+                "2",
+                "0",
+                "1",
+                "2",
+                "3",
+                "1",
+                "0",
+                "1",
+                "3",
+                "0",
+                "2",
+                "0",
+                "1",
+                "3",
+                "2",
+                "2",
+                "0",
+                "1",
+                "3",
+                "3",
+                "2",
+                "1",
+                "2",
+                "3",
+                "1",
+                "3",
+                "2",
+                "1",
+                "1",
+                "3",
+                "2",
+                "2",
+                "3",
+                "1",
+                "2",
+                "1",
+                "3",
+                "3",
+                "2",
+                "2",
+                "3",
+                "3",
+                "2",
+                "2",
+                "3",
+                "2",
+                "3",
+                "2",
+                "3",
+                "2",
+                "3"
+                ],
+                "nodeChoices": [
+                "15",
+                "22",
+                "14",
+                "20"
+                ],
+                "pathChoices": [
+                "16_13_16",
+                "14_13_14_13",
+                "15_16_15_14",
+                "22_23_22_23",
+                "14_15_14_15_22_21",
+                "16_13_17_27_26",
+                "23_21_20_13_9",
+                "13_20_24_20_21_23",
+                "26_27_17_27_28_29_18",
+                "23_22_21_22_21_13_9",
+                "21_22_21_13_20_13",
+                "9_13_17_12_27_0_27_17",
+                "13_17_13_21_23_22_15_16",
+                "18_29_28_27_28_27_0_27",
+                "27_17_13_21",
+                "16_13_9_13",
+                "17_13_21_23",
+                "23_21_13_17",
+                "13_20_13_21_23",
+                "21_20_13_16_15",
+                "20_19_24_19_25",
+                "15_22_23_21_22_15_14",
+                "23_21_20_13_17_18_29",
+                "25_24_19_24_19_20_21",
+                "17_13_17_12_10_11_9",
+                "14_13_9_13_9_8_7",
+                "9_13_14_13_20_21_22",
+                "29_28_30_28_29",
+                "21_22_21_20_13_14",
+                "22_21_20_19_20_13_17_0",
+                "7_9_13_9_7_6_8_7",
+                "14_15_14_13_9_8_6_4",
+                "29_18_17_0_17_18_19_20",
+                "4_1_4_6_4",
+                "7_6_8_6_7_8",
+                "20_13_9_13_21_22",
+                "0_27_28_27_28_29",
+                "22_15_22_21_22",
+                "4_6_8_9_8_9",
+                "8_7_8_7_6_8",
+                "29_18_19_20_24_19",
+                "19_24_20_24",
+                "22_15",
+                "9_10_9",
+                "8_7_6",
+                "6_7_8_9_13_9_8",
+                "24_19_18_29_18_19_20",
+                "9_11_9_7_9_10_9",
+                "20_24_19_24_20_21_23",
+                "8_7_8_9_8_6_7",
+                "9_10_9_13_17",
+                "7_9_7",
+                "23_21_13_16",
+                "17_13_16_13",
+                "13_21_23_21_23",
+                "7_6_4_6_8_9",
+                "16_13_17_0_17_12",
+                "9_8_6",
+                "12_17_0_27",
+                "6_8_7_6_8",
+                "23_22_23_22",
+                "27_0_2_0_17_0_27",
+                "22_15_16_15_16_15_16",
+                "8_9_8_6",
+                "6_7_6_7_6_7_6",
+                "27_28_27_28_27_17_27_17",
+                "17_27_17_27",
+                "27_17_27_12_0",
+                "6_8_9_7_8_7_9",
+                "9_11_9_10_12_0_12",
+                "0_12_10_12_27_12_0",
+                "0_27_12_0_12_17",
+                "12_27_26_25",
+                "17_0_12_10_9_8_7_9",
+                "25_19_18_19_24_19_25",
+                "9_10_12_17",
+                "25_19_25_19",
+                "19_25_19"
+                ],
+                "playerChoices": [],
+                "stringChoices": [
+                "No"
+                ],
+                "tokenChoices": []
+            }
+            },
+            {
+            "name": "Client1",
+            "teamIdx": 1,
+            "loadout": "Sinbad",
+            "responses": {
+                "actions": [
+                "Scheme",
+                "Attack",
+                "Manoeuvre",
+                "Manoeuvre",
+                "Manoeuvre",
+                "Manoeuvre",
+                "Manoeuvre",
+                "Manoeuvre",
+                "Manoeuvre",
+                "Manoeuvre",
+                "Manoeuvre",
+                "Manoeuvre",
+                "Manoeuvre",
+                "Attack",
+                "Manoeuvre",
+                "Manoeuvre",
+                "Manoeuvre",
+                "Manoeuvre",
+                "Manoeuvre",
+                "Manoeuvre",
+                "Manoeuvre",
+                "Attack",
+                "Manoeuvre",
+                "Manoeuvre",
+                "Manoeuvre",
+                "Manoeuvre",
+                "Attack",
+                "Manoeuvre",
+                "Manoeuvre",
+                "Manoeuvre",
+                "Manoeuvre"
+                ],
+                "attackChoices": [
+                "5_1_42",
+                "5_0_45",
+                "4_1_59",
+                "4_3_39"
+                ],
+                "cardChoices": [
+                "48",
+                "26"
+                ],
+                "cardOrNothingChoices": [
+                "47",
+                "32",
+                "58",
+                "44",
+                "",
+                "36",
+                "53",
+                "46",
+                "57",
+                "37",
+                "33",
+                "",
+                "49",
+                "43",
+                "34",
+                "55",
+                "31",
+                "",
+                "35",
+                "54",
+                "50",
+                "41",
+                "40",
+                "56",
+                "51",
+                "38",
+                "30",
+                "52"
+                ],
+                "fighterChoices": [
+                "4",
+                "5",
+                "4",
+                "5",
+                "4",
+                "5",
+                "5",
+                "4",
+                "4",
+                "5",
+                "4",
+                "5",
+                "5",
+                "4",
+                "4",
+                "5",
+                "5",
+                "4",
+                "5",
+                "4",
+                "4",
+                "5",
+                "5",
+                "4",
+                "4",
+                "5",
+                "5",
+                "4",
+                "4",
+                "5",
+                "5",
+                "4",
+                "4",
+                "5",
+                "4",
+                "5",
+                "2",
+                "5",
+                "4",
+                "4",
+                "4",
+                "4",
+                "4",
+                "4",
+                "4"
+                ],
+                "nodeChoices": [
+                "7"
+                ],
+                "pathChoices": [
+                "4_6_8_6",
+                "7_8_7_8",
+                "6_8_6_7",
+                "8_6_7_6",
+                "7_9_11_9",
+                "6_8_6_8",
+                "8_6_8_7_8",
+                "9_10_12_0_27",
+                "27_17_27_17_13",
+                "8_6_7_6_8",
+                "13_20_24_25_26_27",
+                "8_6_7_6_4_5",
+                "5_3_2_30",
+                "27_12_17_18_17_18",
+                "18_19_18_29_18_17",
+                "30_28_30_31_5_31",
+                "31_5_4_6_4_1",
+                "17_12_27_28_30_28_29",
+                "1_4_1_0_17_13_21_23",
+                "29_28_27_17_0_17_12_27",
+                "27_17_27_17_27_17_27",
+                "23_21_22_21_20_13_14",
+                "14_13_9_13_16_13_16",
+                "27_28_30_2_0_12_27",
+                "27_0_27_0_12_0_27",
+                "16_13_20_13_21_20",
+                "20_24_20_13_20_19",
+                "27_0_17_27_26_27_17",
+                "17_27_26_25_26_27_0_17",
+                "19_20_19_20_21_20_21_13",
+                "13_14_13_17_27_0_1",
+                "17_13_9_13_20_19_20",
+                "20_13_17_13_14_13_20_13_14",
+                "1_0_27_28_27_17_13_20_21",
+                "14_13_20_13_20_13_20_21_13",
+                "21_13_21_13_17_0_1_4_1",
+                "17_0_12_27_17",
+                "1_0_12_17_13_21_13_14_15_22",
+                "13_14_15_22_21_13_16_13_21_23",
+                "23_22_15_14_13_21_22_23_21_20_13",
+                "13_9_11_9_13_16_15_22_15_16_15",
+                "15_14_13_17_18_19_25_24_19_20_24",
+                "24_19_20_24_19_20_13_14_13",
+                "13_9_13_9_10_11_9_7",
+                "7_6_7_6_8_6_7_9_8"
+                ],
+                "playerChoices": [],
+                "stringChoices": [],
+                "tokenChoices": []
+            }
+            }
+        ]
+        }
+        """;
+        var record = JsonSerializer.Deserialize<MatchRecordGet>(data, JsonSerializerOptions.Web)!;
         var prefix = "..";
         // var prefix = "../../../..";
-        var core = File.ReadAllText($"{prefix}/core.lua");
 
-        var logger = new RecordTestLogger();
-        var match = new Match(config, map, core)
+        var config = new MatchConfig()
         {
-            Logger = logger
+            Seed = record.Seed,
+            RandomMatch = false,
+            RandomFirstPlayer = true,
+            FirstPlayerIdx = record.Config.FirstPlayerIdx,
+            // FirstPlayerIdx = 1,
+            
+            ActionsPerTurn = record.Config.ActionsPerTurn,
+            ExhaustDamage = record.Config.ExhaustDamage,
+            InitialHandSize = record.Config.InitialHandSize,
+            ManoeuvreDrawAmount = record.Config.ManoeuvreDrawAmount,
+            MaxHandSize = record.Config.MaxHandSize,
+            TeamCount = record.Config.TeamCount,
+            TeamSize = record.Config.TeamSize
         };
+        var match = new Match(
+            config,
+            MapTemplate.GetBaskervilleTemplate(),
+            // (await coreRepo.Active()).Script
+            File.ReadAllText($"{prefix}/core.lua")
 
-        var first = LoadLoadout($"{prefix}/.generated/loadouts/Medusa/Medusa.json");
-        var second = LoadLoadout($"{prefix}/.generated/loadouts/Robin Hood/Robin Hood.json");
-
-        var controller1 = new RecorderControllerWrapper(
-            new RandomPlayerController(0)
-        );
-        var controller2 = new RecorderControllerWrapper(
-            new RandomPlayerController(1)
-        );
+        )
+        {
+            Logger = null
+        };
 
         var players = new QueuedPlayerCollection(config);
-        players.AddPlayer("first", 0, first);
-        players.AddPlayer("second", 1, second);
-
-        await match.AddPlayers(players, new()
+        Dictionary<string, IPlayerController> controllers = [];
+        foreach (var player in record.Players)
         {
-            {"first", controller1},
-            {"second", controller2},
-        });
+            IPlayerController controller = new ReplayerPlayerController(player.Responses);
 
-        System.Console.WriteLine("Starting initial match...");
+            players.AddPlayer(
+                player.Name,
+                player.TeamIdx,
+                // (await loadoutRepo.ByName(player.Loadout))!.ToTemplate()
+                LoadLoadout($"{prefix}/.generated/loadouts/{player.Loadout}/{player.Loadout}.json")
+            );
 
-        await match.Run();
-
-        System.Console.WriteLine("Match finished!");
-        System.Console.WriteLine("Setting up playback match");
-
-        var playback = new Match(config, map, core)
-        {
-            Logger = new PlaybackCheckerLogger(logger)
-        };
-
-        await playback.AddPlayers(players, new()
-        {
-            {"first", new ReplayerPlayerController(controller1.Record)},
-            {"second", new ReplayerPlayerController(controller2.Record)},
-        });
-
-        System.Console.WriteLine("Running playback match...");
-        await playback.Run();
-        System.Console.WriteLine("Playback finished!");
-
-    }
-}
-
-
-public class RecordTestLogger : ILogger
-{
-    public List<string> Logs { get; }
-
-	public RecordTestLogger() {
-        Logs = [];
-	}
-
-	public IDisposable BeginScope<TState>(TState state) where TState : notnull
-	{
-		return new NoopDisposable();
-	}
-
-	public bool IsEnabled(LogLevel logLevel)
-	{
-		return true;
-	}
-
-	public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
-	{
-		var msg = formatter(state, exception);
-        Logs.Add(msg);
-	}
-
-	private class NoopDisposable : IDisposable
-	{
-		public void Dispose()
-		{
-		}
-	}
-}
-
-
-public class PlaybackCheckerLogger : ILogger
-{
-    private RecordTestLogger _logger;
-    private int _idx = 0;
-    
-	public PlaybackCheckerLogger(RecordTestLogger logger) {
-        _logger = logger;
-	}
-
-	public IDisposable BeginScope<TState>(TState state) where TState : notnull
-	{
-		return new NoopDisposable();
-	}
-
-	public bool IsEnabled(LogLevel logLevel)
-	{
-		return true;
-	}
-
-	public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
-    {
-		var msg = formatter(state, exception);
-        if (msg != _logger.Logs[_idx])
-        {
-            throw new Exception($"Logs mismatch at idx = {_idx}: Expected: \"{_logger.Logs[_idx]}\", got: \"{msg}\"");
+            controllers.Add(player.Name, controller);
         }
-        ++_idx;
+
+        await match.AddPlayers(players, controllers);
+        await match.Run();
     }
-
-	private class NoopDisposable : IDisposable
-	{
-		public void Dispose()
-		{
-		}
-	}
 }
-

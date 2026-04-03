@@ -124,7 +124,7 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
         // create deck
         Match.Logger?.LogDebug("Creating main deck of {PlayerLogName}", LogName);
 
-        List<CardTemplate> cards = [.. Loadout.Deck.Where(c => c.IncludedInDeckWithSidekick is null)];
+        List<CardTemplate> cards = [.. Loadout.Deck.Where(c => c.IncludedInDeckWithSidekick is null).OrderBy(c => c.Key)];
         foreach (var fighter in Fighters)
         {
             cards.AddRange(Loadout.Deck.Where(c => c.IncludedInDeckWithSidekick == fighter.Template.Key));

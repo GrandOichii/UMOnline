@@ -14868,7 +14868,7 @@
                     "attack_type": "melee",
                     "hp": 7,
                     "name": "Bebop & Rocksteady",
-                    "quentity": 1
+                    "quantity": 1
                 }
             ],
             "special": "MASTER OF THE CLAN\nAt the start of your turn, deplay a Foot soldier to a path adjacent to a friendly fighter.\nYou may attack opposing fighters adjacent to Foot soldiers.\nIf an opponent boosts their maneuver, they may remove any Foot soldier their hero moves through."

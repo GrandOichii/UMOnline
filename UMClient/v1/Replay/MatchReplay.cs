@@ -2,6 +2,8 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using UMCore.Matches;
 using UMCore.Matches.Attacks;
@@ -12,9 +14,25 @@ using UMCore.Matches.Tokens;
 using UMCore.Templates;
 using UMDTO;
 
+public class MatchFrame
+{
+    public Match.Data Data { get; }
+
+    public MatchFrame(Match.Data data)
+    {
+        Data = data;
+    }
+
+    public string GetHash()
+    {
+        return JsonSerializer.Serialize(Data);
+    }
+}
+
 public class MatchStateRecorderPlayerControllerWrapper : PlayerControllerWrapper
 {
-    private List<Match.Data> _frames = [];
+    public List<MatchFrame> Frames { get; } = [];
+
     public MatchStateRecorderPlayerControllerWrapper(IPlayerController controller) : base(controller)
     {
     }
@@ -72,13 +90,24 @@ public class MatchStateRecorderPlayerControllerWrapper : PlayerControllerWrapper
     public override async Task HandleUpdate(Player player)
     {
         var frame = player.Match.GetData(player);
-        _frames.Add(new()
+        AddFrame(new()
         {
             Combat = frame.Combat,
             CurPlayerIdx = frame.CurPlayerIdx,
             Map = frame.Map,
-            Players = [ .. player.Match.Players.Select(p => p.GetData(p))]
+            Players = [.. player.Match.Players.Select(p => p.GetData(p))]
         });
+    }
+
+    private void AddFrame(Match.Data data)
+    {
+        var frame = new MatchFrame(data);
+        if (Frames.Count > 0)
+        {
+            var last = Frames.Last();
+            if (last.GetHash() == frame.GetHash()) return;
+        }
+        Frames.Add(frame);
     }
 }
 
@@ -94,71 +123,110 @@ public partial class MatchReplay : Control
 
     #endregion
 
+    private LocalRepository _repo;
+	private MatchRecordGet _record;
+
     public override void _Ready()
     {
         OverlayNode.Show();
     }
 
-    public async Task LoadMatchRecord(
+    public void LoadMatchRecord(
         LocalRepository repo,
         MatchRecordGet record
     )
     {
-        var config = new MatchConfig()
+        _repo = repo;
+		_record = record;
+        Task.Run(StartReplay);
+    }
+    private async Task StartReplay() {
+        try
         {
-            Seed = record.Seed,
-            RandomMatch = false,
-            ActionsPerTurn = record.Config.ActionsPerTurn,
-            ExhaustDamage = record.Config.ExhaustDamage,
-            FirstPlayerIdx = record.Config.FirstPlayerIdx,
-            InitialHandSize = record.Config.InitialHandSize,
-            ManoeuvreDrawAmount = record.Config.ManoeuvreDrawAmount,
-            MaxHandSize = record.Config.MaxHandSize,
-            RandomFirstPlayer = record.Config.RandomFirstPlayer,
-            TeamCount = record.Config.TeamCount,
-            TeamSize = record.Config.TeamSize
-        };
-        var match = new Match(
-            config,
-            MapTemplate.GetBaskervilleTemplate(),
-            repo.GetCore().Text
-        )
-        {
-            Logger = null
-        };
-
-        MatchStateRecorderPlayerControllerWrapper recorder = null;
-        var players = new QueuedPlayerCollection(config);
-
-        Dictionary<string, IPlayerController> controllers = [];
-
-        foreach (var player in record.Players)
-        {
-            IPlayerController controller = new ReplayerPlayerController(player.Responses);
-            if (recorder is null)
+            var config = new MatchConfig()
             {
-                recorder = new MatchStateRecorderPlayerControllerWrapper(controller);
-                controller = recorder;
+                Seed = _record.Seed,
+                RandomMatch = false,
+
+                ActionsPerTurn = _record.Config.ActionsPerTurn,
+                ExhaustDamage = _record.Config.ExhaustDamage,
+                FirstPlayerIdx = _record.Config.FirstPlayerIdx,
+                InitialHandSize = _record.Config.InitialHandSize,
+                ManoeuvreDrawAmount = _record.Config.ManoeuvreDrawAmount,
+                MaxHandSize = _record.Config.MaxHandSize,
+                RandomFirstPlayer = _record.Config.RandomFirstPlayer,
+                TeamCount = _record.Config.TeamCount,
+                TeamSize = _record.Config.TeamSize
+            };
+            var match = new Match(
+                config,
+                MapTemplate.GetBaskervilleTemplate(),
+                _repo.GetCore().Text
+            )
+            {
+                Logger = new GDLogger()
+            };
+
+            MatchStateRecorderPlayerControllerWrapper recorder = null;
+            var players = new QueuedPlayerCollection(config);
+
+            Dictionary<string, IPlayerController> controllers = [];
+
+            foreach (var player in _record.Players)
+            {
+                IPlayerController controller = new ReplayerPlayerController(player.Responses);
+                if (recorder is null)
+                {
+                    recorder = new MatchStateRecorderPlayerControllerWrapper(controller);
+                    controller = recorder;
+                }
+
+                players.AddPlayer(
+                    player.Name,
+                    player.TeamIdx,
+                    _repo.GetLoadoutTemplate(_repo.GetDeck(player.Loadout).Id)
+                );
+                controllers.Add(player.Name, controller);
+            }
+            var cantRunReason = players.CanRun();
+            if (!string.IsNullOrEmpty(cantRunReason))
+            {
+                throw new Exception($"Failed to add a player for replay, not enough checks: {cantRunReason}");
             }
 
-            players.AddPlayer(
-                player.Name,
-                player.TeamIdx,
-                repo.GetLoadoutTemplate(repo.GetDeck(player.Loadout).Id)
-            );
-            controllers.Add(player.Name, controller);
+
+            await match.AddPlayers(players, controllers);
+
+            await match.Run();
+            Callable.From(() =>
+            {
+                GD.Print($"Generated {recorder.Frames.Count} frames");
+            }).CallDeferred();
+
         }
-        var cantRunReason = players.CanRun();
-        if (!string.IsNullOrEmpty(cantRunReason))
+        catch (Exception e)
         {
-            throw new Exception($"Failed to add a player for replay, not enough checks: {cantRunReason}");
+            Callable.From(() =>
+            {
+                var exception = e;
+                while (exception is not null)
+                {
+                    GD.PushError(exception);
+                    GD.Print(exception.Message);
+                    GD.Print(exception.StackTrace);
+                    GD.Print("");
+                    GD.Print("");
+                    GD.Print("---====================----");
+                    GD.Print("");
+                    GD.Print("");
+
+                    exception = exception.InnerException;
+                }
+            }).CallDeferred();
         }
 
-        await match.AddPlayers(players, controllers);
-
-        await match.Run();
     }
-    
+
     #region Signal connections
 
     public void OnPrevStateButtonPressed()

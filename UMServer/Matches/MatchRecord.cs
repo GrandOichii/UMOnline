@@ -12,10 +12,10 @@ public class PlayerRecord
     public required RecorderControllerWrapper Recorder { get; init; }
 }
 
-public class MatchRecord(int seed, MatchProcess match)
+public class MatchRecord(int seed, MatchConfig config)
 {
     public int Seed { get; init; } = seed;
-    public MatchConfig Config { get; } = match.Config;
+    public MatchConfig Config { get; } = config;
 
     public List<PlayerRecord> Recorders { get; } = [];
 
