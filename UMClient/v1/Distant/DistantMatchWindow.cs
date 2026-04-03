@@ -5,49 +5,49 @@ using UMDTO;
 
 public partial class DistantMatchWindow : Window
 {
-    #region Nodes
+	#region Nodes
 
-    [ExportGroup("Nodes")]
-    [Export]
-    public DistantMatch MatchNode { get; set; }
+	[ExportGroup("Nodes")]
+	[Export]
+	public DistantMatch MatchNode { get; set; }
 
-    #endregion
+	#endregion
 
-    public string MatchId { get; private set; }
+	public string MatchId { get; private set; }
 
-    public void SetEssentials(
-        bool clientIsOwner,
-        ServerConnection connection,
-        ClientWebSocket socket,
-        string matchId
-    )
-    {
-        MatchId = matchId;
+	public void SetEssentials(
+		bool clientIsOwner,
+		ServerConnection connection,
+		ClientWebSocket socket,
+		string matchId
+	)
+	{
+		MatchId = matchId;
 
-        Hide();
-        ForceNative = true;
-        Title = $"Match {matchId}";
-        GD.Print(matchId);
-        Show();
-        MatchNode.SetEssentials(
-            clientIsOwner,
-            connection,
-            socket,
-            matchId
-        );
-    }
+		Hide();
+		ForceNative = true;
+		Title = $"Match {matchId}";
+		GD.Print(matchId);
+		Show();
+		MatchNode.SetEssentials(
+			clientIsOwner,
+			connection,
+			socket,
+			matchId
+		);
+	}
 
-    public void Update(MatchProcessGet match)
-    {
-        MatchNode.Update(match);
-    }
+	public void Update(MatchProcessGet match)
+	{
+		MatchNode.Update(match);
+	}
 
-    #region Signal connections
+	#region Signal connections
 
-    public void OnCloseRequested()
-    {
-        QueueFree();
-    }
+	public void OnCloseRequested()
+	{
+		QueueFree();
+	}
 
-    #endregion
+	#endregion
 }

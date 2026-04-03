@@ -58,6 +58,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "Cancel"
 
+[connection signal="close_requested" from="." to="." method="OnCloseRequested"]
 [connection signal="text_changed" from="MarginContainer/VBoxContainer/Name" to="." method="OnNameTextChanged"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer2/ConfirmButton" to="." method="OnConfirmButtonPressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer2/CancelButton" to="." method="OnCancelButtonPressed"]
