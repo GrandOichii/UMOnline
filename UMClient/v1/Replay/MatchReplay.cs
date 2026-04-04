@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using UMCore.Matches;
 using UMCore.Matches.Attacks;
@@ -17,10 +16,12 @@ using UMDTO;
 public class MatchFrame
 {
     public Match.Data Data { get; }
+    public List<Log> Logs { get; }
 
-    public MatchFrame(Match.Data data)
+    public MatchFrame(Match.Data data, List<Log> logs)
     {
         Data = data;
+        Logs = logs;
     }
 
     public string GetHash()
@@ -29,13 +30,11 @@ public class MatchFrame
     }
 }
 
-public class MatchStateRecorderPlayerControllerWrapper : PlayerControllerWrapper
+public class MatchStateRecorderPlayerControllerWrapper(IPlayerController controller) 
+    : PlayerControllerWrapper(controller)
 {
     public List<MatchFrame> Frames { get; } = [];
-
-    public MatchStateRecorderPlayerControllerWrapper(IPlayerController controller) : base(controller)
-    {
-    }
+    public List<Log> NewLogs { get; } = [];
 
     public override Task HandleActionChoice(string choice)
     {
@@ -99,9 +98,23 @@ public class MatchStateRecorderPlayerControllerWrapper : PlayerControllerWrapper
         });
     }
 
+    public override void HandleNewLog(Log l)
+    {
+        NewLogs.Add(l);
+    }
+
+
     private void AddFrame(Match.Data data)
     {
-        var frame = new MatchFrame(data);
+        List<Log> logs = [];
+        if (Frames.Count > 0)
+        {
+            logs = [.. Frames.Last().Logs];
+        }
+        logs.AddRange(NewLogs);
+
+        var frame = new MatchFrame(data, logs);
+
         if (Frames.Count > 0)
         {
             var last = Frames.Last();
@@ -201,6 +214,10 @@ public partial class MatchReplay : Control
             Callable.From(() =>
             {
                 GD.Print($"Generated {recorder.Frames.Count} frames");
+                for (int i = 0; i < recorder.Frames.Count; ++i)
+                {
+                    GD.Print($"{i}: {recorder.Frames[i].Logs.Count}");
+                }
             }).CallDeferred();
 
         }

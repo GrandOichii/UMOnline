@@ -27,6 +27,7 @@ public abstract class PlayerControllerWrapper(
 
     public void AddLog(Log l)
     {
+        HandleNewLog(l);
         controller.AddLog(l);
     }
 
@@ -113,6 +114,8 @@ public abstract class PlayerControllerWrapper(
         await HandleSetup(player, setupData);
         await controller.Setup(player, setupData);
     }
+
+    public virtual void HandleNewLog(Log l) {}
 
     public virtual Task HandleSetup(Player player, Match.SetupData setupData)
     {
