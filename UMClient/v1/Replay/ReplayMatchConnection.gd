@@ -1,0 +1,2 @@
+extends MatchConnection
+class_name ReplayMatchConnection

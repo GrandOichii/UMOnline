@@ -1,9 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://chk3utndmoe6k"]
+[gd_scene load_steps=4 format=3 uid="uid://chk3utndmoe6k"]
 
 [ext_resource type="PackedScene" uid="uid://dh54pmbtdvbjt" path="res://v1/Matches/MatchDisplay.tscn" id="1_0l8q3"]
 [ext_resource type="Script" uid="uid://imuebl7bj7lo" path="res://v1/Replay/MatchReplay.cs" id="1_yp3x3"]
+[ext_resource type="PackedScene" uid="uid://1yj3cnqy7mea" path="res://v1/Replay/ReplayMatchConnection.tscn" id="3_bkavk"]
 
-[node name="MatchReplay" type="Control" node_paths=PackedStringArray("OverlayNode", "MatchDisplayNode")]
+[node name="MatchReplay" type="Control" node_paths=PackedStringArray("OverlayNode", "MatchDisplayNode", "NextStateButtonNode", "PrevStateButtonNode", "ReplayMatchConnectionNode")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -13,6 +14,9 @@ grow_vertical = 2
 script = ExtResource("1_yp3x3")
 OverlayNode = NodePath("Overlay")
 MatchDisplayNode = NodePath("VBoxContainer/MatchDisplay")
+NextStateButtonNode = NodePath("VBoxContainer/HBoxContainer/NextStateButton")
+PrevStateButtonNode = NodePath("VBoxContainer/HBoxContainer/PrevStateButton")
+ReplayMatchConnectionNode = NodePath("ReplayMatchConnection")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
@@ -60,6 +64,8 @@ grow_vertical = 2
 [node name="Label" type="Label" parent="Overlay/CenterContainer"]
 layout_mode = 2
 text = "Loading match data..."
+
+[node name="ReplayMatchConnection" parent="." instance=ExtResource("3_bkavk")]
 
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/PrevStateButton" to="." method="OnPrevStateButtonPressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/NextStateButton" to="." method="OnNextStateButtonPressed"]

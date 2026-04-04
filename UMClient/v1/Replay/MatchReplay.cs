@@ -35,9 +35,16 @@ public class MatchStateRecorderPlayerControllerWrapper(IPlayerController control
 {
     public List<MatchFrame> Frames { get; } = [];
     public List<Log> NewLogs { get; } = [];
+    public Match.SetupData SetupData { get; private set; }
 
     public override Task HandleActionChoice(string choice)
     {
+        return Task.CompletedTask;
+    }
+
+    public override Task HandleSetup(Player player, Match.SetupData setupData)
+    {
+        SetupData = setupData;
         return Task.CompletedTask;
     }
 
@@ -133,15 +140,27 @@ public partial class MatchReplay : Control
     public Control OverlayNode { get; set; }
     [Export]
     public Control MatchDisplayNode { get; set; }
+    [Export]
+    public Button NextStateButtonNode { get; set; }
+    [Export]
+    public Button PrevStateButtonNode { get; set; }
+    [Export]
+    public Node ReplayMatchConnectionNode { get; set; }
 
     #endregion
 
     private LocalRepository _repo;
+
 	private MatchRecordGet _record;
+
+    private int _frame = 0;
+    private List<MatchFrame> _frames;
 
     public override void _Ready()
     {
         OverlayNode.Show();
+
+        MatchDisplayNode.Call("set_connection", ReplayMatchConnectionNode);
     }
 
     public void LoadMatchRecord(
@@ -153,6 +172,7 @@ public partial class MatchReplay : Control
 		_record = record;
         Task.Run(StartReplay);
     }
+
     private async Task StartReplay() {
         try
         {
@@ -207,17 +227,15 @@ public partial class MatchReplay : Control
                 throw new Exception($"Failed to add a player for replay, not enough checks: {cantRunReason}");
             }
 
-
             await match.AddPlayers(players, controllers);
 
             await match.Run();
             Callable.From(() =>
             {
                 GD.Print($"Generated {recorder.Frames.Count} frames");
-                for (int i = 0; i < recorder.Frames.Count; ++i)
-                {
-                    GD.Print($"{i}: {recorder.Frames[i].Logs.Count}");
-                }
+                _frames = recorder.Frames;
+                MatchDisplayNode.Call("load_setup", Json.ParseString(JsonSerializer.Serialize(recorder.SetupData)));
+                SetFrame(0);
             }).CallDeferred();
 
         }
@@ -244,18 +262,29 @@ public partial class MatchReplay : Control
 
     }
 
+    private void SetFrame(int v)
+    {
+        _frame = Math.Clamp(v, 0, _frames.Count);
+        
+        PrevStateButtonNode.Disabled = v == 0;
+        NextStateButtonNode.Disabled = v == _frames.Count - 1;
+
+        MatchDisplayNode.Call("load_match", Json.ParseString(JsonSerializer.Serialize(_frames[_frame].Data)));
+
+        if (OverlayNode.Visible)
+            OverlayNode.Hide();
+    }
+
     #region Signal connections
 
     public void OnPrevStateButtonPressed()
     {
-        // TODO
-        GD.Print("OnPrevStateButtonPressed");
+        SetFrame(_frame - 1);
     }
 
     public void OnNextStateButtonPressed()
     {
-        // TODO
-        GD.Print("OnNextStateButtonPressed");
+        SetFrame(_frame + 1);
     }
 
     #endregion

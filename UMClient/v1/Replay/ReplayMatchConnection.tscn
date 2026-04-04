@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://1yj3cnqy7mea"]
+
+[ext_resource type="Script" uid="uid://cybaf0f4wwgqe" path="res://v1/Replay/ReplayMatchConnection.gd" id="1_6mwch"]
+
+[node name="ReplayMatchConnection" type="Node"]
+script = ExtResource("1_6mwch")
+metadata/_custom_type_script = "uid://c2lmf1yt0jd6j"

@@ -9,6 +9,8 @@ oversampling_override = 1.0
 title = "Match replay"
 initial_position = 2
 size = Vector2i(1152, 648)
+content_scale_mode = 1
+content_scale_aspect = 4
 script = ExtResource("1_w50sv")
 ReplayNode = NodePath("MatchReplay")
 
