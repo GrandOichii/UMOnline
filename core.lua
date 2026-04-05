@@ -963,29 +963,26 @@ end
 
 function UM.Conditions:AlreadyWonACombatThisTurn(playerFunc)
     return function (args)
-        -- TODO
-        return false
+        assert(false, 'UM.Conditions:AlreadyWonACombatThisTurn is not implemented')
     end
 end
 
 function UM.Conditions:StartedThisTurnInADifferentSpace(fighterFunc)
     return function (args)
-        -- TODO
-        return false
+        local fighter = fighterFunc(args)
+        return fighter.StartedThisTurnIn == GetFighterNode(fighter)
     end
 end
 
 function UM.Conditions:HasXOrLessHealthButIsNotDefeated(fighterFunc, health)
     return function (args)
-        -- TODO
-        return false
+        assert(false, 'UM.Conditions:HasXOrLessHealthButIsNotDefeated is not implemented')
     end
 end
 
 function UM.Conditions:IsHero(fighterFunc)
     return function (args)
-        -- TODO
-        return false
+        assert(false, 'UM.Conditions:IsHero is not implemented')
     end
 end
 

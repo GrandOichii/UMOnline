@@ -31,6 +31,7 @@ public class StartPhase : TriggerringTurnPhase
 {
     public override async Task Exec(Player player)
     {
+        player.Match.StartTurn();
         await player.StartTurn();
     }
 

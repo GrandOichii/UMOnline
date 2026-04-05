@@ -246,6 +246,15 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
         }
     }
 
+        public void StartTurn()
+    {
+        foreach (var fighter in Fighters)
+        {
+            fighter.StartedThisTurnIn = Map.GetFighterLocationOrDefault(fighter);
+        }
+    }
+
+
     private async Task Setup()
     {
         foreach (var player in Players)

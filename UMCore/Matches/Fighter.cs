@@ -22,6 +22,8 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
     public Health Health { get; }
     public Dictionary<TurnPhaseTrigger, EffectCollection> TurnPhaseEffects { get; }
 
+    public MapNode? StartedThisTurnIn { get; set; }
+
     public string LogName => $"({Owner.Idx}){GetName()}({(Template.IsHero ? 'h' : 's')})";
 
     public string FormattedLogName => $"[{Id}${GetName()}]";
@@ -121,6 +123,7 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
         Id = Match.AddFighter(this);
 
         Health = new(this);
+        StartedThisTurnIn = null;
 
         LuaTable data;
         try

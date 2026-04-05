@@ -195,6 +195,7 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
         
         // execute "at the start of ___ next turn, ..."
         Match.Logger?.LogDebug("Executing \"at the start of ___ next turn\" effects for player {PlayerLogName}, expected to execute: {EffectsCount}", LogName, AtTheStartOfTurnTemporaryEffects.Count);
+        
         // TODO order effects
         foreach (var (source, effect) in AtTheStartOfTurnTemporaryEffects)
         {
