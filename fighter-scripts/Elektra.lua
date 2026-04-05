@@ -2,8 +2,6 @@
 -- When Elektra Resurrects: Flip your health dial. Shuffle your discard pile into your deck.
 -- Place Elektra and all Hand back onto the board with each fighter in a different zone. (You must resolve effects with the RESURRECTED symbol.)
 
--- TODO very low-level
-
 function _Create()
     return UM.Build:Fighter()
         :AtTheStartOfTheGame(

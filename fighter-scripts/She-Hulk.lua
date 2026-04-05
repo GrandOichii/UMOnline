@@ -29,7 +29,6 @@ function _Create()
                     ),
                     UM.Effects:DealDamage(
                         fighterSelect():Single():Build(),
-                        -- TODO too low-level
                         UM.Number:_(
                             function (args)
                                 local discarded = args.ctx['DISCARDED']

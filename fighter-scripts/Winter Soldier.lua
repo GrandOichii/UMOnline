@@ -1,5 +1,3 @@
--- TODO too low level, isCardOfCharacter is duplicated from Sherlock Holmes
-
 -- Effects on Winter Soldier's cards cannot be canceled.
 
 function _Create()

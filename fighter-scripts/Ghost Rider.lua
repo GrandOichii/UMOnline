@@ -15,7 +15,6 @@ function _Create()
                     'Spend 1 Hellfire?',
                     UM.Conditions.CharacterSpecific:SpendHellfire(1),
                     function (args)
-                        -- TODO too low-level
                         local movement = GetcurrentMovement()
                         movement.CanMoveOverOpposing = true
                         movement.Value = 4

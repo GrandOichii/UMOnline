@@ -10,7 +10,6 @@ function _Create()
         :AtTheStartOfTheGame(
             'At the start of the game, choose your gear. Select a POTION, ARMOR, and SWORD, and shuffle 2 copies of each into your deck.',
             function (args)
-                -- TODO too low-level
                 local cards = GetDeck(args.owner)
                 local gear = {}
                 for _, label in ipairs(labels) do

@@ -4,7 +4,6 @@ function _Create()
     return UM.Build:Fighter()
         :ForbidCardCancelling(
             function (args, card)
-                -- TODO too low level
                 if not IsCardOfCharacter(card, 'Ciri') then
                     return false
                 end

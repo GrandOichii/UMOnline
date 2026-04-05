@@ -1,6 +1,4 @@
 
--- TODO too low-level
-
 function _Create()
     return UM.Build:Fighter()
         :OnMove(

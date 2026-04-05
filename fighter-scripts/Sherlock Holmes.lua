@@ -1,5 +1,3 @@
--- TODO too low level
-
 -- Effects on HOLMES and DR. WATSON cards cannot be cancelled by an opponent.
 
 function _Create()

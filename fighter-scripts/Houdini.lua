@@ -3,7 +3,6 @@ function _Create()
     return UM.Build:Fighter()
         :ReplaceBoostedMovement(
             function (args, fighter)
-                -- TODO can Houdini stay in his place?
                 local houdini = UM.Fighter:Named('Houdini')
                 if houdini(args) ~= fighter then
                     return false

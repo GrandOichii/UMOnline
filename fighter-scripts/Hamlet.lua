@@ -5,7 +5,6 @@ function _Create()
             'At the start of your turn, choose TO BE or NOT TO BE. If you choose NOT TO BE, deal 2 damage to one of your fighters.',
             {},
             function (args)
-                -- TODO too low-level
                 local choice = ChooseString(args.owner, {
                     'TO BE',
                     'NOT TO BE',
@@ -24,7 +23,6 @@ function _Create()
             end
         )
         :ModManoeuvreCardDraw(
-            -- TODO too low-level
             function (args, player, resultValue)
                 if player ~= args.owner then
                     return resultValue

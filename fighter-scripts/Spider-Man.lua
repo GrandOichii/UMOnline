@@ -5,7 +5,6 @@ function _Create()
         :OnCombatCardChoice(
             'When an opponent attacks Spider-Man, before you play a defense card, they must tell you the printed value of their card.',
             function (args, subjects)
-                -- TODO too low-level
                 local combatPart = subjects.combatPart
                 if not UM.Conditions:IsDefender(UM.Player:EffectOwner())(args) then
                     return

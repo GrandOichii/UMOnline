@@ -1,7 +1,6 @@
 
 -- Luke Cage takes 2 less combat damage from attacks. 
 
--- TODO too low-level
 function _Create()
     return UM.Build:Fighter()
         :ModifyDamage(

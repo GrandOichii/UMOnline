@@ -29,7 +29,6 @@ function _Create()
                 UM.Conditions.CharacterSpecific:StanceIsActive(floatLikeAButterfly)
             },
             function (args, subjects, original)
-                -- TODO too low-level
                 return 2
             end
         )

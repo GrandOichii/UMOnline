@@ -57,7 +57,6 @@ function _Create()
                     'REVEALED'
                 ),
                 function (args)
-                    -- TODO too low-level
                     local card = args.ctx['REVEALED'][1]
                     if card == nil then
                         return

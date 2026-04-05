@@ -88,7 +88,6 @@ function _Create()
         :ModManoeuvreValue(
             UM.Select:Fighters():AllYour():BuildPredicate(),
             function (args, subjects, original)
-                -- TODO too low-level
                 return original + UM.Count.CharacterSpecific:TricksInOpponentsHands():Last(args)
             end
         )

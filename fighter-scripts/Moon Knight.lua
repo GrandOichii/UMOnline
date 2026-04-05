@@ -41,7 +41,6 @@ function _Create()
             UM.Conditions.CharacterSpecific:MNIdentityEq('Khonshu')
         )
         :ModifyDamage(
-            -- TODO too low-level
             function (args, fighter, isCombatDamage, damage)
                 if isCombatDamage then
                     return damage

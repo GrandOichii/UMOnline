@@ -37,7 +37,6 @@ function _Create()
         )
         -- Glamour of Sleep
         :ModifyDamage(
-            -- TODO too low-level
             -- Your fighters do not take damage other than combat damage.
             function (args, fighter, isCombatDamage, damage)
                 if not UM.Conditions.CharacterSpecific:GlamourRevealed('Glamour of Sleep')(args) then
@@ -59,7 +58,6 @@ function _Create()
                 if not UM.Conditions.CharacterSpecific:GlamourRevealed('Glamour of Jealousy')(args) then
                     return
                 end
-                -- TODO too low-level
                 -- TODO check that Titiania or Oberon are attacked
                 -- TODO prompt to swap places
             end

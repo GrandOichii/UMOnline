@@ -13,7 +13,6 @@ function _Create()
                         UM.Select:Fighters():Named('Doctor Strange'):Build(),
                         UM.Number:Static(1)
                     ),
-                    -- TODO too low-level
                     function (args)
                         local player = args.owner
                         local part = RemoveCombatPart(player)
