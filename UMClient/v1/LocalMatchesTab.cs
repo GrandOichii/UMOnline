@@ -86,11 +86,7 @@ public partial class LocalMatchesTab : Control
 		OnPresetOptionItemSelected(PresetOptionNode.Selected);
 
 		RealPlayerEditor.LoadLocalMatchesTab(this);
-		RealPlayerEditor.LoadName("RealPlayer"); // TODO? remove
-
-		// TODO remove
-		// RealPlayerEditor.DeckOption.Select(6);
-		// RealPlayerEditor.TeamNode.Value = 2;
+		RealPlayerEditor.LoadName("You");
 	}
 
 	public void UpdateDeckOptions()

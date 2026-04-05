@@ -75,7 +75,6 @@ public partial class IfScriptNodeNode : GraphNode, IScriptNodeNode, IPrebuiltNod
 
     public void SetEssentials(ScriptEditor editor)
     {
-        // TODO
     }
 
     public void LoadState(ScriptNodeState state)

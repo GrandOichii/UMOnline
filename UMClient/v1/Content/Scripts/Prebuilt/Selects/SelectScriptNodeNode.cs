@@ -3,8 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Text.Json;
 
-// TODO single check doesnt update state in real time
-
 [GlobalClass]
 public partial class SelectScriptNodeNode : GraphNode, IScriptNodeNode
 {
@@ -83,6 +81,10 @@ public partial class SelectScriptNodeNode : GraphNode, IScriptNodeNode
             }
             filters.Add(filter);
         }
+        if (SingleCheckNode.ButtonPressed)
+        {
+            filters.Add(":Single()");
+        }
 
         var inner = string.Join("\n", filters);
 
@@ -106,6 +108,7 @@ public partial class SelectScriptNodeNode : GraphNode, IScriptNodeNode
 
     public void SetEssentials(ScriptEditor editor)
     {
+        SingleCheckNode.Pressed += editor.ProcessScriptGraphChange;
     }
 
     public void LoadState(ScriptNodeState state)

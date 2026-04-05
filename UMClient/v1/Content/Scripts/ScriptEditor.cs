@@ -324,7 +324,6 @@ public partial class ScriptEditor : Control
 
 		if (start is null)
 		{
-			// TODO
 			throw new Exception("start not found");
 		}
 
@@ -397,7 +396,6 @@ public partial class ScriptEditor : Control
 	public void OnGraphConnectionRequest(string fromNode, int fromSlot, string toNode, int toSlot)
 	{
 		if (!_editable) return;
-		// TODO
 		GraphNode.ConnectNode(fromNode, fromSlot, toNode, toSlot);
 		ProcessScriptGraphChange();
 	}
@@ -405,7 +403,6 @@ public partial class ScriptEditor : Control
 	public void OnGraphDisconnectionRequest(string fromNode, int fromSlot, string toNode, int toSlot)
 	{
 		if (!_editable) return;
-		// TODO
 		GraphNode.DisconnectNode(fromNode, fromSlot, toNode, toSlot);
 		ProcessScriptGraphChange();
 	}
@@ -456,7 +453,6 @@ public partial class ScriptEditor : Control
 	public void OnGraphEndNodeMove()
 	{
 		if (!_editable) return;
-		// TODO
 
 		UpdateLastGraphState();
 	}

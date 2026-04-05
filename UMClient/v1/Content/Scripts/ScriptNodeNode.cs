@@ -71,7 +71,7 @@ public partial class ScriptNodeNode : GraphNode, IScriptNodeNode
             ScriptNodeSimpleArgType.Option => CreateOptionSimpleArg(arg),
             ScriptNodeSimpleArgType.Number => CreateNumberSimpleArg(arg),
             ScriptNodeSimpleArgType.String => CreateStringSimpleArg(arg),
-            // TODO default
+            _ => throw new Exception($"Unrecognized {nameof(ScriptNodeSimpleArgType)}: {arg.Type}")
         };
         AddChild(child);
     }

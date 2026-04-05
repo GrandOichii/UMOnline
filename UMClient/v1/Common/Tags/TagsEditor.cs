@@ -116,7 +116,6 @@ public partial class TagsEditor : VBoxContainer
 
     public void OnAddTagButtonPressed()
     {
-        // TODO
         var newTag = NewTagEditNode.Text;
         AddTag(newTag);
 

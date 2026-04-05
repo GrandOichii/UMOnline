@@ -143,7 +143,6 @@ public partial class DeckEditor : Control
         var child = FighterEditorScene.Instantiate<FighterEditor>();
         FighterTabsNode.AddChild(child);
         child.Name = fighter.Name;
-        // TODO
         child.SetEssentials(
             () => _repo.GetFighterNames(DeckId)
         );
