@@ -120,12 +120,14 @@ func _formatted_log_msg(msg: String) -> String:
 
 	return '- ' + result + '\n'
 
-func _load_logs(new_logs):
+func load_logs(new_logs):
 	for newLog in new_logs:
 		LogsNode.append_text(_formatted_log_msg(newLog.Message))
 	
 	LogsNode.scroll_to_line(LogsNode.get_line_count()-1)
 
+func clear_logs():
+	LogsNode.clear()
 
 func load_connected_match(update_info):
 	load_match(update_info.Match)
@@ -134,7 +136,7 @@ func load_connected_match(update_info):
 	%Events.load_new_events(update_info)
 
 	# logs
-	_load_logs(update_info.NewLogs)
+	load_logs(update_info.NewLogs)
 	
 	# controls
 	_hide_controls()

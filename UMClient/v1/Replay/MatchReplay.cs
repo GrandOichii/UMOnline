@@ -33,6 +33,8 @@ public class MatchFrame
 public class MatchStateRecorderPlayerControllerWrapper(IPlayerController controller) 
     : PlayerControllerWrapper(controller)
 {
+    private static readonly int MAX_LOGS = 30;
+
     public List<MatchFrame> Frames { get; } = [];
     public List<Log> NewLogs { get; } = [];
     public Match.SetupData SetupData { get; private set; }
@@ -119,6 +121,8 @@ public class MatchStateRecorderPlayerControllerWrapper(IPlayerController control
             logs = [.. Frames.Last().Logs];
         }
         logs.AddRange(NewLogs);
+        NewLogs.Clear();
+        logs = [.. logs.TakeLast(MAX_LOGS)];
 
         var frame = new MatchFrame(data, logs);
 
@@ -269,7 +273,10 @@ public partial class MatchReplay : Control
         PrevStateButtonNode.Disabled = v == 0;
         NextStateButtonNode.Disabled = v == _frames.Count - 1;
 
-        MatchDisplayNode.Call("load_match", Json.ParseString(JsonSerializer.Serialize(_frames[_frame].Data)));
+        var f = _frames[_frame];
+        MatchDisplayNode.Call("load_match", Json.ParseString(JsonSerializer.Serialize(f.Data)));
+        MatchDisplayNode.Call("clear_logs");
+        MatchDisplayNode.Call("load_logs", Json.ParseString(JsonSerializer.Serialize(f.Logs)));
 
         if (OverlayNode.Visible)
             OverlayNode.Hide();
