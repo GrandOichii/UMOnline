@@ -644,16 +644,12 @@ public partial class LocalRepository : Node
 	{
 		InsertModel(script);
 		var scriptId = (int)(long)LastInsertedId(script.SQLTableName());
-
-		// TODO
 	}
 
 	public void InsertCardScript(ScriptModel script)
 	{
 		InsertModel(script);
 		var scriptId = (int)(long)LastInsertedId(script.SQLTableName());
-
-		// TODO
 	}
 
 	public ScriptModel GetScriptModel(int scriptId)

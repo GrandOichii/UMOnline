@@ -2,7 +2,7 @@
 using NLua;
 using UMCore.Utility;
 
-namespace UMCore.Matches;
+namespace UMCore.Matches.Effects;
 
 public class BoostedMovementReplacer(Fighter fighter, LuaFunction func)
 {

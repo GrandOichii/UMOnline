@@ -52,7 +52,6 @@ func load_setup(player_setup):
 		FightersNode.add_child(child)
 		
 		var display = child as FighterDisplay
-		# TODO
 		display.set_essentials(FighterImageLoaderNode, ColorManagerNode)
 
 

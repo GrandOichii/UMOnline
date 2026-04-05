@@ -1,9 +1,8 @@
 using NLua;
 using UMCore.Matches.Attacks;
-using UMCore.Matches.Effects;
 using UMCore.Utility;
 
-namespace UMCore.Matches;
+namespace UMCore.Matches.Effects;
 
 public class CombatStepEffectsCollection
 {

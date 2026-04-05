@@ -112,14 +112,12 @@ public class MatchCard : IHasData<MatchCard.Data>
 
     public bool CanBeUsedAsAttack(Fighter fighter)
     {
-        // TODO some effects change this
         return (Template.Type == "Attack" || Template.Type == "Versatile") &&
                 Template.CanBePlayedBy(fighter.GetName());
     }
 
     public bool CanBeUsedAsDefence(Fighter fighter)
     {
-        // TODO some effects change this
         return (Template.Type == "Defence" || Template.Type == "Defense" || Template.Type == "Versatile") &&
                 Template.CanBePlayedBy(fighter.GetName());
     }

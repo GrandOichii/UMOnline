@@ -2,7 +2,7 @@ using NLua;
 using UMCore.Matches.Players.Cards;
 using UMCore.Utility;
 
-namespace UMCore.Matches;
+namespace UMCore.Matches.Effects;
 
 public class CardZoneChangeRedirector(Fighter fighter, LuaFunction function)
 {

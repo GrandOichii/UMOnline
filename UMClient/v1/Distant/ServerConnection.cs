@@ -212,6 +212,8 @@ public partial class ServerConnection : Node
 
     #endregion
 
+    // TODO add handler for CantStart
+
     #region Signal connections
 
     public void OnUpdateContentRequestRequestCompleted(HttpRequest.Result result, int responseCode, string[] headers, byte[] body)

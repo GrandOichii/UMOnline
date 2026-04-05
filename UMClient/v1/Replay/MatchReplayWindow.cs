@@ -26,7 +26,7 @@ public partial class MatchReplayWindow : Window
 	{
 		Hide();
 		ForceNative = true;
-		// TODO set title
+		Title = $"Replay of match {record.Id}";
 		Show();
 		ReplayNode.LoadMatchRecord(repo, record);
 	}

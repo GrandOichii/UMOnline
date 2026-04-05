@@ -294,7 +294,7 @@ public class RobertMuldoonTests
 
         var loadout = GetLoadoutBuilder()
             .Build();
-        loadout.Fighters[0].Script = loadout.Fighters[0].Script.Replace(":Amount(8)", ":Amount(0)"); // TODO this feels wrong
+        loadout.Fighters[0].Script = loadout.Fighters[0].Script.Replace(":Amount(8)", ":Amount(0)");
 
         await match.AddMainPlayer(
             new TestPlayerControllerBuilder()

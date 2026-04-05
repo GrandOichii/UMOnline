@@ -1,4 +1,3 @@
-using Microsoft.Extensions.Logging;
 using NLua;
 using UMCore.Matches.Attacks;
 using UMCore.Matches.Players;

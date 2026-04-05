@@ -12,7 +12,7 @@ public class PlayerRecord
     public required RecorderControllerWrapper Recorder { get; init; }
 }
 
-public class MatchRecord(int seed, MatchConfig config)
+public class MatchRecord(string id, int seed, MatchConfig config)
 {
     public int Seed { get; init; } = seed;
     public MatchConfig Config { get; } = config;
@@ -34,6 +34,7 @@ public class MatchRecord(int seed, MatchConfig config)
     {
         return new()
         {
+            Id = id,
             Config = Config,
             Seed = Seed,
             Players = [.. Recorders.Select(r => new PlayerRecordGet()

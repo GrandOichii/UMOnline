@@ -162,11 +162,11 @@ public class MatchProcess(
             GetBaskervilleTemplate(),
             core.Script)
         {
-            Logger = null // TODO
+            Logger = null
             // Logger = logger
         };
 
-		Record = new(seed, Config);
+		Record = new(Id, seed, Config);
 		var players = new UMCore.Matches.QueuedPlayerCollection(config);
 		Dictionary<string, IPlayerController> controllers = [];
 

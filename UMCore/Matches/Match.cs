@@ -5,7 +5,6 @@ using NLua;
 using UMCore.Matches.Attacks;
 using UMCore.Matches.Cards;
 using UMCore.Matches.Effects;
-using UMCore.Matches.Fighters;
 using UMCore.Matches.Players;
 using UMCore.Matches.Players.Controllers;
 using UMCore.Matches.Tokens;

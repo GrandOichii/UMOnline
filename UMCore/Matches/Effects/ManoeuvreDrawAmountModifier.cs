@@ -2,7 +2,7 @@ using NLua;
 using UMCore.Matches.Players;
 using UMCore.Utility;
 
-namespace UMCore.Matches;
+namespace UMCore.Matches.Effects;
 
 public class ManoeuvreDrawAmountModifier(Fighter fighter, LuaFunction func)
 {

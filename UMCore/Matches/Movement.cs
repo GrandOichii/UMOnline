@@ -22,7 +22,7 @@ public class Movement(Player player, Fighter fighter, int movement, bool canMove
         Path result = await Player.Controller.ChoosePath(Player, [.. paths], $"Choose where to move {Fighter.LogName}");
         if (result.Nodes.Count == 1)
         {
-            // TODO log about not moving
+            Player.Match.Logs.Public($"{Fighter.FormattedLogName} stays in place");
             return;
         }
 

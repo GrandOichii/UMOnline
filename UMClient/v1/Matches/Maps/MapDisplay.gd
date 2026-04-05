@@ -64,7 +64,6 @@ func _load_fighters(match_data):
 	for node in match_data.Map.Nodes:
 		if node.Fighter == null:
 			continue
-		# TODO
 		#missing_fighter_ids.remove(node.FighterId)
 		fighters.push_back([node.Fighter, node.Id])
 

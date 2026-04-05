@@ -4,7 +4,6 @@ using Microsoft.Extensions.Logging;
 using NLua;
 using UMCore.Matches.Cards;
 using UMCore.Matches.Effects;
-using UMCore.Matches.Fighters;
 using UMCore.Matches.Players;
 using UMCore.Matches.Players.Cards;
 using UMCore.Templates;

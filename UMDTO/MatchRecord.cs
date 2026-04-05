@@ -13,6 +13,7 @@ public class PlayerRecordGet
 
 public class MatchRecordGet
 {
+    public required string Id { get; init; }
     public required MatchConfig Config { get; init; }
     public required int Seed { get; init; }
     public required List<PlayerRecordGet> Players { get; init; }

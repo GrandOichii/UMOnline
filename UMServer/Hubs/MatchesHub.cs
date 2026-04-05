@@ -158,7 +158,6 @@ public class MatchesHub(
 
     public async Task<string> SelectLoadout(string matchId, string loadoutName)
     {
-        // TODO use AllowedLoadouts
         var match = await matchesManager.Get(matchId);
         if (match is null)
         {
@@ -248,7 +247,7 @@ public class MatchesHub(
         var reason = match.WhyCantStart();
         if (!string.IsNullOrEmpty(reason))
         {
-            // TODO notify client somehow
+            await Clients.Caller.SendAsync("CantStart", reason);
             return;
         }
 

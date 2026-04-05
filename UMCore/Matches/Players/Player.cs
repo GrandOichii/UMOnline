@@ -231,7 +231,6 @@ public class Player : IHasData<Player.Data>, IHasSetupData<Player.SetupData>
 
     public bool CanTakeActions()
     {
-        // TODO some cards disable taking actions until the end of turn
         if (ActionCount <= 0) return false;
         if (Match.IsWinnerDetermined()) return false;
         if (NoAliveFighters()) return false;

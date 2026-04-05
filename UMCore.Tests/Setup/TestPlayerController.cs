@@ -40,12 +40,10 @@ public class TestPlayerController : IPlayerController
 
     public void AddEvent(Event e)
     {
-        // TODO
     }
 
     public void AddLog(Log l)
     {
-        // TODO
     }
 
     public async Task<string> ChooseAction(Player player, string[] options)
@@ -130,7 +128,6 @@ public class TestPlayerController : IPlayerController
 
     public Task<Player> ChoosePlayer(Player player, Player[] options, string hint)
     {
-        // TODO
         throw new NotImplementedException();
     }
 

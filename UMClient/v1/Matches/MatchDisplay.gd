@@ -56,7 +56,6 @@ func set_connection(connection: MatchConnection):
 	ConnectionControlsNode.show()
 	for pn in PlayerNodes:
 		pn.set_essentials(_connection)
-	# TODO
 	
 	MapNode.set_essentials(connection)
 

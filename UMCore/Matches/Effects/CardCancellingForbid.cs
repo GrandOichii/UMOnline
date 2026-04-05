@@ -3,7 +3,7 @@ using UMCore.Matches.Cards;
 using UMCore.Matches.Players;
 using UMCore.Utility;
 
-namespace UMCore.Matches;
+namespace UMCore.Matches.Effects;
 
 public class CardCancellingForbid(Fighter owner, LuaFunction func)
 {

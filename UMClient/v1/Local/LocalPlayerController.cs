@@ -14,7 +14,6 @@ public class LocalMatchIOHandler(LocalMatch match) : IIOHandler
 
 	public Task Close()
 	{
-		// TODO
 		return Task.CompletedTask;
 	}
 

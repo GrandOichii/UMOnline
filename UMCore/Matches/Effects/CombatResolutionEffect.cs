@@ -1,10 +1,7 @@
 using NLua;
-using UMCore.Matches.Effects;
 using UMCore.Matches.Players;
 
-namespace UMCore.Matches.Fighters;
-
-// TODO this class shouldnt be in this directory
+namespace UMCore.Matches.Effects;
 
 public class CombatResolutionEffect(Fighter fighter, LuaTable data)
 {
