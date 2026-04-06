@@ -6,11 +6,13 @@
 [ext_resource type="PackedScene" uid="uid://dpnfnyeavbwhu" path="res://v1/Distant/DistantMatchWindow.tscn" id="3_m8fh0"]
 [ext_resource type="PackedScene" uid="uid://ptehtedd7xgr" path="res://v1/Replay/MatchReplayWindow.tscn" id="5_psd8b"]
 
-[node name="DistantMatchesTab" type="Control" node_paths=PackedStringArray("ConnectionFormNode", "ConnectionDisplayNode", "ServerAddressEditNode", "NameEditNode", "ConnectionErrorDialogNode", "ConnectButtonNode", "OutdatedContentDialogNode", "ContentSyncWaitDialogNode", "ContentUpdateFailDialogNode", "FinishedContentUpdateDialog", "ActiveMatchesTableNode", "AllowedDecksContainerNode", "NewMatchConfigOptionNode", "CreateMatchButtonNode", "NewMatchTitleEditNode", "DistantMatchWindowsNode", "FinishedMatchesTableNode", "ReplayWindowsNode")]
+[node name="DistantMatchesTab" type="Control" node_paths=PackedStringArray("ConnectionFormNode", "ConnectionDisplayNode", "ServerAddressEditNode", "NameEditNode", "ConnectionErrorDialogNode", "ConnectButtonNode", "OutdatedContentDialogNode", "ContentSyncWaitDialogNode", "ContentUpdateFailDialogNode", "FinishedContentUpdateDialog", "ActiveMatchesTableNode", "AllowedDecksContainerNode", "NewMatchConfigOptionNode", "CreateMatchButtonNode", "NewMatchTitleEditNode", "DistantMatchWindowsNode", "FinishedMatchesTableNode", "ReplayWindowsNode", "MatchErrorDialogNode", "ContentUpdateFailureDialogNode")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -1.0
+offset_right = -1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_ut46s")
@@ -35,6 +37,8 @@ NewMatchTitleEditNode = NodePath("ConnectionDisplay/TabContainer/Create/NewMatch
 DistantMatchWindowsNode = NodePath("DistantMatchWindows")
 FinishedMatchesTableNode = NodePath("ConnectionDisplay/TabContainer/Finished/FinishedMatchesTable")
 ReplayWindowsNode = NodePath("ReplayWindows")
+MatchErrorDialogNode = NodePath("Dialogs/MatchErrorDialog")
+ContentUpdateFailureDialogNode = NodePath("Dialogs/ContentUpdateFailureDialog")
 DistantMatchWindowScene = ExtResource("3_m8fh0")
 MatchReplayWindowScene = ExtResource("5_psd8b")
 
@@ -183,8 +187,9 @@ dialog_text = "Connection error here"
 oversampling_override = 1.0
 title = "Outdated content!"
 initial_position = 2
-size = Vector2i(659, 106)
-dialog_text = "Local content is outdated, you might want to synchronize content for local matches."
+size = Vector2i(816, 106)
+visible = true
+dialog_text = "Local content is outdated, you might want to synchronize content for local matches and match replays."
 
 [node name="ContentUpdateFailDialog" type="AcceptDialog" parent="Dialogs"]
 oversampling_override = 1.0
@@ -219,6 +224,17 @@ title = "Content update"
 initial_position = 2
 size = Vector2i(250, 100)
 dialog_text = "Finished updating content!"
+
+[node name="MatchErrorDialog" type="AcceptDialog" parent="Dialogs"]
+oversampling_override = 1.0
+initial_position = 2
+size = Vector2i(200, 100)
+
+[node name="ContentUpdateFailureDialog" type="AcceptDialog" parent="Dialogs"]
+oversampling_override = 1.0
+title = "Content update failure"
+initial_position = 2
+size = Vector2i(300, 100)
 
 [node name="DistantMatchWindows" type="Node" parent="."]
 

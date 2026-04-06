@@ -50,16 +50,6 @@ public partial class LocalMatch : Control
 			{
 				players.AddPlayer(per.Name, per.TeamIdx, per.Loadout);
 				controllers.Add(per.Name, per.Controller);
-				// var added = await Match.AddPlayer(
-				// 	per.Name,
-				// 	per.TeamIdx,
-				// 	per.Loadout,
-				// 	per.Controller
-				// );
-				// if (!added)
-				// {
-				// 	throw new Exception("Failed to add a player, not enough checks");
-				// }
 
 				if (per.Textures is null) continue;
 

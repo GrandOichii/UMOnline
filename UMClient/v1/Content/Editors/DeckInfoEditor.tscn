@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://wrmm0t5haet3" path="res://v1/Content/ImageImporter.tscn" id="3_wcw64"]
 [ext_resource type="PackedScene" uid="uid://dhhiuajxh55rp" path="res://v1/Content/NameEditWindow.tscn" id="4_kll80"]
 
-[node name="DeckInfoEditor" type="MarginContainer" node_paths=PackedStringArray("NameEditNode", "ChoosesSidekickCheckNode", "StartsWithSidekicksCheckNode", "HasStartingHandSizeNode", "StartingHandSizeNode", "HasMaxHandSizeNode", "MaxHandSizeNode", "DescriptionEditNode", "CardBackNode", "CardBackImporter", "RenameWindow", "RenameButton", "CardBackImportButton")]
+[node name="DeckInfoEditor" type="MarginContainer" node_paths=PackedStringArray("NameEditNode", "ChoosesSidekickCheckNode", "StartsWithSidekicksCheckNode", "HasStartingHandSizeNode", "StartingHandSizeNode", "HasMaxHandSizeNode", "MaxHandSizeNode", "DescriptionEditNode", "CardBackNode", "CardBackImporter", "RenameWindow", "RenameButton", "CardBackImportButton", "ImageFailureDialogNode")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -25,6 +25,7 @@ CardBackImporter = NodePath("CardBackImporter")
 RenameWindow = NodePath("RenameWindow")
 RenameButton = NodePath("HBoxContainer/VBoxContainer/HBoxContainer/RenameButton")
 CardBackImportButton = NodePath("HBoxContainer/VBoxContainer2/CardBackImportButton")
+ImageFailureDialogNode = NodePath("ImageFailureDialogNode")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 2
@@ -112,6 +113,12 @@ text = "Import card back"
 [node name="RenameWindow" parent="." instance=ExtResource("4_kll80")]
 title = "Rename deck"
 visible = false
+
+[node name="ImageFailureDialogNode" type="AcceptDialog" parent="."]
+oversampling_override = 1.0
+title = "Image error"
+initial_position = 2
+size = Vector2i(200, 100)
 
 [connection signal="text_changed" from="HBoxContainer/VBoxContainer/HBoxContainer/Name" to="." method="OnNameTextChanged"]
 [connection signal="pressed" from="HBoxContainer/VBoxContainer/HBoxContainer/RenameButton" to="." method="OnRenameButtonPressed"]

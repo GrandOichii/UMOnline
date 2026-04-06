@@ -38,5 +38,3 @@ public class SameNamePlayerEditorResultCheck : IPlayerEditorResultCheck
         return null;
     }
 }
-
-// TODO add more checks

@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://by0r2731rhmhg" path="res://v1/Content/Scripts/ScriptEditor.tscn" id="4_qrq7s"]
 [ext_resource type="PackedScene" uid="uid://dhhiuajxh55rp" path="res://v1/Content/NameEditWindow.tscn" id="6_8jkr6"]
 
-[node name="CardEditor" type="TabContainer" node_paths=PackedStringArray("NameEditNode", "TitleEditNode", "DeckCountNode", "StartingHandCountNode", "TypeOptionNode", "ValueNode", "BoostCheckNode", "BoostValueNode", "TextNode", "CardImageNode", "ImageImporterNode", "AllowedFightersTagsNode", "LabelsTagsNode", "RenameButton", "ImportImageButton", "ScriptEditorNode", "RenameWindowNode")]
+[node name="CardEditor" type="TabContainer" node_paths=PackedStringArray("NameEditNode", "TitleEditNode", "DeckCountNode", "StartingHandCountNode", "TypeOptionNode", "ValueNode", "BoostCheckNode", "BoostValueNode", "TextNode", "CardImageNode", "ImageImporterNode", "AllowedFightersTagsNode", "LabelsTagsNode", "RenameButton", "ImportImageButton", "ScriptEditorNode", "RenameWindowNode", "ImageFailureDialogNode")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -34,6 +34,7 @@ RenameButton = NodePath("General/HBoxContainer/VBoxContainer/HBoxContainer/Renam
 ImportImageButton = NodePath("General/HBoxContainer/VBoxContainer2/ImportImageButton")
 ScriptEditorNode = NodePath("Script")
 RenameWindowNode = NodePath("RenameWindow")
+ImageFailureDialogNode = NodePath("ImageFailureDialog")
 
 [node name="General" type="Control" parent="."]
 layout_mode = 2
@@ -172,6 +173,12 @@ metadata/_tab_index = 1
 
 [node name="RenameWindow" parent="." instance=ExtResource("6_8jkr6")]
 visible = false
+
+[node name="ImageFailureDialog" type="AcceptDialog" parent="."]
+oversampling_override = 1.0
+title = "Image error"
+initial_position = 2
+size = Vector2i(200, 100)
 
 [connection signal="pressed" from="General/HBoxContainer/VBoxContainer/HBoxContainer/RenameButton" to="." method="OnRenameButtonPressed"]
 [connection signal="text_changed" from="General/HBoxContainer/VBoxContainer/HBoxContainer2/TitleEdit" to="." method="OnTitleEditTextChanged"]

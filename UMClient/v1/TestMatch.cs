@@ -22,7 +22,6 @@ public class TestMatchIOHandler(TestMatch match) : IIOHandler
 
 	public Task Close()
 	{
-		// TODO
 		return Task.CompletedTask;
 	}
 

@@ -55,6 +55,8 @@ public partial class CardEditor : TabContainer
     public ScriptEditor ScriptEditorNode { get; set; }
     [Export]
     public NameEditWindow RenameWindowNode { get; set; }
+    [Export]
+    public AcceptDialog ImageFailureDialogNode { get; set; }
 
 	#endregion
 
@@ -161,7 +163,12 @@ public partial class CardEditor : TabContainer
 		var image = new Image();
 
 		var err = image.Load(_imagePath);
-		// TODO handle
+        if (err != Error.Ok)
+        {
+            ImageFailureDialogNode.DialogText = "Failed to load image!";
+            ImageFailureDialogNode.Show();
+            return;
+        }
 		var texture = ImageTexture.CreateFromImage(image);
 		CardImageNode.Texture = texture;
 	}
@@ -178,7 +185,13 @@ public partial class CardEditor : TabContainer
         var image = new Image();
 
         var err = image.Load(path);
-        // TODO handle
+        if (err != Error.Ok)
+        {
+            ImageFailureDialogNode.DialogText = "Failed to import image!";
+            ImageFailureDialogNode.Show();
+            return;
+        }
+        
         var texture = ImageTexture.CreateFromImage(image);
         CardImageNode.Texture = texture;
 

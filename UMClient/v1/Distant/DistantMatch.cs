@@ -126,7 +126,7 @@ public partial class DistantMatch : Control
 		{
 			while (socket.State == WebSocketState.Open)
 			{
-				var message = await WSRead(socket);
+				var message = await ServerConnection.WSRead(socket);
 
 				// await OnReceive?.Invoke(message);
                 Load(Json.ParseString(message));
@@ -148,21 +148,6 @@ public partial class DistantMatch : Control
             }
 		    ConnectionNode.EmitSignal("match_info_updated", data);
         }).CallDeferred();
-	}
-
-    // TODO this shouldnt be here
-    private static async Task<string> WSRead(ClientWebSocket socket) {
-		WebSocketReceiveResult result;
-		var buffer = new ArraySegment<byte>(new byte[1024]);
-		var message = new StringBuilder();
-		do
-		{
-			result = await socket.ReceiveAsync(buffer, CancellationToken.None);
-			string messagePart = Encoding.UTF8.GetString(buffer.Array, 0, result.Count);
-			message.Append(messagePart);
-		}
-		while (!result.EndOfMessage);
-		return message.ToString();
 	}
 
     #region Signal connections

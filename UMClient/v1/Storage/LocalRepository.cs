@@ -779,9 +779,9 @@ public partial class LocalRepository : Node
 			var newDeck = new DeckModel()
 			{
 				Id = -1,
-				CardBackPath = null, // TODO
+				CardBackPath = null,
 				ChoosesSidekick = deck.ChoosesSidekick,
-				Description = "", // TODO
+				Description = "",
 				Editable = false,
 				MaxHandSize = deck.MaximumHandSize,
 				Name = deck.Name,
@@ -800,7 +800,7 @@ public partial class LocalRepository : Node
 					DeckId = deckId,	
 					Amount = fighter.Amount,
 					CanMoveOverOpposing = fighter.CanMoveOverOpposing,
-					ImagePath = null, // TODO
+					ImagePath = null,
 					IsRanged = fighter.IsRanged,
 					IsSidekick = !fighter.IsHero,
 					IsSmall = fighter.IsSmall,
@@ -827,11 +827,11 @@ public partial class LocalRepository : Node
 					Labels = CardModel.ToLabels([.. card.Labels]),
 					Boost = card.Boost ?? -1,
 					Count = card.Amount,
-					ImagePath = null, // TODO
+					ImagePath = null,
 					Name = card.Name,
 					Text = card.Text,
 					Title = card.Name,
-					Type = card.Type switch // TODO this shouldn't be here
+					Type = card.Type switch
 					{
 						"Attack" => CardModelType.Attack,
 						"Defense" => CardModelType.Defense,
@@ -913,7 +913,7 @@ public partial class LocalRepository : Node
             ChoosesSidekick = deck.ChoosesSidekick,
             StartingHandSize = deck.StartingHandSize,
             MaximumHandSize = deck.MaxHandSize,
-            CantBePlayedWith = [], // TODO?
+            CantBePlayedWith = [],
             StartsWithCards = [],
             Deck = [],
             Fighters = []
@@ -956,7 +956,7 @@ public partial class LocalRepository : Node
 				Labels = card.GetLabels(),
 				Amount = card.Count,
 				Boost = card.Boost,
-				IncludedInDeckWithSidekick = null, // TODO
+				IncludedInDeckWithSidekick = null,
 				Script = script.Script,
 				Text = card.Text,
 				Type = card.Type.ToCardTemplateType(),

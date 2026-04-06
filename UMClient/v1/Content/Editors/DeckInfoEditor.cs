@@ -45,6 +45,8 @@ public partial class DeckInfoEditor : MarginContainer
 	public Button RenameButton { get; set; }
 	[Export]
 	public Button CardBackImportButton { get; set; }
+	[Export]
+	public AcceptDialog ImageFailureDialogNode { get; set; }
 
 	#endregion
 
@@ -128,7 +130,13 @@ public partial class DeckInfoEditor : MarginContainer
 		var image = new Image();
 
 		var err = image.Load(_cardBackPath);
-		// TODO handle
+		if (err != Error.Ok)
+        {
+            ImageFailureDialogNode.DialogText = "Failed to import image!";
+            ImageFailureDialogNode.Show();
+            return;
+        }
+        
 		var texture = ImageTexture.CreateFromImage(image);
 		CardBackNode.Texture = texture;
 	}

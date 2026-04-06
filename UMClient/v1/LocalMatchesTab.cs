@@ -114,12 +114,12 @@ public partial class LocalMatchesTab : Control
 		var core = RepoNode.GetCore();
 		if (core is null)
 		{
-			// TODO display AcceptDialog
+			CantStartMatchDialogNode.DialogText = "Core file not found, connect to server and synchronize content.";
+			CantStartMatchDialogNode.Show();
 			return null;
 		}
 
 		// create map
-		// TODO
 
 		var map = MapTemplate.GetBaskervilleTemplate();
 
@@ -179,7 +179,6 @@ public partial class LocalMatchesTab : Control
 			pers.Add(build);
 		}
 
-		// TODO check all players
 		var startMatch = true;
 		var errors = new List<string>();
 		foreach (var check in PER_CHECKS)

@@ -60,6 +60,10 @@ public partial class DistantMatchesTab : Control
     public Tree FinishedMatchesTableNode { get; set; }
     [Export]
     public Node ReplayWindowsNode { get; set; }
+    [Export]
+    public AcceptDialog MatchErrorDialogNode { get; set; }
+    [Export]
+    public AcceptDialog ContentUpdateFailureDialogNode { get; set; }
 
     #endregion
 
@@ -175,7 +179,6 @@ public partial class DistantMatchesTab : Control
             return;
         }
 
-        // TODO disable all distant match controls until confirmed that local content is not outdated
         ServerConnectionNode.RequestIsOutdated((DateTime)state.LastUpdateDT);
     }
 
@@ -192,7 +195,6 @@ public partial class DistantMatchesTab : Control
             }
 
             child.Update(mpg);
-
         }
     }
 
@@ -301,9 +303,10 @@ public partial class DistantMatchesTab : Control
         var connectEndpoint = await ServerConnectionNode.ConnectToMatch(matchId);
         if (connectEndpoint.StartsWith("err:"))
         {
-            // TODO display a dialog with error
+            MatchErrorDialogNode.Title = "Failed to connect";
+            MatchErrorDialogNode.DialogText = $"Failed to connect to match with Id = {matchId}\nError: {connectEndpoint}";
+            MatchErrorDialogNode.Show();
             CreateMatchButtonNode.Disabled = false;
-            GD.PushError(connectEndpoint);
             return;
         }
 
@@ -420,14 +423,12 @@ public partial class DistantMatchesTab : Control
 
         ContentSyncWaitDialogNode.Hide();
         FinishedContentUpdateDialog.Show();
-
-        // TODO emit signal, update content tab
     }
 
     public void OnServerConnectionNodeContentUpdateFailed(string errMsg)
     {
-        // TODO display AcceptDialog
-        GD.Print($"FAILED TO UPDATE CONTENT: {errMsg}");
+        ContentUpdateFailureDialogNode.DialogText = "Failed to update content!\nError: {errMsg}";
+        ContentUpdateFailureDialogNode.Show();
     }
 
     public void OnServerConnectionNodeContentOutdatedResponded(bool isOutdated)
@@ -485,9 +486,10 @@ public partial class DistantMatchesTab : Control
         var matchId = await ServerConnectionNode.CreateMatch(createParams);
         if (matchId.StartsWith("err:"))
         {
-            // TODO display a dialog with error
+            MatchErrorDialogNode.Title = "Failed to create";
+            MatchErrorDialogNode.DialogText = $"Failed to create match!\nError: {matchId}";
+            MatchErrorDialogNode.Show();
             CreateMatchButtonNode.Disabled = false;
-            GD.PushError(matchId);
             return;
         }
 
@@ -510,14 +512,35 @@ public partial class DistantMatchesTab : Control
         if (column != 3) return;
         
         var matchId = _finishedMatches[id].Id;
-        // TODO
+        if (ServerConnectionNode.IsOutdated)
+        {
+            OutdatedContentDialogNode.Show();
+            return;
+        }
+
+        MatchRecordGet record;
+        try
+        {
+            record = await ServerConnectionNode.GetRecord(matchId);
+            if (record is null) return;
+        } catch (Exception e)
+        {
+            return;
+        }
+
+        var window = MatchReplayWindowScene.Instantiate<MatchReplayWindow>();
+        ReplayWindowsNode.AddChild(window);
+
+        window.LoadMatchRecord(
+            RepoNode,
+            record
+        );
     }
 
     public async void OnTestRecordPressed()
     {
         var record = await ServerConnectionNode.GetRecord("1");
 
-        // TODO check that game content is actual
 
         var window = MatchReplayWindowScene.Instantiate<MatchReplayWindow>();
         ReplayWindowsNode.AddChild(window);

@@ -37,6 +37,8 @@ public partial class ServerConnection : Node
 
     #endregion
 
+    public bool IsOutdated { get; private set; } = true;
+
     private string _address;
     public void SetAddress(string address)
     {
@@ -104,7 +106,6 @@ public partial class ServerConnection : Node
             return;
         }
 
-        // TODO handle better
         GD.Print($"{nameof(RequestIsOutdated)}: {err}");
     }
 
@@ -212,13 +213,26 @@ public partial class ServerConnection : Node
 
     #endregion
 
+    public static async Task<string> WSRead(ClientWebSocket socket) {
+		WebSocketReceiveResult result;
+		var buffer = new ArraySegment<byte>(new byte[1024]);
+		var message = new StringBuilder();
+		do
+		{
+			result = await socket.ReceiveAsync(buffer, CancellationToken.None);
+			string messagePart = Encoding.UTF8.GetString(buffer.Array, 0, result.Count);
+			message.Append(messagePart);
+		}
+		while (!result.EndOfMessage);
+		return message.ToString();
+	}
+
     // TODO add handler for CantStart
 
     #region Signal connections
 
     public void OnUpdateContentRequestRequestCompleted(HttpRequest.Result result, int responseCode, string[] headers, byte[] body)
     {
-        // TODO add more detailed checks
         if (result != HttpRequest.Result.Success)
         {
             EmitSignalContentUpdateFailed("Failed to update content");
@@ -231,6 +245,7 @@ public partial class ServerConnection : Node
         }) ?? throw new Exception("Failed to deserialize content update from server");
 
         _cu = content;
+        IsOutdated = false;
         EmitSignalContentUpdateFinished();
     }
 
@@ -241,12 +256,12 @@ public partial class ServerConnection : Node
             throw new Exception($"Unrecognized response code from server: {responseCode}");
         }
 
-        var isOutdated = JsonSerializer.Deserialize<bool>(body, new JsonSerializerOptions()
+        IsOutdated = JsonSerializer.Deserialize<bool>(body, new JsonSerializerOptions()
         {
             PropertyNameCaseInsensitive = true
         });
 
-        EmitSignalContentOutdatedResponded(isOutdated);
+        EmitSignalContentOutdatedResponded(IsOutdated);
     }
 
     #endregion

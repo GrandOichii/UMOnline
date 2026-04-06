@@ -341,7 +341,6 @@ public partial class ScriptEditor : Control
 		var connections = GraphNode.GetConnectionListFromNode(nodeName);
 		if (connections.Count > 0)
 		{
-			// TODO notify that cant delete while is connected
 			return;
 		}
 		var node = GraphNode.GetNode(nodeName);
