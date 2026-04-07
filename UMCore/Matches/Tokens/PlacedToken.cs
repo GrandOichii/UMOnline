@@ -45,7 +45,7 @@ public class PlacedToken
 
         foreach (var effect in effects)
         {
-            effect.Execute(new(Original.Originator, this), new()); // TODO? set fighter to null
+            effect.Execute(new(Original.Originator, this), new());
         }
         await Node.Parent.Match.UpdateClients();
     }

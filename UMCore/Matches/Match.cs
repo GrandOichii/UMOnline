@@ -27,7 +27,7 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
     public LogsManager Logs { get; }
     public EventsManager Events { get; }
     public TokenManager Tokens { get; }
-    public Player? Winner { get; protected set; }
+    public int WinnerTeamIdx { get; protected set; }
     public Movement? CurrentMovement { get; private set; }
 
     public Dictionary<int, List<Player>> Teams { get; }
@@ -43,7 +43,7 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
         Logs = new(this);
         Events = new(this);
         Tokens = new(this);
-        Winner = null;
+        WinnerTeamIdx = -1;
         Teams = [];
         CurrentMovement = null;
 
@@ -69,17 +69,22 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
 
     public List<Player> GetWinners()
     {
-        // TODO! teams
-        return Winner is null ? [] : [ Winner ];
+        return [ .. Players.Where(p => p.TeamIdx == WinnerTeamIdx)];
     }
 
     public bool CheckForWinners()
     {
-        // TODO! teams
         var activePlayers = GetActivePlayers().ToList();
-        if (activePlayers.Count > 1) return false;
+        if (activePlayers.Count == 0)
+        {
+            throw new Exception("No active players");
+        }
 
-        Winner = activePlayers[0];
+        var teamIdx = activePlayers[0].TeamIdx;
+        if (!activePlayers.All(p => p.TeamIdx == teamIdx)) return false;
+
+        WinnerTeamIdx = teamIdx;
+
         return IsWinnerDetermined();
     }
 
@@ -235,8 +240,8 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
                 SetNextPlayer();
             }
 
-            Logger?.LogDebug("Match ended, winner: {PlayerLogName}", Winner!.LogName);
-            Logs.Public($"Match ended! Winner is: {Winner!.FormattedLogName}");
+            Logger?.LogDebug("Match ended, winner team: {WinnerTeamIdx}", WinnerTeamIdx);
+            Logs.Public($"Match ended! Winners are: {string.Join(", ", GetWinners().Select(p => p.FormattedLogName))}");
             await UpdateClients();
         } catch (Exception e)
         {
@@ -275,7 +280,7 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
 
     public bool IsWinnerDetermined()
     {
-        return Winner is not null;
+        return WinnerTeamIdx >= 0;
     }
 
     public Player CurrentPlayer()
@@ -313,7 +318,6 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
         // await Combat.Winner.ExecuteOnWonCombatEffects();
         await Combat.GetLoser()!.ExecuteOnLostCombatEffects();
         Combat = null;
-        // TODO add combat event
     }
 
     public void ExecuteOnFighterDefeatEffects(Fighter fighter)
@@ -372,21 +376,13 @@ public class Match : IHasData<Match.Data>, IHasSetupData<Match.SetupData>
 
     public IEnumerable<CombatResolutionEffect> GetOnLostCombatEffectsFor(Player player)
     {
-        // TODO this really needs a player predicate if players ever need to order effects
         return GetAliveFighters().SelectMany(f => f.OnLostCombatEffects);
     }
-
-    // public IEnumerable<T> GetFighterEffects<T>(Func<Fighter, T> extractor)
-    // {
-    //     return GetAliveFighters().SelectMany(f => f.ManoeuvreValueMods.Where(e => e.Accepts(fighter)));
-
-    // }
 
     public Movement SetCurrentMovement(Movement movement)
     {
         if (CurrentMovement is not null)
         {
-            // TODO may need to remove this
             throw new MatchException($"Tried to call {SetCurrentMovement} while the active movement hasn't resolved");
         }
         CurrentMovement = movement;

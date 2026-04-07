@@ -71,13 +71,13 @@ public class PlayerAsserts
 
     public PlayerAsserts IsWinner()
     {
-        _player.Match.Winner.ShouldBe(_player);
+        _player.Match.WinnerTeamIdx.ShouldBe(_player.TeamIdx);
         return this;
     }
 
     public PlayerAsserts IsNotWinner()
     {
-        _player.Match.Winner.ShouldNotBe(_player);
+        _player.Match.WinnerTeamIdx.ShouldNotBe(_player.TeamIdx);
         return this;
     }
 

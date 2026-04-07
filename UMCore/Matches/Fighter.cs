@@ -281,9 +281,13 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
             {
                 var text = LuaUtility.TableGet<string>(table, "text"); // TODO use
                 var cardZoneName = LuaUtility.TableGet<string>(table, "cardZoneName");
-                var boostTargetsRaw = LuaUtility.GetInt(table, "boostTargets"); // TODO use, if == 1 then BoostTarget.ALL
+                var boostTargetsRaw = LuaUtility.GetInt(table, "boostTargets");
 
-                var boostTargets = BoostTarget.ALL;
+                var boostTargets = boostTargetsRaw switch
+                {
+                    0 => BoostTarget.ALL,
+                    _ => (BoostTarget)boostTargetsRaw
+                } ;
                 owner.BoostManager.AddBoostSource(owner.CardZones[cardZoneName], boostTargets);
             }
         }
@@ -390,7 +394,6 @@ public class Fighter : IHasData<Fighter.Data>, IHasSetupData<Fighter.SetupData>
         }
         await Match.UpdateClients();
 
-        // TODO does this go before death or after death
         if (dealt > 0)
         {
             // OnDamage effects

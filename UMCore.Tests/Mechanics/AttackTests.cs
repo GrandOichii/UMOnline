@@ -149,7 +149,7 @@ public class AttackTests
             .IsWinner();
         match.AssertPlayer(1)
             .SetupCalled()
-            .IsNotWinner();
+            .IsWinner();
 
         match.AssertFighter(mainFighter)
             .IsAtFullHealth()

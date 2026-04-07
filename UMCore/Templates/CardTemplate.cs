@@ -9,7 +9,7 @@ public class CardTemplate
     public required int? Value { get; init; }
     public required int? Boost { get; init; }
     public required string Text { get; init; }
-    public required string Script { get; set; } // TODO change to { get; init;}
+    public required string Script { get; set; }
     public required string[] AllowedFighters { get; init; }
     public required string[] Labels { get; init; }
     /// <summary>

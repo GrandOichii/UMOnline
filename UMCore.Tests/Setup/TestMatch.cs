@@ -10,7 +10,7 @@ public class TestMatch(MatchConfig config, MapTemplate mapTemplate, string setup
 {
     public void SetWinner(Player player)
     {
-        Winner = player;
+        WinnerTeamIdx = player.TeamIdx;
     }
 }
 

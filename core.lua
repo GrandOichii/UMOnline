@@ -353,7 +353,7 @@ function UM.Build:Fighter()
     end
 
     function fighter:AddBoostSource(text, cardZoneName, boostTargets)
-        boostTargets = boostTargets or 1
+        boostTargets = boostTargets or 0
         fighter.boostSources[#fighter.boostSources+1] = {
             text = text,
             cardZoneName = cardZoneName,

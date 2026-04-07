@@ -316,8 +316,7 @@ public class MatchScripts
         var combat = Match.Combat;
         if (combat is null)
         {
-            // TODO? throw exception
-            return false;
+            throw new MatchException($"Called {nameof(AreOpposingInCombat)} when not in combat");
         }
         if (combat.Defender is null)
         {
@@ -818,8 +817,9 @@ public class MatchScripts
     public bool IsNodeAdjacentToFighter(MapNode node, Fighter fighter)
     {
         var fighterLocation = node.Parent.GetFighterLocationOrDefault(fighter);
+
         if (fighterLocation is null)
-            return false; // TODO hope this wont cause any trouble
+            return false;
         if (fighter.Template.IsSmall && node == fighterLocation)
         {
             return true;
