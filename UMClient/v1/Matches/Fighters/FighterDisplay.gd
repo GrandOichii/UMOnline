@@ -14,7 +14,6 @@ func load_fighter(data):
 	NameLabel.add_theme_color_override("font_color", _color_manager.get_fighter_color(data.Id))
 	
 	%Image.load_fighter(data.Id, data.Name)
-	# TODO use IsAlive
 
 func set_essentials(fighter_image_loader: FighterImageLoader, color_manager: ColorManager):
 	%Image.set_essentials(fighter_image_loader)

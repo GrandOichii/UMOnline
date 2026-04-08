@@ -76,7 +76,6 @@ func _set_boosts(card_data):
 		boostsNode.hide()
 		return
 	boostsNode.show()
-	# TODO optimize
 	while boostsNode.get_child_count() > 0:
 		boostsNode.remove_child(boostsNode.get_child(0))
 		

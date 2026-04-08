@@ -188,7 +188,6 @@ oversampling_override = 1.0
 title = "Outdated content!"
 initial_position = 2
 size = Vector2i(816, 106)
-visible = true
 dialog_text = "Local content is outdated, you might want to synchronize content for local matches and match replays."
 
 [node name="ContentUpdateFailDialog" type="AcceptDialog" parent="Dialogs"]

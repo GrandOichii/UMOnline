@@ -56,6 +56,8 @@ public partial class ScriptEditor : Control
 	public CodeEdit ManualScriptEdit { get; set; }
 	[Export]
 	public Button ToggleScriptTypeButtonNode { get; set; }
+	[Export]
+	public ConfirmationDialog ToggleScriptTypeDialog { get; set; }
 
 	#endregion
 
@@ -458,7 +460,21 @@ public partial class ScriptEditor : Control
 
 	public void OnToggleScriptTypeButtonPressed()
 	{
-		// TODO
+		ToggleScriptTypeDialog.Show();
+	}
+
+	public void OnToggleScriptTypeDialogCanceled()
+	{
+		// ToggleScriptTypeDialog.Hide();
+	}
+
+	public void OnToggleScriptTypeDialogConfirmed()
+	{
+		_isManual = !_isManual;
+
+		ManualEditor.Visible = _isManual;
+		GraphEditor.Visible = !_isManual;
+		UpdateLastGraphState();
 	}
 
 	#endregion

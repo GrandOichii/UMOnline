@@ -7,7 +7,6 @@ func set_essentials(token_loader: TokenImageLoader):
 	_token_loader = token_loader
 	
 func load(tokens: Array[String]):
-	# TODO optimize
 	while get_child_count() > 0:
 		remove_child(get_child(0))
 		

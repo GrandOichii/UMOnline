@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://cgqbdt1mblkyp" path="res://v1/Content/Scripts/ScriptEditor.cs" id="1_w21rc"]
 [ext_resource type="Resource" uid="uid://dqgchyh35r4o5" path="res://v1/Content/Scripts/ScriptNodes/ScriptNodes.tres" id="2_4nh3u"]
 
-[node name="ScriptEditor" type="Control" node_paths=PackedStringArray("GraphEditor", "ManualEditor", "GraphNode", "AddNodeWindowNode", "NewNodeTreeListNode", "NewNodeInfoContainerNode", "NewScriptNodeNameLabel", "NewScriptNodeDescriptionLabel", "ScriptDisplay", "ManualScriptEdit", "ToggleScriptTypeButtonNode")]
+[node name="ScriptEditor" type="Control" node_paths=PackedStringArray("GraphEditor", "ManualEditor", "GraphNode", "AddNodeWindowNode", "NewNodeTreeListNode", "NewNodeInfoContainerNode", "NewScriptNodeNameLabel", "NewScriptNodeDescriptionLabel", "ScriptDisplay", "ManualScriptEdit", "ToggleScriptTypeButtonNode", "ToggleScriptTypeDialog")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -23,6 +23,7 @@ NewScriptNodeDescriptionLabel = NodePath("AddNodeWindow/MarginContainer/VBoxCont
 ScriptDisplay = NodePath("VBoxContainer/Control/GraphEditor/HBoxContainer/VBoxContainer/ScriptDisplay")
 ManualScriptEdit = NodePath("VBoxContainer/Control/ManualEditor/ManualScriptEdit")
 ToggleScriptTypeButtonNode = NodePath("VBoxContainer/ToggleScriptTypeButton")
+ToggleScriptTypeDialog = NodePath("ToggleScriptTypeDialog")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
@@ -175,6 +176,11 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "Add"
 
+[node name="ToggleScriptTypeDialog" type="ConfirmationDialog" parent="."]
+oversampling_override = 1.0
+initial_position = 2
+dialog_text = "Change script type?"
+
 [connection signal="connection_request" from="VBoxContainer/Control/GraphEditor/HBoxContainer/Graph" to="." method="OnGraphConnectionRequest"]
 [connection signal="copy_nodes_request" from="VBoxContainer/Control/GraphEditor/HBoxContainer/Graph" to="." method="OnGraphCopyNodesRequest"]
 [connection signal="cut_nodes_request" from="VBoxContainer/Control/GraphEditor/HBoxContainer/Graph" to="." method="OnGraphCutNodesRequest"]
@@ -191,3 +197,5 @@ text = "Add"
 [connection signal="item_selected" from="AddNodeWindow/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/NewNodeTreeList" to="." method="OnNewNodeTreeListItemSelected"]
 [connection signal="pressed" from="AddNodeWindow/MarginContainer/VBoxContainer/HBoxContainer/CancelAddNewNodeButton" to="." method="OnCancelAddNewNodeButtonPressed"]
 [connection signal="pressed" from="AddNodeWindow/MarginContainer/VBoxContainer/HBoxContainer/AddNewNodeButton" to="." method="OnAddNewNodeButtonPressed"]
+[connection signal="canceled" from="ToggleScriptTypeDialog" to="." method="OnToggleScriptTypeDialogCanceled"]
+[connection signal="confirmed" from="ToggleScriptTypeDialog" to="." method="OnToggleScriptTypeDialogConfirmed"]
