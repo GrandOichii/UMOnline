@@ -99,7 +99,7 @@ def get_allowed_fighters(af):
         'Faith': 'Faith',
         'Spike': 'Spike',
         'Drusilla': 'Drusilla',
-        'Jabberwock': 'Jabberwock',
+        'Jabberwock': 'The Jabberwock',
         'Alice': 'Alice',
         'Hamlet': 'Hamlet',
         'Maria hill': 'Maria Hill',

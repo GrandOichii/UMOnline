@@ -703,7 +703,7 @@ end
 
 function UM.Number:UpTo(max)
     local values = {}
-    for i = 1, max do
+    for i = 0, max do
         values[#values+1] = i
     end
     return UM.Number:_(function (args)
@@ -982,7 +982,7 @@ end
 
 function UM.Conditions:IsHero(fighterFunc)
     return function (args)
-        assert(false, 'UM.Conditions:IsHero is not implemented')
+        return fighterFunc(args).Template.IsHero
     end
 end
 
@@ -1244,6 +1244,7 @@ function UM.Effects:Choose(amount, canChooseSame, ...)
                 effect(args)
             end
 
+            chosenMap[choice.text] = chosenMap[choice.text] + 1
             count = count - 1
         end
     end
@@ -1303,21 +1304,6 @@ end
 -- TODO allow opponent to boost their card
 function UM.Effects:AllowBoost(numeric)
     return function (args)
-        -- local f = true
-        -- if optional then
-        --     local choice = ChooseString(args.owner, {
-        --         'Yes',
-        --         'No'
-        --     }, 'Boost your card?')
-        --     if choice ~= 'Yes' then
-        --         f = false
-        --     end
-        -- end
-
-        -- if not f then
-        --     return
-        -- end
-
         local amount = numeric:Choose(args, 'Boost how many times?')
         local player = args.owner
         for i = 1, amount do

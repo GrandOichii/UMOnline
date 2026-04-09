@@ -13,7 +13,7 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_vertical = 3
 script = ExtResource("1_8dls8")
-PlayerDeck = "Medusa"
+PlayerDeck = "King Arthur"
 BotDeck = "Sinbad"
 
 [node name="Match" parent="." node_paths=PackedStringArray("Connection") instance=ExtResource("2_wpye0")]
@@ -27,18 +27,5 @@ unique_name_in_owner = true
 
 [node name="LocalRepository" parent="." instance=ExtResource("4_ph7of")]
 DataSource = "sqlite3.db"
-
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
-layout_mode = 2
-
-[node name="Button" type="Button" parent="HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "<"
-
-[node name="Button2" type="Button" parent="HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = ">"
 
 [connection signal="responded" from="Connection" to="." method="OnLocalMatchCollectionResponded"]

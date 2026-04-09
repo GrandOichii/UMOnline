@@ -98,7 +98,8 @@ public partial class TestMatch : Control
 
 			var match = new Match(config, map, File.ReadAllText("../core.lua"))
 			{
-				Logger = new GDLogger()
+				// Logger = new GDLogger()
+				Logger = null
 			};
 
 			_handler = new TestMatchIOHandler(this);
@@ -109,7 +110,8 @@ public partial class TestMatch : Control
 
 			var opponentController = new DelayedControllerWrapper(
 				new RandomPlayerController(0),
-				TimeSpan.FromSeconds(1)
+				TimeSpan.FromMilliseconds(10)
+				// TimeSpan.FromSeconds(1)
 			);
 			// var opponentController = new LuaPlayerController(
 			// 	File.ReadAllText("../bots/smart.lua")
@@ -120,8 +122,8 @@ public partial class TestMatch : Control
 
             await match.AddPlayers(players, new()
             {
-                {"first", controller},
-                {"second", opponentController},
+                {"RealPlayer", controller},
+                {"Random", opponentController},
             });
 
 			await match.Run();
