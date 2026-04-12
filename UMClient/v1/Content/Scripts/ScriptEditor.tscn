@@ -193,6 +193,7 @@ dialog_text = "Change script type?"
 [connection signal="text_changed" from="VBoxContainer/Control/ManualEditor/ManualScriptEdit" to="." method="OnManualScriptEditTextChanged"]
 [connection signal="pressed" from="VBoxContainer/ToggleScriptTypeButton" to="." method="OnToggleScriptTypeButtonPressed"]
 [connection signal="close_requested" from="AddNodeWindow" to="." method="OnAddNodeWindowCloseRequested"]
+[connection signal="text_changed" from="AddNodeWindow/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/NewNodeFilterEdit" to="." method="OnNewNodeFilterEditTextChanged"]
 [connection signal="item_activated" from="AddNodeWindow/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/NewNodeTreeList" to="." method="OnNewNodeTreeListItemActivated"]
 [connection signal="item_selected" from="AddNodeWindow/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/NewNodeTreeList" to="." method="OnNewNodeTreeListItemSelected"]
 [connection signal="pressed" from="AddNodeWindow/MarginContainer/VBoxContainer/HBoxContainer/CancelAddNewNodeButton" to="." method="OnCancelAddNewNodeButtonPressed"]

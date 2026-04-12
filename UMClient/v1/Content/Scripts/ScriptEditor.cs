@@ -73,6 +73,8 @@ public partial class ScriptEditor : Control
 
 	private string _lastGraphState;
 
+	private TreeItem _root;
+
 	public void UpdateLastGraphState()
 	{
 		// nodes
@@ -191,7 +193,7 @@ public partial class ScriptEditor : Control
 		ResetAddNewNodeWindow();
 
 		// create tree
-		var root = NewNodeTreeListNode.CreateItem();
+		_root = NewNodeTreeListNode.CreateItem();
 		NewNodeTreeListNode.HideRoot = true;
 
 		var categoryMapping = new Dictionary<ScriptNodeType, List<ScriptNode>>();
@@ -211,7 +213,7 @@ public partial class ScriptEditor : Control
 		{
 			_scriptNodeNameMap.Add(prebuilt.Name, prebuilt);
 
-			var child = NewNodeTreeListNode.CreateItem(root);
+			var child = NewNodeTreeListNode.CreateItem(_root);
 			child.SetText(0, prebuilt.Label);
 			child.SetMetadata(0, prebuilt.Name);
 		}
@@ -221,7 +223,7 @@ public partial class ScriptEditor : Control
 			_scriptNodeNameMap.Add(start.Name, start);
 		}
 
-		var selectChild = NewNodeTreeListNode.CreateItem(root);
+		var selectChild = NewNodeTreeListNode.CreateItem(_root);
 		selectChild.SetText(0, "Selects");
 		foreach (var select in ScriptNodes.GetSelects())
 		{
@@ -234,7 +236,7 @@ public partial class ScriptEditor : Control
 
 		foreach (var category in Enum.GetValues(typeof(ScriptNodeType)).Cast<ScriptNodeType>())
 		{
-			var categoryChild = NewNodeTreeListNode.CreateItem(root);
+			var categoryChild = NewNodeTreeListNode.CreateItem(_root);
 			categoryChild.SetText(0, category.ToCategoryName());
 			if (categoryMapping.ContainsKey(category))
 			{
@@ -356,7 +358,7 @@ public partial class ScriptEditor : Control
 
 	public void OnGraphGuiInput(InputEvent e)
 	{
-		if (!_editable) return;
+		// if (!_editable) return;
 		if (e.IsActionPressed("add_script_node"))
 		{
 			AddScriptNodeToMouseLocation();
@@ -475,6 +477,35 @@ public partial class ScriptEditor : Control
 		ManualEditor.Visible = _isManual;
 		GraphEditor.Visible = !_isManual;
 		UpdateLastGraphState();
+	}
+
+	public void OnNewNodeFilterEditTextChanged(string newText)
+	{
+		for (
+			TreeItem categoryItem = _root.GetFirstChild();
+			categoryItem is not null;
+			categoryItem = categoryItem.GetNext()
+		)
+		{
+			bool any = false;
+			categoryItem.Visible = true;
+			for (
+				TreeItem item = categoryItem.GetFirstChild();
+				item is not null;
+				item = item.GetNext()
+			)
+			{
+				item.Visible = item.GetText(0).Contains(newText, StringComparison.CurrentCultureIgnoreCase);
+				if (item.Visible)
+				{
+					any = true;
+				}
+			}
+
+			if (any) continue;
+			
+			categoryItem.Visible = categoryItem.GetText(0).Contains(newText, StringComparison.CurrentCultureIgnoreCase);
+		}
 	}
 
 	#endregion

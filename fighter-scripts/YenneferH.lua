@@ -6,8 +6,7 @@ function _Create()
             UM.Effects:Optional(
                 'Boost your attack?',
                 UM.Effects:AllowBoost(
-                    UM.Number:Static(1),
-                    false
+                    UM.Number:Static(1)
                 )
             )
         )
