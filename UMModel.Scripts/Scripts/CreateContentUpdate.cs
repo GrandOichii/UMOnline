@@ -28,7 +28,7 @@ public class CreateContentUpdate : IScript
         {
             IsActive = true,
             CreatedDT = DateTime.Now.ToUniversalTime(),
-            Description = "", // TODO
+            Description = "",
             Id = null,
             Data = JsonSerializer.Serialize(data)
         };

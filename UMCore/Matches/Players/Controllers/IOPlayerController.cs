@@ -214,7 +214,6 @@ public class IOPlayerController : IPlayerController
         var option = options.First(a => a.AttackCard == card);
         return option;
         
-        // TODO replace
 
         // await WriteData(new()
         // {
@@ -301,8 +300,6 @@ public class IOPlayerController : IPlayerController
         var path = options.First(p => p.Nodes.Last() == target);
         return path;
 
-        // TODO replace with this
-
         // await WriteData(new() {
         //     PlayerIdx = player.Idx,
         //     Match = player.Match.GetData(player),
@@ -326,7 +323,6 @@ public class IOPlayerController : IPlayerController
 
         return options.First(t => t.Node == choice);
 
-        // TODO replace with this
         // await WriteData(new() {
         //     PlayerIdx = player.Idx,
         //     Match = player.Match.GetData(player),
