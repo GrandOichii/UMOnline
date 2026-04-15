@@ -1460,18 +1460,24 @@ end
 
 function UM.Effects:PreventAllDamage()
     return function (args)
-        -- TODO prevent all damage in combat
+        local players = UM.Select:Players()
+            :InCombat()
+            :Build()(args)
+        for _, player in ipairs(players) do
+            IgnoreCardValueInCombat(player)
+        end
     end
 end
 
 function UM.Effects:ParalyzingFetters()
     -- The value of your opponent's card is equal to its printed value and cannot be changed
-    -- TODO
+    assert(false, 'UM.Effects:ParalyzingFetters not implemented')
 end
 
 function UM.Effects:ImpossibleToSee()
     -- The value of your opponent's attack or defense is 0 and cannot be changed by card effects. (Other card effects still happen.)
     -- TODO
+    assert(false, 'UM.Effects:ImpossibleToSee not implemented')
 end
 
 function UM.Effects:PlaceTokens(tokenName, manyNodes)
@@ -1537,8 +1543,6 @@ function UM.Select:_Base(subjectKey, getAllFunc, chooseSingleFunc)
                 objs[#objs+1] = obj
             end
         end
-
-        -- TODO check for 0
 
         if selector.single and #objs > 0 then
             local obj = objs[1]
@@ -1635,21 +1639,6 @@ function UM.Select:_CardsInZone(ofPlayer, getCardsFunc)
                 cards[#cards+1] = card
             end
         end
-
-        -- TODO check for 0
-
-        -- if selector.single then
-        --     local fighter = fighters[1]
-
-        --     if #fighters > 1 then
-        --         fighter = ChooseFighter(args.owner, fighters, 'Choose a fighter')
-        --     end
-
-        --     fighters = {
-        --         fighter
-        --     }
-
-        -- end
 
         return cards
     end
@@ -1868,13 +1857,6 @@ function UM.Select:Players()
     selector.filters = {}
     selector.single = false
 
-    -- function selector:OpposingTo(playerFunc)
-    --     -- TODO
-    --     selector.filters[#selector.filters+1] = function (args, player)
-    --         return AreOpposingPlayers(player, playerFunc(args))
-    --     end
-    --     return selector
-    -- end
 
     function selector:You()
         return selector:_Add(function (args, player)
@@ -1911,8 +1893,6 @@ function UM.Select:Players()
             return player == rawPlayer
         end)
     end
-
-    -- TODO current
 
     return selector
 end
