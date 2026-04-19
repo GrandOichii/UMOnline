@@ -49,7 +49,7 @@ public class SherlockHolmesTests
                         .CanBePlayedByAny()
                         .Amount(2)
 
-                        .Script("""
+                        .InnerScript("""
                         :AfterCombat(
                         'After combat: Draw 1 card',
                         UM.Effects:Draw(
@@ -143,7 +143,7 @@ public class SherlockHolmesTests
                         .Versatile()
                         .CanBePlayedBy(fighterName)
                         .Amount(2)
-                        .Script("""
+                        .InnerScript("""
                         :AfterCombat(
                         'After combat: Draw 1 card',
                         UM.Effects:Draw(
@@ -235,7 +235,7 @@ public class SherlockHolmesTests
                         .Versatile()
                         .CanBePlayedByAny()
                         .Amount(2)
-                        .Script("""
+                        .InnerScript("""
                         :AfterCombat(
                         'After combat: Draw 1 card',
                         UM.Effects:Draw(
@@ -335,7 +335,7 @@ public class SherlockHolmesTests
                         .Versatile()
                         .CanBePlayedBy(fighterName)
                         .Amount(2)
-                        .Script("""
+                        .InnerScript("""
                         :AfterCombat(
                         'After combat: Draw 1 card',
                         UM.Effects:Draw(

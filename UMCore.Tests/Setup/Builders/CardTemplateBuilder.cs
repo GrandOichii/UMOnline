@@ -67,6 +67,19 @@ public class CardTemplateBuilder
         return this;
     }
 
+    public CardTemplateBuilder InnerScript(string script)
+    {
+        _script = $"""
+            function _Create()
+            return UM.Build:Card()
+            {script}
+            :Build()
+            end
+            """;
+
+        return this;
+    }
+
     public CardTemplateBuilder Versatile()
     {
         _type = "Versatile";
@@ -111,13 +124,7 @@ public class CardTemplateBuilder
             Labels = [.. _labels],
             Name = _name,
             Text = _text,
-            Script = $"""
-            function _Create()
-            return UM.Build:Card()
-            {_script}
-            :Build()
-            end
-            """,
+            Script = _script,
             Type = _type,
             Value = _value,
             IncludedInDeckWithSidekick = null,

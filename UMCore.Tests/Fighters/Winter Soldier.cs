@@ -98,7 +98,7 @@ public class WinterSoldierTests
                         .CanBePlayedByAny()
                         .Amount(2)
 
-                        .Script("""
+                        .InnerScript("""
                         :AfterCombat(
                         'After combat: Draw 1 card',
                         UM.Effects:Draw(
@@ -187,7 +187,7 @@ public class WinterSoldierTests
                         .Versatile()
                         .CanBePlayedBy("Winter Soldier")
                         .Amount(2)
-                        .Script("""
+                        .InnerScript("""
                         :AfterCombat(
                         'After combat: Draw 1 card',
                         UM.Effects:Draw(
@@ -276,7 +276,7 @@ public class WinterSoldierTests
                         .Versatile()
                         .CanBePlayedByAny()
                         .Amount(2)
-                        .Script("""
+                        .InnerScript("""
                         :AfterCombat(
                         'After combat: Draw 1 card',
                         UM.Effects:Draw(
@@ -371,7 +371,7 @@ public class WinterSoldierTests
                         .Versatile()
                         .CanBePlayedBy("Winter Soldier")
                         .Amount(2)
-                        .Script("""
+                        .InnerScript("""
                         :AfterCombat(
                         'After combat: Draw 1 card',
                         UM.Effects:Draw(

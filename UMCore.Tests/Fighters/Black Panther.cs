@@ -125,7 +125,7 @@ public class BlackPantherTests
                         .Boost(1)
                         .Value(1)
                         .Amount(4)
-                        .Script("""
+                        .InnerScript("""
                         :DuringCombat(
                             'During combat: you may BOOST this card.',
                             UM.Effects:AllowBoost(UM.Number:Static(1), true)
@@ -216,7 +216,7 @@ public class BlackPantherTests
                         .Boost(1)
                         .Value(1)
                         .Amount(4)
-                        .Script("""
+                        .InnerScript("""
                         :DuringCombat(
                             'During combat: you may BOOST this card.',
                             UM.Effects:AllowBoost(UM.Number:Static(1), true)

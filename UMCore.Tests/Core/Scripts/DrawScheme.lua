@@ -1,3 +1,4 @@
+
 function _Create()
     return UM.Build:Card()
         :Effect(
@@ -6,7 +7,7 @@ function _Create()
                 UM.Select:Players()
                     :You()
                     :Build(),
-                UM.Number:Count(1)
+                UM.Number:Static(1)
             )
         )
         :Build()

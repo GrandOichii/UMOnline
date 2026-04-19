@@ -287,7 +287,7 @@ public class LukeCageTests
                     .Add(new CardTemplateBuilder()
                         .Scheme()
                         .Amount(1)
-                        .Script("""
+                        .InnerScript("""
                         :Effect(
                             '',
                             UM.Effects:DealDamage(

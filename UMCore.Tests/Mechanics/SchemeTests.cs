@@ -239,7 +239,7 @@ public class SchemeTests
                 .ConfigDeck(d => d
                     .Add(new CardTemplateBuilder()
                         .Scheme()
-                        .Script("""
+                        .InnerScript("""
                         :SchemeRequirement(
                         'Cant play this card',
                         UM.Conditions:False()
@@ -299,7 +299,7 @@ public class SchemeTests
                 .ConfigDeck(d => d
                     .Add(new CardTemplateBuilder()
                         .Scheme()
-                        .Script("""
+                        .InnerScript("""
                         :SchemeRequirement(
                         'Cant play this card',
                         UM.Conditions:True()

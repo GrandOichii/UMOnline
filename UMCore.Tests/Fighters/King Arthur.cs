@@ -370,7 +370,7 @@ public class KingArthurTests
                         .Versatile()
                         .Value(5)
                         .Boost(2)
-                        .Script("""
+                        .InnerScript("""
                         :AfterCombat(
                         'After combat: Draw 1 card',
                         UM.Effects:Draw(
