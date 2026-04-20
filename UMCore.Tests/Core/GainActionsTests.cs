@@ -1,9 +1,9 @@
 namespace UMCore.Tests.Core;
 
-public class DrawTests
+public class GainActionsTests
 {
     [Fact]
-    public async Task ShouldDraw1Card()
+    public async Task ShouldGain1Action()
     {
         // Arrange
         var config = new MatchConfigBuilder()
@@ -41,8 +41,7 @@ public class DrawTests
                 .ConfigDeck(d => d
                     .Add(new CardTemplateBuilder()
                         .Scheme()
-                        .Script(loader.Get("DrawScheme"))
-                        .Amount(2)
+                        .Script(loader.Get("GainActionScheme"))
                         .Build()
                     )
                 )
@@ -61,7 +60,7 @@ public class DrawTests
         match.Assert()
             .CrashedIntentionally();
         match.AssertPlayer(0)
-            .HasCardsInHand(1)
+            .HasUnspentActions(1)
             .HasCardsInDeck(0)
             .HasCardsInDiscardPile(1);
     }

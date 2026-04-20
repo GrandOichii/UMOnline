@@ -1106,12 +1106,6 @@ end
 function UM.Effects:Draw(manyPlayers, numeric)
     return function (args)
         local players = manyPlayers(args, 'Choose a player who will draw the cards')
-        -- if optional then
-        --     local choice = ChooseString(args.owner, { 'Yes', 'No' }, 'Draw card(s)?')
-        --     if choice ~= 'Yes' then
-        --         return
-        --     end
-        -- end
         for _, p in ipairs(players) do
             local amount = numeric:Choose(args, 'Choose how many cards to draw')
             DrawCards(p, amount)
