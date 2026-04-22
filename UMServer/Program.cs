@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using UMModel;
 using UMServer.BusinessLogic;
 using UMServer.Hubs;
@@ -5,6 +6,11 @@ using UMServer.Repositories;
 using UMServer.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<UMContext>(o => o
+    .UseNpgsql(builder.Configuration.GetConnectionString("UMContext"))
+);
+
 
 // Add services to the container.
 builder.Services.AddControllers();
@@ -37,11 +43,18 @@ builder.Services.AddSingleton<IMatchConnectEndpointSerializer, MatchConnectEndpo
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+// if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+// if (app.Environment.IsProduction())
+// {
+//     using var scope = app.Services.CreateScope();
+//     var ctx = scope.ServiceProvider.GetRequiredService<UMContext>();
+//     await ctx.Database.MigrateAsync();
+// }
 
 app.UseHttpsRedirection();
 

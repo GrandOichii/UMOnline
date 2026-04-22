@@ -1,4 +1,6 @@
-﻿using UMModel;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using UMModel;
 using UMModel.Scripts;
 using UMModel.Scripts.Scripts;
 
@@ -9,6 +11,7 @@ var scriptMap = new Dictionary<string, IScript>()
     { "UpdateCoreScript", new UpdateCoreScript() },
     { "SetPublicLoadouts", new SetPublicLoadouts() },
     { "CreateContentUpdate", new CreateContentUpdate() },
+    { "Migrate", new Migrate() },
 };
 
 var scriptName = args[0];
@@ -24,4 +27,13 @@ if (!scriptMap.TryGetValue(scriptName, out var script))
     return;
 }
 
-await script.Run(new UMContext(), args);
+var configuration = new ConfigurationBuilder()
+    .SetBasePath(Directory.GetCurrentDirectory())
+    .AddJsonFile("appsettings.json")
+    .AddEnvironmentVariables()
+    .Build();
+
+var optsBuilder = new DbContextOptionsBuilder<UMContext>();
+optsBuilder.UseNpgsql(configuration.GetConnectionString("UMContext"));
+
+await script.Run(new UMContext(optsBuilder.Options), args);

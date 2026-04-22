@@ -1,7 +1,9 @@
 #!/bin/sh
+set -e
 
 cd UMModel.Scripts
 
+dotnet run -lp Migrate
 dotnet run -lp ImportLoadouts
 dotnet run -lp UpdateCoreScript
 dotnet run SetPublicLoadouts\

@@ -8,6 +8,10 @@
       "commandName": "Project",
       "commandLineArgs": "ImportLoadouts ../.generated/loadouts"
     },
+    "Migrate": {
+      "commandName": "Project",
+      "commandLineArgs": "Migrate"
+    },
     "UpdateCoreScript": {
       "commandName": "Project",
       "commandLineArgs": "UpdateCoreScript ../core.lua"

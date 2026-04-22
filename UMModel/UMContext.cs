@@ -6,24 +6,15 @@ namespace UMModel;
 
 public class UMContext : DbContext
 {
+    public UMContext(DbContextOptions<UMContext> options) : base(options) {}
+    public UMContext() : base() {}
+
     public DbSet<Loadout> Loadouts { get; set; }
     public DbSet<Fighter> Fighters { get; set; }
     public DbSet<Card> Cards { get; set; }
     public DbSet<ContentUpdate> ContentUpdates { get; set; }
     public DbSet<CoreScript> CoreScripts { get; set; }
     public DbSet<MatchConfig> Configs { get; set; }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        base.OnConfiguring(optionsBuilder);
-
-        IConfigurationRoot config = new ConfigurationBuilder()
-            .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json")
-            .Build();
-
-        optionsBuilder.UseNpgsql(config.GetConnectionString("UMContext"));
-    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
