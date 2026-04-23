@@ -10,7 +10,12 @@ public class CardTemplateBuilder
     private string _key = "";
     private List<string> _labels = [];
     private string _name = "";
-    private string _script = "";
+    private string _script = """
+            function _Create()
+                return UM.Build:Card()
+                :Build()
+            end
+            """;
     private string _text = "";
     private string _type = "";
     private int _value = 0;
@@ -103,14 +108,12 @@ public class CardTemplateBuilder
 
     public CardTemplateBuilder Feint()
     {
-        _script = """
+        return InnerScript("""
         :Immediately(
         'Immediately: Cancel all effects on your opponent\'s card.',
         UM.Effects:CancelAllEffectsOnOpponentsCard()
         )
-        """;
-
-        return this;
+        """);
     }
 
     public CardTemplate Build()

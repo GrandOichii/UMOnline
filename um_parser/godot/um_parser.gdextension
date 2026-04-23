@@ -4,11 +4,14 @@ compatibility_minimum = 4.1
 reloadable = true
 
 [libraries]
-linux.debug.x86_64 =     "res://../rust/target/debug/um_parser.so"
-linux.release.x86_64 =   "res://../rust/target/release/um_parser.so"
+linux.debug.x86_64 =     "res://../rust/target/debug/libum_parser.so"
+linux.release.x86_64 =   "res://../rust/target/release/libum_parser.so"
+
 windows.debug.x86_64 =   "res://../rust/target/debug/um_parser.dll"
 windows.release.x86_64 = "res://../rust/target/release/um_parser.dll"
-macos.debug =            "res://../rust/target/debug/libum_parser.dylib"
-macos.debug.arm64 =      "res://../rust/target/debug/libum_parser.dylib"
-macos.release =          "res://../rust/target/release/libum_parser.dylib"
-macos.release.arm64 =    "res://../rust/target/release/libum_parser.dylib"
+
+macos.debug =            "res://../rust/target/debug/um_parser.dylib"
+macos.release =          "res://../rust/target/release/um_parser.dylib"
+
+macos.debug.arm64 =      "res://../rust/target/debug/um_parser.dylib"
+macos.release.arm64 =    "res://../rust/target/release/um_parser.dylib"

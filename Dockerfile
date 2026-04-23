@@ -30,6 +30,8 @@ RUN dos2unix ./update-server-db.sh
 COPY mappedtexts.json .
 COPY core.lua .
 COPY tools tools
+COPY fighter-scripts fighter-scripts
+COPY custom-card-scripts custom-card-scripts
 COPY decks.json .
 COPY create-and-parse-loadouts.sh .
 RUN chmod +x create-and-parse-loadouts.sh

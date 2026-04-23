@@ -1238,7 +1238,7 @@ function UM.Effects:Choose(amount, canChooseSame, ...)
                 effect(args)
             end
 
-            chosenMap[choice.text] = chosenMap[choice.text] + 1
+            chosenMap[choice] = chosenMap[choice] + 1
             count = count - 1
         end
     end
