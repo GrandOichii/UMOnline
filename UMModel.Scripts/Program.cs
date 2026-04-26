@@ -27,13 +27,4 @@ if (!scriptMap.TryGetValue(scriptName, out var script))
     return;
 }
 
-var configuration = new ConfigurationBuilder()
-    .SetBasePath(Directory.GetCurrentDirectory())
-    .AddJsonFile("appsettings.json")
-    .AddEnvironmentVariables()
-    .Build();
-
-var optsBuilder = new DbContextOptionsBuilder<UMContext>();
-optsBuilder.UseNpgsql(configuration.GetConnectionString("UMContext"));
-
-await script.Run(new UMContext(optsBuilder.Options), args);
+await script.Run(new UMContext(), args);

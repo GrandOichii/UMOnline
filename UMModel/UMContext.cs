@@ -6,8 +6,8 @@ namespace UMModel;
 
 public class UMContext : DbContext
 {
-    public UMContext(DbContextOptions<UMContext> options) : base(options) {}
     public UMContext() : base() {}
+    public UMContext(DbContextOptions<UMContext> options) : base(options) {}
 
     public DbSet<Loadout> Loadouts { get; set; }
     public DbSet<Fighter> Fighters { get; set; }
@@ -46,5 +46,21 @@ public class UMContext : DbContext
             .HasKey(s => s.Name);
         modelBuilder.Entity<MatchConfig>()
             .HasData(MatchConfig.GetDefaultData());
+    }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        base.OnConfiguring(optionsBuilder);
+
+        string environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production";
+
+        var configuration = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json")
+            .AddJsonFile($"appsettings.{environment}.json", optional: true, reloadOnChange: true)
+            .AddEnvironmentVariables()
+            .Build();
+
+        optionsBuilder.UseNpgsql(configuration.GetConnectionString("UMContext"));
     }
 }

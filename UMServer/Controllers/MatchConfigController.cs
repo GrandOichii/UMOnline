@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using UMModel.Models;
 using UMServer.BusinessLogic;
 
 namespace UMServer.Controllers;
