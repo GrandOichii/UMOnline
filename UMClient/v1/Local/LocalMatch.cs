@@ -83,13 +83,16 @@ public partial class LocalMatch : Control
 			GD.Print(e.InnerException?.Message);
 			GD.Print(e.InnerException?.StackTrace);
 
-			var text = $"Match crashed! Exceptions raised:\n{e.Message}\n{e.StackTrace}";
-			if (e.InnerException is not null)
+			Callable.From(() =>
 			{
-				text = $"{text}\n-===============-{e.InnerException.Message}\n{e.InnerException.StackTrace}\n";
-			}
-			CrashedMatchExceptionTextNode.Text = text;
-			CrashedMatchDialogNode.Show();
+				var text = $"Match crashed! Exceptions raised:\n{e.Message}\n{e.StackTrace}";
+				if (e.InnerException is not null)
+				{
+					text = $"{text}\n-===============-{e.InnerException.Message}\n{e.InnerException.StackTrace}\n";
+				}
+				CrashedMatchExceptionTextNode.Text = text;
+				CrashedMatchDialogNode.Show();
+			}).CallDeferred();
 		}
 	}
 

@@ -60,6 +60,14 @@ public partial class ServerConnection : Node
         _connection.On("ChatUpdate", onChatUpdate);
     }
 
+    private void OnCantStart(string reason)
+    {
+        Callable.From(() =>
+        {
+            GD.Print(reason);
+        }).CallDeferred();
+    }
+
     public async Task<string> Connect(
         string address,
         string name,
@@ -75,6 +83,7 @@ public partial class ServerConnection : Node
                 .Build();
 
             _connection.On("UpdateTables", onUpdateTables);
+            _connection.On<string>("CantStart", OnCantStart);
 
             await _connection.StartAsync();
 

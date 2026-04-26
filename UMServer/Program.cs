@@ -11,7 +11,6 @@ builder.Services.AddDbContext<UMContext>(o => o
     .UseNpgsql(builder.Configuration.GetConnectionString("UMContext"))
 );
 
-
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

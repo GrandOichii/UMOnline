@@ -60,6 +60,7 @@ func load_player(match_data, idx):
 	# top data
 	%Idx.text = '[%s]' % [int(data.Idx)]
 	%Actions.text = str(int(data.Actions))
+	%Active.visible = match_data.CurPlayerIdx == idx
 
 	# decks
 	# discard

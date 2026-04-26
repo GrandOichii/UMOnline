@@ -183,10 +183,10 @@ public class MatchProcess(
             }
 
             var controller = new RecorderControllerWrapper(
-				// new IOPlayerController(
-				// 	new WebSocketIOHandler(player.Socket!)
-				// )
-				new RandomPlayerController(0)
+				new IOPlayerController(
+					new WebSocketIOHandler(player.Socket!)
+				)
+				// new RandomPlayerController(0)
 			);
 
 			Record.AddRecorderPlayerController(player, controller);

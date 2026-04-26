@@ -21,8 +21,8 @@ ConnectButtonTexture = ExtResource("2_3uwtj")
 ReplayButtonTexture = ExtResource("3_3uwtj")
 ConnectionFormNode = NodePath("ConnectionForm")
 ConnectionDisplayNode = NodePath("ConnectionDisplay")
-ServerAddressEditNode = NodePath("ConnectionForm/ServerAddressEdit")
-NameEditNode = NodePath("ConnectionForm/NameEdit")
+ServerAddressEditNode = NodePath("ConnectionForm/HBoxContainer/ServerAddressEdit")
+NameEditNode = NodePath("ConnectionForm/HBoxContainer2/NameEdit")
 ConnectionErrorDialogNode = NodePath("Dialogs/ConnectionErrorDialog")
 ConnectButtonNode = NodePath("ConnectionForm/ConnectButton")
 OutdatedContentDialogNode = NodePath("Dialogs/OutdatedContentDialog")
@@ -51,17 +51,33 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="HBoxContainer" type="HBoxContainer" parent="ConnectionForm"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ConnectionForm/HBoxContainer"]
+layout_mode = 2
+text = "Server URL:"
+
+[node name="ServerAddressEdit" type="LineEdit" parent="ConnectionForm/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Enter server URL"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="ConnectionForm"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ConnectionForm/HBoxContainer2"]
+layout_mode = 2
+text = "Username: "
+
+[node name="NameEdit" type="LineEdit" parent="ConnectionForm/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Enter your username"
+
 [node name="Label" type="Label" parent="ConnectionForm"]
 layout_mode = 2
 text = "Connect to server:"
-
-[node name="ServerAddressEdit" type="LineEdit" parent="ConnectionForm"]
-layout_mode = 2
-placeholder_text = "Enter server address"
-
-[node name="NameEdit" type="LineEdit" parent="ConnectionForm"]
-layout_mode = 2
-placeholder_text = "Enter your name"
 
 [node name="ConnectButton" type="Button" parent="ConnectionForm"]
 layout_mode = 2
@@ -79,11 +95,10 @@ grow_vertical = 2
 layout_mode = 2
 size_flags_vertical = 3
 tab_alignment = 2
-current_tab = 2
+current_tab = 0
 tabs_position = 1
 
 [node name="Create" type="VBoxContainer" parent="ConnectionDisplay/TabContainer"]
-visible = false
 layout_mode = 2
 metadata/_tab_index = 0
 
@@ -156,6 +171,7 @@ column_titles_visible = true
 hide_root = true
 
 [node name="Finished" type="VBoxContainer" parent="ConnectionDisplay/TabContainer"]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 2
 
@@ -240,8 +256,8 @@ size = Vector2i(300, 100)
 
 [node name="ReplayWindows" type="Node" parent="."]
 
-[connection signal="text_changed" from="ConnectionForm/ServerAddressEdit" to="." method="OnServerAddressEditTextChanged"]
-[connection signal="text_changed" from="ConnectionForm/NameEdit" to="." method="OnNameEditTextChanged"]
+[connection signal="text_changed" from="ConnectionForm/HBoxContainer/ServerAddressEdit" to="." method="OnServerAddressEditTextChanged"]
+[connection signal="text_changed" from="ConnectionForm/HBoxContainer2/NameEdit" to="." method="OnNameEditTextChanged"]
 [connection signal="pressed" from="ConnectionForm/ConnectButton" to="." method="OnConnectButtonPressed"]
 [connection signal="text_changed" from="ConnectionDisplay/TabContainer/Create/NewMatchTitleEdit" to="." method="OnNewMatchTitleEditTextChanged"]
 [connection signal="text_changed" from="ConnectionDisplay/TabContainer/Create/PanelContainer/VBoxContainer/AllowedFightersFilterEdit" to="." method="OnAllowedFightersFilterEditTextChanged"]

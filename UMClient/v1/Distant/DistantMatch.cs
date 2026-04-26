@@ -61,7 +61,8 @@ public partial class DistantMatch : Control
     public override void _Notification(int what)
     {
         if (what != NotificationWMCloseRequest) return;
-        _socket.CloseAsync(WebSocketCloseStatus.NormalClosure, null, CancellationToken.None).Wait();
+        GD.Print("closing...");
+        Task.Run(async () => await _socket.CloseAsync(WebSocketCloseStatus.NormalClosure, null, CancellationToken.None));
     }
 
     public void SetEssentials(

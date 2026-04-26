@@ -248,6 +248,7 @@ public class MatchesHub(
         if (!string.IsNullOrEmpty(reason))
         {
             await Clients.Caller.SendAsync("CantStart", reason);
+            await BroadcastSystemMessage(matchId, $"Can't start match! Reason: {reason}");
             return;
         }
 

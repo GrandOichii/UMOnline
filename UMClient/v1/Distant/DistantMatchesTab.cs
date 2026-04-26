@@ -239,7 +239,6 @@ public partial class DistantMatchesTab : Control
 
 	private void UpdateFinishedTables(List<MatchProcessGet> matches)
 	{
-		return;
 		FinishedMatchesTableNode.Clear();
 		FinishedMatchesTableNode.CreateItem(); // root
 

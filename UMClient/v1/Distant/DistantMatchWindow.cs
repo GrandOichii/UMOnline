@@ -27,7 +27,6 @@ public partial class DistantMatchWindow : Window
 		Hide();
 		ForceNative = true;
 		Title = $"Match {matchId}";
-		GD.Print(matchId);
 		Show();
 		MatchNode.SetEssentials(
 			clientIsOwner,
