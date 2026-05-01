@@ -10,5 +10,7 @@ dotnet run SetPublicLoadouts\
     Medusa\
     "King Arthur"\
     Sinbad\
-    Alice
+    Alice\
+    Robin Hood\
+    Bigfoot
 dotnet run CreateContentUpdate
