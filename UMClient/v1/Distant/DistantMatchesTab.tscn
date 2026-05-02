@@ -75,10 +75,6 @@ layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "Enter your username"
 
-[node name="Label" type="Label" parent="ConnectionForm"]
-layout_mode = 2
-text = "Connect to server:"
-
 [node name="ConnectButton" type="Button" parent="ConnectionForm"]
 layout_mode = 2
 text = "Connect"
