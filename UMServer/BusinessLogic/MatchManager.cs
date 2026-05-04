@@ -127,12 +127,6 @@ public class MatchManager(
             socket
         );
 
-        // await match.TryRun(
-        //     logger,
-        //     coreRepo,
-        //     clientRepo
-        // );
-
         await matchEnd.Task;
 
         return string.Empty;

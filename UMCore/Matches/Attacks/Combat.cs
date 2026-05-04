@@ -7,17 +7,51 @@ using UMCore.Matches.Players.Cards;
 
 namespace UMCore.Matches.Attacks;
 
+/// <summary>
+/// Combat part for one of the characters
+/// </summary>
 public class CombatPart : IHasData<CombatPart.Data>, ICardZone
 {
+    /// <summary>
+    /// Is the defensive side
+    /// </summary>
     public bool IsDefence { get; }
+    /// <summary>
+    /// Combat card
+    /// </summary>
     public MatchCard Card { get; }
+    /// <summary>
+    /// Final combat card value
+    /// </summary>
     public int Value { get; set; }
+    /// <summary>
+    /// True if value should be ignored
+    /// </summary>
     public bool ValueIsIgnored { get; set; }
+    /// <summary>
+    /// True if all card effects are cancelled
+    /// </summary>
     public bool EffectsCancelled { get; private set; } = false;
+    /// <summary>
+    /// Boost cards
+    /// </summary>
     public List<MatchCard> Boosts { get; } = [];
+    /// <summary>
+    /// Parent combat
+    /// </summary>
     public Combat Parent { get; }
+    /// <summary>
+    /// Fighter
+    /// </summary>
     public Fighter Fighter { get; }
 
+    /// <summary>
+    /// Constructs a combat part
+    /// </summary>
+    /// <param name="parent">Parent combat</param>
+    /// <param name="fighter">Fighter</param>
+    /// <param name="card">Combat card</param>
+    /// <param name="isDefence">Is defensive side</param>
     public CombatPart(Combat parent, Fighter fighter, MatchCard card, bool isDefence)
     {
         Fighter = fighter;
@@ -28,6 +62,9 @@ public class CombatPart : IHasData<CombatPart.Data>, ICardZone
         ValueIsIgnored = false;
     }
 
+    /// <summary>
+    /// Executes all card effects that are applied after combat cards are chosen
+    /// </summary>
     public async Task ExecuteCombatCardChoiceEffects()
     {
         var effects = Parent.Match.GetEffectCollectionThatAccepts(new(this), f => f.OnCombatCardChoiceEffects).ToList();
@@ -38,6 +75,9 @@ public class CombatPart : IHasData<CombatPart.Data>, ICardZone
             effect.Execute(new(source), new(this));
     }
 
+    /// <summary>
+    /// Applies all card value modifiers
+    /// </summary>
     public void ApplyModifiers()
     {
         var subs = new Effects.EffectCollectionSubjects(Fighter, null, this);
@@ -49,6 +89,9 @@ public class CombatPart : IHasData<CombatPart.Data>, ICardZone
         }
     }
 
+    /// <summary>
+    /// Constructs the card value (with boost cards)
+    /// </summary>
     public int GetValue()
     {
         if (ValueIsIgnored) return 0;
@@ -60,6 +103,9 @@ public class CombatPart : IHasData<CombatPart.Data>, ICardZone
         return result;
     }
 
+    /// <summary>
+    /// Cancells all effects of the card
+    /// </summary>
     public async Task CancelEffects()
     {
         EffectsCancelled = true;
@@ -68,6 +114,11 @@ public class CombatPart : IHasData<CombatPart.Data>, ICardZone
         await DiscardBoostCards();
     }
 
+    /// <summary>
+    /// Cancellability check
+    /// </summary>
+    /// <param name="byPlayer">Player who wants to cancel card effects</param>
+    /// <returns>True if the specified player can cancel the card effects</returns>
     public bool CanBeCancelled(Player byPlayer)
     {
         if (!Card.HasEffects()) return false;
@@ -75,6 +126,9 @@ public class CombatPart : IHasData<CombatPart.Data>, ICardZone
         return Card.CanBeCancelled(byPlayer);
     }
 
+    /// <summary>
+    /// Discards all attached boost cards
+    /// </summary>
     public async Task DiscardBoostCards()
     {
         while (Boosts.Count > 0)
@@ -82,6 +136,9 @@ public class CombatPart : IHasData<CombatPart.Data>, ICardZone
         Boosts.Clear();
     }
 
+    /// <summary>
+    /// Discards the combat card and all boost cards
+    /// </summary>
     public async Task Discard()
     {
         Parent.Match.Logger?.LogDebug("Discarding combat cards of combat part of player {PlayerLogName}", GetOwner().FormattedLogName);
@@ -89,6 +146,11 @@ public class CombatPart : IHasData<CombatPart.Data>, ICardZone
         await DiscardBoostCards();
     }
 
+    /// <summary>
+    /// Adds a boost card
+    /// </summary>
+    /// <param name="from">Boost card original zone</param>
+    /// <param name="card">Boost card</param>
     public async Task AddBoost(MatchCardCollection from, MatchCard card)
     {
         card.Move(from, this, ZoneChangeLocation.BOTTOM, ZoneChangeType.TODO);
@@ -123,6 +185,11 @@ public class CombatPart : IHasData<CombatPart.Data>, ICardZone
         };
     }
 
+    /// <summary>
+    /// Sets the combat card
+    /// </summary>
+    /// <param name="card"></param>
+    /// <param name="location"></param>
     public void Add(MatchCard card, ZoneChangeLocation location)
     {
         // this expects the provided card to already be the chosen card for combat

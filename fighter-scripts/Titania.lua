@@ -52,6 +52,7 @@ function _Create()
             end
         )
         -- Glamour of Jealousy
+        -- TODO this should not be OnCombatCardChoice
         :OnCombatCardChoice(
             'When Titania or Oberon are attacked, before playing a card, they may swap spaces. If they do, your other fighter is now the defender.',
             function (args, subjects)
