@@ -198,6 +198,11 @@ public class CombatPart : IHasData<CombatPart.Data>, ICardZone
         Boosts.Add(card);
     }
 
+    /// <summary>
+    /// Removes a boost card
+    /// </summary>
+    /// <param name="card">Boost card</param>
+    /// <exception cref="MatchException">Is thrown when the boost card is not found</exception>
     public void Remove(MatchCard card)
     {
         if (Card == card)
@@ -214,11 +219,26 @@ public class CombatPart : IHasData<CombatPart.Data>, ICardZone
     public string GetName() => "COMBAT";
     public Player GetOwner() => Fighter.Owner;
 
+    /// <summary>
+    /// Combat part data
+    /// </summary>
     public class Data
     {
+        /// <summary>
+        /// Combat value
+        /// </summary>
         public required int? Value { get; init; }
+        /// <summary>
+        /// Combat card data
+        /// </summary>
         public required MatchCard.Data? Card { get; init; }
+        /// <summary>
+        /// Boost cards data
+        /// </summary>
         public required MatchCard.Data?[] Boosts { get; init; }
+        /// <summary>
+        /// Deck name
+        /// </summary>
         public required string DeckName { get; init; }
     }
 }
